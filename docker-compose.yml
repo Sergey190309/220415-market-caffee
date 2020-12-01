@@ -1,0 +1,118 @@
+# That's minimum docker-compose working on minimum configuration having all services neede for full stack development
+
+version: '3'
+services:
+  # I disable front end to see on the screen results of compilation
+  # frontend:
+  #   container_name: frontend
+  #   build:
+  #     context: ./frontend_vol
+  #     dockerfile: Dockerfile
+  #   image: frontend
+  #   volumes:
+  #     - './frontend_vol:/frontend'
+  #     - '/app/node_modules'
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #   tty: true
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - outside
+
+  backend:
+    build:
+      context: ./backend_vol
+      dockerfile: Dockerfile
+    image: backend
+    container_name: backend
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+#     It seems I need to update this section with 
+      #APPLICATION_SETTINGS=default_config.py
+      #JWT_SECRET_KEY='very@secret_key'
+      #APP_SECRET_KEY='OtHer098()secretkkkeeeyy'
+      #MAILGUN_DOMAIN='https://api.mailgun.net/v3/sandboxaedacf6cca73459baf79975b916fa1a5.mailgun.org/messages'
+      #MAILGUN_API_KEY='eddfc1e0d701835cb42578a070a5ba70-5645b1f9-583091db'
+
+
+      APP_ENV: 'prod'
+      APP_DEBUG: 'True'
+
+      DATABASE_USER: 'coffee'
+      DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
+      DATABASE_HOST: '172.18.0.2'
+      DATABASE_NAME: 'market_coffee'
+    volumes:
+      - ./backend_vol:/backend
+      # - backenddata
+    tty: true
+    depends_on:
+      - mysqldb
+    networks:
+      - frontend
+      - backend
+
+  mysqldb:
+    image: mysql/mysql-server:latest
+    container_name: coffee-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'ljoii98*_)(98767HG'
+      MYSQL_DATABASE: market_coffee
+      MYSQL_USER: coffee
+      MYSQL_PASSWORD: 'iij0*(*(*())^%^G'
+
+    volumes:
+      - mysqldata:/var/lib/mysql
+    tty: true
+    ports:
+      - 3306:3306
+    networks:
+      - backend
+
+  nginx:
+    build:
+      context: ./nginx_vol
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    restart: always
+    environment:
+      APP_ENV: 'prod'
+      APP_NAME: 'frontend'
+      APP_DEBUG: 'true'
+      SERVICE_NAME: 'frontend'
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginxdata:/var/log/nginx
+    tty: true
+    depends_on:
+      - backend
+    networks:
+      # - outside
+      - frontend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+  # outside:
+  #   driver: bridge
+
+volumes:
+  mysqldata:
+    driver: local
+  # appdata:
+  #   driver: local
+  nginxdata:
+    driver: local
+  backenddata:
+    driver: local

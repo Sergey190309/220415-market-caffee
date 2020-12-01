@@ -1,0 +1,8 @@
+{
+  "python.pythonPath": "backend/venv/bin/python",
+  "python.autoComplete.extraPaths": [
+    "backend"
+    ],
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true
+}
