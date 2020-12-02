@@ -21,5 +21,3 @@ MAX_CONTENT_LENGTH = 10 * 1024 * 1024  # that's 10 mB
 # should be same as a "images" in
 # IMAGE_SET = UploadSet("images", IMAGES)  in image_helper.py
 UPLOADED_IMAGES_DEST = os.path.join('static', 'images')
-
-# BASE_URL = 'http://localhost:5000'
