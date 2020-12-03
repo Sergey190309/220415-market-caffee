@@ -1,12 +1,23 @@
-# import pytest
+import pytest
+# from dotenv import load_dotenv
+
+from application import create_app
+
+# @pytest.fixture(scope='session', autouse=True)
+# def load_env():
+#     load_dotenv()
 
 
-# from flask_extentions.app_init import FlaskInit
-# from initiation.init import connect_modules
+@pytest.fixture
+def root_url():
+    return 'http://127.0.0.1:5000'
 
 
-# @pytest.fixture
-# def appTesting():
-#     app_for_testing = FlaskInit(__name__)
-#     connect_modules(app_for_testing)
-#     return app_for_testing
+@pytest.fixture(scope='module')
+def test_client():
+
+    test_app = create_app('test_config.py')
+
+    with test_app.test_client() as test_client:
+        with test_app.app_context():
+            yield test_client
