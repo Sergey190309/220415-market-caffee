@@ -1,13 +1,30 @@
 '''
-It's test home page.
+It's home page and change locale and time zone.
 '''
 from datetime import datetime
 from flask import request, make_response, render_template
 from flask_restful import Resource
 from flask_babelplus import format_datetime, format_currency, lazy_gettext as _
-# from application.modules.fbp import fbp
 
-# _ = fbp.lazy_gettext
+from application.modules.fbp import fbp
+from application.modules.schemas.locale_time_zone import LocaleTimezoneSchema
+
+locale_timezone_schema = LocaleTimezoneSchema()
+
+
+class Localization(Resource):
+    '''
+    Used for changing locale and time sone according to information in json.
+    '''
+    @classmethod
+    def post(cls):
+        _locale_timezone = locale_timezone_schema.load(request.get_json())
+        # result = fbp.set_locales()
+        payload = fbp.set_locales(_locale_timezone)
+        return {
+            'message': str(_('Global variables are as in payload.')),
+            'payload': payload
+        }, 200
 
 
 class Index(Resource):
@@ -17,7 +34,7 @@ class Index(Resource):
     @classmethod
     def post(cls):
         test_json = request.get_json()
-        print(test_json['what'])
+        # print(test_json['what'])
 
         if test_json['what'] == 'date':
             payload = str(

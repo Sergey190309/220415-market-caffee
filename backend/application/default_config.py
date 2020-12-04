@@ -28,5 +28,4 @@ UPLOADED_IMAGES_DEST = os.path.join('static', 'images')
 
 # BASE_URL = 'http://localhost:5000'
 
-LOCALE = 'en'
-TIMEZONE = 'ETC/GMT-3'
+# Set global variables:

@@ -1,14 +1,10 @@
 # Flask extentions
 from dotenv import load_dotenv
 from flask import Flask
-# from flask.cli import load_dotenv
 
 from application.modules.fbp import fbp
 
-
-from application import home
-
-from application.default_config import LOCALE
+# from application.default_config import LOCALE
 
 
 def create_app(config='default_config.py'):
@@ -20,12 +16,11 @@ def create_app(config='default_config.py'):
     # .from_object(default_config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
-    # api.create_app(app)
-    fbp.init_app(app, LOCALE)
+    fbp.init_app(app)  # Flask_BabelPlus
 
     with app.app_context():
-        # from . import home
-
-        app.register_blueprint(home.create_home(), url_prefix='/home')
-
-        return app
+        from .home import create_home
+        from .users import cleate_users
+        app.register_blueprint(create_home(), url_prefix='/home')
+        app.register_blueprint(cleate_users(), url_prefix='/users')
+    return app

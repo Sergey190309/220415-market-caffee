@@ -16,7 +16,8 @@ def root_url():
 @pytest.fixture(scope='module')
 def test_client():
 
-    test_app = create_app('test_config.py')
+    # test_app = create_app('default_config.py')
+    test_app = create_app('testing_config.py')
 
     with test_app.test_client() as test_client:
         with test_app.app_context():
