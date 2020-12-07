@@ -1,7 +1,6 @@
 from typing import List
 
-
-from application.modules.dbs import dbs
+from ..modules.dbs import dbs
 
 
 class LocaleModel(dbs.Model):
@@ -12,6 +11,11 @@ class LocaleModel(dbs.Model):
 
     id = dbs.Column(dbs.String(16), primary_key=True)
     remarks = dbs.Column(dbs.UnicodeText())
+
+    user = dbs.relationship('UserModel', backref='localemodel', lazy="dynamic")
+    # def __init__(self, remarks):
+    #     super().__init__()
+    #     self.remarks = remarks
 
     @classmethod
     def find_by_name(cls, name: str) -> 'LocaleModel':

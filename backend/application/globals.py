@@ -1,11 +1,23 @@
 from typing import Dict, Union
 # Global variables here:
 
-# app_locale = 'ru'
+
+class GlobalConstants():
+    '''
+    The class contains constants that are accessible from all application.
+    Currently those are:
+    '''
+    pass
 
 
 class GlobalVariables():
+    '''
+    The class contains variables that are accessible from all application.
+    Currently those with default values are:
+    'locale': 'en',
+    'time_zone': 'ETC/GMT-3'
 
+    '''
     def __init__(self, values: Dict = {
         'locale': 'en',
         'time_zone': 'ETC/GMT-3'

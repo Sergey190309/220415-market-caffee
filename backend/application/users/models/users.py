@@ -1,8 +1,6 @@
 from datetime import datetime
 
-# from requests import Response
-
-from application.modules.dbs import dbs
+from ..modules.dbs import dbs
 
 
 class UserModel(dbs.Model):
@@ -13,20 +11,22 @@ class UserModel(dbs.Model):
     __tablename__ = 'users'
 
     id = dbs.Column(dbs.Integer, primary_key=True)
-    creation = dbs.Column(dbs.DateTime(), default=datetime.now())
+    creation = dbs.Column(dbs.DateTime, default=datetime.now())
+    update = dbs.Column(dbs.DateTime, default=datetime.now())
     user_name = dbs.Column(dbs.String(80))
     email = dbs.Column(dbs.String(80), nullable=False, unique=True)
     password_hash = dbs.Column(dbs.String(128))
     role_id = dbs.Column(
         dbs.String(24),
         dbs.ForeignKey('roles.id'),
+        nullable=False,
         default=1
     )
     first_name = dbs.Column(dbs.String(32))
     last_name = dbs.Column(dbs.String(32))
     locale_id = dbs.Column(
         dbs.String(16),
-        dbs.ForeignKey('locales.name'),
+        dbs.ForeignKey('locales.id'),
         nullable=False,
         default='en'
     )

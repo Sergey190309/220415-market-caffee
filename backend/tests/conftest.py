@@ -15,10 +15,9 @@ def root_url():
 
 @pytest.fixture(scope='module')
 def test_client():
+    # print('\nclient')
+    app = create_app('testing_config.py')
 
-    # test_app = create_app('default_config.py')
-    test_app = create_app('testing_config.py')
-
-    with test_app.test_client() as test_client:
-        with test_app.app_context():
+    with app.test_client() as test_client:
+        with app.app_context():
             yield test_client

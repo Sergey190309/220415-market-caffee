@@ -5,16 +5,9 @@ DEBUG = True
 # SECRET_KEY = os.getenv('APP_SECRET_KEY')
 # print('\nSECRET_KEY -', SECRET_KEY)
 
-# SQLALCHEMY_DATABASE_URI = \
-#     'mysql+pymysql://' + \
-#     os.getenv('DATABASE_USER') + ':' + \
-#     os.getenv('DATABASE_PASSWORD') + '@' + \
-#     os.getenv('DATABASE_HOST') + '/' + \
-#     os.getenv('DATABASE_NAME')
+SQLALCHEMY_DATABASE_URI = 'sqlite:///testdb.sqlite3'
 
-# print('SQLALCHEMY_DATABASE_URI -', SQLALCHEMY_DATABASE_URI)
-
-# SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 # PROPAGATE_EXCEPTIONS = True
 # JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 # JWT_BLACKLIST_ENABLED = True

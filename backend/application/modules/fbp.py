@@ -4,7 +4,7 @@ Set initial Flask-BabelPlus values.
 from typing import Dict
 
 from flask_babelplus import Babel
-from application.global_variables import GlobalVariables
+from application.globals import GlobalVariables
 
 
 def set_selectors(fbp: 'BabelBackend') -> str:
@@ -25,7 +25,7 @@ class BabelBackend(Babel):
     def __init__(self):
         super().__init__()
         self.global_variables = GlobalVariables({
-            'locale': 'ru',
+            'locale': 'en',
             'time_zone': 'ETC/GMT-3'
         })
 
