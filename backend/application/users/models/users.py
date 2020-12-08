@@ -16,12 +16,12 @@ class UserModel(dbs.Model):
     user_name = dbs.Column(dbs.String(80))
     email = dbs.Column(dbs.String(80), nullable=False, unique=True)
     password_hash = dbs.Column(dbs.String(128))
-    role_id = dbs.Column(
-        dbs.String(24),
-        dbs.ForeignKey('roles.id'),
-        nullable=False,
-        default=1
-    )
+    # role_id = dbs.Column(
+    #     dbs.String(24),
+    #     dbs.ForeignKey('roles.id'),
+    #     nullable=False,
+    #     default=1
+    # )
     first_name = dbs.Column(dbs.String(32))
     last_name = dbs.Column(dbs.String(32))
     locale_id = dbs.Column(
@@ -35,7 +35,7 @@ class UserModel(dbs.Model):
 
     # avatar = fields.ImageField(null=True)
 
-    role = dbs.relationship('RoleModel', backref='usermodel')
+    # role = dbs.relationship('RoleModel', backref='usermodel')
     locale = dbs.relationship('LocaleModel', backref='usermodel')
     confirmation = dbs.relationship(
         'ConfirmationModel',

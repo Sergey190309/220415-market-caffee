@@ -9,19 +9,20 @@ class RoleModel(dbs.Model):  # parent
     '''
     __tablename__ = 'roles'
 
-    id = dbs.Column(dbs.String(24), primary_key=True)
+    id = dbs.Column(dbs.Integer, primary_key=True)
+    title = dbs.Column(dbs.String(24), unique=True)
     remarks = dbs.Column(dbs.UnicodeText())
 
     # user = dbs.relationship('UserModel', backref='rolemodel', lazy="dynamic")
     # user = dbs.relationship('UserModel', backref='rolemodel')
 
-    # def __init__(self, id: str, remarks: str):
-    #     self.id = id
+    # def __init__(self, title: str, remarks: str):
+    #     self.title = title
     #     self.remarks = remarks
 
     @classmethod
-    def find_by_id(cls, role_id: str) -> 'RoleModel':
-        return cls.query.filter_by(id=role_id).first()
+    def find_by_title(cls, title: str) -> 'RoleModel':
+        return cls.query.filter_by(title=title).first()
 
     def save_to_db(self) -> None:
         dbs.session.add(self)

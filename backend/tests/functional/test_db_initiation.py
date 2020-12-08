@@ -29,18 +29,24 @@ def _engine(_app_folder):
     return create_engine(URI, echo=True)
 
 
+# @pytest.fixture
+@pytest.mark.init_db
+def test_client(
+    test_client, url_users,
+    post_json
+):
+    resp = test_client.post(url_users, json=post_json)
+    assert resp.status_code == 200
+    # return
+
+
 @pytest.mark.init_db
 def test_db_creation(
-    test_client, url_users,
-    post_json,
     _engine
 ):
     '''
     Test checks all tables availability
     '''
-
-    resp = test_client.post(url_users, json=post_json)
-    assert resp.status_code == 200
 
     tables = _engine.table_names()
 
@@ -50,16 +56,12 @@ def test_db_creation(
         'roles',
         'users'
     ]
-
     assert tables.sort() == table_names.sort()
 
 
 @pytest.mark.active
 @pytest.mark.init_db
 def test_roles(
-    test_client, url_users,
-    post_json,
     _engine
 ):
-    resp = test_client.post(url_users, json=post_json)
-    assert resp.status_code == 200
+    pass

@@ -15,9 +15,9 @@ class RoleModel(dbs.Model):  # parent
     # user = dbs.relationship('UserModel', backref='rolemodel', lazy="dynamic")
     # user = dbs.relationship('UserModel', backref='rolemodel')
 
-    # def __init__(self, id: str, remarks: str):
-    #     self.id = id
-    #     self.remarks = remarks
+    def __init__(self, id: str, remarks: str):
+        self.id = id
+        self.remarks = remarks
 
     @classmethod
     def find_by_id(cls, role_id: str) -> 'RoleModel':

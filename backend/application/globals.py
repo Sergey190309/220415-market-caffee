@@ -7,7 +7,23 @@ class GlobalConstants():
     The class contains constants that are accessible from all application.
     Currently those are:
     '''
-    pass
+    def __init__(self):
+        self.ROLES = [
+            {'id': 'user', 'remarks': 'Registered user after confirmation.'},
+            {'id': 'power_user', 'remarks': 'By admin decision.'},
+            {'id': 'admin', 'remarks': 'By owners decision.'}
+        ]
+        self.LOCALES = [
+
+        ]
+
+    def get_ROLES(self):
+        return self.ROLES
+
+    def get_LOCALES(self):
+        return self.LOCALES
+
+gc = GlobalConstants()
 
 
 class GlobalVariables():
