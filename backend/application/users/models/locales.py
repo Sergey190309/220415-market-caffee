@@ -1,4 +1,4 @@
-from typing import List
+# from typing import List
 
 from ..modules.dbs import dbs
 
@@ -13,14 +13,15 @@ class LocaleModel(dbs.Model):
     remarks = dbs.Column(dbs.UnicodeText())
 
     user = dbs.relationship('UserModel', backref='localemodel', lazy="dynamic")
-    # def __init__(self, remarks):
-    #     super().__init__()
-    #     self.remarks = remarks
 
     @classmethod
-    def find_by_name(cls, name: str) -> 'LocaleModel':
-        return cls.query.filter_by(name=name).first()
+    def find_by_id(cls, id: str) -> 'LocaleModel':
+        return cls.query.filter_by(id=id).first()
 
-    @classmethod
-    def find_all(cls) -> List['LocaleModel']:
-        return cls.query.all()
+    def save_to_db(self) -> None:
+        dbs.session.add(self)
+        dbs.session.commit()
+
+    def delete_fm_db(self) -> None:
+        dbs.session.delete(self)
+        dbs.session.commit()

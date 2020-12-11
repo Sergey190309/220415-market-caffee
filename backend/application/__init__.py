@@ -21,10 +21,13 @@ def create_app(config='default_config.py'):
     fbp.init_app(app)  # Flask_BabelPlus
     with app.app_context():
         # print('\napplication.__init__.py within with config -', config)
-
+        # Error handler.
+        from .errors import create_errors
+        app.register_blueprint(create_errors())
+        # Auxiliary module for training and testing.
         from .home import create_home
-        from .users import cleate_users
-
         app.register_blueprint(create_home(), url_prefix='/home')
+        # Users' handling.
+        from .users import cleate_users
         app.register_blueprint(cleate_users(), url_prefix='/users')
     return app

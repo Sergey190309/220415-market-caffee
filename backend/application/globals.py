@@ -2,28 +2,55 @@ from typing import Dict, Union
 # Global variables here:
 
 
+class DefaultAdmin():
+    '''
+    Those credentials would be loaded with id = 1 and role = admin
+    '''
+    def __init__(self):
+        self._admin = {
+            'id': 1,
+            'user_name': 'admin',
+            'email': 'a@agatha-ng.com',
+            'password': 'qwer',
+            'role_id': 'admin',
+            'locale_id': 'en',
+            'time_zone': 3,
+            'remarks': (
+                "It's dummy admin to handle database. "
+                "It's better, at least, to change email for "
+                "real one and password for strong one."
+            )
+        }
+
+    @property
+    def get_default_admin(self):
+        return self._admin
+
+
 class GlobalConstants():
     '''
     The class contains constants that are accessible from all application.
     Currently those are:
     '''
     def __init__(self):
-        self.ROLES = [
+        self._ROLES = [
             {'id': 'user', 'remarks': 'Registered user after confirmation.'},
             {'id': 'power_user', 'remarks': 'By admin decision.'},
             {'id': 'admin', 'remarks': 'By owners decision.'}
         ]
-        self.LOCALES = [
+        self._LOCALES = [
+            {'id': 'ru', 'remarks': 'Общий русский.'},
+            {'id': 'en', 'remarks': 'General english.'},
 
         ]
 
+    @property
     def get_ROLES(self):
-        return self.ROLES
+        return self._ROLES
 
+    @property
     def get_LOCALES(self):
-        return self.LOCALES
-
-gc = GlobalConstants()
+        return self._LOCALES
 
 
 class GlobalVariables():
@@ -35,6 +62,7 @@ class GlobalVariables():
 
     '''
     def __init__(self, values: Dict = {
+        # 'locale': 'ru',
         'locale': 'en',
         'time_zone': 'ETC/GMT-3'
     }):

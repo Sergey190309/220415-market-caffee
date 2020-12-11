@@ -25,7 +25,8 @@ class BabelBackend(Babel):
     def __init__(self):
         super().__init__()
         self.global_variables = GlobalVariables({
-            'locale': 'en',
+            # 'locale': 'en',
+            'locale': 'ru',
             'time_zone': 'ETC/GMT-3'
         })
 

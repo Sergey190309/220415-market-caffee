@@ -1,11 +1,5 @@
-from flask import Blueprint
-# from flask_restful import Api
-# from .modules.api import api
-# from application.modules.api import api
-from .modules.api import api
-from .errors.register import register_error_handler
+from flask import Blueprint, current_app
 
-# from application.home.resources.index import Index, Localization
 
 
 def create_home():
@@ -14,7 +8,12 @@ def create_home():
         'home_bp', __name__,
         template_folder='templates')
 
-    register_error_handler(home_bp)
-    api.init_app(home_bp)
+    with current_app.app_context():
+
+        from .errors.register import register_error_handler
+        register_error_handler(home_bp)
+
+        from .modules.api import api
+        api.init_app(home_bp)
 
     return home_bp

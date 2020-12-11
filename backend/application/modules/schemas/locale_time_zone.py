@@ -5,7 +5,7 @@ from flask_babelplus import lazy_gettext as _
 
 class LocaleField(fields.Field):
     default_error_messages = {
-        'invalid': str(_('Not a vaid locale.'))
+        'invalid': str(_('Not a valid locale.'))
     }
 
     def _deserialize(self, value, attr, data, **kwargs) -> str:
@@ -22,7 +22,7 @@ class LocaleField(fields.Field):
 
 class TimezoneField(fields.Field):
     default_error_messages = {
-        'invalid': str(_('Not a vaid time zone.'))
+        'invalid': str(_('Not a valid time zone.'))
     }
 
     def _deserialize(self, value, attr, data, **kwargs) -> str:

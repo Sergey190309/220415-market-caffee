@@ -14,7 +14,7 @@ class ConfirmationModel(dbs.Model):
 
     user = dbs.relationship(
         'UserModel',
-        backref='usermodel',
-        lazy='dynamic',
-        cascade='all, delete-orphan'
+        backref='usermodel'
+        # lazy='dynamic',
+        # cascade='all, delete-orphan'
     )

@@ -1,6 +1,5 @@
 # from typing import List
 from ..modules.dbs import dbs
-# print('users.models.roles')
 
 
 class RoleModel(dbs.Model):  # parent
@@ -12,24 +11,25 @@ class RoleModel(dbs.Model):  # parent
     id = dbs.Column(dbs.String(24), primary_key=True)
     remarks = dbs.Column(dbs.UnicodeText())
 
-    # user = dbs.relationship('UserModel', backref='rolemodel', lazy="dynamic")
-    # user = dbs.relationship('UserModel', backref='rolemodel')
-
-    # def __init__(self, id: str, remarks: str):
-    #     self.id = id
-    #     self.remarks = remarks
+    user = dbs.relationship('UserModel', backref='rolemodel', lazy="dynamic")
 
     @classmethod
     def find_by_id(cls, role_id: str) -> 'RoleModel':
         return cls.query.filter_by(id=role_id).first()
 
     def save_to_db(self) -> None:
-        dbs.session.add(self)
-        dbs.session.commit()
+        try:
+            dbs.session.add(self)
+            dbs.session.commit()
+        except Exception as err:
+            print('users.models.RoleModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
-        dbs.session.delete(self)
-        dbs.session.commit()
+        try:
+            dbs.session.delete(self)
+            dbs.session.commit()
+        except Exception as err:
+            print('users.models.RoleModel.delete_fm_db error\n', err)
 
     # @classmethod
     # def find_all(cls) -> List['RoleModel']:
