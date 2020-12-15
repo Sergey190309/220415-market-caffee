@@ -45,7 +45,7 @@ services:
 
       DATABASE_USER: 'coffee'
       DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
-      DATABASE_HOST: '172.18.0.2'
+      DATABASE_HOST: '172.24.0.2'
       DATABASE_NAME: 'market_coffee'
     volumes:
       - ./backend:/backend
