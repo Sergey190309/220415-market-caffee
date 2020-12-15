@@ -41,8 +41,14 @@ class GlobalConstants():
         self._LOCALES = [
             {'id': 'ru', 'remarks': 'Общий русский.'},
             {'id': 'en', 'remarks': 'General english.'},
-
         ]
+        # This is a perion after confirmation exparation in
+        # seconds after user confirmaiton.
+        self._CONFIRMATION_EXPIRATION_DELTA = 30 * 60  # 30 minutes.
+
+    @property
+    def get_CONFIRMATION_EXPIRATION_DELTA(self):
+        return self._CONFIRMATION_EXPIRATION_DELTA
 
     @property
     def get_ROLES(self):

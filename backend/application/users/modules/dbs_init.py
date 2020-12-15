@@ -30,7 +30,7 @@ def dbs_init():
     create_dbs()  # Create tables and other stuff
     fill_roles()  # Fill table roles with default stuff
     fill_locales()   # Fill table locales with default stuff
-    create_default_admin()
+    create_default_admin()  # Hope it's selfexplain.
 
 
 def fill_roles():

@@ -19,7 +19,9 @@ def create_app(config='default_config.py'):
     # print('application app.config[] -', app.config['SQLALCHEMY_DATABASE_URI'])
 
     fbp.init_app(app)  # Flask_BabelPlus
+
     with app.app_context():
+
         # print('\napplication.__init__.py within with config -', config)
         # Error handler.
         from .errors import create_errors
@@ -30,4 +32,7 @@ def create_app(config='default_config.py'):
         # Users' handling.
         from .users import cleate_users
         app.register_blueprint(cleate_users(), url_prefix='/users')
+        # Mailing
+        from .maiing import create_mailing
+        app.register_blueprint(create_mailing())
     return app

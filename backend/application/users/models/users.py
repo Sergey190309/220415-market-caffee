@@ -54,6 +54,10 @@ class UserModel(dbs.Model):
         return self.email == email
 
     @property
+    def is_valid(self) -> bool:
+        return self.role_id is not None
+
+    @property
     def is_admin(self) -> bool:
         return self.role_id == 'admin'
 

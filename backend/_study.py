@@ -1,16 +1,20 @@
-URI = 'sqlite:///testdb.sqlite3'
-folder = 'application/'
+import os
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
-'''
-result should be:
-'sqlite:///application/testdb.sqlite3'
-'''
 
-split = URI.split('///')
+message = Mail(
+    from_email='noreply201211@gmail.com',
+    to_emails='sa6702@gmail.com',
+    subject='Test subject',
+    html_content='<strong>Test content</strong>'
+)
+try:
+    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+    resp = sg.send(message)
+    print(resp.status_code)
+    print(resp.body)
+    print(resp.headers)
 
-print(split)
-
-result = split[0] + '///' + folder + split[1]
-result = URI.split('///')[0] + '///' + folder + split[1]
-
-print(result)
+except Exception as err:
+    print(err.message)

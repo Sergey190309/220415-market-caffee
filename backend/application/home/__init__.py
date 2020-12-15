@@ -1,7 +1,6 @@
 from flask import Blueprint, current_app
 
 
-
 def create_home():
 
     home_bp = Blueprint(
@@ -10,7 +9,7 @@ def create_home():
 
     with current_app.app_context():
 
-        from .errors.register import register_error_handler
+        from ..errors.register import register_error_handler
         register_error_handler(home_bp)
 
         from .modules.api import api

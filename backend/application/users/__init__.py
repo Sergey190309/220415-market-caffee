@@ -12,7 +12,7 @@ def cleate_users():
     with current_app.app_context():
 
         # Custom error handler
-        from .errors.register import register_error_handler
+        from ..errors.register import register_error_handler
         register_error_handler(users_bp)
 
         # flask_restful and routining

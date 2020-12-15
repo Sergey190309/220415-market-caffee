@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from flask_babelplus import lazy_gettext as _
 
+from application.errors.custom_exception import NotExistsError
 from ..schemas.users import UserSchema, UserUpdateSchema
 from ..models.users import UserModel
 
@@ -17,11 +18,17 @@ class UserHandle(Resource):
 
     @classmethod
     def have_no_right(cls, user_id: int, logged_user_id: int) -> bool:
+        '''
+        Check whether user is not admin or not trying to access to own account.
+        '''
         _logged_user = UserModel.find_by_id(logged_user_id)
-        if not _logged_user:
-            raise AttributeError
-        else:
+        # print('users.resources.UserHandle.have_no_right user_id -', user_id)
+        if _logged_user:
             return not (_logged_user.is_admin or user_id == logged_user_id)
+        else:
+            raise NotExistsError(
+                logged_user_id,
+                message='Users.resources.UserHandle.have_no_rights')
 
     @classmethod
     @jwt_required
@@ -91,13 +98,13 @@ class UserHandle(Resource):
         Get all user details by id in url. User can access to own info only.
         Other users are accessable by admin only.
         '''
-        if cls.have_no_right(get_jwt_identity(), user_id):
+        if cls.have_no_right(user_id, get_jwt_identity()):
             return {
                 'message': str(_(
                     "Access to user details is allowed to owners or admins onlys.")),
             }, 401
 
-        _user = UserModel.find_by_id(get_jwt_identity())
+        _user = UserModel.find_by_id(user_id)
 
         if _user:
             return {
@@ -114,12 +121,44 @@ class UserHandle(Resource):
             }, 404
 
     @classmethod
+    @jwt_required
+    def put(cls, user_id: int) -> Dict:
+        '''
+        User manual confirmation.
+        It's tecnical method. Not to be used in normal activity.
+        With email confirmation sould be confirmed by email
+        otherwice create user with appropriate role.
+        '''
+        _user = UserModel.find_by_id(user_id)
+        if _user is None:
+            raise NotExistsError(user_id, 'users.resources.UserHandle.put')
+        else:
+            if _user.role_id is not None:
+                return {
+                    'message': str(_(
+                        "User with id '%(user_id)s' have status "
+                        "'%(role_id)s' already. Details are in payload.",
+                        user_id=user_id, role_id=_user.role_id)),
+                    'payload': user_schema.dump(UserModel.find_by_id(user_id))
+                }, 400
+
+        _user.update({'role_id': 'user'})
+        return {
+            'message': str(_(
+                "User with id '%(user_id)s' successfully confirmed. "
+                "Details are in payload.",
+                user_id=user_id)),
+            'payload': user_schema.dump(UserModel.find_by_id(user_id))
+        }, 200
+
+    @classmethod
+    @jwt_required
     def delete(cls, user_id: int) -> None:
         pass
         '''
         Delete user by id in url
         '''
-        if cls.have_no_right(get_jwt_identity(), user_id):
+        if cls.have_no_right(user_id, get_jwt_identity()):
             return {
                 'message': str(_(
                     "Owners or admins are allowed to kill their accownts.")),

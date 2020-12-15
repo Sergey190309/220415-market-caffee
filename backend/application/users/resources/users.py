@@ -28,8 +28,8 @@ class User(Resource):
                     email=_user.email)),
             }, 400
         else:
-            _user.save_to_db()
             try:
+                _user.save_to_db()
                 _created_user = UserModel.find_by_email(_user.email)
             except Exception as err:
                 print('users.resources.User.post error\n', err)

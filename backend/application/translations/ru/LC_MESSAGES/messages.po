@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-10 15:03+0000\n"
-"PO-Revision-Date: 2020-12-10 15:04+0000\n"
+"POT-Creation-Date: 2020-12-11 03:15+0000\n"
+"PO-Revision-Date: 2020-12-11 03:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -65,70 +65,87 @@ msgstr "Не действительный регион."
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: users/errors/register.py:48
+#: users/errors/register.py:39
 msgid "The token has expired."
 msgstr "Срок годности жетона истек."
 
-#: users/errors/register.py:56
+#: users/errors/register.py:47
 msgid "Signature verification failed."
 msgstr "Подпись проверить не получилось."
 
-#: users/errors/register.py:63
+#: users/errors/register.py:54
 msgid "Request does not contain an access token."
 msgstr "Запрос не содержит жетона доступа."
 
-#: users/errors/register.py:70
+#: users/errors/register.py:61
 msgid "The token is not fresh."
 msgstr "Жетон не свежий."
 
-#: users/errors/register.py:77
+#: users/errors/register.py:68
 msgid "The token has been revoked."
 msgstr "Жетон отозван."
 
-#: users/resources/userhandle.py:39
+#: users/resources/userhandle.py:48
 msgid "User you plan to update not found."
 msgstr "Пользователь, которого вы планируете обновить, не найден."
 
-#: users/resources/userhandle.py:55
+#: users/resources/userhandle.py:64
 msgid "Password allowed to be changed by account user only."
 msgstr "Только пользователь может изменить собственный пароль."
 
-#: users/resources/userhandle.py:62
+#: users/resources/userhandle.py:71
 msgid "Administrative privileges are needed to update other users' accounts."
 msgstr "Только администратору разрешено менять права пользователя."
 
-#: users/resources/userhandle.py:69
+#: users/resources/userhandle.py:78
 msgid "Administrative privileges are needed to update users' rights."
 msgstr "Только администратору разрешено менять права пользователя."
 
-#: users/resources/userhandle.py:80
+#: users/resources/userhandle.py:89
 #, python-format
 msgid "User with id '%(user_id)s' updated as in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' обновлен, как в теле сообщения."
 
-#: users/resources/userhandle.py:95
+#: users/resources/userhandle.py:104
 msgid "Access to user details is allowed to owners or admins onlys."
 msgstr ""
 "Доступ к информации пользователя разрешен только самому пользователю и "
 "администраторам."
 
-#: users/resources/userhandle.py:103
+#: users/resources/userhandle.py:112
 #, python-format
 msgid "User with id '%(user_id)s' found, details are in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' найден, детали в теле сообщения."
 
-#: users/resources/userhandle.py:110 users/resources/userhandle.py:136
+#: users/resources/userhandle.py:119 users/resources/userhandle.py:178
 #, python-format
 msgid "User with user_id '%(user_id)s' has not been found."
 msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
 
-#: users/resources/userhandle.py:123
+#: users/resources/userhandle.py:139
+#, python-format
+msgid ""
+"User with id '%(user_id)s' have status '%(role_id)s' already. Details are in "
+"payload."
+msgstr ""
+"Пользователь с идентификатором '%(user_id)s' уже имеет статус '%(role_id)s', "
+"детали в теле сообщения."
+
+#: users/resources/userhandle.py:148
+#, python-format
+msgid ""
+"User with id '%(user_id)s' successfully confirmed. Details are in payload."
+msgstr ""
+"Пользователь с идентификатором '%(user_id)s' успешно подтвержден. Детали в "
+"теле сообщения."
+
+#: users/resources/userhandle.py:165
 msgid "Owners or admins are allowed to kill their accownts."
 msgstr "Владельцам или администраторам позволено убивать учетные записи."
 
-#: users/resources/userhandle.py:130
+#: users/resources/userhandle.py:172
 #, python-format
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
@@ -144,25 +161,39 @@ msgid "Sorry, access to user's information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации пользователей разрешен только администратору."
 
-#: users/resources/userlogin.py:31
-msgid "You are welcome, tokens are in payload."
-msgstr "Добро пожаловать, жетоны теле сообщения."
-
-#: users/resources/userlogin.py:37
+#: users/resources/userlogin.py:32
 #, python-format
 msgid "Wrong password for user with email '%(email)s'."
 msgstr "Неверный пароль для пользователя с email '%(email)s'."
 
-#: users/resources/userlogin.py:43 users/resources/users.py:75
+#: users/resources/userlogin.py:38
+#, python-format
+msgid ""
+"It seems you have not confirm your account. Check email stated - '%(email)s'."
+msgstr ""
+"Похоже вы не подтвердили свою учетную запись. Проверьте указанную "
+"электронную почту - '%(email)s'."
+
+#: users/resources/userlogin.py:45 users/resources/users.py:75
 #, python-format
 msgid "User with email '%(email)s' has not been found."
 msgstr "Пользователь с email '%(email)s' не найден."
 
-#: users/resources/userlogin.py:56
+#: users/resources/userlogin.py:50
+msgid "You are welcome, tokens are in payload."
+msgstr "Добро пожаловать, жетоны теле сообщения."
+
+#: users/resources/userlogin.py:63
 msgid "Successfully logged out."
 msgstr "Пользователь успешно прекратил регистрацию."
 
-#: users/resources/userlogin.py:66
+#: users/resources/userlogin.py:75
+msgid "Something wrong with token refreshing. Try to log in again."
+msgstr ""
+"Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
+"раз."
+
+#: users/resources/userlogin.py:78
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
