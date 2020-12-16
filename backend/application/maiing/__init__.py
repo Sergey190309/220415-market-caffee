@@ -32,4 +32,3 @@ def create_mailing():
 
 # except Exception as err:
 #     print(err.message)
-
