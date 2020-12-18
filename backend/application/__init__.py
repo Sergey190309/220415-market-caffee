@@ -33,6 +33,6 @@ def create_app(config='default_config.py'):
         from .users import cleate_users
         app.register_blueprint(cleate_users(), url_prefix='/users')
         # Mailing
-        from .maiing import create_mailing
+        from .mailing import create_mailing
         app.register_blueprint(create_mailing())
     return app

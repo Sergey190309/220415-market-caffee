@@ -1,9 +1,14 @@
 from typing import Dict
 from datetime import datetime
+from flask import request, url_for
 from flask_jwt_extended import create_access_token, create_refresh_token
 
+from application.mailing.sendgrid import SendGrid
+
+from application.globals import confirmation_email_data
 from ..modules.dbs import dbs
 from ..modules.fbc import fbc
+from .confirmations import ConfirmationModel
 
 
 class UserModel(dbs.Model):
@@ -15,8 +20,9 @@ class UserModel(dbs.Model):
 
     # All fields but password and role can be uudated either by user or admin
     id = dbs.Column(dbs.Integer, primary_key=True)
-    creation = dbs.Column(dbs.DateTime, nullable=False, default=datetime.now())
-    update = dbs.Column(dbs.DateTime, nullable=False, default=datetime.now())
+    created = dbs.Column(dbs.DateTime, nullable=False, default=datetime.now())
+    updated = dbs.Column(dbs.DateTime)
+    accessed = dbs.Column(dbs.DateTime)
     user_name = dbs.Column(dbs.String(80))
     email = dbs.Column(dbs.String(80), unique=True)
     password_hash = dbs.Column(dbs.String(128))  # User can update password only!
@@ -47,6 +53,29 @@ class UserModel(dbs.Model):
         cascade='all, delete-orphan'
     )
 
+    def set_accessed(self):
+        # print("users.models.UserModel.set_accessed datetime -", datetime.now())
+        self.accessed = datetime.now()
+        self.save_to_db()
+
+    @property
+    def most_recent_confirmation(self):
+        return self.confirmation.order_by(
+            dbs.db.desc(ConfirmationModel.expire_at)).first()
+
+    def send_confirmation_request(self):
+        _link = 'link'
+        print('users.models.UserModel.send_confirmation_request url_root -', request.url_root[:-1])
+        # print('users.models.UserModel.send_confirmation_request url_for -', url_for('users_bp.userhandle', confirmation_id=self.most_recent_confirmation.id))
+        # _link = request.url_root[:-1] + url_for(
+        #     'confirmation', confirmation_id=self.most_recent_confirmation.id)
+        confirmation_email_data.refresh()
+
+        SendGrid.send_confirmation_email(
+            self.email,
+            _link,
+            confirmation_email_data.email_data)
+
     def is_own_id(self, id: int) -> bool:
         return self.id == id
 
@@ -75,14 +104,21 @@ class UserModel(dbs.Model):
         }
 
     @classmethod
+    def find_last(cls) -> 'UserModel':
+        return cls.query.order_by(cls.id.desc()).first()
+        # return cls.query.all.order_by(id.desc()).first()
+
+    @classmethod
     def find_by_id(cls, id: int) -> 'UserModel':
-        return cls.query.filter_by(id=id).first()
+        return cls.query.get(id)
+        # return cls.query.filter_by(id=id).first()
 
     @classmethod
     def find_by_email(cls, email: str) -> 'UserModel':
         return cls.query.filter_by(email=email).first()
 
     def check_password(self, plain_password: str) -> bool:
+        # print('UserModel.check_password plain_password -', plain_password)
         return fbc.check_password_hash(self.password_hash, plain_password)
 
     def update_password(self, plain_password: str) -> bool:
@@ -94,7 +130,10 @@ class UserModel(dbs.Model):
         return True
 
     def update(self, update_values: dict) -> bool:
+        # print(self.id)
+        self.updated = datetime.now()
         for key in update_values.keys():
+            # print(key, '\t', update_values[key])
             setattr(self, key, update_values[key])
         self.save_to_db()
         return True

@@ -1,5 +1,17 @@
 import pytest
 
+from application import create_app
+
+
+@pytest.fixture(scope='module')
+def test_client():
+    # print('\nclient')
+    app = create_app('testing_config.py')
+
+    with app.test_client() as test_client:
+        with app.app_context():
+            yield test_client
+
 
 @pytest.fixture
 def url_index(root_url):
@@ -12,7 +24,6 @@ def url_localization(root_url):
 
 
 # @pytest.mark.active
-@pytest.mark.home
 @pytest.mark.parametrize(
     'locale, time_zone',
     [
@@ -43,7 +54,7 @@ def test_home_index_get(test_client, url_index):
     WHEN the '/' page is requested (GET)
     THEN check that the response is valid
     """
-    print('test.functonal.test_home.test_home_index url_index -', url_index)
+    # print('test.functonal.test_home.test_home_index url_index -', url_index)
     resp = test_client.get(url_index)
     assert resp.status_code == 200
     assert b"Text" in resp.data

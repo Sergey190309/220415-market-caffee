@@ -1,7 +1,7 @@
 # from flask import current_app
 # from sqlalchemy import create_engine, select
 
-from application.globals import GlobalConstants, DefaultAdmin
+from application.globals import global_constants, default_admin
 
 from .dbs import dbs
 # from ..models.roles import RoleModel
@@ -18,8 +18,8 @@ from ..models.locales import LocaleModel
 from ..schemas.users import AdminCreateSchema
 
 
-global_constants = GlobalConstants()
-default_admin = DefaultAdmin()
+# global_constants = GlobalConstants()
+# default_admin = DefaultAdmin()
 
 user_create_schema = AdminCreateSchema()
 

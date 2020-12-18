@@ -1,7 +1,8 @@
 from typing import Dict, Union
+from flask_babelplus import lazy_gettext as _
+
+
 # Global variables here:
-
-
 class DefaultAdmin():
     '''
     Those credentials would be loaded with id = 1 and role = admin
@@ -27,6 +28,9 @@ class DefaultAdmin():
         return self._admin
 
 
+default_admin = DefaultAdmin()
+
+
 class GlobalConstants():
     '''
     The class contains constants that are accessible from all application.
@@ -45,9 +49,11 @@ class GlobalConstants():
         # This is a perion after confirmation exparation in
         # seconds after user confirmaiton.
         self._CONFIRMATION_EXPIRATION_DELTA = 30 * 60  # 30 minutes.
+        # Confirmation e-mail details.
 
     @property
     def get_CONFIRMATION_EXPIRATION_DELTA(self):
+        # print('globals -', self._CONFIRMATION_EXPIRATION_DELTA)
         return self._CONFIRMATION_EXPIRATION_DELTA
 
     @property
@@ -57,6 +63,42 @@ class GlobalConstants():
     @property
     def get_LOCALES(self):
         return self._LOCALES
+
+
+global_constants = GlobalConstants()
+
+
+class ConfirmationEmailData():
+    def __init__(self, email_data: Dict = None):
+        if email_data is None:
+            self.__email_data = {
+                # Email used for sending confirmation:
+                'email_fm': 'noreply201211@gmail.com',
+                'subject': str(_("That's registration confirmatin.")),
+                'body_text': str(_('Please follow the link.'))
+            }
+        else:
+            self.__email_data = email_data
+
+    @property
+    def email_data(self):
+        return self.__email_data
+
+    @email_data.setter
+    def email_data(self, email_data: Dict):
+        self.__email_data = email_data
+
+    def refresh(self):
+        '''
+        To update data based on locale set.
+        '''
+        _email_data = self.email_data.copy()
+        _email_data['subject'] = str(_("That's registration confirmatin."))
+        _email_data['body_text'] = str(_('Please follow the link.'))
+        self.email_data = _email_data
+
+
+confirmation_email_data = ConfirmationEmailData()
 
 
 class GlobalVariables():

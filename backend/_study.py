@@ -1,20 +1,17 @@
-import os
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
+from random import choice
 
+source = (
+    'Lorem ipsum dolor sit amet, consectetur adipisicing elit. '
+    'Blanditiis, iste doloribus? Facilis sapiente fugit commodi et nostrum '
+    'amet aspernatur, illum necessitatibus maiores, perspiciatis ipsam, omnis '
+    'modi beatae? Saepe, eius neque.')
 
-message = Mail(
-    from_email='noreply201211@gmail.com',
-    to_emails='sa6702@gmail.com',
-    subject='Test subject',
-    html_content='<strong>Test content</strong>'
-)
-try:
-    sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
-    resp = sg.send(message)
-    print(resp.status_code)
-    print(resp.body)
-    print(resp.headers)
+result = source.replace(',', '').replace('.', '').replace('?', '').split(' ')
 
-except Exception as err:
-    print(err.message)
+domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil')
+# for word in result:
+#     print(word)
+
+for i in range(len(result)):
+    email = choice(result) + '@' + choice(result) + '.' + choice(domens)
+    print(email)

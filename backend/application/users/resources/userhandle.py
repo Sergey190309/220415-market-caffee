@@ -33,6 +33,13 @@ class UserHandle(Resource):
     @classmethod
     @jwt_required
     def post(cls, user_id: int) -> Dict:
+        '''
+        The procedure updates user identified by id in ulr.
+        Items that has proper keys in request JSON will be updated.
+        Even user_name, email and password.
+        Admin only is allowed to change role. Also he's able to fill user.
+        User only is allowed to change own detatils but role.
+        '''
         # That's dictionary with key-values to update an instance.
         _json = request.get_json()
         _keys = _json.keys()
@@ -45,38 +52,42 @@ class UserHandle(Resource):
         # for update
         if _updated_user_before is None:
             return {
-                'message': str(_("User you plan to update not found."))
+                'message': str(_(
+                    "User you plan to update (with id = '%(user_id)s') not found.",
+                    user_id=user_id))
             }, 404
-
-        if ('password' in _keys):
-            # Update password separately due to necessity to hash it in base.
-            _updated_user_before.update_password(_json.pop('password'))
-
-        # Update logic:
-        # Admin may update everyone but passwords.
-        # Any users can update themselves including passwords.
-        # Logic below reject not allowed activity.
-        if UserModel.find_by_id(_logged_id).is_admin:
-            if ('password' in _keys):
-                if not (_logged_id == user_id):
-                    return {
-                        'message': str(_(
-                            "Password allowed to be changed by account "
-                            "user only."))
-                    }, 401
+        '''
+        if own:
+            if password:
+                hash password and pop it out of update dictionary
+            if role:
+                fuck off
+            else:
+                update
         else:
-            if not (_logged_id == user_id):
+            if not (role and no others):
+                fuck off
+            else:
+                update
+        '''
+        if _logged_id == user_id:
+            if 'password' in _keys:
+                _updated_user_before.update_password(_json.pop('password'))
+            if 'role_id' in _keys and not (UserModel.find_by_id(_logged_id).is_admin):
                 return {
                     'message': str(_(
                         "Administrative privileges are needed to update "
-                        "other users' accounts."))
+                        "users' rights."))
                 }, 401
-            else:
-                if ('role_id' in _keys):
+        else:
+            if UserModel.find_by_id(_logged_id).is_admin:
+                # print('users.resources.UserHandle.post not owner')
+                # print(_keys)
+                # print(len(_keys))
+                if not ('role_id' in _keys) and (len(_keys) == 1):
                     return {
                         'message': str(_(
-                            "Administrative privileges are needed to update "
-                            "users' rights."))
+                            "Admin is allowed to change role or kill user only."))
                     }, 401
 
         _updated_user_before.update(_json)  # Sent data to model to update

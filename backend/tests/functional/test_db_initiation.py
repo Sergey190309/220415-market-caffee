@@ -1,27 +1,21 @@
 import pytest
 
 from sqlalchemy import create_engine, MetaData, Table, select
+
+from application import create_app
+
+
 from application.testing_config import SQLALCHEMY_DATABASE_URI
 
 
-@pytest.fixture
-def url_users(root_url):
-    '''
-    Generate url for this file tests.
-    '''
-    return root_url + '/home/index'
+@pytest.fixture(scope='module')
+def test_client():
+    # print('\nclient')
+    app = create_app('testing_config.py')
 
-
-@pytest.fixture
-def post_json():
-    '''
-    Generate json for file tests.
-    '''
-
-    return {
-        "email": "s@gmail.com",
-        "password": "qwer"
-    }
+    with app.test_client() as test_client:
+        with app.app_context():
+            yield test_client
 
 
 @pytest.fixture
@@ -45,7 +39,7 @@ def _engine(_app_folder):
 
 # @pytest.mark.active
 @pytest.mark.init_db
-def test_client(
+def test_application(
     test_client, url_users,
     post_json
 ):
@@ -54,6 +48,7 @@ def test_client(
     assert resp.status_code == 200
 
 
+# @pytest.mark.active
 @pytest.mark.init_db
 def test_db_creation(
     _engine
@@ -72,7 +67,7 @@ def test_db_creation(
     assert tables.sort() == table_names.sort()
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.init_db
 @pytest.mark.parametrize(
     'id, remark',
@@ -100,7 +95,7 @@ def test_roles(
     assert result[1] == remark
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.init_db
 @pytest.mark.parametrize(
     'id, remark',

@@ -1,8 +1,5 @@
 import pytest
 # from dotenv import load_dotenv
-
-from application import create_app
-
 # @pytest.fixture(scope='session', autouse=True)
 # def load_env():
 #     load_dotenv()
@@ -13,11 +10,21 @@ def root_url():
     return 'http://127.0.0.1:5000'
 
 
-@pytest.fixture(scope='module')
-def test_client():
-    # print('\nclient')
-    app = create_app('testing_config.py')
+@pytest.fixture
+def url_users(root_url):
+    '''
+    Generate url for this file tests.
+    '''
+    return root_url + '/home/index'
 
-    with app.test_client() as test_client:
-        with app.app_context():
-            yield test_client
+
+@pytest.fixture
+def post_json():
+    '''
+    Generate json for file tests.
+    '''
+
+    return {
+        "email": "s@gmail.com",
+        "password": "qwer"
+    }

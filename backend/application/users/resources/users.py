@@ -7,6 +7,7 @@ from flask_babelplus import lazy_gettext as _
 
 from ..schemas.users import UserSchema, UserUpdateSchema
 from ..models.users import UserModel
+from ..models.confirmations import ConfirmationModel
 
 user_schema = UserSchema()
 user_update_schema = UserUpdateSchema()
@@ -30,15 +31,23 @@ class User(Resource):
         else:
             try:
                 _user.save_to_db()
+                _confirmation = ConfirmationModel(_user.id)
+                _confirmation.save_to_db()
+                _user.send_confirmation_request()
+                # print('users.resources.User.post')
                 _created_user = UserModel.find_by_email(_user.email)
+                return {
+                    'message': str(_(
+                        "User with email '%(email)s' created, "
+                        "details are in payload.",
+                        email=_user.email)),
+                    'payload': user_schema.dump(_created_user)
+                }, 201
             except Exception as err:
-                print('users.resources.User.post error\n', err)
-            return {
-                'message': str(_(
-                    "User with email '%(email)s' created, details are in payload.",
-                    email=_user.email)),
-                'payload': user_schema.dump(_created_user)
-            }, 201
+                print('users.resources.User.post error:\n', err)
+                return {
+                    'message': str(_("Spmthing went wrong."))
+                }, 500
 
     @classmethod
     @jwt_required

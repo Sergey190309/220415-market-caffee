@@ -2,7 +2,7 @@ from uuid import uuid4
 from time import time
 
 from ..modules.dbs import dbs
-from application.globals import GlobalConstants
+from application.globals import global_constants
 
 
 class ConfirmationModel(dbs.Model):
@@ -25,10 +25,14 @@ class ConfirmationModel(dbs.Model):
 
     def __init__(self, user_id: int, **kwargs):
         super().__init__(**kwargs)
+        # print(
+        #     'users.models.ConfirmationModel.__init__ -',
+        #     int(global_constants.get_CONFIRMATION_EXPIRATION_DELTA()))
         self.user_id = user_id
         self.id = uuid4().hex
         self.expire_at = \
-            int(time()) + GlobalConstants.get_CONFIRMATION_EXPIRATION_DELTA
+            int(time()) + \
+            global_constants.get_CONFIRMATION_EXPIRATION_DELTA
         self.confirmed = False
 
     @classmethod

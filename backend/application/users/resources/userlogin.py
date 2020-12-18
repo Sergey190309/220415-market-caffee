@@ -45,6 +45,7 @@ class UserLogin(Resource):
                     "User with email '%(email)s' has not been found.",
                     email=_json['email'])),
             }, 404
+        _user.set_accessed()
         return {
             'message': str(_(
                 "You are welcome, tokens are in payload.")),
@@ -80,10 +81,3 @@ class UserLogin(Resource):
                 'access_token': _user.get_fresh_token()
             }
         }, 200
-
-    @classmethod
-    def get(cls) -> Dict:
-        '''
-        User confirm
-        '''
-        pass
