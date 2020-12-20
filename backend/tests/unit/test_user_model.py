@@ -2,7 +2,6 @@ import pytest
 
 from datetime import datetime
 
-from random import choice
 
 from sqlalchemy.exc import OperationalError
 # from flask import current_app
@@ -10,7 +9,6 @@ from sqlalchemy.exc import OperationalError
 from application import create_app
 
 from application.users.models.users import UserModel
-from application.users.schemas.users import UserSchema
 
 
 @pytest.fixture(scope='module')
@@ -29,32 +27,6 @@ def date_time():
 
 
 @pytest.fixture
-def random_email():
-    source = (
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. '
-        'Blanditiis, iste doloribus? Facilis sapiente fugit commodi et nostrum '
-        'amet aspernatur, illum necessitatibus maiores, perspiciatis ipsam, omnis '
-        'modi beatae? Saepe, eius neque.')
-
-    result = source.replace(',', '').replace('.', '').replace('?', '').split(' ')
-
-    domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil')
-    # for word in result:
-    #     print(word)
-
-    return choice(result) + '@' + choice(result) + '.' + choice(domens)
-
-
-@pytest.fixture
-def user_create_json(random_email):
-    return {
-        'user_name': 'user_name',
-        'email': random_email,
-        'password': 'qwer'
-    }
-
-
-@pytest.fixture
 def user_update_json(random_email):
     return {
         'user_name': 'update_user_name',
@@ -66,11 +38,6 @@ def user_update_json(random_email):
         'time_zone': 10,
         'remarks': 'update_remarks'
     }
-
-
-@pytest.fixture
-def user_schema():
-    return UserSchema()
 
 
 @pytest.fixture
@@ -90,7 +57,6 @@ def user_fm_db(
 
 
 # @pytest.mark.active
-@pytest.mark.init_db
 def test_application_unit(
         test_client_unit,
         url_users):
@@ -163,7 +129,7 @@ def test_user_update_password(
     assert _user_after.is_valid is True
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_user_get_fresh_token(user_fm_db):
     # print(user_fm_db.id)
     tokens = user_fm_db.get_tokens()
@@ -174,4 +140,3 @@ def test_user_get_fresh_token(user_fm_db):
 
     fresh_token = user_fm_db.get_fresh_token()
     assert isinstance(fresh_token, str)
-

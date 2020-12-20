@@ -22,29 +22,30 @@ class UserLogin(Resource):
         LogIn
         '''
         _json = request.get_json()
-        # print('users.resources.UserLogin.post _json -', _json)
         _user = UserModel.find_by_email(_json['email'])
-        if _user:
-            if _user.is_valid:
-                if not _user.check_password(_json['password']):
-                    return {
-                        'message': str(_(
-                            "Wrong password for user with email '%(email)s'.",
-                            email=_json['email'])),
-                    }, 400
-            else:
-                return {
-                    'message': str(_(
-                        "It seems you have not confirm your account. "
-                        "Check email stated - '%(email)s'.",
-                        email=_json['email'])),
-                }, 400
-        else:
+        # print('UserLogin.post')
+        if _user is None:
             return {
                 'message': str(_(
                     "User with email '%(email)s' has not been found.",
                     email=_json['email'])),
             }, 404
+        else:
+            if not _user.check_password(_json['password']):
+                return {
+                    'message': str(_(
+                        "Wrong password for user with email '%(email)s'.",
+                        email=_json['email'])),
+                }, 400
+                print('UserLogin.post user.role_id -', _user.role_id)
+            else:
+                if not _user.is_valid:
+                    return {
+                        'message': str(_(
+                            "It seems you have not confirm your account. "
+                            "Check email stated - '%(email)s'.",
+                            email=_json['email'])),
+                    }, 400
         _user.set_accessed()
         return {
             'message': str(_(

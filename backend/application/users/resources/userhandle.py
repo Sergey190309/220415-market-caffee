@@ -37,7 +37,7 @@ class UserHandle(Resource):
         The procedure updates user identified by id in ulr.
         Items that has proper keys in request JSON will be updated.
         Even user_name, email and password.
-        Admin only is allowed to change role. Also he's able to fill user.
+        Admin only is allowed to change role. Also he's able to kill user.
         User only is allowed to change own detatils but role.
         '''
         # That's dictionary with key-values to update an instance.
@@ -56,20 +56,6 @@ class UserHandle(Resource):
                     "User you plan to update (with id = '%(user_id)s') not found.",
                     user_id=user_id))
             }, 404
-        '''
-        if own:
-            if password:
-                hash password and pop it out of update dictionary
-            if role:
-                fuck off
-            else:
-                update
-        else:
-            if not (role and no others):
-                fuck off
-            else:
-                update
-        '''
         if _logged_id == user_id:
             if 'password' in _keys:
                 _updated_user_before.update_password(_json.pop('password'))

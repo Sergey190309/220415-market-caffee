@@ -1,17 +1,5 @@
 import pytest
 
-from application import create_app
-
-
-@pytest.fixture(scope='module')
-def test_client():
-    # print('\nclient')
-    app = create_app('testing_config.py')
-
-    with app.test_client() as test_client:
-        with app.app_context():
-            yield test_client
-
 
 @pytest.fixture
 def url_index(root_url):
