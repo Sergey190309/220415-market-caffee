@@ -1,6 +1,6 @@
 from typing import Dict
 
-from flask import request
+from flask import request, make_response, render_template
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -16,19 +16,19 @@ user_update_schema = UserUpdateSchema()
 
 class UserHandle(Resource):
 
-    @classmethod
-    def have_no_right(cls, user_id: int, logged_user_id: int) -> bool:
-        '''
-        Check whether user is not admin or not trying to access to own account.
-        '''
-        _logged_user = UserModel.find_by_id(logged_user_id)
-        # print('users.resources.UserHandle.have_no_right user_id -', user_id)
-        if _logged_user:
-            return not (user_id == logged_user_id)
-        else:
-            raise NotExistsError(
-                logged_user_id,
-                message='Users.resources.UserHandle.have_no_rights')
+    # @classmethod
+    # def have_no_right(cls, user_id: int, logged_user_id: int) -> bool:
+    #     '''
+    #     Check whether user is not admin or not trying to access to own account.
+    #     '''
+    #     _logged_user = UserModel.find_by_id(logged_user_id)
+    #     # print('users.resources.UserHandle.have_no_right user_id -', user_id)
+    #     if _logged_user:
+    #         return not (user_id == logged_user_id)
+    #     else:
+    #         raise NotExistsError(
+    #             logged_user_id,
+    #             message='Users.resources.UserHandle.have_no_rights')
 
     @classmethod
     @jwt_required
@@ -100,28 +100,33 @@ class UserHandle(Resource):
         '''
         Get all user details by id in url. User can access to own info only.
         Other users are accessable by admin only.
+        if not (own or admin):
+            not allowed
+        else:
+            if not exists:
+                does not exist
+        show
         '''
-        if cls.have_no_right(user_id, get_jwt_identity()):
+        _logged_user = UserModel.find_by_id(get_jwt_identity())
+        _user = UserModel.find_by_id(user_id)
+        if not(user_id == get_jwt_identity() or _logged_user.is_admin):
             return {
                 'message': str(_(
                     "Access to user details is allowed to owners or admins onlys.")),
             }, 401
-
-        _user = UserModel.find_by_id(user_id)
-
-        if _user:
-            return {
-                'message': str(_(
-                    "User with id '%(user_id)s' found, details are "
-                    "in payload.", user_id=user_id)),
-                'payload': user_schema.dump(_user)
-            }, 200
         else:
-            return {
-                'message': str(_(
-                    "User with user_id '%(user_id)s' has not been found.",
-                    user_id=user_id)),
-            }, 404
+            if not _user:
+                return {
+                    'message': str(_(
+                        "User with user_id '%(user_id)s' has not been found.",
+                        user_id=user_id)),
+                }, 404
+        return {
+            'message': str(_(
+                "User with id '%(user_id)s' found, details are "
+                "in payload.", user_id=user_id)),
+            'payload': user_schema.dump(_user)
+        }, 200
 
     @classmethod
     @jwt_required
@@ -141,17 +146,27 @@ class UserHandle(Resource):
                     'message': str(_(
                         "User with id '%(user_id)s' have status "
                         "'%(role_id)s' already.",
-                        user_id=user_id, role_id=_user.role_id)),
+                        user_id=_user.id, role_id=_user.role_id)),
                 }, 400
 
         _user.update({'role_id': 'user'})
-        return {
-            'message': str(_(
-                "User with id '%(user_id)s' successfully confirmed. "
-                "Details are in payload.",
-                user_id=user_id)),
-            'payload': user_schema.dump(UserModel.find_by_id(user_id))
-        }, 200
+        headers = {'Content-Type': 'text/html'}
+        greetings = _('Hi there!')
+        contains = str(_(
+            'You registration has been confirmed through %(email)s.',
+            email=_user.email))
+        return make_response(render_template(
+            'confirmation_page.html',
+            greetings=greetings,
+            contains=contains
+        ), 200, headers)
+        # return {
+        #     'message': str(_(
+        #         "User with id '%(user_id)s' successfully confirmed. "
+        #         "Details are in payload.",
+        #         user_id=user_id)),
+        #     'payload': user_schema.dump(UserModel.find_by_id(user_id))
+        # }, 200
 
     @classmethod
     @jwt_required

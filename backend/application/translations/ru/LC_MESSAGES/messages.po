@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-18 04:49+0000\n"
-"PO-Revision-Date: 2020-12-18 04:51+0000\n"
+"POT-Creation-Date: 2020-12-22 07:20+0000\n"
+"PO-Revision-Date: 2020-12-22 07:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -57,7 +57,7 @@ msgstr ""
 "Не очень понятно что вы спрашиваете. Я знаю только дату и время. Прошу "
 "уточнить."
 
-#: home/resources/index.py:68
+#: home/resources/index.py:68 users/resources/userhandle.py:153
 msgid "Hi there!"
 msgstr "Привет всем тут!"
 
@@ -100,17 +100,22 @@ msgstr ""
 "Пользователь, которого вы планируете обновить (с идентификатором = "
 "'%(user_id)s'), не найден."
 
-#: users/resources/userhandle.py:79
+#: users/resources/userhandle.py:65
 msgid "Administrative privileges are needed to update users' rights."
 msgstr "Только администратору разрешено менять права пользователя."
 
-#: users/resources/userhandle.py:90
+#: users/resources/userhandle.py:76
 msgid "Admin is allowed to change role or kill user only."
 msgstr ""
 "Администратору разрешено только менять права пользователя или пристрелить "
 "его."
 
-#: users/resources/userhandle.py:100
+#: users/resources/userhandle.py:81
+msgid "Non admin users are allowed to change their own accounts but roles."
+msgstr ""
+"Не администратору позволено изменять собственные учетные записи кроме прав."
+
+#: users/resources/userhandle.py:92
 #, python-format
 msgid "User with id '%(user_id)s' updated as in payload."
 msgstr ""
@@ -122,39 +127,33 @@ msgstr ""
 "Доступ к информации пользователя разрешен только самому пользователю и "
 "администраторам."
 
-#: users/resources/userhandle.py:123
+#: users/resources/userhandle.py:121 users/resources/userhandle.py:188
+#, python-format
+msgid "User with user_id '%(user_id)s' has not been found."
+msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
+
+#: users/resources/userhandle.py:126
 #, python-format
 msgid "User with id '%(user_id)s' found, details are in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' найден, детали в теле сообщения."
 
-#: users/resources/userhandle.py:130 users/resources/userhandle.py:188
+#: users/resources/userhandle.py:147
 #, python-format
-msgid "User with user_id '%(user_id)s' has not been found."
-msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
-
-#: users/resources/userhandle.py:150
-#, python-format
-msgid ""
-"User with id '%(user_id)s' have status '%(role_id)s' already. Details are in "
-"payload."
+msgid "User with id '%(user_id)s' have status '%(role_id)s' already."
 msgstr ""
-"Пользователь с идентификатором '%(user_id)s' уже имеет статус '%(role_id)s', "
-"детали в теле сообщения."
+"Пользователь с идентификатором '%(user_id)s' уже имеет статус '%(role_id)s'."
 
-#: users/resources/userhandle.py:159
+#: users/resources/userhandle.py:155
 #, python-format
-msgid ""
-"User with id '%(user_id)s' successfully confirmed. Details are in payload."
-msgstr ""
-"Пользователь с идентификатором '%(user_id)s' успешно подтвержден. Детали в "
-"теле сообщения."
+msgid "You registration has been confirmed through %(email)s."
+msgstr "Ваша регистрация подтверждена через %(email)s."
 
-#: users/resources/userhandle.py:175
+#: users/resources/userhandle.py:182
 msgid "Owners or admins are allowed to kill their accownts."
 msgstr "Владельцам или администраторам позволено убивать учетные записи."
 
-#: users/resources/userhandle.py:182
+#: users/resources/userhandle.py:195
 #, python-format
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
@@ -170,12 +169,17 @@ msgid "Sorry, access to user's information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации пользователей разрешен только администратору."
 
-#: users/resources/userlogin.py:32
+#: users/resources/userlogin.py:30 users/resources/users.py:84
+#, python-format
+msgid "User with email '%(email)s' has not been found."
+msgstr "Пользователь с email '%(email)s' не найден."
+
+#: users/resources/userlogin.py:37
 #, python-format
 msgid "Wrong password for user with email '%(email)s'."
 msgstr "Неверный пароль для пользователя с email '%(email)s'."
 
-#: users/resources/userlogin.py:38
+#: users/resources/userlogin.py:45
 #, python-format
 msgid ""
 "It seems you have not confirm your account. Check email stated - '%(email)s'."
@@ -183,26 +187,21 @@ msgstr ""
 "Похоже вы не подтвердили свою учетную запись. Проверьте указанную "
 "электронную почту - '%(email)s'."
 
-#: users/resources/userlogin.py:45 users/resources/users.py:84
-#, python-format
-msgid "User with email '%(email)s' has not been found."
-msgstr "Пользователь с email '%(email)s' не найден."
-
-#: users/resources/userlogin.py:50
+#: users/resources/userlogin.py:52
 msgid "You are welcome, tokens are in payload."
 msgstr "Добро пожаловать, жетоны теле сообщения."
 
-#: users/resources/userlogin.py:63
+#: users/resources/userlogin.py:65
 msgid "Successfully logged out."
 msgstr "Пользователь успешно прекратил регистрацию."
 
-#: users/resources/userlogin.py:75
+#: users/resources/userlogin.py:77
 msgid "Something wrong with token refreshing. Try to log in again."
 msgstr ""
 "Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
 "раз."
 
-#: users/resources/userlogin.py:78
+#: users/resources/userlogin.py:80
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
@@ -232,6 +231,12 @@ msgstr ""
 #, python-format
 msgid "User with email '%(email)s' found, details are in payload."
 msgstr "Пользователь с email '%(email)s' найден, детали в теле сообщения."
+
+#~ msgid ""
+#~ "User with id '%(user_id)s' successfully confirmed. Details are in payload."
+#~ msgstr ""
+#~ "Пользователь с идентификатором '%(user_id)s' успешно подтвержден. Детали "
+#~ "в теле сообщения."
 
 #~ msgid "Password allowed to be changed by account user only."
 #~ msgstr "Только пользователь может изменить собственный пароль."

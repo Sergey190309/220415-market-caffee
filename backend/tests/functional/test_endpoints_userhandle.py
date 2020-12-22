@@ -144,18 +144,21 @@ def test_userhandle_get(  # Normal user cannot update other
     assert isinstance(resp.json['payload'], Dict)
     assert resp.json['payload']['id'] == _user.id
     assert resp.json['payload']['role']['id'] == 'user'
+    # Admin to other account
+    headers = {'Authorization': f"Bearer {access_token(_admin)}"}
+    resp = test_client.get(
+        url_usershandle(_user.id),
+        headers=headers
+    )
+    assert resp.status_code == 200
+    assert isinstance(resp.json['message'], str)
+    assert isinstance(resp.json['payload'], Dict)
+    assert resp.json['payload']['id'] == _user.id
+    assert resp.json['payload']['role']['id'] == 'user'
     # print(_user.id, '\t', _user.role_id)
     # print(_admin.id, '\t', _admin.role_id)
     # print(resp.status_code)
     # print(resp.json)
-    # Admin to other account
-    headers = {'Authorization': f"Bearer {access_token(_admin)}"}
-    resp = test_client.get(
-        url_usershandle(_admin.id - 1),
-        headers=headers
-    )
-    assert resp.status_code == 401
-    assert isinstance(resp.json['message'], str)
 
 
 # @pytest.mark.active
@@ -167,11 +170,9 @@ def test_userhandle_put(  # Normal user cannot update other
         access_token,
         url_usershandle
 ):
-    print()
+    # print()
     _user = created_user()
     _power_user = created_user(role_id='power_user')
-    print(_user.id, '\t', _user.role_id)
-    print(_power_user.id, '\t', _power_user.role_id)
     headers = {'Authorization': f"Bearer {access_token(_power_user)}"}
 
     # User confirmaion. Update role_id from None to user:
@@ -179,10 +180,12 @@ def test_userhandle_put(  # Normal user cannot update other
         url_usershandle(_user.id),
         headers=headers
     )
+    # print(_user.id, '\t', _user.role_id)
+    # print(_power_user.id, '\t', _power_user.role_id)
     assert resp.status_code == 200
-    assert isinstance(resp.json['payload'], Dict)
-    assert resp.json['payload']['id'] == _user.id
-    assert resp.json['payload']['role']['id'] == 'user'
+    # assert isinstance(resp.json['payload'], Dict)
+    # assert resp.json['payload']['id'] == _user.id
+    # assert resp.json['payload']['role']['id'] == 'user'
     # Attempt to update already confirmed user:
     resp = test_client.put(
         url_usershandle(_user.id),
@@ -193,7 +196,7 @@ def test_userhandle_put(  # Normal user cannot update other
     assert not ('payload' in resp.json.keys())
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_userhandle_delete(  # Normal user cannot update other
     # users' info and own role_id. Admin is not allowed anithing in other users
     # but role_id.
@@ -202,12 +205,12 @@ def test_userhandle_delete(  # Normal user cannot update other
         access_token,
         url_usershandle
 ):
-    print()
+    # print()
     _user = created_user(role_id='user')
     _admin = created_user(role_id='admin')
     # _power_user = created_user(role_id='power_user')
-    print(_user.id, '\t', _user.role_id)
-    print(_admin.id, '\t', _admin.role_id)
+    # print(_user.id, '\t', _user.role_id)
+    # print(_admin.id, '\t', _admin.role_id)
 
     # User trys to remove other user:
     headers = {'Authorization': f"Bearer {access_token(_user)}"}
@@ -225,8 +228,18 @@ def test_userhandle_delete(  # Normal user cannot update other
         url_usershandle(_user.id),
         headers=headers
     )
-    print(resp.status_code)
-    print(resp.json)
+    assert resp.status_code == 200
+    assert isinstance(resp.json['message'], str)
+    assert not ('payload' in resp.json.keys())
+
+    # Admin kills himself
+    resp = test_client.delete(
+        url_usershandle(_admin.id),
+        headers=headers
+    )
+    assert resp.status_code == 200
+    assert isinstance(resp.json['message'], str)
+    assert not ('payload' in resp.json.keys())
 
     # assert resp.status_code == 200
     # assert isinstance(resp.json['payload'], Dict)

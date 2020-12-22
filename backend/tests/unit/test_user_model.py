@@ -142,3 +142,16 @@ def test_user_get_fresh_token(user_fm_db):
 
     fresh_token = user_fm_db.get_fresh_token()
     assert isinstance(fresh_token, str)
+
+
+@pytest.mark.active
+def test_usermodel_send_confirmation_request(
+        created_user,
+        user_schema):
+    _user = created_user(role_id='user')
+    print('test_usermodel_send_confirmation_request _user.id -', _user.id)
+    _user.send_confirmation_request()
+    # print('User ID -', _user.id)
+    # for item in user_schema.dump(_user):
+    #     print(item, '\t', user_schema.dump(_user)[item])
+    # _user.send_confirmation_request()

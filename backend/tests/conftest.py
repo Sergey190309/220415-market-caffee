@@ -38,13 +38,14 @@ def post_json():
     }
 
 
-@pytest.fixture(scope='module')
-def test_client():
+@pytest.fixture(scope='session', autouse=True)
+def test_client(root_url):
     # print('\nclient')
     app = create_app('testing_config.py')
 
     with app.test_client() as test_client:
         with app.app_context():
+            test_client.get(root_url)  # to initiate dbs
             yield test_client
 
 
@@ -80,14 +81,15 @@ def user_schema(scope='session'):
     return UserSchema()
 
 
-@pytest.fixture
+# @pytest.fixture
+@pytest.yield_fixture()
 def created_user(
         test_client,
         url_users,
         user_schema,
         user_create_json):
     def _method(role_id=None, email=None):
-        test_client.get(url_users)
+        # test_client.get(url_users)
         _user_create_json = user_create_json().copy()  # avoid dictionary changing
         _user_create_json['role_id'] = role_id
         if email is not None:
@@ -99,4 +101,7 @@ def created_user(
         # print(user_schema.dump(user)['role'])
 
         return user
-    return _method
+        # yield user
+    yield _method
+    # print('created_user')
+    # user.delete_fm_db()

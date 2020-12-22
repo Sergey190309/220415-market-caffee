@@ -6,7 +6,9 @@ from .modules.dbs_init import dbs_init
 def cleate_users():
     # print('users.__init__.create_users')
     users_bp = Blueprint(
-        'users_bp', __name__
+        'users_bp', __name__,
+        static_folder='static',
+        template_folder='templates'
     )
 
     with current_app.app_context():

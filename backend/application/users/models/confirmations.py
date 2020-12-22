@@ -18,8 +18,8 @@ class ConfirmationModel(dbs.Model):
 
     user = dbs.relationship(
         'UserModel',
-        backref='usermodel'
-        # lazy='dynamic',
+        backref='confirmationmodel'
+        # lazy='dynamic'
         # cascade='all, delete-orphan'
     )
 
@@ -36,12 +36,24 @@ class ConfirmationModel(dbs.Model):
         self.confirmed = False
 
     @classmethod
-    def find_by_id(cls, _id: str) -> "ConfirmationModel":
-        return cls.query.filter_by(id=_id).first()
+    def find_by_id(cls, id: str) -> 'ConfirmationModel':
+        return cls.query.get(id)
+
+    @classmethod
+    def find_by_user_id(cls, user_id: int) -> 'ConfirmationModel':
+        return cls.query.filter_by(user_id=user_id).first()
+
+    @classmethod
+    def find_first(cls) -> 'ConfirmationModel':
+        return cls.query.first()
 
     @property
     def expired(self) -> bool:
         return time() > self.expire_at
+
+    @property
+    def is_confirmed(self) -> bool:
+        return self.confirmed
 
     def force_to_expire(self) -> None:  # forcing current confirmation to expire
         if not self.expired:
@@ -52,6 +64,6 @@ class ConfirmationModel(dbs.Model):
         dbs.session.add(self)
         dbs.session.commit()
 
-    def delete_from_db(self) -> None:
+    def delete_fm_db(self) -> None:
         dbs.session.delete(self)
         dbs.session.commit()

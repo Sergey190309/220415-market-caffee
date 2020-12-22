@@ -1,5 +1,6 @@
 from typing import Dict
 from datetime import datetime
+from requests import Response
 from flask import request, url_for
 from flask_jwt_extended import create_access_token, create_refresh_token
 
@@ -29,16 +30,14 @@ class UserModel(dbs.Model):
     role_id = dbs.Column(  # Admin can update role only!
         # If the column does not exists - user has not been confirmed.
         dbs.String(24),
-        dbs.ForeignKey('roles.id'),
-    )
+        dbs.ForeignKey('roles.id'))
     first_name = dbs.Column(dbs.String(32))
     last_name = dbs.Column(dbs.String(32))
     locale_id = dbs.Column(
         dbs.String(16),
         dbs.ForeignKey('locales.id'),
         nullable=False,
-        default='en'
-    )
+        default='en')
     time_zone = dbs.Column(dbs.SmallInteger, nullable=False, default=3)
     remarks = dbs.Column(dbs.UnicodeText)
 
@@ -50,8 +49,7 @@ class UserModel(dbs.Model):
         'ConfirmationModel',
         backref='usermodel',
         lazy='dynamic',
-        cascade='all, delete-orphan'
-    )
+        cascade='all, delete-orphan')
 
     def set_accessed(self):
         # print("users.models.UserModel.set_accessed datetime -", datetime.now())
@@ -61,20 +59,21 @@ class UserModel(dbs.Model):
     @property
     def most_recent_confirmation(self):
         return self.confirmation.order_by(
-            dbs.db.desc(ConfirmationModel.expire_at)).first()
+            dbs.desc(ConfirmationModel.expire_at)).first()
 
-    def send_confirmation_request(self):
-        _link = 'link'
-        print('users.models.UserModel.send_confirmation_request url_root -', request.url_root[:-1])
+    def send_confirmation_request(self) -> Response:
+        _link = request.url_root[:-1] +\
+            url_for('users_bp.userhandle', user_id=self.id)
+        # confirmation_id=self.most_recent_confirmation.id)
+        print('send_confirmation_request _link -', _link)
+        # print('users.models.UserModel.send_confirmation_request url_root -', request.url_root[:-1])
         # print('users.models.UserModel.send_confirmation_request url_for -', url_for('users_bp.userhandle', confirmation_id=self.most_recent_confirmation.id))
-        # _link = request.url_root[:-1] + url_for(
-        #     'confirmation', confirmation_id=self.most_recent_confirmation.id)
-        confirmation_email_data.refresh()
+        # confirmation_email_data.refresh()
 
-        SendGrid.send_confirmation_email(
-            self.email,
-            _link,
-            confirmation_email_data.email_data)
+        # SendGrid.send_confirmation_email(
+        #     self.email,
+        #     _link,
+        #     confirmation_email_data.email_data)
 
     def is_own_id(self, id: int) -> bool:
         return self.id == id
