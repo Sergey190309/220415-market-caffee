@@ -24,7 +24,7 @@ class UserHandle(Resource):
         _logged_user = UserModel.find_by_id(logged_user_id)
         # print('users.resources.UserHandle.have_no_right user_id -', user_id)
         if _logged_user:
-            return not (_logged_user.is_admin or user_id == logged_user_id)
+            return not (user_id == logged_user_id)
         else:
             raise NotExistsError(
                 logged_user_id,
@@ -70,11 +70,17 @@ class UserHandle(Resource):
                 # print('users.resources.UserHandle.post not owner')
                 # print(_keys)
                 # print(len(_keys))
-                if not ('role_id' in _keys) and (len(_keys) == 1):
+                if not (('role_id' in _keys) and (len(_keys) == 1)):
                     return {
                         'message': str(_(
                             "Admin is allowed to change role or kill user only."))
                     }, 401
+            else:
+                return {
+                    'message': str(_(
+                        "Non admin users are allowed to change their "
+                        "own accounts but roles."))
+                }, 401
 
         _updated_user_before.update(_json)  # Sent data to model to update
         # instance.
@@ -134,9 +140,8 @@ class UserHandle(Resource):
                 return {
                     'message': str(_(
                         "User with id '%(user_id)s' have status "
-                        "'%(role_id)s' already. Details are in payload.",
+                        "'%(role_id)s' already.",
                         user_id=user_id, role_id=_user.role_id)),
-                    'payload': user_schema.dump(UserModel.find_by_id(user_id))
                 }, 400
 
         _user.update({'role_id': 'user'})
@@ -155,22 +160,24 @@ class UserHandle(Resource):
         '''
         Delete user by id in url
         '''
-        if cls.have_no_right(user_id, get_jwt_identity()):
+        _logged_user = UserModel.find_by_id(get_jwt_identity())
+        _user = UserModel.find_by_id(user_id)
+        if not((user_id == get_jwt_identity()) or _logged_user.is_admin):
             return {
                 'message': str(_(
                     "Owners or admins are allowed to kill their accownts.")),
             }, 401
-        _user = UserModel.find_by_id(user_id)
-        if _user:
-            _user.delete_fm_db()
-            return {
-                'message': str(_(
-                    "User with id '%(user_id)s' found, and deleted.",
-                    user_id=user_id))
-            }, 200
         else:
-            return {
-                'message': str(_(
-                    "User with user_id '%(user_id)s' has not been found.",
-                    user_id=user_id)),
-            }, 404
+            if not _user:
+                return {
+                    'message': str(_(
+                        "User with user_id '%(user_id)s' has not been found.",
+                        user_id=user_id)),
+                }, 404
+
+        _user.delete_fm_db()
+        return {
+            'message': str(_(
+                "User with id '%(user_id)s' found, and deleted.",
+                user_id=user_id))
+        }, 200

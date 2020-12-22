@@ -10,20 +10,25 @@ def url_users_login(root_url):
 
 @pytest.fixture
 def login_json(user_create_json):
+    _user_create_json = user_create_json()
     return {
-        "email": user_create_json['email'],
-        "password": user_create_json['password']
+        "email": _user_create_json['email'],
+        "password": _user_create_json['password']
     }
 
 
 @pytest.fixture
-def access_token(confirmed_user):
-    return confirmed_user.get_tokens()['access_token']
+def access_token():
+    def _method(user):
+        return user.get_tokens()['access_token']
+    return _method
 
 
 @pytest.fixture
-def refresh_token(confirmed_user):
-    return confirmed_user.get_tokens()['refresh_token']
+def refresh_token():
+    def _method(user):
+        return user.get_tokens()['refresh_token']
+    return _method
 
 
 # @pytest.mark.active
@@ -34,7 +39,8 @@ def test_user_login_post(
         url_users_login):
     # Create new user:
     # print(created_user)
-    assert created_user is not None
+    _user = created_user(email=login_json['email'])
+    assert _user is not None
     # login user is not valid
     resp = test_client.post(url_users_login, json=login_json)
     assert resp.status_code == 400
@@ -42,7 +48,7 @@ def test_user_login_post(
     assert 'message' in resp.json.keys()  # There is message in responce.
     assert not('payload' in resp.json.keys())  # No payload in the responce.
     # login user is valid
-    created_user.update({'role_id': 'user'})
+    _user.update({'role_id': 'user'})
     resp = test_client.post(url_users_login, json=login_json)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
@@ -67,8 +73,10 @@ def test_user_login_post(
 def test_user_login_put(
         test_client,
         url_users_login,
+        created_user,
         access_token):
-    headers = {'Authorization': f'Bearer {access_token}'}
+    _user = created_user()
+    headers = {'Authorization': f'Bearer {access_token(_user)}'}
     resp = test_client.put(url_users_login, headers=headers)
     # print(resp.json)
     assert resp.status_code == 200
@@ -79,8 +87,10 @@ def test_user_login_put(
 def test_user_login_patch(
         test_client,
         url_users_login,
+        created_user,
         refresh_token):
-    headers = {'Authorization': f'Bearer {refresh_token}'}
+    _user = created_user()
+    headers = {'Authorization': f'Bearer {refresh_token(_user)}'}
     resp = test_client.patch(url_users_login, headers=headers)
     # print(resp.json)
     assert resp.status_code == 200

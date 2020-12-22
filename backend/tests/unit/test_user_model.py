@@ -30,7 +30,7 @@ def date_time():
 def user_update_json(random_email):
     return {
         'user_name': 'update_user_name',
-        'email': random_email,
+        'email': random_email(),
         'role_id': 'power_user',
         'first_name': 'update_first_name',
         'last_name': 'update_last_name',
@@ -80,17 +80,18 @@ def test_user_create(
     save_to_db
     check_password
     '''
-    _user_create_json = user_create_json.copy()  # avoid dictionary changing
+    user_create_json_dict = user_create_json()
+    _user_create_json = user_create_json_dict.copy()  # avoid dictionary changing
     # Below to remove user with same email if exists.
     # Create and save user.
     _user = user_schema.load(_user_create_json)
     _user.save_to_db()
     _user_created = UserModel.find_by_id(_user.id)
-    _password = user_create_json.pop('password')
+    _password = user_create_json_dict.pop('password')
     # print(_password)
-    for key in user_create_json.keys():
+    for key in user_create_json_dict.keys():
         # print(key)
-        assert getattr(_user_created, key) == user_create_json[key]
+        assert getattr(_user_created, key) == user_create_json_dict[key]
     assert _user_created.check_password(_password) is True
 
 
@@ -99,12 +100,13 @@ def test_user_update(
         user_fm_db,
         user_update_json):
     # _user_create_json = user_create_json.copy()  # avoid dictionary changing
-    user_fm_db.update(user_update_json)
+    _user_update_json = user_update_json.copy()
+    user_fm_db.update(_user_update_json)
     _user_after = UserModel.find_by_id(user_fm_db.id)
     # print(user_schema.dump(_user_fm_db_after))
-    for key in user_update_json.keys():
+    for key in _user_update_json.keys():
         # print(key)
-        assert getattr(_user_after, key) == user_update_json[key]
+        assert getattr(_user_after, key) == _user_update_json[key]
     assert _user_after.is_own_id(user_fm_db.id) is True
     assert _user_after.is_own_email(user_fm_db.email) is True
     assert _user_after.is_valid is True
