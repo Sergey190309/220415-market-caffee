@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-22 07:20+0000\n"
-"PO-Revision-Date: 2020-12-22 07:23+0000\n"
+"POT-Creation-Date: 2020-12-23 12:24+0000\n"
+"PO-Revision-Date: 2020-12-23 12:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -23,13 +23,23 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
 
-#: globals.py:77 globals.py:96
+#: globals.py:96
 msgid "That's registration confirmatin."
 msgstr "Это подтверждение регистрации."
 
-#: globals.py:78 globals.py:97
-msgid "Please follow the link."
-msgstr "Прошу проследовать по адресу."
+#: globals.py:99
+#, python-format
+msgid ""
+"<p>Hello Friend,</p><p>You or someone else use %(email)s to register on our "
+"site.</p><p>To finish registration, please follow <a href="
+"%(link)s><strong>link</strong></a>.</p><p>If you did not register, you can "
+"simply ignore this email.</p><p>Best regards,</p><p>Sergey</p>"
+msgstr ""
+"<p>Уважаемый Друг!</p><p>Вы или кто-то другой использовали %(email)s для "
+"регистрации на нашем сайте.</p><p>Чтобы закончить регистрацию, прошу "
+"проследовать по ссылке <a href=%(link)s><strong>Тыц</strong></a>.</p><p>Если "
+"вы не регистрировались, можете спокойно проигнорировать это сообщение.</"
+"p><p>С наилучшими пожеланиями</p><p>Сергей</p>"
 
 #: home/resources/index.py:25
 msgid "Global variables are as in payload."
@@ -57,7 +67,7 @@ msgstr ""
 "Не очень понятно что вы спрашиваете. Я знаю только дату и время. Прошу "
 "уточнить."
 
-#: home/resources/index.py:68 users/resources/userhandle.py:153
+#: home/resources/index.py:68 users/resources/userhandle.py:154
 msgid "Hi there!"
 msgstr "Привет всем тут!"
 
@@ -127,7 +137,7 @@ msgstr ""
 "Доступ к информации пользователя разрешен только самому пользователю и "
 "администраторам."
 
-#: users/resources/userhandle.py:121 users/resources/userhandle.py:188
+#: users/resources/userhandle.py:121 users/resources/userhandle.py:189
 #, python-format
 msgid "User with user_id '%(user_id)s' has not been found."
 msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
@@ -144,16 +154,16 @@ msgid "User with id '%(user_id)s' have status '%(role_id)s' already."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' уже имеет статус '%(role_id)s'."
 
-#: users/resources/userhandle.py:155
+#: users/resources/userhandle.py:156
 #, python-format
 msgid "You registration has been confirmed through %(email)s."
 msgstr "Ваша регистрация подтверждена через %(email)s."
 
-#: users/resources/userhandle.py:182
+#: users/resources/userhandle.py:183
 msgid "Owners or admins are allowed to kill their accownts."
 msgstr "Владельцам или администраторам позволено убивать учетные записи."
 
-#: users/resources/userhandle.py:195
+#: users/resources/userhandle.py:196
 #, python-format
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
@@ -231,6 +241,9 @@ msgstr ""
 #, python-format
 msgid "User with email '%(email)s' found, details are in payload."
 msgstr "Пользователь с email '%(email)s' найден, детали в теле сообщения."
+
+#~ msgid "Please follow the link."
+#~ msgstr "Прошу проследовать по адресу."
 
 #~ msgid ""
 #~ "User with id '%(user_id)s' successfully confirmed. Details are in payload."

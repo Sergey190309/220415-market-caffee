@@ -1,12 +1,10 @@
 from typing import Dict
 
-from flask import request, make_response, render_template
+from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
 from flask_babelplus import lazy_gettext as _
 
-from application.errors.custom_exception import NotExistsError
 from ..schemas.users import UserSchema, UserUpdateSchema
 from ..models.users import UserModel
 
@@ -127,46 +125,6 @@ class UserHandle(Resource):
                 "in payload.", user_id=user_id)),
             'payload': user_schema.dump(_user)
         }, 200
-
-    @classmethod
-    @jwt_required
-    def put(cls, user_id: int) -> Dict:
-        '''
-        User manual confirmation.
-        It's tecnical method. Not to be used in normal activity.
-        With email confirmation sould be confirmed by email
-        otherwice create user with appropriate role.
-        '''
-        _user = UserModel.find_by_id(user_id)
-        if _user is None:
-            raise NotExistsError(user_id, 'users.resources.UserHandle.put')
-        else:
-            if _user.role_id is not None:
-                return {
-                    'message': str(_(
-                        "User with id '%(user_id)s' have status "
-                        "'%(role_id)s' already.",
-                        user_id=_user.id, role_id=_user.role_id)),
-                }, 400
-
-        _user.update({'role_id': 'user'})
-        headers = {'Content-Type': 'text/html'}
-        greetings = _('Hi there!')
-        contains = str(_(
-            'You registration has been confirmed through %(email)s.',
-            email=_user.email))
-        return make_response(render_template(
-            'confirmation_page.html',
-            greetings=greetings,
-            contains=contains
-        ), 200, headers)
-        # return {
-        #     'message': str(_(
-        #         "User with id '%(user_id)s' successfully confirmed. "
-        #         "Details are in payload.",
-        #         user_id=user_id)),
-        #     'payload': user_schema.dump(UserModel.find_by_id(user_id))
-        # }, 200
 
     @classmethod
     @jwt_required

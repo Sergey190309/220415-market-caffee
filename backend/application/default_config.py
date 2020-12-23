@@ -28,4 +28,11 @@ UPLOADED_IMAGES_DEST = os.path.join('static', 'images')
 
 # BASE_URL = 'http://localhost:5000'
 
-# Set global variables:
+# Mailing
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 465
+MAIL_USE_SSL = True
+MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+MAIL_DEFAULT_SENDER = ('TestSender', MAIL_USERNAME)
+MAIL_USE_SSL = True

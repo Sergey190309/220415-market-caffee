@@ -3,10 +3,11 @@ from datetime import datetime
 from requests import Response
 from flask import request, url_for
 from flask_jwt_extended import create_access_token, create_refresh_token
+# from flask_mail import Message
 
-from application.mailing.sendgrid import SendGrid
+from application.mailing.modules.fml import fml
+# from application.globals import confirmation_email_data
 
-from application.globals import confirmation_email_data
 from ..modules.dbs import dbs
 from ..modules.fbc import fbc
 from .confirmations import ConfirmationModel
@@ -63,11 +64,18 @@ class UserModel(dbs.Model):
 
     def send_confirmation_request(self) -> Response:
         _link = request.url_root[:-1] +\
-            url_for('users_bp.userhandle', user_id=self.id)
+            url_for('users_bp.userconfirm', user_id=self.id)
         # confirmation_id=self.most_recent_confirmation.id)
-        print('send_confirmation_request _link -', _link)
-        # print('users.models.UserModel.send_confirmation_request url_root -', request.url_root[:-1])
-        # print('users.models.UserModel.send_confirmation_request url_for -', url_for('users_bp.userhandle', confirmation_id=self.most_recent_confirmation.id))
+        # print('send_confirmation_request _link -', _link)
+        # self.email = 'sa6702@gmail.com'
+        fml.send(
+            emails=[self.email],
+            link=_link)
+
+        # msg = Message(
+        #     subject=str(_('Hi there!')),
+
+        # )
         # confirmation_email_data.refresh()
 
         # SendGrid.send_confirmation_email(

@@ -9,7 +9,7 @@ def create_mailing():
     with current_app.app_context():
         # Flask-Mail application
         from .modules.fml import fml
-        fml.init_app(mailing_bp)
+        fml.init_app(current_app)
 
     return mailing_bp
 

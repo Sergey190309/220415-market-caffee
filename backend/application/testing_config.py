@@ -24,3 +24,13 @@ JWT_SECRET_KEY = 'very_SECRET_KEY!'
 # UPLOADED_IMAGES_DEST = os.path.join('static', 'images')
 
 # BASE_URL = 'http://localhost:5000'
+
+# Mailing
+MAIL_SERVER = 'smtp.gmail.com'
+MAIL_PORT = 465
+MAIL_USE_SSL = True
+MAIL_USERNAME = 'noreply201211@gmail.com'
+MAIL_PASSWORD = 'aopdL&po#ki()y7yJM'
+MAIL_DEFAULT_SENDER = ('TestSender', MAIL_USERNAME)
+MAIL_SUPPRESS_SEND = True
+MAIL_USE_SSL = True

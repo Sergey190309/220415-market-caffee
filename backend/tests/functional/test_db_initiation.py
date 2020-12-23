@@ -38,18 +38,6 @@ def _engine(_app_folder):
 
 
 # @pytest.mark.active
-@pytest.mark.init_db
-def test_application(
-    test_client, url_users,
-    post_json
-):
-    resp = test_client.get(url_users)
-    # resp = test_client.get(url_users, json=post_json)
-    assert resp.status_code == 200
-
-
-# @pytest.mark.active
-@pytest.mark.init_db
 def test_db_creation(
     _engine
 ):
@@ -68,7 +56,6 @@ def test_db_creation(
 
 
 # @pytest.mark.active
-@pytest.mark.init_db
 @pytest.mark.parametrize(
     'id, remark',
     [
@@ -96,7 +83,6 @@ def test_roles(
 
 
 # @pytest.mark.active
-@pytest.mark.init_db
 @pytest.mark.parametrize(
     'id, remark',
     [

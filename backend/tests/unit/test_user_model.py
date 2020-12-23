@@ -144,7 +144,7 @@ def test_user_get_fresh_token(user_fm_db):
     assert isinstance(fresh_token, str)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_usermodel_send_confirmation_request(
         created_user,
         user_schema):

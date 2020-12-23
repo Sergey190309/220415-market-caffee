@@ -26,18 +26,6 @@ def url_users(root_url):
     return root_url + '/home/index'
 
 
-@pytest.fixture(scope='session')
-def post_json():
-    '''
-    Generate json for file tests.
-    '''
-
-    return {
-        "email": "s@gmail.com",
-        "password": "qwer"
-    }
-
-
 @pytest.fixture(scope='session', autouse=True)
 def test_client(root_url):
     # print('\nclient')
@@ -69,7 +57,7 @@ def random_email():
 def user_create_json(random_email):
     def _method(arg=None):
         return {
-            'user_name': 'user_name',
+            # 'user_name': 'user_name',
             'email': random_email(),
             'password': 'qwer'
         }
@@ -81,15 +69,12 @@ def user_schema(scope='session'):
     return UserSchema()
 
 
-# @pytest.fixture
-@pytest.yield_fixture()
+@pytest.fixture
 def created_user(
         test_client,
-        url_users,
         user_schema,
         user_create_json):
     def _method(role_id=None, email=None):
-        # test_client.get(url_users)
         _user_create_json = user_create_json().copy()  # avoid dictionary changing
         _user_create_json['role_id'] = role_id
         if email is not None:
