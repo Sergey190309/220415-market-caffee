@@ -1,0 +1,950 @@
+{
+	"info": {
+		"_postman_id": "44ae162a-d024-4590-bf21-d96ffbc8d27d",
+		"name": "market-coffee",
+		"description": "First attempt to create full-stack application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "test-run",
+			"item": []
+		},
+		{
+			"name": "home",
+			"item": [
+				{
+					"name": "Index",
+					"item": [
+						{
+							"name": "Index, posting date or time",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 50ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(50);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"what\": \"time\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/home/index",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"home",
+										"index"
+									]
+								},
+								"description": "Initial test for application work-ability.\n\nJust return time or date depending from question in json."
+							},
+							"response": []
+						},
+						{
+							"name": "Index, getting test html page",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/home/index",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"home",
+										"index"
+									]
+								},
+								"description": "Initial test for application work-ability.\n\nReturn page with some localized greetings and some info."
+							},
+							"response": []
+						}
+					],
+					"description": "Requests within Index class",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "localization",
+					"item": [
+						{
+							"name": "Localization",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 50ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(50);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"locale\": \"en\",\n    \"time_zone\": 3\n}\n"
+								},
+								"url": {
+									"raw": "{{url}}/home/localization",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"home",
+										"localization"
+									]
+								},
+								"description": "Changing locale and time zone set in json."
+							},
+							"response": []
+						}
+					],
+					"description": "Changing locale and timezone"
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "User",
+					"item": [
+						{
+							"name": "User Create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+											"});",
+											"pm.test(\"Response time is less than 400ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(400);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_name\": \"user_name\",\n    \"email\": \"sa6702@gmail.com\",\n    \"password\": \"qwer\",\n    \"first_name\": \"first_name\",\n    \"last_name\": \"last_name\",\n    \"locale_id\": \"en\",\n    \"time_zone\": 3,\n    \"remarks\": \"remarks\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users"
+									]
+								},
+								"description": "The procedure creae user based on info in JSON"
+							},
+							"response": []
+						},
+						{
+							"name": "User details by email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"sa6702@gmail.com\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users"
+									]
+								},
+								"description": "The method return user details based on email delivered in json."
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UserHandle",
+					"item": [
+						{
+							"name": "UserHandle update by id",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"role_id\": \"power_user\"\n}"
+								},
+								"url": {
+									"raw": "{{url}}/users/handle/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"handle",
+										""
+									]
+								},
+								"description": "Update user identified by id in ulr.\n\n\nItems that has proper keys in request JSON will be updated. Even user_name, email and password.\n\n\nAdmin only is allowed to change role. Also he's able to fill user.\n\nUser only is allowed to change own detatils but role."
+							},
+							"response": []
+						},
+						{
+							"name": "UserHandle details by id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/users/handle/2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"handle",
+										"2"
+									]
+								},
+								"description": "Deliver user info by ID in url.\n\nFull finformation is available to admin or own user only. Other have confirmation such user exists."
+							},
+							"response": []
+						},
+						{
+							"name": "UserHandle delete by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 50ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(50);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/users/handle/19",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"handle",
+										"19"
+									]
+								},
+								"description": "Delete user by ID in url.\nFresh token and admin prevelegies are needed."
+							},
+							"response": []
+						}
+					],
+					"description": "The class to operate with user identified by id in url.\n"
+				},
+				{
+					"name": "UserList",
+					"item": [
+						{
+							"name": "UserList",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/users/list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"list"
+									]
+								},
+								"description": "Just list of users. Login required."
+							},
+							"response": []
+						}
+					],
+					"description": "Self explaining"
+				},
+				{
+					"name": "UserLogin",
+					"item": [
+						{
+							"name": "UserLogin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"Response time is less than 500ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);",
+											"});",
+											"var _json = pm.response.json();",
+											"if (_json.payload) {",
+											"    // console.log(_json.payload);",
+											"    pm.environment.set(\"access_token\", _json.payload.access_token);",
+											"    pm.environment.set(\"refresh_token\", _json.payload.refresh_token);",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"a@agatha-ng.com\",\n    \"password\": \"qwer\"\n}\n"
+								},
+								"url": {
+									"raw": "{{url}}/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								},
+								"description": "User login - access and refresh tokens."
+							},
+							"response": []
+						},
+						{
+							"name": "UserLogin Logout",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UserLogin token refresh",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 50ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(50);",
+											"});",
+											"",
+											"",
+											"var _json = pm.response.json();",
+											"if (_json.payload) {",
+											"    // console.log(_json.payload);",
+											"    pm.environment.set(\"access_token\", _json.payload.access_token);",
+											"}",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json",
+										"disabled": true
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{refresh_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/users/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"login"
+									]
+								},
+								"description": "List of registered users"
+							},
+							"response": []
+						}
+					],
+					"description": "To be corrected."
+				},
+				{
+					"name": "UserConfirm",
+					"item": [
+						{
+							"name": "UserConfirm",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});",
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "text/html",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/users/confirm/18",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"confirm",
+										"18"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Avatar",
+					"item": [
+						{
+							"name": "avatarupload",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "multipart/form-data"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/home/sa/Desktop/pix-for-upload/Eve_Ellis_14340109.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/users/avatar",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"avatar"
+									]
+								},
+								"description": "Image upload endpoint\n"
+							},
+							"response": []
+						},
+						{
+							"name": "avatar get",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "multipart/form-data"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/users/avatar",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"users",
+										"avatar"
+									]
+								},
+								"description": "Image upload endpoint\n"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Image",
+			"item": [
+				{
+					"name": "imageupload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/sa/Desktop/pix-for-upload/Eve_Ellis_14340109.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/imageupload",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"imageupload"
+							]
+						},
+						"description": "Image upload endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "image get",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/image/Eve_Ellis_14340109.jpg",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"image",
+								"Eve_Ellis_14340109.jpg"
+							]
+						},
+						"description": "Image upload endpoint\n"
+					},
+					"response": []
+				},
+				{
+					"name": "image delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "multipart/form-data"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/sa/Desktop/pix-for-upload/51CORSET13.fuck"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/image/Eve_Ellis_14340109.jpg",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"image",
+								"Eve_Ellis_14340109.jpg"
+							]
+						},
+						"description": "Image upload endpoint\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test-study",
+			"item": [
+				{
+					"name": "Studing",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"userssss\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/users/roles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"roles"
+							]
+						},
+						"description": "List of registered users"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
