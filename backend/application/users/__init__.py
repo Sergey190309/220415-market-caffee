@@ -1,6 +1,6 @@
 from flask import Blueprint, current_app
 
-from .modules.dbs_init import dbs_init
+from .modules.dbs_init_users import dbs_init_users
 
 
 def cleate_users():
@@ -9,8 +9,7 @@ def cleate_users():
         'users_bp', __name__,
         static_folder='static',
         # static_url_path='/users',
-        template_folder='templates'
-    )
+        template_folder='templates')
 
     with current_app.app_context():
 
@@ -19,30 +18,30 @@ def cleate_users():
         register_error_handler(users_bp)
 
         # flask_restful and routining
-        from .modules.api import api
-        api.init_app(users_bp)
+        from .modules.api_users import api_users
+        api_users.init_app(users_bp)
 
         # flask_sqlalchemy
-        from .modules.dbs import dbs
-        dbs.init_app(current_app)
+        from .modules.dbs_users import dbs_users
+        dbs_users.init_app(current_app)
 
         # flask_marshmallow
-        from .modules.fma import fma
-        fma.init_app(current_app)
+        from .modules.fma_users import fma_users
+        fma_users.init_app(current_app)
 
         # flask_bcrypt
-        from .modules.fbc import fbc
-        fbc.init_app(current_app)
+        from .modules.fbc_users import fbc_users
+        fbc_users.init_app(current_app)
 
         # Flask-JWT-Extended
-        from .modules.jwt import jwt
-        jwt.init_app(current_app)
+        from .modules.jwt_users import jwt_users
+        jwt_users.init_app(current_app)
 
         # Data bases initiation (creation reference table values and
         # admin user if not created).
         # dbs_init()
         @current_app.before_first_request
         def init_dbs():
-            dbs_init()
+            dbs_init_users()
 
     return users_bp

@@ -95,7 +95,7 @@ def test_users_confirmation_get(
     # print(resp.json)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_users_confirmationbyuser_post(
         test_client, created_user, url_users_confirmedbyuser_int):
     _user = created_user('power_user')

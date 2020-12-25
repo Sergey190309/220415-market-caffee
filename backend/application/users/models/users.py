@@ -8,12 +8,12 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from application.mailing.modules.fml import fml
 # from application.globals import confirmation_email_data
 
-from ..modules.dbs import dbs
-from ..modules.fbc import fbc
+from ..modules.dbs_users import dbs_users
+from ..modules.fbc_users import fbc_users
 from .confirmations import ConfirmationModel
 
 
-class UserModel(dbs.Model):
+class UserModel(dbs_users.Model):
     '''
     The class contains info about active users.
     If role_id is none - user has not been confirmed.
@@ -21,32 +21,34 @@ class UserModel(dbs.Model):
     __tablename__ = 'users'
 
     # All fields but password and role can be uudated either by user or admin
-    id = dbs.Column(dbs.Integer, primary_key=True)
-    created = dbs.Column(dbs.DateTime, nullable=False, default=datetime.now())
-    updated = dbs.Column(dbs.DateTime)
-    accessed = dbs.Column(dbs.DateTime)
-    user_name = dbs.Column(dbs.String(80))
-    email = dbs.Column(dbs.String(80), unique=True)
-    password_hash = dbs.Column(dbs.String(128))  # User can update password only!
-    role_id = dbs.Column(  # Admin can update role only!
+    id = dbs_users.Column(dbs_users.Integer, primary_key=True)
+    created = dbs_users.Column(
+        dbs_users.DateTime, nullable=False, default=datetime.now())
+    updated = dbs_users.Column(dbs_users.DateTime)
+    accessed = dbs_users.Column(dbs_users.DateTime)
+    user_name = dbs_users.Column(dbs_users.String(80))
+    email = dbs_users.Column(dbs_users.String(80), unique=True)
+    # User can update password only!
+    password_hash = dbs_users.Column(dbs_users.String(128))
+    role_id = dbs_users.Column(  # Admin can update role only!
         # If the column does not exists - user has not been confirmed.
-        dbs.String(24),
-        dbs.ForeignKey('roles.id'))
-    first_name = dbs.Column(dbs.String(32))
-    last_name = dbs.Column(dbs.String(32))
-    locale_id = dbs.Column(
-        dbs.String(16),
-        dbs.ForeignKey('locales.id'),
+        dbs_users.String(24),
+        dbs_users.ForeignKey('roles.id'))
+    first_name = dbs_users.Column(dbs_users.String(32))
+    last_name = dbs_users.Column(dbs_users.String(32))
+    locale_id = dbs_users.Column(
+        dbs_users.String(16),
+        dbs_users.ForeignKey('locales.id'),
         nullable=False,
         default='en')
-    time_zone = dbs.Column(dbs.SmallInteger, nullable=False, default=3)
-    remarks = dbs.Column(dbs.UnicodeText)
+    time_zone = dbs_users.Column(dbs_users.SmallInteger, nullable=False, default=3)
+    remarks = dbs_users.Column(dbs_users.UnicodeText)
 
     # avatar = fields.ImageField(null=True)
 
-    role = dbs.relationship('RoleModel', backref='usermodel')
-    locale = dbs.relationship('LocaleModel', backref='usermodel')
-    confirmation = dbs.relationship(
+    role = dbs_users.relationship('RoleModel', backref='usermodel')
+    locale = dbs_users.relationship('LocaleModel', backref='usermodel')
+    confirmation = dbs_users.relationship(
         'ConfirmationModel',
         backref='usermodel',
         lazy='dynamic',
@@ -60,7 +62,7 @@ class UserModel(dbs.Model):
     @property
     def most_recent_confirmation(self):
         return self.confirmation.order_by(
-            dbs.desc(ConfirmationModel.expire_at)).first()
+            dbs_users.desc(ConfirmationModel.expire_at)).first()
 
     def send_confirmation_request(self) -> Response:
         confirmation = self.most_recent_confirmation
@@ -117,7 +119,7 @@ class UserModel(dbs.Model):
 
     def check_password(self, plain_password: str) -> bool:
         # print('UserModel.check_password plain_password -', plain_password)
-        result = fbc.check_password_hash(self.password_hash, plain_password)
+        result = fbc_users.check_password_hash(self.password_hash, plain_password)
         if result:
             self.accessed = datetime.now()
         return result
@@ -126,7 +128,7 @@ class UserModel(dbs.Model):
         '''
         The update included secure update.
         '''
-        self.password_hash = fbc.generate_password_hash(plain_password)
+        self.password_hash = fbc_users.generate_password_hash(plain_password)
         self.save_to_db()
         return True
 
@@ -142,16 +144,16 @@ class UserModel(dbs.Model):
 
     def save_to_db(self) -> None:
         try:
-            dbs.session.add(self)
-            dbs.session.commit()
+            dbs_users.session.add(self)
+            dbs_users.session.commit()
         except Exception as err:
             print('users.models.UserModel.save_to_db error\n', err)
 
     def delete_fm_db(self, kill_first: bool = False) -> None:
         def kill():
             try:
-                dbs.session.delete(self)
-                dbs.session.commit()
+                dbs_users.session.delete(self)
+                dbs_users.session.commit()
             except Exception as err:
                 print('users.models.UserModel.delete_fm_db error\n', err)
 

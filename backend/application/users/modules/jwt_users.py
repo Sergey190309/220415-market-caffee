@@ -1,6 +1,6 @@
 from flask_jwt_extended import JWTManager
 
-from ..errors.register import set_loaders
+from ..errors.register_errors_users import set_loaders
 
 
 class JWTManagerUsers(JWTManager):
@@ -9,4 +9,4 @@ class JWTManagerUsers(JWTManager):
         set_loaders(self)
 
 
-jwt = JWTManagerUsers()
+jwt_users = JWTManagerUsers()

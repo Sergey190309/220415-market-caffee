@@ -22,4 +22,4 @@ class ApiUsers(Api):
         self.add_resource(ConfirmationByUser, '/confirmationbyuser/<int:user_id>')
 
 
-api = ApiUsers()
+api_users = ApiUsers()

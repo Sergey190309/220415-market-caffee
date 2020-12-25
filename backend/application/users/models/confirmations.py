@@ -1,22 +1,23 @@
 from uuid import uuid4
 from time import time
 
-from ..modules.dbs import dbs
+from ..modules.dbs_users import dbs_users
 from application.globals import global_constants
 
 
-class ConfirmationModel(dbs.Model):
+class ConfirmationModel(dbs_users.Model):
     '''
     Used for user confirmations only.
     '''
     __tablename__ = 'confirmations'
 
-    id = dbs.Column(dbs.String(50), primary_key=True)
-    expire_at = dbs.Column(dbs.Integer, nullable=False)
-    user_id = dbs.Column(dbs.Integer, dbs.ForeignKey('users.id'), nullable=False)
-    confirmed = dbs.Column(dbs.Boolean, nullable=False, default=False)
+    id = dbs_users.Column(dbs_users.String(50), primary_key=True)
+    expire_at = dbs_users.Column(dbs_users.Integer, nullable=False)
+    user_id = dbs_users.Column(
+        dbs_users.Integer, dbs_users.ForeignKey('users.id'), nullable=False)
+    confirmed = dbs_users.Column(dbs_users.Boolean, nullable=False, default=False)
 
-    user = dbs.relationship(
+    user = dbs_users.relationship(
         'UserModel',
         backref='confirmationmodel'
         # lazy='dynamic'
@@ -61,9 +62,9 @@ class ConfirmationModel(dbs.Model):
             self.save_to_db()
 
     def save_to_db(self) -> None:
-        dbs.session.add(self)
-        dbs.session.commit()
+        dbs_users.session.add(self)
+        dbs_users.session.commit()
 
     def delete_fm_db(self) -> None:
-        dbs.session.delete(self)
-        dbs.session.commit()
+        dbs_users.session.delete(self)
+        dbs_users.session.commit()

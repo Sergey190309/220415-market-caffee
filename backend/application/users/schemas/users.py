@@ -1,8 +1,8 @@
 from marshmallow import fields, pre_load
 # from flask_babelplus import lazy_gettext as _
 
-from ..modules.fma import fma
-from ..modules.fbc import fbc
+from ..modules.fma_users import fma_users
+from ..modules.fbc_users import fbc_users
 
 from ..models.users import UserModel
 
@@ -12,7 +12,7 @@ from ..schemas.roles import RoleSchema
 from ..schemas.locales import LocaleSchema
 
 
-class UserUpdateSchema(fma.SQLAlchemyAutoSchema):
+class UserUpdateSchema(fma_users.SQLAlchemyAutoSchema):
     '''
     Schema for user update based on json data (plain password).
     Actually used for testing info for update
@@ -34,7 +34,7 @@ class UserUpdateSchema(fma.SQLAlchemyAutoSchema):
     #     return in_data
 
 
-class AdminCreateSchema(fma.SQLAlchemyAutoSchema):
+class AdminCreateSchema(fma_users.SQLAlchemyAutoSchema):
     '''
     Schema for user creation based on json data (plain password) as well
     as creation user with dedicated ID.
@@ -53,17 +53,17 @@ class AdminCreateSchema(fma.SQLAlchemyAutoSchema):
 
     @pre_load
     def hash_password(self, in_data, **kwargs):
-        in_data['password'] = fbc.generate_password_hash(in_data['password'])
+        in_data['password'] = fbc_users.generate_password_hash(in_data['password'])
         return in_data
 
 
-class UserSchema(fma.SQLAlchemyAutoSchema):
+class UserSchema(fma_users.SQLAlchemyAutoSchema):
     '''
     The schema user for reguliar user creation and for 'information' dump.
     '''
     # confirmation = ma.Nested('ConfirmationSchema', many=True)
-    role = fma.Nested('RoleSchema', many=False)
-    locale = fma.Nested('LocaleSchema', many=False)
+    role = fma_users.Nested('RoleSchema', many=False)
+    locale = fma_users.Nested('LocaleSchema', many=False)
 
     class Meta:
         model = UserModel
@@ -80,7 +80,7 @@ class UserSchema(fma.SQLAlchemyAutoSchema):
 
     @pre_load
     def hash_password(self, in_data, **kwargs):
-        in_data['password'] = fbc.generate_password_hash(in_data['password'])
+        in_data['password'] = fbc_users.generate_password_hash(in_data['password'])
         return in_data
 
 

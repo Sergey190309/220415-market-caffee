@@ -1,3 +1,3 @@
 from flask_bcrypt import Bcrypt
 
-fbc = Bcrypt()
+fbc_users = Bcrypt()

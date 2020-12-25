@@ -38,9 +38,7 @@ def _engine(_app_folder):
 
 
 # @pytest.mark.active
-def test_db_creation(
-    _engine
-):
+def test_db_creation(_engine):
     '''
     Test checks all tables availability
     '''
@@ -58,12 +56,9 @@ def test_db_creation(
 # @pytest.mark.active
 @pytest.mark.parametrize(
     'id, remark',
-    [
-        ('user', 'Registered user after confirmation.'),
+    [('user', 'Registered user after confirmation.'),
         ('power_user', 'By admin decision.'),
-        ('admin', 'By owners decision.')
-    ]
-)
+        ('admin', 'By owners decision.')])
 def test_roles(
     id, remark,
     _engine, table_name='roles'
@@ -82,18 +77,12 @@ def test_roles(
     assert result[1] == remark
 
 
-# @pytest.mark.active
+@pytest.mark.active
 @pytest.mark.parametrize(
     'id, remark',
-    [
-        ('ru', 'Общий русский.'),
-        ('en', 'General english.')
-    ]
-)
-def test_locales(
-    id, remark,
-    _engine, table_name='locales'
-):
+    [('ru', 'Общий русский.'),
+        ('en', 'General english.')])
+def test_locales(id, remark, _engine, table_name='locales'):
     '''
     Test checks role table contents.
     '''

@@ -1,17 +1,17 @@
 # from typing import List
-from ..modules.dbs import dbs
+from ..modules.dbs_users import dbs_users
 
 
-class RoleModel(dbs.Model):  # parent
+class RoleModel(dbs_users.Model):  # parent
     '''
     The model contains allowed user's roles.
     '''
     __tablename__ = 'roles'
 
-    id = dbs.Column(dbs.String(24), primary_key=True)
-    remarks = dbs.Column(dbs.UnicodeText())
+    id = dbs_users.Column(dbs_users.String(24), primary_key=True)
+    remarks = dbs_users.Column(dbs_users.UnicodeText())
 
-    user = dbs.relationship('UserModel', backref='rolemodel', lazy="dynamic")
+    user = dbs_users.relationship('UserModel', backref='rolemodel', lazy="dynamic")
 
     @classmethod
     def find_by_id(cls, role_id: str) -> 'RoleModel':
@@ -19,15 +19,15 @@ class RoleModel(dbs.Model):  # parent
 
     def save_to_db(self) -> None:
         try:
-            dbs.session.add(self)
-            dbs.session.commit()
+            dbs_users.session.add(self)
+            dbs_users.session.commit()
         except Exception as err:
             print('users.models.RoleModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
         try:
-            dbs.session.delete(self)
-            dbs.session.commit()
+            dbs_users.session.delete(self)
+            dbs_users.session.commit()
         except Exception as err:
             print('users.models.RoleModel.delete_fm_db error\n', err)
 

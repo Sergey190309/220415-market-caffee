@@ -1,27 +1,27 @@
 # from typing import List
 
-from ..modules.dbs import dbs
+from ..modules.dbs_users import dbs_users
 
 
-class LocaleModel(dbs.Model):
+class LocaleModel(dbs_users.Model):
     '''
     The model contains locales needed for site.
     '''
     __tablename__ = 'locales'
 
-    id = dbs.Column(dbs.String(16), primary_key=True)
-    remarks = dbs.Column(dbs.UnicodeText())
+    id = dbs_users.Column(dbs_users.String(16), primary_key=True)
+    remarks = dbs_users.Column(dbs_users.UnicodeText())
 
-    user = dbs.relationship('UserModel', backref='localemodel', lazy="dynamic")
+    user = dbs_users.relationship('UserModel', backref='localemodel', lazy="dynamic")
 
     @classmethod
     def find_by_id(cls, id: str) -> 'LocaleModel':
         return cls.query.filter_by(id=id).first()
 
     def save_to_db(self) -> None:
-        dbs.session.add(self)
-        dbs.session.commit()
+        dbs_users.session.add(self)
+        dbs_users.session.commit()
 
     def delete_fm_db(self) -> None:
-        dbs.session.delete(self)
-        dbs.session.commit()
+        dbs_users.session.delete(self)
+        dbs_users.session.commit()

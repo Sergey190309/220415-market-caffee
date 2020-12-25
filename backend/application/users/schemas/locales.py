@@ -1,12 +1,16 @@
-from ..modules.fma import fma
+from ..modules.fma_users import fma_users
 
 # print('users.schemas.roles')
 from ..models.locales import LocaleModel
 
+# from ..models.locales_global import LocaleGlobalModel
 
-class LocaleSchema(fma.SQLAlchemyAutoSchema):
+# from ..models.locales import LocaleModel
+
+
+class LocaleSchema(fma_users.SQLAlchemyAutoSchema):
     class Meta:
         model = LocaleModel
         # dump_only = False
 
-        load_instance = True
+        # load_instance = True

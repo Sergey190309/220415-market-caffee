@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+# __pycache__/
+# venv
+# venv/
+# Environments
+# .env
+
+.directory
+
+# sendgrid.env
+
+
