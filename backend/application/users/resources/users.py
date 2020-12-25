@@ -34,8 +34,8 @@ class User(Resource):
                 _confirmation = ConfirmationModel(_user.id)
                 _confirmation.save_to_db()
                 _user.send_confirmation_request()
-                # print('users.resources.User.post')
                 _created_user = UserModel.find_by_email(_user.email)
+                # print('users.resources.User.post')
                 return {
                     'message': str(_(
                         "User with email '%(email)s' created, "
@@ -46,8 +46,9 @@ class User(Resource):
             except Exception as err:
                 print('users.resources.User.post error:\n', err)
                 return {
-                    'message': str(_("Spmthing went wrong."))
-                }, 500
+                    'message': str(_(
+                        "While creating user somthing went wrong. Error - %(err)s.",
+                        err=err))}, 500
 
     @classmethod
     @jwt_required

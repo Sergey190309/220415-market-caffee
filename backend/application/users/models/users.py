@@ -63,25 +63,16 @@ class UserModel(dbs.Model):
             dbs.desc(ConfirmationModel.expire_at)).first()
 
     def send_confirmation_request(self) -> Response:
+        confirmation = self.most_recent_confirmation
+        # confirmation_id = ConfirmationModel.find_by_user_id(self.id)
+        # print('send_confirmation_request confirmation_id -', confirmation.id)
         _link = request.url_root[:-1] +\
-            url_for('users_bp.userconfirm', user_id=self.id)
-        # confirmation_id=self.most_recent_confirmation.id)
+            url_for('users_bp.confirmation', confirmation_id=confirmation.id)
         # print('send_confirmation_request _link -', _link)
         # self.email = 'sa6702@gmail.com'
         fml.send(
             emails=[self.email],
             link=_link)
-
-        # msg = Message(
-        #     subject=str(_('Hi there!')),
-
-        # )
-        # confirmation_email_data.refresh()
-
-        # SendGrid.send_confirmation_email(
-        #     self.email,
-        #     _link,
-        #     confirmation_email_data.email_data)
 
     def is_own_id(self, id: int) -> bool:
         return self.id == id
@@ -126,7 +117,10 @@ class UserModel(dbs.Model):
 
     def check_password(self, plain_password: str) -> bool:
         # print('UserModel.check_password plain_password -', plain_password)
-        return fbc.check_password_hash(self.password_hash, plain_password)
+        result = fbc.check_password_hash(self.password_hash, plain_password)
+        if result:
+            self.accessed = datetime.now()
+        return result
 
     def update_password(self, plain_password: str) -> bool:
         '''
@@ -136,8 +130,9 @@ class UserModel(dbs.Model):
         self.save_to_db()
         return True
 
-    def update(self, update_values: dict) -> bool:
-        # print(self.id)
+    def update(self, update_values: Dict) -> bool:
+        # print('Update -', self.id)
+        # print('Update -', update_values)
         self.updated = datetime.now()
         for key in update_values.keys():
             # print(key, '\t', update_values[key])

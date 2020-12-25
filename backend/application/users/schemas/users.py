@@ -82,3 +82,6 @@ class UserSchema(fma.SQLAlchemyAutoSchema):
     def hash_password(self, in_data, **kwargs):
         in_data['password'] = fbc.generate_password_hash(in_data['password'])
         return in_data
+
+
+user_schema = UserSchema()

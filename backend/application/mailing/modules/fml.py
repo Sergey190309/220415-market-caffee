@@ -11,7 +11,8 @@ class MailMailing(Mail):
     def __init__(self):
         super().__init__()
 
-    def send(self, emails: List = [], link: str = None) -> bool:
+    def send(self, emails: List = [], link: str = None) -> [Message]:
+
         # Here I do not use list to send bulk mails.
         confirmation_email_data.refresh(email=emails[0], link=link)
         ed = confirmation_email_data.email_data
@@ -22,7 +23,10 @@ class MailMailing(Mail):
             recipients=emails,
         )
         # print('Link -', link)
-        super().send(msg)
+        with super().record_messages() as outbox:
+            super().send(msg)
+        # print(outbox)
+        return outbox
 
 
 fml = MailMailing()

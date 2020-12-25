@@ -8,6 +8,7 @@ def cleate_users():
     users_bp = Blueprint(
         'users_bp', __name__,
         static_folder='static',
+        # static_url_path='/users',
         template_folder='templates'
     )
 

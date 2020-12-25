@@ -48,7 +48,7 @@ class ConfirmationModel(dbs.Model):
         return cls.query.first()
 
     @property
-    def expired(self) -> bool:
+    def is_expired(self) -> bool:
         return time() > self.expire_at
 
     @property
@@ -56,7 +56,7 @@ class ConfirmationModel(dbs.Model):
         return self.confirmed
 
     def force_to_expire(self) -> None:  # forcing current confirmation to expire
-        if not self.expired:
+        if not self.is_expired:
             self.expire_at = int(time())
             self.save_to_db()
 

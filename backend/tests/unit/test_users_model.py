@@ -1,13 +1,10 @@
 import pytest
-
 from datetime import datetime
-
 
 from sqlalchemy.exc import OperationalError
 # from flask import current_app
 
 from application import create_app
-
 from application.users.models.users import UserModel
 
 
@@ -148,8 +145,8 @@ def test_user_get_fresh_token(user_fm_db):
 def test_usermodel_send_confirmation_request(
         created_user,
         user_schema):
-    _user = created_user(role_id='user')
-    print('test_usermodel_send_confirmation_request _user.id -', _user.id)
+    _user = created_user()
+    # print('test_usermodel_send_confirmation_request _user.id -', _user.id)
     _user.send_confirmation_request()
     # print('User ID -', _user.id)
     # for item in user_schema.dump(_user):

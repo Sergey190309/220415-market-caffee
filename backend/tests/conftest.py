@@ -6,6 +6,7 @@ from application import create_app
 
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema
+from application.users.models.confirmations import ConfirmationModel
 
 # from dotenv import load_dotenv
 # @pytest.fixture(scope='session', autouse=True)
@@ -81,6 +82,8 @@ def created_user(
             _user_create_json['email'] = email
         _user = user_schema.load(_user_create_json)
         _user.save_to_db()
+        _confirmation = ConfirmationModel(_user.id)
+        _confirmation.save_to_db()
         # Get user from db:
         user = UserModel.find_by_id(_user.id)
         # print(user_schema.dump(user)['role'])
@@ -90,3 +93,11 @@ def created_user(
     yield _method
     # print('created_user')
     # user.delete_fm_db()
+
+
+@pytest.fixture
+def access_token():
+    def _method(user):
+        # print('\n\naccess_token fixture')
+        return user.get_tokens()['access_token']
+    return _method

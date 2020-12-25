@@ -2,20 +2,20 @@ import pytest
 
 from sqlalchemy import create_engine, MetaData, Table, select
 
-from application import create_app
+# from application import create_app
 
 
 from application.testing_config import SQLALCHEMY_DATABASE_URI
 
 
-@pytest.fixture(scope='module')
-def test_client():
-    # print('\nclient')
-    app = create_app('testing_config.py')
+# @pytest.fixture(scope='module')
+# def test_client():
+#     # print('\nclient')
+#     app = create_app('testing_config.py')
 
-    with app.test_client() as test_client:
-        with app.app_context():
-            yield test_client
+#     with app.test_client() as test_client:
+#         with app.app_context():
+#             yield test_client
 
 
 @pytest.fixture

@@ -10,14 +10,6 @@ def url_usershandle(root_url):
     return _method
 
 
-@pytest.fixture
-def access_token():
-    def _method(user):
-        # print('\n\naccess_token fixture')
-        return user.get_tokens()['access_token']
-    return _method
-
-
 # @pytest.mark.active
 def test_userhandle_post_user_own(  # Normal user can update own info but role_id
         test_client,
@@ -27,7 +19,7 @@ def test_userhandle_post_user_own(  # Normal user can update own info but role_i
 ):
     _user = created_user('user')
 
-    print()
+    # print()
     access_token_passive = access_token(_user)
     headers = {'Authorization': f"Bearer {access_token_passive}"}
     # print(headers)
