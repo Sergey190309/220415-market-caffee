@@ -2,7 +2,8 @@ from typing import Tuple
 from flask import request
 from flask_restful import Resource
 
-from ..modules.dbs_users import dbs_users
+from application.modules.dbs_global import dbs_global
+# from ..modules.dbs_users import dbs_users
 
 from ..models.roles import RoleModel
 
@@ -26,7 +27,7 @@ class Role(Resource):
                 'payload': payload
             }
         else:
-            _role = role_schema.load(_json, session=dbs_users.session)
+            _role = role_schema.load(_json, session=dbs_global.session)
             _role.save_to_db()
             payload = role_schema.dump(_role)
             return {

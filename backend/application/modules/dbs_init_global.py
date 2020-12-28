@@ -1,5 +1,5 @@
 from ..globals import global_constants
-# from application.globals import global_constants, default_admin
+from ..users.modules.dbs_init_users import dbs_init_users
 
 from .dbs_global import dbs_global
 # from .dbs_users import dbs_users
@@ -15,11 +15,10 @@ from ..models.locales_global import LocaleGlobalModel
 # user_create_schema = AdminCreateSchema()
 
 
-def dbs_init_dlobal():
-    # print('users.modules.dbs_init')
-    # pass
-    create_dbs()  # Create tables and other stuff
+def dbs_init_global():
+    create_dbs()  # Create tables
     fill_locales()   # Fill table locales with default stuff
+    dbs_init_users()  # Fill tables in users with default stuff
 
 
 def fill_locales():

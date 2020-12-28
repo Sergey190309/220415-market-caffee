@@ -22,8 +22,9 @@ def cleate_users():
         api_users.init_app(users_bp)
 
         # flask_sqlalchemy
-        from .modules.dbs_users import dbs_users
-        dbs_users.init_app(current_app)
+        from application.modules.dbs_global import dbs_global
+        # from .modules.dbs_users import dbs_users
+        dbs_global.init_app(current_app)
 
         # flask_marshmallow
         from .modules.fma_users import fma_users
@@ -40,8 +41,8 @@ def cleate_users():
         # Data bases initiation (creation reference table values and
         # admin user if not created).
         # dbs_init()
-        @current_app.before_first_request
-        def init_dbs():
-            dbs_init_users()
+        # @current_app.before_first_request
+        # def init_dbs():
+        #     dbs_init_users()
 
     return users_bp

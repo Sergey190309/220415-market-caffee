@@ -4,7 +4,7 @@ from flask import Flask, current_app
 
 from application.modules.fbp import fbp
 from application.modules.dbs_global import dbs_global
-from application.modules.dbs_init_global import dbs_init_dlobal
+from application.modules.dbs_init_global import dbs_init_global
 
 # from application.default_config import LOCALE
 
@@ -46,6 +46,6 @@ def create_app(config='default_config.py'):
 
         @current_app.before_first_request
         def init_dbs():
-            dbs_init_dlobal()
+            dbs_init_global()
 
     return app

@@ -28,7 +28,7 @@ services:
       dockerfile: Dockerfile
     image: backend
     container_name: backend
-    restart: always
+    restart: unless-stopped
     ports:
       - 5000:5000
     environment:
@@ -38,8 +38,6 @@ services:
       #APP_SECRET_KEY='OtHer098()secretkkkeeeyy'
       #MAILGUN_DOMAIN='https://api.mailgun.net/v3/sandboxaedacf6cca73459baf79975b916fa1a5.mailgun.org/messages'
       #MAILGUN_API_KEY='eddfc1e0d701835cb42578a070a5ba70-5645b1f9-583091db'
-
-
       APP_ENV: 'prod'
       APP_DEBUG: 'True'
 
@@ -60,7 +58,7 @@ services:
   mysqldb:
     image: mysql/mysql-server:latest
     container_name: coffee-mysql
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 'ljoii98*_)(98767HG'
       MYSQL_DATABASE: market_coffee
@@ -81,7 +79,7 @@ services:
       dockerfile: Dockerfile
     image: nginx
     container_name: nginx
-    restart: always
+    restart: unless-stopped
     environment:
       APP_ENV: 'prod'
       APP_NAME: 'frontend'

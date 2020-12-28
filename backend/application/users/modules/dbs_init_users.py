@@ -3,7 +3,8 @@
 
 from application.globals import global_constants, default_admin
 
-from .dbs_users import dbs_users
+from application.modules.dbs_global import dbs_global
+# from .dbs_users import dbs_users
 # from ..models.roles import RoleModel
 # from ..schemas.roles import RoleSchema
 '''
@@ -13,7 +14,8 @@ Error is normal if module is not user explicitly in this file.
 # from ..models.confirmations import ConfirmationModel
 from ..models.users import UserModel
 from ..models.roles import RoleModel
-from ..models.locales import LocaleModel
+# from application.models.locales_global import LocaleGlobalModel
+# from ..models.locales import LocaleModel
 
 from ..schemas.users import AdminCreateSchema
 
@@ -25,11 +27,7 @@ user_create_schema = AdminCreateSchema()
 
 
 def dbs_init_users():
-    # print('users.modules.dbs_init')
-
-    create_dbs()  # Create tables and other stuff
     fill_roles()  # Fill table roles with default stuff
-    fill_locales()   # Fill table locales with default stuff
     create_default_admin()  # Hope it's selfexplain.
 
 
@@ -48,24 +46,9 @@ def fill_roles():
                     'fill_roles.\nSome error:\n', err)
 
 
-def fill_locales():
-    for _locale in global_constants.get_LOCALES:
-        # print('users.modules.fill_reles role -', _locale['id'])
-        _existing_locale = LocaleModel.find_by_id(_locale['id'])
-        if not _existing_locale:
-            # print('does not exit')
-            try:
-                _locale = LocaleModel(id=_locale['id'], remarks=_locale['remarks'])
-                _locale.save_to_db()
-            except Exception as err:
-                print(
-                    'modules.dbs.SQLAlchemyBackend.init_app on '
-                    'fill_locale.\nSome error:\n', err)
-
-
 def create_dbs():
     try:
-        dbs_users.create_all()
+        dbs_global.create_all()
     except Exception as err:
         print(
             'modules.dbs.SQLAlchemyBackend.init_app on '
@@ -90,5 +73,5 @@ def create_default_admin():
     # else:
     # User No 1 does not exists, so create him
     _admin = user_create_schema.load(
-        default_admin.get_default_admin, session=dbs_users.session)
+        default_admin.get_default_admin, session=dbs_global.session)
     _admin.save_to_db()

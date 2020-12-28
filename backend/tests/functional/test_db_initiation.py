@@ -45,12 +45,14 @@ def test_db_creation(_engine):
     tables = _engine.table_names()
 
     table_names = [
-        'locales',
+        'locales_global',
         'confirmations',
         'roles',
         'users'
     ]
     assert tables.sort() == table_names.sort()
+    # print()
+    # print(tables)
 
 
 # @pytest.mark.active
@@ -74,15 +76,20 @@ def test_roles(
     with _engine.connect() as conn:
         result = conn.execute(stmt).fetchone()
 
+    assert result[0] == id
     assert result[1] == remark
+    # print()
+    # print(id)
+    # print(stmt)
+    # print(result)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.parametrize(
     'id, remark',
     [('ru', 'Общий русский.'),
         ('en', 'General english.')])
-def test_locales(id, remark, _engine, table_name='locales'):
+def test_locales(id, remark, _engine, table_name='locales_global'):
     '''
     Test checks role table contents.
     '''

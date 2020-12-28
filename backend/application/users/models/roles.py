@@ -1,17 +1,18 @@
 # from typing import List
-from ..modules.dbs_users import dbs_users
+from application.modules.dbs_global import dbs_global
+# from ..modules.dbs_users import dbs_users
 
 
-class RoleModel(dbs_users.Model):  # parent
+class RoleModel(dbs_global.Model):  # parent
     '''
     The model contains allowed user's roles.
     '''
     __tablename__ = 'roles'
 
-    id = dbs_users.Column(dbs_users.String(24), primary_key=True)
-    remarks = dbs_users.Column(dbs_users.UnicodeText())
+    id = dbs_global.Column(dbs_global.String(24), primary_key=True)
+    remarks = dbs_global.Column(dbs_global.UnicodeText())
 
-    user = dbs_users.relationship('UserModel', backref='rolemodel', lazy="dynamic")
+    user = dbs_global.relationship('UserModel', backref='rolemodel', lazy="dynamic")
 
     @classmethod
     def find_by_id(cls, role_id: str) -> 'RoleModel':
@@ -19,15 +20,15 @@ class RoleModel(dbs_users.Model):  # parent
 
     def save_to_db(self) -> None:
         try:
-            dbs_users.session.add(self)
-            dbs_users.session.commit()
+            dbs_global.session.add(self)
+            dbs_global.session.commit()
         except Exception as err:
             print('users.models.RoleModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
         try:
-            dbs_users.session.delete(self)
-            dbs_users.session.commit()
+            dbs_global.session.delete(self)
+            dbs_global.session.commit()
         except Exception as err:
             print('users.models.RoleModel.delete_fm_db error\n', err)
 

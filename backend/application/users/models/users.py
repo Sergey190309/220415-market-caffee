@@ -8,12 +8,15 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from application.mailing.modules.fml import fml
 # from application.globals import confirmation_email_data
 
-from ..modules.dbs_users import dbs_users
+from application.modules.dbs_global import dbs_global
+
+from application.models.locales_global import LocaleGlobalModel  # It's normal
+# from ..modules.dbs_users import dbs_users
 from ..modules.fbc_users import fbc_users
 from .confirmations import ConfirmationModel
 
 
-class UserModel(dbs_users.Model):
+class UserModel(dbs_global.Model):
     '''
     The class contains info about active users.
     If role_id is none - user has not been confirmed.
@@ -21,34 +24,34 @@ class UserModel(dbs_users.Model):
     __tablename__ = 'users'
 
     # All fields but password and role can be uudated either by user or admin
-    id = dbs_users.Column(dbs_users.Integer, primary_key=True)
-    created = dbs_users.Column(
-        dbs_users.DateTime, nullable=False, default=datetime.now())
-    updated = dbs_users.Column(dbs_users.DateTime)
-    accessed = dbs_users.Column(dbs_users.DateTime)
-    user_name = dbs_users.Column(dbs_users.String(80))
-    email = dbs_users.Column(dbs_users.String(80), unique=True)
+    id = dbs_global.Column(dbs_global.Integer, primary_key=True)
+    created = dbs_global.Column(
+        dbs_global.DateTime, nullable=False, default=datetime.now())
+    updated = dbs_global.Column(dbs_global.DateTime)
+    accessed = dbs_global.Column(dbs_global.DateTime)
+    user_name = dbs_global.Column(dbs_global.String(80))
+    email = dbs_global.Column(dbs_global.String(80), unique=True)
     # User can update password only!
-    password_hash = dbs_users.Column(dbs_users.String(128))
-    role_id = dbs_users.Column(  # Admin can update role only!
+    password_hash = dbs_global.Column(dbs_global.String(128))
+    role_id = dbs_global.Column(  # Admin can update role only!
         # If the column does not exists - user has not been confirmed.
-        dbs_users.String(24),
-        dbs_users.ForeignKey('roles.id'))
-    first_name = dbs_users.Column(dbs_users.String(32))
-    last_name = dbs_users.Column(dbs_users.String(32))
-    locale_id = dbs_users.Column(
-        dbs_users.String(16),
-        dbs_users.ForeignKey('locales.id'),
+        dbs_global.String(24),
+        dbs_global.ForeignKey('roles.id'))
+    first_name = dbs_global.Column(dbs_global.String(32))
+    last_name = dbs_global.Column(dbs_global.String(32))
+    locale_id = dbs_global.Column(
+        dbs_global.String(16),
+        dbs_global.ForeignKey('locales_global.id'),
         nullable=False,
         default='en')
-    time_zone = dbs_users.Column(dbs_users.SmallInteger, nullable=False, default=3)
-    remarks = dbs_users.Column(dbs_users.UnicodeText)
+    time_zone = dbs_global.Column(dbs_global.SmallInteger, nullable=False, default=3)
+    remarks = dbs_global.Column(dbs_global.UnicodeText)
 
     # avatar = fields.ImageField(null=True)
 
-    role = dbs_users.relationship('RoleModel', backref='usermodel')
-    locale = dbs_users.relationship('LocaleModel', backref='usermodel')
-    confirmation = dbs_users.relationship(
+    role = dbs_global.relationship('RoleModel', backref='usermodel')
+    locale = dbs_global.relationship('LocaleGlobalModel', backref='usermodel')
+    confirmation = dbs_global.relationship(
         'ConfirmationModel',
         backref='usermodel',
         lazy='dynamic',
@@ -62,7 +65,7 @@ class UserModel(dbs_users.Model):
     @property
     def most_recent_confirmation(self):
         return self.confirmation.order_by(
-            dbs_users.desc(ConfirmationModel.expire_at)).first()
+            dbs_global.desc(ConfirmationModel.expire_at)).first()
 
     def send_confirmation_request(self) -> Response:
         confirmation = self.most_recent_confirmation
@@ -144,16 +147,16 @@ class UserModel(dbs_users.Model):
 
     def save_to_db(self) -> None:
         try:
-            dbs_users.session.add(self)
-            dbs_users.session.commit()
+            dbs_global.session.add(self)
+            dbs_global.session.commit()
         except Exception as err:
             print('users.models.UserModel.save_to_db error\n', err)
 
     def delete_fm_db(self, kill_first: bool = False) -> None:
         def kill():
             try:
-                dbs_users.session.delete(self)
-                dbs_users.session.commit()
+                dbs_global.session.delete(self)
+                dbs_global.session.commit()
             except Exception as err:
                 print('users.models.UserModel.delete_fm_db error\n', err)
 

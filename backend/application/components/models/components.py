@@ -26,7 +26,7 @@ class ComponentModel(dbs_global.Model):
     content = dbs_global.Column(dbs_global.UnicodeText)
 
     locale = dbs_global.relationship(
-    'LocaleModelGlobal', backref='componentmodel')
+        'LocaleModelGlobal', backref='componentmodel')
     # 'LocaleModelGlobal', backref='componentmodel', lazy="dynamic")
 
     @classmethod
@@ -35,14 +35,14 @@ class ComponentModel(dbs_global.Model):
 
     def save_to_db(self) -> None:
         try:
-            dbs_components.session.add(self)
-            dbs_components.session.commit()
+            dbs_global.session.add(self)
+            dbs_global.session.commit()
         except Exception as err:
             print('users.models.UserModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
         try:
-            dbs_components.session.delete(self)
-            dbs_components.session.commit()
+            dbs_global.session.delete(self)
+            dbs_global.session.commit()
         except Exception as err:
             print('users.models.UserModel.delete_fm_db error\n', err)

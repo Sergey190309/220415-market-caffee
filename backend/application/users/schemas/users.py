@@ -9,7 +9,8 @@ from ..models.users import UserModel
 # Below schemas used for correctness nested parts. Error not used is normal.
 # This error is on Kind of marshmallow error.
 from ..schemas.roles import RoleSchema
-from ..schemas.locales import LocaleSchema
+from application.schemas.locales_global import LocaleGlobalSchema
+# from ..schemas.locales import LocaleGlobalSchema
 
 
 class UserUpdateSchema(fma_users.SQLAlchemyAutoSchema):
@@ -63,7 +64,7 @@ class UserSchema(fma_users.SQLAlchemyAutoSchema):
     '''
     # confirmation = ma.Nested('ConfirmationSchema', many=True)
     role = fma_users.Nested('RoleSchema', many=False)
-    locale = fma_users.Nested('LocaleSchema', many=False)
+    locale = fma_users.Nested('LocaleGlobalSchema', many=False)
 
     class Meta:
         model = UserModel
