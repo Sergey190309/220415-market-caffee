@@ -22,3 +22,11 @@ def test_users_get(test_client, url_components):
     print()
     print(resp.status_code)
     print(resp.json)
+
+
+# @pytest.mark.active
+def test_users_post(test_client, url_components):
+    resp = test_client.post(url_components)
+    print()
+    print(resp.status_code)
+    print(resp.json)

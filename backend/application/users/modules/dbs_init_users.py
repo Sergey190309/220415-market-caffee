@@ -8,7 +8,6 @@ from application.modules.dbs_global import dbs_global
 # from ..models.roles import RoleModel
 # from ..schemas.roles import RoleSchema
 '''
-User to allow create_all create those tables.
 Error is normal if module is not user explicitly in this file.
 '''
 # from ..models.confirmations import ConfirmationModel

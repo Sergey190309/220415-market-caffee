@@ -1,7 +1,7 @@
 from ..globals import global_constants
+from .dbs_global import dbs_global
 from ..users.modules.dbs_init_users import dbs_init_users
 
-from .dbs_global import dbs_global
 # from .dbs_users import dbs_users
 '''
 User to allow create_all create those tables.
@@ -18,6 +18,7 @@ from ..models.locales_global import LocaleGlobalModel
 def dbs_init_global():
     create_dbs()  # Create tables
     fill_locales()   # Fill table locales with default stuff
+
     dbs_init_users()  # Fill tables in users with default stuff
 
 

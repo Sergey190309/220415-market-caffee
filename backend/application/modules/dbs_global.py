@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-# class SQLAlchemyBackend(SQLAlchemy):
+# class SQLAlchemy(SQLAlchemy):
 #     def __init__(self):
 #         super().__init__()
 

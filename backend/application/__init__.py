@@ -2,9 +2,9 @@
 from dotenv import load_dotenv
 from flask import Flask, current_app
 
-from application.modules.fbp import fbp
 from application.modules.dbs_global import dbs_global
 from application.modules.dbs_init_global import dbs_init_global
+from application.modules.fbp import fbp
 
 # from application.default_config import LOCALE
 
