@@ -39,6 +39,55 @@ def test_client(root_url):
 
 
 @pytest.fixture
+def source_text_lat(scope='session'):
+    return (
+        'Pakistan has become the latest country to report cases of the new '
+        'coronavirus variant first detected in the UK. Health authorities in Sindh '
+        'province said that three people in the southern port city of Karachi had '
+        'tested positive for the new strain. All three had recently returned from '
+        'the UK, the authorities said, adding that contact tracing was under '
+        'way. Pakistan was among dozens of countries to introduce travel '
+        'restrictions after the new variant was first identified last week - but '
+        'exceptions were made for Pakistani nationals in the UK on visitor or '
+        'temporary visas who provided negative tests before travel. The new strain '
+        'has now been found in more than 20 countries.').replace('.', '').\
+        replace('.', '').replace('"', '').replace("'", "").lower().split(' ')
+
+
+@pytest.fixture
+def source_text_cyr(scope='session'):
+    return (
+        'Ранее Федеральное собрание РФ одобрило закон, направленный на борьбу с '
+        'цензурой со стороны зарубежных интернет-платформ по отношению к российским '
+        'СМИ. Теперь Роскомнадзор сможет блокировать полностью или частично '
+        'интернет-ресурсы, ограничивающие значимую информацию на территории РФ по '
+        'признакам национальности, языка, происхождения, имущественного и '
+        'должностного положения, профессии, места жительства и работы, отношения к '
+        'религии и (или) в связи с введением иностранными государствами '
+        'политических или экономических санкций в отношении РФ или россиян. Отдельно '
+        'отмечается, что блокировка может последовать за "дискриминацию в отношении '
+        'материалов российских средств массовой информации"').replace('.', '').\
+        replace(',', '').replace('"', '').replace("'", "").lower().split(' ')
+
+
+@pytest.fixture
+def random_words(source_text_lat, source_text_cyr):
+    '''
+    Source for words. Latin or cyrilic depening from argument.
+    '''
+    def _method(lang: str):
+        # print(lang)
+        if lang == 'en':
+            word = choice(source_text_lat)
+        elif lang == 'ru':
+            word = choice(source_text_cyr)
+        else:
+            word = 'Fick off!'
+        return word
+    return _method
+
+
+@pytest.fixture
 def random_email():
     def _method(arg=None):
         source = (

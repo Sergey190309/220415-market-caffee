@@ -1,7 +1,5 @@
 from flask import Blueprint, current_app
 
-from .modules.dbs_init_users import dbs_init_users
-
 
 def cleate_users():
     # print('users.__init__.create_users')
@@ -25,6 +23,12 @@ def cleate_users():
         from application.modules.dbs_global import dbs_global
         # from .modules.dbs_users import dbs_users
         dbs_global.init_app(current_app)
+
+        @current_app.before_first_request
+        def init_dbs():
+            pass
+        #     from .modules.dbs_init_users import dbs_init_users
+        #     dbs_init_users()
 
         # flask_marshmallow
         from .modules.fma_users import fma_users

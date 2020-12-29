@@ -27,7 +27,7 @@ def test_users_post(test_client, url_users, user_create_json):
     resp = test_client.post(url_users, json=_user_create_json)
     _user = UserModel.find_by_email(_email)
     # print()
-    print('test')
+    # print('test')
     assert resp.status_code == 201
     assert isinstance(resp.json['message'], str)
     assert isinstance(resp.json['payload'], Dict)

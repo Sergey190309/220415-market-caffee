@@ -7,7 +7,6 @@ from application.users.models.confirmations import ConfirmationModel
 
 
 @pytest.fixture
-# @pytest.yield_fixture
 def confirmaion_instance():
     confirmaion = ConfirmationModel(randint(1, 10))
     # print(confirmaion.id)

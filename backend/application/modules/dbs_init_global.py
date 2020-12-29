@@ -1,25 +1,20 @@
 from ..globals import global_constants
 from .dbs_global import dbs_global
-from ..users.modules.dbs_init_users import dbs_init_users
 
-# from .dbs_users import dbs_users
 '''
 User to allow create_all create those tables.
 Error is normal if module is not user explicitly in this file.
 '''
 
 from ..models.locales_global import LocaleGlobalModel
-# from ..models.locales import LocaleModel
-
-
-# user_create_schema = AdminCreateSchema()
 
 
 def dbs_init_global():
     create_dbs()  # Create tables
     fill_locales()   # Fill table locales with default stuff
-
-    dbs_init_users()  # Fill tables in users with default stuff
+    # Blueprint tables' initiation:
+    from ..users.modules.dbs_init_users import dbs_init_users
+    dbs_init_users()
 
 
 def fill_locales():

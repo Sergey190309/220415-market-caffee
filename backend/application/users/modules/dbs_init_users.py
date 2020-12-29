@@ -45,15 +45,6 @@ def fill_roles():
                     'fill_roles.\nSome error:\n', err)
 
 
-def create_dbs():
-    try:
-        dbs_global.create_all()
-    except Exception as err:
-        print(
-            'modules.dbs.SQLAlchemyBackend.init_app on '
-            'self.create all.\nSome error:\n', err)
-
-
 def create_default_admin():
     # print('dbs_init.create_default_admin admin', default_admin.get_default_admin)
     _user = UserModel.find_by_id(1)

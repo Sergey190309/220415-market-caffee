@@ -9,7 +9,6 @@ from application.mailing.modules.fml import fml
 # from application.globals import confirmation_email_data
 
 from application.modules.dbs_global import dbs_global
-
 from application.models.locales_global import LocaleGlobalModel  # It's normal
 # from ..modules.dbs_users import dbs_users
 from ..modules.fbc_users import fbc_users
@@ -49,8 +48,8 @@ class UserModel(dbs_global.Model):
 
     # avatar = fields.ImageField(null=True)
 
-    role = dbs_global.relationship('RoleModel', backref='usermodel')
     locale = dbs_global.relationship('LocaleGlobalModel', backref='usermodel')
+    role = dbs_global.relationship('RoleModel', backref='usermodel')
     confirmation = dbs_global.relationship(
         'ConfirmationModel',
         backref='usermodel',

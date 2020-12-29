@@ -6,7 +6,7 @@ from ..modules.dbs_global import dbs_global
 
 class LocaleGlobalModel(dbs_global.Model):
     '''
-    The model contains locales needed for site.
+    The model contains locales needed for whole site.
     '''
     __tablename__ = 'locales_global'
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-24 14:52+0000\n"
-"PO-Revision-Date: 2020-12-24 14:52+0000\n"
+"POT-Creation-Date: 2020-12-29 10:46+0000\n"
+"PO-Revision-Date: 2020-12-29 10:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -22,6 +22,14 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
+
+#: components/resources/components.py:18
+msgid "The component has saved successfully. Details are in payload."
+msgstr "Компонент успешно сохранен. Детали в сообщении."
+
+#: components/resources/components.py:25
+msgid "Hi there!, It's get method."
+msgstr "Всем привет! Это метод get."
 
 #: globals.py:96
 msgid "That's registration confirmatin."
@@ -76,31 +84,31 @@ msgstr "Привет всем тут!"
 msgid "I plan to do something from this project."
 msgstr "Я что-то планирую сделать из этого проекта."
 
-#: modules/schemas/locale_time_zone.py:8
+#: schemas/locale_time_zone.py:8
 msgid "Not a valid locale."
 msgstr "Не действительный регион."
 
-#: modules/schemas/locale_time_zone.py:25
+#: schemas/locale_time_zone.py:25
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: users/errors/register.py:39
+#: users/errors/register_errors_users.py:39
 msgid "The token has expired."
 msgstr "Срок годности жетона истек."
 
-#: users/errors/register.py:47
+#: users/errors/register_errors_users.py:47
 msgid "Signature verification failed."
 msgstr "Подпись проверить не получилось."
 
-#: users/errors/register.py:54
+#: users/errors/register_errors_users.py:54
 msgid "Request does not contain an access token."
 msgstr "Запрос не содержит жетона доступа."
 
-#: users/errors/register.py:61
+#: users/errors/register_errors_users.py:61
 msgid "The token is not fresh."
 msgstr "Жетон не свежий."
 
-#: users/errors/register.py:68
+#: users/errors/register_errors_users.py:68
 msgid "The token has been revoked."
 msgstr "Жетон отозван."
 
@@ -210,7 +218,7 @@ msgid "Sorry, access to user's information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации пользователей разрешен только администратору."
 
-#: users/resources/userlogin.py:30 users/resources/users.py:85
+#: users/resources/userlogin.py:30 users/resources/users.py:89
 #, python-format
 msgid "User with email '%(email)s' has not been found."
 msgstr "Пользователь с email '%(email)s' не найден."
@@ -246,22 +254,22 @@ msgstr ""
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
-#: users/resources/users.py:28
+#: users/resources/users.py:32
 #, python-format
 msgid "User with email '%(email)s' already exists."
 msgstr "Пользователь с email '%(email)s' уже существует."
 
-#: users/resources/users.py:41
+#: users/resources/users.py:45
 #, python-format
 msgid "User with email '%(email)s' created, details are in payload."
 msgstr "Пользователь с e-mail '%(email)s' успешно создан. Детали в сообщении."
 
-#: users/resources/users.py:50
+#: users/resources/users.py:54
 #, python-format
 msgid "While creating user somthing went wrong. Error - %(err)s."
 msgstr "Во время создания пользователя что-то пошло не так. Ошибка - %(err)s."
 
-#: users/resources/users.py:69
+#: users/resources/users.py:73
 msgid ""
 "Admins or account owner are allowed to see details by email. You are neither "
 "admin not own this account."
@@ -269,7 +277,7 @@ msgstr ""
 "Администраторы или владельцы учетных записей имеют право смотреть "
 "особенности с помощью почты. Ты не администратор, ни владелец."
 
-#: users/resources/users.py:78
+#: users/resources/users.py:82
 #, python-format
 msgid "User with email '%(email)s' found, details are in payload."
 msgstr "Пользователь с email '%(email)s' найден, детали в теле сообщения."
@@ -279,12 +287,6 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 
 #~ msgid "Please follow the link."
 #~ msgstr "Прошу проследовать по адресу."
-
-#~ msgid ""
-#~ "User with id '%(user_id)s' successfully confirmed. Details are in payload."
-#~ msgstr ""
-#~ "Пользователь с идентификатором '%(user_id)s' успешно подтвержден. Детали "
-#~ "в теле сообщения."
 
 #~ msgid "Password allowed to be changed by account user only."
 #~ msgstr "Только пользователь может изменить собственный пароль."

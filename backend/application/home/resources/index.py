@@ -7,7 +7,7 @@ from flask_restful import Resource
 from flask_babelplus import format_datetime, format_currency, lazy_gettext as _
 
 from application.modules.fbp import fbp
-from application.modules.schemas.locale_time_zone import LocaleTimezoneSchema
+from application.schemas.locale_time_zone import LocaleTimezoneSchema
 
 locale_timezone_schema = LocaleTimezoneSchema()
 

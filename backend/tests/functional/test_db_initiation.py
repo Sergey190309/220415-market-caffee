@@ -48,11 +48,15 @@ def test_db_creation(_engine):
         'locales_global',
         'confirmations',
         'roles',
-        'users'
+        'users',
+        'components'
     ]
-    assert tables.sort() == table_names.sort()
+    tables.sort()
+    table_names.sort()
+    assert tables == table_names
     # print()
-    # print(tables)
+    # print('Tables from db -\t', tables)
+    # print('Tables to check -\t', table_names)
 
 
 # @pytest.mark.active

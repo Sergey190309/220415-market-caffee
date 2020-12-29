@@ -5,11 +5,15 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_babelplus import lazy_gettext as _
 
-from ..schemas.users import UserSchema, UserUpdateSchema
+from ..schemas.users import (
+    user_schema,
+    # UserSchema,
+    UserUpdateSchema
+)
 from ..models.users import UserModel
 from ..models.confirmations import ConfirmationModel
 
-user_schema = UserSchema()
+# user_schema = UserSchema()
 user_update_schema = UserUpdateSchema()
 
 
