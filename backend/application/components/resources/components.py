@@ -10,10 +10,10 @@ from ..schemas.components import component_schema
 class Components(Resource):
     @classmethod
     def post(cls):
-        _json = request.get_json()
+        # _json = request.get_json()
         _component = component_schema.load(
             request.get_json(), session=dbs_global.session)
-        print('Component.post', _json)
+        # print('Component.post', _json)
         # print(component_schema.dump(_component))
         _component.save_to_db()
         return {

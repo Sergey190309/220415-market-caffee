@@ -12,7 +12,7 @@ def url_components(root_url):
 def component_create_json():
     return {
         'identity': 'button_general_ok',
-        'locale_id': 'en',
+        'locale_id': 'ru',
         'title': 'Хорошо!',
         'content': 'Вообще-то это аналог кнопки Ok'
     }
