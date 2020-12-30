@@ -7,11 +7,8 @@ from application import create_app
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema
 from application.users.models.confirmations import ConfirmationModel
-
-# from dotenv import load_dotenv
-# @pytest.fixture(scope='session', autouse=True)
-# def load_env():
-#     load_dotenv()
+from application.components.models import ComponentModel
+from application.components.schemas.components import ComponentTestSchema
 
 
 @pytest.fixture(scope='session')
@@ -51,7 +48,7 @@ def source_text_lat(scope='session'):
         'exceptions were made for Pakistani nationals in the UK on visitor or '
         'temporary visas who provided negative tests before travel. The new strain '
         'has now been found in more than 20 countries.').replace('.', '').\
-        replace('.', '').replace('"', '').replace("'", "").lower().split(' ')
+        replace(',', '').replace('"', '').replace("'", "").lower().split(' ')
 
 
 @pytest.fixture
@@ -75,7 +72,7 @@ def random_words(source_text_lat, source_text_cyr):
     '''
     Source for words. Latin or cyrilic depening from argument.
     '''
-    def _method(lang: str):
+    def _method(lang: str = 'en'):
         # print(lang)
         if lang == 'en':
             word = choice(source_text_lat)
@@ -88,18 +85,10 @@ def random_words(source_text_lat, source_text_cyr):
 
 
 @pytest.fixture
-def random_email():
+def random_email(random_words):
     def _method(arg=None):
-        source = (
-            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. '
-            'Blanditiis, iste doloribus? Facilis sapiente fugit commodi et '
-            'nostrum amet aspernatur, illum necessitatibus maiores, '
-            'perspiciatis ipsam, omnis modi beatae? Saepe, eius neque.')
-        result = \
-            source.lower().replace(',', '').\
-            replace('.', '').replace('?', '').split(' ')
-        domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil')
-        return choice(result) + '@' + choice(result) + '.' + choice(domens)
+        domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil','su' , 'cn')
+        return random_words() + '@' + random_words() + '.' + choice(domens)
     return _method
 
 
@@ -117,6 +106,11 @@ def user_create_json(random_email):
 @pytest.fixture
 def user_schema(scope='session'):
     return UserSchema()
+
+
+@pytest.fixture
+def component_test_schema(scope='session'):
+    return ComponentTestSchema()
 
 
 @pytest.fixture
@@ -149,4 +143,33 @@ def access_token():
     def _method(user):
         # print('\n\naccess_token fixture')
         return user.get_tokens()['access_token']
+    return _method
+
+
+@pytest.fixture
+def component_instance(random_words):
+    '''
+    The fixture create random component instance without saving to db.
+    '''
+    def _method(lang: str = 'en'):
+        # print(lang)
+        _identity = ''
+        for i in range(0, 3):
+            _identity += random_words('en') + '_'
+
+        _locale_id = lang
+        _title = ''
+        for i in range(0, 2):
+            _title += random_words(lang) + ' '
+        _content = ''
+        for i in range(0, 10):
+            _content += random_words(lang) + ' '
+        # _json['locale_id'] = lang
+        component = ComponentModel(
+            identity=_identity[0: -1],
+            locale_id=_locale_id,
+            title=_title,
+            content=_content)
+        # component.save_to_db()
+        return component
     return _method

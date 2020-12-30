@@ -32,8 +32,10 @@ class ComponentModel(dbs_global.Model):
 
     @classmethod
     def find_by_identity_locale(
-            cls, identity: str, locale: str) -> 'ComponentModel':
-        return cls.query.filter_by(identity=identity, locale_id=locale).first()
+            cls, identity: str = None, locale_id: str = None) -> 'ComponentModel':
+        # print('identity -', identity)
+        # print('locale_id -', locale_id)
+        return cls.query.filter_by(identity=identity, locale_id=locale_id).first()
 
     def save_to_db(self) -> None:
         try:
