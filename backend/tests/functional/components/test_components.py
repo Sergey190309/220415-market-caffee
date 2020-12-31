@@ -55,20 +55,40 @@ def test_users_get(
         test_client, url_components, component_test_schema, component_instance):
     # Create and save new random instance send to API:
     _component_json = component_test_schema.dump(component_instance('en'))
-    for key in _component_json.keys():
-        print(key, '\t', _component_json[key])
     _component_request_json = _component_json.copy()
     _component_request_json.pop('title')
     _component_request_json.pop('content')
-    print()
-    for key in _component_request_json.keys():
-        print(key, '\t', _component_request_json[key])
-    resp = test_client.post(url_components, json=_component_request_json)
-
-    print()
-    print(resp.status_code)
-    print(resp.json)
+    resp = test_client.post(url_components, json=_component_json)
+    assert resp.status_code == 200
     # Get component instance from API:
-    # Change some key fail to get the instance from API:
+    resp = test_client.get(url_components, json=_component_request_json)
+    assert resp.status_code == 200
+    assert isinstance(resp.json['payload'], Dict)
+    for key in _component_json.keys():
+        assert _component_json[key] == resp.json['payload'][key]
+    # Change some searching criterion fail to get 404 from API:
+    _component_bad_content_request_json = _component_request_json.copy()
+    _component_bad_content_request_json['locale_id'] = 'ru'
+    resp = test_client.get(url_components, json=_component_bad_content_request_json)
+    assert resp.status_code == 404
+    _component_bad_content_request_json = _component_request_json.copy()
+    _component_bad_content_request_json['identity'] = 'asjgapos'
+    resp = test_client.get(url_components, json=_component_bad_content_request_json)
+    assert resp.status_code == 404
+    # Get marshmallow error:
+    _component_bad_content_request_json = _component_request_json.copy()
+    _component_bad_content_request_json['identity_'] = \
+        _component_bad_content_request_json.pop('identity')
+    resp = test_client.get(url_components, json=_component_bad_content_request_json)
+    assert resp.status_code == 400
+    _component_bad_content_request_json = _component_request_json.copy()
+    _component_bad_content_request_json['locale_id_'] = \
+        _component_bad_content_request_json.pop('locale_id')
+    resp = test_client.get(url_components, json=_component_bad_content_request_json)
+    assert resp.status_code == 400
+
+    # print()
+    # print(resp.status_code)
+    # print(resp.json)
 
     # resp = test_client.get(url_components)

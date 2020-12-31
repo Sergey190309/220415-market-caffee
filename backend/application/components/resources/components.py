@@ -5,7 +5,7 @@ from flask_babelplus import lazy_gettext as _
 from application.modules.dbs_global import dbs_global
 
 from ..models.components import ComponentModel
-from ..schemas.components import component_schema
+from ..schemas.components import component_schema, component_get_schema
 
 
 class Components(Resource):
@@ -17,9 +17,6 @@ class Components(Resource):
         # from terminal.
         _component = component_schema.load(
             request.get_json(), session=dbs_global.session)
-        # print(_component)
-        # print(_component.identity)
-        # print(_component.locale_id)
         _component_fm_db = ComponentModel.find_by_identity_locale(
             identity=_component.identity, locale_id=_component.locale_id)
         if _component_fm_db is not None:
@@ -39,7 +36,21 @@ class Components(Resource):
 
     @classmethod
     def get(cls):
-        _component = ComponentModel.find_by_identity_locale()
+        _search_criterion = component_get_schema.load(
+            request.get_json(), session=dbs_global.session)
+        _component = ComponentModel.find_by_identity_locale(
+            identity=_search_criterion.identity,
+            locale_id=_search_criterion.locale_id)
+        if _component is None:
+            return {
+                'message': str(_(
+                    "The component with identity '%(identity)s' and locale "
+                    "'%(locale_id)s' have not been found.",
+                    identity=_search_criterion.identity,
+                    locale_id=_search_criterion.locale_id)),
+            }, 404
+
         return {
-            'message': str(_("Hi there!, It's get method."))
+            'message': str(_("Found, see payload.")),
+            'payload': component_schema.dump(_component)
         }, 200

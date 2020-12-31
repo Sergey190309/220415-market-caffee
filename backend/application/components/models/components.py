@@ -12,11 +12,17 @@ class ComponentModel(dbs_global.Model):
     '''
     __tablename__ = 'components'
     __table_args__ = (
-        dbs_global.PrimaryKeyConstraint('identity', 'locale_id'),
+        dbs_global.PrimaryKeyConstraint(
+            'identity', 'kind_id', 'locale_id'),
         {},
     )
     identity = dbs_global.Column(dbs_global.String(64))
     # identity = dbs_global.Column(dbs_global.String(64), primary_key=True)
+    kind_id = dbs_global.Column(
+        dbs_global.String(64),
+        dbs_global.ForeignKey('component_kinds.id_kind'),
+        nullable=False,
+        default='button')
     locale_id = dbs_global.Column(
         dbs_global.String(16),
         dbs_global.ForeignKey('locales_global.id'),
@@ -25,28 +31,34 @@ class ComponentModel(dbs_global.Model):
     title = dbs_global.Column(
         dbs_global.String(64), nullable=False, default='Something')
     content = dbs_global.Column(dbs_global.UnicodeText)
+    details = dbs_global.Column(dbs_global.BigInteger)
 
     locale = dbs_global.relationship(
         'LocaleGlobalModel', backref='componentmodel')
     # 'LocaleModelGlobal', backref='componentmodel', lazy="dynamic")
 
     @classmethod
-    def find_by_identity_locale(
-            cls, identity: str = None, locale_id: str = None) -> 'ComponentModel':
+    def find_by_identity_kind_locale(
+            cls, identity: str = None,
+            kind_id: str = None,
+            locale_id: str = None) -> 'ComponentModel':
         # print('identity -', identity)
         # print('locale_id -', locale_id)
-        return cls.query.filter_by(identity=identity, locale_id=locale_id).first()
+        return cls.query.filter_by(
+            identity=identity,
+            kind_id=kind_id,
+            locale_id=locale_id).first()
 
     def save_to_db(self) -> None:
         try:
             dbs_global.session.add(self)
             dbs_global.session.commit()
         except Exception as err:
-            print('users.models.UserModel.save_to_db error\n', err)
+            print('components.models.ComponentModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()
         except Exception as err:
-            print('users.models.UserModel.delete_fm_db error\n', err)
+            print('components.models.ComponentModel.delete_fm_db error\n', err)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-29 10:46+0000\n"
-"PO-Revision-Date: 2020-12-29 10:48+0000\n"
+"POT-Creation-Date: 2020-12-31 08:26+0000\n"
+"PO-Revision-Date: 2020-12-31 08:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -23,13 +23,31 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
 
-#: components/resources/components.py:18
+#: components/resources/components.py:25
+#, python-format
+msgid ""
+"The component with identity '%(identity)s' and locale '%(locale_id)s' "
+"already exists."
+msgstr ""
+"Компонент с идентификатором '%(identity)s' и локализацией '%(locale_id)s' "
+"уже существует."
+
+#: components/resources/components.py:33
 msgid "The component has saved successfully. Details are in payload."
 msgstr "Компонент успешно сохранен. Детали в сообщении."
 
-#: components/resources/components.py:25
-msgid "Hi there!, It's get method."
-msgstr "Всем привет! Это метод get."
+#: components/resources/components.py:52
+#, python-format
+msgid ""
+"The component with identity '%(identity)s' and locale '%(locale_id)s' have "
+"not been found."
+msgstr ""
+"Компонент с идентификатором '%(identity)s' и локализацией '%(locale_id)s' не "
+"обнаружен."
+
+#: components/resources/components.py:59
+msgid "Found, see payload."
+msgstr "Нашел, смотри детали."
 
 #: globals.py:96
 msgid "That's registration confirmatin."
@@ -281,6 +299,9 @@ msgstr ""
 #, python-format
 msgid "User with email '%(email)s' found, details are in payload."
 msgstr "Пользователь с email '%(email)s' найден, детали в теле сообщения."
+
+#~ msgid "Hi there!, It's get method."
+#~ msgstr "Всем привет! Это метод get."
 
 #~ msgid "Spmthing went wrong."
 #~ msgstr "Что-то пошло не так."

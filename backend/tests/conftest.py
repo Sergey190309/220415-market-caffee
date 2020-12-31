@@ -8,6 +8,7 @@ from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema
 from application.users.models.confirmations import ConfirmationModel
 from application.components.models import ComponentModel
+from application.components.models.component_kinds import ComponentKindsModel
 from application.components.schemas.components import ComponentTestSchema
 
 
@@ -48,7 +49,8 @@ def source_text_lat(scope='session'):
         'exceptions were made for Pakistani nationals in the UK on visitor or '
         'temporary visas who provided negative tests before travel. The new strain '
         'has now been found in more than 20 countries.').replace('.', '').\
-        replace(',', '').replace('"', '').replace("'", "").lower().split(' ')
+        replace(',', '').replace('"', '').replace("'", "").replace("-", "").\
+        lower().split(' ')
 
 
 @pytest.fixture
@@ -64,7 +66,8 @@ def source_text_cyr(scope='session'):
         'политических или экономических санкций в отношении РФ или россиян. Отдельно '
         'отмечается, что блокировка может последовать за "дискриминацию в отношении '
         'материалов российских средств массовой информации"').replace('.', '').\
-        replace(',', '').replace('"', '').replace("'", "").lower().split(' ')
+        replace(',', '').replace('"', '').replace("'", "").replace("-", "").\
+        lower().split(' ')
 
 
 @pytest.fixture
@@ -85,9 +88,24 @@ def random_words(source_text_lat, source_text_cyr):
 
 
 @pytest.fixture
+def random_text(random_words):
+    '''
+    Source of text.
+    Latin or cyrrilic from argument.
+    Quontity of worlds - argument.
+    '''
+    def _method(lang: str = 'en', qnt: int = 1):
+        result = ''
+        for index in range(0, qnt):
+            result += random_words(lang) + ' '
+        return result
+    return _method
+
+
+@pytest.fixture
 def random_email(random_words):
     def _method(arg=None):
-        domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil','su' , 'cn')
+        domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil', 'su', 'cn')
         return random_words() + '@' + random_words() + '.' + choice(domens)
     return _method
 
@@ -172,4 +190,19 @@ def component_instance(random_words):
             content=_content)
         # component.save_to_db()
         return component
+    return _method
+
+
+@pytest.fixture
+def component_kind_instance(random_text):
+    '''
+    It jenerate instance without saving.
+    id_kind - argument, description - random set of 10 words.
+    '''
+    _description = random_text(lang='en', qnt=10)
+
+    def _method(id_kind: str = 'button'):
+        component_kind = ComponentKindsModel(
+            id_kind=id_kind, description=_description)
+        return component_kind
     return _method
