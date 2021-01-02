@@ -6,7 +6,7 @@ from application.components.schemas.components import component_schema
 
 # @pytest.mark.active
 def test_component_save_finds_delete(test_client, component_instance):
-    # Two random instances ru and en respectively:
+    Two random instances ru and en respectively:
     _component_en = component_instance('en')
     # _component_en_identity = _component_en.identity
     # _component_en_locale_id = _component_en.locale_id
