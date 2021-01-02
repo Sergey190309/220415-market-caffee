@@ -49,7 +49,8 @@ def test_db_creation(_engine):
         'confirmations',
         'roles',
         'users',
-        'components'
+        'components',
+        'component_kinds'
     ]
     tables.sort()
     table_names.sort()
