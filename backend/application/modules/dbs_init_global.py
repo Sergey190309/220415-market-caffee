@@ -16,6 +16,8 @@ def dbs_init_global():
     # Blueprint tables' initiation:
     from ..users.modules.dbs_init_users import dbs_init_users
     dbs_init_users()
+    from ..components.modules.dbs_init_component import dbs_init_component
+    dbs_init_component()
 
 
 def fill_locales():

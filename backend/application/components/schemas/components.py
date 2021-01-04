@@ -5,16 +5,18 @@ from ..modules.fma_components import fma_components
 
 # Below schemas used for correctness nested parts. Error not used is normal.
 # This error is kind of marshmallow feature error.
-from application.schemas.locales_global import LocaleGlobalSchema  # Do not remove
+from application.schemas.locales_global import LocaleGlobalSchema  # noqa: 401
+from .component_kinds import ComponentKindSchema  # noqa: 401
 
 from ..models.components import ComponentModel
 
 
-class ComponentSchema(fma_components.SQLAlchemyAutoSchema):
+class ComponentSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     '''
     The schema used for reguliar component creation and for 'information' dump.
     '''
     locale = fma_components.Nested('LocaleGlobalSchema', many=False)
+    kind = fma_components.Nested('ComponentKindSchema', many=False)
 
     class Meta:
         model = ComponentModel
@@ -30,7 +32,7 @@ class ComponentSchema(fma_components.SQLAlchemyAutoSchema):
 component_schema = ComponentSchema()
 
 
-class ComponentGetSchema(fma_components.SQLAlchemyAutoSchema):
+class ComponentGetSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     '''
     The schema used for searching criterion on get method.
     '''
@@ -50,12 +52,12 @@ class ComponentGetSchema(fma_components.SQLAlchemyAutoSchema):
 component_get_schema = ComponentSchema()
 
 
-class ComponentTestSchema(fma_components.SQLAlchemyAutoSchema):
+class ComponentTestSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     '''
     The schema for tests.
     '''
-    # confirmation = ma.Nested('ConfirmationSchema', many=True)
     # locale = fma_components.Nested('LocaleGlobalSchema', many=False)
+    # kind = fma_components.Nested('ComponentKindSchema', many=False)
 
     class Meta:
         model = ComponentModel
@@ -68,4 +70,4 @@ class ComponentTestSchema(fma_components.SQLAlchemyAutoSchema):
         # load_instance = True
 
 
-# component_test_schema = ComponentTestSchema()
+component_test_schema = ComponentTestSchema()

@@ -12,6 +12,7 @@ from application.users.models.confirmations import ConfirmationModel
 from application.components.models import ComponentModel
 from application.components.models.component_kinds import ComponentKindsModel
 from application.components.schemas.components import ComponentTestSchema
+from application.components.schemas.component_kinds import ComponentKindTestSchema
 
 from application.testing_config import SQLALCHEMY_DATABASE_URI
 
@@ -136,6 +137,11 @@ def component_test_schema(scope='session'):
 
 
 @pytest.fixture
+def component_kinds_test_schema(scope='session'):
+    return ComponentKindTestSchema()
+
+
+@pytest.fixture
 def created_user(
         test_client,
         user_schema,
@@ -189,8 +195,9 @@ def component_instance(random_words):
         # _json['locale_id'] = lang
         component = ComponentModel(
             identity=_identity[0: -1],
+            kind_id='button',
             locale_id=_locale_id,
-            title=_title,
+            title=_title[0: -1],
             content=_content)
         # component.save_to_db()
         return component

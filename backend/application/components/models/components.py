@@ -1,9 +1,9 @@
 # from typing import Dict
 # from datetime import datetime
 
-
 from application.modules.dbs_global import dbs_global
-from application.models.locales_global import LocaleGlobalModel  # Do not remove
+from application.models.locales_global import LocaleGlobalModel  # noqa: 401
+# from ..models import ComponentKindsModel
 
 
 class ComponentModel(dbs_global.Model):
@@ -17,7 +17,6 @@ class ComponentModel(dbs_global.Model):
         {},
     )
     identity = dbs_global.Column(dbs_global.String(64))
-    # identity = dbs_global.Column(dbs_global.String(64), primary_key=True)
     kind_id = dbs_global.Column(
         dbs_global.String(64),
         dbs_global.ForeignKey('component_kinds.id_kind'),
@@ -35,14 +34,18 @@ class ComponentModel(dbs_global.Model):
 
     locale = dbs_global.relationship(
         'LocaleGlobalModel', backref='componentmodel')
+    kind = dbs_global.relationship(
+        'ComponentKindsModel', backref='componentmodel')
     # 'LocaleModelGlobal', backref='componentmodel', lazy="dynamic")
 
     @classmethod
     def find_by_identity_kind_locale(
-            cls, identity: str = None,
+            cls,
+            identity: str = None,
             kind_id: str = None,
             locale_id: str = None) -> 'ComponentModel':
         # print('identity -', identity)
+        # print('kind_id -', kind_id)
         # print('locale_id -', locale_id)
         return cls.query.filter_by(
             identity=identity,

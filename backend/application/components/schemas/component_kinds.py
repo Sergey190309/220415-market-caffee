@@ -3,7 +3,7 @@ from ..modules.fma_components import fma_components
 from ..models.component_kinds import ComponentKindsModel
 
 
-class ComponentKindSchema(fma_components.SQLAlchemyAutoSchema):
+class ComponentKindSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     '''
     The schema for tests.
     '''
@@ -24,7 +24,7 @@ class ComponentKindSchema(fma_components.SQLAlchemyAutoSchema):
 component_kind_schema = ComponentKindSchema()
 
 
-class ComponentKindTestSchema(fma_components.SQLAlchemyAutoSchema):
+class ComponentKindTestSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     '''
     The schema for tests.
     '''

@@ -1,27 +1,15 @@
-# from flask import current_app
-# from sqlalchemy import create_engine, select
-
 from ..local_init_data_users import users_constants, default_admin
 # from application.globals import global_constants, default_admin
 
 from application.modules.dbs_global import dbs_global
-# from .dbs_users import dbs_users
-# from ..models.roles import RoleModel
-# from ..schemas.roles import RoleSchema
 '''
 Error is normal if module is not user explicitly in this file.
 '''
-# from ..models.confirmations import ConfirmationModel
 from ..models.users import UserModel
 from ..models.roles import RoleModel
-# from application.models.locales_global import LocaleGlobalModel
-# from ..models.locales import LocaleModel
 
 from ..schemas.users import AdminCreateSchema
 
-
-# global_constants = GlobalConstants()
-# default_admin = DefaultAdmin()
 
 user_create_schema = AdminCreateSchema()
 
@@ -32,6 +20,7 @@ def dbs_init_users():
 
 
 def fill_roles():
+    # some = users_constants
     for _role in users_constants.get_ROLES:
         # print('users.modules.fill_reles role -', _role['id'])
         _existing_role = RoleModel.find_by_id(_role['id'])
@@ -42,8 +31,9 @@ def fill_roles():
                 _role.save_to_db()
             except Exception as err:
                 print(
-                    'modules.dbs.SQLAlchemyBackend.init_app on '
+                    'application.users.modules.dbs_init_users on '
                     'fill_roles.\nSome error:\n', err)
+    # print('dbs_init_users, some -', some)
 
 
 def create_default_admin():

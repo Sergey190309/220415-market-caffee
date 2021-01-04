@@ -17,8 +17,10 @@ class Components(Resource):
         # from terminal.
         _component = component_schema.load(
             request.get_json(), session=dbs_global.session)
-        _component_fm_db = ComponentModel.find_by_identity_locale(
-            identity=_component.identity, locale_id=_component.locale_id)
+        _component_fm_db = ComponentModel.find_by_identity_kind_locale(
+            identity=_component.identity,
+            kind_id=_component.kind_id,
+            locale_id=_component.locale_id)
         if _component_fm_db is not None:
             return {
                 'message': str(_(
@@ -30,7 +32,7 @@ class Components(Resource):
         _component.save_to_db()
         return {
             'message': str(_(
-                "The component has saved successfully. Details are in payload.")),
+                "The component has been saved successfully. Details are in payload.")),
             'payload': component_schema.dump(_component)
         }, 200
 
@@ -38,8 +40,9 @@ class Components(Resource):
     def get(cls):
         _search_criterion = component_get_schema.load(
             request.get_json(), session=dbs_global.session)
-        _component = ComponentModel.find_by_identity_locale(
+        _component = ComponentModel.find_by_identity_kind_locale(
             identity=_search_criterion.identity,
+            kind_id=_search_criterion.kind_id,
             locale_id=_search_criterion.locale_id)
         if _component is None:
             return {
