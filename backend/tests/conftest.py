@@ -4,12 +4,16 @@ from random import choice
 
 from application import create_app
 
+from sqlalchemy import create_engine
+
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema
 from application.users.models.confirmations import ConfirmationModel
 from application.components.models import ComponentModel
 from application.components.models.component_kinds import ComponentKindsModel
 from application.components.schemas.components import ComponentTestSchema
+
+from application.testing_config import SQLALCHEMY_DATABASE_URI
 
 
 @pytest.fixture(scope='session')
@@ -206,3 +210,22 @@ def component_kind_instance(random_text):
             id_kind=id_kind, description=_description)
         return component_kind
     return _method
+
+
+@pytest.fixture
+def _app_folder():
+    '''
+    Used as an addendum to generate SQLite file path.
+    '''
+    return 'application/'
+
+
+@pytest.fixture
+def _engine(_app_folder):
+    '''
+    Generation of SQLite file path.
+    '''
+    URI_cuts = SQLALCHEMY_DATABASE_URI.split('///')
+    URI = URI_cuts[0] + '///' + _app_folder + URI_cuts[1]
+    return create_engine(URI)
+    # return create_engine(URI, echo=True)

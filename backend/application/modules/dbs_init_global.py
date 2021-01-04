@@ -1,4 +1,5 @@
-from ..globals import global_constants
+from ..global_init_data import global_constants
+# from ..globals import global_constants
 from .dbs_global import dbs_global
 
 '''

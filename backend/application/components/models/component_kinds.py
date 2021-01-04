@@ -13,6 +13,7 @@ class ComponentKindsModel(dbs_global.Model):
     @classmethod
     def find_by_id(
             cls, id_kind: str = None) -> 'ComponentKindsModel':
+        # print(id_kind)
         return cls.query.filter_by(id_kind=id_kind).first()
 
     def save_to_db(self) -> None:

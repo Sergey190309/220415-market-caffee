@@ -1,7 +1,8 @@
 # from flask import current_app
 # from sqlalchemy import create_engine, select
 
-from application.globals import global_constants, default_admin
+from ..local_init_data_users import users_constants, default_admin
+# from application.globals import global_constants, default_admin
 
 from application.modules.dbs_global import dbs_global
 # from .dbs_users import dbs_users
@@ -31,7 +32,7 @@ def dbs_init_users():
 
 
 def fill_roles():
-    for _role in global_constants.get_ROLES:
+    for _role in users_constants.get_ROLES:
         # print('users.modules.fill_reles role -', _role['id'])
         _existing_role = RoleModel.find_by_id(_role['id'])
         if not _existing_role:

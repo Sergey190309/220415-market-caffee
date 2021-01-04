@@ -4,7 +4,8 @@ Set initial Flask-BabelPlus values.
 from typing import Dict
 
 from flask_babelplus import Babel
-from application.globals import GlobalVariables
+
+from application.global_init_data import GlobalVariables
 
 
 def set_selectors(fbp: 'BabelBackend') -> str:

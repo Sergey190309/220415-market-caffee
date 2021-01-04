@@ -1,12 +1,45 @@
 import pytest
 
-from application.components.schemas.components import component_schema
+from application.modules.dbs_global import dbs_global
+
+# from application.components.schemas.components import component_schema
 # from application.components.models import ComponentModel
+from application.components.schemas.component_kinds import (
+    component_kind_test_schema, component_kind_schema)
+from application.components.models.component_kinds import (
+    ComponentKindsModel)
+
+
+@pytest.fixture
+def ck_json(component_kind_instance, random_words):
+    return component_kind_test_schema.dump(component_kind_instance(random_words()))
+
+
+@pytest.mark.active
+def test_component_kind_save_find_delete_good(test_client, ck_json):
+    '''
+    Save and find successfull.
+    '''
+    # print(ck_json)
+    # Sparere id for finding:
+    _id_kind = ck_json['id_kind']
+    # Create class instance:
+    _ck_instance = component_kind_schema.load(ck_json, session=dbs_global.session)
+    # Save instance to db:
+    _ck_instance.save_to_db()
+    # Find appropriate instance from db:
+    _ck_instance_fm_db = ComponentKindsModel.find_by_id(id_kind=_id_kind)
+    assert _ck_instance_fm_db.description == ck_json['description']
+    # Delete instance from db:
+    _ck_instance.delete_fm_db()
+    # Try to find it by id:
+    _ck_instance_fm_db = ComponentKindsModel.find_by_id(id_kind=_id_kind)
+    assert _ck_instance_fm_db is None
 
 
 # @pytest.mark.active
 def test_component_save_finds_delete(test_client, component_instance):
-    Two random instances ru and en respectively:
+    # Two random instances ru and en respectively:
     _component_en = component_instance('en')
     # _component_en_identity = _component_en.identity
     # _component_en_locale_id = _component_en.locale_id

@@ -4,7 +4,7 @@ Flask-Mail application
 from typing import List
 from flask_mail import Mail, Message
 
-from application.globals import confirmation_email_data
+from ..local_init_data_mailing import confirmation_email_data
 
 
 class MailMailing(Mail):

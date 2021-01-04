@@ -3,7 +3,9 @@ from time import time
 
 from application.modules.dbs_global import dbs_global
 # from ..modules.dbs_users import dbs_users
-from application.globals import global_constants
+# from application.global_init_data import global_constants
+from ..local_init_data_users import users_constants
+# from application.globals import global_constants
 
 
 class ConfirmationModel(dbs_global.Model):
@@ -34,7 +36,7 @@ class ConfirmationModel(dbs_global.Model):
         self.id = uuid4().hex
         self.expire_at = \
             int(time()) + \
-            global_constants.get_CONFIRMATION_EXPIRATION_DELTA
+            users_constants.get_CONFIRMATION_EXPIRATION_DELTA
         self.confirmed = False
 
     @classmethod

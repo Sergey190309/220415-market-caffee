@@ -10,5 +10,12 @@
   ],
   "python.testing.unittestEnabled": false,
   "python.testing.nosetestsEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "testExplorer.addToEditorContextMenu": true,
+  "testExplorer.hideWhen": "noTests",
+  "testExplorer.mergeSuites": true,
+  "testExplorer.onReload": "reset",
+  "testExplorer.onStart": "reset",
+  "testExplorer.showExpandButton": 1,
+  "testExplorer.sort": "byLocationWithSuitesFirst"
 }
