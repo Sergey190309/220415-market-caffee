@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-12-31 13:11+0000\n"
-"PO-Revision-Date: 2020-12-31 13:11+0000\n"
+"POT-Creation-Date: 2021-01-05 15:57+0000\n"
+"PO-Revision-Date: 2021-01-05 16:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -23,49 +23,78 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
 
-#: components/resources/components.py:25
+#: components/resources/component_kinds.py:19
 #, python-format
-msgid ""
-"The component with identity '%(identity)s' and locale '%(locale_id)s' "
-"already exists."
-msgstr ""
-"Компонент с идентификатором '%(identity)s' и локализацией '%(locale_id)s' "
-"уже существует."
+msgid "The component kind with id_kind '%(id_kind)s' already exists."
+msgstr "Тип компонента с идентификатором '%(id_kind)s' уже существует."
 
-#: components/resources/components.py:33
-msgid "The component has saved successfully. Details are in payload."
-msgstr "Компонент успешно сохранен. Детали в сообщении."
-
-#: components/resources/components.py:47
+#: components/resources/component_kinds.py:27
 #, python-format
-msgid ""
-"The component with identity '%(identity)s' and locale '%(locale_id)s' have "
-"not been found."
-msgstr ""
-"Компонент с идентификатором '%(identity)s' и локализацией '%(locale_id)s' не "
-"обнаружен."
+msgid "The component kind with identity '%(id_kind)s' has not been found."
+msgstr "Тип компонента с идентификатором '%(id_kind)s' не обнаружен."
 
-#: components/resources/components.py:54
+#: components/resources/component_kinds.py:48
+msgid "The component kind has been saved successfully. Details are in payload."
+msgstr "Тип компонента успешно сохранен. Детали в сообщении."
+
+#: components/resources/component_kinds.py:65
+#: components/resources/components.py:80
 msgid "Found, see payload."
 msgstr "Нашел, смотри детали."
 
-#: globals.py:96
-msgid "That's registration confirmatin."
-msgstr "Это подтверждение регистрации."
-
-#: globals.py:99
+#: components/resources/component_kinds.py:86
 #, python-format
 msgid ""
-"<p>Hello Friend,</p><p>You or someone else use %(email)s to register on our "
-"site.</p><p>To finish registration, please follow <a href="
-"%(link)s><strong>link</strong></a>.</p><p>If you did not register, you can "
-"simply ignore this email.</p><p>Best regards,</p><p>Sergey</p>"
+"The component kind with id '%(id_kind)s' has been updated successfully. "
+"Details are in payload."
 msgstr ""
-"<p>Уважаемый Друг!</p><p>Вы или кто-то другой использовали %(email)s для "
-"регистрации на нашем сайте.</p><p>Чтобы закончить регистрацию, прошу "
-"проследовать по ссылке <a href=%(link)s><strong>Тыц</strong></a>.</p><p>Если "
-"вы не регистрировались, можете спокойно проигнорировать это сообщение.</"
-"p><p>С наилучшими пожеланиями</p><p>Сергей</p>"
+"Тип компонента с идентификатором '%(id_kind)s' успешно обновлен. Детали в "
+"сообщении."
+
+#: components/resources/component_kinds.py:107
+#, python-format
+msgid "The component kind with id '%(id_kind)s' has been deleted."
+msgstr "Тип компонента с идентификатором '%(id_kind)s' убит на смерть."
+
+#: components/resources/components.py:20
+#, python-format
+msgid ""
+"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
+"'%(locale_id)s' already exists."
+msgstr ""
+"Компонента с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+"локализацией '%(locale_id)s' уже существует."
+
+#: components/resources/components.py:33
+#, python-format
+msgid ""
+"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
+"'%(locale_id)s' not found."
+msgstr ""
+"Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+"локализацией '%(locale_id)s' не обнаружен."
+
+#: components/resources/components.py:60
+msgid "The component has been saved successfully. Details are in payload."
+msgstr "Компонент успешно сохранен. Детали в сообщении."
+
+#: components/resources/components.py:101
+#, python-format
+msgid ""
+"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
+"'%(locale_id)s' updated successfully. Details are in payload."
+msgstr ""
+"Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+"локализацией '%(locale_id)s' успешно обновлен. Детали в сообщении."
+
+#: components/resources/components.py:128
+#, python-format
+msgid ""
+"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
+"'%(locale_id)s' deleted successfully."
+msgstr ""
+"Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+"локализацией '%(locale_id)s' успешно убит."
 
 #: home/resources/index.py:25
 msgid "Global variables are as in payload."
@@ -93,14 +122,32 @@ msgstr ""
 "Не очень понятно что вы спрашиваете. Я знаю только дату и время. Прошу "
 "уточнить."
 
-#: home/resources/index.py:68 users/resources/userconfirm.py:36
-#: users/resources/userconfirm.py:117
+#: home/resources/index.py:68 users/resources/userconfirm.py:38
+#: users/resources/userconfirm.py:119
 msgid "Hi there!"
 msgstr "Привет всем тут!"
 
 #: home/resources/index.py:70
 msgid "I plan to do something from this project."
 msgstr "Я что-то планирую сделать из этого проекта."
+
+#: mailing/local_init_data_mailing.py:31
+msgid "That's registration confirmatin."
+msgstr "Это подтверждение регистрации."
+
+#: mailing/local_init_data_mailing.py:34
+#, python-format
+msgid ""
+"<p>Hello Friend,</p><p>You or someone else use %(email)s to register on our "
+"site.</p><p>To finish registration, please follow <a href="
+"%(link)s><strong>link</strong></a>.</p><p>If you did not register, you can "
+"simply ignore this email.</p><p>Best regards,</p><p>Sergey</p>"
+msgstr ""
+"<p>Уважаемый Друг!</p><p>Вы или кто-то другой использовали %(email)s для "
+"регистрации на нашем сайте.</p><p>Чтобы закончить регистрацию, прошу "
+"проследовать по ссылке <a href=%(link)s><strong>Тыц</strong></a>.</p><p>Если "
+"вы не регистрировались, можете спокойно проигнорировать это сообщение.</"
+"p><p>С наилучшими пожеланиями</p><p>Сергей</p>"
 
 #: schemas/locale_time_zone.py:8
 msgid "Not a valid locale."
@@ -130,36 +177,36 @@ msgstr "Жетон не свежий."
 msgid "The token has been revoked."
 msgstr "Жетон отозван."
 
-#: users/resources/userconfirm.py:25
+#: users/resources/userconfirm.py:27
 msgid "Requested confirmation has not been found."
 msgstr "Затребованное подтверждение не обнаружено."
 
-#: users/resources/userconfirm.py:27
+#: users/resources/userconfirm.py:29
 msgid "Requested confirmation already expired."
 msgstr "Затребованное подтверждение уже истекло."
 
-#: users/resources/userconfirm.py:31
+#: users/resources/userconfirm.py:33
 msgid "User has some status already."
 msgstr "У пользователя уже есть статус."
 
-#: users/resources/userconfirm.py:38 users/resources/userconfirm.py:119
+#: users/resources/userconfirm.py:40 users/resources/userconfirm.py:121
 #, python-format
 msgid "You registration has been confirmed through %(email)s."
 msgstr "Ваша регистрация подтверждена через %(email)s."
 
-#: users/resources/userconfirm.py:58 users/resources/userhandle.py:119
+#: users/resources/userconfirm.py:60 users/resources/userhandle.py:119
 #: users/resources/userhandle.py:147
 #, python-format
 msgid "User with user_id '%(user_id)s' has not been found."
 msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
 
-#: users/resources/userconfirm.py:63 users/resources/userconfirm.py:110
+#: users/resources/userconfirm.py:65 users/resources/userconfirm.py:112
 #, python-format
 msgid "User with id '%(user_id)s' have status '%(role_id)s' already."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' уже имеет статус '%(role_id)s'."
 
-#: users/resources/userconfirm.py:74
+#: users/resources/userconfirm.py:76
 #, python-format
 msgid ""
 "Email has been sent to '%(email)s'. Please check your mail box. Also pay "
@@ -169,7 +216,7 @@ msgstr ""
 "ваш почтовый ящик. Также обратите внимание на директорий нежелательных "
 "сообщений."
 
-#: users/resources/userconfirm.py:81
+#: users/resources/userconfirm.py:83
 #, python-format
 msgid "While sending confirmation email something went wrong. Error - %(err)s"
 msgstr ""

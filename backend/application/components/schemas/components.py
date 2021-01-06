@@ -41,7 +41,7 @@ class ComponentGetSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     class Meta:
         model = ComponentModel
         # load_only = ('role_id', 'locale_id',)
-        exclude = ('title', 'content',)
+        # exclude = ('title', 'content',)
         # load_only = ('locale_id',)
         # dump_only = ("id",)
 
@@ -49,7 +49,7 @@ class ComponentGetSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
         # load_instance = True
 
 
-component_get_schema = ComponentSchema()
+component_get_schema = ComponentGetSchema()
 
 
 class ComponentTestSchema(fma_components.SQLAlchemyAutoSchema):  # noqa

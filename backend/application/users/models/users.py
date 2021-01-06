@@ -9,7 +9,7 @@ from application.mailing.modules.fml import fml
 # from application.globals import confirmation_email_data
 
 from application.modules.dbs_global import dbs_global
-from application.models.locales_global import LocaleGlobalModel  # It's normal
+from application.models.locales_global import LocaleGlobalModel  # noqa: 401
 # from ..modules.dbs_users import dbs_users
 from ..modules.fbc_users import fbc_users
 from .confirmations import ConfirmationModel
@@ -134,9 +134,11 @@ class UserModel(dbs_global.Model):
         self.save_to_db()
         return True
 
-    def update(self, update_values: Dict) -> bool:
+    def update(self, update_values: Dict = None) -> bool:
         # print('Update -', self.id)
         # print('Update -', update_values)
+        if update_values is None:
+            return False
         self.updated = datetime.now()
         for key in update_values.keys():
             # print(key, '\t', update_values[key])

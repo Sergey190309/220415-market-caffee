@@ -210,7 +210,7 @@ def component_kind_instance(random_text):
     It jenerate instance without saving.
     id_kind - argument, description - random set of 10 words.
     '''
-    _description = random_text(lang='en', qnt=10)
+    _description = random_text(lang='en', qnt=10)[0: -1]
 
     def _method(id_kind: str = 'button'):
         component_kind = ComponentKindsModel(

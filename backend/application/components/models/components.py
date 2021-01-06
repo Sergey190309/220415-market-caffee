@@ -1,4 +1,4 @@
-# from typing import Dict
+from typing import Dict
 # from datetime import datetime
 
 from application.modules.dbs_global import dbs_global
@@ -51,6 +51,13 @@ class ComponentModel(dbs_global.Model):
             identity=identity,
             kind_id=kind_id,
             locale_id=locale_id).first()
+
+    def update(self, update_values: Dict = None) -> None:
+        if update_values is None:
+            return
+        for key in update_values.keys():
+            setattr(self, key, update_values[key])
+        self.save_to_db()
 
     def save_to_db(self) -> None:
         try:

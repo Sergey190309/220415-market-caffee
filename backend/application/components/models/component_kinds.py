@@ -16,6 +16,10 @@ class ComponentKindsModel(dbs_global.Model):
         # print(id_kind)
         return cls.query.filter_by(id_kind=id_kind).first()
 
+    def update(self, description: str = None) -> None:
+        self.description = description
+        self.save_to_db()
+
     def save_to_db(self) -> None:
         try:
             dbs_global.session.add(self)
