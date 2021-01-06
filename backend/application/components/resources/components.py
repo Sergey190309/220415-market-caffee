@@ -60,7 +60,7 @@ class Components(Resource):
                 "The component has been saved successfully. "
                 "Details are in payload.")),
             'payload': component_schema.dump(_component)
-        }, 200
+        }, 201
 
     @classmethod
     def get(cls):

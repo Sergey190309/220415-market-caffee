@@ -22,7 +22,6 @@ class ComponentSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
         model = ComponentModel
         # load_only = ('role_id', 'locale_id',)
         # exclude = ('password_hash',)
-        # load_only = ('locale_id',)
         # dump_only = ("id",)
 
         include_fk = True

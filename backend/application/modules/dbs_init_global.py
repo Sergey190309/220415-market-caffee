@@ -18,6 +18,8 @@ def dbs_init_global():
     dbs_init_users()
     from ..components.modules.dbs_init_component import dbs_init_component
     dbs_init_component()
+    from ..contents.modules.dbs_init_contents import dbs_init_contents
+    dbs_init_contents()
 
 
 def fill_locales():

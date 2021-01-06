@@ -9,10 +9,14 @@ from sqlalchemy import create_engine
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema
 from application.users.models.confirmations import ConfirmationModel
+
 from application.components.models import ComponentModel
 from application.components.models.component_kinds import ComponentKindsModel
 from application.components.schemas.components import ComponentTestSchema
-from application.components.schemas.component_kinds import ComponentKindTestSchema
+from application.components.schemas.component_kinds import ComponentKindGetSchema
+
+from application.contents.models.views import ViewModel
+from application.contents.schemas.views import ViewGetSchema
 
 from application.testing_config import SQLALCHEMY_DATABASE_URI
 
@@ -55,7 +59,7 @@ def source_text_lat(scope='session'):
         'temporary visas who provided negative tests before travel. The new strain '
         'has now been found in more than 20 countries.').replace('.', '').\
         replace(',', '').replace('"', '').replace("'", "").replace("-", "").\
-        lower().split(' ')
+        replace('  ', ' ').lower().split(' ')
 
 
 @pytest.fixture
@@ -72,7 +76,7 @@ def source_text_cyr(scope='session'):
         'отмечается, что блокировка может последовать за "дискриминацию в отношении '
         'материалов российских средств массовой информации"').replace('.', '').\
         replace(',', '').replace('"', '').replace("'", "").replace("-", "").\
-        lower().split(' ')
+        replace('  ', ' ').lower().split(' ')
 
 
 @pytest.fixture
@@ -137,8 +141,13 @@ def component_test_schema(scope='session'):
 
 
 @pytest.fixture
-def component_kinds_test_schema(scope='session'):
-    return ComponentKindTestSchema()
+def component_kinds_get_schema(scope='session'):
+    return ComponentKindGetSchema()
+
+
+@pytest.fixture
+def view_get_schema(scope='session'):
+    return ViewGetSchema()
 
 
 @pytest.fixture
@@ -205,21 +214,6 @@ def component_instance(random_words):
 
 
 @pytest.fixture
-def component_kind_instance(random_text):
-    '''
-    It jenerate instance without saving.
-    id_kind - argument, description - random set of 10 words.
-    '''
-    _description = random_text(lang='en', qnt=10)[0: -1]
-
-    def _method(id_kind: str = 'button'):
-        component_kind = ComponentKindsModel(
-            id_kind=id_kind, description=_description)
-        return component_kind
-    return _method
-
-
-@pytest.fixture
 def _app_folder():
     '''
     Used as an addendum to generate SQLite file path.
@@ -236,3 +230,34 @@ def _engine(_app_folder):
     URI = URI_cuts[0] + '///' + _app_folder + URI_cuts[1]
     return create_engine(URI)
     # return create_engine(URI, echo=True)
+
+
+@pytest.fixture
+def description(random_text):
+    def _method(lang: str = 'en', qnt: int = 1):
+        return random_text(lang=lang, qnt=qnt)[0: -1]
+    return _method
+
+
+@pytest.fixture
+def component_kind_instance(description):
+    '''
+    It jenerate instance without saving.
+    id_kind - argument, description - random set of 10 words.
+    '''
+    def _method(id_kind: str = 'button'):
+        return ComponentKindsModel(
+            id_kind=id_kind, description=description(lang='en', qnt=10))
+    return _method
+
+
+@pytest.fixture
+def view_instance(description):
+    '''
+    View model instance without saving.
+    id_kind - argument, description - random set of 12 words.
+    '''
+    def _method(id_view: str = 'main'):
+        return ViewModel(
+            id_view=id_view, description=description(lang='en', qnt=12))
+    return _method

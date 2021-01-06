@@ -48,7 +48,7 @@ class ComponentKinds(Resource):
                 "The component kind has been saved successfully. "
                 "Details are in payload.")),
             'payload': component_kind_schema.dump(_component_kind)
-        }, 200
+        }, 201
 
     @classmethod
     def get(cls):
@@ -75,12 +75,12 @@ class ComponentKinds(Resource):
         _update_json = component_kind_get_schema.load(
             # request.get_json())
             request.get_json(), session=dbs_global.session)
-        # print(_update_json)
+        print('Put update json -', _update_json)
         _component_kind = ComponentKindsModel.find_by_id(
             id_kind=_update_json['id_kind'])
         if _component_kind is None:
             return cls.not_found(_update_json['id_kind'])
-        _component_kind.update(_update_json['description'])
+        _component_kind.update(_update_json)
         return {
             'message': str(_(
                 "The component kind with id '%(id_kind)s' has been updated "

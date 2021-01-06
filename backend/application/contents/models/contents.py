@@ -1,54 +1,52 @@
 from typing import Dict
-# from datetime import datetime
-
+from datetime import datetime
 from application.modules.dbs_global import dbs_global
 from application.models.locales_global import LocaleGlobalModel  # noqa: 401
-# from ..models import ComponentKindsModel
+# from ..models import ViewModel  # noqa: 401
 
 
-class ComponentModel(dbs_global.Model):
+class ContentModel(dbs_global.Model):
     '''
-    The model for front-end components.
+    The model for front end contents.
     '''
-    __tablename__ = 'components'
+    __tablename__ = 'contents'
     __table_args__ = (
         dbs_global.PrimaryKeyConstraint(
-            'identity', 'kind_id', 'locale_id'),
+            'identity', 'view_id', 'locale_id'),
         {},)
     identity = dbs_global.Column(dbs_global.String(64))
-    kind_id = dbs_global.Column(
+    view_id = dbs_global.Column(
         dbs_global.String(64),
-        dbs_global.ForeignKey('component_kinds.id_kind'),
+        dbs_global.ForeignKey('views.id_view'),
         nullable=False)
     locale_id = dbs_global.Column(
         dbs_global.String(16),
         dbs_global.ForeignKey('locales_global.id'),
         nullable=False)
+    created = dbs_global.Column(
+        dbs_global.DateTime, nullable=False, default=datetime.now())
+    updated = dbs_global.Column(dbs_global.DateTime)
+    user_id = dbs_global.Column(
+        dbs_global.Integer,
+        nullable=False,
+        default=0)
     title = dbs_global.Column(
-        dbs_global.String(64), nullable=False, default='Something')
-    # for popup or hover help in site:
+        dbs_global.String(64), nullable=False, default="That's title")
+    # content on site:
     content = dbs_global.Column(dbs_global.UnicodeText)
-    details = dbs_global.Column(dbs_global.BigInteger)
 
     locale = dbs_global.relationship(
-        'LocaleGlobalModel', backref='componentmodel')
-    kind = dbs_global.relationship(
-        'ComponentKindsModel', backref='componentmodel')
-    # 'LocaleModelGlobal', backref='componentmodel', lazy="dynamic")
+        'LocaleGlobalModel', backref='contentmodel')
+    view = dbs_global.relationship(
+        'ViewModel', backref='contentmodel')
 
     @classmethod
-    def find_by_identity_kind_locale(
+    def find_by_identity_view_locale(
             cls,
             identity: str = None,
-            kind_id: str = None,
-            locale_id: str = None) -> 'ComponentModel':
-        # print('identity -', identity)
-        # print('kind_id -', kind_id)
-        # print('locale_id -', locale_id)
-        return cls.query.filter_by(
-            identity=identity,
-            kind_id=kind_id,
-            locale_id=locale_id).first()
+            view_id: str = None,
+            locale_id: str = None) -> 'ContentModel':
+        pass
 
     def update(self, update_values: Dict = None) -> None:
         if update_values is None:
@@ -62,11 +60,11 @@ class ComponentModel(dbs_global.Model):
             dbs_global.session.add(self)
             dbs_global.session.commit()
         except Exception as err:
-            print('components.models.ComponentModel.save_to_db error\n', err)
+            print('contents.models.ContentModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()
         except Exception as err:
-            print('components.models.ComponentModel.delete_fm_db error\n', err)
+            print('contents.models.ContentModel.delete_fm_db error\n', err)

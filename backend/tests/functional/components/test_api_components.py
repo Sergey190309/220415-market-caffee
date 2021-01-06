@@ -31,7 +31,7 @@ def test_components_post(
 
     # Create random instance. Good.
     resp = component_api_resp(lang)
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     _component_json = resp.json['payload'].copy()
     # Create json for requests:
@@ -63,7 +63,7 @@ def test_components_post(
     _component_changed_json = _component_json.copy()
     _component_changed_json['identity'] = _component_changed_json['identity'] + '_'
     resp = test_client.post(url_components, json=_component_changed_json)
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     # # Change locale_id:
     _component_changed_json = _component_json.copy()
@@ -75,7 +75,7 @@ def test_components_post(
         _component_changed_json['locale_id'] = 'ru'
 
     resp = test_client.post(url_components, json=_component_changed_json)
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
 
@@ -88,7 +88,7 @@ def test_components_get(
     # Create random instance. Good.
     resp = component_api_resp(lang)
 
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     _component_json = resp.json['payload'].copy()
     # Get component instance from API:
@@ -128,7 +128,7 @@ def test_components_put(
     # Create new random instance and send to API:
     # resp = component_api_resp('en')
     resp = component_api_resp(lang)
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
     # Create jsons for further testing:
@@ -188,7 +188,7 @@ def test_components_delete(
     # Create new random instance and send to API:
     # resp = component_api_resp('en')
     resp = component_api_resp(lang)
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
     # Create jsons for further testing:

@@ -11,9 +11,9 @@ def url_component_kinds(root_url):
 @pytest.fixture
 def component_kind_api_resp(
         test_client, url_component_kinds, component_kind_instance,
-        component_kinds_test_schema, random_words):
+        component_kinds_get_schema, random_words):
     _components_kinds_json = \
-        component_kinds_test_schema.dump(
+        component_kinds_get_schema.dump(
             component_kind_instance(random_words() + random_words()))
     return test_client.post(url_component_kinds, json=_components_kinds_json)
 
@@ -21,10 +21,9 @@ def component_kind_api_resp(
 # @pytest.mark.active
 def test_components_kinds_post(
         test_client, url_component_kinds, component_kind_api_resp):
-
     resp = component_kind_api_resp
     # print(resp.status_code)
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
     _components_kinds_json = resp.json['payload'].copy()
@@ -53,7 +52,7 @@ def test_components_kinds_get(
         test_client, url_component_kinds, component_kind_api_resp):
     # Create new random instance and send to API:
     resp = component_kind_api_resp
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     # Create json for enquiry:
     _components_kinds_json = resp.json['payload'].copy()
@@ -78,7 +77,7 @@ def test_components_kinds_put(
 
     # Create new random instance and send to API:
     resp = component_kind_api_resp
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     # Create json for further testing:
     _component_kind_json = resp.json['payload'].copy()
@@ -100,12 +99,14 @@ def test_components_kinds_put(
 
     # Create json for correction:
     _put_component_kind_json = _component_kind_json.copy()
-    _put_component_kind_json['description'] += ' Corrected!'
+    _put_component_kind_json['description'] = ''
+    # _put_component_kind_json['description'] += ' Corrected!'
     # print(_put_component_kind_json)
 
     # Correct object:
     resp = test_client.put(url_component_kinds, json=_put_component_kind_json)
     assert resp.status_code == 200
+    print('resp.json -', resp.json)
     for key in _put_component_kind_json.keys():
         assert resp.json['payload'][key] == _put_component_kind_json[key]
 
@@ -116,7 +117,7 @@ def test_components_kinds_delete(
 
     # Create new random instance and send to API:
     resp = component_kind_api_resp
-    assert resp.status_code == 200
+    assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     _component_kind_json = resp.json['payload'].copy()
 

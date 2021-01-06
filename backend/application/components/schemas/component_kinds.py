@@ -26,7 +26,7 @@ component_kind_schema = ComponentKindSchema()
 
 class ComponentKindGetSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
     '''
-    The schema for getting.
+    The schema for getting. Mostly to json testing.
     No load instance.
     '''
     # confirmation = ma.Nested('ConfirmationSchema', many=True)

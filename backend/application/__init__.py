@@ -6,8 +6,9 @@ from application.modules.dbs_global import dbs_global
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
 import application.models  # Don't remove untill you know what are you doing.
-import application.users.models  # Don't remove untill you know what are you doing.
-import application.components.models  # Don't remove untill.
+import application.users.models  # Don't remove see above.
+import application.contents.models  # Don't remove see above.
+import application.components.models  # Don't remove see above.
 
 from application.modules.fbp import fbp
 
@@ -39,6 +40,11 @@ def create_app(config='default_config.py'):
         # Users' handling.
         from .users import cleate_users
         app.register_blueprint(cleate_users(), url_prefix='/users')
+
+        # Module for site contents that can be used by front end with possibility to
+        # correct it from site.
+        from .contents import create_contents
+        app.register_blueprint(create_contents(), url_prefix='/contents')
 
         # Module with back-end part for front-end reusable components.
         # Navigation bars, buttons, etc.

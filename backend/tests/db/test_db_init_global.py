@@ -31,7 +31,9 @@ def test_db_creation(_engine):
         'roles',
         'users',
         'components',
-        'component_kinds'
+        'component_kinds',
+        'contents',
+        'views'
     ]
     tables.sort()
     table_names.sort()
