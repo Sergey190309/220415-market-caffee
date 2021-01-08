@@ -25,7 +25,8 @@ class ContentModel(dbs_global.Model):
         nullable=False)
     created = dbs_global.Column(
         dbs_global.DateTime, nullable=False, default=datetime.now())
-    updated = dbs_global.Column(dbs_global.DateTime)
+    updated = dbs_global.Column(
+        dbs_global.DateTime, nullable=False, default=datetime.now())
     user_id = dbs_global.Column(
         dbs_global.Integer,
         nullable=False,
@@ -41,18 +42,18 @@ class ContentModel(dbs_global.Model):
         'ViewModel', backref='contentmodel')
 
     @classmethod
-    def find_by_identity_view_locale(
-            cls,
-            identity: str = None,
-            view_id: str = None,
-            locale_id: str = None) -> 'ContentModel':
-        pass
+    def find_by_identity_view_locale(cls, **primary_keys) -> 'ContentModel':
+        return cls.query.filter_by(
+            identity=primary_keys['identity'],
+            view_id=primary_keys['view_id'],
+            locale_id=primary_keys['locale_id']).first()
 
     def update(self, update_values: Dict = None) -> None:
         if update_values is None:
             return
         for key in update_values.keys():
             setattr(self, key, update_values[key])
+        self.updated = datetime.now()
         self.save_to_db()
 
     def save_to_db(self) -> None:

@@ -3,16 +3,17 @@ from ..modules.fma_contents import fma_contents
 # Below schemas used for correctness nested parts. Error not used is normal.
 # This error is kind of marshmallow feature error.
 from application.schemas.locales_global import LocaleGlobalSchema  # noqa: 401
-from .views import ViewsSchema  # noqa:401
+from .views import ViewSchema  # noqa:401
 
 from ..models.contents import ContentModel
 
-class ContentSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
+
+class ContentSchema(fma_contents.SQLAlchemyAutoSchema):  # noqa
     '''
-    The schema used for reguliar component creation and for 'information' dump.
+    The schema used for reguliar content creation and for 'information' dump.
     '''
     locale = fma_contents.Nested('LocaleGlobalSchema', many=False)
-    kind = fma_contents.Nested('ComponentKindSchema', many=False)
+    view = fma_contents.Nested('ViewSchema', many=False)
 
     class Meta:
         model = ContentModel
@@ -24,20 +25,21 @@ class ContentSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
         load_instance = True
 
 
-component_schema = ContentSchema()
+content_schema = ContentSchema()
 
 
-class ContentGetSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
+class ContentGetSchema(fma_contents.SQLAlchemyAutoSchema):  # noqa
     '''
-    The schema used for searching criterion on get method and other auxiliary purposes.
+    The schema used for searching criterion on get method and other auxiliary
+    purposes.
     No load instance and nested schemas.
     '''
-    # locale = fma_components.Nested('LocaleGlobalSchema', many=False)
+    # locale = fma_contents.Nested('LocaleGlobalSchema', many=False)
 
     class Meta:
         model = ContentModel
         # load_only = ('role_id', 'locale_id',)
-        # exclude = ('title', 'content',)
+        exclude = ('created', 'updated',)
         # load_only = ('locale_id',)
         # dump_only = ("id",)
 
@@ -45,4 +47,4 @@ class ContentGetSchema(fma_components.SQLAlchemyAutoSchema):  # noqa
         # load_instance = True
 
 
-component_get_schema = ContentGetSchema()
+content_get_schema = ContentGetSchema()

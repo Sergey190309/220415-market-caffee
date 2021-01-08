@@ -18,7 +18,12 @@ from application.components.schemas.component_kinds import ComponentKindGetSchem
 from application.contents.models.views import ViewModel
 from application.contents.schemas.views import ViewGetSchema
 
+from application.contents.models.contents import ContentModel
+from application.contents.schemas.contents import ContentGetSchema, ContentSchema
+
 from application.testing_config import SQLALCHEMY_DATABASE_URI
+# from application.contents.local_init_data_contents import contents_constants
+# from application.global_init_data import global_constants
 
 
 @pytest.fixture(scope='session')
@@ -45,8 +50,8 @@ def test_client(root_url):
             yield test_client
 
 
-@pytest.fixture
-def source_text_lat(scope='session'):
+@pytest.fixture(scope='session')
+def source_text_lat():
     return (
         'Pakistan has become the latest country to report cases of the new '
         'coronavirus variant first detected in the UK. Health authorities in Sindh '
@@ -62,8 +67,8 @@ def source_text_lat(scope='session'):
         replace('  ', ' ').lower().split(' ')
 
 
-@pytest.fixture
-def source_text_cyr(scope='session'):
+@pytest.fixture(scope='session')
+def source_text_cyr():
     return (
         'Ранее Федеральное собрание РФ одобрило закон, направленный на борьбу с '
         'цензурой со стороны зарубежных интернет-платформ по отношению к российским '
@@ -79,7 +84,7 @@ def source_text_cyr(scope='session'):
         replace('  ', ' ').lower().split(' ')
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def random_words(source_text_lat, source_text_cyr):
     '''
     Source for words. Latin or cyrilic depening from argument.
@@ -96,7 +101,7 @@ def random_words(source_text_lat, source_text_cyr):
     return _method
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def random_text(random_words):
     '''
     Source of text.
@@ -111,7 +116,7 @@ def random_text(random_words):
     return _method
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def random_email(random_words):
     def _method(arg=None):
         domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil', 'su', 'cn')
@@ -130,24 +135,34 @@ def user_create_json(random_email):
     return _method
 
 
-@pytest.fixture
-def user_schema(scope='session'):
+@pytest.fixture(scope='session')
+def user_schema():
     return UserSchema()
 
 
-@pytest.fixture
-def component_test_schema(scope='session'):
+@pytest.fixture(scope='session')
+def component_test_schema():
     return ComponentTestSchema()
 
 
-@pytest.fixture
-def component_kinds_get_schema(scope='session'):
+@pytest.fixture(scope='session')
+def component_kinds_get_schema():
     return ComponentKindGetSchema()
 
 
-@pytest.fixture
-def view_get_schema(scope='session'):
+@pytest.fixture(scope='session')
+def view_get_schema():
     return ViewGetSchema()
+
+
+@pytest.fixture(scope='session')
+def content_get_schema():
+    return ContentGetSchema()
+
+
+@pytest.fixture(scope='session')
+def content_schema():
+    return ContentSchema()
 
 
 @pytest.fixture
@@ -232,7 +247,7 @@ def _engine(_app_folder):
     # return create_engine(URI, echo=True)
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def description(random_text):
     def _method(lang: str = 'en', qnt: int = 1):
         return random_text(lang=lang, qnt=qnt)[0: -1]
@@ -242,7 +257,7 @@ def description(random_text):
 @pytest.fixture
 def component_kind_instance(description):
     '''
-    It jenerate instance without saving.
+    It generates instance without saving.
     id_kind - argument, description - random set of 10 words.
     '''
     def _method(id_kind: str = 'button'):
@@ -251,7 +266,7 @@ def component_kind_instance(description):
     return _method
 
 
-@pytest.fixture
+@pytest.fixture(scope='module')
 def view_instance(description):
     '''
     View model instance without saving.
@@ -260,4 +275,25 @@ def view_instance(description):
     def _method(id_view: str = 'main'):
         return ViewModel(
             id_view=id_view, description=description(lang='en', qnt=12))
+    return _method
+
+
+@pytest.fixture(scope='module')
+def content_instance(random_text):
+    '''
+    Content model instance without saving.
+    identity, view_id, locale_id - arguments, title - random set of 3 words.
+    content - random set of 5 words
+    '''
+    def _method(**content_ids):
+        _title = random_text(content_ids['locale_id'], 3)[0: -1]
+        _content = random_text(content_ids['locale_id'], 5)[0: -1]
+        _user_id = 0
+        return ContentModel(
+            identity=content_ids['identity'],
+            view_id=content_ids['view_id'],
+            locale_id=content_ids['locale_id'],
+            user_id=_user_id,
+            title=_title,
+            content=_content)
     return _method

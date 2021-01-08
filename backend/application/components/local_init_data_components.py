@@ -10,9 +10,14 @@ class ComponentsConstants():
             {
                 'id_kind': 'button',
                 'description':
-                    (
-                        'That is common button that can be detailed '
-                        'in component class.')}]
+                    'That is common button that can be detailed in component class.'},
+            {
+                'id_kind': 'filter',
+                'description':
+                    'That is common kind of filter.'
+            }
+
+        ]
 
     @property
     def get_KINDS(self):

@@ -6,7 +6,7 @@ from flask_babelplus import lazy_gettext as _
 from application.modules.dbs_global import dbs_global
 
 from ..models.views import ViewModel
-from ..schemas.views import view_schema
+from ..schemas.views import view_schema, view_get_schema
 
 
 class Views(Resource):
@@ -50,18 +50,47 @@ class Views(Resource):
         '''
         Get instance from db.
         '''
-        pass
+        _search_json = view_get_schema.load(request.get_json())
+        # _view = view_get_schema.load(request.get_json(), session=dbs_global.session)
+        _view = ViewModel.find_by_id(id_view=_search_json['id_view'])
+        if _view is None:
+            return cls.not_found(id_view=_search_json['id_view'])
+        return {
+            'message': str(_("Found, see payload.")),
+            'payload': view_schema.dump(_view)
+        }, 200
 
     @classmethod
     def put(cls):
         '''
         Update instance and save to db.
         '''
-        pass
+        _update_json = view_get_schema.load(request.get_json())
+        _view = ViewModel.find_by_id(id_view=_update_json['id_view'])
+        if _view is None:
+            return cls.not_found(id_view=_update_json['id_view'])
+        _view.update(_update_json)
+        return {
+            'message': str(_(
+                "The view with id '%(id_view)s' has been updated "
+                "successfully. Details are in payload.",
+                id_view=_update_json['id_view'])),
+            'payload': view_schema.dump(_view)
+        }, 200
 
     @classmethod
     def delete(cls):
         '''
         Delete instance from db.
         '''
-        pass
+        _delete_json = view_get_schema.load(request.get_json())
+        _view = ViewModel.find_by_id(id_view=_delete_json['id_view'])
+        if _view is None:
+            return cls.not_found(id_view=_delete_json['id_view'])
+        _view.delete_fm_db()
+        return {
+            'message': str(_(
+                "The view with id '%(id_view)s' has been deleted "
+                "successfully.",
+                id_view=_delete_json['id_view']))
+        }, 200
