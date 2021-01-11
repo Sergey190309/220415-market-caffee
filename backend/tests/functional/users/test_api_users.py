@@ -22,8 +22,7 @@ def test_users_post(test_client, url_users, user_create_json):
     _user_create_json = user_create_json().copy()
     _email = _user_create_json['email']
     _password = _user_create_json['password']
-    # print('email -', _user_create_json['email'])
-    # print('email -', _email)
+    print(_user_create_json)
     resp = test_client.post(url_users, json=_user_create_json)
     _user = UserModel.find_by_email(_email)
     # print()

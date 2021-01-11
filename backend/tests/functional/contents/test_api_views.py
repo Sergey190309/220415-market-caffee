@@ -112,7 +112,7 @@ def test_view_put(
     # Marshmallow tested within test_view_get.
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_view_delete(
         test_client, url_view,
         original_key_data):

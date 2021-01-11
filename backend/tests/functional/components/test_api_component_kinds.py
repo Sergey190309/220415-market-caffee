@@ -47,7 +47,7 @@ def test_components_kinds_post(
     # print(_components_kinds_json)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_components_kinds_get(
         test_client, url_component_kinds, component_kind_api_resp):
     # Create new random instance and send to API:
@@ -71,7 +71,7 @@ def test_components_kinds_get(
     # print(resp.json)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_components_kinds_put(
         test_client, url_component_kinds, component_kind_api_resp):
 
@@ -111,7 +111,7 @@ def test_components_kinds_put(
         assert resp.json['payload'][key] == _put_component_kind_json[key]
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_components_kinds_delete(
         test_client, url_component_kinds, component_kind_api_resp):
 

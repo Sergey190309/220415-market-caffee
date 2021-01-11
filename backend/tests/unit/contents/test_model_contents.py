@@ -1,4 +1,5 @@
 from typing import Dict
+# from typing import Dict, NoneType
 import pytest
 
 from application.modules.dbs_global import dbs_global
@@ -150,3 +151,67 @@ def test_content_update(
             **content_ids_json)
         assert getattr(_found_instance, key) == _update_values_json[key]
         # print(getattr(_found_instance, key))
+
+
+@pytest.mark.parametrize(
+    'language, lang_testing_result', [
+        (global_constants.get_LOCALES[0]['id'], 'None'),
+        ('not', 'message'),
+        ('', 'message')
+    ])
+@pytest.mark.parametrize(
+    'views, view_testing_result', [
+        (contents_constants.get_VIEWS[0]['id_view'], 'None'),
+        ('not', 'message'),
+        ('', 'message')
+    ])
+def test_content_save_wrong_fk(
+        language, lang_testing_result,
+        views, view_testing_result,
+        content_schema, content_get_schema,
+        content_instance):
+    '''
+    Saving instance with foreign keys not in respective tables or without foreign key.
+    '''
+    # print(content_get_schema.dump(content_instance(locale_id='cn')))
+    _content_json = content_get_schema.dump(
+        content_instance(locale_id=language, view_id=views))
+    _content = content_schema.load(_content_json, session=dbs_global.session)
+    result = _content.save_to_db()
+    # print(result)
+    if (lang_testing_result == 'None') and (view_testing_result == 'None'):
+        assert result is None
+    else:
+        result.find('foreign key constraint fails') != -1
+
+
+@pytest.mark.parametrize(
+    'language, lang_testing_result', [
+        (global_constants.get_LOCALES[0]['id'], 'None'),
+        ('not', 'message'),
+        ('', 'message')
+    ])
+@pytest.mark.parametrize(
+    'views, view_testing_result', [
+        (contents_constants.get_VIEWS[0]['id_view'], 'None'),
+        ('not', 'message'),
+        ('', 'message')
+    ])
+def test_content_update_wrong_fk(
+        language, lang_testing_result,
+        views, view_testing_result,
+        content_schema, content_get_schema,
+        content_instance):
+    '''
+    Saving instance with foreign keys not in respective tables or without foreign key.
+    '''
+    # print(content_get_schema.dump(content_instance(locale_id='cn')))
+    _content_json = content_get_schema.dump(
+        content_instance(locale_id=language, view_id=views))
+    _content = content_schema.load(_content_json, session=dbs_global.session)
+    result = _content.update(_content_json)
+    # print(result)
+    if (lang_testing_result == 'None') and (view_testing_result == 'None'):
+        assert result is None
+    else:
+        result.find('foreign key constraint fails') != -1

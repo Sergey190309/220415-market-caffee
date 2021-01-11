@@ -11,14 +11,14 @@ def url_contents(root_url):
     return root_url + '/contents'
 
 
-# @pytest.fixture(scope='session')
-# def langs():
-#     return [item['id'] for item in global_constants.get_LOCALES]
+@pytest.fixture(scope='session')
+def langs():
+    return [item['id'] for item in global_constants.get_LOCALES]
 
 
-# @pytest.fixture(scope='session')
-# def views():
-#     return [item['id_view'] for item in contents_constants.get_VIEWS]
+@pytest.fixture(scope='session')
+def views():
+    return [item['id_view'] for item in contents_constants.get_VIEWS]
 
 
 # @pytest.fixture(scope='module', autouse=True)
@@ -29,12 +29,12 @@ def pytest_generate_tests(metafunc):
     '''
     if 'lang' in metafunc.fixturenames:
         metafunc.parametrize(
-            # 'lang', [item['id'] for item in global_constants.get_LOCALES])
-            'lang', ['en'])
+            'lang', [item['id'] for item in global_constants.get_LOCALES])
+        # 'lang', ['en'])
     if 'view' in metafunc.fixturenames:
         metafunc.parametrize(
-            # 'view', [item['id_view'] for item in contents_constants.get_VIEWS])
-            'view', ['main'])
+            'view', [item['id_view'] for item in contents_constants.get_VIEWS])
+        # 'view', ['main'])
 
 
 # @pytest.fixture(scope='module', autouse=True)
@@ -69,7 +69,7 @@ def non_manipulated_keys_list() -> List:
 
 
 # @pytest.fixture(scope='module', autouse=True)
-@pytest.fixture
+@pytest.fixture(autouse=True)
 def content_api_resp(
         test_client, url_contents, content_instance,
         content_get_schema, key_data_json):
@@ -80,13 +80,11 @@ def content_api_resp(
         identity=key_data_json['identity'],
         view_id=key_data_json['view_id'],
         locale_id=key_data_json['locale_id']))
-    # print('api resp -', content_json)
     resp = test_client.post(url_contents, json=content_json)
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     assert isinstance(resp.json['payload']['view'], Dict)
     assert isinstance(resp.json['payload']['locale'], Dict)
-    # print('api_resp -', resp.json)
     return resp
 
 
@@ -138,93 +136,166 @@ def test_contents_post_already_exists(
 
 
 # @pytest.mark.active
-# def test_contents_post_create_other_instances():
-#     '''
-#     '''
-#     print(resp.status_code)
-#     print(resp.json)
+def test_contents_post_create_other_instances(
+        test_client, url_contents,
+        langs, views,
+        random_words, original_value_data,
+        content_api_resp, key_data_json):
+    '''
+    Creating other instances with one of three primary keys changed.
+    '''
+    resp = content_api_resp
+    for key in key_data_json.keys():
+        _other_keys_json = key_data_json.copy()
+        # Change one of key for other allowed one:
+        if key == 'locale_id':
+            _langs = langs.copy()
+            _langs.remove(key_data_json[key])
+            _other_keys_json[key] = _langs[0]
+        elif key == 'view_id':
+            _views = views.copy()
+            _views.remove(key_data_json[key])
+            _other_keys_json[key] = _views[0]
+        else:
+            _other_keys_json[key] = random_words() + random_words()
 
-
-# # @pytest.mark.active
-# def test_view_get(
-#         test_client, url_view, original_key_data):
-#     # Find data with normal set of keys:
-#     resp = test_client.get(url_view, json=original_key_data)
-#     assert resp.status_code == 200
-#     assert 'payload' in resp.json.keys()
-#     assert isinstance(resp.json['payload'], Dict)
-
-#     # Try to find data with wrong value (404):
-#     for key in original_key_data.keys():
-#         _key_data = original_key_data.copy()
-#         _key_data['id_view'] += '_wrong'
-#         resp = test_client.get(url_view, json=_key_data)
-#         assert resp.status_code == 404
-#         assert 'payload' not in resp.json.keys()
-
-#     # Try to find data with wrong key (marshmallow error):
-#     for key in original_key_data.keys():
-#         _key = key + '_wrong'
-#         _key_data = original_key_data.copy()
-#         _key_data[_key] = _key_data.pop(key)
-#         resp = test_client.get(url_view, json=_key_data)
-#         assert resp.status_code == 400
-#         # print(resp.json)
-#         # print(resp.status_code)
-
-
-# # @pytest.mark.active
-# def test_view_put(
-#         test_client, url_view,
-#         original_data, original_key_data, original_value_data):
-#     # Find and update data with normal set of keys:
-#     for key in original_value_data.keys():
-#         _corrected_data = original_data.copy()
-#         _corrected_data[key] += ' !corrected!'
-#         resp = test_client.put(url_view, json=_corrected_data)
-#         assert resp.status_code == 200
-#         assert 'payload' in resp.json.keys()
-#         assert isinstance(resp.json['payload'], Dict)
-#         for resp_key in resp.json['payload'].keys():
-#             assert _corrected_data[resp_key] == resp.json['payload'][resp_key]
-
-#     # Try to find view with wrong value (404):
-#     for key in original_key_data.keys():
-#         _wrong_key_value = original_key_data.copy()
-#         _wrong_key_value[key] += '_wrong'
-#         resp = test_client.put(url_view, json=_wrong_key_value)
-#         assert resp.status_code == 404
-#         assert 'payload' not in resp.json.keys()
-
-#     # Marshmallow tested within test_view_get.
+        # Create new data json that allowed create new instance:
+        _new_original_data_json = dict(original_value_data, **_other_keys_json)
+        resp = test_client.post(url_contents, json=_new_original_data_json)
+        assert resp.status_code == 201
+        assert 'payload' in resp.json.keys()
+        assert isinstance(resp.json['payload'], Dict)
+        # print(resp.status_code)
+        # print(resp.json)
+        # for key in _other_keys_json.keys():
 
 
 # @pytest.mark.active
-# def test_view_delete(
-#         test_client, url_view,
-#         original_key_data):
-#     # Insure view is exist in db:
-#     resp = test_client.get(url_view, json=original_key_data)
-#     assert resp.status_code == 200
-#     assert 'payload' in resp.json.keys()
-#     assert isinstance(resp.json['payload'], Dict)
-#     # Try to find view with wrong value (404):
-#     for key in original_key_data.keys():
-#         _wrong_key_value = original_key_data.copy()
-#         _wrong_key_value[key] += '_wrong'
-#         resp = test_client.delete(url_view, json=_wrong_key_value)
-#         assert resp.status_code == 404
-#         assert 'payload' not in resp.json.keys()
-#     # Marshmallow tested within test_view_get.
+def test_contents_post_wrong_fk(
+        test_client, url_contents,
+        key_data_json, original_value_data,
+        original_data):
+    '''
+    Operation with foreign key that are not in appropriate tables.
+    '''
+    # Create dict without relationships and dates:
+    _original_data = dict(key_data_json, **original_value_data)
 
-#     # delete view instance from db:
-#     resp = test_client.delete(url_view, json=original_key_data)
-#     assert resp.status_code == 200
-#     assert 'payload' not in resp.json.keys()
+    # Try to create instance briching db's constrains:
+    _original_data['locale_id'] = 'not'
+    # _original_data['identity'] += 'not a view'
+    resp = test_client.post(url_contents, json=_original_data)
+    assert resp.status_code == 500
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json['payload'], str)
 
-#     # Insure view is deleted in db:
-#     resp = test_client.get(url_view, json=original_key_data)
-#     assert resp.status_code == 404
-#     assert 'payload' not in resp.json.keys()
-#     # print(resp.json)
-#     # print(resp.status_code)
+    _original_data = dict(key_data_json, **original_value_data)
+
+    _original_data['view_id'] = 'not'
+    # _original_data['identity'] += 'not a view'
+    resp = test_client.post(url_contents, json=_original_data)
+    assert resp.status_code == 500
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json['payload'], str)
+
+
+# @pytest.mark.active
+def test_contents_get(
+        test_client, url_contents,
+        key_data_json, original_value_data,
+        content_api_resp):
+
+    # Find data with normal set of keys:
+    resp = test_client.get(url_contents, json=key_data_json)
+
+    # Check something found and data has been identical:
+    assert resp.status_code == 200
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json['payload'], Dict)
+    for key in original_value_data.keys():
+        assert original_value_data[key] == resp.json['payload'][key]
+
+    # Try to find data with wrong value (404):
+    for key in key_data_json.keys():
+        _wrong_key_json = key_data_json.copy()
+        _wrong_key_json[key] += '_wrong'
+        resp = test_client.get(url_contents, json=_wrong_key_json)
+        assert resp.status_code == 404
+        assert 'payload' not in resp.json.keys()
+        assert 'message' in resp.json.keys()
+
+    # Try to find data with wrong key (marshmallow error):
+    for key in key_data_json.keys():
+        _wrong_key = key + '_wrong'
+        _key_json = key_data_json.copy()
+        _key_json[_wrong_key] = _key_json.pop(key)
+        resp = test_client.get(url_contents, json=_key_json)
+        assert resp.status_code == 400
+        assert isinstance(resp.json, str)
+        # print(resp.status_code)
+        # print(type(resp.json))
+
+
+# @pytest.mark.active
+def test_content_put(
+        test_client, url_contents,
+        key_data_json, original_value_data,
+        content_api_resp):
+    # Create origina dict without nonmanipulated keys
+    _original_data_json = dict(key_data_json, **original_value_data)
+    # Find and update data with normal set of keys:
+    for key in original_value_data.keys():
+        _corrected_data = _original_data_json.copy()
+        if isinstance(_corrected_data[key], int):
+            _corrected_data[key] += 5
+        elif isinstance(_corrected_data[key], str):
+            _corrected_data[key] += ' !corrected!'
+        resp = test_client.put(url_contents, json=_corrected_data)
+        assert resp.status_code == 200
+        assert resp.json['payload'][key] == _corrected_data[key]
+
+    # Try to find view with wrong value (404):
+    for key in key_data_json.keys():
+        _wrong_key_value = key_data_json.copy()
+        _wrong_key_value[key] += '_wrong'
+        resp = test_client.put(url_contents, json=_wrong_key_value)
+        assert resp.status_code == 404
+        assert 'payload' not in resp.json.keys()
+        assert isinstance(resp.json, Dict)
+
+    # Marshmallow tested within test_view_get.
+
+
+# @pytest.mark.active
+def test_content_delete(
+        test_client, url_contents,
+        key_data_json, original_value_data,
+        content_api_resp):
+    # Insure view is exist in db:
+    resp = test_client.get(url_contents, json=key_data_json)
+    assert resp.status_code == 200
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json['payload'], Dict)
+    # Try to find view with wrong value (404):
+    for key in key_data_json.keys():
+        _wrong_key_value = key_data_json.copy()
+        _wrong_key_value[key] += '_wrong'
+        resp = test_client.delete(url_contents, json=_wrong_key_value)
+        assert resp.status_code == 404
+        assert 'payload' not in resp.json.keys()
+        assert isinstance(resp.json, Dict)
+    # Marshmallow tested within test_view_get.
+
+    # delete view instance from db:
+    resp = test_client.delete(url_contents, json=key_data_json)
+    assert resp.status_code == 200
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json, Dict)
+
+    # Insure view is deleted in db:
+    resp = test_client.get(url_contents, json=key_data_json)
+    assert resp.status_code == 404
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json, Dict)
+    # print(resp.json)
+    # print(resp.status_code)

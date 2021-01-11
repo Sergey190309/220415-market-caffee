@@ -7,6 +7,9 @@ from sqlalchemy.exc import OperationalError
 from application import create_app
 from application.users.models.users import UserModel
 
+from application.global_init_data import global_constants
+from application.users.local_init_data_users import users_constants
+
 
 @pytest.fixture(scope='module')
 def test_client_unit():
@@ -93,6 +96,40 @@ def test_user_create(
 
 
 # @pytest.mark.active
+@pytest.mark.parametrize(
+    'role, role_testing_result', [
+        (users_constants.get_ROLES[0]['id'], 'None'),
+        ('not', 'message'),
+        ('', 'message')
+    ])
+@pytest.mark.parametrize(
+    'language, lang_testing_result', [
+        (global_constants.get_LOCALES[0]['id'], 'None'),
+        ('not', 'message'),
+        ('', 'message')
+    ])
+def test_user_save_wrong_fk(
+        role, role_testing_result,
+        language, lang_testing_result,
+        user_get_schema, user_schema,
+        created_user):
+
+    # print(created_user(role_id=role).id)
+    _user = UserModel.find_by_id(created_user().id)
+    # user_schema.load(user_get_schema.dump(created_user(role_id=role)))
+    # print(_user.id, '\t', _user.role_id, '\t', _user.locale_id)
+    # print(role, '\t', language)
+    _user.role_id = role
+    _user.locale_id = language
+    result = _user.save_to_db()
+    if lang_testing_result == 'None' and role_testing_result == 'None':
+        assert result is None
+    else:
+        # print(result)
+        result.find('foreign key constraint fails') != -1
+
+
+# @pytest.mark.active
 def test_user_update(
         user_fm_db,
         user_update_json):
@@ -107,6 +144,46 @@ def test_user_update(
     assert _user_after.is_own_id(user_fm_db.id) is True
     assert _user_after.is_own_email(user_fm_db.email) is True
     assert _user_after.is_valid is True
+
+
+# @pytest.mark.active
+@pytest.mark.parametrize(
+    'role, role_testing_result', [
+        # (users_constants.get_ROLES[0]['id'], 'None'),
+        ('not', 'message'),
+        # ('', 'message')
+    ])
+@pytest.mark.parametrize(
+    'language, lang_testing_result', [
+        (global_constants.get_LOCALES[0]['id'], 'None'),
+        # ('not', 'message'),
+        # ('', 'message')
+    ])
+def test_user_update_wrong_fk(
+        role, role_testing_result,
+        language, lang_testing_result,
+        user_get_schema, user_schema,
+        created_user):
+
+    # print(created_user(role_id=role).id)
+    _user = UserModel.find_by_id(created_user().id)
+    # user_schema.load(user_get_schema.dump(created_user(role_id=role)))
+    # print(_user.id, '\t', _user.role_id, '\t', _user.locale_id)
+    # print(role, '\t', language)
+    _update_json = user_get_schema.dump(_user)
+    _update_json.pop('accessed')
+    _update_json.pop('created')
+    _update_json.pop('updated')
+    _user.role_id = role
+    _user.locale_id = language
+    print(_update_json)
+    result = _user.update(_update_json)
+    print(result)
+    if lang_testing_result == 'None' and role_testing_result == 'None':
+        assert result is None
+    else:
+        print(result)
+        # result.find('foreign key constraint fails') != -1
 
 
 # @pytest.mark.active

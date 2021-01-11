@@ -7,7 +7,7 @@ from application.modules.dbs_global import dbs_global
 from ..models.contents import ContentModel
 from ..schemas.contents import (
     content_schema,
-    # content_get_schema
+    content_get_schema
 )
 
 
@@ -35,7 +35,15 @@ class Contents(Resource):
         }, 404
 
     @classmethod
-    def post(cls):
+    def error_message(cls, error_info: str) -> Dict:
+        return {
+            'message': str(_(
+                "Something went wrong. Info in payload.")),
+            'payload': error_info
+        }, 500
+
+    @classmethod
+    def post(cls) -> Dict:
         '''
         Create content instance and save to db.
         '''
@@ -48,7 +56,9 @@ class Contents(Resource):
             locale_id=_content.locale_id)
         if _content_fm_db is not None:
             return cls.already_exists(_request_json)
-        _content.save_to_db()
+        error_info = _content.save_to_db()
+        if error_info is not None:
+            return cls.error_message(error_info)
         return {
             'message': str(_(
                 "The content has been saved successfully. "
@@ -57,22 +67,52 @@ class Contents(Resource):
         }, 201
 
     @classmethod
-    def get(cls):
+    def get(cls) -> Dict:
         '''
         Get instance from db.
         '''
-        pass
+        _search_json = content_get_schema.load(request.get_json())
+        _content = ContentModel.find_by_identity_view_locale(**_search_json)
+        if _content is None:
+            return cls.not_found(_search_json)
+        return {
+            'message': str(_(
+                "The content has been found. "
+                "Details are in payload.")),
+            'payload': content_schema.dump(_content)
+        }, 200
 
     @classmethod
-    def put(cls):
+    def put(cls) -> Dict:
         '''
         Update instance and save to db.
         '''
-        pass
+        _update_json = content_get_schema.load(request.get_json())
+        _content = ContentModel.find_by_identity_view_locale(**_update_json)
+        if _content is None:
+            return cls.not_found(_update_json)
+        _content.update(_update_json)
+        return {
+            'message': str(_(
+                "The content has been found and successfully updated. "
+                "Details are in payload.")),
+            'payload': content_schema.dump(_content)
+        }, 200
 
     @classmethod
     def delete(cls):
         '''
         Delete instance from db.
         '''
-        pass
+        _delete_json = content_get_schema.load(request.get_json())
+        _content = ContentModel.find_by_identity_view_locale(**_delete_json)
+        if _content is None:
+            return cls.not_found(_delete_json)
+        _content.delete_fm_db()
+        return {
+            'message': str(_(
+                "The content on view '%(view_id)s' with locale '%(locale_id)s' and "
+                "identity '%(identity)s' has been found and successfully deleted.",
+                identity=_delete_json['identity'],
+                view_id=_delete_json['view_id'],
+                locale_id=_delete_json['locale_id']))}, 200

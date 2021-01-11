@@ -7,7 +7,7 @@ from application import create_app
 from sqlalchemy import create_engine
 
 from application.users.models.users import UserModel
-from application.users.schemas.users import UserSchema
+from application.users.schemas.users import UserSchema, UserGetSchema
 from application.users.models.confirmations import ConfirmationModel
 
 from application.components.models import ComponentModel
@@ -22,8 +22,8 @@ from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
 
 from application.testing_config import SQLALCHEMY_DATABASE_URI
-# from application.contents.local_init_data_contents import contents_constants
-# from application.global_init_data import global_constants
+from application.contents.local_init_data_contents import contents_constants
+from application.global_init_data import global_constants
 
 
 @pytest.fixture(scope='session')
@@ -62,7 +62,14 @@ def source_text_lat():
         'restrictions after the new variant was first identified last week - but '
         'exceptions were made for Pakistani nationals in the UK on visitor or '
         'temporary visas who provided negative tests before travel. The new strain '
-        'has now been found in more than 20 countries.').replace('.', '').\
+        'has now been found in more than 20 countries.'
+        'He added that it was possible that the plane broke apart when it hit water, '
+        'based on debris found so far. "It possibly ruptured when it hit waters '
+        'because if it had exploded mid-air, the debris would be distributed more '
+        'widely," said Nurcahyo Utomo.'
+        'Investigators are already analysing items which they believe to be a wheel '
+        'and part of the planes fuselage. A turbine from one of its engines is also '
+        'among the debris that has been recovered.').replace('.', '').\
         replace(',', '').replace('"', '').replace("'", "").replace("-", "").\
         replace('  ', ' ').lower().split(' ')
 
@@ -79,7 +86,17 @@ def source_text_cyr():
         'религии и (или) в связи с введением иностранными государствами '
         'политических или экономических санкций в отношении РФ или россиян. Отдельно '
         'отмечается, что блокировка может последовать за "дискриминацию в отношении '
-        'материалов российских средств массовой информации"').replace('.', '').\
+        'материалов российских средств массовой информации"'
+        'Исправить ситуацию поможет новый искусственный фермент. Он останавливает '
+        'распространение дефектного альфа-синуклеина и может стать основой для '
+        'терапии болезни Паркинсона. Искусственные ферменты, наноразмерные '
+        'комбинации платины и меди, названные биметаллическими наносплавами PtCu, '
+        'были созданы из-за их сильных антиоксидантных свойств. Реактивные формы '
+        'кислорода способствуют распространению неправильно свернутого '
+        'альфа-синуклеина, что приводит к усугублению симптомов болезни. При '
+        'попадании в мозг нанозимы поглощают эти формы кислорода. Нанозимы имитируют '
+        'каталазу и супероксиддисмутазу, два фермента, расщепляющие реактивные формы '
+        'кислорода.').replace('.', '').\
         replace(',', '').replace('"', '').replace("'", "").replace("-", "").\
         replace('  ', ' ').lower().split(' ')
 
@@ -138,6 +155,11 @@ def user_create_json(random_email):
 @pytest.fixture(scope='session')
 def user_schema():
     return UserSchema()
+
+
+@pytest.fixture(scope='session')
+def user_get_schema():
+    return UserGetSchema()
 
 
 @pytest.fixture(scope='session')
@@ -241,9 +263,10 @@ def _engine(_app_folder):
     '''
     Generation of SQLite file path.
     '''
-    URI_cuts = SQLALCHEMY_DATABASE_URI.split('///')
-    URI = URI_cuts[0] + '///' + _app_folder + URI_cuts[1]
-    return create_engine(URI)
+    # URI_cuts = SQLALCHEMY_DATABASE_URI.split('///')
+    # URI = URI_cuts[0] + '///' + _app_folder + URI_cuts[1]
+    return create_engine(SQLALCHEMY_DATABASE_URI)
+    # return create_engine(URI)
     # return create_engine(URI, echo=True)
 
 
@@ -286,13 +309,28 @@ def content_instance(random_text):
     content - random set of 5 words
     '''
     def _method(**content_ids):
-        _title = random_text(content_ids['locale_id'], 3)[0: -1]
-        _content = random_text(content_ids['locale_id'], 5)[0: -1]
+        if 'identity' in content_ids.keys():
+            _identity = content_ids['identity']
+        else:
+            _identity = random_text(qnt=2)[0: -1]
+
+        if 'view_id' in content_ids.keys():
+            _view_id = content_ids['view_id']
+        else:
+            _view_id = contents_constants.get_VIEWS[0]['id_view']
+
+        if 'locale_id' in content_ids.keys():
+            _locale_id = content_ids['locale_id']
+        else:
+            _locale_id = global_constants.get_LOCALES[0]['id']
+
+        _title = random_text(_locale_id, 3)[0: -1]
+        _content = random_text(_locale_id, 5)[0: -1]
         _user_id = 0
         return ContentModel(
-            identity=content_ids['identity'],
-            view_id=content_ids['view_id'],
-            locale_id=content_ids['locale_id'],
+            identity=_identity,
+            view_id=_view_id,
+            locale_id=_locale_id,
             user_id=_user_id,
             title=_title,
             content=_content)

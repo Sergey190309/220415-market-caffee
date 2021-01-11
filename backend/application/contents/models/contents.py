@@ -1,5 +1,7 @@
-from typing import Dict
+from typing import Dict, Union
 from datetime import datetime
+from sqlalchemy.exc import IntegrityError
+
 from application.modules.dbs_global import dbs_global
 from application.models.locales_global import LocaleGlobalModel  # noqa: 401
 # from ..models import ViewModel  # noqa: 401
@@ -48,24 +50,31 @@ class ContentModel(dbs_global.Model):
             view_id=primary_keys['view_id'],
             locale_id=primary_keys['locale_id']).first()
 
-    def update(self, update_values: Dict = None) -> None:
+    def update(self, update_values: Dict = None) -> Union[None, str]:
+        # print(update_values)
         if update_values is None:
             return
         for key in update_values.keys():
+            # print(key)
             setattr(self, key, update_values[key])
         self.updated = datetime.now()
-        self.save_to_db()
+        return self.save_to_db()
 
-    def save_to_db(self) -> None:
+    def save_to_db(self) -> Union[None, str]:
         try:
             dbs_global.session.add(self)
             dbs_global.session.commit()
-        except Exception as err:
-            print('contents.models.ContentModel.save_to_db error\n', err)
+        except IntegrityError as error:
+            dbs_global.session.rollback()
+            return (
+                "contents.models.ContentModel.save_to_db IntegrityError:\n"
+                f"{error.orig}")
+        except Exception as error:
+            print('contents.models.ContentModel.save_to_db Error\n', error)
 
     def delete_fm_db(self) -> None:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()
-        except Exception as err:
-            print('contents.models.ContentModel.delete_fm_db error\n', err)
+        except Exception as error:
+            print('contents.models.ContentModel.delete_fm_db error\n', error)

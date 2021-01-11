@@ -3,7 +3,7 @@ from ..modules.fma_contents import fma_contents
 # Below schemas used for correctness nested parts. Error not used is normal.
 # This error is kind of marshmallow feature error.
 from application.schemas.locales_global import LocaleGlobalSchema  # noqa: 401
-from .views import ViewSchema  # noqa:401
+from .views import ViewSchema  # noqa: 401
 
 from ..models.contents import ContentModel
 

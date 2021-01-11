@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-09 06:10+0000\n"
-"PO-Revision-Date: 2021-01-09 06:17+0000\n"
+"POT-Creation-Date: 2021-01-11 12:46+0000\n"
+"PO-Revision-Date: 2021-01-11 12:48+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -96,7 +96,7 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
 
-#: contents/resources/contents.py:22
+#: contents/resources/contents.py:19
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -105,7 +105,7 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: contents/resources/contents.py:36
+#: contents/resources/contents.py:30
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -114,9 +114,31 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
+#: contents/resources/contents.py:41
+msgid "Something went wrong. Info in payload."
+msgstr "Что-то пошло не так. Информация в сообщении."
+
 #: contents/resources/contents.py:64
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
+
+#: contents/resources/contents.py:80
+msgid "The content has been found. Details are in payload."
+msgstr "Содержание обнаружено. Детали в сообщении."
+
+#: contents/resources/contents.py:97
+msgid ""
+"The content has been found and successfully updated. Details are in payload."
+msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
+
+#: contents/resources/contents.py:114
+#, python-format
+msgid ""
+"The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
+"'%(identity)s' has been found and successfully deleted."
+msgstr ""
+"Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
+"идентификацией '%(identity)s' обнаружен и успешно убит."
 
 #: contents/resources/views.py:18
 #, python-format
@@ -399,9 +421,6 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 
 #~ msgid "Hi there!, It's get method."
 #~ msgstr "Всем привет! Это метод get."
-
-#~ msgid "Spmthing went wrong."
-#~ msgstr "Что-то пошло не так."
 
 #~ msgid "Please follow the link."
 #~ msgstr "Прошу проследовать по адресу."

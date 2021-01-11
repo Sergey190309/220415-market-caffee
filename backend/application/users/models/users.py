@@ -1,9 +1,9 @@
-from typing import Dict
+from typing import Dict, Union
 from datetime import datetime
 from requests import Response
 from flask import request, url_for
 from flask_jwt_extended import create_access_token, create_refresh_token
-# from flask_mail import Message
+from sqlalchemy.exc import IntegrityError
 
 from application.mailing.modules.fml import fml
 # from application.globals import confirmation_email_data
@@ -134,32 +134,39 @@ class UserModel(dbs_global.Model):
         self.save_to_db()
         return True
 
-    def update(self, update_values: Dict = None) -> bool:
+    def update(self, update_values: Dict = None) -> Union[None, str]:
         # print('Update -', self.id)
         # print('Update -', update_values)
         if update_values is None:
-            return False
+            return update_values
         self.updated = datetime.now()
         for key in update_values.keys():
             # print(key, '\t', update_values[key])
             setattr(self, key, update_values[key])
-        self.save_to_db()
-        return True
+        return self.save_to_db()
 
-    def save_to_db(self) -> None:
+    def save_to_db(self) -> Union[None, str]:
+        print(self.locale_id)
+        print(self.role_id)
         try:
             dbs_global.session.add(self)
             dbs_global.session.commit()
-        except Exception as err:
-            print('users.models.UserModel.save_to_db error\n', err)
+        except IntegrityError as error:
+            dbs_global.session.rollback()
+            # print(error)
+            return (
+                "cusers.models.UserModel.save_to_db IntegrityError:\n"
+                f"{error.orig}")
+        except Exception as error:
+            print('users.models.UserModel.save_to_db Error\n', error)
 
     def delete_fm_db(self, kill_first: bool = False) -> None:
         def kill():
             try:
                 dbs_global.session.delete(self)
                 dbs_global.session.commit()
-            except Exception as err:
-                print('users.models.UserModel.delete_fm_db error\n', err)
+            except Exception as error:
+                print('users.models.UserModel.delete_fm_db error\n', error)
 
         if not kill_first:
             if self.id != 1:
