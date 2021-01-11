@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-05 15:57+0000\n"
-"PO-Revision-Date: 2021-01-05 16:01+0000\n"
+"POT-Creation-Date: 2021-01-09 06:10+0000\n"
+"PO-Revision-Date: 2021-01-09 06:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -38,7 +38,7 @@ msgid "The component kind has been saved successfully. Details are in payload."
 msgstr "Тип компонента успешно сохранен. Детали в сообщении."
 
 #: components/resources/component_kinds.py:65
-#: components/resources/components.py:80
+#: components/resources/components.py:80 contents/resources/views.py:59
 msgid "Found, see payload."
 msgstr "Нашел, смотри детали."
 
@@ -95,6 +95,56 @@ msgid ""
 msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
+
+#: contents/resources/contents.py:22
+#, python-format
+msgid ""
+"A contents with identity '%(identity)s', view '%(view_id)s' and locale "
+"'%(locale_id)s' already exists."
+msgstr ""
+"Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
+"локализацией '%(locale_id)s' уже существует."
+
+#: contents/resources/contents.py:36
+#, python-format
+msgid ""
+"A contents with identity '%(identity)s', view '%(view_id)s' and locale "
+"'%(locale_id)s' not found."
+msgstr ""
+"Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
+"локализацией '%(locale_id)s' не обнаружено."
+
+#: contents/resources/contents.py:64
+msgid "The content has been saved successfully. Details are in payload."
+msgstr "Содержание успешно сохранено. Детали в сообщении."
+
+#: contents/resources/views.py:18
+#, python-format
+msgid "A view with identity '%(id_view)s' already exists."
+msgstr "Страничка с идентификатором '%(id_view)s' уже существует."
+
+#: contents/resources/views.py:26
+#, python-format
+msgid "A view with identity '%(id_view)s' has not been found."
+msgstr "Страничка с идентификатором '%(id_view)s' не обнаружена."
+
+#: contents/resources/views.py:43
+msgid "The view has been saved successfully. Details are in payload."
+msgstr "Страничка успешно сохранена. Детали в сообщении."
+
+#: contents/resources/views.py:75
+#, python-format
+msgid ""
+"The view with id '%(id_view)s' has been updated successfully. Details are in "
+"payload."
+msgstr ""
+"Страничка с идентификатором '%(id_view)s' успешно обновлена. Детали в "
+"сообщении."
+
+#: contents/resources/views.py:93
+#, python-format
+msgid "The view with id '%(id_view)s' has been deleted successfully."
+msgstr "Страничка с идентификатором '%(id_view)s' убита на смерть."
 
 #: home/resources/index.py:25
 msgid "Global variables are as in payload."

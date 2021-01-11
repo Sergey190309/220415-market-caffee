@@ -1,4 +1,4 @@
-# from typing import Dict
+from typing import Dict, List
 
 import pytest
 
@@ -6,102 +6,143 @@ from application.contents.local_init_data_contents import contents_constants
 from application.global_init_data import global_constants
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def url_contents(root_url):
     return root_url + '/contents'
 
 
-@pytest.fixture(scope='module', autouse=True)
+# @pytest.fixture(scope='session')
+# def langs():
+#     return [item['id'] for item in global_constants.get_LOCALES]
+
+
+# @pytest.fixture(scope='session')
+# def views():
+#     return [item['id_view'] for item in contents_constants.get_VIEWS]
+
+
+# @pytest.fixture(scope='module', autouse=True)
+def pytest_generate_tests(metafunc):
+    # def pytest_generate_tests(metafunc, langs, views):
+    '''
+    Paramentrization.
+    '''
+    if 'lang' in metafunc.fixturenames:
+        metafunc.parametrize(
+            # 'lang', [item['id'] for item in global_constants.get_LOCALES])
+            'lang', ['en'])
+    if 'view' in metafunc.fixturenames:
+        metafunc.parametrize(
+            # 'view', [item['id_view'] for item in contents_constants.get_VIEWS])
+            'view', ['main'])
+
+
+# @pytest.fixture(scope='module', autouse=True)
+@pytest.fixture
+def key_data_json(
+        random_words,
+        lang, view) -> Dict:
+    # lang: str = 'ru', view: str = 'main') -> Dict:
+    '''
+    This fixture called first upon starting testing in this module.
+    '''
+    _key_data_json = {}
+    _key_data_json['identity'] = random_words(lang) + '_' + random_words(lang)
+    _key_data_json['view_id'] = view
+    _key_data_json['locale_id'] = lang
+    # print('key_data_json -', _key_data_json)
+    return _key_data_json
+
+
+# @pytest.fixture(scope='module', autouse=True)
+@pytest.fixture
+def non_manipulated_keys_list() -> List:
+    '''
+    That is list to be excluded from responce result couse they
+    are not manipulated whole testing.
+    '''
+    return [
+        'created',
+        'updated',
+        'locale',
+        'view']
+
+
+# @pytest.fixture(scope='module', autouse=True)
+@pytest.fixture
 def content_api_resp(
         test_client, url_contents, content_instance,
-        content_get_schema, random_words):
+        content_get_schema, key_data_json):
     '''
     It makes post reques to API and retunrn responce.
     '''
-    def _method(identity: str = None,
-                view_id: str = None,
-                locale_id: str = None):
-        content_json = content_get_schema.dump(content_instance(
-            identity=identity,
-            view_id=view_id,
-            locale_id=locale_id))
-        # print(content_json)
-        resp = test_client.post(url_contents, json=content_json)
-        # print('api_resp -', resp.json)
-        return resp
-    return _method
+    content_json = content_get_schema.dump(content_instance(
+        identity=key_data_json['identity'],
+        view_id=key_data_json['view_id'],
+        locale_id=key_data_json['locale_id']))
+    # print('api resp -', content_json)
+    resp = test_client.post(url_contents, json=content_json)
+    assert resp.status_code == 201
+    assert isinstance(resp.json['payload'], Dict)
+    assert isinstance(resp.json['payload']['view'], Dict)
+    assert isinstance(resp.json['payload']['locale'], Dict)
+    # print('api_resp -', resp.json)
+    return resp
 
 
-@pytest.fixture(scope='module')
+# @pytest.fixture(scope='module')
+@pytest.fixture
 def original_data(content_api_resp):
     '''
-    Test responce from API and store result for further reference.
+    Get responce from API and store result for further reference.
     There is success test here as well.
     '''
-    def _method(
-            identity: str = None,
-            view_id: str = None,
-            locale_id: str = None):
-        resp = content_api_resp(
-            identity=identity,
-            view_id=view_id,
-            locale_id=locale_id)
-        # assert resp.status_code == 201
-        # assert isinstance(resp.json['payload'], Dict)
-        # return resp.json['payload']
-        return resp.json
-    return _method
+    resp = content_api_resp
+    # print('original_data -', resp)
+    return resp.json['payload']
 
 
-@pytest.fixture(scope='module')
-def original_key_data(original_data):
-    def _method(
-            identity: str = None,
-            view_id: str = None,
-            locale_id: str = None):
-        _data = original_data(
-            identity=identity,
-            view_id=view_id,
-            locale_id=locale_id)
-        # _data = original_data(
-        #     identity=identity,
-        #     view_id=view_id,
-        #     locale_id=locale_id).copy()
-        # _data.pop('created')
-        # _data.pop('updated')
-        # _data.pop('user_id')
-        # _data.pop('title')
-        # _data.pop('content')
-        return _data
-    return _method
-
-
-@pytest.fixture(scope='module')
-def original_value_data(original_data):
+# @pytest.fixture(scope='module')
+@pytest.fixture
+def original_value_data(original_data, key_data_json, non_manipulated_keys_list):
+    '''
+    This is a part of original data that deliver information.
+    In other words - original data witout key information.
+    Nested elements and created and updated fieleds are removed as well.
+    '''
     _data = original_data.copy()
-    _data.pop('identity')
-    _data.pop('view_id')
-    _data.pop('locale_id')
+    _data = {
+        key: value for key, value in _data.items()
+        if key not in non_manipulated_keys_list}
+    _data = {
+        key: value for key, value in _data.items()
+        if key not in key_data_json.keys()}
+    # print('original_value_data, after changing -', _data)
     return _data
 
 
 # @pytest.mark.active
-def test_view_post_already_exists(
-        test_client, url_contents, original_data, random_words):
-    # Make new request with same data as already created instance.
-    # resp = test_client.post(url_contents, json=original_key_data(
-    # identity='test',
-    # view_id=contents_constants.get_VIEWS[0]['id_view'],
-    # locale_id=global_constants.get_LOCALES[0]['id']))
-    print('In the test -', original_data(
-        identity=random_words(
-            global_constants.get_LOCALES[0]['id']) + random_words(
-            global_constants.get_LOCALES[0]['id']),
-        view_id=contents_constants.get_VIEWS[0]['id_view'],
-        locale_id=global_constants.get_LOCALES[0]['id']))
-    # print(resp.json)
-    # assert resp.status_code == 400
-    # assert 'payload' not in resp.json.keys()
+def test_contents_post_already_exists(
+        test_client, url_contents,
+        content_api_resp, key_data_json,
+        original_data, original_value_data):
+
+    # First make post request (all asserts are in fixture above):
+    content_api_resp
+
+    # Make other post request with same primary keys:
+    resp = test_client.post(url_contents, json=key_data_json)
+    assert resp.status_code == 400
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json['message'], str)
+
+
+# @pytest.mark.active
+# def test_contents_post_create_other_instances():
+#     '''
+#     '''
+#     print(resp.status_code)
+#     print(resp.json)
 
 
 # # @pytest.mark.active

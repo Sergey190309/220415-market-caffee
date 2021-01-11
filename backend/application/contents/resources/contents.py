@@ -13,31 +13,25 @@ from ..schemas.contents import (
 
 class Contents(Resource):
     @classmethod
-    def already_exists(
-            cls, identity: str = None,
-            view_id: str = None,
-            locale_id: str = None) -> Dict:
+    def already_exists(cls, pks_json: Dict) -> Dict:
         return {
             'message': str(_(
                 "A contents with identity '%(identity)s', view '%(view_id)s' and "
                 "locale '%(locale_id)s' already exists.",
-                identity=identity,
-                view_id=view_id,
-                locale_id=locale_id)),
+                identity=pks_json['identity'],
+                view_id=pks_json['view_id'],
+                locale_id=pks_json['locale_id'])),
         }, 400
 
     @classmethod
-    def not_found(
-            cls, identity: str = None,
-            view_id: str = None,
-            locale_id: str = None) -> Dict:
+    def not_found(cls, pks_json: Dict) -> Dict:
         return {
             'message': str(_(
                 "A contents with identity '%(identity)s', view '%(view_id)s' and "
                 "locale '%(locale_id)s' not found.",
-                identity=identity,
-                view_id=view_id,
-                locale_id=locale_id)),
+                identity=pks_json['identity'],
+                view_id=pks_json['view_id'],
+                locale_id=pks_json['locale_id'])),
         }, 404
 
     @classmethod
@@ -45,20 +39,16 @@ class Contents(Resource):
         '''
         Create content instance and save to db.
         '''
-        # print('post, request.get_json -', request.get_json())
-        _content = content_schema.load(request.get_json(), session=dbs_global.session)
+        _request_json = request.get_json()
+        # print('post, request.get_json -', _request_json)
+        _content = content_schema.load(_request_json, session=dbs_global.session)
         _content_fm_db = ContentModel.find_by_identity_view_locale(
             identity=_content.identity,
             view_id=_content.view_id,
             locale_id=_content.locale_id)
         if _content_fm_db is not None:
-            return cls.already_exists(
-                identity=_content.identity,
-                view_id=_content.view_id,
-                locale_id=_content.locale_id)
+            return cls.already_exists(_request_json)
         _content.save_to_db()
-        # print('post, _content model -', _content.title)
-        # print('post, _content_fm_db -', _content_fm_db)
         return {
             'message': str(_(
                 "The content has been saved successfully. "
