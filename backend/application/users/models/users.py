@@ -56,24 +56,20 @@ class UserModel(dbs_global.Model):
         lazy='dynamic',
         cascade='all, delete-orphan')
 
-    def set_accessed(self):
+    def set_accessed(self) -> Union[None, str]:
         # print("users.models.UserModel.set_accessed datetime -", datetime.now())
         self.accessed = datetime.now()
-        self.save_to_db()
+        return self.save_to_db()
 
     @property
-    def most_recent_confirmation(self):
+    def most_recent_confirmation(self) -> ConfirmationModel:
         return self.confirmation.order_by(
             dbs_global.desc(ConfirmationModel.expire_at)).first()
 
     def send_confirmation_request(self) -> Response:
         confirmation = self.most_recent_confirmation
-        # confirmation_id = ConfirmationModel.find_by_user_id(self.id)
-        # print('send_confirmation_request confirmation_id -', confirmation.id)
         _link = request.url_root[:-1] +\
             url_for('users_bp.confirmation', confirmation_id=confirmation.id)
-        # print('send_confirmation_request _link -', _link)
-        # self.email = 'sa6702@gmail.com'
         fml.send(
             emails=[self.email],
             link=_link)
@@ -120,19 +116,17 @@ class UserModel(dbs_global.Model):
         return cls.query.filter_by(email=email).first()
 
     def check_password(self, plain_password: str) -> bool:
-        # print('UserModel.check_password plain_password -', plain_password)
         result = fbc_users.check_password_hash(self.password_hash, plain_password)
         if result:
             self.accessed = datetime.now()
         return result
 
-    def update_password(self, plain_password: str) -> bool:
+    def update_password(self, plain_password: str) -> Union[None, str]:
         '''
         The update included secure update.
         '''
         self.password_hash = fbc_users.generate_password_hash(plain_password)
-        self.save_to_db()
-        return True
+        return self.save_to_db()
 
     def update(self, update_values: Dict = None) -> Union[None, str]:
         # print('Update -', self.id)
@@ -146,8 +140,8 @@ class UserModel(dbs_global.Model):
         return self.save_to_db()
 
     def save_to_db(self) -> Union[None, str]:
-        print(self.locale_id)
-        print(self.role_id)
+        # print('save_to_db -', self.locale_id)
+        # print('save_to_db -', self.role_id)
         try:
             dbs_global.session.add(self)
             dbs_global.session.commit()
@@ -155,7 +149,7 @@ class UserModel(dbs_global.Model):
             dbs_global.session.rollback()
             # print(error)
             return (
-                "cusers.models.UserModel.save_to_db IntegrityError:\n"
+                "users.models.UserModel.save_to_db IntegrityError:\n"
                 f"{error.orig}")
         except Exception as error:
             print('users.models.UserModel.save_to_db Error\n', error)

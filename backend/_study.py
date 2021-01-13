@@ -1,7 +1,12 @@
-_list = ['foo', 'bar', 'baz']
+import pytest
 
-for i, j in enumerate(_list):
-    if j == 'foo':
-        print(i)
 
-print(str(i for i, j in enumerate(_list) if j == 'foo'))
+@pytest.fixture(params=['en', 'ru'])
+def fixture1(request):
+    return request.param
+
+
+def test_foobar(fixture1):
+    print()
+    print(fixture1)
+    # assert type(fixture1) == type(fixture2)

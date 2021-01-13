@@ -1,19 +1,25 @@
 import pytest
 
-from random import choice
+from typing import Dict
+
+from random import choice, randint
 
 from application import create_app
 
 from sqlalchemy import create_engine
 
+from application.modules.dbs_global import dbs_global
+
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema, UserGetSchema
 from application.users.models.confirmations import ConfirmationModel
 
-from application.components.models import ComponentModel
+# from application.components.models import ComponentModel
 from application.components.models.component_kinds import ComponentKindsModel
-from application.components.schemas.components import ComponentTestSchema
-from application.components.schemas.component_kinds import ComponentKindGetSchema
+from application.components.schemas.components import (
+    ComponentGetSchema, ComponentSchema)
+from application.components.schemas.component_kinds import (
+    ComponentKindGetSchema, ComponentKindSchema)
 
 from application.contents.models.views import ViewModel
 from application.contents.schemas.views import ViewGetSchema
@@ -23,7 +29,35 @@ from application.contents.schemas.contents import ContentGetSchema, ContentSchem
 
 from application.testing_config import SQLALCHEMY_DATABASE_URI
 from application.contents.local_init_data_contents import contents_constants
+from application.components.local_init_data_components import components_constants
 from application.global_init_data import global_constants
+
+
+@pytest.fixture(scope='session')
+def valid_language():
+    return global_constants.get_LOCALES[0]['id']
+
+
+@pytest.fixture(scope='session')
+def valid_component_kind():
+    return components_constants.get_KINDS[0]['id_kind']
+
+
+@pytest.fixture(scope='session')
+def valid_view():
+    return contents_constants.get_VIEWS[0]['id_view']
+
+
+@pytest.fixture(params=['en'])
+# @pytest.fixture(params=[item['id'] for item in global_constants.get_LOCALES])
+def allowed_language(request):
+    return request.param
+
+
+@pytest.fixture(params=['button'])
+# @pytest.fixture(params=[item['id_kind'] for item in components_constants.get_KINDS])
+def allowed_component_kind(request):
+    return request.param
 
 
 @pytest.fixture(scope='session')
@@ -129,7 +163,22 @@ def random_text(random_words):
         result = ''
         for index in range(0, qnt):
             result += random_words(lang) + ' '
-        return result
+        return result[0: -1]
+    return _method
+
+
+@pytest.fixture(scope='module')
+def random_text_underscore(random_words):
+    '''
+    Source of text.
+    Latin or cyrrilic from argument.
+    Quontity of worlds - argument.
+    '''
+    def _method(lang: str = 'en', qnt: int = 1):
+        result = ''
+        for index in range(0, qnt):
+            result += random_words(lang) + '_'
+        return result[0: -1]
     return _method
 
 
@@ -141,7 +190,7 @@ def random_email(random_words):
     return _method
 
 
-@pytest.fixture()
+@pytest.fixture(scope='module')
 def user_create_json(random_email):
     def _method(arg=None):
         return {
@@ -163,13 +212,23 @@ def user_get_schema():
 
 
 @pytest.fixture(scope='session')
-def component_test_schema():
-    return ComponentTestSchema()
+def component_get_schema():
+    return ComponentGetSchema()
+
+
+@pytest.fixture(scope='session')
+def component_schema():
+    return ComponentSchema()
 
 
 @pytest.fixture(scope='session')
 def component_kinds_get_schema():
     return ComponentKindGetSchema()
+
+
+@pytest.fixture(scope='session')
+def component_kinds_schema():
+    return ComponentKindSchema()
 
 
 @pytest.fixture(scope='session')
@@ -189,6 +248,7 @@ def content_schema():
 
 @pytest.fixture
 def created_user(
+        random_email,
         test_client,
         user_schema,
         user_create_json):
@@ -197,6 +257,8 @@ def created_user(
         _user_create_json['role_id'] = role_id
         if email is not None:
             _user_create_json['email'] = email
+        else:
+            _user_create_json['email'] = random_email()
         _user = user_schema.load(_user_create_json)
         _user.save_to_db()
         _confirmation = ConfirmationModel(_user.id)
@@ -221,36 +283,6 @@ def access_token():
 
 
 @pytest.fixture
-def component_instance(random_words):
-    '''
-    The fixture create random component instance without saving to db.
-    '''
-    def _method(lang: str = 'en'):
-        # print(lang)
-        _identity = ''
-        for i in range(0, 3):
-            _identity += random_words('en') + '_'
-
-        _locale_id = lang
-        _title = ''
-        for i in range(0, 2):
-            _title += random_words(lang) + ' '
-        _content = ''
-        for i in range(0, 10):
-            _content += random_words(lang) + ' '
-        # _json['locale_id'] = lang
-        component = ComponentModel(
-            identity=_identity[0: -1],
-            kind_id='button',
-            locale_id=_locale_id,
-            title=_title[0: -1],
-            content=_content)
-        # component.save_to_db()
-        return component
-    return _method
-
-
-@pytest.fixture
 def _app_folder():
     '''
     Used as an addendum to generate SQLite file path.
@@ -263,41 +295,85 @@ def _engine(_app_folder):
     '''
     Generation of SQLite file path.
     '''
-    # URI_cuts = SQLALCHEMY_DATABASE_URI.split('///')
-    # URI = URI_cuts[0] + '///' + _app_folder + URI_cuts[1]
     return create_engine(SQLALCHEMY_DATABASE_URI)
-    # return create_engine(URI)
-    # return create_engine(URI, echo=True)
 
 
 @pytest.fixture(scope='module')
-def description(random_text):
-    def _method(lang: str = 'en', qnt: int = 1):
-        return random_text(lang=lang, qnt=qnt)[0: -1]
-    return _method
-
-
-@pytest.fixture
-def component_kind_instance(description):
+def component_kind_instance(random_text):
     '''
     It generates instance without saving.
     id_kind - argument, description - random set of 10 words.
     '''
-    def _method(id_kind: str = 'button'):
+    def _method(id_kind: str = None):
+        if id_kind is None:
+            id_kind = random_text(qnt=2)
+        _description = random_text(qnt=10)
         return ComponentKindsModel(
-            id_kind=id_kind, description=description(lang='en', qnt=10))
+            id_kind=id_kind, description=_description)
     return _method
 
 
 @pytest.fixture(scope='module')
-def view_instance(description):
+def component_instance(
+        random_text, random_text_underscore,
+        valid_language, valid_component_kind,
+        component_schema):
+    '''
+    It generates instance without saving.
+    identity - argument or random set of 2 words with underscore,
+    kind_id, locale_id - argument or from constants,
+    title - argument or random set of 2 words with underscore,
+    content - argument or random set of 12 words,
+    details - argument or random integer up to 2^10 = 1024
+    '''
+    def _method(values: Dict = {}):
+        if values is None or not isinstance(values, Dict):
+            return 'Provide values in dictinary type'
+        _json = {}
+        keys = values.keys()
+        if 'identity' in keys:
+            _json['identity'] = values['identity']
+        else:
+            _json['identity'] = random_text_underscore(qnt=2)
+
+        if 'kind_id' in keys:
+            _json['kind_id'] = values['kind_id']
+        else:
+            _json['kind_id'] = valid_component_kind
+
+        if 'locale_id' in keys:
+            _json['locale_id'] = values['locale_id']
+        else:
+            _json['locale_id'] = valid_language
+
+        if 'title' in keys:
+            _json['title'] = values['title']
+        else:
+            _json['title'] = random_text_underscore(lang=_json['locale_id'], qnt=2)
+
+        if 'content' in keys:
+            _json['content'] = values['content']
+        else:
+            _json['content'] = random_text(lang=_json['locale_id'], qnt=12)
+
+        if 'details' in keys:
+            _json['details'] = values['details']
+        else:
+            _json['details'] = randint(1, 1024)
+
+        return component_schema.load(_json, session=dbs_global.session)
+    return _method
+
+
+@pytest.fixture(scope='module')
+def view_instance(random_text):
     '''
     View model instance without saving.
     id_kind - argument, description - random set of 12 words.
     '''
     def _method(id_view: str = 'main'):
         return ViewModel(
-            id_view=id_view, description=description(lang='en', qnt=12))
+            id_view=id_view, description=random_text(lang='en', qnt=12))
     return _method
 
 
@@ -324,8 +400,8 @@ def content_instance(random_text):
         else:
             _locale_id = global_constants.get_LOCALES[0]['id']
 
-        _title = random_text(_locale_id, 3)[0: -1]
-        _content = random_text(_locale_id, 5)[0: -1]
+        _title = random_text(_locale_id, 3)
+        _content = random_text(_locale_id, 5)
         _user_id = 0
         return ContentModel(
             identity=_identity,
@@ -335,3 +411,8 @@ def content_instance(random_text):
             title=_title,
             content=_content)
     return _method
+
+
+@pytest.fixture
+def user_instance():
+    pass

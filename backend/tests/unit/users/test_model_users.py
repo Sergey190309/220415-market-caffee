@@ -1,24 +1,11 @@
 import pytest
 from datetime import datetime
+from random import randint
 
-from sqlalchemy.exc import OperationalError
-# from flask import current_app
-
-from application import create_app
 from application.users.models.users import UserModel
 
 from application.global_init_data import global_constants
 from application.users.local_init_data_users import users_constants
-
-
-@pytest.fixture(scope='module')
-def test_client_unit():
-    # print('\nclient')
-    app = create_app('testing_config.py')
-
-    with app.test_client() as test_client_unit:
-        with app.app_context():
-            yield test_client_unit
 
 
 @pytest.fixture
@@ -27,48 +14,41 @@ def date_time():
 
 
 @pytest.fixture
-def user_update_json(random_email):
+def default_user_json():
+    '''
+    Fields values set automatically (by default) while creating user
+    with email and password.
+    '''
+    # After save condition
     return {
-        'user_name': 'update_user_name',
-        'email': random_email(),
-        'role_id': 'power_user',
-        'first_name': 'update_first_name',
-        'last_name': 'update_last_name',
-        'locale_id': 'ru',
-        'time_zone': 10,
-        'remarks': 'update_remarks'
-    }
+        'id': 'int',
+        'created': 'str',
+        'updated': 'None',
+        'accessed': 'None',
+        'user_name': 'None',
+        'email': 'str',
+        'role_id': 'None',
+        'first_name': 'None',
+        'last_name': 'None',
+        'locale_id': 'str',
+        'time_zone': 'int',
+        'remarks': 'None'}
 
 
-@pytest.fixture
-def user_fm_db(
-        test_client_unit,
-        url_users):
-    try:
-        # Check whether user exists
-        user = None
-        user = UserModel.find_last()
-    except OperationalError:
-        test_client_unit.get(url_users)
-    finally:
-        if user is None:
-            user = UserModel.find_last()
-        return user
-
-
-# @pytest.mark.active
-def test_application_unit(
-        test_client_unit,
-        url_users):
-    resp = test_client_unit.get(url_users)
-    assert resp.status_code == 200
-
-
-# @pytest.mark.active
-def test_user_create(
+@pytest.fixture(scope='module')
+def saved_user(
         user_create_json,
-        user_schema,
-        user_fm_db):
+        user_schema):
+    _user = user_schema.load(user_create_json())
+    _user.save_to_db()
+    return _user
+
+
+# @pytest.mark.active
+def test_default_user_create(
+        saved_user,
+        user_create_json, default_user_json,
+        user_get_schema):
     '''
     GIVEN a User model
     WHEN a new User is created
@@ -80,19 +60,24 @@ def test_user_create(
     save_to_db
     check_password
     '''
-    user_create_json_dict = user_create_json()
-    _user_create_json = user_create_json_dict.copy()  # avoid dictionary changing
-    # Below to remove user with same email if exists.
-    # Create and save user.
-    _user = user_schema.load(_user_create_json)
-    _user.save_to_db()
-    _user_created = UserModel.find_by_id(_user.id)
-    _password = user_create_json_dict.pop('password')
-    # print(_password)
-    for key in user_create_json_dict.keys():
-        # print(key)
-        assert getattr(_user_created, key) == user_create_json_dict[key]
-    assert _user_created.check_password(_password) is True
+    # print(saved_user)
+    _saved_user_json = user_get_schema.dump(saved_user).copy()
+    for key in _saved_user_json.keys():
+        if key in [
+            none_key for (none_key, value) in default_user_json.items()
+                if value == 'None']:
+            assert _saved_user_json[key] is None
+            # print(key, '\t', _saved_user_json[key])
+        if key in [
+            none_key for (none_key, value) in default_user_json.items()
+                if value == 'str']:
+            assert isinstance(_saved_user_json[key], str)
+            # print(key, '\t', type(_saved_user_json[key]))
+        if key in [
+            none_key for (none_key, value) in default_user_json.items()
+                if value == 'int']:
+            assert isinstance(_saved_user_json[key], int)
+            # print(key, '\t', type(_saved_user_json[key]))
 
 
 # @pytest.mark.active
@@ -129,34 +114,62 @@ def test_user_save_wrong_fk(
         result.find('foreign key constraint fails') != -1
 
 
+@pytest.fixture
+def user_update_json(
+        default_user_json,
+        random_email, random_text):
+    _user_update_json = {
+        key: value for (key, value) in default_user_json.items()
+        if key not in ['id', 'created', 'updated', 'accessed']}
+    lang = global_constants.get_LOCALES[0]['id']
+    _user_update_json['user_name'] = random_text(lang=lang, qnt=2)
+    _user_update_json['email'] = random_email()
+    _user_update_json['role_id'] = users_constants.get_ROLES[0]['id']
+    _user_update_json['first_name'] = random_text(lang=lang)
+    _user_update_json['last_name'] = random_text(lang=lang)
+    _user_update_json['locale_id'] = lang
+    _user_update_json['time_zone'] = randint(-12, 12)
+    _user_update_json['remarks'] = random_text(lang=lang, qnt=12)
+    # for key in _user_update_json.keys():
+    #     print(key, '\t', _user_update_json[key])
+    return _user_update_json
+
+
 # @pytest.mark.active
 def test_user_update(
-        user_fm_db,
+        user_get_schema,
+        saved_user,
         user_update_json):
-    # _user_create_json = user_create_json.copy()  # avoid dictionary changing
-    _user_update_json = user_update_json.copy()
-    user_fm_db.update(_user_update_json)
-    _user_after = UserModel.find_by_id(user_fm_db.id)
-    # print(user_schema.dump(_user_fm_db_after))
+    _user = saved_user
+    _user_id = _user.id  # For further getting the user from db.
+    _user_update_json = user_update_json.copy()  # To avoind original changed.
+    # Insure user has not been chenched after creation:
+    assert user_get_schema.dump(_user)['updated'] is None
+    # Update each element separatelly:
     for key in _user_update_json.keys():
-        # print(key)
-        assert getattr(_user_after, key) == _user_update_json[key]
-    assert _user_after.is_own_id(user_fm_db.id) is True
-    assert _user_after.is_own_email(user_fm_db.email) is True
-    assert _user_after.is_valid is True
+        _update_dict = {}
+        _update_dict[key] = user_update_json[key]
+        _user.update(_update_dict)
+    # Get updated user from db.
+    _updated_user = UserModel.find_by_id(_user_id)
+    # Insure all elements are updated correctly:
+    for key in _user_update_json.keys():
+        assert _user_update_json[key] == getattr(_updated_user, key)
+    # Insure element updated is not None any more.
+    assert isinstance(_updated_user.updated, datetime)
 
 
 # @pytest.mark.active
 @pytest.mark.parametrize(
     'role, role_testing_result', [
-        # (users_constants.get_ROLES[0]['id'], 'None'),
+        (users_constants.get_ROLES[0]['id'], 'None'),
         ('not', 'message'),
-        # ('', 'message')
+        ('', 'message')
     ])
 @pytest.mark.parametrize(
     'language, lang_testing_result', [
         (global_constants.get_LOCALES[0]['id'], 'None'),
-        # ('not', 'message'),
+        ('not', 'message'),
         # ('', 'message')
     ])
 def test_user_update_wrong_fk(
@@ -166,24 +179,22 @@ def test_user_update_wrong_fk(
         created_user):
 
     # print(created_user(role_id=role).id)
-    _user = UserModel.find_by_id(created_user().id)
-    # user_schema.load(user_get_schema.dump(created_user(role_id=role)))
-    # print(_user.id, '\t', _user.role_id, '\t', _user.locale_id)
-    # print(role, '\t', language)
-    _update_json = user_get_schema.dump(_user)
-    _update_json.pop('accessed')
-    _update_json.pop('created')
-    _update_json.pop('updated')
-    _user.role_id = role
-    _user.locale_id = language
-    print(_update_json)
+    _user_id = created_user().id
+    _user = UserModel.find_by_id(_user_id)
+    # print(_user)
+    _update_json = {
+        key: value for (key, value) in user_get_schema.dump(_user).items()
+        if key in ['role_id', 'locale_id']}
+    _update_json['role_id'] = role
+    _update_json['locale_id'] = language
+    # print(_update_json)
     result = _user.update(_update_json)
-    print(result)
+    # print(result)
     if lang_testing_result == 'None' and role_testing_result == 'None':
         assert result is None
     else:
-        print(result)
-        # result.find('foreign key constraint fails') != -1
+        # print(result)
+        result.find('foreign key constraint fails') != -1
 
 
 # @pytest.mark.active
@@ -195,33 +206,46 @@ def test_user_update_wrong_fk(
         ('askojiiI*Y&')
     ])
 def test_user_update_password(
-        user_fm_db,
-        password):
-    user_fm_db.update_password(password)
-    _user_after = UserModel.find_by_id(user_fm_db.id)
-    assert _user_after.check_password(password) is True
-    assert _user_after.is_admin is not True
-    assert _user_after.is_power is True
-    assert _user_after.is_valid is True
+        password,
+        created_user):
+    _user_id = created_user().id  # Get id for further reference.
+    _user = UserModel.find_by_id(_user_id)  # Get user from db.
+    _wrong_password = password + 'wrong'  # Prepare wrong password.
+    _user.update_password(password)
+    _user_after = UserModel.find_by_id(_user_id)
+    assert _user_after.accessed is None
+    assert _user_after.check_password(password)
+    assert not _user_after.check_password(_wrong_password)
+    assert isinstance(_user_after.accessed, datetime)
+    # print(type(_user_after.accessed))
 
 
 # @pytest.mark.active
-def test_user_get_fresh_token(user_fm_db):
-    # print(user_fm_db.id)
-    tokens = user_fm_db.get_tokens()
+def test_user_get_fresh_token(created_user):
+    # print(created_user.id)
+    _user = created_user()
+    tokens = _user.get_tokens()
     for key in tokens.keys():
         assert key in ['access_token', 'refresh_token']
         # print(key, '\t', type(tokens[key]))
         assert isinstance(tokens[key], str)
 
-    fresh_token = user_fm_db.get_fresh_token()
+    fresh_token = _user.get_fresh_token()
     assert isinstance(fresh_token, str)
 
 
 # @pytest.mark.active
+def test_user_most_recent_confirmation(created_user):
+    _user = created_user()
+    _confirmation = _user.most_recent_confirmation
+    assert _user.id == _confirmation.user_id
+    assert not _confirmation.confirmed
+    # print(_confirmation.user_id)
+
+
+# @pytest.mark.active
 def test_usermodel_send_confirmation_request(
-        created_user,
-        user_schema):
+        created_user):
     _user = created_user()
     # print('test_usermodel_send_confirmation_request _user.id -', _user.id)
     _user.send_confirmation_request()
@@ -229,3 +253,47 @@ def test_usermodel_send_confirmation_request(
     # for item in user_schema.dump(_user):
     #     print(item, '\t', user_schema.dump(_user)[item])
     # _user.send_confirmation_request()
+
+
+# @pytest.mark.active
+def test_user_is(created_user):
+    _user = created_user()
+    assert not _user.is_own_id(_user.id - 1)
+    assert _user.is_own_id(_user.id)
+
+    assert not _user.is_own_email(_user.email + '_')
+    assert _user.is_own_email(_user.email)
+
+    assert not _user.is_valid
+    _update_json = {}
+    _update_json['role_id'] = users_constants.get_ROLES[0]['id']
+    _user.update(_update_json)
+    assert _user.is_valid
+    _update_json['role_id'] = users_constants.get_ROLES[1]['id']
+    _user.update(_update_json)
+    assert _user.is_power
+    _update_json['role_id'] = users_constants.get_ROLES[2]['id']
+    _user.update(_update_json)
+    assert _user.is_admin
+
+    print(_user.role_id)
+
+
+# @pytest.mark.active
+def test_user_finds(created_user):
+    _user = created_user()
+    _found_user = UserModel.find_last()
+    assert _user.id == _found_user.id
+
+    _found_user = UserModel.find_by_id(_user.id)
+    assert _user.email == _found_user.email
+    _found_user = UserModel.find_by_id(_user.id + 1)
+    assert _found_user is None
+
+    _found_user = UserModel.find_by_email(_user.email)
+    assert _user.id == _found_user.id
+    _found_user = UserModel.find_by_email(_user.email + '-')
+    assert _found_user is None
+
+    print(_user)
+    print(_found_user)

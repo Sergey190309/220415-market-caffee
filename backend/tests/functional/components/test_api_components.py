@@ -13,24 +13,24 @@ def url_components(root_url):
 @pytest.fixture
 def component_api_resp(
         test_client, url_components, component_instance,
-        component_test_schema, random_words):
+        component_get_schema, random_words):
     def _method(lang: str = 'en'):
+        values = {'locale_id': lang}
         _components_json = \
-            component_test_schema.dump(component_instance(lang))
+            component_get_schema.dump(component_instance(values))
         # print(_components_json.keys())
         return test_client.post(url_components, json=_components_json)
     return _method
 
 
 # @pytest.mark.active
-@pytest.mark.parametrize('lang', [('ru'), ('en')])
 def test_components_post(
-        lang,
+        allowed_language,
         test_client, url_components,
         component_api_resp):
 
     # Create random instance. Good.
-    resp = component_api_resp(lang)
+    resp = component_api_resp(allowed_language)
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     _component_json = resp.json['payload'].copy()
@@ -80,13 +80,12 @@ def test_components_post(
 
 
 # @pytest.mark.active
-@pytest.mark.parametrize('lang', [('ru'), ('en')])
 def test_components_get(
-        lang,
+        allowed_language,
         test_client, url_components, component_api_resp):
     # Create new random instance and send to API:
     # Create random instance. Good.
-    resp = component_api_resp(lang)
+    resp = component_api_resp(allowed_language)
 
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
@@ -120,29 +119,26 @@ def test_components_get(
 
 
 # @pytest.mark.active
-@pytest.mark.parametrize('lang', [('ru'), ('en')])
 def test_components_put(
-        lang,
+        allowed_language,
         test_client, url_components, component_api_resp):
 
     # Create new random instance and send to API:
     # resp = component_api_resp('en')
-    resp = component_api_resp(lang)
+    resp = component_api_resp(allowed_language)
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
     # Create jsons for further testing:
-    _component_json = resp.json['payload'].copy()
-    _component_json.pop('locale')
-    _component_json.pop('kind')
-    _component_keys_json = _component_json.copy()
-    _component_keys_json.pop('details')
-    _component_keys_json.pop('content')
-    _component_keys_json.pop('title')
-    _component_values_json = _component_json.copy()
-    _component_values_json.pop('locale_id')
-    _component_values_json.pop('kind_id')
-    _component_values_json.pop('identity')
+    _component_json = {
+        key: value for (key, value) in resp.json['payload'].items()
+        if key not in ['locale', 'kind']}
+    _component_keys_json = {
+        key: value for (key, value) in resp.json['payload'].items()
+        if key in ['identity', 'kind_id', 'locale_id']}
+    _component_values_json = {
+        key: value for (key, value) in resp.json['payload'].items()
+        if key in ['title', 'content', 'details']}
 
     # Get object and test it's correctness:
     resp = test_client.get(url_components, json=_component_keys_json)
@@ -170,9 +166,11 @@ def test_components_put(
     # Create json for correction and correct object:
     for key in _component_values_json.keys():
         _put_component_values_json = _component_json.copy()
-        if _put_component_values_json[key] is None:
+        # print(_put_component_values_json)
+        if isinstance(_put_component_values_json[key], int):
             _put_component_values_json[key] = 5
         else:
+            # pass
             _put_component_values_json[key] += '- corrected!'
         resp = test_client.put(url_components, json=_put_component_values_json)
         assert resp.status_code == 200
@@ -180,27 +178,25 @@ def test_components_put(
 
 
 # @pytest.mark.active
-@pytest.mark.parametrize('lang', [('ru'), ('en')])
 def test_components_delete(
-        lang,
+        allowed_language,
         test_client, url_components, component_api_resp):
 
     # Create new random instance and send to API:
     # resp = component_api_resp('en')
-    resp = component_api_resp(lang)
+    resp = component_api_resp(allowed_language)
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
     # Create jsons for further testing:
-    _component_json = resp.json['payload'].copy()
-    _component_json.pop('locale')
-    _component_json.pop('kind')
+    _component_json = {
+        key: value for (key, value) in resp.json['payload'].items()
+        if key not in ['locale', 'kind']}
 
     # Get object and test it's correctness:
-    _component_keys_json = _component_json.copy()
-    _component_keys_json.pop('details')
-    _component_keys_json.pop('content')
-    _component_keys_json.pop('title')
+    _component_keys_json = {
+        key: value for (key, value) in resp.json['payload'].items()
+        if key in ['identity', 'kind_id', 'locale_id']}
 
     # Get object and test it's correctness:
     resp = test_client.get(url_components, json=_component_keys_json)

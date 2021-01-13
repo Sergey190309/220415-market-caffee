@@ -1,4 +1,3 @@
-
 class ComponentsConstants():
     '''
     The class contains constants that are accessible by all elements
