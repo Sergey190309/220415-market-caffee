@@ -1,6 +1,8 @@
 from typing import Dict, Union
 # from datetime import datetime
 
+from sqlalchemy.exc import IntegrityError, DataError
+
 from application.modules.dbs_global import dbs_global
 from application.models.locales_global import LocaleGlobalModel  # noqa: 401
 # from ..models import ComponentKindsModel
@@ -40,11 +42,16 @@ class ComponentModel(dbs_global.Model):
     def find_by_identity_kind_locale(
             cls, searching_criterions: Dict = None) -> 'ComponentModel':
         if searching_criterions is None:
-            return 'Provide searching criterion!'
-        return cls.query.filter_by(
-            identity=searching_criterions['identity'],
-            kind_id=searching_criterions['kind_id'],
-            locale_id=searching_criterions['locale_id']).first()
+            return {'message': 'Provide searching criterion!'}
+        try:
+            return cls.query.filter_by(
+                identity=searching_criterions['identity'],
+                kind_id=searching_criterions['kind_id'],
+                locale_id=searching_criterions['locale_id']).first()
+        except Exception as error:
+            return {
+                'message': 'Something wrong happened:\n',
+                'payload': error}
 
     def update(self, update_values: Dict = None) -> Union[None, Dict]:
         if update_values is None:
@@ -57,6 +64,18 @@ class ComponentModel(dbs_global.Model):
         try:
             dbs_global.session.add(self)
             dbs_global.session.commit()
+        except DataError as error:
+            dbs_global.session.rollback()
+            return {
+                'message':
+                    'components.models.ComponentModel.save_to_db DataError\n',
+                'error': error}
+        except IntegrityError as error:
+            dbs_global.session.rollback()
+            return {
+                'message':
+                    'components.models.ComponentModel.save_to_db IntegrityError\n',
+                'error': error}
         except Exception as error:
             return {
                 'message': 'components.models.ComponentModel.save_to_db Error\n',

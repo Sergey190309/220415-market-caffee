@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Union, List
 from application.modules.dbs_global import dbs_global
 
 
@@ -10,6 +10,11 @@ class ViewModel(dbs_global.Model):
     __tablename__ = 'views'
     id_view = dbs_global.Column(dbs_global.String(64), primary_key=True)
     description = dbs_global.Column(dbs_global.UnicodeText)
+
+    @classmethod
+    def find(cls, searching_criterions: Dict = None)\
+            -> Union[None, List['ViewModel']]:
+        return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
     def find_by_id(

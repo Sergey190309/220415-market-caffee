@@ -14,12 +14,11 @@ def url_view(root_url):
 @pytest.fixture(scope='module')
 def view_api_resp(
         test_client, url_view, view_instance,
-        view_get_schema, random_words):
+        view_get_schema):
     '''
     It makes post reques to API and retunrn responce.
     '''
-    view_json = view_get_schema.dump(
-        view_instance(random_words() + random_words()))
+    view_json = view_get_schema.dump(view_instance())
     return test_client.post(url_view, json=view_json)
 
 

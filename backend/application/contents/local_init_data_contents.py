@@ -8,7 +8,8 @@ class ContentsConstants():
         # That's initial data for component kinds table:
         self._VIEWS = [
             {'id_view': 'main', 'description': 'That is main view.'},
-            {'id_view': 'hello', 'description': 'That is hello page.'},
+            {'id_view': 'hello', 'description': 'test.'},
+            {'id_view': 'next_hello', 'description': 'test.'},
             {'id_view': 'goodbay', 'description': 'That is good bay page.'}]
 
     @property

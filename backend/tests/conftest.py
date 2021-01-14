@@ -22,7 +22,7 @@ from application.components.schemas.component_kinds import (
     ComponentKindGetSchema, ComponentKindSchema)
 
 from application.contents.models.views import ViewModel
-from application.contents.schemas.views import ViewGetSchema
+from application.contents.schemas.views import ViewGetSchema, ViewSchema
 
 from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
@@ -34,18 +34,57 @@ from application.global_init_data import global_constants
 
 
 @pytest.fixture(scope='session')
-def valid_language():
-    return global_constants.get_LOCALES[0]['id']
+def valid_item():
+    '''
+    The fixture return valid item from constants.
+    It's first element from list according item argument.
+    Dectinary key depends from contants it's there primary keys.
+    id - locale,
+    id_kind - component kind,
+    id_view - content's view.
+    '''
+    def _method(item_kind: str = None):
+        if item_kind is None or item_kind not in ['id', 'id_kind', 'id_view']:
+            return {
+                'message':
+                    "You should provide item_kind you want. "
+                    "It sould be 'id' for locale_id, 'id_kind' or 'id_view'."}
+        if item_kind == 'id':
+            _active_constant = global_constants.get_LOCALES
+        elif item_kind == 'id_view':
+            _active_constant = contents_constants.get_VIEWS
+        elif item_kind == 'id_kind':
+            _active_constant = components_constants.get_KINDS
+        else:
+            _active_constant = None
+        if _active_constant is None:
+            return {
+                'message':
+                    "Somthing went wrong."}
+        return _active_constant[0][item_kind]
+    return _method
 
 
 @pytest.fixture(scope='session')
-def valid_component_kind():
-    return components_constants.get_KINDS[0]['id_kind']
-
-
-@pytest.fixture(scope='session')
-def valid_view():
-    return contents_constants.get_VIEWS[0]['id_view']
+def other_valid_item():
+    def _method(item_kind: str = None, prev_item: str = None):
+        # print(item_kind)
+        # print(prev_item)
+        if item_kind is None or prev_item is None or\
+                item_kind not in ['kind_id', 'locale_id', 'view_id']:
+            return {
+                'message':
+                    "You should provide item_kind you want. "
+                    "It sould be 'kind_id', 'locale_id' or 'view_id'."}
+        if item_kind == 'kind_id':
+            _active_pks = components_constants.get_PKS
+        elif item_kind == 'locale_id':
+            _active_pks = global_constants.get_PKS
+        _active_pks = [item for item in _active_pks if item != prev_item]
+        # print(_active_pks)
+        # print(_active_pks[0])
+        return _active_pks[0]
+    return _method
 
 
 @pytest.fixture(params=['en'])
@@ -237,6 +276,11 @@ def view_get_schema():
 
 
 @pytest.fixture(scope='session')
+def view_schema():
+    return ViewSchema()
+
+
+@pytest.fixture(scope='session')
 def content_get_schema():
     return ContentGetSchema()
 
@@ -316,7 +360,7 @@ def component_kind_instance(random_text):
 @pytest.fixture(scope='module')
 def component_instance(
         random_text, random_text_underscore,
-        valid_language, valid_component_kind,
+        valid_item,
         component_schema):
     '''
     It generates instance without saving.
@@ -339,12 +383,14 @@ def component_instance(
         if 'kind_id' in keys:
             _json['kind_id'] = values['kind_id']
         else:
-            _json['kind_id'] = valid_component_kind
+            # _json['kind_id'] = valid_component_kind
+            _json['kind_id'] = valid_item('id_kind')
 
         if 'locale_id' in keys:
             _json['locale_id'] = values['locale_id']
         else:
-            _json['locale_id'] = valid_language
+            # _json['locale_id'] = valid_component_kind
+            _json['locale_id'] = valid_item('id')
 
         if 'title' in keys:
             _json['title'] = values['title']
@@ -366,14 +412,26 @@ def component_instance(
 
 
 @pytest.fixture(scope='module')
-def view_instance(random_text):
+def view_instance(random_text, view_schema):
     '''
     View model instance without saving.
-    id_kind - argument, description - random set of 12 words.
+    id_kind - argument or random text of 1 word,
+    description - argument or random set of 12 words.
     '''
-    def _method(id_view: str = 'main'):
-        return ViewModel(
-            id_view=id_view, description=random_text(lang='en', qnt=12))
+    def _method(values: Dict = {}) -> 'ViewModel':
+        if values is None or not isinstance(values, Dict):
+            return 'Provide values in dictinary type'
+        _json = {}
+        keys = values.keys()
+        if 'id_view' in keys:
+            _json['id_view'] = values['id_view']
+        else:
+            _json['id_view'] = random_text()
+        if 'description' in keys:
+            _json['description'] = values['description']
+        else:
+            _json['description'] = random_text(qnt=12)
+        return view_schema.load(_json, session=dbs_global.session)
     return _method
 
 

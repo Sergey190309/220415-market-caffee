@@ -22,5 +22,10 @@ class ComponentsConstants():
     def get_KINDS(self):
         return self._KINDS
 
+    @property
+    def get_PKS(self):
+        _pks = [sum['id_kind'] for sum in self._KINDS]
+        return _pks
+
 
 components_constants = ComponentsConstants()
