@@ -12,8 +12,10 @@ class ViewModel(dbs_global.Model):
     description = dbs_global.Column(dbs_global.UnicodeText)
 
     @classmethod
-    def find(cls, searching_criterions: Dict = None)\
+    def find(cls, searching_criterions: Dict = {})\
             -> Union[None, List['ViewModel']]:
+        if searching_criterions is None:
+            searching_criterions = {}
         return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod

@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Union, List
 from datetime import datetime
 from requests import Response
 from flask import request, url_for
@@ -100,6 +100,12 @@ class UserModel(dbs_global.Model):
             'access_token': create_access_token(self.id, fresh=True),
             'refresh_token': create_refresh_token(self.id)
         }
+
+    @classmethod
+    def find(cls, searching_criteation: Dict = {}) -> List['UserModel']:
+        if searching_criteation is None:
+            searching_criteation = {}
+        return cls.query.filter_by(**searching_criteation).all()
 
     @classmethod
     def find_last(cls) -> 'UserModel':

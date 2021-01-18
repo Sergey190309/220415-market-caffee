@@ -20,7 +20,7 @@ class GlobalConstants():
     @property
     def get_PKS(self):
         return [item['id'] for item in self._LOCALES]
-
+ 
 
 global_constants = GlobalConstants()
 

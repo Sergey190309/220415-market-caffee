@@ -15,8 +15,7 @@ def test_userhandle_post_user_own(  # Normal user can update own info but role_i
         test_client,
         created_user,
         access_token,
-        url_usershandle,
-):
+        url_usershandle):
     _user = created_user('user')
 
     # print()

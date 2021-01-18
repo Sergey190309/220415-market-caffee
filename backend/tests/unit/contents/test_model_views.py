@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 import pytest
 
 # from application.modules.dbs_global import dbs_global
@@ -24,9 +24,7 @@ def saved_view_instance(view_instance):
 
 # @pytest.mark.active
 def test_view_find(saved_view_instance):
-    _values = {
-        'description': 'test'
-    }
+    _values = {'description': 'test'}
     _view01 = saved_view_instance(_values)
     _view02 = saved_view_instance(_values)
     _view03 = saved_view_instance(_values)
@@ -50,6 +48,18 @@ def test_view_find(saved_view_instance):
     _view01.delete_fm_db()
     _view02.delete_fm_db()
     _view03.delete_fm_db()
+
+
+# @pytest.mark.active
+def test_view_find_all(saved_view_instance):
+    '''
+    No searching criterion.
+    '''
+    _models = ViewModel.find()
+    assert isinstance(_models, List)
+    assert len(_models) >= 3
+    for _model in _models:
+        assert isinstance(_model, ViewModel)
 
 
 # @pytest.mark.active

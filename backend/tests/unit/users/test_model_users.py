@@ -45,6 +45,62 @@ def saved_user(
 
 
 # @pytest.mark.active
+def test_user_find_all():
+    '''
+    Get list of user without searching criterian or emply criteraon.
+    '''
+    _result1 = UserModel.find()
+    _result2 = UserModel.find({})
+    _result3 = UserModel.find(None)
+    assert len(_result1) == len(_result2)
+    assert len(_result1) == len(_result3)
+
+
+# @pytest.mark.active
+def test_user_find(
+        allowed_language, random_text, random_text_underscore,
+        user_instance, user_get_schema):
+    '''
+    Create 3 user models, save and find them correctly.
+    '''
+    _users = []
+    # print(allowed_language())
+    _values1 = {'first_name': random_text(lang=allowed_language)}
+    _users.append(user_instance(_values1))
+    _values2 = {**_values1, 'last_name': random_text(lang=allowed_language)}
+    _users.append(user_instance(_values2))
+    _values3 = {
+        **_values2, 'user_name': random_text_underscore(lang=allowed_language, qnt=2)}
+    _users.append(user_instance(_values3))
+    for _user in _users:
+        _user.save_to_db()
+        # print(user_get_schema.dump(_user))
+
+    _result1 = UserModel.find(_values1)
+    assert len(_result1) == 3
+    for item in _result1:
+        for key in _values1.keys():
+            assert _values1[key] == user_get_schema.dump(item)[key]
+
+    _result2 = UserModel.find(_values2)
+    assert len(_result1) == 3
+    for item in _result2:
+        for key in _values2.keys():
+            assert _values2[key] == user_get_schema.dump(item)[key]
+
+    _result3 = UserModel.find(_values3)
+    assert len(_result1) == 3
+    # print(len(_result3))
+    for item in _result3:
+        for key in _values3.keys():
+            assert _values3[key] == user_get_schema.dump(item)[key]
+            # print(user_get_schema.dump(item)[key])
+
+    for _user in _users:
+        _user.delete_fm_db()
+
+
+# @pytest.mark.active
 def test_default_user_create(
         saved_user,
         user_create_json, default_user_json,
@@ -170,7 +226,7 @@ def test_user_update(
     'language, lang_testing_result', [
         (global_constants.get_LOCALES[0]['id'], 'None'),
         ('not', 'message'),
-        # ('', 'message')
+        ('', 'message')
     ])
 def test_user_update_wrong_fk(
         role, role_testing_result,
@@ -276,7 +332,7 @@ def test_user_is(created_user):
     _user.update(_update_json)
     assert _user.is_admin
 
-    print(_user.role_id)
+    # print(_user.role_id)
 
 
 # @pytest.mark.active
@@ -284,6 +340,9 @@ def test_user_finds(created_user):
     _user = created_user()
     _found_user = UserModel.find_last()
     assert _user.id == _found_user.id
+
+    # print(_user)
+    # print(_found_user)
 
     _found_user = UserModel.find_by_id(_user.id)
     assert _user.email == _found_user.email
@@ -294,6 +353,3 @@ def test_user_finds(created_user):
     assert _user.id == _found_user.id
     _found_user = UserModel.find_by_email(_user.email + '-')
     assert _found_user is None
-
-    print(_user)
-    print(_found_user)

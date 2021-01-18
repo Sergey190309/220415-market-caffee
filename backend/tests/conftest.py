@@ -30,6 +30,7 @@ from application.contents.schemas.contents import ContentGetSchema, ContentSchem
 from application.testing_config import SQLALCHEMY_DATABASE_URI
 from application.contents.local_init_data_contents import contents_constants
 from application.components.local_init_data_components import components_constants
+from application.users.local_init_data_users import users_constants
 from application.global_init_data import global_constants
 
 
@@ -39,29 +40,38 @@ def valid_item():
     The fixture return valid item from constants.
     It's first element from list according item argument.
     Dectinary key depends from contants it's there primary keys.
-    id - locale,
-    id_kind - component kind,
-    id_view - content's view.
+    locale - locale,
+    kind - component kind,
+    view - content's view,
+    role - user's role.
     '''
     def _method(item_kind: str = None):
-        if item_kind is None or item_kind not in ['id', 'id_kind', 'id_view']:
+        if item_kind is None or item_kind not in ['locale', 'kind', 'view', 'role']:
             return {
                 'message':
                     "You should provide item_kind you want. "
                     "It sould be 'id' for locale_id, 'id_kind' or 'id_view'."}
-        if item_kind == 'id':
+        if item_kind == 'locale':
             _active_constant = global_constants.get_LOCALES
-        elif item_kind == 'id_view':
+            key = 'id'
+        elif item_kind == 'view':
             _active_constant = contents_constants.get_VIEWS
-        elif item_kind == 'id_kind':
+            key = 'id_view'
+        elif item_kind == 'kind':
             _active_constant = components_constants.get_KINDS
+            key = 'id_kind'
+        elif item_kind == 'role':
+            _active_constant = users_constants.get_ROLES
+            key = 'id'
         else:
             _active_constant = None
+            key = None
+
         if _active_constant is None:
             return {
                 'message':
                     "Somthing went wrong."}
-        return _active_constant[0][item_kind]
+        return _active_constant[0][key]
     return _method
 
 
@@ -80,6 +90,9 @@ def other_valid_item():
             _active_pks = components_constants.get_PKS
         elif item_kind == 'locale_id':
             _active_pks = global_constants.get_PKS
+        elif item_kind == 'view_id':
+            _active_pks = contents_constants.get_PKS
+        # print(_active_pks)
         _active_pks = [item for item in _active_pks if item != prev_item]
         # print(_active_pks)
         # print(_active_pks[0])
@@ -87,9 +100,15 @@ def other_valid_item():
     return _method
 
 
-@pytest.fixture(params=['en'])
-# @pytest.fixture(params=[item['id'] for item in global_constants.get_LOCALES])
+# @pytest.fixture(params=['en'])
+@pytest.fixture(params=[item['id'] for item in global_constants.get_LOCALES])
 def allowed_language(request):
+    return request.param
+
+
+# @pytest.fixture(params=['main'])
+@pytest.fixture(params=[item['id_view'] for item in contents_constants.get_VIEWS])
+def allowed_view(request):
     return request.param
 
 
@@ -343,6 +362,75 @@ def _engine(_app_folder):
 
 
 @pytest.fixture(scope='module')
+def user_instance(random_text, random_email, valid_item, user_schema):
+    '''
+    It generates instance without saving.
+    All elements are arguments if not:
+    user_name - random text 1 (language dependend),
+    email - random email,
+    password - 'qwer',
+    role_id - default value,
+    first_name - random text 1 (language dependend),
+    last_name - random text 1 (language dependend),
+    locale_id - default value,
+    remarks - random text 12 (language dependend)
+    '''
+    def _method(values: Dict = {}) -> 'UserModel':
+        if values is None or not isinstance(values, Dict):
+            return 'Provide values in dictinary type'
+        _json = {}
+        keys = values.keys()
+
+        if 'locale_id' in keys:
+            _json['locale_id'] = values['locale_id']
+        else:
+            _json['locale_id'] = valid_item('locale')
+
+        if 'user_name' in keys:
+            _json['user_name'] = values['user_name']
+        else:
+            _json['user_name'] = random_text(lang=_json['locale_id'])
+
+        if 'email' in keys:
+            _json['email'] = values['email']
+        else:
+            _json['email'] = random_email()
+
+        if 'password' in keys:
+            _json['password'] = values['password']
+        else:
+            _json['password'] = 'qwer'
+
+        if 'role_id' in keys:
+            _json['role_id'] = values['role_id']
+        else:
+            _json['role_id'] = valid_item('role')
+
+        if 'first_name' in keys:
+            _json['first_name'] = values['first_name']
+        else:
+            _json['first_name'] = random_text(lang=_json['locale_id'])
+
+        if 'last_name' in keys:
+            _json['last_name'] = values['last_name']
+        else:
+            _json['last_name'] = random_text(lang=_json['locale_id'])
+
+        if 'locale_id' in keys:
+            _json['locale_id'] = values['locale_id']
+        else:
+            _json['locale_id'] = valid_item('locale')
+
+        if 'remarks' in keys:
+            _json['remarks'] = values['remarks']
+        else:
+            _json['remarks'] = random_text(lang=_json['locale_id'], qnt=12)
+
+        return user_schema.load(_json)
+    return _method
+
+
+@pytest.fixture(scope='module')
 def component_kind_instance(random_text):
     '''
     It generates instance without saving.
@@ -384,13 +472,13 @@ def component_instance(
             _json['kind_id'] = values['kind_id']
         else:
             # _json['kind_id'] = valid_component_kind
-            _json['kind_id'] = valid_item('id_kind')
+            _json['kind_id'] = valid_item('kind')
 
         if 'locale_id' in keys:
             _json['locale_id'] = values['locale_id']
         else:
             # _json['locale_id'] = valid_component_kind
-            _json['locale_id'] = valid_item('id')
+            _json['locale_id'] = valid_item('locale')
 
         if 'title' in keys:
             _json['title'] = values['title']
@@ -436,31 +524,45 @@ def view_instance(random_text, view_schema):
 
 
 @pytest.fixture(scope='module')
-def content_instance(random_text):
+def content_instance(random_text, random_text_underscore):
     '''
     Content model instance without saving.
     identity, view_id, locale_id - arguments, title - random set of 3 words.
     content - random set of 5 words
     '''
-    def _method(**content_ids):
-        if 'identity' in content_ids.keys():
+    def _method(content_ids: Dict = {}):
+        # print(content_ids)
+        keys = content_ids.keys()
+        if 'identity' in keys:
             _identity = content_ids['identity']
         else:
-            _identity = random_text(qnt=2)[0: -1]
+            _identity = random_text_underscore(qnt=2)[0: -1]
 
-        if 'view_id' in content_ids.keys():
+        if 'view_id' in keys:
             _view_id = content_ids['view_id']
         else:
             _view_id = contents_constants.get_VIEWS[0]['id_view']
 
-        if 'locale_id' in content_ids.keys():
+        if 'locale_id' in keys:
             _locale_id = content_ids['locale_id']
         else:
             _locale_id = global_constants.get_LOCALES[0]['id']
 
-        _title = random_text(_locale_id, 3)
-        _content = random_text(_locale_id, 5)
-        _user_id = 0
+        if 'user_id' in keys:
+            _user_id = content_ids['user_id']
+        else:
+            _user_id = randint(1, 128)
+
+        if 'title' in keys:
+            _title = content_ids['title']
+        else:
+            _title = random_text(_locale_id, 3)
+
+        if 'content' in keys:
+            _content = content_ids['content']
+        else:
+            _content = random_text(_locale_id, 5)
+
         return ContentModel(
             identity=_identity,
             view_id=_view_id,
@@ -469,8 +571,3 @@ def content_instance(random_text):
             title=_title,
             content=_content)
     return _method
-
-
-@pytest.fixture
-def user_instance():
-    pass

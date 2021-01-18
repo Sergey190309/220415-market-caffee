@@ -20,11 +20,9 @@ class UserList(Resource):
         '''
         Just list of users. Admin rights are required.
         '''
-
         if UserModel.find_by_id(get_jwt_identity()).is_admin:
             payload = [
-                user_schema.dump(_user) for _user in
-                UserModel.query.all()
+                user_schema.dump(_user) for _user in UserModel.find()
             ]
             count = len(payload)
             return {

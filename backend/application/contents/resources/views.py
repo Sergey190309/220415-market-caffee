@@ -12,7 +12,7 @@ from ..schemas.views import view_schema, view_get_schema
 class Views(Resource):
 
     @classmethod
-    def already_exists(cls, id_view: str) -> Dict:
+    def already_exists(cls, id_view: str = None) -> Dict:
         return {
             'message': str(_(
                 "A view with identity '%(id_view)s' already exists.",
@@ -20,7 +20,7 @@ class Views(Resource):
         }, 400
 
     @classmethod
-    def not_found(cls, id_view: str) -> Dict:
+    def not_found(cls, id_view: str = None) -> Dict:
         return {
             'message': str(_(
                 "A view with identity '%(id_view)s' "
@@ -36,7 +36,7 @@ class Views(Resource):
         _view = view_schema.load(request.get_json(), session=dbs_global.session)
         _view_fm_db = ViewModel.find_by_id(id_view=_view.id_view)
         if _view_fm_db is not None:
-            return cls.already_exists(_view.id_view)
+            return cls.already_exists({'id_view': _view.id_view})
         _view.save_to_db()
         return {
             'message': str(_(
@@ -54,7 +54,7 @@ class Views(Resource):
         # _view = view_get_schema.load(request.get_json(), session=dbs_global.session)
         _view = ViewModel.find_by_id(id_view=_search_json['id_view'])
         if _view is None:
-            return cls.not_found(id_view=_search_json['id_view'])
+            return cls.not_found(**_search_json)
         return {
             'message': str(_("Found, see payload.")),
             'payload': view_schema.dump(_view)
@@ -68,7 +68,7 @@ class Views(Resource):
         _update_json = view_get_schema.load(request.get_json())
         _view = ViewModel.find_by_id(id_view=_update_json['id_view'])
         if _view is None:
-            return cls.not_found(id_view=_update_json['id_view'])
+            return cls.not_found(**_update_json)
         _view.update(_update_json)
         return {
             'message': str(_(
@@ -86,7 +86,7 @@ class Views(Resource):
         _delete_json = view_get_schema.load(request.get_json())
         _view = ViewModel.find_by_id(id_view=_delete_json['id_view'])
         if _view is None:
-            return cls.not_found(id_view=_delete_json['id_view'])
+            return cls.not_found(**_delete_json)
         _view.delete_fm_db()
         return {
             'message': str(_(

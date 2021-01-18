@@ -13,25 +13,29 @@ from ..schemas.contents import (
 
 class Contents(Resource):
     @classmethod
-    def already_exists(cls, pks_json: Dict) -> Dict:
+    def already_exists(
+            cls, identity: str = '',
+            view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
                 "A contents with identity '%(identity)s', view '%(view_id)s' and "
                 "locale '%(locale_id)s' already exists.",
-                identity=pks_json['identity'],
-                view_id=pks_json['view_id'],
-                locale_id=pks_json['locale_id'])),
+                identity=identity,
+                view_id=view_id,
+                locale_id=locale_id)),
         }, 400
 
     @classmethod
-    def not_found(cls, pks_json: Dict) -> Dict:
+    def not_found(
+            cls, identity: str = '',
+            view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
                 "A contents with identity '%(identity)s', view '%(view_id)s' and "
                 "locale '%(locale_id)s' not found.",
-                identity=pks_json['identity'],
-                view_id=pks_json['view_id'],
-                locale_id=pks_json['locale_id'])),
+                identity=identity,
+                view_id=view_id,
+                locale_id=locale_id)),
         }, 404
 
     @classmethod
@@ -55,7 +59,10 @@ class Contents(Resource):
             view_id=_content.view_id,
             locale_id=_content.locale_id)
         if _content_fm_db is not None:
-            return cls.already_exists(_request_json)
+            return cls.already_exists(
+                identity=_content.identity,
+                view_id=_content.view_id,
+                locale_id=_content.locale_id)
         error_info = _content.save_to_db()
         if error_info is not None:
             return cls.error_message(error_info)
@@ -74,7 +81,7 @@ class Contents(Resource):
         _search_json = content_get_schema.load(request.get_json())
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
         if _content is None:
-            return cls.not_found(_search_json)
+            return cls.not_found(**_search_json)
         return {
             'message': str(_(
                 "The content has been found. "
@@ -88,9 +95,15 @@ class Contents(Resource):
         Update instance and save to db.
         '''
         _update_json = content_get_schema.load(request.get_json())
-        _content = ContentModel.find_by_identity_view_locale(**_update_json)
+        _content = ContentModel.find_by_identity_view_locale(
+            identity=_update_json['identity'],
+            view_id=_update_json['view_id'],
+            locale_id=_update_json['locale_id'])
         if _content is None:
-            return cls.not_found(_update_json)
+            return cls.not_found(
+                identity=_update_json['identity'],
+                view_id=_update_json['view_id'],
+                locale_id=_update_json['locale_id'])
         _content.update(_update_json)
         return {
             'message': str(_(
@@ -107,7 +120,11 @@ class Contents(Resource):
         _delete_json = content_get_schema.load(request.get_json())
         _content = ContentModel.find_by_identity_view_locale(**_delete_json)
         if _content is None:
-            return cls.not_found(_delete_json)
+            return cls.not_found(
+                identity=_delete_json['identity'],
+                view_id=_delete_json['view_id'],
+                locale_id=_delete_json['locale_id'])
+
         _content.delete_fm_db()
         return {
             'message': str(_(

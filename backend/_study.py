@@ -1,12 +1,6 @@
-import pytest
-
-
-@pytest.fixture(params=['en', 'ru'])
-def fixture1(request):
-    return request.param
-
-
-def test_foobar(fixture1):
-    print()
-    print(fixture1)
-    # assert type(fixture1) == type(fixture2)
+_values1 = {'first_name': 'Вася'}
+_values2 = {**_values1, 'last_name': 'Иванов'}
+_values3 = {**_values2, 'user_name': 'Goat fucker'}
+print(_values1)
+print(_values2)
+print(_values3)
