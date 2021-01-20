@@ -3,24 +3,26 @@
 version: '3'
 services:
   # I disable front end to see on the screen results of compilation
-  # frontend:
-  #   container_name: frontend
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   image: frontend
-  #   volumes:
-  #     - './frontend:/frontend'
-  #     - '/app/node_modules'
-  #   ports:
-  #     - 3000:3000
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
-  #   tty: true
-  #   depends_on:
-  #     - nginx
-  #   networks:
-  #     - outside
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/usr/src/app
+      # - /app/node_modules
+    tty: true
+    stdin_open: true
+    depends_on:
+      - nginx
+    networks:
+      - outside
 
   backend:
     build:
@@ -43,7 +45,7 @@ services:
 
       DATABASE_USER: 'coffee'
       DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
-      DATABASE_HOST: '172.18.0.2'
+      DATABASE_HOST: '172.18.0.1'
       DATABASE_NAME: 'market_coffee'
     volumes:
       - ./backend:/backend
@@ -94,7 +96,7 @@ services:
     depends_on:
       - backend
     networks:
-      # - outside
+      - outside
       - frontend
 
 networks:
@@ -102,14 +104,14 @@ networks:
     driver: bridge
   backend:
     driver: bridge
-  # outside:
-  #   driver: bridge
+  outside:
+    driver: bridge
 
 volumes:
   mysqldata:
     driver: local
-  # appdata:
-  #   driver: local
+  appdata:
+    driver: local
   nginxdata:
     driver: local
   backenddata:

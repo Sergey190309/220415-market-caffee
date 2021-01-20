@@ -1,27 +1,25 @@
-## pull official base image
-FROM node:buster-slim
+FROM node:15-buster-slim
 
-## set working directory
-WORKDIR /frontend
+# A directory within the virtualized Docker environment
+# Becomes more relevant when using Docker Compose later
+WORKDIR /usr/src/app
 
-# update and upgrade the instance
-RUN apt update && apt -y upgrade
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
 
-## add `/app/node_modules/.bin` to $PATH
-ENV PATH /frontend/node_modules/.bin:$PATH
+# Install app dependencies
+COPY package.json .
+COPY yarn.lock .
 
-## install app dependencies
-COPY package.json ./
-# COPY package-lock.json ./
-COPY yarn.lock ./
-# RUN npm install --silent
 RUN yarn
-# RUN npm install react-scripts@3.4.1 -g --silent
-# RUN yarn add react-scripts
+# If you are building your code for production
+# RUN npm ci --only=production
 
-## add app
-COPY . ./
+# Bundle app source
+COPY . .
 
-## start app
-# CMD ["npm", "start"]
-CMD ["yarn", "start"]
+# Uses port which is used by the actual application
+EXPOSE 3000
+
+# Finally runs the application
+CMD [ "yarn", "start" ]
