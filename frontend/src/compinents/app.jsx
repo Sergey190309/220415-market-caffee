@@ -7,8 +7,10 @@ import { Container } from "semantic-ui-react";
 
 import Navbar from "./layout/Navbar";
 import Landing from "./layout/Landing";
+import Alert from "./layout/Alert";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+
 // Redux
 import store from "../redux/store";
 
@@ -19,6 +21,7 @@ const App = () => (
         <Navbar />
         <Route exact path="/" component={Landing} />
         <Container>
+          <Alert />
           <Switch>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
