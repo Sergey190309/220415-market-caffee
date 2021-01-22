@@ -1,36 +1,32 @@
-import
-  React,
-  { Fragment }
-  from 'react';
-import {
-  Container,
-  Header,
-  Segment
-} from "semantic-ui-react";
-// import './App.css';
+import React, { Fragment } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+// Redux
+import { Provider } from "react-redux";
 
-const App = () =>(
-  // <Fragment>
-  //   <h1>It works!</h1>
-  // </Fragment>
-  <Container textAlign='justified'>
-    <Segment color='blue'>
-      <Header as='h2' textAlign='center' inverted color='red'>Header</Header>
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-        ligula eget dolor. Aenean massa strong. Cum sociis natoque penatibus et
-        magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
-        ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
-        arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
-        Nullam dictum felis eu pede link mollis pretium. Integer tincidunt. Cras
-        dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.
-        Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
-        Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus
-        viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet.
-        Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.
-      </p>
-    </Segment>
-  </Container>
+import { Container } from "semantic-ui-react";
+
+import Navbar from "./layout/Navbar";
+import Landing from "./layout/Landing";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+// Redux
+import store from "../redux/store";
+
+const App = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Fragment>
+        <Navbar />
+        <Route exact path="/" component={Landing} />
+        <Container>
+          <Switch>
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+          </Switch>
+        </Container>
+      </Fragment>
+    </BrowserRouter>
+  </Provider>
 );
+
 export default App;

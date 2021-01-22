@@ -24,7 +24,7 @@ class ConfirmationModel(dbs_global.Model):
         'UserModel',
         backref='confirmationmodel'
         # lazy='dynamic'
-        # cascade='all, delete-orphan'
+        # cascade='all,delete-orphan'
     )
 
     def __init__(self, user_id: int, **kwargs):

@@ -53,8 +53,8 @@ class UserModel(dbs_global.Model):
     confirmation = dbs_global.relationship(
         'ConfirmationModel',
         backref='usermodel',
-        lazy='dynamic',
-        cascade='all, delete-orphan')
+        cascade='all,delete-orphan',
+        lazy='dynamic')
 
     def set_accessed(self) -> Union[None, str]:
         # print("users.models.UserModel.set_accessed datetime -", datetime.now())
