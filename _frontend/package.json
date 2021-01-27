@@ -26,10 +26,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --collect-coverage",
-    "test:updateSnapshot": "jest --updateSnapshot",
-
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -51,18 +47,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-syntax-jsx": "^7.12.1",
+    "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel-jest": "26.6.0",
-    "jest": "26.6.0",
-    "react-test-renderer": "^17.0.1"
-  },
-  "jest": {
-    "verbose": true,
-    "testMatch": [
-      "**/__tests__/**/*.[jt]s?(x)",
-      "**/?(*.)+(spec|test).[jt]s?(x)"
-    ]
+    "jest": "26.6.0"
   }
 }

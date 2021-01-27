@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Landing component snapshot 1`] = `
+<div
+  className="ui container"
+>
+  <div
+    className="ui violet segment"
+  >
+    <div
+      className="ui yellow medium center aligned header"
+    >
+      That's header
+    </div>
+    <p>
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto, provident ratione numquam praesentium dolorem nostrum dolore asperiores in error dolores nihil quidem reprehenderit ut id maiores deleniti officiis eaque voluptates.
+    </p>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque quis fugiat delectus repellat iste, nisi, temporibus ullam impedit officia nulla reprehenderit quas cupiditate libero sapiente enim illo veniam harum velit.
+    </p>
+  </div>
+</div>
+`;

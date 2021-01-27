@@ -14,6 +14,10 @@ import Register from "./auth/Register";
 // Redux
 import store from "../redux/store";
 
+export function sum(x, y) {
+  return x + y
+}
+
 const App = () => (
   <Provider store={store}>
     <BrowserRouter>
