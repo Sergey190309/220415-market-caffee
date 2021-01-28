@@ -32,7 +32,7 @@ export const Register = ({ setAlert }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert("Passwords do not match", "error", 1000);
+      setAlert("Passwords do not match", "error", 2500);
     } else {
       console.log("Success!");
     }
