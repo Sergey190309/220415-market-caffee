@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import alert from './alert'
-import displayWidth from './display_width'
+import alertReducer from './alert'
+import device from './smallDevice'
 
 export default combineReducers({
-  alert
-  // info: alert
-  // layout: displayWidth
+  // alertReducer
+  infoForUser: alertReducer,
+  layout: device
 });

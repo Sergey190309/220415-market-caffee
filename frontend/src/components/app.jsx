@@ -1,55 +1,56 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 // Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { Container } from "semantic-ui-react";
 
-import Navbar from "./layout/Navbar";
+// import NavBar from "./layout/menus/NavBar";
+import MenuSwitcher from "./layout/menus/MenuSwitcher";
 import Landing from "./layout/Landing";
 import Alert from "./layout/Alert";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-import { setDisplayWidth } from "../redux/actions/display_width";
+import { setSmallDevice } from "../redux/actions";
 
-
-const App = () => {
-  const [width, setWindowWidth] = useState(0);
+const App = ({ setSmallDevice }) => {
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
     updateDimentions();
     window.addEventListener("resize", updateDimentions);
-    console.log(width);
+    // console.log('useEffect width', width)
     return () => window.removeEventListener("resize", updateDimentions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width]);
 
   const updateDimentions = () => {
-    const width = window.innerWidth;
-    setWindowWidth(width);
+    const _width = window.outerWidth;
+    // console.log("Update dementions - width from window", _width);
+    setWidth(_width);
+    setSmallDevice(_width);
   };
 
   return (
-    <BrowserRouter>
-      <Fragment>
-        <Navbar />
-        <Route exact path="/" component={Landing} />
-        <Container>
-          <Alert />
-          <Switch>
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" component={Login} />
-          </Switch>
-        </Container>
-      </Fragment>
-    </BrowserRouter>
+    <Fragment>
+      <MenuSwitcher />
+      {/* <Route exact path="/" component={Landing} /> */}
+      <Container>
+        <Alert />
+        <Switch>
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </Container>
+    </Fragment>
   );
 };
 
 Register.propTypes = {
-  setDisplayWidth: PropTypes.func.isRequired
-}
+  setSmallDevice: PropTypes.func.isRequired,
+};
 
-export default connect(null, {setDisplayWidth})(App);
+export default connect(null, { setSmallDevice })(App);
 // export default App;

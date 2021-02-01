@@ -11,7 +11,7 @@ import {
   Button,
   Message,
 } from "semantic-ui-react";
-import { setAlert } from "../../redux/actions/alert";
+import { setAlert } from "../../redux/actions";
 // import axios from 'axios';
 
 export const Register = ({ setAlert }) => {
@@ -104,7 +104,7 @@ export const Register = ({ setAlert }) => {
 };
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired
-}
+  setAlert: PropTypes.func.isRequired,
+};
 
 export default connect(null, { setAlert })(Register);
