@@ -6,7 +6,7 @@ const smallDeviceLimit = 780; // That's limit where device deemed small (side ba
 const mediumDeviceLimit = 1080; // That's limit where device deemed small (side bar)
 
 export const setDeviceSize = (width) => (dispatch) => {
-  console.log('actions setDeviceSize width', width)
+  // console.log('actions setDeviceSize width', width)
   const deviceSize =
     (width < smallDeviceLimit? 'small': (
       width < mediumDeviceLimit? 'medium': 'big'
@@ -21,7 +21,7 @@ export const setDeviceSize = (width) => (dispatch) => {
   //     break;
   //   default:
   //     deviceSize = 'big';
-  console.log('actions setDeviceSize deviceSize', deviceSize)
+  // console.log('actions setDeviceSize deviceSize', deviceSize)
   return dispatch({
     type: SET_DEVICE_SIZE,
     payload: deviceSize,

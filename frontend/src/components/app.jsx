@@ -53,4 +53,3 @@ Register.propTypes = {
 };
 
 export default connect(null, { setDeviceSize })(App);
-// export default App;

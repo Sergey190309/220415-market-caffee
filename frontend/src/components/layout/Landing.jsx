@@ -14,6 +14,7 @@ const Landing = () => (
         nulla reprehenderit quas cupiditate libero sapiente enim illo veniam
         harum velit.
       </p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam facere possimus eligendi delectus recusandae a quaerat, at officiis! Culpa odit sed adipisci, saepe eum repellat distinctio cupiditate tempora magni totam!</p>
     </Segment>
   </Container>
 );
