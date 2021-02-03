@@ -13,9 +13,9 @@ import Alert from "./layout/Alert";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-import { setSmallDevice } from "../redux/actions";
+import { setDeviceSize } from "../redux/actions";
 
-const App = ({ setSmallDevice }) => {
+const App = ({ setDeviceSize }) => {
   const [width, setWidth] = useState(0);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const App = ({ setSmallDevice }) => {
     const _width = window.outerWidth;
     // console.log("Update dementions - width from window", _width);
     setWidth(_width);
-    setSmallDevice(_width);
+    setDeviceSize(_width);
   };
 
   return (
@@ -49,8 +49,8 @@ const App = ({ setSmallDevice }) => {
 };
 
 Register.propTypes = {
-  setSmallDevice: PropTypes.func.isRequired,
+  setDeviceSize: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setSmallDevice })(App);
+export default connect(null, { setDeviceSize })(App);
 // export default App;

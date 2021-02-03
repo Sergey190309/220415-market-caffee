@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 const MenuSwitcher = ({layout}) => {
-  return <div>{layout.smallDevice ? <SideBar /> : <NavBar />}</div>;
+  return <div>{layout.deviceSize === 'small' ? <SideBar /> : <NavBar />}</div>;
 };
 
 MenuSwitcher.propTypes = {

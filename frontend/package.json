@@ -25,10 +25,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --collect-coverage",
-    "test:updateSnapshot": "jest --updateSnapshot",
+    "test:w": "jest --watch",
+    "test:c": "jest --collect-coverage",
+    "test:us": "jest --updateSnapshot",
 
     "eject": "react-scripts eject"
   },
