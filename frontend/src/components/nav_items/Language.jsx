@@ -3,7 +3,9 @@ import React from 'react'
 const Language = () => {
   return (
     <div>
-      Language switcher
+      <p color='red'>
+        Language
+      </p>
     </div>
   )
 }

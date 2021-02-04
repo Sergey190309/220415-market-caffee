@@ -29,7 +29,7 @@
     "test": "jest",
     "test:w": "jest --watch",
     "test:c": "jest --collect-coverage",
-    "test:us": "jest --updateSnapshot",
+    "test:wc": "jest --watch --collect-coverage",
 
     "eject": "react-scripts eject"
   },

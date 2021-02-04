@@ -1,17 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
 // Redux
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Container } from "semantic-ui-react";
+// import { Container } from "semantic-ui-react";
 
-// import NavBar from "./layout/menus/NavBar";
-import MenuSwitcher from "./layout/menus/MenuSwitcher";
-import Landing from "./layout/Landing";
-import Alert from "./layout/Alert";
-import Login from "./auth/Login";
-import Register from "./auth/Register";
+import Layout from './layout/Layout'
 
 import { setDeviceSize } from "../redux/actions";
 
@@ -35,20 +29,12 @@ const App = ({ setDeviceSize }) => {
 
   return (
     <Fragment>
-      <MenuSwitcher />
-      {/* <Route exact path="/" component={Landing} /> */}
-      <Container>
-        <Alert />
-        <Switch>
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
-        </Switch>
-      </Container>
+      <Layout />
     </Fragment>
   );
 };
 
-Register.propTypes = {
+App.propTypes = {
   setDeviceSize: PropTypes.func.isRequired,
 };
 

@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout compnent Snapshot 1`] = `
+<Grid
+  celled={true}
+>
+  <GridRow
+    color="teal"
+  >
+    <GridColumn
+      textAlign="center"
+      verticalAlign="middle"
+      width="2"
+    >
+      <Logo />
+    </GridColumn>
+    <GridColumn
+      textAlign="center"
+      verticalAlign="middle"
+      width="12"
+    >
+      <h1>
+        Hi there!
+      </h1>
+    </GridColumn>
+    <GridColumn
+      textAlign="center"
+      verticalAlign="middle"
+      width="2"
+    >
+      <Icon
+        as="i"
+        name="angle double left"
+        onClick={[Function]}
+        size="big"
+      />
+    </GridColumn>
+  </GridRow>
+  <GridRow>
+    <GridColumn>
+      <SidebarPushable
+        as={[Function]}
+      >
+        <Sidebar
+          animation="overlay"
+          as={[Function]}
+          direction="right"
+          icon="labeled"
+          inverted={true}
+          onHide={[Function]}
+          target={
+            Object {
+              "current": Document {
+                "location": Location {
+                  "assign": [Function],
+                  "hash": "",
+                  "host": "localhost",
+                  "hostname": "localhost",
+                  "href": "http://localhost/",
+                  "origin": "http://localhost",
+                  "pathname": "/",
+                  "port": "",
+                  "protocol": "http:",
+                  "reload": [Function],
+                  "replace": [Function],
+                  "search": "",
+                  "toString": [Function],
+                },
+                Symbol(DOM SymbolTree): SymbolTreeNode {
+                  "cachedIndex": -1,
+                  "cachedIndexVersion": NaN,
+                  "childIndexCachedUpTo": null,
+                  "childrenVersion": 0,
+                  "firstChild": null,
+                  "lastChild": null,
+                  "nextSibling": null,
+                  "parent": null,
+                  "previousSibling": null,
+                },
+              },
+            }
+          }
+          vertical={true}
+          visible={false}
+          width="thin"
+        >
+          <MenuItem
+            name="item01"
+          >
+            NavBarItem01
+          </MenuItem>
+          <MenuItem
+            name="item02"
+          >
+            NavBarItem02
+          </MenuItem>
+          <MenuItem
+            name="item03"
+          >
+            NavBarItem03
+          </MenuItem>
+          <MenuItem
+            name="login"
+          >
+            <Link
+              onClick={[Function]}
+              to="/login"
+            >
+              <Button
+                as="button"
+              >
+                Log-In
+              </Button>
+            </Link>
+          </MenuItem>
+        </Sidebar>
+        <SidebarPusher
+          dimmed={false}
+        >
+          <Segment
+            basic={true}
+          >
+            <Content />
+          </Segment>
+        </SidebarPusher>
+      </SidebarPushable>
+    </GridColumn>
+  </GridRow>
+</Grid>
+`;
