@@ -3,12 +3,15 @@
 exports[`NavBar component Snapshot 1`] = `
 <Menu>
   <MenuItem>
-    <Logo />
+    <Logo
+      color="teal"
+    />
   </MenuItem>
   <MenuItem
     color="orange"
-    name="Test"
-  />
+  >
+    Test
+  </MenuItem>
   <NavItem
     link="/pricelist"
     name="priceList"
@@ -36,6 +39,7 @@ exports[`NavBar component Snapshot 1`] = `
       </Link>
     </MenuItem>
     <MenuItem
+      color="yellow"
       name="language"
     >
       <Link

@@ -1,15 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+// import { Menu, Button } from "semantic-ui-react";
 
-const NavItem = ({ name, link, title, color }) => {
+import Aux from '../HOC/auxiliary/auxiliary'
+
+const NavItem = ({ name, link, title }) => {
+  // The component return local title and other locally depending content.
   // const kind_id = 'nav_item'
   // const title = 'Menu'
   // console.log(color)
   return (
-    <Menu.Item name={name} color='red' href={link} component={Link}>
-      {title}
-    </Menu.Item>
+    <Aux>
+      <Link to={link}>
+        {title}
+      </Link>
+    </Aux>
   );
   // return (
   //   <Menu.Item name={name} color='teal'>

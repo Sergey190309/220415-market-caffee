@@ -1,6 +1,7 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Segment} from "semantic-ui-react";
 
 import Aux from "../HOC/auxiliary/auxiliary";
 import NavBar from "../navigation/NavBar";
@@ -23,10 +24,10 @@ const Layout = ({ layout }) => {
       break;
     default:
       output = (
-        <Fragment>
+        <Segment>
           <NavBar />
           <Content />
-        </Fragment>
+        </Segment>
       )
       break;
   }
