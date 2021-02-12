@@ -1,20 +1,22 @@
-import React from 'react';
 
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Image} from 'semantic-ui-react';
 // import logo from '../../../assets/images/logo.png'
+import logo from '../../../assets/images/logo.png'
 
 const Logo = ({ color, inverted }) => {
-  const src = '../../../assets/images/logo.png';
 
   // console.log(color)
   return (
+    <div>
       <Image
-        src={src}
-        // inverted
-        size='tiny'
-        // color={color}
+        src={logo}
+        alt="Nothing"
+        size='mini'
+        verticalAlign='middle'
+        centered
       />
+    </div>
   );
 };
 
