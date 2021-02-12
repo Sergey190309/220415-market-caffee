@@ -8,12 +8,11 @@ import {
   Segment,
   Menu,
   Button,
-  Header,
 } from 'semantic-ui-react';
 
 import Content from '../content/Content';
 import Logo from '../content/various/Logo';
-import Item from '../items/Item';
+// import Item from '../items/Item';
 import NavItem from './nav_items/NavItem'
 // import Language from "../../language/Language";
 
@@ -35,9 +34,7 @@ const SideBar = () => {
           width='12'
           textAlign='center'
           verticalAlign='middle'>
-          <Header as='h2'>
-            <Item title='Hi there!' />
-          </Header>
+          <NavItem title='Hi there!' />
         </Grid.Column>
         <Grid.Column
           width='2'
