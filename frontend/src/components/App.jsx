@@ -1,16 +1,16 @@
 import React, {
-  // Fragment,
-  // useState, useEffect
+  Fragment,
+  useState, useEffect
 } from "react";
 // Redux
-// import { connect } from "react-redux";
-// import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { Container, Header, Segment } from "semantic-ui-react";
 
 // import Layout from './layout/Layout'
 
-// import { setDeviceSize } from "../redux/actions";
+import { setDeviceSize } from "../redux/actions";
 
 const App = ({ setDeviceSize }) => {
   // const [width, setWidth] = useState(0);
