@@ -1,16 +1,15 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { create } from 'react-test-renderer';
+// import { create } from 'react-test-renderer';
+// import { Provider } from 'react-redux';
 
-import App from '../../components/App';
+import { App } from '../../components/App';
+// import store from '../../redux/store';
 
-describe('Testing App', () => {
-  test('Render without crashing', () => {
-    shallow(<App />);
-  });
-
+describe('App testing', () => {
   test('Snapshot', () => {
-    const tree = create(<App />);
-    expect(tree.toJSON()).toMatchSnapshot();
+    const mockSetDeviceSize = jest.fn();
+    const wrapper = shallow(<App setDeviceSize={mockSetDeviceSize} />);
+    expect(wrapper).toMatchSnapshot();
   });
 });

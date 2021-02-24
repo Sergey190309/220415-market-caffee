@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+// import PropTypes from 'prop-types'
 import {
   Menu,
   // Segment,
@@ -11,17 +12,24 @@ import {
 import Logo from '../content/various/Logo';
 // import Language from "../nav_items/Language";
 // import Item from '../items/Item';
-import NavItem from './nav_items/NavItem'
+import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/SignInOut';
-import Language from '../items/Language'
+import Language from '../items/Language';
 
-const NavBar = () => {
-  const [activeItem, setActiveItem] = useState('');
+export const NavBar = props => {
+  const { initActive: propsInitActive, mockClickHandler } = props;
+  const [activeItem, setActiveItem] = useState(
+    propsInitActive || ''
+  );
 
   const color = 'teal';
 
-  const clickHandler = (e, { name }) => {
+  const clickHandler = (e, {name}) => {
+    // e.preventDefault();
+    // console.log(typeof(e))
+    // console.log(typeof(props))
     setActiveItem(name);
+    // mockClickHandler
   };
 
   return (
@@ -32,6 +40,7 @@ const NavBar = () => {
         secondary
         size='small'>
         <Menu.Item
+          // id='logo'
           as={Link}
           to='/'
           name='logo'
@@ -45,8 +54,7 @@ const NavBar = () => {
             to='/pricelist'
             name='priceList'
             active={activeItem === 'priceList'}
-            onClick={clickHandler}
-          >
+            onClick={clickHandler}>
             <NavItem name='priceList' title='Menu' />
           </Menu.Item>
 
@@ -60,10 +68,20 @@ const NavBar = () => {
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>
-          <Menu.Item>
+          <Menu.Item
+            as={Link}
+            to='/'
+            name='signInOut'
+            active={activeItem === 'signInOut'}
+            onClick={clickHandler}>
             <SignInOut />
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item
+            as={Link}
+            to='/'
+            name='language'
+            active={activeItem === 'language'}
+            onClick={clickHandler}>
             <Language />
           </Menu.Item>
         </Menu.Menu>

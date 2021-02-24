@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Route, Switch } from "react-router-dom";
 
-import Landing from "./landing/Landing";
-import Pictures from "./pictures/Pictures";
-import PriceList from "./price_list/PriceList";
+import Landing from "../content/landing/Landing";
+import Pictures from "../content/pictures/Pictures";
+import PriceList from "../content/price_list/PriceList";
 
 const Content = () => {
   return (

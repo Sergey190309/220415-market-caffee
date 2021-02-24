@@ -10,9 +10,9 @@ import {
   Button,
 } from 'semantic-ui-react';
 
-import Content from '../content/Content';
+import Content from '../layout/Content';
 import Logo from '../content/various/Logo';
-import NavItem from './nav_items/NavItem';
+import NavItem from './nav_item/NavItem';
 
 const SideBar = () => {
   const [visible, setVisible] = useState(false);

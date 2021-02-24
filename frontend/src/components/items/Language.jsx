@@ -1,13 +1,13 @@
 import React from 'react'
-import { Flag, Segment, Icon } from 'semantic-ui-react'
+import { Flag, Button, Icon } from 'semantic-ui-react'
 
 const Language = () => {
   return (
-    <Segment size='tiny'>
+    <Button basic>
       <Flag name='uk' />
       EN
       <Icon name='angle down'/>
-    </Segment>
+    </Button>
   )
 }
 
