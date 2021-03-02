@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types'
 import {
@@ -13,22 +14,23 @@ import Logo from '../content/various/Logo';
 // import Language from "../nav_items/Language";
 // import Item from '../items/Item';
 import NavItem from './nav_item/NavItem';
-import SignInOut from '../items/SignInOut';
+import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
+import { setModalOpened } from '../../redux/actions/index';
 
 export const NavBar = props => {
-  const { initActive: propsInitActive, mockClickHandler } = props;
-  const [activeItem, setActiveItem] = useState(
-    propsInitActive || ''
-  );
+  const { initActive: propsInitActive, setModalOpened } = props;
+  const [activeItem, setActiveItem] = useState(propsInitActive || '');
 
   const color = 'teal';
 
-  const clickHandler = (e, {name}) => {
+  const clickHandler = (e, { name }) => {
     // e.preventDefault();
-    // console.log(typeof(e))
-    // console.log(typeof(props))
     setActiveItem(name);
+    if (name === 'signInOut') {
+      // console.log(name);
+      setModalOpened();
+    }
     // mockClickHandler
   };
 
@@ -69,8 +71,8 @@ export const NavBar = props => {
         </Menu.Menu>
         <Menu.Menu position='right'>
           <Menu.Item
-            as={Link}
-            to='/'
+            // as={Link}
+            // to='/signinout'
             name='signInOut'
             active={activeItem === 'signInOut'}
             onClick={clickHandler}>
@@ -90,4 +92,4 @@ export const NavBar = props => {
   );
 };
 
-export default NavBar;
+export default connect(null, { setModalOpened })(NavBar);

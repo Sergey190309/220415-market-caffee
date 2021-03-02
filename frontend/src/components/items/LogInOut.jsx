@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 
-const SignInOut = () => {
+const LogInOut = () => {
   return (
     <Button
       basic
     >
-      Sign In
+      LogInOut
     </Button>
   );
 };
 
-export default SignInOut;
+export default LogInOut;

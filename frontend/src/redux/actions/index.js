@@ -1,2 +1,2 @@
 export { setAlert } from "./alert";
-export { setDeviceSize } from "./deviceSize";
+export { setDeviceSize, setModalOpened, setModalClosed } from "./deviceSize";

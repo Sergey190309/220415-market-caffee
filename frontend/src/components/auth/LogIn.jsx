@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Form, Header, Grid, Icon, Segment, Button, Message} from 'semantic-ui-react'
 
-const Login = () => {
+const LogIn = () => {
   const [formData, setFormData] = useState ({
     email: '',
     password: ''
@@ -40,7 +40,7 @@ const Login = () => {
               value={password} onChange={e => onChange(e)}
             />
             <Button color='teal' fluid size='large'>
-              Login
+              LogIn
             </Button>
           </Segment>
       </Form>
@@ -63,4 +63,4 @@ const Login = () => {
   );
 }
 
-export default Login
+export default LogIn

@@ -13,7 +13,7 @@ const Landing = () => (
         textAlign='center'
         size='medium'
         color='yellow'>
-        Couple of words on our cosy place
+        Couple of words on our cosy place!
       </Header>
       <p>
         Lorem ipsum dolor sit, amet consectetur adipisicing
