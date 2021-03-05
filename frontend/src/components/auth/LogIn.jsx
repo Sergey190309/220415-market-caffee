@@ -1,66 +1,104 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Form, Header, Grid, Icon, Segment, Button, Message} from 'semantic-ui-react'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Form, Header, Grid, Icon, Segment, Button, Message } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
 
-const LogIn = () => {
-  const [formData, setFormData] = useState ({
+export const onChange = (setFormData, formData, target ) => {
+  const { name, value } = target;
+  return setFormData({ ...formData, [name]: value });
+};
+
+export const LogIn = ({ onChange, onCancelClick }) => {
+  const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
 
-  const {email, password} = formData
+  const { email, password } = formData;
 
-  const onChange = e => {
-    return setFormData({...formData, [e.target.name]: e.target.value})
+  const _onChange = ({ target }) => {
+    onChange(setFormData, formData, target);
   };
 
-  const onSubmit = async e => {
-    e.preventDefault();
-      console.log('Success!')
-  }
+  const _onSubmit = async evt => {
+    evt.preventDefault();
+    onCancelClick();
+    console.log('Email -', email);
+    console.log('Password -', password);
+  };
+
+  const _onCancelClick = evt => {
+    evt.preventDefault();
+    onCancelClick();
+  };
+
+  const color = 'teal';
+  const hazColor = 'orange';
 
   return (
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Header size='medium' color='teal' textAlign='center'>
-          <Icon name='utensils' size='tiny' /> Log-in to your account
-        </Header>
-        <Form size='large' onSubmit={e => onSubmit(e)}>
-          <Segment stacked>
+        <Form size='large' onSubmit={evt => _onSubmit(evt)}>
+          <Header as='h3' textAlign='center' color={color}>
+            <Icon name='utensils' size='tiny' />
+            Log-in to your account
+          </Header>
+          <Segment color={color} stacked>
             <Form.Input
-              fluid icon='user' iconPosition='left'
-              type='email' placeholder='E-mail address'
-              name='email' required
-              value={email} onChange={e => onChange(e)}
+              fluid
+              icon='user'
+              iconPosition='left'
+              type='email'
+              placeholder='E-mail address'
+              name='email'
+              required
+              value={email}
+              onChange={evt => _onChange(evt)}
             />
             <Form.Input
-              fluid icon='lock' iconPosition='left'
-              type='password' placeholder='Password'
-              autoComplete='on' name='password' required
-              value={password} onChange={e => onChange(e)}
+              fluid
+              icon='lock'
+              iconPosition='left'
+              type='password'
+              placeholder='Password'
+              autoComplete='on'
+              name='password'
+              required
+              value={password}
+              onChange={evt => _onChange(evt)}
             />
-            <Button color='teal' fluid size='large'>
-              LogIn
-            </Button>
+            <Segment.Inline>
+              <Button.Group fluid>
+                <Button color={color} size='large'>
+                  Log In
+                </Button>
+                <Button.Or />
+                <Button
+                  color={hazColor}
+                  size='large'
+                  onClick={evt => _onCancelClick(evt)}>
+                  Cancel
+                </Button>
+              </Button.Group>
+            </Segment.Inline>
           </Segment>
-      </Form>
-      <Message>
-        New to us? <Link to='/register'>Sign Up</Link>
-      </Message>
+        </Form>
+        <Message>
+          New to us? <Link to='/register'>Sign Up</Link>
+        </Message>
       </Grid.Column>
     </Grid>
-
-    //   <Form.Input
-    //   label='Enter password' type='password'
-    //   placeholder='Your password here'
-    //   autoComplete='on' name='password' required
-    //   />
-
-    //   <Form.Button>
-    //     Submit
-    //   </Form.Button>
-    // </Form>
   );
-}
+};
 
-export default LogIn
+LogIn.defaultProps = {
+  onCancelClick: () => {},
+  onChange: onChange,
+};
+
+LogIn.propTypes = {
+  onCancelClick: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+export default LogIn;

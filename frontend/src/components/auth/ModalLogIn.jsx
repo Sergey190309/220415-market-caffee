@@ -5,10 +5,10 @@ import { Modal } from 'semantic-ui-react';
 import LogIn from './LogIn';
 import { setModalClosed } from '../../redux/actions';
 
-// export const onCloseHandle = (setModalClosed, setOpen) => {
-//   setModalClosed();
-//   setOpen(false);
-// };
+export const onCloseHandle = (setModalClosed, setOpen) => {
+  setModalClosed();
+  setOpen(false);
+};
 
 export const ModalLogIn = ({ modalOpened, setModalClosed, onCloseHandle }) => {
   const [open, setOpen] = useState(modalOpened);
@@ -22,13 +22,15 @@ export const ModalLogIn = ({ modalOpened, setModalClosed, onCloseHandle }) => {
 
   return (
     <Modal
+      data-testid='modal'
       basic
+      centered={false}
       onClose={_onCloseHandle}
       onOpen={() => setOpen(true)}
       open={open}
       size='small'
       dimmer='blurring'
-      content={<LogIn />}
+      content={<LogIn onCancelClick={_onCloseHandle} />}
     />
   );
 };
@@ -36,10 +38,7 @@ export const ModalLogIn = ({ modalOpened, setModalClosed, onCloseHandle }) => {
 ModalLogIn.defaultProps = {
   modalOpened: false,
   setModalClosed: () => {},
-  onCloseHandle: (setModalClosed, setOpen) => {
-    setModalClosed();
-    setOpen(false);
-  }
+  onCloseHandle: onCloseHandle,
 };
 
 ModalLogIn.propTypes = {
