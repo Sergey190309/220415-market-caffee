@@ -13,6 +13,7 @@ module.exports = {
       // "coveragePathIgnorePatterns": [...defaults.coveragePathIgnorePatterns, '<rootDir>/src/index.js'],
       // "snapshotSerializers": ["enzyme-to-json/serializer"],
       verbose: true,
+      testEnvironment: 'jsdom'
     },
   },
 };

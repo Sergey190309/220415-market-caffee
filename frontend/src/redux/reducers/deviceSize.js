@@ -13,10 +13,10 @@ const device = (state = initialState, action) => {
     case SET_DEVICE_SIZE:
       return {...state, deviceSize: payload};
     case OPEN_MODAL:
-      console.log('reducer, open modal')
+      // console.log('reducer, open modal')
       return {...state, modalOpened: true}
     case CLOSE_MODAL:
-      console.log('reducer, close modal')
+      // console.log('reducer, close modal')
       return {...state, modalOpened: false}
     default:
       return state;

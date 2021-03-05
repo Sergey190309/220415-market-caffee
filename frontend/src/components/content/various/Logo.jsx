@@ -7,13 +7,7 @@ const Logo = ({ color, inverted }) => {
   // console.log(color)
   return (
     <div>
-      <Image
-        src={logo}
-        alt='Nothing'
-        size='mini'
-        verticalAlign='middle'
-        centered
-      />
+      <Image src={logo} alt='Logo here' size='mini' verticalAlign='middle' centered />
     </div>
   );
 };

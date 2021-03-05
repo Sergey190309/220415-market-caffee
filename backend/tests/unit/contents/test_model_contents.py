@@ -239,7 +239,7 @@ def test_content_save_wrong_fk(
     else:
         result.find('foreign key constraint fails') != -1
 
-    _saved_content.delete_fm_db()
+    # _saved_content.delete_fm_db()
 
 
 @pytest.mark.parametrize(
@@ -278,4 +278,4 @@ def test_content_update_wrong_fk(
     else:
         result.find('foreign key constraint fails') != -1
 
-    _saved_content.delete_fm_db()
+    # _saved_content.delete_fm_db()

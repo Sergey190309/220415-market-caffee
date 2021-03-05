@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import {
   Menu,
   // Segment,
@@ -18,20 +18,14 @@ import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
 import { setModalOpened } from '../../redux/actions/index';
 
-export const NavBar = props => {
-  const { initActive: propsInitActive, setModalOpened } = props;
-  const [activeItem, setActiveItem] = useState(propsInitActive || '');
+export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
+  const [activeItem, setActiveItem] = useState(initActive);
 
   const color = 'teal';
 
-  const clickHandler = (e, { name }) => {
-    // e.preventDefault();
-    setActiveItem(name);
-    if (name === 'signInOut') {
-      // console.log(name);
-      setModalOpened();
-    }
-    // mockClickHandler
+  const _ClickHandler = (e, { name }) => {
+    // console.log(name)
+    clickHandler(name, setActiveItem, setModalOpened);
   };
 
   return (
@@ -47,7 +41,7 @@ export const NavBar = props => {
           to='/'
           name='logo'
           active={activeItem === 'logo'}
-          onClick={clickHandler}>
+          onClick={_ClickHandler}>
           <Logo color={color} />
         </Menu.Item>
         <Menu.Menu>
@@ -56,7 +50,7 @@ export const NavBar = props => {
             to='/pricelist'
             name='priceList'
             active={activeItem === 'priceList'}
-            onClick={clickHandler}>
+            onClick={_ClickHandler}>
             <NavItem name='priceList' title='Menu' />
           </Menu.Item>
 
@@ -65,7 +59,7 @@ export const NavBar = props => {
             to='/pictures'
             name='pictures'
             active={activeItem === 'pictures'}
-            onClick={clickHandler}>
+            onClick={_ClickHandler}>
             <NavItem name='pictures' title='Gallery' />
           </Menu.Item>
         </Menu.Menu>
@@ -74,22 +68,43 @@ export const NavBar = props => {
             // as={Link}
             // to='/signinout'
             name='signInOut'
-            active={activeItem === 'signInOut'}
-            onClick={clickHandler}>
+            active={false}
+            // active={activeItem === 'signInOut'}
+            onClick={_ClickHandler}>
             <SignInOut />
           </Menu.Item>
           <Menu.Item
-            as={Link}
-            to='/'
             name='language'
-            active={activeItem === 'language'}
-            onClick={clickHandler}>
+            active={false}
+            // active={activeItem === 'language'}
+            onClick={_ClickHandler}>
             <Language />
           </Menu.Item>
         </Menu.Menu>
       </Menu>
     </Container>
   );
+};
+
+export const clickHandler = (name, setActiveItem, setModalOpened) => {
+  if (!(name === 'signInOut' || name === 'language')) {
+    // to avoid making above fitures active after click on
+    setActiveItem(name);
+  }
+  if (name === 'signInOut') {
+    setModalOpened();
+  }
+};
+
+NavBar.defaultProps = {
+  initActive: '',
+  setModalOpened: () => {},
+  clickHandler: clickHandler,
+};
+
+NavBar.propTypes = {
+  initActive: PropTypes.string.isRequired,
+  setModalOpened: PropTypes.func.isRequired,
 };
 
 export default connect(null, { setModalOpened })(NavBar);

@@ -17,14 +17,14 @@ export const setDeviceSize = width => dispatch => {
 };
 
 export const setModalOpened = () => dispatch => {
-  console.log('action, open')
+  // console.log('action, open')
   return dispatch({
     type: OPEN_MODAL,
   });
 };
 
 export const setModalClosed = () => dispatch => {
-  console.log('action, close')
+  // console.log('action, close')
   return dispatch({
     type: CLOSE_MODAL,
   });

@@ -1,42 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Modal, Container, Segment } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 import LogIn from './LogIn';
 import { setModalClosed } from '../../redux/actions';
 
-// import Login from './Login'
+// export const onCloseHandle = (setModalClosed, setOpen) => {
+//   setModalClosed();
+//   setOpen(false);
+// };
 
-export const ModalLogIn = ({ modalOpened, setModalClosed }) => {
+export const ModalLogIn = ({ modalOpened, setModalClosed, onCloseHandle }) => {
   const [open, setOpen] = useState(modalOpened);
   useEffect(() => {
-    setOpen(modalOpened)
-  }, [modalOpened])
+    setOpen(modalOpened);
+  }, [modalOpened]);
 
-  const onClose = () => {
-    // console.log('onclose')
-    setModalClosed();
-    setOpen(false)
+  const _onCloseHandle = () => {
+    onCloseHandle(setModalClosed, setOpen);
   };
 
   return (
     <Modal
       basic
-      onClose={onClose}
+      onClose={_onCloseHandle}
       onOpen={() => setOpen(true)}
       open={open}
-      size='small'>
-      <Modal.Content>
-        <LogIn />
-      </Modal.Content>
-    </Modal>
+      size='small'
+      dimmer='blurring'
+      content={<LogIn />}
+    />
   );
 };
 
+ModalLogIn.defaultProps = {
+  modalOpened: false,
+  setModalClosed: () => {},
+  onCloseHandle: (setModalClosed, setOpen) => {
+    setModalClosed();
+    setOpen(false);
+  }
+};
+
 ModalLogIn.propTypes = {
-  setModalClosed: PropTypes.func.isRequired,
   modalOpened: PropTypes.bool.isRequired,
-}
+  setModalClosed: PropTypes.func.isRequired,
+  onCloseHandle: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({ modalOpened: state.layout.modalOpened });
 

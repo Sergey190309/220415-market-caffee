@@ -5,7 +5,7 @@ DEBUG = True
 # SECRET_KEY = os.getenv('APP_SECRET_KEY')
 # print('\nSECRET_KEY -', SECRET_KEY)
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///testdb.sqlite3'
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///testdb.sqlite3'
 
 DATABASE_USER = 'coffee'
 DATABASE_PASSWORD = 'lkdl;llLLpoi0988**9890'

@@ -138,7 +138,7 @@ SignUp.defaultProps = {
         reject({});
       }),
     cancel: () => {
-      console.log('cancel pressed');
+      // console.log('cancel pressed');
     },
 };
 
