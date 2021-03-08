@@ -1,10 +1,15 @@
 import React from 'react';
+// import { BrowserRouter } from 'react-router-dom';
 import {
+  getByRole,
   render,
-  // screen,
+  screen,
+  cleanup,
   // fireEvent,
   // waitFor
 } from '@testing-library/react';
+// import renderer from 'react-test-renderer';
+
 import { LogIn, onChange } from './LogIn';
 
 describe('LogIn component testing', () => {
@@ -27,9 +32,59 @@ describe('LogIn component testing', () => {
     });
   });
 
-  describe('header testing', () => {});
+  const testProps = {
+    onCancelClick: jest.fn(),
+    onChange: jest.fn(),
+    initState: {
+      email: 'fuck',
+      password: '',
+    },
+  };
 
-  describe('email input testing', () => {});
+  // let reRender;
+  // beforeEach(async () => {
+  //   const { rerender } = render(<LogIn {...testProps} />);
+  //   reRender = rerender;
+  // });
+
+  describe('header testing', () => {
+    test('it is snapshot', () => {
+      const header = screen.getByRole('heading');
+      expect(header).toMatchSnapshot();
+    });
+  });
+
+  // describe('email input testing', () => {
+  //   let emailInputField;
+  //   beforeEach(() => {
+  //     emailInputField = screen.getByRole('textbox', { type: 'email' });
+  //   });
+
+    test('it is snapshot', () => {
+      expect(emailInputField).toMatchSnapshot();
+    });
+
+    test.only('props.initState become field value', () => {
+      cleanup();
+      const activeProps = {
+        ...testProps,
+        initState: {
+          email: 'test@email.com',
+          password: '',
+        },
+      };
+      const { rerender } = render(<LogIn {...testProps} />);
+      emailInputField = screen.getByRole('textbox', { type: 'email' });
+      console.log('email before', emailInputField.value);
+
+      rerender(<LogIn {...activeProps} />);
+      emailInputField = screen.getByRole('textbox', { type: 'email' });
+      console.log('email after', emailInputField.value);
+      // console.log(activeProps);
+      // console.log(emailInputField.value)
+      // expect(emailInputField.value).not.toBe('test@email.com');
+    });
+  });
 
   describe('password input testing', () => {});
 

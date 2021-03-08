@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { Form, Header, Grid, Icon, Segment, Button, Message } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -8,11 +8,9 @@ export const onChange = (setFormData, formData, target ) => {
   return setFormData({ ...formData, [name]: value });
 };
 
-export const LogIn = ({ onChange, onCancelClick }) => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+export const LogIn = ({ onChange, onCancelClick, initState }) => {
+  // console.log(initState)
+  const [formData, setFormData] = useState(initState);
 
   const { email, password } = formData;
 
@@ -84,7 +82,7 @@ export const LogIn = ({ onChange, onCancelClick }) => {
           </Segment>
         </Form>
         <Message>
-          New to us? <Link to='/register'>Sign Up</Link>
+          New to us? <a href='/register'>Sign Up</a>
         </Message>
       </Grid.Column>
     </Grid>
@@ -94,11 +92,16 @@ export const LogIn = ({ onChange, onCancelClick }) => {
 LogIn.defaultProps = {
   onCancelClick: () => {},
   onChange: onChange,
+  initState: {
+    email: '',
+    password: '',
+  }
 };
 
 LogIn.propTypes = {
   onCancelClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  initState: PropTypes.object.isRequired,
 };
 
 export default LogIn;
