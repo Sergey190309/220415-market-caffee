@@ -6,7 +6,7 @@ import { ModalLogIn, onCloseHandle } from './ModalLogIn';
 
 describe('ModalLogIn testing', () => {
   describe('Not react components', () => {
-    describe('onCloseHandle function testing', () => {
+    test('onCloseHandle function testing', () => {
       const setModalClosed = jest.fn()
       const setOpen = jest.fn()
       onCloseHandle(setModalClosed, setOpen)

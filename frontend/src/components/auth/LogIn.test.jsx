@@ -54,11 +54,11 @@ describe('LogIn component testing', () => {
     });
   });
 
-  // describe('email input testing', () => {
-  //   let emailInputField;
-  //   beforeEach(() => {
-  //     emailInputField = screen.getByRole('textbox', { type: 'email' });
-  //   });
+  describe('email input testing', () => {
+    // let emailInputField;
+    // beforeEach(() => {
+    //   emailInputField = screen.getByRole('textbox', { type: 'email' });
+    // });
 
     test('it is snapshot', () => {
       expect(emailInputField).toMatchSnapshot();
@@ -74,12 +74,12 @@ describe('LogIn component testing', () => {
         },
       };
       const { rerender } = render(<LogIn {...testProps} />);
-      emailInputField = screen.getByRole('textbox', { type: 'email' });
-      console.log('email before', emailInputField.value);
+      const emailInputFieldBefore = screen.getByRole('textbox', { type: 'email' });
+      console.log('email before', emailInputFieldBefore.value);
 
       rerender(<LogIn {...activeProps} />);
-      emailInputField = screen.getByRole('textbox', { type: 'email' });
-      console.log('email after', emailInputField.value);
+      const emailInputFieldAfter = screen.getByRole('textbox', { type: 'email' });
+      console.log('email after', emailInputFieldAfter.value);
       // console.log(activeProps);
       // console.log(emailInputField.value)
       // expect(emailInputField.value).not.toBe('test@email.com');

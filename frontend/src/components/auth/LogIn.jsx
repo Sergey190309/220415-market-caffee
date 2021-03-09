@@ -9,7 +9,7 @@ export const onChange = (setFormData, formData, target ) => {
 };
 
 export const LogIn = ({ onChange, onCancelClick, initState }) => {
-  // console.log(initState)
+  console.log('LogIn -', initState)
   const [formData, setFormData] = useState(initState);
 
   const { email, password } = formData;
