@@ -9,7 +9,7 @@ module.exports = {
       globals: {
         CONFIG: true,
       },
-      // setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+      setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
       // "coveragePathIgnorePatterns": [...defaults.coveragePathIgnorePatterns, '<rootDir>/src/index.js'],
       // "snapshotSerializers": ["enzyme-to-json/serializer"],
       verbose: true,

@@ -5,10 +5,10 @@ import {
   render,
   screen,
   cleanup,
+  waitFor,
   // fireEvent,
   // waitFor
 } from '@testing-library/react';
-// import renderer from 'react-test-renderer';
 
 import { LogIn, onChange } from './LogIn';
 
@@ -36,17 +36,13 @@ describe('LogIn component testing', () => {
     onCancelClick: jest.fn(),
     onChange: jest.fn(),
     initState: {
-      email: 'fuck',
+      email: '',
       password: '',
     },
   };
-
-  // let reRender;
-  // beforeEach(async () => {
-  //   const { rerender } = render(<LogIn {...testProps} />);
-  //   reRender = rerender;
-  // });
-
+  beforeEach(() => {
+    render(<LogIn {...testProps} />)
+  })
   describe('header testing', () => {
     test('it is snapshot', () => {
       const header = screen.getByRole('heading');
@@ -55,16 +51,16 @@ describe('LogIn component testing', () => {
   });
 
   describe('email input testing', () => {
-    // let emailInputField;
-    // beforeEach(() => {
-    //   emailInputField = screen.getByRole('textbox', { type: 'email' });
-    // });
+    let emailInputField;
+    beforeEach(() => {
+      emailInputField = screen.getByRole('textbox', { type: 'email' });
+    });
 
     test('it is snapshot', () => {
       expect(emailInputField).toMatchSnapshot();
     });
 
-    test.only('props.initState become field value', () => {
+    test('props.initState become field value', async () => {
       cleanup();
       const activeProps = {
         ...testProps,
@@ -73,16 +69,10 @@ describe('LogIn component testing', () => {
           password: '',
         },
       };
-      const { rerender } = render(<LogIn {...testProps} />);
-      const emailInputFieldBefore = screen.getByRole('textbox', { type: 'email' });
-      console.log('email before', emailInputFieldBefore.value);
-
-      rerender(<LogIn {...activeProps} />);
-      const emailInputFieldAfter = screen.getByRole('textbox', { type: 'email' });
-      console.log('email after', emailInputFieldAfter.value);
-      // console.log(activeProps);
-      // console.log(emailInputField.value)
-      // expect(emailInputField.value).not.toBe('test@email.com');
+      render(<LogIn {...activeProps} />);
+      const _emailInputField = screen.getByRole('textbox', { type: 'email' });
+      // console.log('email', _emailInputField.value);
+      expect(_emailInputField.value).toBe('test@email.com');
     });
   });
 
