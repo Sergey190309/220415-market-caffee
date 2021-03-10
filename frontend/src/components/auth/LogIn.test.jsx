@@ -4,13 +4,12 @@ import {
   render,
   screen,
   cleanup,
-  fireEvent,
   // fireEvent,
   // waitFor
 } from '@testing-library/react';
 
 import { LogIn, onChange } from './LogIn';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
 describe('LogIn component testing', () => {
   const setFormData = jest.fn();
@@ -32,9 +31,10 @@ describe('LogIn component testing', () => {
   const testProps = {
     onCancelClick: jest.fn(),
     onChange: jest.fn(),
+    onSubmit: jest.fn(),
     initState: {
-      email: 'test',
-      password: '',
+      email: 'test@email.test',
+      password: 'qwerty',
     },
   };
   beforeEach(() => {
@@ -78,16 +78,42 @@ describe('LogIn component testing', () => {
       // expect(_passwordInputField).toHaveValue('password')
     });
 
-    test('entered text would call onChange with appropriate arguments', () => {
-      // userEvent.type(emailInputField, 'sa6702@gmail.com');
-      fireEvent.change(emailInputField, { target: { value: 'sa6702@gmail.com' } });
-      expect(testProps.onChange).toHaveBeenCalledTimes(1);
+    test('enter text to email field would call onChange exact quontity of times', () => {
+      userEvent.type(emailInputField, 'sa6702@gmail.com');
+      expect(testProps.onChange).toHaveBeenCalledTimes(16);
+    });
+
+    test('enter text to password field would call onChange exact quontity of times', () => {
+      // it's somwthing strange with testing to password field
+      userEvent.type(passwordInputField, 'qwerty');
+      expect(testProps.onChange).not.toHaveBeenCalled();
     });
   });
 
-  describe('password input testing', () => {});
+  describe('buttons testing', () => {
+    let logInButton, cancelButton
+    beforeEach(() => {
+      logInButton = screen.getByRole('button', {name: 'Log In'})
+      cancelButton = screen.getByRole('button', {name: 'Cancel'})
+    })
+    test('there are snapshots', () => {
+      expect(logInButton).toMatchSnapshot();
+      expect(cancelButton).toMatchSnapshot();
+    });
 
-  describe('buttons testing', () => {});
+    test('press login resutes in function call', () => {
+      userEvent.click(logInButton)
+      expect(testProps.onSubmit).toHaveBeenCalledWith(testProps.initState);
+      // expect(testProps.onSubmit).toHaveBeenCalledTimes(1);
+      expect(testProps.onCancelClick).toHaveBeenCalledTimes(1);
+    });
+
+    test('press cancel resutes in function call', () => {
+      userEvent.click(cancelButton)
+      // expect(testProps.onSubmit).toHaveBeenCalledTimes(1);
+      expect(testProps.onCancelClick).toHaveBeenCalledTimes(1);
+    });
+  });
 
   describe('message testing', () => {});
 });

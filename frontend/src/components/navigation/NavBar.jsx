@@ -18,6 +18,16 @@ import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
 import { setModalOpened } from '../../redux/actions/index';
 
+export const clickHandler = (name, setActiveItem, setModalOpened) => {
+  if (!(name === 'signInOut' || name === 'language')) {
+    // to avoid making above fitures active after click on
+    setActiveItem(name);
+  }
+  if (name === 'signInOut') {
+    setModalOpened();
+  }
+};
+
 export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
   const [activeItem, setActiveItem] = useState(initActive);
 
@@ -84,16 +94,6 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
       </Menu>
     </Container>
   );
-};
-
-export const clickHandler = (name, setActiveItem, setModalOpened) => {
-  if (!(name === 'signInOut' || name === 'language')) {
-    // to avoid making above fitures active after click on
-    setActiveItem(name);
-  }
-  if (name === 'signInOut') {
-    setModalOpened();
-  }
 };
 
 NavBar.defaultProps = {

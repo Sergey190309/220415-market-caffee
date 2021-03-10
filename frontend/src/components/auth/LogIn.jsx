@@ -3,26 +3,32 @@ import React, { useState } from 'react';
 import { Form, Header, Grid, Icon, Segment, Button, Message } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-export const onChange = (setFormData, formData, fieldName, fieldData ) => {
+export const onChange = (setFormData, formData, fieldName, fieldData) => {
   // const { name, value } = fieldData;
   return setFormData({ ...formData, [fieldName]: fieldData });
 };
 
-export const LogIn = ({ onChange, onCancelClick, initState }) => {
+export const onSubmit = formData => {
+  const { email, password } = formData;
+  console.log('Email -', email);
+  console.log('Password -', password);
+};
+
+export const LogIn = ({ onChange, onSubmit, onCancelClick, initState }) => {
   // console.log('LogIn -', initState)
   const [formData, setFormData] = useState(initState);
 
   const { email, password } = formData;
 
   const _onChange = ({ name, value }) => {
+    // console.log(name, ', ', value)
     onChange(setFormData, formData, name, value);
   };
 
   const _onSubmit = async evt => {
     evt.preventDefault();
     onCancelClick();
-    console.log('Email -', email);
-    console.log('Password -', password);
+    onSubmit(formData);
   };
 
   const _onCancelClick = evt => {
@@ -93,15 +99,17 @@ export const LogIn = ({ onChange, onCancelClick, initState }) => {
 LogIn.defaultProps = {
   onCancelClick: () => {},
   onChange: onChange,
+  onSubmit: onSubmit,
   initState: {
     email: '',
     password: '',
-  }
+  },
 };
 
 LogIn.propTypes = {
   onCancelClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   initState: PropTypes.object.isRequired,
 };
 
