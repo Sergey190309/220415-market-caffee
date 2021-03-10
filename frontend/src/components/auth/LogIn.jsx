@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Form, Header, Grid, Icon, Segment, Button, Message } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-export const onChange = (setFormData, formData, target ) => {
-  const { name, value } = target;
-  return setFormData({ ...formData, [name]: value });
+export const onChange = (setFormData, formData, fieldName, fieldData ) => {
+  // const { name, value } = fieldData;
+  return setFormData({ ...formData, [fieldName]: fieldData });
 };
 
 export const LogIn = ({ onChange, onCancelClick, initState }) => {
@@ -14,8 +14,8 @@ export const LogIn = ({ onChange, onCancelClick, initState }) => {
 
   const { email, password } = formData;
 
-  const _onChange = ({ target }) => {
-    onChange(setFormData, formData, target);
+  const _onChange = ({ name, value }) => {
+    onChange(setFormData, formData, name, value);
   };
 
   const _onSubmit = async evt => {
@@ -51,9 +51,10 @@ export const LogIn = ({ onChange, onCancelClick, initState }) => {
               name='email'
               required
               value={email}
-              onChange={evt => _onChange(evt)}
+              onChange={evt => _onChange(evt.target)}
             />
             <Form.Input
+              data-testid='password'
               fluid
               icon='lock'
               iconPosition='left'
@@ -63,7 +64,7 @@ export const LogIn = ({ onChange, onCancelClick, initState }) => {
               name='password'
               required
               value={password}
-              onChange={evt => _onChange(evt)}
+              onChange={evt => _onChange(evt.target)}
             />
             <Segment.Inline>
               <Button.Group fluid>

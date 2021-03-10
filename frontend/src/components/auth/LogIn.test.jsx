@@ -1,34 +1,31 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
 import {
-  getByRole,
   render,
   screen,
   cleanup,
-  waitFor,
+  fireEvent,
   // fireEvent,
   // waitFor
 } from '@testing-library/react';
 
 import { LogIn, onChange } from './LogIn';
+// import userEvent from '@testing-library/user-event';
 
 describe('LogIn component testing', () => {
+  const setFormData = jest.fn();
+  const formData = {
+    email: 'prev@email',
+    password: 'prev password',
+  };
+
+  const fieldName = 'email';
+  const fieldValue = 'new@email';
+
   describe('Non react elements', () => {
     test('onChange function testing', () => {
-      const setFormData = jest.fn();
-      const formData = {
-        email: 'prev@email',
-        password: 'prev password',
-      };
-      const target = {
-        name: 'email',
-        value: 'new@email',
-      };
-
-      onChange(setFormData, formData, target);
-      const name = target.name;
-      const value = target.value;
-      expect(setFormData).toHaveBeenCalledWith({ ...formData, [name]: value });
+      onChange(setFormData, formData, fieldName, fieldValue);
+      expect(setFormData).toHaveBeenCalledWith({ ...formData, [fieldName]: fieldValue });
     });
   });
 
@@ -36,13 +33,13 @@ describe('LogIn component testing', () => {
     onCancelClick: jest.fn(),
     onChange: jest.fn(),
     initState: {
-      email: '',
+      email: 'test',
       password: '',
     },
   };
   beforeEach(() => {
-    render(<LogIn {...testProps} />)
-  })
+    render(<LogIn {...testProps} />);
+  });
   describe('header testing', () => {
     test('it is snapshot', () => {
       const header = screen.getByRole('heading');
@@ -50,14 +47,16 @@ describe('LogIn component testing', () => {
     });
   });
 
-  describe('email input testing', () => {
-    let emailInputField;
+  describe('email and password inputs testing', () => {
+    let emailInputField, passwordInputField;
     beforeEach(() => {
-      emailInputField = screen.getByRole('textbox', { type: 'email' });
+      emailInputField = screen.getByRole('textbox');
+      passwordInputField = screen.getByTestId('password');
     });
 
-    test('it is snapshot', () => {
+    test('there are snapshots', () => {
       expect(emailInputField).toMatchSnapshot();
+      expect(passwordInputField).toMatchSnapshot();
     });
 
     test('props.initState become field value', async () => {
@@ -66,13 +65,23 @@ describe('LogIn component testing', () => {
         ...testProps,
         initState: {
           email: 'test@email.com',
-          password: '',
+          password: 'password',
         },
       };
       render(<LogIn {...activeProps} />);
-      const _emailInputField = screen.getByRole('textbox', { type: 'email' });
-      // console.log('email', _emailInputField.value);
-      expect(_emailInputField.value).toBe('test@email.com');
+
+      const _emailInputField = screen.getByRole('textbox');
+      // const _passwordInputField = screen.getByTestId('password');
+
+      // console.log(_passwordInputField.value)
+      expect(_emailInputField).toHaveValue('test@email.com');
+      // expect(_passwordInputField).toHaveValue('password')
+    });
+
+    test('entered text would call onChange with appropriate arguments', () => {
+      // userEvent.type(emailInputField, 'sa6702@gmail.com');
+      fireEvent.change(emailInputField, { target: { value: 'sa6702@gmail.com' } });
+      expect(testProps.onChange).toHaveBeenCalledTimes(1);
     });
   });
 
