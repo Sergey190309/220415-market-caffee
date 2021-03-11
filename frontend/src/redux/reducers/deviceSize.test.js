@@ -6,7 +6,7 @@ describe('Set device configuration', () => {
   beforeEach(() => {
     initState = {
       deviceSize: 'small',
-      modalOpened: '',
+      kindOfModal: '',
     };
     action_to_medium = {
       type: SET_DEVICE_SIZE,
@@ -38,8 +38,8 @@ describe('Set device configuration', () => {
 
   describe('Modal open testing', () => {
     test('Change modal state to open then to close', () => {
-      expect(device(initState, action_modal_open).modalOpened).toBeTruthy();
-      expect(device(initState, action_modal_close).modalOpened).not.toBeTruthy();
+      expect(device(initState, action_modal_open).kindOfModal).toBe('LogIn');
+      expect(device(initState, action_modal_close).kindOfModal).toBe('');
     });
   });
 });

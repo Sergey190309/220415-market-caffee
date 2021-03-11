@@ -17,7 +17,7 @@ export const setDeviceSize = width => dispatch => {
 };
 
 export const setModalOpened = kindOfModal => dispatch => {
-  // console.log('action, open')
+  // console.log('action, open', kindOfModal)
   return dispatch({
     type: OPEN_MODAL,
     payload: kindOfModal,

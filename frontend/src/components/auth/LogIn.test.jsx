@@ -40,10 +40,13 @@ describe('LogIn component testing', () => {
   beforeEach(() => {
     render(<LogIn {...testProps} />);
   });
-  describe('header testing', () => {
-    test('it is snapshot', () => {
-      const header = screen.getByRole('heading');
-      expect(header).toMatchSnapshot();
+  describe('header and footer testing', () => {
+    test('these are snapshots', () => {
+      const header = screen.getAllByRole('heading')
+      // await screen.findByRole();
+      expect(header.length).toBe(2);
+      expect(header[0]).toMatchSnapshot();
+      expect(header[1]).toMatchSnapshot();
     });
   });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { toBeInTheDocument } from '@testing-library/jest-dom';
+import '@testing-library/jest-dom';
 import { NavBar, clickHandler } from './NavBar';
 
 describe('NavBar testing', () => {
@@ -35,7 +35,7 @@ describe('NavBar testing', () => {
         activateItems.forEach(item => {
           clickHandler(item, setActiveItem, setModalOpened);
         });
-        expect(setModalOpened).toHaveBeenCalledTimes(1);
+        expect(setModalOpened).toHaveBeenCalledWith('LogIn');
       });
 
       test('calling from item activating modal', () => {

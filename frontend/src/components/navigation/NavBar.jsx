@@ -16,7 +16,7 @@ import Logo from '../content/various/Logo';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
-import { setModalOpened } from '../../redux/actions/index';
+import { setModalOpened } from '../../redux/actions';
 
 export const clickHandler = (name, setActiveItem, setModalOpened) => {
   if (!(name === 'signInOut' || name === 'language')) {
@@ -24,7 +24,8 @@ export const clickHandler = (name, setActiveItem, setModalOpened) => {
     setActiveItem(name);
   }
   if (name === 'signInOut') {
-    setModalOpened();
+    setModalOpened('LogIn');
+    // console.log('LogIn')
   }
 };
 
