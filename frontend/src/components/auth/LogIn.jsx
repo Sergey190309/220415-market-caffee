@@ -8,8 +8,8 @@ import {
   Icon,
   Segment,
   Button,
-  Message,
-  GridColumn,
+  // Message,
+  // GridColumn,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -35,7 +35,7 @@ export const LogIn = ({
 }) => {
   // console.log('LogIn -', initState)
   const [formData, setFormData] = useState(initState);
-
+  // console.log(formData)
   const { email, password } = formData;
 
   const _onChange = ({ name, value }) => {
@@ -61,14 +61,14 @@ export const LogIn = ({
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Form size='large' onSubmit={evt => _onSubmit(evt)}>
-          <Header data-testid='header' as='h3' textAlign='center' color={color}>
+          <Header as='h3' textAlign='center' color={color}>
             <Icon name='utensils' size='tiny' />
             Log-in to your account
           </Header>
           <Segment color={color} stacked>
             <Form.Input
               fluid
-              icon='user'
+              icon='envelope'
               iconPosition='left'
               type='email'
               placeholder='E-mail address'
@@ -113,7 +113,8 @@ export const LogIn = ({
               </Grid.Column>
               <Grid.Column>
                 <Button
-                  primary
+                  // primary
+                  color={color}
                   floated='left'
                   content='Sign Up'
                   onClick={() => setModalOpened('SignUp')}
@@ -128,9 +129,9 @@ export const LogIn = ({
 };
 
 LogIn.defaultProps = {
-  onCancelClick: () => {},
   onChange: onChange,
   onSubmit: onSubmit,
+  onCancelClick: () => {},
   initState: {
     email: '',
     password: '',
@@ -139,12 +140,12 @@ LogIn.defaultProps = {
 };
 
 LogIn.propTypes = {
-  onCancelClick: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  onCancelClick: PropTypes.func.isRequired,
   initState: PropTypes.object.isRequired,
   setModalOpened: PropTypes.func.isRequired,
 };
 
 // export default LogIn;
-export default connect(null, {setModalOpened})(LogIn);
+export default connect(null, { setModalOpened })(LogIn);

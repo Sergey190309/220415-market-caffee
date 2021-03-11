@@ -29,7 +29,7 @@ export const ModalLogIn = ({ kindOfModal, setModalClosed, onCloseHandle }) => {
       content = <LogIn onCancelClick={_onCloseHandle} />;
       break;
     case 'SignUp':
-      content = <SignUp />;
+      content = <SignUp onCancelClick={_onCloseHandle}/>;
       break;
     case 'Loader':
       content = <Loader />;
