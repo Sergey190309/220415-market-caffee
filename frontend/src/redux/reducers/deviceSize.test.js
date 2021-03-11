@@ -6,7 +6,7 @@ describe('Set device configuration', () => {
   beforeEach(() => {
     initState = {
       deviceSize: 'small',
-      modalOpened: false
+      modalOpened: '',
     };
     action_to_medium = {
       type: SET_DEVICE_SIZE,
@@ -17,11 +17,12 @@ describe('Set device configuration', () => {
       payload: 'small',
     };
     action_modal_open = {
-      type: OPEN_MODAL
-    }
+      type: OPEN_MODAL,
+      payload: 'LogIn',
+    };
     action_modal_close = {
-      type: CLOSE_MODAL
-    }
+      type: CLOSE_MODAL,
+    };
   });
 
   test('it should be initial state without action', () => {

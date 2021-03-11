@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
 import LogIn from './LogIn';
+import SignUp from './SignUp'
 import { setModalClosed } from '../../redux/actions';
 
 export const onCloseHandle = (setModalClosed, setOpen) => {

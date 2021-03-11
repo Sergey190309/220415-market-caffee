@@ -16,10 +16,11 @@ export const setDeviceSize = width => dispatch => {
   });
 };
 
-export const setModalOpened = () => dispatch => {
+export const setModalOpened = kindOfModal => dispatch => {
   // console.log('action, open')
   return dispatch({
     type: OPEN_MODAL,
+    payload: kindOfModal,
   });
 };
 
