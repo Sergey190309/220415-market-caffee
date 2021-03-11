@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 
 export const onChange = (setFormData, formData, fieldName, fieldData) => {
   // const { name, value } = fieldData;
+  // console.log({ ...formData, [fieldName]: fieldData })
   return setFormData({ ...formData, [fieldName]: fieldData });
 };
 
@@ -56,8 +57,8 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
       <Grid.Column style={{ maxWidth: 450 }}>
         <Form size='large' onSubmit={evt => _onSubmit(evt)}>
           <Header as='h3' textAlign='center' color={color}>
-            <Icon name='utensils' size='tiny' />
-            Sing up
+            <Icon data-testid='icon' name='utensils' size='tiny' />
+            Sign up
           </Header>
           <Segment color={color} stacked>
             <Form.Input
