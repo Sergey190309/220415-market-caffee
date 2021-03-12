@@ -13,7 +13,6 @@ describe('NavBar testing', () => {
     const setModalOpened = jest.fn();
 
     describe('clickHandling function testing', () => {
-
       test('calling from items that makes them active', () => {
         activateItems.forEach(item => {
           clickHandler(item, setActiveItem, setModalOpened);
@@ -42,9 +41,7 @@ describe('NavBar testing', () => {
         clickHandler(activateModal, setActiveItem, setModalOpened);
         expect(setModalOpened).toHaveBeenCalledTimes(1);
       });
-    })
-
-
+    });
   });
 
   const testProps = {
@@ -53,13 +50,10 @@ describe('NavBar testing', () => {
     clickHandler: jest.fn(),
   };
 
-  const initComponent = (actualProps) => {
+  const initComponent = actualProps => {
     // beforeEach(() => {
     // const NavBar = () => {
-    render(
-      <BrowserRouter>
-        <NavBar {...actualProps} />
-      </BrowserRouter>
+    render(<BrowserRouter><NavBar {...actualProps} /></BrowserRouter>
     );
   };
 
@@ -69,7 +63,7 @@ describe('NavBar testing', () => {
   };
 
   describe('Logo item testing', () => {
-    const getLogo = (actualProps) => {
+    const getLogo = actualProps => {
       return getItem('link', 'Logo here', actualProps);
     };
 
@@ -91,7 +85,6 @@ describe('NavBar testing', () => {
     });
 
     test('click makes item active', async () => {
-
       const item = getLogo();
 
       fireEvent.click(item);
@@ -103,8 +96,8 @@ describe('NavBar testing', () => {
   });
 
   describe('Menu item testing', () => {
-    const getMenu = (actualProps) => {
-      return getItem('link', 'Menu', actualProps);
+    const getMenu = actualProps => {
+      return getItem('link', 'menu', actualProps);
     };
 
     test('it should exist', () => {
@@ -134,8 +127,8 @@ describe('NavBar testing', () => {
   });
 
   describe('Gallery item testing', () => {
-    const getMenu = (actualProps) => {
-      return getItem('link', 'Gallery', actualProps);
+    const getMenu = actualProps => {
+      return getItem('link', 'gallery', actualProps);
     };
 
     test('it should exist', () => {
@@ -165,7 +158,7 @@ describe('NavBar testing', () => {
   });
 
   describe('LogInOut item testing', () => {
-    const getMenu = (actualProps) => {
+    const getMenu = actualProps => {
       return getItem('button', 'LogInOut', actualProps);
     };
 
@@ -196,7 +189,7 @@ describe('NavBar testing', () => {
   });
 
   describe('Language item testing', () => {
-    const getMenu = (actualProps) => {
+    const getMenu = actualProps => {
       return getItem('button', 'EN', actualProps);
     };
 
@@ -225,7 +218,6 @@ describe('NavBar testing', () => {
       });
     });
   });
-
 });
 
 //   describe('Menu item', () => {

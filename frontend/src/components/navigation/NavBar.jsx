@@ -62,7 +62,7 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             name='priceList'
             active={activeItem === 'priceList'}
             onClick={_ClickHandler}>
-            <NavItem name='priceList' title='Menu' />
+            <NavItem name='priceList' title='navbar.menu' />
           </Menu.Item>
 
           <Menu.Item
@@ -71,7 +71,7 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             name='pictures'
             active={activeItem === 'pictures'}
             onClick={_ClickHandler}>
-            <NavItem name='pictures' title='Gallery' />
+            <NavItem name='pictures' title='navbar.gallery' />
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>

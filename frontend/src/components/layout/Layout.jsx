@@ -12,7 +12,7 @@ import ModalLogIn from '../auth/ModalLogIn'
 // import PriceList from "../content/price_list/PriceList";
 // import Pictures from "../content/pictures/Pictures";
 
-export const Layout = ({ layout }) => {
+export const Layout = ( {layout} ) => {
   const [deviceSize, setDeviceSize] = useState("");
   useEffect(() => {
     setDeviceSize(layout.deviceSize)
@@ -47,7 +47,8 @@ Layout.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  layout: state.layout,
+  layout: state.device,
+  // layout: state.layout,
 });
 
 export default connect(mapStateToProps)(Layout);

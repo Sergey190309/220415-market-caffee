@@ -66,6 +66,7 @@ ModalLogIn.propTypes = {
   onCloseHandle: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({ kindOfModal: state.layout.kindOfModal });
+const mapStateToProps = state => ({ kindOfModal: state.device.kindOfModal });
+// const mapStateToProps = state => ({ kindOfModal: state.layout.kindOfModal });
 
 export default connect(mapStateToProps, { setModalClosed })(ModalLogIn);

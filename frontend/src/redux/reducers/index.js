@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
+import {i18nReducer} from 'react-redux-i18n'
 import alertReducer from "./alert";
-import device from "./deviceSize";
+import device from "./device";
 
 export default combineReducers({
-  // alertReducer
-  infoForUser: alertReducer,
-  layout: device,
+  i18n: i18nReducer,
+  alertReducer,
+  device,
 });
