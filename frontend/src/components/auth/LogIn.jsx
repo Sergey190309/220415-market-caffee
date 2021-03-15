@@ -8,10 +8,9 @@ import {
   Icon,
   Segment,
   Button,
-  // Message,
-  // GridColumn,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Translate, I18n } from 'react-redux-i18n';
 
 import { setModalOpened } from '../../redux/actions';
 
@@ -61,9 +60,11 @@ export const LogIn = ({
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Form size='large' onSubmit={evt => _onSubmit(evt)}>
-          <Header as='h3' textAlign='center' color={color}>
-            <Icon name='utensils' size='tiny' />
-            Log-in to your account
+          <Header as='h2' textAlign='center' color={color}>
+            <Segment.Inline>
+              <Icon name='utensils' size='large' />
+              <Translate value='logIn.header' />
+            </Segment.Inline>
           </Header>
           <Segment color={color} stacked>
             <Form.Input
@@ -71,7 +72,8 @@ export const LogIn = ({
               icon='envelope'
               iconPosition='left'
               type='email'
-              placeholder='E-mail address'
+              placeholder={I18n.t('logIn.placeHolders.email')}
+              // placeholder='E-mail address'
               name='email'
               required
               value={email}
@@ -83,7 +85,7 @@ export const LogIn = ({
               icon='lock'
               iconPosition='left'
               type='password'
-              placeholder='Password'
+              placeholder={I18n.t('logIn.placeHolders.password')}
               autoComplete='on'
               name='password'
               required
@@ -92,31 +94,30 @@ export const LogIn = ({
             />
             <Segment.Inline>
               <Button.Group fluid>
-                <Button color={color} size='large' content='Log In' />
-                <Button.Or />
+                <Button color={color} size='large' content={I18n.t('logIn.buttons.logIn')} />
+                <Button.Or text={I18n.t('logIn.buttons.or')} />
                 <Button
                   color={hazColor}
                   size='large'
                   onClick={evt => _onCancelClick(evt)}
-                  content='Cancel'
+                  content={I18n.t('logIn.buttons.cancel')}
                 />
               </Button.Group>
             </Segment.Inline>
           </Segment>
         </Form>
         <Segment>
-          <Grid columns={3}>
+          <Grid columns={2}>
             <Grid.Row verticalAlign='middle'>
-              <Grid.Column />
-              <Grid.Column>
-                <Header as='h4' content='New to us?' />
+              <Grid.Column width='9' textAlign='right'>
+                <Header as='h4' content={I18n.t('logIn.message')} />
               </Grid.Column>
-              <Grid.Column>
+              <Grid.Column width='7' textAlign='left'>
                 <Button
                   // primary
                   color={color}
                   floated='left'
-                  content='Sign Up'
+                  content={I18n.t('logIn.buttons.signUp')}
                   onClick={() => setModalOpened('SignUp')}
                 />
               </Grid.Column>

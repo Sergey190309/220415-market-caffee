@@ -2,7 +2,36 @@ const translations_ru = {
   navbar: {
     menu: 'Меню',
     gallery: 'Интерьер',
+    logIn: 'Авторизироваться',
   },
-}
+  logIn: {
+    header: 'Авторизируйтесь',
+    placeHolders: {
+      email: 'Электронная почта',
+      password: 'Пароль',
+    },
+    buttons: {
+      logIn: 'Авторизироваться',
+      cancel: 'Отмена',
+      signUp: 'Зарегестрироваться',
+      or: 'или',
+    },
+    message: 'Еще не с нами?',
+  },
+  signUp: {
+    header: 'Зарегестрироваться',
+    placeHolders: {
+      userName: 'Выберите имя (не обязательно)',
+      email: 'Электронная почта',
+      password: 'Пароль',
+      password2: 'Повторите пароль',
+    },
+    buttons: {
+      signUp: 'Зарегестрироваться',
+      cancel: 'Отмена',
+      or: 'или',
+    },
+  },
+};
 
-export default translations_ru
+export default translations_ru;

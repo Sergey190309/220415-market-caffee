@@ -8,7 +8,7 @@ describe('Language switcher testing', () => {
   describe('layout', () => {
     test('it exists', () => {
       render(<Language />);
-      const item = screen.getByRole('button');
+      const item = screen.getByRole('listbox');
       expect(item).toBeVisible();
     });
   });

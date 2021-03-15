@@ -6,11 +6,11 @@ import { Header } from 'semantic-ui-react';
 // import Item from '../../items/Item';
 
 const NavItem = ({ title }) => {
-  // console.log(title)
+  // console.log(I18n.t(title))
+
   return (
     <Header as='h3'>
       <Translate value={title} />
-      {/* <Item kindId='nav_item' title={title} /> */}
     </Header>
   );
 };

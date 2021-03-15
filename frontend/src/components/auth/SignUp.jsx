@@ -11,6 +11,7 @@ import {
   // GridColumn,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Translate, I18n } from 'react-redux-i18n';
 
 // import { setModalOpened } from '../../redux/actions';
 
@@ -56,9 +57,11 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
         <Form size='large' onSubmit={evt => _onSubmit(evt)}>
-          <Header as='h3' textAlign='center' color={color}>
-            <Icon data-testid='icon' name='utensils' size='tiny' />
-            Sign up
+          <Header as='h2' textAlign='center' color={color}>
+            <Segment.Inline>
+              <Icon data-testid='icon' name='utensils' size='lage' />
+              <Translate value='signUp.header' />
+            </Segment.Inline>
           </Header>
           <Segment color={color} stacked>
             <Form.Input
@@ -66,7 +69,7 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
               icon='user'
               iconPosition='left'
               type='text'
-              placeholder='Choose username'
+              placeholder={I18n.t('signUp.placeHolders.userName')}
               name='userName'
               value={userName}
               onChange={evt => _onChange(evt.target)}
@@ -76,7 +79,7 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
               icon='envelope'
               iconPosition='left'
               type='email'
-              placeholder='E-mail address'
+              placeholder={I18n.t('signUp.placeHolders.email')}
               name='email'
               required
               value={email}
@@ -88,7 +91,7 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
               icon='lock'
               iconPosition='left'
               type='password'
-              placeholder='Password'
+              placeholder={I18n.t('signUp.placeHolders.password')}
               autoComplete='on'
               name='password'
               required
@@ -101,7 +104,7 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
               icon='lock'
               iconPosition='left'
               type='password'
-              placeholder='Repeate your passord'
+              placeholder={I18n.t('signUp.placeHolders.password2')}
               autoComplete='on'
               name='password2'
               required
@@ -110,13 +113,13 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
             />
             <Segment.Inline>
               <Button.Group fluid>
-                <Button color={color} size='large' content='Sign Up' />
-                <Button.Or />
+                <Button color={color} size='large' content={I18n.t('signUp.buttons.signUp')} />
+                <Button.Or text={I18n.t('signUp.buttons.or')} />
                 <Button
                   color={hazColor}
                   size='large'
                   onClick={evt => _onCancelClick(evt)}
-                  content='Cancel'
+                  content={I18n.t('signUp.buttons.cancel')}
                 />
               </Button.Group>
             </Segment.Inline>

@@ -76,13 +76,10 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
         </Menu.Menu>
         <Menu.Menu position='right'>
           <Menu.Item
-            // as={Link}
-            // to='/signinout'
             name='signInOut'
             active={false}
-            // active={activeItem === 'signInOut'}
             onClick={_ClickHandler}>
-            <SignInOut />
+            <SignInOut title='navbar.logIn' />
           </Menu.Item>
           <Menu.Item
             name='language'

@@ -3,4 +3,5 @@ export const supportedLocales = {
   ru: 'Русский',
   cn: '中国',
 };
+
 export const fallbackLocale = 'en';
