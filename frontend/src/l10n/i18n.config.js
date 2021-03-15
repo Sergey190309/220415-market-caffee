@@ -1,5 +1,6 @@
 export const supportedLocales = {
-  en: "English",
-  ru: "Русский",
+  en: 'English',
+  ru: 'Русский',
+  cn: '中国',
 };
-export const fallbackLocale = "en";
+export const fallbackLocale = 'en';

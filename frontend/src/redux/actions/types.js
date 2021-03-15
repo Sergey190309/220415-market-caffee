@@ -6,3 +6,6 @@ export const REMOVE_ALERT = 'REMOVE_ALERT';
 export const SET_DEVICE_SIZE = 'SET_DEVICE_SIZE';
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
+
+// Available locales
+export const SET_AVAILABLE_LOCALES = 'SET_AVAILABLE_LOCALES';
