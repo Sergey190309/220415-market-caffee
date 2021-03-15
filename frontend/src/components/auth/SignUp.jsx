@@ -59,7 +59,7 @@ export const SignUp = ({ onChange, onSubmit, onCancelClick, initState }) => {
         <Form size='large' onSubmit={evt => _onSubmit(evt)}>
           <Header as='h2' textAlign='center' color={color}>
             <Segment.Inline>
-              <Icon data-testid='icon' name='utensils' size='lage' />
+              <Icon data-testid='icon' name='utensils' size='large' />
               <Translate value='signUp.header' />
             </Segment.Inline>
           </Header>
