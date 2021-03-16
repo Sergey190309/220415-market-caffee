@@ -82,9 +82,9 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             <SignInOut title='navbar.logIn' />
           </Menu.Item>
           <Menu.Item
+            data-testid='langSwitcher'
             name='language'
             active={false}
-            // active={activeItem === 'language'}
             onClick={_ClickHandler}>
             <Language />
           </Menu.Item>

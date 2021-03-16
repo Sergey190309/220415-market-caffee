@@ -5,6 +5,7 @@ import { connectedRender, screen } from '../../testUtils/connectedRenderer';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import NavBar, { clickHandler } from './NavBar';
+import { exact } from 'prop-types';
 
 describe('NavBar testing', () => {
   describe('Non react elements', () => {
@@ -62,18 +63,21 @@ describe('NavBar testing', () => {
       expect(logo).toHaveClass('item');
       // screen.debug()
     });
+
     test('it renders picture', () => {
       connectedRender(<NavBar {...testProps} />);
       const logo = screen.getByRole('link', { name: 'logo' });
       const picture = screen.getByRole('img');
       expect(logo).toContainElement(picture);
     });
+
     test('it should be active having appopriate prop', () => {
       connectedRender(<NavBar {...testProps} initActive='logo' />);
       // const logo = screen.getByRole('')
       const logo = screen.getByRole('link', { name: 'logo' });
       expect(logo).toHaveClass('active');
     });
+
     test('it calls appropriate function on click with proper arguments', () => {
       connectedRender(<NavBar {...testProps} initActive='logo' />);
       // const logo = screen.getByRole('')
@@ -91,18 +95,19 @@ describe('NavBar testing', () => {
       expect(priceList).toHaveAttribute('href', '/pricelist');
       expect(priceList).toHaveClass('item');
     });
+
     test('it becomes acitve with appropriate props', () => {
       connectedRender(<NavBar {...testProps} initActive='priceList' />);
       const priceList = screen.getByRole('link', { name: 'menu' });
       expect(priceList).toHaveClass('active');
     });
+
     test('on click it calls proper function with appropriate argument', () => {
       connectedRender(<NavBar {...testProps} initActive='priceList' />);
       const priceList = screen.getByRole('link', { name: 'menu' });
       userEvent.click(priceList);
       expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
       expect(testProps.clickHandler.mock.calls[0][0]).toEqual('priceList');
-
     });
   });
   describe('Pictures element', () => {
@@ -113,17 +118,55 @@ describe('NavBar testing', () => {
       expect(pictures).toHaveAttribute('href', '/pictures');
       expect(pictures).toHaveClass('item');
     });
+
     test('it becomes acitve with appropriate props', () => {
       connectedRender(<NavBar {...testProps} initActive='pictures' />);
       const picture = screen.getByRole('link', { name: 'gallery' });
       expect(picture).toHaveClass('active');
     });
+
     test('on click it calls proper function with appropriate argument', () => {
-      connectedRender(<NavBar {...testProps} initActive='picture' />);
+      connectedRender(<NavBar {...testProps} />);
       const picture = screen.getByRole('link', { name: 'gallery' });
       userEvent.click(picture);
       expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
       expect(testProps.clickHandler.mock.calls[0][0]).toEqual('pictures');
+    });
+  });
+
+  describe('Log In element', () => {
+    test('it existst and has specific atributes', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const logIn = screen.getByRole('button');
+      expect(logIn).toBeVisible();
+      expect(logIn).toHaveClass('ui button', { exact: true });
+      expect(logIn).not.toHaveAttribute('href');
+    });
+
+    test('on click it calls proper function with appropriate argument', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const logIn = screen.getByRole('button');
+      userEvent.click(logIn);
+      expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
+      expect(testProps.clickHandler.mock.calls[0][0]).toEqual('signInOut');
+    });
+  });
+
+  describe('Language switcher element', () => {
+    test('it existst and has specific atributes', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const langSwitcher = screen.getByTestId('langSwitcher');
+      expect(langSwitcher).toBeVisible();
+      expect(langSwitcher).toHaveClass('item', { exact: true });
+      expect(langSwitcher).not.toHaveAttribute('href');
+    });
+
+    test('on click it calls proper function with appropriate argument', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const langSwitcher = screen.getByTestId('langSwitcher');
+      userEvent.click(langSwitcher);
+      expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
+      expect(testProps.clickHandler.mock.calls[0][0]).toEqual('language');
     });
   });
 });
