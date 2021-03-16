@@ -1,10 +1,12 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+// import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { connectedRender, screen } from '../../testUtils/connectedRenderer';
 import '@testing-library/jest-dom';
+import userEvent from '@testing-library/user-event';
 import NavBar, { clickHandler } from './NavBar';
 
-describe.only('NavBar testing', () => {
+describe('NavBar testing', () => {
   describe('Non react elements', () => {
     const activateItems = ['logo', 'priceList', 'pictures'];
     const notActivateItems = ['signInOut', 'language'];
@@ -43,10 +45,85 @@ describe.only('NavBar testing', () => {
       });
     });
   });
-  describe.only('Logo element', () => {
-    test('it exists', () => {
-      render(<NavBar />)
-      screen.debug()
+  const testProps = {
+    initActive: '',
+    setModalOpened: jest.fn(),
+    clickHandler: jest.fn(),
+  };
+
+  describe('Logo element', () => {
+    test('it exists and have specific attributes', () => {
+      connectedRender(<NavBar {...testProps} />);
+      // const logo = screen.getByRole('')
+      const logo = screen.getByRole('link', { name: 'logo' });
+      expect(logo).toBeVisible();
+      expect(logo).toHaveAttribute('href', '/');
+      // console.log(logo)
+      expect(logo).toHaveClass('item');
+      // screen.debug()
+    });
+    test('it renders picture', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const logo = screen.getByRole('link', { name: 'logo' });
+      const picture = screen.getByRole('img');
+      expect(logo).toContainElement(picture);
+    });
+    test('it should be active having appopriate prop', () => {
+      connectedRender(<NavBar {...testProps} initActive='logo' />);
+      // const logo = screen.getByRole('')
+      const logo = screen.getByRole('link', { name: 'logo' });
+      expect(logo).toHaveClass('active');
+    });
+    test('it calls appropriate function on click with proper arguments', () => {
+      connectedRender(<NavBar {...testProps} initActive='logo' />);
+      // const logo = screen.getByRole('')
+      const logo = screen.getByRole('link', { name: 'logo' });
+      userEvent.click(logo);
+      expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
+      expect(testProps.clickHandler.mock.calls[0][0]).toEqual('logo');
+    });
+  });
+  describe('Price list (menu) element', () => {
+    test('it exists and has specific attributes', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const priceList = screen.getByRole('link', { name: 'menu' });
+      expect(priceList).toBeVisible();
+      expect(priceList).toHaveAttribute('href', '/pricelist');
+      expect(priceList).toHaveClass('item');
+    });
+    test('it becomes acitve with appropriate props', () => {
+      connectedRender(<NavBar {...testProps} initActive='priceList' />);
+      const priceList = screen.getByRole('link', { name: 'menu' });
+      expect(priceList).toHaveClass('active');
+    });
+    test('on click it calls proper function with appropriate argument', () => {
+      connectedRender(<NavBar {...testProps} initActive='priceList' />);
+      const priceList = screen.getByRole('link', { name: 'menu' });
+      userEvent.click(priceList);
+      expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
+      expect(testProps.clickHandler.mock.calls[0][0]).toEqual('priceList');
+
+    });
+  });
+  describe('Pictures element', () => {
+    test('it exists and has specific attributes', () => {
+      connectedRender(<NavBar {...testProps} />);
+      const pictures = screen.getByRole('link', { name: 'gallery' });
+      expect(pictures).toBeVisible();
+      expect(pictures).toHaveAttribute('href', '/pictures');
+      expect(pictures).toHaveClass('item');
+    });
+    test('it becomes acitve with appropriate props', () => {
+      connectedRender(<NavBar {...testProps} initActive='pictures' />);
+      const picture = screen.getByRole('link', { name: 'gallery' });
+      expect(picture).toHaveClass('active');
+    });
+    test('on click it calls proper function with appropriate argument', () => {
+      connectedRender(<NavBar {...testProps} initActive='picture' />);
+      const picture = screen.getByRole('link', { name: 'gallery' });
+      userEvent.click(picture);
+      expect(testProps.clickHandler).toHaveBeenCalledTimes(1);
+      expect(testProps.clickHandler.mock.calls[0][0]).toEqual('pictures');
     });
   });
 });
