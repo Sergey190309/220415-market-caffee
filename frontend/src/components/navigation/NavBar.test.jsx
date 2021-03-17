@@ -5,7 +5,7 @@ import { connectedRender, screen } from '../../testUtils/connectedRenderer';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import NavBar, { clickHandler } from './NavBar';
-import { exact } from 'prop-types';
+// import { exact } from 'prop-types';
 
 describe('NavBar testing', () => {
   describe('Non react elements', () => {

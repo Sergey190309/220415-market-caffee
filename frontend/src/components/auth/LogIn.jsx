@@ -59,7 +59,7 @@ export const LogIn = ({
   return (
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
-        <Form size='large' onSubmit={evt => _onSubmit(evt)}>
+        <Form size='large' onSubmit={evt => _onSubmit(evt)} >
           <Header as='h2' textAlign='center' color={color}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
@@ -73,9 +73,9 @@ export const LogIn = ({
               iconPosition='left'
               type='email'
               placeholder={I18n.t('logIn.placeHolders.email')}
-              // placeholder='E-mail address'
               name='email'
               required
+              // error='fuck'
               value={email}
               onChange={evt => _onChange(evt.target)}
             />
