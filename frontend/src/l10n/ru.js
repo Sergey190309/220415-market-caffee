@@ -10,8 +10,13 @@ const translations_ru = {
       email: 'Электронная почта',
       password: 'Пароль',
     },
+    labels: {
+      email: 'Электронная почта',
+      password: 'Пароль',
+    },
     buttons: {
       logIn: 'Авторизироваться',
+      reset: 'Перезагрузить',
       cancel: 'Отмена',
       signUp: 'Зарегестрироваться',
       or: 'или',

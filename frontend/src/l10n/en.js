@@ -10,8 +10,13 @@ const translations_en = {
       email: 'Email address',
       password: 'Password',
     },
+    labels: {
+      email: 'Email address',
+      password: 'Password',
+    },
     buttons: {
       logIn: 'Log in',
+      reset: 'Reset',
       cancel: 'Cancel',
       signUp: 'Sign Up',
       or: 'or',

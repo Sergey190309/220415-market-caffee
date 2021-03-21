@@ -1,150 +1,140 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
-import {
-  Form,
-  Header,
-  Grid,
-  Icon,
-  Segment,
-  Button,
-} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
+import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { Translate, I18n } from 'react-redux-i18n';
 
 import { setModalOpened } from '../../redux/actions';
 
-export const onChange = (setFormData, formData, fieldName, fieldData) => {
-  // const { name, value } = fieldData;
-  return setFormData({ ...formData, [fieldName]: fieldData });
+const formStructure = {
+  email: '',
+  password: '',
 };
 
+const logInSchema = Yup.object().shape({
+  [Object.keys(formStructure)[0]]: Yup.string()
+    .email('Invalid email address')
+    .required('Required field'),
+  [Object.keys(formStructure)[1]]: Yup.string().required('Required field'),
+});
+
 export const onSubmit = formData => {
-  const { email, password } = formData;
-  console.log('Email -', email);
-  console.log('Password -', password);
+  // const { email, password } = formData;
+  console.log(JSON.stringify(formData, null, 2));
 };
 
 export const LogIn = ({
-  onChange,
+  initValues,
+  logInSchema,
   onSubmit,
-  onCancelClick,
-  initState,
+  onCancel,
   setModalOpened,
 }) => {
-  // console.log('LogIn -', initState)
-  const [formData, setFormData] = useState(initState);
-  // console.log(formData)
-  const { email, password } = formData;
-
-  const _onChange = ({ name, value }) => {
-    // console.log(name, ', ', value)
-    onChange(setFormData, formData, name, value);
-  };
-
-  const _onSubmit = async evt => {
-    evt.preventDefault();
-    onCancelClick();
-    onSubmit(formData);
-  };
-
-  const _onCancelClick = evt => {
-    evt.preventDefault();
-    onCancelClick();
-  };
-
+  // console.log()
   const color = 'teal';
-  const hazColor = 'orange';
+  const resColor = 'olive';
+  const canColor = 'orange';
 
   return (
-    <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Form size='large' onSubmit={evt => _onSubmit(evt)} >
+    <Container fluid textAlign='center'>
+      <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
+        <Grid.Column style={{ maxWidth: 500 }}>
           <Header as='h2' textAlign='center' color={color}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               <Translate value='logIn.header' />
             </Segment.Inline>
           </Header>
-          <Segment color={color} stacked>
-            <Form.Input
-              fluid
-              icon='envelope'
-              iconPosition='left'
-              type='email'
-              placeholder={I18n.t('logIn.placeHolders.email')}
-              name='email'
-              required
-              // error='fuck'
-              value={email}
-              onChange={evt => _onChange(evt.target)}
-            />
-            <Form.Input
-              data-testid='password'
-              fluid
-              icon='lock'
-              iconPosition='left'
-              type='password'
-              placeholder={I18n.t('logIn.placeHolders.password')}
-              autoComplete='on'
-              name='password'
-              required
-              value={password}
-              onChange={evt => _onChange(evt.target)}
-            />
-            <Segment.Inline>
-              <Button.Group fluid>
-                <Button color={color} size='large' content={I18n.t('logIn.buttons.logIn')} />
-                <Button.Or text={I18n.t('logIn.buttons.or')} />
-                <Button
-                  color={hazColor}
-                  size='large'
-                  onClick={evt => _onCancelClick(evt)}
-                  content={I18n.t('logIn.buttons.cancel')}
+
+          <Formik
+            initialValues={initValues}
+            onSubmit={onSubmit}
+            validationSchema={logInSchema}>
+            <Form size='large'>
+              <Segment color={color} stacked>
+                <Input
+                  id='input-email'
+                  name='email'
+                  inputLabel={I18n.t('logIn.labels.email')}
+                  // inputLabel={{ color: color, content: 'Email' }}
+                  icon='at'
+                  // iconPosition='right'
+                  placeholder={I18n.t('logIn.placeHolders.email')}
+                  errorPrompt
                 />
-              </Button.Group>
-            </Segment.Inline>
+                <Input
+                  id='input-password'
+                  name='password'
+                  type='password'
+                  inputLabel={I18n.t('logIn.labels.password')}
+                  // inputLabel={{ color: color, content: 'Password' }}
+                  icon='key'
+                  placeholder={I18n.t('logIn.placeHolders.password')}
+                  autoComplete='on'
+                  errorPrompt
+                />
+                <Button.Group widths='1'>
+                  <SubmitButton basic color={color} size='large' content={I18n.t('logIn.buttons.logIn')} />
+                  <Button.Or text={I18n.t('logIn.buttons.or')} />
+                  <ResetButton basic color={resColor} size='large' content={I18n.t('logIn.buttons.reset')} />
+                  <Button.Or text={I18n.t('logIn.buttons.or')} />
+                  <Button
+                    basic
+                    color={canColor}
+                    size='large'
+                    content={I18n.t('logIn.buttons.cancel')}
+                    type='button'
+                    onClick={() => {
+                      console.log('Cancel');
+                    }}
+                  />
+                </Button.Group>
+              </Segment>
+            </Form>
+          </Formik>
+          <Segment color={color}>
+            <Grid columns={2}>
+              <Grid.Row verticalAlign='middle'>
+                <Grid.Column width='9' textAlign='right'>
+                  <Header as='h4' content={I18n.t('logIn.message')} />
+                </Grid.Column>
+                <Grid.Column width='7' textAlign='left'>
+                  <Button
+                    // primary
+                    basic
+                    color={color}
+                    floated='left'
+                    size='large'
+                    content={I18n.t('logIn.buttons.signUp')}
+                    onClick={() => console.log('SignUp')}
+                    // onClick={() => setModalOpened('SignUp')}
+                  />
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
-        </Form>
-        <Segment>
-          <Grid columns={2}>
-            <Grid.Row verticalAlign='middle'>
-              <Grid.Column width='9' textAlign='right'>
-                <Header as='h4' content={I18n.t('logIn.message')} />
-              </Grid.Column>
-              <Grid.Column width='7' textAlign='left'>
-                <Button
-                  // primary
-                  color={color}
-                  floated='left'
-                  content={I18n.t('logIn.buttons.signUp')}
-                  onClick={() => setModalOpened('SignUp')}
-                />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
-        </Segment>
-      </Grid.Column>
-    </Grid>
+        </Grid.Column>
+      </Grid>
+    </Container>
   );
 };
 
 LogIn.defaultProps = {
-  onChange: onChange,
+  initValues: formStructure,
+  logInSchema: logInSchema,
   onSubmit: onSubmit,
-  onCancelClick: () => {},
-  initState: {
-    email: '',
-    password: '',
-  },
+  onCancel: () => {},
   setModalOpened: () => {},
 };
 
 LogIn.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  initValues: PropTypes.object.isRequired,
+  logInSchema: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onCancelClick: PropTypes.func.isRequired,
-  initState: PropTypes.object.isRequired,
+  onCancel: PropTypes.func.isRequired,
   setModalOpened: PropTypes.func.isRequired,
 };
 
