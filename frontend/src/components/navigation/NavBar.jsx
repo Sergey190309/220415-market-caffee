@@ -23,7 +23,7 @@ export const clickHandler = (name, setActiveItem, setModalOpened) => {
     setActiveItem(name);
   }
   if (name === 'signInOut') {
-    setModalOpened('LogIn');
+    setModalOpened('logIn');
   }
 };
 

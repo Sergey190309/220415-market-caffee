@@ -25,13 +25,13 @@ export const ModalLogIn = ({ kindOfModal, setModalClosed, onCloseHandle }) => {
 
   let content = '';
   switch (kindOfModal) {
-    case 'LogIn':
+    case 'logIn':
       content = <LogIn onCancelClick={_onCloseHandle} />;
       break;
-    case 'SignUp':
+    case 'signUp':
       content = <SignUp onCancelClick={_onCloseHandle}/>;
       break;
-    case 'Loader':
+    case 'loader':
       content = <Loader />;
       break;
     default:

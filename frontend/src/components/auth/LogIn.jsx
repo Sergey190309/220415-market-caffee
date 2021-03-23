@@ -14,7 +14,7 @@ const formStructure = {
   password: '',
 };
 
-const logInSchema = t =>
+export const logInSchema = t =>
   Yup.object().shape({
     [Object.keys(formStructure)[0]]: Yup.string()
       .email(t('errors.email.invalidEmail'))
@@ -126,7 +126,7 @@ export const LogIn = ({
                     size='large'
                     content={t('buttons.signUp')}
                     onClick={() => {
-                      setModalOpened('SignUp');
+                      setModalOpened('signUp');
                     }}
                   />
                 </Grid.Column>
