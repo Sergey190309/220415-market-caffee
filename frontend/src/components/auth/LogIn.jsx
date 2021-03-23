@@ -72,6 +72,7 @@ export const LogIn = ({
                 />
                 <Input
                   id='input-password'
+                  data-testid='input-password'
                   name='password'
                   type='password'
                   inputLabel={t('labels.password')}
@@ -143,8 +144,12 @@ LogIn.defaultProps = {
   logInSchema: logInSchema,
   onSubmit: onSubmit,
   // onCancel: () => {},
-  setModalOpened: () => {console.log('Modal open called')},
-  setModalClosed: () => {console.log('Modal close called')},
+  setModalOpened: () => {
+    console.log('Modal open called');
+  },
+  setModalClosed: () => {
+    console.log('Modal close called');
+  },
 };
 
 LogIn.propTypes = {

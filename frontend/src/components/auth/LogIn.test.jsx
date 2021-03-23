@@ -8,10 +8,10 @@ import {
   // waitFor
 } from '@testing-library/react';
 
-import { LogIn, onChange } from './LogIn';
+import { LogIn } from './LogIn';
 import userEvent from '@testing-library/user-event';
 
-describe.only('LogIn component testing', () => {
+describe('LogIn component testing', () => {
   const setFormData = jest.fn();
   const formData = {
     email: 'prev@email',
@@ -21,21 +21,13 @@ describe.only('LogIn component testing', () => {
   const fieldName = 'email';
   const fieldValue = 'new@email';
 
-  describe('Non react elements', () => {
-    test('onChange function testing', () => {
-      onChange(setFormData, formData, fieldName, fieldValue);
-      expect(setFormData).toHaveBeenCalledWith({ ...formData, [fieldName]: fieldValue });
-    });
-  });
 
   const testProps = {
-    onCancelClick: jest.fn(),
-    onChange: jest.fn(),
+    initValues: {},
+    logInSchema: jest.fn(),
     onSubmit: jest.fn(),
-    initState: {
-      email: 'test@email.test',
-      password: 'qwerty',
-    },
+    setModalOpened: jest.fn(),
+    setModalClosed:jest.fn()
   };
   beforeEach(() => {
     render(<LogIn {...testProps} />);
@@ -54,7 +46,7 @@ describe.only('LogIn component testing', () => {
     let emailInputField, passwordInputField;
     beforeEach(() => {
       emailInputField = screen.getByRole('textbox');
-      passwordInputField = screen.getByTestId('password');
+      passwordInputField = screen.getByTestId('input-password');
     });
 
     test('there are snapshots', () => {
@@ -62,7 +54,7 @@ describe.only('LogIn component testing', () => {
       expect(passwordInputField).toMatchSnapshot();
     });
 
-    test('props.initState become field value', async () => {
+    test.only('props.initState become field value', async () => {
       cleanup();
       const activeProps = {
         ...testProps,
@@ -73,11 +65,12 @@ describe.only('LogIn component testing', () => {
       };
       render(<LogIn {...activeProps} />);
 
-      const _emailInputField = screen.getByRole('textbox');
+      const _emailInputField = screen.getByRole('textbox', {name: 'labels.email'});
+      // const _emailInputField = screen.getByRole('textbox');
       // const _passwordInputField = screen.getByTestId('password');
 
-      // console.log(_passwordInputField.value)
-      expect(_emailInputField).toHaveValue('test@email.com');
+      console.log(_emailInputField.value)
+      // expect(_emailInputField).toHaveValue('test@email.com');
       // expect(_passwordInputField).toHaveValue('password')
     });
 
