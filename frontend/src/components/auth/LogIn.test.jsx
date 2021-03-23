@@ -1,14 +1,16 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
 import {
-  render,
+  // render,
   screen,
   cleanup,
+  connectedRender,
   // fireEvent,
   // waitFor
-} from '@testing-library/react';
+} from '../../testUtils/connectedRenderer'
+// '@testing-library/react';
 
-import { LogIn } from './LogIn';
+import LogIn from './LogIn';
 import userEvent from '@testing-library/user-event';
 
 describe('LogIn component testing', () => {
@@ -30,7 +32,7 @@ describe('LogIn component testing', () => {
     setModalClosed:jest.fn()
   };
   beforeEach(() => {
-    render(<LogIn {...testProps} />);
+    connectedRender(<LogIn {...testProps} />);
   });
   describe('header and footer testing', () => {
     test('these are snapshots', () => {
@@ -54,16 +56,16 @@ describe('LogIn component testing', () => {
       expect(passwordInputField).toMatchSnapshot();
     });
 
-    test.only('props.initState become field value', async () => {
+    test.only('props.initState become field value', () => {
       cleanup();
       const activeProps = {
         ...testProps,
         initState: {
           email: 'test@email.com',
-          password: 'password',
+          password: '',
         },
       };
-      render(<LogIn {...activeProps} />);
+      connectedRender(<LogIn {...activeProps} />);
 
       const _emailInputField = screen.getByRole('textbox', {name: 'labels.email'});
       // const _emailInputField = screen.getByRole('textbox');
