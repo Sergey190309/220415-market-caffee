@@ -9,10 +9,9 @@ import {
   // Button,
   // Header,
 } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
 
 import Logo from '../content/various/Logo';
-// import Language from "../nav_items/Language";
-// import Item from '../items/Item';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
@@ -25,17 +24,17 @@ export const clickHandler = (name, setActiveItem, setModalOpened) => {
   }
   if (name === 'signInOut') {
     setModalOpened('LogIn');
-    // console.log('LogIn')
   }
 };
 
 export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
   const [activeItem, setActiveItem] = useState(initActive);
 
+  const { t } = useTranslation('navbar');
+
   const color = 'teal';
 
   const _ClickHandler = (e, { name }) => {
-    // console.log(name)
     clickHandler(name, setActiveItem, setModalOpened);
   };
 
@@ -62,7 +61,8 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             name='priceList'
             active={activeItem === 'priceList'}
             onClick={_ClickHandler}>
-            <NavItem name='priceList' title='navbar.menu' />
+            <NavItem name='priceList' title={t('menu')} />
+            {/* <NavItem name='priceList' title={t('navbar.menu')} /> */}
           </Menu.Item>
 
           <Menu.Item
@@ -71,15 +71,14 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             name='pictures'
             active={activeItem === 'pictures'}
             onClick={_ClickHandler}>
-            <NavItem name='pictures' title='navbar.gallery' />
+            <NavItem name='pictures' title={t('gallery')} />
+            {/* <NavItem name='pictures' title={t('navbar.gallery')} /> */}
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>
-          <Menu.Item
-            name='signInOut'
-            active={false}
-            onClick={_ClickHandler}>
-            <SignInOut title='navbar.logIn' />
+          <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
+            <SignInOut title={t('logIn')} />
+            {/* <SignInOut title={t('navbar.logIn')} /> */}
           </Menu.Item>
           <Menu.Item
             data-testid='langSwitcher'
@@ -87,6 +86,7 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             active={false}
             onClick={_ClickHandler}>
             <Language />
+            {/* <Language locale={locale} locales={["en", "ru", "cn"]} /> */}
           </Menu.Item>
         </Menu.Menu>
       </Menu>

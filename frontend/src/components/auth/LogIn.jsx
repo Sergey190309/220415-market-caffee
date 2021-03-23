@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
+import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Translate, I18n } from 'react-redux-i18n';
 
 import { setModalOpened } from '../../redux/actions';
 
@@ -33,6 +33,7 @@ export const LogIn = ({
   onCancel,
   setModalOpened,
 }) => {
+  const {t} = useTranslation('login')
   // console.log()
   const color = 'teal';
   const resColor = 'olive';
@@ -45,7 +46,7 @@ export const LogIn = ({
           <Header as='h2' textAlign='center' color={color}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
-              <Translate value='logIn.header' />
+              {t('header')}
             </Segment.Inline>
           </Header>
 
@@ -58,34 +59,34 @@ export const LogIn = ({
                 <Input
                   id='input-email'
                   name='email'
-                  inputLabel={I18n.t('logIn.labels.email')}
+                  inputLabel={t('labels.email')}
                   // inputLabel={{ color: color, content: 'Email' }}
                   icon='at'
                   // iconPosition='right'
-                  placeholder={I18n.t('logIn.placeHolders.email')}
+                  placeholder={t('placeHolders.email')}
                   errorPrompt
                 />
                 <Input
                   id='input-password'
                   name='password'
                   type='password'
-                  inputLabel={I18n.t('logIn.labels.password')}
+                  inputLabel={t('labels.password')}
                   // inputLabel={{ color: color, content: 'Password' }}
                   icon='key'
-                  placeholder={I18n.t('logIn.placeHolders.password')}
+                  placeholder={t('placeHolders.password')}
                   autoComplete='on'
                   errorPrompt
                 />
                 <Button.Group widths='1'>
-                  <SubmitButton basic color={color} size='large' content={I18n.t('logIn.buttons.logIn')} />
-                  <Button.Or text={I18n.t('logIn.buttons.or')} />
-                  <ResetButton basic color={resColor} size='large' content={I18n.t('logIn.buttons.reset')} />
-                  <Button.Or text={I18n.t('logIn.buttons.or')} />
+                  <SubmitButton basic color={color} size='large' content={t('buttons.logIn')} />
+                  <Button.Or text={t('buttons.or')} />
+                  <ResetButton basic color={resColor} size='large' content={t('buttons.reset')} />
+                  <Button.Or text={t('buttons.or')} />
                   <Button
                     basic
                     color={canColor}
                     size='large'
-                    content={I18n.t('logIn.buttons.cancel')}
+                    content={t('buttons.cancel')}
                     type='button'
                     onClick={() => {
                       console.log('Cancel');
@@ -99,7 +100,7 @@ export const LogIn = ({
             <Grid columns={2}>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width='9' textAlign='right'>
-                  <Header as='h4' content={I18n.t('logIn.message')} />
+                  <Header as='h4' content={t('message')} />
                 </Grid.Column>
                 <Grid.Column width='7' textAlign='left'>
                   <Button
@@ -108,7 +109,7 @@ export const LogIn = ({
                     color={color}
                     floated='left'
                     size='large'
-                    content={I18n.t('logIn.buttons.signUp')}
+                    content={t('buttons.signUp')}
                     onClick={() => console.log('SignUp')}
                     // onClick={() => setModalOpened('SignUp')}
                   />

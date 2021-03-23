@@ -1,0 +1,19 @@
+{
+    "buttons": {
+        "cancel": "Cancel",
+        "logIn": "Log In",
+        "or": "or",
+        "reset": "Reset",
+        "signUp": "Sign Up"
+    },
+    "header": "Log-in to your account",
+    "labels": {
+        "email": "Email address",
+        "password": "Password"
+    },
+    "message": "New to us?",
+    "placeHolders": {
+        "email": "Email address",
+        "password": "Password"
+    }
+}

@@ -6,15 +6,11 @@ import PropTypes from 'prop-types';
 import Layout from './layout/Layout';
 
 // import { setDeviceSize} from '../redux/actions';
-import { setDeviceSize, setAvailableLocales } from '../redux/actions';
+import { setDeviceSize } from '../redux/actions';
 
-export const App = ({ setDeviceSize, setAvailableLocales }) => {
+export const App = ({ setDeviceSize }) => {
   //
   const [width, setWidth] = useState(0);
-
-  useEffect(() => {
-    setAvailableLocales()
-  }, [setAvailableLocales])
 
   useEffect(() => {
     updateDimentions();
@@ -42,8 +38,8 @@ export const App = ({ setDeviceSize, setAvailableLocales }) => {
 
 App.propTypes = {
   setDeviceSize: PropTypes.func.isRequired,
-  setAvailableLocales: PropTypes.func.isRequired,
+  // setAvailableLocales: PropTypes.func.isRequired,
 };
 
 // export default connect(null, { setDeviceSize })(App);
-export default connect(null, { setDeviceSize, setAvailableLocales })(App);
+export default connect(null, { setDeviceSize })(App);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Translate } from 'react-redux-i18n';
 
 import { Button } from 'semantic-ui-react';
 
@@ -8,7 +7,7 @@ const LogInOut = ({title}) => {
     <Button
       // basic
     >
-      <Translate value={title} />
+      {title}
     </Button>
   );
 };

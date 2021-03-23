@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Translate, I18n } from 'react-redux-i18n';
 import {
   // Form,
   Container,
@@ -45,7 +44,7 @@ export const LogIn = ({
           <Header as='h2' textAlign='center' color={color}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
-              <Translate value='logIn.header' />
+              logIn.header
             </Segment.Inline>
           </Header>
           <Formik
@@ -86,14 +85,14 @@ export const LogIn = ({
             <Grid columns={2}>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width='9' textAlign='right'>
-                  <Header as='h4' content={I18n.t('logIn.message')} />
+                  <Header as='h4' content='logIn.message' />
                 </Grid.Column>
                 <Grid.Column width='7' textAlign='left'>
                   <Button
                     // primary
                     color={color}
                     floated='left'
-                    content={I18n.t('logIn.buttons.signUp')}
+                    content='logIn.buttons.signUp'
                     onClick={() => setModalOpened('SignUp')}
                   />
                 </Grid.Column>

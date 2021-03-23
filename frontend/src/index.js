@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import 'semantic-ui-less/semantic.less';
 
+import './l10n/i18n'
 import store from './redux/store'
 import App from './components/App';
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <React.Suspense fallback='Loading...'>
+        <App />
+      </React.Suspense>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root')

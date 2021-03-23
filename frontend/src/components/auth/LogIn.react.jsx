@@ -10,7 +10,6 @@ import {
   Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { Translate, I18n } from 'react-redux-i18n';
 
 import { setModalOpened } from '../../redux/actions';
 
@@ -63,7 +62,7 @@ export const LogIn = ({
           <Header as='h2' textAlign='center' color={color}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
-              <Translate value='logIn.header' />
+              logIn.header
             </Segment.Inline>
           </Header>
           <Segment color={color} stacked>
@@ -72,7 +71,7 @@ export const LogIn = ({
               icon='envelope'
               iconPosition='left'
               type='email'
-              placeholder={I18n.t('logIn.placeHolders.email')}
+              placeholder='logIn.placeHolders.email'
               name='email'
               required
               // error='fuck'
@@ -85,7 +84,7 @@ export const LogIn = ({
               icon='lock'
               iconPosition='left'
               type='password'
-              placeholder={I18n.t('logIn.placeHolders.password')}
+              placeholder='logIn.placeHolders.password'
               autoComplete='on'
               name='password'
               required
@@ -94,15 +93,15 @@ export const LogIn = ({
             />
             <Segment.Inline>
               <Button.Group fluid>
-                <Button color={color} size='large' content={I18n.t('logIn.buttons.logIn')} />
-                <Button.Or text={I18n.t('logIn.buttons.or')} />
+                <Button color={color} size='large' content='logIn.buttons.logIn' />
+                <Button.Or text='logIn.buttons.or' />
                 <Button
                   color={hazColor}
                   size='large'
                   // type='button'
                   type='button'
                   onClick={evt => _onCancelClick(evt)}
-                  content={I18n.t('logIn.buttons.cancel')}
+                  content='logIn.buttons.cancel'
                 />
               </Button.Group>
             </Segment.Inline>
@@ -112,14 +111,14 @@ export const LogIn = ({
           <Grid columns={2}>
             <Grid.Row verticalAlign='middle'>
               <Grid.Column width='9' textAlign='right'>
-                <Header as='h4' content={I18n.t('logIn.message')} />
+                <Header as='h4' content='logIn.message' />
               </Grid.Column>
               <Grid.Column width='7' textAlign='left'>
                 <Button
                   // primary
                   color={color}
                   floated='left'
-                  content={I18n.t('logIn.buttons.signUp')}
+                  content='logIn.buttons.signUp'
                   onClick={() => setModalOpened('SignUp')}
                 />
               </Grid.Column>
