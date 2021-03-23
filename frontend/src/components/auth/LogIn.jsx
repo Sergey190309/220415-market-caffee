@@ -3,26 +3,29 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
-import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
 
-import { setModalOpened } from '../../redux/actions';
+import { setModalOpened, setModalClosed } from '../../redux/actions';
 
 const formStructure = {
   email: '',
   password: '',
 };
 
-const logInSchema = Yup.object().shape({
-  [Object.keys(formStructure)[0]]: Yup.string()
-    .email('Invalid email address')
-    .required('Required field'),
-  [Object.keys(formStructure)[1]]: Yup.string().required('Required field'),
-});
+const logInSchema = t =>
+  Yup.object().shape({
+    [Object.keys(formStructure)[0]]: Yup.string()
+      .email(t('errors.email.invalidEmail'))
+      .required(t('errors.required')),
+    [Object.keys(formStructure)[1]]: Yup.string()
+      // eslint-disable-next-line no-template-curly-in-string
+      .min(6, t('errors.password.min', { min: '${min}' }))
+      .required(t('errors.required')),
+  });
 
 export const onSubmit = formData => {
-  // const { email, password } = formData;
   console.log(JSON.stringify(formData, null, 2));
 };
 
@@ -30,10 +33,11 @@ export const LogIn = ({
   initValues,
   logInSchema,
   onSubmit,
-  onCancel,
   setModalOpened,
+  setModalClosed,
 }) => {
-  const {t} = useTranslation('login')
+  const { t } = useTranslation('login');
+
   // console.log()
   const color = 'teal';
   const resColor = 'olive';
@@ -53,7 +57,7 @@ export const LogIn = ({
           <Formik
             initialValues={initValues}
             onSubmit={onSubmit}
-            validationSchema={logInSchema}>
+            validationSchema={logInSchema(t)}>
             <Form size='large'>
               <Segment color={color} stacked>
                 <Input
@@ -78,9 +82,19 @@ export const LogIn = ({
                   errorPrompt
                 />
                 <Button.Group widths='1'>
-                  <SubmitButton basic color={color} size='large' content={t('buttons.logIn')} />
+                  <SubmitButton
+                    basic
+                    color={color}
+                    size='large'
+                    content={t('buttons.logIn')}
+                  />
                   <Button.Or text={t('buttons.or')} />
-                  <ResetButton basic color={resColor} size='large' content={t('buttons.reset')} />
+                  <ResetButton
+                    basic
+                    color={resColor}
+                    size='large'
+                    content={t('buttons.reset')}
+                  />
                   <Button.Or text={t('buttons.or')} />
                   <Button
                     basic
@@ -89,7 +103,7 @@ export const LogIn = ({
                     content={t('buttons.cancel')}
                     type='button'
                     onClick={() => {
-                      console.log('Cancel');
+                      setModalClosed();
                     }}
                   />
                 </Button.Group>
@@ -110,8 +124,9 @@ export const LogIn = ({
                     floated='left'
                     size='large'
                     content={t('buttons.signUp')}
-                    onClick={() => console.log('SignUp')}
-                    // onClick={() => setModalOpened('SignUp')}
+                    onClick={() => {
+                      setModalOpened('SignUp');
+                    }}
                   />
                 </Grid.Column>
               </Grid.Row>
@@ -127,17 +142,19 @@ LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
   onSubmit: onSubmit,
-  onCancel: () => {},
-  setModalOpened: () => {},
+  // onCancel: () => {},
+  setModalOpened: () => {console.log('Modal open called')},
+  setModalClosed: () => {console.log('Modal close called')},
 };
 
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
-  logInSchema: PropTypes.object.isRequired,
+  logInSchema: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  // onCancel: PropTypes.func.isRequired,
   setModalOpened: PropTypes.func.isRequired,
+  setModalClosed: PropTypes.func.isRequired,
 };
 
 // export default LogIn;
-export default connect(null, { setModalOpened })(LogIn);
+export default connect(null, { setModalOpened, setModalClosed })(LogIn);

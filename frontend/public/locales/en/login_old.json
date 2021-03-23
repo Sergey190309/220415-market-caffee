@@ -1,0 +1,5 @@
+{
+  "invalidEmail": "Invalid email address",
+  "min": "Minimum {{min}} chars",
+  "required": "Field required"
+}

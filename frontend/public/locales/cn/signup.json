@@ -1,7 +1,6 @@
 {
     "buttons": {
         "cancel": "取消",
-        "logIn": "登录",
         "or": "或",
         "reset": "重置",
         "signUp": "报名"
@@ -13,16 +12,22 @@
         "password": {
             "min": "最少 {{min}} 个字符"
         },
-        "required": "必填字段"
+        "required": "必填字段",
+        "userName": {
+            "max": "最多 {{max}} 个字符"
+        }
     },
-    "header": "登录到您的帐户",
+    "header": "注册",
     "labels": {
         "email": "电子邮件地址",
-        "password": "密码"
+        "password": "密码",
+        "password2": "再次输入密码",
+        "userName": "用户名"
     },
-    "message": "对我们来说是新手？",
     "placeHolders": {
         "email": "电子邮件地址",
-        "password": "密码"
+        "password": "密码",
+        "password2": "请再次输入密码",
+        "userName": "选择用户名（非强制性)"
     }
 }

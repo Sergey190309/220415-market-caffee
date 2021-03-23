@@ -23,7 +23,7 @@
     "yup": "^0.32.9"
   },
   "scripts": {
-    "i18n:extr": "i18next --fail-on-warnings",
+    "i18n:extr": "i18next",
     "i18n:conv": "i18next-conv",
     "start": "craco start",
     "build": "craco build",

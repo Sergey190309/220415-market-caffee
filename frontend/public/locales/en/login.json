@@ -1,19 +1,28 @@
 {
-    "buttons": {
-        "cancel": "Cancel",
-        "logIn": "Log In",
-        "or": "or",
-        "reset": "Reset",
-        "signUp": "Sign Up"
+  "buttons": {
+    "cancel": "Cancel",
+    "logIn": "Log In",
+    "or": "or",
+    "reset": "Reset",
+    "signUp": "Sign Up"
+  },
+  "errors": {
+    "email": {
+      "invalidEmail": "Invalid email address"
     },
-    "header": "Log-in to your account",
-    "labels": {
-        "email": "Email address",
-        "password": "Password"
+    "password": {
+      "min": "Minimum {{min}} chars"
     },
-    "message": "New to us?",
-    "placeHolders": {
-        "email": "Email address",
-        "password": "Password"
-    }
+    "required": "Field required"
+  },
+  "header": "Log-in to your account",
+  "labels": {
+    "email": "Email address",
+    "password": "Password"
+  },
+  "message": "New to us?",
+  "placeHolders": {
+    "email": "Email address",
+    "password": "Password"
+  }
 }

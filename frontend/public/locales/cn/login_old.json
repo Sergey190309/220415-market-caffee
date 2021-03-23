@@ -1,0 +1,5 @@
+{
+  "invalidEmail": "无效的邮件地址",
+  "min": "最少 {{min}} 个字符",
+  "required": "必填字段"
+}

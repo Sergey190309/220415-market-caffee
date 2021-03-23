@@ -5,7 +5,7 @@ import HttpApi from 'i18next-http-backend';
 // import { setLocales } from '../redux/actions';
 
 const supportedLngs = ['en', 'ru', 'cn'];
-const nameSpaces = ['navbar', 'login']
+const nameSpaces = ['navbar', 'login', 'signup']
 
 i18next
   .use(initReactI18next)
@@ -14,9 +14,9 @@ i18next
     lng: 'en',
     supportedLngs: supportedLngs,
     ns: nameSpaces,
-    // defaultNS: 'navbar',
+    defaultNS: 'general',
     saveMissing: true,
-    fallbackNS: 'navbar',
+    fallbackNS: 'general',
     // to support en-US and en-UK
     // nonExplicitSupportedLngs: true,
     fallbackLng: 'en',
