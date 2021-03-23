@@ -11,7 +11,7 @@ import {
 import { LogIn, onChange } from './LogIn';
 import userEvent from '@testing-library/user-event';
 
-describe('LogIn component testing', () => {
+describe.only('LogIn component testing', () => {
   const setFormData = jest.fn();
   const formData = {
     email: 'prev@email',

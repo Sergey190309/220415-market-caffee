@@ -1,4 +1,4 @@
-import device from './deviceSize';
+import device from './device';
 import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from '../actions/types';
 
 describe('Set device configuration', () => {

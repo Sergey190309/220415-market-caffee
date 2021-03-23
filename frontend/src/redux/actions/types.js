@@ -10,3 +10,7 @@ export const CLOSE_MODAL = 'CLOSE_MODAL';
 // Locales
 export const SET_LOCALES = 'SET_LOCALES';
 export const CHANGE_LOCALE = 'CHANGE_LOCALE';
+
+// Authorisation
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+export const REGISTER_FAIL = 'REGISTER_FAIL'
