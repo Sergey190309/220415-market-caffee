@@ -82,6 +82,7 @@ export const SignUp = ({ initValues, signUpSchema, onSubmit, setModalClosed }) =
                 />
                 <Input
                   id='input-password'
+                  data-testid='input-password'
                   name='password'
                   type='password'
                   inputLabel={t('labels.password')}
@@ -92,6 +93,7 @@ export const SignUp = ({ initValues, signUpSchema, onSubmit, setModalClosed }) =
                 />
                 <Input
                   id='input-password2'
+                  data-testid='input-password2'
                   name='password2'
                   type='password'
                   inputLabel={t('labels.password2')}

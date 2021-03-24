@@ -67,26 +67,29 @@ describe('LogIn component testing', () => {
       });
       test('Header and footer have appropriate classes', () => {
         connectedRender(<LogIn {...testProps} />);
-        expect(screen.getByRole('heading', { name: 'header' })).toHaveClass(
-          'ui teal center aligned header'
+        expect(
+          screen.getByRole('heading', { name: 'header' })
+        ).toHaveClass('ui teal center aligned header', { exact: true });
+        expect(screen.getByRole('heading', { name: 'message' })).toHaveClass(
+          'ui header',
+          { exact: true }
         );
-        expect(screen.getByRole('heading', { name: 'message' })).toHaveClass('ui header');
         // console.log(screen.getByRole('heading', {name: 'header'}));
       });
 
       test('buttons have appropriate classes', () => {
         connectedRender(<LogIn {...testProps} />);
         expect(screen.getByRole('button', { name: 'buttons.logIn' })).toHaveClass(
-          'ui teal large basic button'
+          'ui teal large basic button', {exact: true}
         );
         expect(screen.getByRole('button', { name: 'buttons.reset' })).toHaveClass(
-          'ui olive large basic button'
+          'ui olive large basic button', {exact: true}
         );
         expect(screen.getByRole('button', { name: 'buttons.cancel' })).toHaveClass(
-          'ui orange large basic button'
+          'ui orange large basic button', {exact: true}
         );
         expect(screen.getByRole('button', { name: 'buttons.signUp' })).toHaveClass(
-          'ui teal large basic left floated button'
+          'ui teal large basic left floated button', {exact: true}
         );
       });
     });
