@@ -78,7 +78,7 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             <SignInOut title={t('logIn')} />
           </Menu.Item>
           <Menu.Item
-            data-testid='langSwitcher'
+            data-testid='lngSwitcher'
             name='language'
             active={false}
             onClick={_ClickHandler}>
