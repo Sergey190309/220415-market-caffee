@@ -62,7 +62,6 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             active={activeItem === 'priceList'}
             onClick={_ClickHandler}>
             <NavItem name='priceList' title={t('menu')} />
-            {/* <NavItem name='priceList' title={t('navbar.menu')} /> */}
           </Menu.Item>
 
           <Menu.Item
@@ -72,13 +71,11 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             active={activeItem === 'pictures'}
             onClick={_ClickHandler}>
             <NavItem name='pictures' title={t('gallery')} />
-            {/* <NavItem name='pictures' title={t('navbar.gallery')} /> */}
           </Menu.Item>
         </Menu.Menu>
         <Menu.Menu position='right'>
           <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
             <SignInOut title={t('logIn')} />
-            {/* <SignInOut title={t('navbar.logIn')} /> */}
           </Menu.Item>
           <Menu.Item
             data-testid='langSwitcher'
@@ -86,7 +83,6 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
             active={false}
             onClick={_ClickHandler}>
             <Language />
-            {/* <Language locale={locale} locales={["en", "ru", "cn"]} /> */}
           </Menu.Item>
         </Menu.Menu>
       </Menu>

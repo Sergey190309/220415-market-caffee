@@ -1,10 +1,14 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
 // import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { connectedRender, screen } from '../../testUtils/connectedRenderer';
+import {
+  connectedLinkedRender,
+  screen,
+} from '../../testUtils/modifiedRenderReactTesting';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import NavBar, { clickHandler } from './NavBar';
+import { NavBar, clickHandler } from './NavBar';
+import '../../../__mock__/react-i18next';
 // import { exact } from 'prop-types';
 
 describe('NavBar testing', () => {
@@ -12,7 +16,7 @@ describe('NavBar testing', () => {
     describe('clickHandling function testing', () => {
       const activateItems = ['logo', 'priceList', 'pictures'];
       const notActivateItems = ['signInOut', 'language'];
-      const activateModal = 'signInOut';
+      // const activateModal = 'signInOut';
       const setActiveItem = jest.fn();
       const setModalOpened = jest.fn();
 
@@ -32,13 +36,13 @@ describe('NavBar testing', () => {
       });
 
       test('only one item activate modal and call with proper arg', () => {
-        [...activateItems, ...notActivateItems].forEach(item=>{
+        [...activateItems, ...notActivateItems].forEach(item => {
           clickHandler(item, setActiveItem, setModalOpened);
-        })
+        });
         expect(setModalOpened).toHaveBeenCalledTimes(1);
         expect(setModalOpened).toHaveBeenCalledWith('logIn');
       });
-    })
+    });
   });
 
   describe('react components', () => {
@@ -46,15 +50,12 @@ describe('NavBar testing', () => {
       initActive: '',
       setModalOpened: jest.fn(),
       clickHandler: jest.fn(),
-    }
+    };
     describe('appearance', () => {
       test('it exists and has appropriate elements', () => {
-
+        connectedLinkedRender(<NavBar {...testProps} />);
+        screen.getByRole('');
       });
-
-    })
-
-
-  })
-
+    });
+  });
 });

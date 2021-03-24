@@ -1,6 +1,11 @@
-const array = ['ru', 'en', 'cn', 'cimode']
+// const i18next = jest.createMockFromModule('i18next')
 
-const result = array.filter((value)=>value!=='cimode')
+const i18next = {}
 
-console.log(array)
-console.log(result)
+i18next['options'] = {
+    supportedLngs: ['en', 'ru']
+}
+
+console.log(i18next)
+console.log(i18next.options.supportedLngs)
+console.log(i18next.options.supportedLngs.filter(value => value !== 'ru'))

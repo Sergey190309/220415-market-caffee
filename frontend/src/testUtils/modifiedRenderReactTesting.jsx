@@ -14,6 +14,23 @@ const connectedRender = (
   { initialState, store = createStore(rootReducer, initialState), ...renderOptions } = {}
 ) => {
   const Wrapper = ({ children }) => {
+    return <Provider store={store}>{children}</Provider>;
+  };
+  return render(ui, { wrapper: Wrapper, ...renderOptions });
+};
+
+const linkedRender = (ui, { ...renderOptions } = {}) => {
+  const Wrapper = ({ children }) => {
+    return <BrowserRouter>{children}</BrowserRouter>;
+  };
+  return render(ui, { wrapper: Wrapper, ...renderOptions });
+};
+
+const connectedLinkedRender = (
+  ui,
+  { initialState, store = createStore(rootReducer, initialState), ...renderOptions } = {}
+) => {
+  const Wrapper = ({ children }) => {
     return (
       <Provider store={store}>
         <BrowserRouter>{children}</BrowserRouter>
@@ -26,4 +43,4 @@ const connectedRender = (
 // const linkedRender = (ui) => {}
 
 export * from '@testing-library/react';
-export { connectedRender };
+export { connectedRender, linkedRender, connectedLinkedRender };

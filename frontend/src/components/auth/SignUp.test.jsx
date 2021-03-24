@@ -6,15 +6,15 @@ import {
   // render,
   screen,
   // cleanup,
-  connectedRender,
+  connectedLinkedRender,
   waitFor,
   // fireEvent,
   // waitFor
-} from '../../testUtils/connectedRenderer';
+} from '../../testUtils/modifiedRenderReactTesting';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
-import { SignUp, formStructure, signUpSchema, onChange, onSubmit } from './SignUp';
-import { useTranslation } from '../../__mock__/react-i18next';
+import { SignUp, formStructure, signUpSchema } from './SignUp';
+import { useTranslation } from '../../../__mock__/react-i18next';
 // import { string } from 'yup/lib/locale';
 // import { exact } from 'prop-types';
 
@@ -60,7 +60,7 @@ describe('SignUp form testing', () => {
   describe('component testing', () => {
     describe('appearance', () => {
       test('it exists and has all elements', () => {
-        connectedRender(<SignUp {...testProps} />);
+        connectedLinkedRender(<SignUp {...testProps} />);
         expect(screen.getAllByRole('heading').length).toBe(1);
         expect(screen.getAllByRole('textbox').length).toBe(2);
         expect(screen.getAllByRole('button').length).toBe(3);
@@ -69,7 +69,7 @@ describe('SignUp form testing', () => {
       });
 
       test('input elements have values according props', () => {
-        connectedRender(<SignUp {...activeProps} />);
+        connectedLinkedRender(<SignUp {...activeProps} />);
         expect(screen.getByRole('textbox', { name: 'labels.userName' })).toHaveValue(
           activeValues.userName
         );
@@ -85,14 +85,14 @@ describe('SignUp form testing', () => {
       });
 
       test('header has appropriate classes', () => {
-        connectedRender(<SignUp {...testProps} />);
+        connectedLinkedRender(<SignUp {...testProps} />);
         expect(screen.getByRole('heading')).toHaveClass('ui teal center aligned header', {
           exact: true,
         });
       });
 
       test('buttons have appropriate classes', () => {
-        connectedRender(<SignUp {...testProps} />);
+        connectedLinkedRender(<SignUp {...testProps} />);
         expect(
           screen.getByRole('button', { name: 'buttons.signUp' })
         ).toHaveClass('ui teal large basic button', { exact: true });
@@ -106,7 +106,7 @@ describe('SignUp form testing', () => {
     });
     describe('buttons behavior', () => {
       test('signUp', async () => {
-        connectedRender(<SignUp {...activeProps} />);
+        connectedLinkedRender(<SignUp {...activeProps} />);
         const signUpButton = screen.getByRole('button', { name: 'buttons.signUp' });
 
         userEvent.click(signUpButton);
@@ -117,7 +117,7 @@ describe('SignUp form testing', () => {
       });
 
       test('cancel', async () => {
-        connectedRender(<SignUp {...activeProps} />);
+        connectedLinkedRender(<SignUp {...activeProps} />);
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
 
         userEvent.click(cancelButton);

@@ -4,15 +4,15 @@ import {
   // render,
   screen,
   // cleanup,
-  connectedRender,
+  connectedLinkedRender,
   waitFor,
   // fireEvent,
   // waitFor
-} from '../../testUtils/connectedRenderer';
+} from '../../testUtils/modifiedRenderReactTesting';
 import userEvent from '@testing-library/user-event';
 
 import LogInConnected, { LogIn, logInSchema, formStructure } from './LogIn';
-import { useTranslation } from '../../__mock__/react-i18next';
+import { useTranslation } from '../../../__mock__/react-i18next';
 
 describe('LogIn component testing', () => {
   const initValues = {
@@ -42,7 +42,7 @@ describe('LogIn component testing', () => {
   describe('component testing', () => {
     describe('apiance', () => {
       test('it exists and has all elements', () => {
-        connectedRender(<LogIn {...testProps} />);
+        connectedLinkedRender(<LogIn {...testProps} />);
         expect(screen.getAllByRole('heading').length).toBe(2);
         expect(screen.getAllByRole('textbox').length).toBe(1);
         expect(screen.getAllByRole('button').length).toBe(4);
@@ -59,14 +59,14 @@ describe('LogIn component testing', () => {
             password: 'password',
           },
         };
-        connectedRender(<LogIn {...activeProps} />);
+        connectedLinkedRender(<LogIn {...activeProps} />);
         expect(screen.getByRole('textbox')).toHaveValue('test@mail.test');
         expect(screen.getByPlaceholderText('placeHolders.password')).toHaveValue(
           'password'
         );
       });
       test('Header and footer have appropriate classes', () => {
-        connectedRender(<LogIn {...testProps} />);
+        connectedLinkedRender(<LogIn {...testProps} />);
         expect(
           screen.getByRole('heading', { name: 'header' })
         ).toHaveClass('ui teal center aligned header', { exact: true });
@@ -78,7 +78,7 @@ describe('LogIn component testing', () => {
       });
 
       test('buttons have appropriate classes', () => {
-        connectedRender(<LogIn {...testProps} />);
+        connectedLinkedRender(<LogIn {...testProps} />);
         expect(screen.getByRole('button', { name: 'buttons.logIn' })).toHaveClass(
           'ui teal large basic button', {exact: true}
         );
@@ -104,7 +104,7 @@ describe('LogIn component testing', () => {
           ...testProps,
           initValues: initValues,
         };
-        connectedRender(<LogIn {...activeProps} />);
+        connectedLinkedRender(<LogIn {...activeProps} />);
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
@@ -114,7 +114,7 @@ describe('LogIn component testing', () => {
       });
 
       test('cancel', async () => {
-        connectedRender(<LogIn {...testProps} />);
+        connectedLinkedRender(<LogIn {...testProps} />);
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
         userEvent.click(cancelButton);
         await waitFor(() => {
@@ -123,7 +123,7 @@ describe('LogIn component testing', () => {
       });
 
       test('sign up', async () => {
-        connectedRender(<LogIn {...testProps} />);
+        connectedLinkedRender(<LogIn {...testProps} />);
         const sighUpButton = screen.getByRole('button', { name: 'buttons.signUp' });
         userEvent.click(sighUpButton);
         await waitFor(() => {

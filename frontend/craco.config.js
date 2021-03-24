@@ -13,7 +13,8 @@ module.exports = {
       verbose: true,
       testEnvironment: 'jsdom',
       moduleNameMapper: {
-        'react-i18next': '<rootDir>/src/__mock__/react-i18next.js'
+        'react-i18next': '<rootDir>/__mock__/react-i18next.js',
+        'i18next': '<rootDir>/__mock__/i18next.js'
       },
     },
   },
