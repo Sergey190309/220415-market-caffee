@@ -58,7 +58,7 @@ describe('SignUp form testing', () => {
   });
 
   describe('component testing', () => {
-    describe('apiance', () => {
+    describe('appearance', () => {
       test('it exists and has all elements', () => {
         connectedRender(<SignUp {...testProps} />);
         expect(screen.getAllByRole('heading').length).toBe(1);

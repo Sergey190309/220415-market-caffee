@@ -103,6 +103,7 @@ NavBar.defaultProps = {
 NavBar.propTypes = {
   initActive: PropTypes.string.isRequired,
   setModalOpened: PropTypes.func.isRequired,
+  clickHandler: PropTypes.func.isRequired,
 };
 
 export default connect(null, { setModalOpened })(NavBar);
