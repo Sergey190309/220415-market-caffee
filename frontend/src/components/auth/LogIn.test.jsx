@@ -11,25 +11,31 @@ import {
 } from '../../testUtils/connectedRenderer';
 import userEvent from '@testing-library/user-event';
 
-import LogInConnected, { LogIn, logInSchema } from './LogIn';
+import LogInConnected, { LogIn, logInSchema, formStructure } from './LogIn';
 import { useTranslation } from '../../__mock__/react-i18next';
 
 describe('LogIn component testing', () => {
+  const initValues = {
+    email: '',
+    password: '',
+  };
   const testProps = {
-    initValues: {},
+    initValues: initValues,
     logInSchema: jest.fn(),
     onSubmit: jest.fn(),
     setModalOpened: jest.fn(),
     setModalClosed: jest.fn(),
   };
   describe('Non react compinent', () => {
-    test('logInSchema functions', () => {
+    test('form structure', () => {
+      expect(formStructure).toEqual(initValues);
+    });
+
+    test('logInSchema function', () => {
       const { t } = useTranslation();
       const result = logInSchema(t);
       expect(result.fields.email.type).toBe('string');
       expect(result.fields.password.type).toBe('string');
-      // console.log(typeof(result.fields.email))
-      // console.log(typeof(result))
     });
   });
 
@@ -102,7 +108,7 @@ describe('LogIn component testing', () => {
           expect(testProps.onSubmit).toHaveBeenCalledTimes(1);
           expect(testProps.onSubmit.mock.calls[0][0]).toEqual(initValues);
         });
-      })
+      });
 
       test('cancel', async () => {
         connectedRender(<LogIn {...testProps} />);
@@ -119,7 +125,7 @@ describe('LogIn component testing', () => {
         userEvent.click(sighUpButton);
         await waitFor(() => {
           expect(testProps.setModalOpened).toHaveBeenCalledTimes(1);
-          expect(testProps.setModalOpened.mock.calls[0][0]).toEqual('signup');
+          expect(testProps.setModalOpened.mock.calls[0][0]).toEqual('signUp');
         });
       });
     });

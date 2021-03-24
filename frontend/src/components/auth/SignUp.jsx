@@ -8,14 +8,14 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { setModalClosed } from '../../redux/actions';
 
-const formStructure = {
+export const formStructure = {
   userName: '',
   email: '',
   password: '',
   password2: '',
 };
 
-const signUpSchema = t =>
+export const signUpSchema = t =>
   Yup.object().shape({
     [Object.keys(formStructure)[0]]: Yup.string().max(
       15,

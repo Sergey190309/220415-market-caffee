@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 
 import { setModalOpened, setModalClosed } from '../../redux/actions';
 
-const formStructure = {
+export const formStructure = {
   email: '',
   password: '',
 };
@@ -143,7 +143,6 @@ LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
   onSubmit: onSubmit,
-  // onCancel: () => {},
   setModalOpened: () => {
     console.log('Modal open called');
   },
@@ -156,7 +155,6 @@ LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
   logInSchema: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  // onCancel: PropTypes.func.isRequired,
   setModalOpened: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
 };
