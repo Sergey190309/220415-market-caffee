@@ -7,11 +7,15 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
-import { setModalOpened, setModalClosed } from '../../redux/actions';
+import {
+  setModalOpened,
+  setModalClosed,
+  logInAction,
+} from '../../redux/actions';
 
 export const formStructure = {
-  email: '',
-  password: '',
+  email: 'a@agatha-ng.com',
+  password: 'qwerty',
 };
 
 export const logInSchema = t =>
@@ -25,18 +29,26 @@ export const logInSchema = t =>
       .required(t('errors.required')),
   });
 
-export const onSubmit = formData => {
-  console.log(JSON.stringify(formData, null, 2));
-};
+// export const onSubmit = (formData, logInAction) => {
+//   console.log(JSON.stringify(formData, null, 2));
+//   logInAction({...formData})
+// };
 
 export const LogIn = ({
   initValues,
   logInSchema,
-  onSubmit,
+  // onSubmit,
   setModalOpened,
   setModalClosed,
+  logInAction
 }) => {
   const { t } = useTranslation('login');
+
+  const _onSubmit = formData => {
+    const {email, password}=formData
+    // console.log(email, password)
+    logInAction(email, password)
+  }
 
   // console.log()
   const color = 'teal';
@@ -56,7 +68,7 @@ export const LogIn = ({
 
           <Formik
             initialValues={initValues}
-            onSubmit={onSubmit}
+            onSubmit={_onSubmit}
             validationSchema={logInSchema(t)}>
             <Form size='large'>
               <Segment color={color} stacked>
@@ -142,22 +154,28 @@ export const LogIn = ({
 LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
-  onSubmit: onSubmit,
+  // onSubmit: onSubmit,
   setModalOpened: () => {
     console.log('Modal open called');
   },
   setModalClosed: () => {
     console.log('Modal close called');
   },
+  logInAction: () => {
+    console.log('Axios action called');
+  }
 };
 
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
   logInSchema: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
   setModalOpened: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
+  logInAction: PropTypes.func.isRequired,
 };
 
 // export default LogIn;
-export default connect(null, { setModalOpened, setModalClosed })(LogIn);
+export default connect(null, { setModalOpened, setModalClosed, logInAction })(
+  LogIn
+);

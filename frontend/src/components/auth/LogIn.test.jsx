@@ -11,20 +11,21 @@ import {
 } from '../../testUtils/modifiedRenderReactTesting';
 import userEvent from '@testing-library/user-event';
 
-import LogInConnected, { LogIn, logInSchema, formStructure } from './LogIn';
+import { LogIn, logInSchema, formStructure } from './LogIn';
 import { useTranslation } from '../../../__mock__/react-i18next';
 
 describe('LogIn component testing', () => {
   const initValues = {
-    email: '',
-    password: '',
+    email: 'a@agatha-ng.com',
+    password: 'qwerty',
   };
   const testProps = {
     initValues: initValues,
     logInSchema: jest.fn(),
-    onSubmit: jest.fn(),
+    // onSubmit: jest.fn(),
     setModalOpened: jest.fn(),
     setModalClosed: jest.fn(),
+    logInAction: jest.fn()
   };
   describe('Non react compinent', () => {
     test('form structure', () => {
@@ -108,8 +109,10 @@ describe('LogIn component testing', () => {
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
-          expect(testProps.onSubmit).toHaveBeenCalledTimes(1);
-          expect(testProps.onSubmit.mock.calls[0][0]).toEqual(initValues);
+          expect(testProps.logInAction).toHaveBeenCalledTimes(1);
+          // console.log(testProps.logInAction.mock.calls[0][0])
+          expect(testProps.logInAction.mock.calls[0][0]).toEqual(initValues.email);
+          expect(testProps.logInAction.mock.calls[0][1]).toEqual(initValues.password);
         });
       });
 
