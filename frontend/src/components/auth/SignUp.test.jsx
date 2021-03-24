@@ -15,8 +15,8 @@ import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { SignUp, formStructure, signUpSchema, onChange, onSubmit } from './SignUp';
 import { useTranslation } from '../../__mock__/react-i18next';
-import { string } from 'yup/lib/locale';
-import { exact } from 'prop-types';
+// import { string } from 'yup/lib/locale';
+// import { exact } from 'prop-types';
 
 describe('SignUp form testing', () => {
   const initValues = {
@@ -42,7 +42,7 @@ describe('SignUp form testing', () => {
     initValues: activeValues,
   };
 
-  describe('Non react components', () => {
+  describe('Non react items', () => {
     test('form structure', () => {
       expect(formStructure).toEqual(initValues);
     });
