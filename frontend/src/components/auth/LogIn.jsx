@@ -15,7 +15,7 @@ import {
 
 export const formStructure = {
   email: 'a@agatha-ng.com',
-  password: 'qwerty',
+  password: 'qwerti',
 };
 
 export const logInSchema = t =>

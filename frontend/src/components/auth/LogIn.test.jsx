@@ -17,7 +17,7 @@ import { useTranslation } from '../../../__mock__/react-i18next';
 describe('LogIn component testing', () => {
   const initValues = {
     email: 'a@agatha-ng.com',
-    password: 'qwerty',
+    password: 'qwerti',
   };
   const testProps = {
     initValues: initValues,
