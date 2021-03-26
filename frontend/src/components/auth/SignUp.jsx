@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+// import PropTypes, { oneOf } from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { setModalClosed } from '../../redux/actions';
+import { setModalClosed, signUpAction } from '../../redux/actions';
+import Alert from '../layout/Alert';
 
 export const formStructure = {
-  userName: '',
-  email: '',
-  password: '',
-  password2: '',
+  userName: 'sa',
+  email: 'sa6702@gmail.com',
+  password: 'qwerty',
+  password2: 'qwerty',
 };
 
 export const signUpSchema = t =>
@@ -30,18 +32,23 @@ export const signUpSchema = t =>
       .min(6, t('errors.password.min', { min: '${min}' }))
       .required(t('errors.required')),
     [Object.keys(formStructure)[3]]: Yup.string()
-      // eslint-disable-next-line no-template-curly-in-string
-      .min(6, t('errors.password.min', { min: '${min}' }))
-      .required(t('errors.required')),
+      .oneOf([Yup.ref(Object.keys(formStructure)[2]), null], 'Passwords must match!')
   });
 
-export const onSubmit = formData => {
-  // const { email, password } = formData;
-  console.log(JSON.stringify(formData, null, 2));
-};
+// export const onSubmit = formData => {
+//   // const { email, password } = formData;
+//   console.log(JSON.stringify(formData, null, 2));
+// };
 
-export const SignUp = ({ initValues, signUpSchema, onSubmit, setModalClosed }) => {
+export const SignUp = ({ initValues, signUpSchema, setModalClosed, signUpAction }) => {
   const { t } = useTranslation('signup');
+
+  const onSubmit = async (formData, { setSubmitting }) => {
+    const { userName, email, password } = formData;
+    // console.log(email, password);
+    await signUpAction(userName, email, password);
+    setSubmitting(false)
+  };
 
   const color = 'teal';
   const resColor = 'olive';
@@ -49,6 +56,7 @@ export const SignUp = ({ initValues, signUpSchema, onSubmit, setModalClosed }) =
 
   return (
     <Container fluid textAlign='center'>
+      <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
           <Header as='h2' textAlign='center' color={color}>
@@ -60,8 +68,9 @@ export const SignUp = ({ initValues, signUpSchema, onSubmit, setModalClosed }) =
 
           <Formik
             initialValues={initValues}
+            validationSchema={signUpSchema(t)}
             onSubmit={onSubmit}
-            validationSchema={signUpSchema(t)}>
+          >
             <Form size='large'>
               <Segment color={color} stacked>
                 <Input
@@ -139,15 +148,19 @@ export const SignUp = ({ initValues, signUpSchema, onSubmit, setModalClosed }) =
 SignUp.defaultProps = {
   initValues: formStructure,
   signUpSchema: signUpSchema,
-  onSubmit: onSubmit,
-  setModalClosed: setModalClosed
+  setModalClosed: ()=> {
+    console.log('Modal close called');
+  },
+  signUpAction: () => {
+    console.log('Axios action called');
+  },
 };
 
 SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
+  signUpAction:PropTypes.func.isRequired,
 };
 
-export default connect(null, { setModalClosed })(SignUp);
+export default connect(null, { setModalClosed, signUpAction })(SignUp);

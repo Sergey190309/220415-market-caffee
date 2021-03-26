@@ -5,11 +5,11 @@ import {
 import alertReducer from './alert';
 
 describe('alertReducer', () => {
-  it('should return initial state haveing invalid action', () => {
+  test('should return initial state haveing invalid action', () => {
     expect(alertReducer(undefined, {})).toEqual([]);
   });
 
-  it('should set alert', () => {
+  test('should set alert', () => {
     const action = {
       type: SET_ALERT,
       payload: {
@@ -23,7 +23,7 @@ describe('alertReducer', () => {
     );
   });
 
-  it('should it should remove alert', () => {
+  test('it should remove alert', () => {
     const state = [
       {
         message: 'Test message',
@@ -33,11 +33,7 @@ describe('alertReducer', () => {
     ];
     const action = {
       type: REMOVE_ALERT,
-      payload: {
-        message: 'Test message',
-        alertType: 'Alert type',
-        id: 'test id',
-      },
+      payload: 'test id',
     };
     expect(alertReducer(state, action)).toEqual([]);
   });

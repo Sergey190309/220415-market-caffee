@@ -1,22 +1,35 @@
 import React from 'react';
-import { Icon, Segment } from 'semantic-ui-react';
+import { Header, Segment } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // export const Alert = ({alerts}) => {
 export const Alert = ({ alerts }) => {
-  console.log('alerts')
-  console.log(alerts)
+  // console.log('alerts')
+  // console.log(alerts)
+  let color;
   return (
-    <h1>alert</h1>
-  //   alerts !== null &&
-  //   alerts.length > 0 &&
-  //   alerts.map(alert => (
-  //     <Segment color={alert.alertType === 'error' ? 'red' : null} inverted key={alert.id}>
-  //       <Icon name='hand point right outline' />
-  //       {alert.message}
-  //     </Segment>
-  //   ))
+    // <h1>alert</h1>
+    alerts !== null &&
+    alerts.length > 0 &&
+    alerts.map(alert => {
+      switch (alert.alertType) {
+        case 'error':
+          color = 'orange';
+          break;
+        case 'info':
+          color = 'teal';
+          break;
+        default:
+          break;
+      }
+      return (
+        <Segment color={color} key={alert.id}>
+          <Header as='h5' color={color} content={alert.message} icon='hand point right outline' />
+
+        </Segment>
+      );
+    })
   );
 };
 

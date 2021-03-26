@@ -20,22 +20,22 @@ import { useTranslation } from '../../../__mock__/react-i18next';
 
 describe('SignUp form testing', () => {
   const initValues = {
-    userName: '',
-    email: '',
-    password: '',
-    password2: '',
+    userName: 'sa',
+    email: 'sa6702@gmail.com',
+    password: 'qwerty',
+    password2: 'qwerty',
   };
   const activeValues = {
     userName: 'User Name',
     email: 'test@mail.test',
-    password: 'qwer',
-    password2: '1234',
+    password: 'qwerty',
+    password2: 'qwerty',
   };
   const testProps = {
     initValues: initValues,
     signUpSchema: jest.fn(),
-    onSubmit: jest.fn(),
     setModalClosed: jest.fn(),
+    signUpAction:jest.fn()
   };
   const activeProps = {
     ...testProps,
@@ -111,8 +111,10 @@ describe('SignUp form testing', () => {
 
         userEvent.click(signUpButton);
         await waitFor(() => {
-          expect(activeProps.onSubmit).toHaveBeenCalledTimes(1);
-          expect(activeProps.onSubmit.mock.calls[0][0]).toEqual(activeValues);
+          expect(activeProps.signUpAction).toHaveBeenCalledTimes(1);
+          expect(activeProps.signUpAction.mock.calls[0][0]).toEqual(
+            activeValues.userName, activeValues.email, activeValues.password
+          );
         });
       });
 

@@ -7,15 +7,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
-import {
-  setModalOpened,
-  setModalClosed,
-  logInAction,
-} from '../../redux/actions';
+import { setModalOpened, setModalClosed, logInAction } from '../../redux/actions';
+import Alert from '../layout/Alert';
 
 export const formStructure = {
   email: 'a@agatha-ng.com',
-  password: 'qwerti',
+  password: 'qwerty',
 };
 
 export const logInSchema = t =>
@@ -40,15 +37,16 @@ export const LogIn = ({
   // onSubmit,
   setModalOpened,
   setModalClosed,
-  logInAction
+  logInAction,
 }) => {
   const { t } = useTranslation('login');
 
-  const _onSubmit = formData => {
-    const {email, password}=formData
-    // console.log(email, password)
-    logInAction(email, password)
-  }
+  const onSubmit = async (formData, { setSubmitting }) => {
+    const { email, password } = formData;
+    // console.log(email, password);
+    logInAction(email, password);
+    setSubmitting(false)
+  };
 
   // console.log()
   const color = 'teal';
@@ -57,6 +55,7 @@ export const LogIn = ({
 
   return (
     <Container fluid textAlign='center'>
+      <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
           <Header as='h2' textAlign='center' color={color}>
@@ -68,60 +67,63 @@ export const LogIn = ({
 
           <Formik
             initialValues={initValues}
-            onSubmit={_onSubmit}
-            validationSchema={logInSchema(t)}>
-            <Form size='large'>
-              <Segment color={color} stacked>
-                <Input
-                  id='input-email'
-                  name='email'
-                  inputLabel={t('labels.email')}
-                  // inputLabel={{ color: color, content: 'Email' }}
-                  icon='at'
-                  // iconPosition='right'
-                  placeholder={t('placeHolders.email')}
-                  errorPrompt
-                />
-                <Input
-                  id='input-password'
-                  data-testid='input-password'
-                  name='password'
-                  type='password'
-                  inputLabel={t('labels.password')}
-                  // inputLabel={{ color: color, content: 'Password' }}
-                  icon='key'
-                  placeholder={t('placeHolders.password')}
-                  autoComplete='on'
-                  errorPrompt
-                />
-                <Button.Group widths='1'>
-                  <SubmitButton
-                    basic
-                    color={color}
-                    size='large'
-                    content={t('buttons.logIn')}
+            validationSchema={logInSchema(t)}
+            onSubmit={onSubmit}>
+            {({ isSubmitting }) => (
+              <Form size='large'>
+                <Segment color={color} stacked>
+                  <Input
+                    id='input-email'
+                    name='email'
+                    inputLabel={t('labels.email')}
+                    // inputLabel={{ color: color, content: 'Email' }}
+                    icon='at'
+                    // iconPosition='right'
+                    placeholder={t('placeHolders.email')}
+                    errorPrompt
                   />
-                  <Button.Or text={t('buttons.or')} />
-                  <ResetButton
-                    basic
-                    color={resColor}
-                    size='large'
-                    content={t('buttons.reset')}
+                  <Input
+                    id='input-password'
+                    data-testid='input-password'
+                    name='password'
+                    type='password'
+                    inputLabel={t('labels.password')}
+                    // inputLabel={{ color: color, content: 'Password' }}
+                    icon='key'
+                    placeholder={t('placeHolders.password')}
+                    autoComplete='on'
+                    errorPrompt
                   />
-                  <Button.Or text={t('buttons.or')} />
-                  <Button
-                    basic
-                    color={canColor}
-                    size='large'
-                    content={t('buttons.cancel')}
-                    type='button'
-                    onClick={() => {
-                      setModalClosed();
-                    }}
-                  />
-                </Button.Group>
-              </Segment>
-            </Form>
+                  <Button.Group widths='1'>
+                    <SubmitButton
+                      basic
+                      color={color}
+                      size='large'
+                      content={t('buttons.logIn')}
+                      // disabled={isSubmitting}
+                    />
+                    <Button.Or text={t('buttons.or')} />
+                    <ResetButton
+                      basic
+                      color={resColor}
+                      size='large'
+                      content={t('buttons.reset')}
+                    />
+                    <Button.Or text={t('buttons.or')} />
+                    <Button
+                      basic
+                      color={canColor}
+                      size='large'
+                      content={t('buttons.cancel')}
+                      type='button'
+                      onClick={() => {
+                        setModalClosed();
+                      }}
+                    />
+                  </Button.Group>
+                </Segment>
+              </Form>
+            )}
           </Formik>
           <Segment color={color}>
             <Grid columns={2}>
@@ -154,7 +156,6 @@ export const LogIn = ({
 LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
-  // onSubmit: onSubmit,
   setModalOpened: () => {
     console.log('Modal open called');
   },
@@ -163,19 +164,16 @@ LogIn.defaultProps = {
   },
   logInAction: () => {
     console.log('Axios action called');
-  }
+  },
 };
 
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
   logInSchema: PropTypes.func.isRequired,
-  // onSubmit: PropTypes.func.isRequired,
   setModalOpened: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
   logInAction: PropTypes.func.isRequired,
 };
 
 // export default LogIn;
-export default connect(null, { setModalOpened, setModalClosed, logInAction })(
-  LogIn
-);
+export default connect(null, { setModalOpened, setModalClosed, logInAction })(LogIn);

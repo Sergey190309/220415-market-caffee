@@ -1,5 +1,5 @@
 import auth, { initialStore } from './auth';
-import { REGISTER_SUCCESS, REGISTER_FAIL } from '../actions/types';
+import { LOG_IN_SUCCESS, LOG_IN_FAIL } from '../actions/types';
 
 describe('Auth reducer testing', () => {
   const token ='some token'
@@ -14,10 +14,10 @@ describe('Auth reducer testing', () => {
     expect(testInitStoreAdopted).toEqual(testInitStore);
   });
 
-  test('register success', () => {
+  test('login success', () => {
     const token = 'test token';
     const action = {
-      type: REGISTER_SUCCESS,
+      type: LOG_IN_SUCCESS,
       payload: {
         token: token,
       },
@@ -33,9 +33,9 @@ describe('Auth reducer testing', () => {
     // console.log(result);
   });
 
-  test('register fail', () => {
+  test('log in fail', () => {
     const action = {
-      type: REGISTER_FAIL,
+      type: LOG_IN_FAIL,
     };
     const expResult = {
       ...testInitStore,
