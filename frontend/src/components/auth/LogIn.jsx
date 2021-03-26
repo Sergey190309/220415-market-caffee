@@ -40,7 +40,7 @@ export const LogIn = ({
 }) => {
   const { t } = useTranslation('login');
 
-  const onSubmit = async (formData, { setSubmitting }) => {
+  const onSubmit = (formData, { setSubmitting }) => {
     const { email, password } = formData;
     // console.log(email, password);
     logInAction(email, password);
@@ -115,9 +115,7 @@ export const LogIn = ({
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
-                      onClick={() => {
-                        setModalClosed();
-                      }}
+                      onClick={setModalClosed}
                     />
                   </Button.Group>
                 </Segment>

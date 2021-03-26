@@ -48,16 +48,16 @@ export const logInAction = (email, password) => async dispatch => {
       payload: resp.data,
     });
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'error'));
+    if (error.message==='Network Error') {
+      dispatch(setAlert(error.message, 'error'))
+    } else {
+      dispatch(setAlert(error.response.data.message, 'error'));
+    }
+    // if (error.response.data.message) {
+    // }
+    // console.log(error, 'error');
     dispatch({
       type: LOG_IN_FAIL,
     });
   }
 };
-
-// export const logInAction = (email, password) => {
-//   const url = '/users/login';
-//   const body = JSON.stringify({ email, password });
-//   console.log('callLogIn')
-//   callPost(LOG_IN_SUCCESS, LOG_IN_FAIL,url, body);
-// };
