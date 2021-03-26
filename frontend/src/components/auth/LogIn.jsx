@@ -34,7 +34,6 @@ export const logInSchema = t =>
 export const LogIn = ({
   initValues,
   logInSchema,
-  // onSubmit,
   setModalOpened,
   setModalClosed,
   logInAction,

@@ -22,10 +22,9 @@ describe('LogIn component testing', () => {
   const testProps = {
     initValues: initValues,
     logInSchema: jest.fn(),
-    // onSubmit: jest.fn(),
     setModalOpened: jest.fn(),
     setModalClosed: jest.fn(),
-    logInAction: jest.fn()
+    logInAction: jest.fn(),
   };
   describe('Non react compinent', () => {
     test('form structure', () => {
@@ -80,32 +79,32 @@ describe('LogIn component testing', () => {
 
       test('buttons have appropriate classes', () => {
         connectedLinkedRender(<LogIn {...testProps} />);
-        expect(screen.getByRole('button', { name: 'buttons.logIn' })).toHaveClass(
-          'ui teal large basic button', {exact: true}
-        );
-        expect(screen.getByRole('button', { name: 'buttons.reset' })).toHaveClass(
-          'ui olive large basic button', {exact: true}
-        );
-        expect(screen.getByRole('button', { name: 'buttons.cancel' })).toHaveClass(
-          'ui orange large basic button', {exact: true}
-        );
-        expect(screen.getByRole('button', { name: 'buttons.signUp' })).toHaveClass(
-          'ui teal large basic left floated button', {exact: true}
-        );
+        expect(
+          screen.getByRole('button', { name: 'buttons.logIn' })
+        ).toHaveClass('ui teal large basic button', { exact: true });
+        expect(
+          screen.getByRole('button', { name: 'buttons.reset' })
+        ).toHaveClass('ui olive large basic button', { exact: true });
+        expect(
+          screen.getByRole('button', { name: 'buttons.cancel' })
+        ).toHaveClass('ui orange large basic button', { exact: true });
+        expect(
+          screen.getByRole('button', { name: 'buttons.signUp' })
+        ).toHaveClass('ui teal large basic left floated button', { exact: true });
       });
     });
 
     describe('buttons behavior', () => {
       test('login', async () => {
-        const initValues = {
-          email: 'test@mail.test',
-          password: 'password',
-        };
-        const activeProps = {
-          ...testProps,
-          initValues: initValues,
-        };
-        connectedLinkedRender(<LogIn {...activeProps} />);
+        // const initValues = {
+        //   email: 'test@mail.test',
+        //   password: 'password',
+        // };
+        // const activeProps = {
+        //   ...testProps,
+        //   initValues: initValues,
+        // };
+        connectedLinkedRender(<LogIn {...testProps} />);
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
