@@ -6,7 +6,8 @@ import {
 } from '../actions/types';
 
 export const initialStore = {
-  token: localStorage.getItem('token'),
+  access_token: localStorage.getItem('access_token'),
+  refresh_token: localStorage.getItem('refresh_token'),
   isAuthenticated: null,
   loading: true,
   user: null,
@@ -16,21 +17,24 @@ const auth = (store = initialStore, action) => {
   const { type, payload } = action;
   switch (type) {
     case SIGN_UP_SUCCESS:
-      localStorage.removeItem('token');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       return {
         ...store,
         isAuthenticated: false,
         loading: false,
       };
     case SIGN_UP_FAIL:
-      localStorage.removeItem('token');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       return {
         ...store,
         isAuthenticated: false,
         loading: false,
       };
     case LOG_IN_SUCCESS:
-      localStorage.setItem('token', payload.token);
+      localStorage.setItem('access_token', payload.access_token);
+      localStorage.setItem('refresh_token', payload.refresh_token);
       return {
         ...store,
         ...payload,
@@ -38,7 +42,8 @@ const auth = (store = initialStore, action) => {
         loading: false,
       };
     case LOG_IN_FAIL:
-      localStorage.removeItem('token');
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
       return {
         ...store,
         isAuthenticated: false,
