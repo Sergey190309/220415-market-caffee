@@ -17,3 +17,6 @@ export const LOG_IN_FAIL = 'LOG_IN_FAIL';
 export const LOG_IN_MODAL_CLOSED = 'LOG_IN_MODAL_CLOSED';
 
 export const LOG_OUT = 'LOG_OUT';
+
+// Language switcher
+export const LNG_SWITCH = 'LNG_SWITCH';
