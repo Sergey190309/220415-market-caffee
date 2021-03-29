@@ -23,7 +23,7 @@ class UserLogin(Resource):
         '''
         _json = request.get_json()
         _user = UserModel.find_by_email(_json['email'])
-        # print('UserLogin.post')
+        # print('UserLogin.post', _json)
         if _user is None:
             return {
                 'message': str(_(
@@ -37,7 +37,7 @@ class UserLogin(Resource):
                         "Wrong password for user with email '%(email)s'.",
                         email=_json['email'])),
                 }, 400
-                print('UserLogin.post user.role_id -', _user.role_id)
+                # print('UserLogin.post user.role_id -', _user.role_id)
             else:
                 if not _user.is_valid:
                     return {
@@ -47,10 +47,13 @@ class UserLogin(Resource):
                             email=_json['email'])),
                     }, 400
         _user.set_accessed()
+        _user_info = _user.get_tokens()
         return {
             'message': str(_(
-                "You are welcome, tokens are in payload.")),
-            'payload': _user.get_tokens()
+                # "Hi! You are welcome.")),
+                "Hi '%(user_name)s'! You are welcome.",
+                user_name=_user_info['user_name'])),
+            'payload': _user_info
         }, 200
 
     @classmethod

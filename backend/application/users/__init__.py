@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app
+from flask_cors import CORS
 
 
 def cleate_users():
@@ -8,6 +9,8 @@ def cleate_users():
         static_folder='static',
         # static_url_path='/users',
         template_folder='templates')
+
+    CORS(users_bp)
 
     with current_app.app_context():
 

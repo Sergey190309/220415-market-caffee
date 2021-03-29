@@ -5,6 +5,7 @@ import {
   LOG_IN_FAIL,
 } from '../actions/types';
 
+// ----------------------> DO NOT REMOVE
 // store.LogIn keys are stated below and stored in localStorage:
 // userName
 // email

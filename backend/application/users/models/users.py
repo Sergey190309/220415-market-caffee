@@ -97,6 +97,9 @@ class UserModel(dbs_global.Model):
 
     def get_tokens(self) -> Dict:
         return {
+            'user_name': self.user_name,
+            'email': self.email,
+            'isAdmin': self.is_admin,
             'access_token': create_access_token(self.id, fresh=True),
             'refresh_token': create_refresh_token(self.id)
         }

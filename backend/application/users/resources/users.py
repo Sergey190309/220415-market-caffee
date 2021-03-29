@@ -42,8 +42,9 @@ class User(Resource):
                 # print('users.resources.User.post')
                 return {
                     'message': str(_(
-                        "User with email '%(email)s' created, "
-                        "details are in payload.",
+                        "User with email '%(email)s' created. "
+                        "We have sent your email, please visit "
+                        "your mailer and finish registration.",
                         email=_user.email)),
                     'payload': user_schema.dump(_created_user)
                 }, 201

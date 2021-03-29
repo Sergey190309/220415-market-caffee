@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-11 12:46+0000\n"
-"PO-Revision-Date: 2021-01-11 12:48+0000\n"
+"POT-Creation-Date: 2021-03-29 06:27+0000\n"
+"PO-Revision-Date: 2021-03-29 06:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -38,7 +38,7 @@ msgid "The component kind has been saved successfully. Details are in payload."
 msgstr "Тип компонента успешно сохранен. Детали в сообщении."
 
 #: components/resources/component_kinds.py:65
-#: components/resources/components.py:80 contents/resources/views.py:59
+#: components/resources/components.py:72 contents/resources/views.py:59
 msgid "Found, see payload."
 msgstr "Нашел, смотри детали."
 
@@ -65,7 +65,7 @@ msgstr ""
 "Компонента с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: components/resources/components.py:33
+#: components/resources/components.py:32
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -74,11 +74,11 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' не обнаружен."
 
-#: components/resources/components.py:60
+#: components/resources/components.py:58
 msgid "The component has been saved successfully. Details are in payload."
 msgstr "Компонент успешно сохранен. Детали в сообщении."
 
-#: components/resources/components.py:101
+#: components/resources/components.py:90
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -87,7 +87,7 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно обновлен. Детали в сообщении."
 
-#: components/resources/components.py:128
+#: components/resources/components.py:115
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -96,7 +96,7 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
 
-#: contents/resources/contents.py:19
+#: contents/resources/contents.py:21
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -105,7 +105,7 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: contents/resources/contents.py:30
+#: contents/resources/contents.py:34
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -114,24 +114,24 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:41
+#: contents/resources/contents.py:45
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:64
+#: contents/resources/contents.py:71
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:80
+#: contents/resources/contents.py:87
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:97
+#: contents/resources/contents.py:110
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:114
+#: contents/resources/contents.py:131
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -139,6 +139,17 @@ msgid ""
 msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
+
+#: contents/resources/viewlist.py:32
+#, python-format
+msgid "There are %(count)s views in our database as follows:"
+msgstr ""
+"В нашей базе зарегистрировано %(count)s пользователуй как указанно ниже:"
+
+#: contents/resources/viewlist.py:39
+msgid "Sorry, access to views' information is allowed to admin only."
+msgstr ""
+"Извиняйте, доступ к информации о страницах разрешен только администратору."
 
 #: contents/resources/views.py:18
 #, python-format
@@ -344,18 +355,18 @@ msgstr "Владельцам или администраторам позвол�
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
 
-#: users/resources/userlist.py:32
+#: users/resources/userlist.py:30
 #, python-format
 msgid "There are %(count)s users in our database as follows:"
 msgstr ""
 "В нашей базе зарегистрированы %(count)s пользователя как указанно ниже:"
 
-#: users/resources/userlist.py:39
+#: users/resources/userlist.py:37
 msgid "Sorry, access to user's information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации пользователей разрешен только администратору."
 
-#: users/resources/userlogin.py:30 users/resources/users.py:89
+#: users/resources/userlogin.py:30 users/resources/users.py:90
 #, python-format
 msgid "User with email '%(email)s' has not been found."
 msgstr "Пользователь с email '%(email)s' не найден."
@@ -373,21 +384,22 @@ msgstr ""
 "Похоже вы не подтвердили свою учетную запись. Проверьте указанную "
 "электронную почту - '%(email)s'."
 
-#: users/resources/userlogin.py:52
-msgid "You are welcome, tokens are in payload."
-msgstr "Добро пожаловать, жетоны теле сообщения."
+#: users/resources/userlogin.py:54
+#, python-format
+msgid "Hi '%(user_name)s'! You are welcome."
+msgstr "'Привет '%(user_name)s'! Добро пожаловать."
 
-#: users/resources/userlogin.py:65
+#: users/resources/userlogin.py:68
 msgid "Successfully logged out."
 msgstr "Пользователь успешно прекратил регистрацию."
 
-#: users/resources/userlogin.py:77
+#: users/resources/userlogin.py:80
 msgid "Something wrong with token refreshing. Try to log in again."
 msgstr ""
 "Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
 "раз."
 
-#: users/resources/userlogin.py:80
+#: users/resources/userlogin.py:83
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
@@ -398,15 +410,19 @@ msgstr "Пользователь с email '%(email)s' уже существуе�
 
 #: users/resources/users.py:45
 #, python-format
-msgid "User with email '%(email)s' created, details are in payload."
-msgstr "Пользователь с e-mail '%(email)s' успешно создан. Детали в сообщении."
+msgid ""
+"User with email '%(email)s' created. We have sent your email, please visit "
+"your mailer and finish registration."
+msgstr ""
+"Пользователь с e-mail '%(email)s' успешно создан. Мы послали вам электронное "
+"письмо, пожалуйста зайдите в вашу почтовую программу и закончите регистрацию."
 
-#: users/resources/users.py:54
+#: users/resources/users.py:55
 #, python-format
 msgid "While creating user somthing went wrong. Error - %(err)s."
 msgstr "Во время создания пользователя что-то пошло не так. Ошибка - %(err)s."
 
-#: users/resources/users.py:73
+#: users/resources/users.py:74
 msgid ""
 "Admins or account owner are allowed to see details by email. You are neither "
 "admin not own this account."
@@ -414,10 +430,13 @@ msgstr ""
 "Администраторы или владельцы учетных записей имеют право смотреть "
 "особенности с помощью почты. Ты не администратор, ни владелец."
 
-#: users/resources/users.py:82
+#: users/resources/users.py:83
 #, python-format
 msgid "User with email '%(email)s' found, details are in payload."
 msgstr "Пользователь с email '%(email)s' найден, детали в теле сообщения."
+
+#~ msgid "You are welcome, tokens are in payload."
+#~ msgstr "Добро пожаловать, жетоны теле сообщения."
 
 #~ msgid "Hi there!, It's get method."
 #~ msgstr "Всем привет! Это метод get."
