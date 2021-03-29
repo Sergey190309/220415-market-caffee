@@ -48,21 +48,21 @@ export const logInAction = (email, password) => async dispatch => {
 
   try {
     const resp = await axios.post(url, body, config);
-    // console.log(resp.data.payload)
+    console.log(resp.data.payload)
     dispatch(setAlert(resp.data.message, 'info', 1000));
     dispatch({
       type: LOG_IN_SUCCESS,
       payload: resp.data.payload,
     });
   } catch (error) {
-    // if (error.message==='Network Error') {
-    //   dispatch(setAlert(error.message, 'error'))
-    // } else {
-    //   dispatch(setAlert(error.response.data.message, 'error'));
-    // }
-    // if (error.response.data.message) {
-    // }
-    console.log(error);
+    if (error.message==='Network Error') {
+      dispatch(setAlert(error.message, 'error'))
+    } else {
+      dispatch(setAlert(error.response.data.message, 'error'));
+    }
+    if (error.response.data.message) {
+    }
+    // console.log(error);
     dispatch({
       type: LOG_IN_FAIL,
     });
