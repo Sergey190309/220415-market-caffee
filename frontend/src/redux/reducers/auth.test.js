@@ -12,13 +12,14 @@ describe('Auth reducer testing', () => {
   const userName = 'User Name';
   const email = 'e@mail.com';
   const testInitStore = {
-    access_token: access_token,
-    refresh_token: refresh_token,
-    isAuthenticated: null,
-    isAdmin: null,
-    loading: true,
     userName: userName,
     email: email,
+    isAuthenticated: null,
+    isAdmin: null,
+    access_token: access_token,
+    refresh_token: refresh_token,
+    loading: true,
+    isSignUp: false,
   };
 
   test('sign up success', () => {
@@ -28,6 +29,7 @@ describe('Auth reducer testing', () => {
     const expResult = {
       isAuthenticated: false,
       loading: false,
+      isSignUp: true,
     };
     expect(testInitStore).not.toEqual(expResult);
     expect(auth(testInitStore, action)).toEqual(expResult);
@@ -40,6 +42,7 @@ describe('Auth reducer testing', () => {
     const expResult = {
       isAuthenticated: false,
       loading: false,
+      isSignUp: false,
     };
     expect(testInitStore).not.toEqual(expResult);
     expect(auth(testInitStore, action)).toEqual(expResult);
@@ -74,6 +77,7 @@ describe('Auth reducer testing', () => {
       // email: action.payload.email,
       // isAuthenticated: true,
       loading: false,
+      isSignUp: false,
     };
     expect(testInitStore).not.toEqual(expResult);
     expect(auth(testInitStore, action)).toEqual(expResult);
@@ -87,6 +91,7 @@ describe('Auth reducer testing', () => {
     const expResult = {
       isAuthenticated: false,
       loading: false,
+      isSignUp: false,
     };
     expect(testInitStore).not.toEqual(expResult);
     // console.log(auth(testInitStore, action));

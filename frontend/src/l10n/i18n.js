@@ -11,7 +11,7 @@ i18next
   .use(initReactI18next)
   .use(HttpApi)
   .init({
-    lng: 'en',
+    lng: 'ru',
     supportedLngs: supportedLngs,
     ns: nameSpaces,
     defaultNS: 'general',

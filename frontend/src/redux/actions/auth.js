@@ -1,7 +1,19 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { LOG_IN_SUCCESS, LOG_IN_FAIL, SIGN_UP_SUCCESS, SIGN_UP_FAIL } from './types';
+import {
+  LOG_IN_SUCCESS,
+  LOG_IN_FAIL,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAIL,
+  MODAL_CLOSED,
+} from './types';
 import setAuthTokens from '../../utils/setAuthTokens';
+
+export const setSignUpFalse = () => dispatch => {
+  dispatch({
+    type: MODAL_CLOSED,
+  });
+};
 
 export const signUpAction = (userName, email, password) => async dispatch => {
   const config = {
@@ -50,20 +62,20 @@ export const logInAction = (email, password) => async dispatch => {
     const resp = await axios.post(url, body, config);
     // console.log(resp.data.payload)
     dispatch(setAlert(resp.data.message, 'info', 1000));
-    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name }
-    delete _payload['user_name']
+    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
+    delete _payload['user_name'];
     dispatch({
       type: LOG_IN_SUCCESS,
       payload: resp.data.payload,
     });
   } catch (error) {
-    if (error.message==='Network Error') {
-      dispatch(setAlert(error.message, 'error'))
+    if (error.message === 'Network Error') {
+      dispatch(setAlert(error.message, 'error'));
     } else {
       if (error.response.data.message) {
         dispatch(setAlert(error.response.data.message, 'error'));
       } else {
-        console.log(error)
+        console.log(error);
       }
     }
     // console.log(error);

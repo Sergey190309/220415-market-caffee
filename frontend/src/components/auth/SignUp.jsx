@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 // import PropTypes, { oneOf } from 'prop-types';
@@ -7,7 +7,7 @@ import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-reac
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { setModalClosed, signUpAction } from '../../redux/actions';
+import { setModalClosed, signUpAction, setSignUpFalse } from '../../redux/actions';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -31,8 +31,10 @@ export const signUpSchema = t =>
       // eslint-disable-next-line no-template-curly-in-string
       .min(6, t('errors.password.min', { min: '${min}' }))
       .required(t('errors.required')),
-    [Object.keys(formStructure)[3]]: Yup.string()
-      .oneOf([Yup.ref(Object.keys(formStructure)[2]), null], 'Passwords must match!')
+    [Object.keys(formStructure)[3]]: Yup.string().oneOf(
+      [Yup.ref(Object.keys(formStructure)[2]), null],
+      'Passwords must match!'
+    ),
   });
 
 // export const onSubmit = formData => {
@@ -40,14 +42,28 @@ export const signUpSchema = t =>
 //   console.log(JSON.stringify(formData, null, 2));
 // };
 
-export const SignUp = ({ initValues, signUpSchema, setModalClosed, signUpAction }) => {
+export const SignUp = ({
+  initValues,
+  signUpSchema,
+  setModalClosed,
+  signUpAction,
+  isSignUp,
+  setSignUpFalse
+}) => {
+  useEffect(() => {
+    if (isSignUp) {
+      setModalClosed();
+      setSignUpFalse()
+    }
+  }, [isSignUp, setModalClosed, setSignUpFalse]);
+
   const { t } = useTranslation('signup');
 
   const onSubmit = async (formData, { setSubmitting }) => {
     const { userName, email, password } = formData;
     // console.log(email, password);
     await signUpAction(userName, email, password);
-    setSubmitting(false)
+    setSubmitting(false);
   };
 
   const color = 'teal';
@@ -69,8 +85,7 @@ export const SignUp = ({ initValues, signUpSchema, setModalClosed, signUpAction 
           <Formik
             initialValues={initValues}
             validationSchema={signUpSchema(t)}
-            onSubmit={onSubmit}
-          >
+            onSubmit={onSubmit}>
             <Form size='large'>
               <Segment color={color} stacked>
                 <Input
@@ -148,11 +163,15 @@ export const SignUp = ({ initValues, signUpSchema, setModalClosed, signUpAction 
 SignUp.defaultProps = {
   initValues: formStructure,
   signUpSchema: signUpSchema,
-  setModalClosed: ()=> {
+  setModalClosed: () => {
     console.log('Modal close called');
   },
   signUpAction: () => {
     console.log('Axios action called');
+  },
+  isSignUp: false,
+  setSignUpFalse: () => {
+    console.log('setSignUpFalse action called');
   },
 };
 
@@ -160,7 +179,13 @@ SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
-  signUpAction:PropTypes.func.isRequired,
+  signUpAction: PropTypes.func.isRequired,
+  isSignUp: PropTypes.bool.isRequired,
+  setSignUpFalse: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setModalClosed, signUpAction })(SignUp);
+const mapStateToProps = state => ({
+  isSignUp: state.logIn.isSignUp,
+});
+
+export default connect(mapStateToProps, { setModalClosed, signUpAction, setSignUpFalse })(SignUp);

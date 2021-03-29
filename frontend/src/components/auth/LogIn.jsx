@@ -37,6 +37,7 @@ export const LogIn = ({
   setModalOpened,
   setModalClosed,
   logInAction,
+  isAuthenticated,
 }) => {
   const { t } = useTranslation('login');
 
@@ -44,7 +45,10 @@ export const LogIn = ({
     const { email, password } = formData;
     // console.log(email, password);
     logInAction(email, password);
-    setSubmitting(false)
+    setSubmitting(false);
+    if (isAuthenticated) {
+      setModalClosed();
+    }
   };
 
   // console.log()
@@ -172,5 +176,11 @@ LogIn.propTypes = {
   logInAction: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = state => ({
+  isAuthenticated: state.logIn.isAuthenticated,
+});
+
 // export default LogIn;
-export default connect(null, { setModalOpened, setModalClosed, logInAction })(LogIn);
+export default connect(mapStateToProps, { setModalOpened, setModalClosed, logInAction })(
+  LogIn
+);
