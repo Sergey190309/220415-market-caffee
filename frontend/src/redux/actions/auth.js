@@ -7,8 +7,16 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
   SIGN_UP_MODAL_CLOSED,
+  LOG_OUT,
 } from './types';
 import setAuthTokens from '../../utils/setAuthTokens';
+
+  export const logOutAction = () => despatch => {
+  console.log('Log out')
+  despatch({
+    type: LOG_OUT
+  })
+}
 
 export const setSignedUpFalse = () => dispatch => {
   dispatch({

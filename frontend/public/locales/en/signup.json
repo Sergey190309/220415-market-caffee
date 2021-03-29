@@ -1,33 +1,34 @@
 {
-    "buttons": {
-        "cancel": "Cancel",
-        "or": "or",
-        "reset": "Reset",
-        "signUp": "Sign Up"
+  "buttons": {
+    "cancel": "Cancel",
+    "or": "or",
+    "reset": "Reset",
+    "signUp": "Sign Up"
+  },
+  "errors": {
+    "email": {
+      "invalidEmail": "Invalid email address"
     },
-    "errors": {
-        "email": {
-            "invalidEmail": "Invalid email address"
-        },
-        "password": {
-            "min": "Minimum {{min}} chars"
-        },
-        "required": "Field required",
-        "userName": {
-            "max": "Maximum {{max}} chars"
-        }
+    "password": {
+      "min": "Minimum {{min}} chars"
     },
-    "header": "Sign Up",
-    "labels": {
-        "email": "Email address",
-        "password": "Password",
-        "password2": "Password again",
-        "userName": "User name"
-    },
-    "placeHolders": {
-        "email": "Email address",
-        "password": "Password",
-        "password2": "Please type password again",
-        "userName": "Choose user name (not compulsory)"
+    "required": "Field required",
+    "userName": {
+      "max": "Maximum {{max}} chars"
     }
+  },
+  "header": "Sign Up",
+  "labels": {
+    "email": "Email address",
+    "password": "Password",
+    "password2": "Password again",
+    "userName": "User name"
+  },
+  "logIn": "logIn",
+  "placeHolders": {
+    "email": "Email address",
+    "password": "Password",
+    "password2": "Please type password again",
+    "userName": "Choose user name (not compulsory)"
+  }
 }

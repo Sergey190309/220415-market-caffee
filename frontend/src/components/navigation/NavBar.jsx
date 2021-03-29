@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   Menu,
-  // Segment,
   Container,
-  // Button,
-  // Header,
 } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 
@@ -15,19 +12,36 @@ import Logo from '../content/various/Logo';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
-import { setModalOpened } from '../../redux/actions';
 
-export const clickHandler = (name, setActiveItem, setModalOpened) => {
+import { setModalOpened, logOutAction } from '../../redux/actions';
+
+export const clickHandler = (
+  name,
+  setActiveItem,
+  setModalOpened,
+  isAuthenticated,
+  logOutAction
+) => {
   if (!(name === 'signInOut' || name === 'language')) {
     // to avoid making above fitures active after click on
     setActiveItem(name);
   }
   if (name === 'signInOut') {
-    setModalOpened('logIn');
+    if (isAuthenticated) {
+      logOutAction();
+    } else {
+      setModalOpened('logIn');
+    }
   }
 };
 
-export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
+export const NavBar = ({
+  initActive,
+  setModalOpened,
+  clickHandler,
+  isAuthenticated,
+  logOutAction,
+}) => {
   const [activeItem, setActiveItem] = useState(initActive);
 
   const { t } = useTranslation('navbar');
@@ -35,7 +49,7 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
   const color = 'teal';
 
   const _ClickHandler = (e, { name }) => {
-    clickHandler(name, setActiveItem, setModalOpened);
+    clickHandler(name, setActiveItem, setModalOpened, isAuthenticated, logOutAction);
   };
 
   return (
@@ -75,7 +89,7 @@ export const NavBar = ({ initActive, setModalOpened, clickHandler }) => {
         </Menu.Menu>
         <Menu.Menu position='right'>
           <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
-            <SignInOut title={t('logIn')} />
+            <SignInOut title={isAuthenticated ? t('logOut') : t('logIn')} />
           </Menu.Item>
           <Menu.Item
             data-testid='lngSwitcher'
@@ -94,12 +108,18 @@ NavBar.defaultProps = {
   initActive: '',
   setModalOpened: () => {},
   clickHandler: clickHandler,
+  logOutAction: logOutAction,
 };
 
 NavBar.propTypes = {
   initActive: PropTypes.string.isRequired,
   setModalOpened: PropTypes.func.isRequired,
   clickHandler: PropTypes.func.isRequired,
+  logOutAction: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setModalOpened })(NavBar);
+const mapStateToProps = state => ({
+  isAuthenticated: state.logIn.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setModalOpened, logOutAction })(NavBar);

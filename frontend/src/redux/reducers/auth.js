@@ -5,6 +5,7 @@ import {
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
   LOG_IN_MODAL_CLOSED,
+  LOG_OUT,
 } from '../actions/types';
 
 // ----------------------> DO NOT REMOVE
@@ -27,6 +28,14 @@ export const initialStore = {
 const auth = (store = initialStore, action) => {
   const { type, payload } = action;
   switch (type) {
+    case LOG_OUT:
+      localStorage.removeItem('logInInfo');
+      return {
+        isSignedUp: false,
+        isLoggedIn: false,
+        isAuthenticated: false,
+        loading: false,
+      };
     case SIGN_UP_SUCCESS:
       localStorage.removeItem('logInInfo');
       return {
