@@ -23,7 +23,8 @@ i18next
     interpolation: {
       escapeValue: false,
     },
-    debug: process.env.NODE_ENV === 'development',
+    debug: false,
+    // debug: process.env.NODE_ENV === 'development',
     backend: {
       loadPath: './locales/{{lng}}/{{ns}}.json',
       addPath: './locales/l10n/add/{{lng}}/{{ns}}.json',

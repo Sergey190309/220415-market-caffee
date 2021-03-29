@@ -1,11 +1,14 @@
-// const i18next = jest.createMockFromModule('i18next')
+const changeKey = require('./src/utils/utils')
+// import { changeKey } from './src/utils/utils';
 
-const i18next = {}
+const obj = {
+  user_name: 'admin',
+  email: 'sa@test.com',
+};
 
-i18next['options'] = {
-    supportedLngs: ['en', 'ru']
-}
-
-console.log(i18next)
-console.log(i18next.options.supportedLngs)
-console.log(i18next.options.supportedLngs.filter(value => value !== 'ru'))
+console.log(obj);
+Object.defineProperty(obj, 'userName', Object.getOwnPropertyDescriptor(obj, 'user_name'));
+delete obj['user_name'];
+console.log(obj);
+changeKey(obj, 'userName', 'newName')
+console.log(obj);

@@ -9,28 +9,23 @@ import {
 describe('Auth reducer testing', () => {
   const access_token = 'access_token';
   const refresh_token = 'refresh_token';
+  const userName = 'User Name';
+  const email = 'e@mail.com';
   const testInitStore = {
     access_token: access_token,
     refresh_token: refresh_token,
     isAuthenticated: null,
+    isAdmin: null,
     loading: true,
-    user: null,
+    userName: userName,
+    email: email,
   };
-  test('initialStore seting', () => {
-    const testInitStoreAdopted = {
-      ...initialStore,
-      access_token: access_token,
-      refresh_token: refresh_token,
-    };
-    expect(testInitStoreAdopted).toEqual(testInitStore);
-  });
 
   test('sign up success', () => {
     const action = {
       type: SIGN_UP_SUCCESS,
     };
     const expResult = {
-      ...testInitStore,
       isAuthenticated: false,
       loading: false,
     };
@@ -43,7 +38,6 @@ describe('Auth reducer testing', () => {
       type: SIGN_UP_FAIL,
     };
     const expResult = {
-      ...testInitStore,
       isAuthenticated: false,
       loading: false,
     };
@@ -52,20 +46,33 @@ describe('Auth reducer testing', () => {
   });
 
   test('login success', () => {
+    const userName = 'test User Name';
+    const email = 'Test@mail.com';
+    const isAdmin = true;
+    const isAuthenticated = true;
     const access_token = 'test access_token';
     const refresh_token = 'test refresh_token';
+
     const action = {
       type: LOG_IN_SUCCESS,
       payload: {
+        userName: userName,
+        email: email,
+        isAdmin: isAdmin,
+        isAuthenticated: isAuthenticated,
         access_token: access_token,
         refresh_token: refresh_token,
       },
     };
     const expResult = {
       ...testInitStore,
-      access_token: action.payload.access_token,
-      refresh_token: action.payload.refresh_token,
-      isAuthenticated: true,
+      ...action.payload,
+      // access_token: action.payload.access_token,
+      // refresh_token: action.payload.refresh_token,
+      // userName: action.payload.userName,
+      // isAdmin: isAdmin,
+      // email: action.payload.email,
+      // isAuthenticated: true,
       loading: false,
     };
     expect(testInitStore).not.toEqual(expResult);
@@ -78,9 +85,6 @@ describe('Auth reducer testing', () => {
       type: LOG_IN_FAIL,
     };
     const expResult = {
-      ...testInitStore,
-      // access_token: 'some access_token',
-      // refresh_token: 'some refresh_token',
       isAuthenticated: false,
       loading: false,
     };

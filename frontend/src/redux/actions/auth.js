@@ -48,8 +48,10 @@ export const logInAction = (email, password) => async dispatch => {
 
   try {
     const resp = await axios.post(url, body, config);
-    console.log(resp.data.payload)
+    // console.log(resp.data.payload)
     dispatch(setAlert(resp.data.message, 'info', 1000));
+    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name }
+    delete _payload['user_name']
     dispatch({
       type: LOG_IN_SUCCESS,
       payload: resp.data.payload,
@@ -58,9 +60,11 @@ export const logInAction = (email, password) => async dispatch => {
     if (error.message==='Network Error') {
       dispatch(setAlert(error.message, 'error'))
     } else {
-      dispatch(setAlert(error.response.data.message, 'error'));
-    }
-    if (error.response.data.message) {
+      if (error.response.data.message) {
+        dispatch(setAlert(error.response.data.message, 'error'));
+      } else {
+        console.log(error)
+      }
     }
     // console.log(error);
     dispatch({
