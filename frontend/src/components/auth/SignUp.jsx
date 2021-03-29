@@ -7,7 +7,7 @@ import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-reac
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { setModalClosed, signUpAction, setSignUpFalse } from '../../redux/actions';
+import { setModalClosed, signUpAction, setSignedUpFalse } from '../../redux/actions';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -47,15 +47,16 @@ export const SignUp = ({
   signUpSchema,
   setModalClosed,
   signUpAction,
-  isSignUp,
-  setSignUpFalse
+  isSignedUp,
+  setSignedUpFalse,
 }) => {
   useEffect(() => {
-    if (isSignUp) {
+
+    if (isSignedUp) {
       setModalClosed();
-      setSignUpFalse()
+      setSignedUpFalse();
     }
-  }, [isSignUp, setModalClosed, setSignUpFalse]);
+  }, [isSignedUp, setModalClosed, setSignedUpFalse]);
 
   const { t } = useTranslation('signup');
 
@@ -169,9 +170,9 @@ SignUp.defaultProps = {
   signUpAction: () => {
     console.log('Axios action called');
   },
-  isSignUp: false,
-  setSignUpFalse: () => {
-    console.log('setSignUpFalse action called');
+  isSignedUp: false,
+  setSignedUpFalse: () => {
+    console.log('setSignedUpFalse action called');
   },
 };
 
@@ -180,12 +181,16 @@ SignUp.propTypes = {
   signUpSchema: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
   signUpAction: PropTypes.func.isRequired,
-  isSignUp: PropTypes.bool.isRequired,
-  setSignUpFalse: PropTypes.func.isRequired,
+  isSignedUp: PropTypes.bool.isRequired,
+  setSignedUpFalse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isSignUp: state.logIn.isSignUp,
+  isSignedUp: state.logIn.isSignedUp,
 });
 
-export default connect(mapStateToProps, { setModalClosed, signUpAction, setSignUpFalse })(SignUp);
+export default connect(mapStateToProps, {
+  setModalClosed,
+  signUpAction,
+  setSignedUpFalse,
+})(SignUp);

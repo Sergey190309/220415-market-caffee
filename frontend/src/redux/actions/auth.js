@@ -3,15 +3,21 @@ import { setAlert } from './alert';
 import {
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
+  LOG_IN_MODAL_CLOSED,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
-  MODAL_CLOSED,
+  SIGN_UP_MODAL_CLOSED,
 } from './types';
 import setAuthTokens from '../../utils/setAuthTokens';
 
-export const setSignUpFalse = () => dispatch => {
+export const setSignedUpFalse = () => dispatch => {
   dispatch({
-    type: MODAL_CLOSED,
+    type: SIGN_UP_MODAL_CLOSED,
+  });
+};
+export const setLoggedInFalse = () => dispatch => {
+  dispatch({
+    type: LOG_IN_MODAL_CLOSED,
   });
 };
 

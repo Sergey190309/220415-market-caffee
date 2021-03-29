@@ -1,9 +1,10 @@
 import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  SIGN_UP_MODAL_CLOSED,
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
-  MODAL_CLOSED,
+  LOG_IN_MODAL_CLOSED,
 } from '../actions/types';
 
 // ----------------------> DO NOT REMOVE
@@ -19,7 +20,8 @@ export const initialStore = {
   ...JSON.parse(localStorage.getItem('logInInfo')),
   // isAuthenticated: null,
   loading: null,
-  isSignUp: false
+  isSignedUp: false,
+  isLoggedIn: false,
 };
 
 const auth = (store = initialStore, action) => {
@@ -28,16 +30,22 @@ const auth = (store = initialStore, action) => {
     case SIGN_UP_SUCCESS:
       localStorage.removeItem('logInInfo');
       return {
-        isSignUp: true,
+        isSignedUp: true,
+        isLoggedIn: false,
         isAuthenticated: false,
         loading: false,
       };
-
+    case SIGN_UP_MODAL_CLOSED:
+      return {
+        ...store,
+        isSignedUp: false,
+      };
     case SIGN_UP_FAIL:
     case LOG_IN_FAIL:
       localStorage.removeItem('logInInfo');
       return {
-        isSignUp: false,
+        isSignedUp: false,
+        isLoggedIn: false,
         isAuthenticated: false,
         loading: false,
       };
@@ -48,12 +56,13 @@ const auth = (store = initialStore, action) => {
         ...store,
         ...payload,
         loading: false,
+        isLoggedIn: true,
       };
-    case MODAL_CLOSED:
+    case LOG_IN_MODAL_CLOSED:
       return {
         ...store,
-        isSignUp: false,
-      }
+        isLoggedIn: false,
+      };
     default:
       return store;
   }

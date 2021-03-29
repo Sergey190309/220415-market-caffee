@@ -19,7 +19,7 @@ describe('Auth reducer testing', () => {
     access_token: access_token,
     refresh_token: refresh_token,
     loading: true,
-    isSignUp: false,
+    isSignedUp: false,
   };
 
   test('sign up success', () => {
@@ -29,7 +29,8 @@ describe('Auth reducer testing', () => {
     const expResult = {
       isAuthenticated: false,
       loading: false,
-      isSignUp: true,
+      isSignedUp: true,
+      isLoggedIn: false,
     };
     expect(testInitStore).not.toEqual(expResult);
     expect(auth(testInitStore, action)).toEqual(expResult);
@@ -42,7 +43,8 @@ describe('Auth reducer testing', () => {
     const expResult = {
       isAuthenticated: false,
       loading: false,
-      isSignUp: false,
+      isSignedUp: false,
+      isLoggedIn: false,
     };
     expect(testInitStore).not.toEqual(expResult);
     expect(auth(testInitStore, action)).toEqual(expResult);
@@ -77,7 +79,8 @@ describe('Auth reducer testing', () => {
       // email: action.payload.email,
       // isAuthenticated: true,
       loading: false,
-      isSignUp: false,
+      isSignedUp: false,
+      isLoggedIn: true,
     };
     expect(testInitStore).not.toEqual(expResult);
     expect(auth(testInitStore, action)).toEqual(expResult);
@@ -91,7 +94,8 @@ describe('Auth reducer testing', () => {
     const expResult = {
       isAuthenticated: false,
       loading: false,
-      isSignUp: false,
+      isSignedUp: false,
+      isLoggedIn: false,
     };
     expect(testInitStore).not.toEqual(expResult);
     // console.log(auth(testInitStore, action));

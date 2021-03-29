@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
@@ -7,7 +7,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
-import { setModalOpened, setModalClosed, logInAction } from '../../redux/actions';
+import {
+  setModalOpened,
+  setModalClosed,
+  logInAction,
+  setLoggedInFalse,
+} from '../../redux/actions';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -37,8 +42,15 @@ export const LogIn = ({
   setModalOpened,
   setModalClosed,
   logInAction,
-  isAuthenticated,
+  isLoggedIn,
+  setLoggedInFalse,
 }) => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      setModalClosed();
+      setLoggedInFalse();
+    }
+  }, [isLoggedIn, setModalClosed, setLoggedInFalse]);
   const { t } = useTranslation('login');
 
   const onSubmit = (formData, { setSubmitting }) => {
@@ -46,9 +58,6 @@ export const LogIn = ({
     // console.log(email, password);
     logInAction(email, password);
     setSubmitting(false);
-    if (isAuthenticated) {
-      setModalClosed();
-    }
   };
 
   // console.log()
@@ -166,6 +175,9 @@ LogIn.defaultProps = {
   logInAction: () => {
     console.log('Axios action called');
   },
+  setLoggedInFalse: () => {
+    console.log('setLoggedInFalse action called');
+  },
 };
 
 LogIn.propTypes = {
@@ -174,13 +186,17 @@ LogIn.propTypes = {
   setModalOpened: PropTypes.func.isRequired,
   setModalClosed: PropTypes.func.isRequired,
   logInAction: PropTypes.func.isRequired,
+  setLoggedInFalse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.logIn.isAuthenticated,
+  isLoggedIn: state.logIn.isLoggedIn,
 });
 
 // export default LogIn;
-export default connect(mapStateToProps, { setModalOpened, setModalClosed, logInAction })(
-  LogIn
-);
+export default connect(mapStateToProps, {
+  setModalOpened,
+  setModalClosed,
+  logInAction,
+  setLoggedInFalse,
+})(LogIn);
