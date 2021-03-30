@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { setAlert } from './alert';
 import {
   LOG_IN_SUCCESS,
@@ -9,14 +8,15 @@ import {
   SIGN_UP_MODAL_CLOSED,
   LOG_OUT,
 } from './types';
-import setAuthTokens from '../../utils/setAuthTokens';
+import { actRespErrorHandler } from '../../utils/respErrorHandler';
 
-  export const logOutAction = () => despatch => {
-  console.log('Log out')
+import apiClient from '../../api/apiClient';
+
+export const logOutAction = () => despatch => {
   despatch({
-    type: LOG_OUT
-  })
-}
+    type: LOG_OUT,
+  });
+};
 
 export const setSignedUpFalse = () => dispatch => {
   dispatch({
@@ -30,71 +30,39 @@ export const setLoggedInFalse = () => dispatch => {
 };
 
 export const signUpAction = (userName, email, password) => async dispatch => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  const pre_body = {
-    user_name: userName,
-    email: email,
-    password: password,
-  };
-  const body = JSON.stringify(pre_body);
-  const url = 'http://127.0.0.1:5000/users';
-
   try {
-    const resp = await axios.post(url, body, config);
+    const resp = await apiClient.post(
+      '/users',
+      JSON.stringify({
+        user_name: userName,
+        email: email,
+        password: password,
+      })
+    );
     dispatch(setAlert(resp.data.message, 'info', 1000));
     dispatch({
       type: SIGN_UP_SUCCESS,
       payload: resp.data,
     });
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'error'));
-    dispatch({
-      type: SIGN_UP_FAIL,
-    });
+    actRespErrorHandler(error, dispatch, SIGN_UP_FAIL);
   }
 };
 
 export const logInAction = (email, password) => async dispatch => {
-  if (localStorage.access_token) {
-    setAuthTokens(localStorage.access_token);
-  }
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      // 'Access-Control-Allow-Headers': 'x-auth-token',
-      // 'Access-Control-Allow-Origin': 'http://127.0.0.1:5000'
-    },
-  };
-  const body = JSON.stringify({ email, password });
-  const url = 'http://127.0.0.1:5000/users/login';
-
   try {
-    const resp = await axios.post(url, body, config);
-    // console.log(resp.data.payload)
+    const resp = await apiClient.post(
+      '/users/login',
+      JSON.stringify({ email, password })
+    );
     dispatch(setAlert(resp.data.message, 'info', 1000));
     const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
     delete _payload['user_name'];
     dispatch({
       type: LOG_IN_SUCCESS,
-      payload: resp.data.payload,
+      payload: _payload,
     });
   } catch (error) {
-    if (error.message === 'Network Error') {
-      dispatch(setAlert(error.message, 'error'));
-    } else {
-      if (error.response.data.message) {
-        dispatch(setAlert(error.response.data.message, 'error'));
-      } else {
-        console.log(error);
-      }
-    }
-    // console.log(error);
-    dispatch({
-      type: LOG_IN_FAIL,
-    });
+    actRespErrorHandler(error, dispatch, LOG_IN_FAIL);
   }
 };

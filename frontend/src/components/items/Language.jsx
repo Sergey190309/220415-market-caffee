@@ -5,6 +5,8 @@ import i18next from 'i18next';
 
 import { Dropdown } from 'semantic-ui-react';
 
+import { lngSwitch } from '../../api/calls/lngSwitch';
+
 const onChange = (value, setActive) => {
   setActive(value);
   i18next.changeLanguage(value);
@@ -20,7 +22,6 @@ export const Language = ({ onChange }) => {
   available.forEach(lang => {
     localeOptions.push({
       key: lang,
-      // text: lang,
       value: lang,
       flag: lang === 'en' ? 'uk' : lang,
     });
@@ -29,6 +30,7 @@ export const Language = ({ onChange }) => {
   const _onChange = (evt, { value }) => {
     evt.preventDefault();
     // console.log(value);
+    lngSwitch(value);
     onChange(value, setActive);
   };
 
