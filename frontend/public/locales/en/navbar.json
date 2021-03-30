@@ -1,6 +1,9 @@
 {
-  "gallery": "Gallery",
-  "logIn": "Log In",
-  "logOut": "Log Out",
-  "menu": "Menu"
+    "forAdmins": "Admin",
+    "forFriends": "For friends",
+    "gallery": "Gallery",
+    "logIn": "Log In",
+    "logOut": "Log Out",
+    "menu": "Menu",
+    "plsLogIn": "Please Log In"
 }

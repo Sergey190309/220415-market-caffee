@@ -15,7 +15,7 @@ import '../../../__mock__/react-i18next';
 describe('NavBar testing', () => {
   describe('non react elements', () => {
     describe('clickHandling function testing', () => {
-      const activateItems = ['logo', 'priceList', 'pictures'];
+      const activateItems = ['logo', 'priceList', 'pictures', 'private', 'admin'];
       const notActivateItems = ['signInOut', 'language'];
       // const activateModal = 'signInOut';
       const setActiveItem = jest.fn();
@@ -26,7 +26,7 @@ describe('NavBar testing', () => {
           clickHandler(item, setActiveItem, setModalOpened);
           expect(setActiveItem).toHaveBeenCalledWith(item);
         });
-        expect(setActiveItem).toHaveBeenCalledTimes(3);
+        expect(setActiveItem).toHaveBeenCalledTimes(5);
       });
 
       test('calling from items that does not make them active', () => {
@@ -51,13 +51,42 @@ describe('NavBar testing', () => {
       initActive: '',
       setModalOpened: jest.fn(),
       clickHandler: jest.fn(),
+      isAuthenticated: false,
+      isAdmin: false,
+      logOutAction: jest.fn(),
     };
     describe('appearance', () => {
-      test('it exists and has appropriate elements', () => {
+      test('it exists and has appropriate elements not logged', () => {
         connectedLinkedRender(<NavBar {...testProps} />);
         expect(screen.getAllByRole('link').length).toBe(3);
         expect(screen.getAllByRole('img').length).toBe(1);
-        expect(screen.getAllByRole('heading').length).toBe(2);
+        expect(screen.getAllByRole('heading').length).toBe(3);
+        expect(screen.getAllByRole('button').length).toBe(1);
+        expect(screen.getAllByRole('listbox').length).toBe(1);
+        expect(screen.getAllByRole('alert').length).toBe(1);
+        expect(screen.getAllByRole('option').length).toBe(2);
+        // screen.getByRole('');
+      });
+
+      test('it exists and has appropriate elements not admin logged', () => {
+        const acitveProps = {...testProps, isAuthenticated: true}
+        connectedLinkedRender(<NavBar {...acitveProps} />);
+        expect(screen.getAllByRole('link').length).toBe(4);
+        expect(screen.getAllByRole('img').length).toBe(1);
+        expect(screen.getAllByRole('heading').length).toBe(3);
+        expect(screen.getAllByRole('button').length).toBe(1);
+        expect(screen.getAllByRole('listbox').length).toBe(1);
+        expect(screen.getAllByRole('alert').length).toBe(1);
+        expect(screen.getAllByRole('option').length).toBe(2);
+        // screen.getByRole('');
+      });
+
+      test('it exists and has appropriate elements admin logged', () => {
+        const acitveProps = {...testProps, isAuthenticated: true}
+        connectedLinkedRender(<NavBar {...acitveProps} />);
+        expect(screen.getAllByRole('link').length).toBe(4);
+        expect(screen.getAllByRole('img').length).toBe(1);
+        expect(screen.getAllByRole('heading').length).toBe(3);
         expect(screen.getAllByRole('button').length).toBe(1);
         expect(screen.getAllByRole('listbox').length).toBe(1);
         expect(screen.getAllByRole('alert').length).toBe(1);
@@ -78,6 +107,14 @@ describe('NavBar testing', () => {
           'href',
           '/pictures'
         );
+        expect(screen.getByRole('link', { name: 'forFriends' })).toHaveAttribute(
+          'href',
+          '/private'
+        );
+        expect(screen.getByRole('link', { name: 'forAdmins' })).toHaveAttribute(
+          'href',
+          '/admin'
+        );
         expect(screen.getByRole('img')).toHaveClass(
           'ui mini centered middle aligned image'
         );
@@ -93,6 +130,8 @@ describe('NavBar testing', () => {
         const logoItem = screen.getByRole('link', { name: 'logo' });
         const menuItem = screen.getByRole('link', { name: 'menu' });
         const galleryItem = screen.getByRole('link', { name: 'gallery' });
+        const privateItem = screen.getByRole('link', { name: 'forFriends' });
+        const adminItem = screen.getByRole('link', { name: 'forAdmins' });
         const logInItem = screen.getByRole('button');
         const lngItem = screen.getByTestId('lngSwitcher');
 
@@ -108,15 +147,23 @@ describe('NavBar testing', () => {
         await waitFor(() => {
           expect(testProps.clickHandler.mock.calls[2][0]).toBe('pictures');
         });
+        userEvent.click(privateItem);
+        await waitFor(() => {
+          expect(testProps.clickHandler.mock.calls[3][0]).toBe('private');
+        });
+        userEvent.click(adminItem);
+        await waitFor(() => {
+          expect(testProps.clickHandler.mock.calls[4][0]).toBe('admin');
+        });
         userEvent.click(logInItem);
         await waitFor(() => {
-          expect(testProps.clickHandler.mock.calls[3][0]).toBe('signInOut');
+          expect(testProps.clickHandler.mock.calls[5][0]).toBe('signInOut');
         });
         userEvent.click(lngItem);
         await waitFor(() => {
-          expect(testProps.clickHandler.mock.calls[4][0]).toBe('language');
+          expect(testProps.clickHandler.mock.calls[6][0]).toBe('language');
         });
-        expect(testProps.clickHandler).toHaveBeenCalledTimes(5);
+        expect(testProps.clickHandler).toHaveBeenCalledTimes(7);
       });
     });
   });

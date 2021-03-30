@@ -24,7 +24,6 @@
     "password2": "Еще раз",
     "userName": "Имя пользователя"
   },
-  "logIn": "logIn",
   "placeHolders": {
     "email": "Электронная почта",
     "password": "Пароль",

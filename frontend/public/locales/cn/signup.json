@@ -24,7 +24,6 @@
     "password2": "再次输入密码",
     "userName": "用户名"
   },
-  "logIn": "logIn",
   "placeHolders": {
     "email": "电子邮件地址",
     "password": "密码",

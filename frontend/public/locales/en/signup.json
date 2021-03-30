@@ -24,7 +24,6 @@
     "password2": "Password again",
     "userName": "User name"
   },
-  "logIn": "logIn",
   "placeHolders": {
     "email": "Email address",
     "password": "Password",
