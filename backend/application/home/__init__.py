@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app
+from flask_cors import CORS
 
 
 def create_home():
@@ -6,6 +7,7 @@ def create_home():
     home_bp = Blueprint(
         'home_bp', __name__,
         template_folder='templates')
+    CORS(home_bp)
 
     with current_app.app_context():
 

@@ -19,7 +19,6 @@ class Localization(Resource):
     @classmethod
     def post(cls):
         _locale_timezone = locale_timezone_schema.load(request.get_json())
-        # result = fbp.set_locales()
         payload = fbp.set_locales(_locale_timezone)
         return {
             'message': str(_('Global variables are as in payload.')),
