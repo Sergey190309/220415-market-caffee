@@ -69,7 +69,7 @@ describe('NavBar testing', () => {
       });
 
       test('it exists and has appropriate elements not admin logged', () => {
-        const acitveProps = {...testProps, isAuthenticated: true}
+        const acitveProps = { ...testProps, isAuthenticated: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         expect(screen.getAllByRole('link').length).toBe(4);
         expect(screen.getAllByRole('img').length).toBe(1);
@@ -82,7 +82,7 @@ describe('NavBar testing', () => {
       });
 
       test('it exists and has appropriate elements admin logged', () => {
-        const acitveProps = {...testProps, isAuthenticated: true, isAdmin: true}
+        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         expect(screen.getAllByRole('link').length).toBe(5);
         expect(screen.getAllByRole('img').length).toBe(1);
@@ -95,7 +95,6 @@ describe('NavBar testing', () => {
       });
 
       test('vital elements has appropriate classes noone logged', () => {
-
         connectedLinkedRender(<NavBar {...testProps} />);
         // screen.debug()
         expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
@@ -116,7 +115,7 @@ describe('NavBar testing', () => {
         });
       });
       test('vital elements has appropriate classes not admin logged', () => {
-        const acitveProps = {...testProps, isAuthenticated: true}
+        const acitveProps = { ...testProps, isAuthenticated: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
         expect(screen.getByRole('link', { name: 'menu' })).toHaveAttribute(
@@ -141,7 +140,7 @@ describe('NavBar testing', () => {
       });
 
       test('vital elements has appropriate classes admin logged', () => {
-        const acitveProps = {...testProps, isAuthenticated: true, isAdmin: true}
+        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
         expect(screen.getByRole('link', { name: 'menu' })).toHaveAttribute(
@@ -171,15 +170,15 @@ describe('NavBar testing', () => {
 
       test('for friends item disabled and has no /href when noone logged in', () => {
         connectedLinkedRender(<NavBar {...testProps} />);
-        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' })
-        expect(forFriendsItem).toHaveClass('ui disabled header', { exact: true })
-        expect(forFriendsItem).not.toHaveAttribute('/href')
+        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' });
+        expect(forFriendsItem).toHaveClass('ui disabled header', { exact: true });
+        expect(forFriendsItem).not.toHaveAttribute('/href');
       });
     });
 
     describe('Menu item behavior', () => {
       test('clicking noone logged in', async () => {
-        const acitveProps = {...testProps, isAuthenticated: true, isAdmin: true}
+        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         const logoItem = screen.getByRole('link', { name: 'logo' });
         const menuItem = screen.getByRole('link', { name: 'menu' });
@@ -220,7 +219,7 @@ describe('NavBar testing', () => {
         expect(testProps.clickHandler).toHaveBeenCalledTimes(5);
       });
       test('clicking not admin logged in', async () => {
-        const acitveProps = {...testProps, isAuthenticated: true, isAdmin: true}
+        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         const logoItem = screen.getByRole('link', { name: 'logo' });
         const menuItem = screen.getByRole('link', { name: 'menu' });
@@ -262,7 +261,7 @@ describe('NavBar testing', () => {
       });
 
       test('clicking admin logged in', async () => {
-        const acitveProps = {...testProps, isAuthenticated: true, isAdmin: true}
+        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
         connectedLinkedRender(<NavBar {...acitveProps} />);
         const logoItem = screen.getByRole('link', { name: 'logo' });
         const menuItem = screen.getByRole('link', { name: 'menu' });
@@ -305,12 +304,14 @@ describe('NavBar testing', () => {
 
       test('for friends itme shows popup when hovered, noone logged in', async () => {
         connectedLinkedRender(<NavBar {...testProps} />);
-        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' })
+        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' });
 
-        userEvent.hover(forFriendsItem)
-        await waitFor(async() => {
-          expect(screen.getByText('plsLogIn')).toBeInTheDocument()
-        })
+        expect(screen.queryByText('plsLogIn')).not.toBeInTheDocument();
+
+        userEvent.hover(forFriendsItem);
+        await waitFor(async () => {
+          expect(screen.queryByText('plsLogIn')).toBeInTheDocument();
+        });
       });
     });
   });
