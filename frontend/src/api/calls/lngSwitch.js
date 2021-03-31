@@ -3,7 +3,9 @@ import { respErrorHandler } from '../../utils/respErrorHandler';
 
 export const lngSwitch = async lng => {
   try {
-    await axiosClient.post('/home/localization', { locale: lng });
+    const resp = await axiosClient.post('/home/localization', { locale: lng });
+    console.log(resp.data.payload)
+    return resp
   } catch (error) {
     respErrorHandler(error);
   }

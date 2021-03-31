@@ -1,5 +1,9 @@
+import mockAxios from 'axios';
+import { lngSwitch } from './lngSwitch';
+
 describe('Lng switcher testing', () => {
-  test('It should work', () => {
+  test('fetch data', () => {
+    const result = lngSwitch('ru')
 
   });
 });
