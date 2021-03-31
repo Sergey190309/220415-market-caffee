@@ -9,6 +9,7 @@ import Logo from '../content/various/Logo';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
+import { swapiGetter } from '../../api/calls/study';
 
 import { setModalOpened, logOutAction } from '../../redux/actions';
 
@@ -48,8 +49,9 @@ export const NavBar = ({
 
   const color = 'teal';
 
-  const _ClickHandler = (e, { name }) => {
+  const _ClickHandler = async (e, { name }) => {
     clickHandler(name, setActiveItem, setModalOpened, isAuthenticated, logOutAction);
+    console.log(await swapiGetter(1));
     history.push('/');
   };
 
