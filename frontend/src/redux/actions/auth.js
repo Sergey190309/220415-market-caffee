@@ -56,6 +56,7 @@ export const logInAction = (email, password) => async dispatch => {
       '/users/login',
       JSON.stringify({ email, password }),
     );
+    // setAlert(resp.data.message, 'info', 1000);
     dispatch(setAlert(resp.data.message, 'info', 1000));
     const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
     delete _payload['user_name'];

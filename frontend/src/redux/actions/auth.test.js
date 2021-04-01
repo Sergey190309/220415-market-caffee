@@ -16,13 +16,35 @@
 // import nock from 'nock';
 // import fetch from 'isomorphic-fetch';
 
-import { logInAction, logOutAction } from './auth';
+import {LOG_IN_MODAL_CLOSED, LOG_OUT, SIGN_UP_MODAL_CLOSED} from './types'
+
+import { logInAction, logOutAction, setLoggedInFalse, setSignedUpFalse } from './auth';
 
 describe('Auth action testing', () => {
   describe('normal action creators', () => {
     test('logOutAction', () => {
-      console.log(logOutAction())
+      const expAction = {
+        type: LOG_OUT
+      }
+      expect(logOutAction()).toEqual(expAction);
     });
+
+    test('setSignedUpFalse', () => {
+      const expAction = {
+        type: SIGN_UP_MODAL_CLOSED
+      }
+      expect(setSignedUpFalse()).toEqual(expAction);
+    });
+
+    test('setLoggedInFalse', () => {
+      const expAction = {
+        type: LOG_IN_MODAL_CLOSED
+      }
+      expect(setLoggedInFalse()).toEqual(expAction);
+    });
+  });
+
+  describe('async action creators', () => {
 
   });
 });
