@@ -55,11 +55,6 @@ export const logInAction = (email, password) => async dispatch => {
     const resp = await axiosClient.post(
       '/users/login',
       JSON.stringify({ email, password }),
-      // {
-      //   headers: {
-      //     'Accept-Language': i18next.language,
-      //   },
-      // }
     );
     dispatch(setAlert(resp.data.message, 'info', 1000));
     const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
