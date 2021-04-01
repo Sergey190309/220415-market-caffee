@@ -13,13 +13,14 @@ def set_selectors(fbp: 'BabelBackend') -> str:
     @fbp.localeselector
     def select_locale():
         # print('application.modules.fbp.set_selectors LOCALE -', app_locale)
-
         return fbp.global_variables.get_global_by_name('locale')
         # return app_locale
 
     @fbp.timezoneselector
     def select_timezone():
         return fbp.global_variables.get_global_by_name('time_zone')
+
+
 
 
 class BabelBackend(Babel):
@@ -37,6 +38,10 @@ class BabelBackend(Babel):
         # print('application.modules.fbp.set_selectors -', payload)
         self.global_variables.set_globals(payload)
         return self.global_variables.get_globals()
+
+    def set_lng(self, lng: str) -> None:
+        if lng != self.global_variables.app_globals['locale']:
+            self.set_locales({'locale': lng})
 
 
 fbp = BabelBackend()

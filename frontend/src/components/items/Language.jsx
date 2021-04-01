@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import i18next from 'i18next';
 
 import { Dropdown } from 'semantic-ui-react';
+import { axiosCommonPostLng } from '../../api/apiClient';
 
-import { lngSwitch } from '../../api/calls/lngSwitch';
+
+// import { lngSwitch } from '../../api/calls/lngSwitch';
 
 const onChange = (value, setActive) => {
   setActive(value);
@@ -30,7 +32,8 @@ export const Language = ({ onChange }) => {
   const _onChange = (evt, { value }) => {
     evt.preventDefault();
     // console.log(value);
-    lngSwitch(value);
+    // lngSwitch(value);
+    axiosCommonPostLng(value)
     onChange(value, setActive);
   };
 

@@ -5,28 +5,28 @@ import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from './types';
 const smallDeviceLimit = 780; // That's limit where device deemed small (side bar)
 const mediumDeviceLimit = 1080; // That's limit where device deemed small (side bar)
 
-export const setDeviceSize = width => dispatch => {
+export const setDeviceSize = width =>  {
   // console.log('actions setDeviceSize width', width)
   const deviceSize =
     width < smallDeviceLimit ? 'small' : width < mediumDeviceLimit ? 'medium' : 'big';
   // console.log('SetSize')
-  return dispatch({
+  return ({
     type: SET_DEVICE_SIZE,
     payload: deviceSize,
   });
 };
 
-export const setModalOpened = kindOfModal => dispatch => {
+export const setModalOpened = kindOfModal => {
   // console.log('action, open', kindOfModal)
-  return dispatch({
+  return ({
     type: OPEN_MODAL,
     payload: kindOfModal,
   });
 };
 
-export const setModalClosed = () => dispatch => {
+export const setModalClosed = () => {
   // console.log('action, close')
-  return dispatch({
+  return ({
     type: CLOSE_MODAL,
   });
 };

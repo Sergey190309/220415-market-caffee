@@ -2,6 +2,7 @@
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
+import { axiosCommonPostLng } from '../api/apiClient'
 // import { setLocales } from '../redux/actions';
 
 const supportedLngs = ['en', 'ru', 'cn'];
@@ -31,6 +32,7 @@ i18next
     }
   })
   .then(() => {
+    axiosCommonPostLng(i18next.language)
   });
 
 export default i18next;

@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask, current_app
 
 from application.modules.dbs_global import dbs_global
+from application.modules.fbp import fbp
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
 import application.models  # Don't remove untill you know what are you doing.
@@ -10,7 +11,6 @@ import application.users.models  # Don't remove see above.
 import application.contents.models  # Don't remove see above.
 import application.components.models  # Don't remove see above.
 
-from application.modules.fbp import fbp
 
 # from application.default_config import LOCALE
 

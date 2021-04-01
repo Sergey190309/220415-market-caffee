@@ -5,7 +5,7 @@ from typing import Dict, Union
 
 class GlobalConstants():
     '''
-    The class contains constants that are accessible from all application.
+    The class contains constants that are accessible for all application.
     Currently those are:
     '''
     def __init__(self):

@@ -11,6 +11,7 @@ from flask_jwt_extended import (
 from flask_babelplus import lazy_gettext as _
 # from ..modules.fbc import fbc
 
+from application.modules.fbp import fbp
 from ..models.users import UserModel
 from ..modules.blacklist import BLACKLIST
 
@@ -21,6 +22,8 @@ class UserLogin(Resource):
         '''
         LogIn
         '''
+        # print(request.headers.get('Accept-Language'))
+        fbp.set_lng(request.headers.get('Accept-Language'))
         _json = request.get_json()
         _user = UserModel.find_by_email(_json['email'])
         # print('UserLogin.post', _json)

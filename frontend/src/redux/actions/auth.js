@@ -10,28 +10,28 @@ import {
 } from './types';
 import { actRespErrorHandler } from '../../utils/respErrorHandler';
 
-import apiClient from '../../api/apiClient';
+import axiosClient from '../../api/apiClient';
 
-export const logOutAction = () => despatch => {
-  despatch({
+export const logOutAction = () => {
+  return {
     type: LOG_OUT,
-  });
+  };
 };
 
-export const setSignedUpFalse = () => dispatch => {
-  dispatch({
+export const setSignedUpFalse = () => {
+  return {
     type: SIGN_UP_MODAL_CLOSED,
-  });
+  };
 };
-export const setLoggedInFalse = () => dispatch => {
-  dispatch({
+export const setLoggedInFalse = () => {
+  return {
     type: LOG_IN_MODAL_CLOSED,
-  });
+  };
 };
 
 export const signUpAction = (userName, email, password) => async dispatch => {
   try {
-    const resp = await apiClient.post(
+    const resp = await axiosClient.post(
       '/users',
       JSON.stringify({
         user_name: userName,
@@ -50,10 +50,16 @@ export const signUpAction = (userName, email, password) => async dispatch => {
 };
 
 export const logInAction = (email, password) => async dispatch => {
+  // console.log('logInAction -', i18next.language);
   try {
-    const resp = await apiClient.post(
+    const resp = await axiosClient.post(
       '/users/login',
-      JSON.stringify({ email, password })
+      JSON.stringify({ email, password }),
+      // {
+      //   headers: {
+      //     'Accept-Language': i18next.language,
+      //   },
+      // }
     );
     dispatch(setAlert(resp.data.message, 'info', 1000));
     const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };

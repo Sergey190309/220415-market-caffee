@@ -8,6 +8,7 @@ from flask_babelplus import format_datetime, format_currency, lazy_gettext as _
 
 from application.modules.fbp import fbp
 from application.schemas.locale_time_zone import LocaleTimezoneSchema
+# from application.global_init_data import GlobalVariables
 
 locale_timezone_schema = LocaleTimezoneSchema()
 
@@ -18,6 +19,7 @@ class Localization(Resource):
     '''
     @classmethod
     def post(cls):
+        # Guess it's testing only
         _locale_timezone = locale_timezone_schema.load(request.get_json())
         payload = fbp.set_locales(_locale_timezone)
         return {
@@ -33,7 +35,8 @@ class Index(Resource):
     @classmethod
     def post(cls):
         test_json = request.get_json()
-        # print(test_json['what'])
+
+        fbp.set_lng(request.headers.get('Accept-Language'))
 
         if test_json['what'] == 'date':
             payload = str(
