@@ -1,4 +1,4 @@
-import auth, { initialStore } from './auth';
+import auth from './auth';
 import {
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
@@ -27,7 +27,7 @@ describe('Auth reducer testing', () => {
       type: SIGN_UP_SUCCESS,
     };
     const expResult = {
-      isAuthenticated: false,
+      // isAuthenticated: false,
       loading: false,
       isSignedUp: true,
       isLoggedIn: false,
@@ -41,7 +41,7 @@ describe('Auth reducer testing', () => {
       type: SIGN_UP_FAIL,
     };
     const expResult = {
-      isAuthenticated: false,
+      // isAuthenticated: false,
       loading: false,
       isSignedUp: false,
       isLoggedIn: false,
@@ -92,7 +92,7 @@ describe('Auth reducer testing', () => {
       type: LOG_IN_FAIL,
     };
     const expResult = {
-      isAuthenticated: false,
+      // isAuthenticated: false,
       loading: false,
       isSignedUp: false,
       isLoggedIn: false,

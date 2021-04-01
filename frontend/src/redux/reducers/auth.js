@@ -29,11 +29,13 @@ const auth = (store = initialStore, action) => {
   const { type, payload } = action;
   switch (type) {
     case LOG_OUT:
+    case SIGN_UP_FAIL:
+    case LOG_IN_FAIL:
       localStorage.removeItem('logInInfo');
       return {
         isSignedUp: false,
         isLoggedIn: false,
-        isAuthenticated: false,
+        // isAuthenticated: false,
         loading: false,
       };
     case SIGN_UP_SUCCESS:
@@ -41,22 +43,13 @@ const auth = (store = initialStore, action) => {
       return {
         isSignedUp: true,
         isLoggedIn: false,
-        isAuthenticated: false,
+        // isAuthenticated: false,
         loading: false,
       };
     case SIGN_UP_MODAL_CLOSED:
       return {
         ...store,
         isSignedUp: false,
-      };
-    case SIGN_UP_FAIL:
-    case LOG_IN_FAIL:
-      localStorage.removeItem('logInInfo');
-      return {
-        isSignedUp: false,
-        isLoggedIn: false,
-        isAuthenticated: false,
-        loading: false,
       };
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;
