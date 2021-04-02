@@ -54,11 +54,11 @@ export const logInAction = (email, password) => async dispatch => {
   try {
     const resp = await axiosClient.post(
       '/users/login',
-      JSON.stringify({ email, password }),
+      JSON.stringify({ email, password })
     );
+    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
     // setAlert(resp.data.message, 'info', 1000);
     dispatch(setAlert(resp.data.message, 'info', 1000));
-    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
     delete _payload['user_name'];
     dispatch({
       type: LOG_IN_SUCCESS,
