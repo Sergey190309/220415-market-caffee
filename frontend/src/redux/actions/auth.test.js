@@ -1,13 +1,19 @@
-import mockAxios from 'axios';
+import mockAxios from '../../api/apiClient';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-import { LOG_IN_MODAL_CLOSED, LOG_IN_SUCCESS, LOG_OUT, SIGN_UP_MODAL_CLOSED } from './types';
+import {
+  LOG_IN_MODAL_CLOSED,
+  LOG_IN_SUCCESS,
+  LOG_OUT,
+  SIGN_UP_MODAL_CLOSED,
+} from './types';
+
 
 import { logInAction, logOutAction, setLoggedInFalse, setSignedUpFalse } from './auth';
 
-jest.mock('../reducers/index');
+jest.mock('../reducers');
 
 describe('Auth action testing', () => {
   describe('normal action creators', () => {
@@ -36,7 +42,8 @@ describe('Auth action testing', () => {
   describe('async action creators', () => {
     describe('logInAction', () => {
       // const mockArgs =
-      test.only('success', async done => {
+      test.only('success', async () => {
+        // jest.setTimeout(10000);
         const middleWares = [thunk];
         const mockStore = configureMockStore(middleWares);
         const mockState = {};
@@ -59,20 +66,26 @@ describe('Auth action testing', () => {
           {
             type: LOG_IN_SUCCESS,
             payload: {
-              user_name: 'user_name',
+              userName: 'user_name',
               email: 'email',
               isAdmin: 'isAdmin',
               access_token: 'access_token',
               refresh_token: 'refresh_token',
-            }
-          }
+            },
+          },
         ];
 
         mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }));
 
-        await store.dispatch(logInAction(mockEmail, mockPassword))
-        expect(store.getActions()).toEqual(expActions);
+        await store.dispatch(logInAction(mockEmail, mockPassword));
+        // console.log('hi')
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
+        // expect(mockAxios.post).toHaveBeenCalledWith(
+        //   '/users/login',
+        //   `{"email":"${mockEmail}","password":"${mockPassword}"}`
+        // );
+        expect(store.getActions()).toEqual(expActions);
+        // done();
       });
     });
   });
