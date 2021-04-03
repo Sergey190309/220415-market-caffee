@@ -56,11 +56,12 @@ export const logInAction = (email, password) => async dispatch => {
       '/users/login',
       JSON.stringify({ email, password })
     );
-    // console.log(resp.data)
+    // console.log(resp)
     const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
     // setAlert(resp.data.message, 'info', 1000);
-    dispatch(setAlert(resp.data.message, 'info', 1000));
     delete _payload['user_name'];
+    // console.log(_payload)
+    dispatch(setAlert(resp.data.message, 'info', 1000));
     dispatch({
       type: LOG_IN_SUCCESS,
       payload: _payload,

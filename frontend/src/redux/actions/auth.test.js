@@ -1,7 +1,9 @@
-import mockAxios from '../../api/apiClient';
+import mockAxios from '../../api/apiClient'
+// import mockAxios from 'axios';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+// import MockAdapter from 'axios-mock-adapter'
 
 import {
   LOG_IN_MODAL_CLOSED,
@@ -10,8 +12,9 @@ import {
   SIGN_UP_MODAL_CLOSED,
 } from './types';
 
-
 import { logInAction, logOutAction, setLoggedInFalse, setSignedUpFalse } from './auth';
+
+// const mock = new MockAdapter(mockAxios)
 
 jest.mock('../reducers');
 
@@ -46,20 +49,19 @@ describe('Auth action testing', () => {
         // jest.setTimeout(10000);
         const middleWares = [thunk];
         const mockStore = configureMockStore(middleWares);
-        const mockState = {};
-        const store = mockStore(mockState);
+        // const mockState = {};
+        const store = mockStore();
+        // const store = mockStore(mockState);
         const mockEmail = 'test@email.com';
         const mockPassword = 'password';
         const mockData = {
-          data: {
-            message: 'message',
-            payload: {
-              user_name: 'user_name',
-              email: 'email',
-              isAdmin: 'isAdmin',
-              access_token: 'access_token',
-              refresh_token: 'refresh_token',
-            },
+          message: 'message',
+          payload: {
+            user_name: 'user_name',
+            email: 'email',
+            isAdmin: true,
+            access_token: 'access_token',
+            refresh_token: 'refresh_token',
           },
         };
         const expActions = [
@@ -76,6 +78,8 @@ describe('Auth action testing', () => {
         ];
 
         mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }));
+        // mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }),)
+        // mockAxios.post.mockResolvedValue({ data: mockData })
 
         await store.dispatch(logInAction(mockEmail, mockPassword));
         // console.log('hi')
@@ -84,7 +88,9 @@ describe('Auth action testing', () => {
         //   '/users/login',
         //   `{"email":"${mockEmail}","password":"${mockPassword}"}`
         // );
-        expect(store.getActions()).toEqual(expActions);
+        console.log(store.getActions()[0])
+        console.log(store.getActions()[1])
+        // expect(store.getActions()).toEqual(expActions);
         // done();
       });
     });

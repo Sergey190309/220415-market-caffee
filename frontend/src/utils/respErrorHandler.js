@@ -10,7 +10,7 @@ export const actRespErrorHandler = (error, dispatch, actionType) => {
     dispatch(setAlert(error.message, 'error', 5000));
   } else {
     dispatch(setAlert(error.message, 'error'));
-    console.log('Error', error.request);
+    console.log('respErrorHandler', error.request);
   }
   // console.log(error.config)
   dispatch({
