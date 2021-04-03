@@ -67,6 +67,7 @@ export const logInAction = (email, password) => async dispatch => {
       payload: _payload,
     });
   } catch (error) {
+    // console.log(error)
     actRespErrorHandler(error, dispatch, LOG_IN_FAIL);
   }
 };
