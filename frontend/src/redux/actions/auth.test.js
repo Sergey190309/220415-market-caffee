@@ -1,4 +1,4 @@
-import mockAxios from '../../api/apiClient'
+import mockAxios from '../../api/apiClient';
 // import mockAxios from 'axios';
 
 import configureMockStore from 'redux-mock-store';
@@ -10,7 +10,8 @@ import {
   LOG_IN_SUCCESS,
   LOG_OUT,
   SIGN_UP_MODAL_CLOSED,
-  SET_ALERT
+  SET_ALERT,
+  LOG_IN_FAIL,
 } from './types';
 
 import { logInAction, logOutAction, setLoggedInFalse, setSignedUpFalse } from './auth';
@@ -50,8 +51,10 @@ describe('Auth action testing', () => {
       const mockEmail = 'test@email.com';
       const mockPassword = 'password';
 
+      afterEach(() => {});
+
       test('success', async () => {
-        const mockState = {}
+        const mockState = {};
         const store = mockStore(mockState);
         const mockData = {
           message: 'message',
@@ -69,7 +72,7 @@ describe('Auth action testing', () => {
             payload: {
               message: 'message',
               alertType: 'info',
-            }
+            },
           },
           {
             type: LOG_IN_SUCCESS,
@@ -83,24 +86,78 @@ describe('Auth action testing', () => {
           },
         ];
 
-        mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }));
-
+        // mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }));
+        mockAxios.post.mockResolvedValueOnce({ data: mockData });
         await store.dispatch(logInAction(mockEmail, mockPassword));
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
+        expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
+        expect(store.getActions()[0].payload.alertType).toBe(
+          expActions[0].payload.alertType
+        );
+        expect(store.getActions()[1]).toEqual(expActions[1]);
+      });
+
+      test('fail, wrong password', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          data: {
+            message: 'wrong password',
+          },
+        };
+        const expActions = [
+          {
+            type: SET_ALERT,
+            payload: {
+              message: 'wrong password',
+              alertType: 'error',
+            },
+          },
+          {
+            type: LOG_IN_FAIL,
+          },
+        ];
+        // console.log('test:', mockData.response.data.message)
+        mockAxios.post.mockRejectedValueOnce({ response: mockData });
+
+        await store.dispatch(logInAction(mockEmail, mockPassword));
+        expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
+        expect(store.getActions()[0].payload.alertType).toBe(
+          expActions[0].payload.alertType
+        );
+        expect(store.getActions()[1]).toEqual(expActions[1]);
+      });
+
+      test('fail, network error', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          request: { readyState: 4 },
+          message: 'network error',
+        };
+        const expActions = [
+          {
+            type: SET_ALERT,
+            payload: {
+              message: 'network error',
+              alertType: 'error',
+            },
+          },
+          {
+            type: LOG_IN_FAIL,
+          },
+        ];
+        // console.log('test:', mockData.response.data.message)
+        mockAxios.post.mockRejectedValueOnce({ ...mockData });
+
+        await store.dispatch(logInAction(mockEmail, mockPassword));
+        // console.log(store.getActions()[0]);
         expect(store.getActions()[0].type).toEqual(expActions[0].type);
         expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message)
         expect(store.getActions()[0].payload.alertType).toBe(expActions[0].payload.alertType)
         expect(store.getActions()[1]).toEqual(expActions[1]);
-      });
-
-      test('fail, wrong password', () => {
-        const mockState = {}
-        const store = mockStore(mockState);
-        const mockData = {
-
-        }
-        mockAxios.post.mockImplementationOnce(() => Promise.reject({ error: mockData }));
-
       });
     });
   });

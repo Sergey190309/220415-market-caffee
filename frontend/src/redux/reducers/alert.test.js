@@ -1,7 +1,4 @@
-import {
-  SET_ALERT,
-  REMOVE_ALERT,
-} from '../actions/types';
+import { SET_ALERT, REMOVE_ALERT } from '../actions/types';
 import alertReducer from './alert';
 
 describe('alertReducer', () => {
@@ -18,9 +15,7 @@ describe('alertReducer', () => {
         id: 'test id',
       },
     };
-    expect(alertReducer(undefined, action)[0]).toEqual(
-      action.payload
-    );
+    expect(alertReducer(undefined, action)[0]).toEqual(action.payload);
   });
 
   test('it should remove alert', () => {
@@ -30,11 +25,22 @@ describe('alertReducer', () => {
         alertType: 'Alert type',
         id: 'test id',
       },
+      {
+        message: 'Test message 2',
+        alertType: 'Alert type 2',
+        id: 'test id 2',
+      },
     ];
     const action = {
       type: REMOVE_ALERT,
       payload: 'test id',
     };
-    expect(alertReducer(state, action)).toEqual([]);
+    expect(alertReducer(state, action)).toEqual([
+      {
+        message: 'Test message 2',
+        alertType: 'Alert type 2',
+        id: 'test id 2',
+      },
+    ]);
   });
 });
