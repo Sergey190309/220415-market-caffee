@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask, current_app
 
 from application.modules.dbs_global import dbs_global
+from application.modules.flm_global import flm_global
 from application.modules.fbp import fbp
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
@@ -24,6 +25,7 @@ def create_app(config='default_config.py'):
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
     dbs_global.init_app(app)  # Flask_SQLAlchemy init.
+    flm_global.init_app(app, dbs_global)  # Flask_migrate init.
     fbp.init_app(app)  # Flask_BabelPlus
 
     with app.app_context():

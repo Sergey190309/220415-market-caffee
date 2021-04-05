@@ -34,7 +34,8 @@ class ContentModel(dbs_global.Model):
         nullable=False,
         default=0)
     title = dbs_global.Column(
-        dbs_global.String(64), nullable=False, default="That's title")
+        dbs_global.String(64), default="That's title")
+        # dbs_global.String(64), nullable=False, default="That's title")
     # content on site:
     content = dbs_global.Column(dbs_global.UnicodeText)
 

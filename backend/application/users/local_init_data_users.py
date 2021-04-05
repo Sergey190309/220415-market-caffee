@@ -7,7 +7,7 @@ class DefaultAdmin():
             'id': 1,
             'user_name': 'admin',
             'email': 'a@agatha-ng.com',
-            'password': 'qwer',
+            'password': 'qwerty',
             'role_id': 'admin',
             'locale_id': 'en',
             'time_zone': 3,
