@@ -8,6 +8,12 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { setModalClosed, signUpAction, setSignedUpFalse } from '../../redux/actions';
+import {
+  authPositiveColor,
+  authNeutralColor,
+  authWorningColor,
+} from '../../utils/colors';
+
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -67,16 +73,16 @@ export const SignUp = ({
     setSubmitting(false);
   };
 
-  const color = 'teal';
-  const resColor = 'olive';
-  const canColor = 'orange';
+  // const color = 'teal';
+  // const resColor = 'olive';
+  // const canColor = 'orange';
 
   return (
     <Container fluid textAlign='center'>
       <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
-          <Header as='h2' textAlign='center' color={color}>
+          <Header as='h2' textAlign='center' color={authPositiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               {t('header')}
@@ -88,7 +94,7 @@ export const SignUp = ({
             validationSchema={signUpSchema(t)}
             onSubmit={onSubmit}>
             <Form size='large'>
-              <Segment color={color} stacked>
+              <Segment color={authPositiveColor} stacked>
                 <Input
                   id='input-userName'
                   name='userName'
@@ -130,21 +136,21 @@ export const SignUp = ({
                 <Button.Group widths='1'>
                   <SubmitButton
                     basic
-                    color={color}
+                    color={authPositiveColor}
                     size='large'
                     content={t('buttons.signUp')}
                   />
                   <Button.Or text={t('buttons.or')} />
                   <ResetButton
                     basic
-                    color={resColor}
+                    color={authNeutralColor}
                     size='large'
                     content={t('buttons.reset')}
                   />
                   <Button.Or text={t('buttons.or')} />
                   <Button
                     basic
-                    color={canColor}
+                    color={authWorningColor}
                     size='large'
                     content={t('buttons.cancel')}
                     type='button'

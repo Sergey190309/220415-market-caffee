@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Segment,
   Container,
   Header,
 } from 'semantic-ui-react';
 
+import {viewHeaderColor, viewSegmentColor} from '../../../utils/colors'
+
 const Landing = () => (
 
   <Container>
-    <Segment color='violet'>
+    <Segment color={viewSegmentColor}>
       <Header
         as='h1'
         textAlign='center'
         size='medium'
-        color='yellow'>
+        color={viewHeaderColor}>
         Couple of words on our cosy place!
       </Header>
       <p>

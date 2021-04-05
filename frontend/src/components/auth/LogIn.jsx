@@ -8,6 +8,11 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 import {
+  authPositiveColor,
+  authNeutralColor,
+  authWorningColor,
+} from '../../utils/colors';
+import {
   setModalOpened,
   setModalClosed,
   logInAction,
@@ -30,11 +35,6 @@ export const logInSchema = t =>
       .min(6, t('errors.password.min', { min: '${min}' }))
       .required(t('errors.required')),
   });
-
-// export const onSubmit = (formData, logInAction) => {
-//   console.log(JSON.stringify(formData, null, 2));
-//   logInAction({...formData})
-// };
 
 export const LogIn = ({
   initValues,
@@ -61,16 +61,16 @@ export const LogIn = ({
   };
 
   // console.log()
-  const color = 'teal';
-  const resColor = 'olive';
-  const canColor = 'orange';
+  // const color = 'teal';
+  // const resColor = 'olive';
+  // const canColor = 'orange';
 
   return (
     <Container fluid textAlign='center'>
       <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
-          <Header as='h2' textAlign='center' color={color}>
+          <Header as='h2' textAlign='center' color={authPositiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               {t('header')}
@@ -83,7 +83,7 @@ export const LogIn = ({
             onSubmit={onSubmit}>
             {({ isSubmitting }) => (
               <Form size='large'>
-                <Segment color={color} stacked>
+                <Segment color={authPositiveColor} stacked>
                   <Input
                     id='input-email'
                     name='email'
@@ -109,7 +109,7 @@ export const LogIn = ({
                   <Button.Group widths='1'>
                     <SubmitButton
                       basic
-                      color={color}
+                      color={authPositiveColor}
                       size='large'
                       content={t('buttons.logIn')}
                       // disabled={isSubmitting}
@@ -117,14 +117,14 @@ export const LogIn = ({
                     <Button.Or text={t('buttons.or')} />
                     <ResetButton
                       basic
-                      color={resColor}
+                      color={authNeutralColor}
                       size='large'
                       content={t('buttons.reset')}
                     />
                     <Button.Or text={t('buttons.or')} />
                     <Button
                       basic
-                      color={canColor}
+                      color={authWorningColor}
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
@@ -135,7 +135,7 @@ export const LogIn = ({
               </Form>
             )}
           </Formik>
-          <Segment color={color}>
+          <Segment color={authPositiveColor}>
             <Grid columns={2}>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width='9' textAlign='right'>
@@ -145,7 +145,7 @@ export const LogIn = ({
                   <Button
                     // primary
                     basic
-                    color={color}
+                    color={authPositiveColor}
                     floated='left'
                     size='large'
                     content={t('buttons.signUp')}
