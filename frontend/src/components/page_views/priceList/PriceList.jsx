@@ -43,8 +43,7 @@ const PriceList = () => {
       </p>
       </Segment>
     </Container>
-
-    )
+  )
 }
 
 export default PriceList
