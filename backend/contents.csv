@@ -1,0 +1,5 @@
+identity,view_id,locale_id,created,updated,user_id,title,content
+hello_01,landing,en,2021-04-04 00:00:00,NULL,1,Welcome!,We are glad to greet you in our cosy coffee.
+hello_01,landing,ru,2021-04-04 00:00:00,NULL,1,Добро пожаловать!,Мы рады вас приветствовать вас в нашем уютном кафе.
+Hello_02,landing,en,2021-04-04 00:00:00,NULL,1,Welcome again,Tha’t test message
+Hello_02,landing,ru,2021-04-04 00:00:00,NULL,1,"И еще раз, здравствуйте.",Это проверочное сообщение.

@@ -7,9 +7,10 @@ class ContentsConstants():
     def __init__(self):
         # That's initial data for component kinds table:
         self._VIEWS = [
-            {'id_view': 'main', 'description': 'That is main view.'},
+            # {'id_view': 'main', 'description': 'That is main view.'},
             {'id_view': 'hello', 'description': 'That is presentatnion page.'},
-            {'id_view': 'goodbay', 'description': 'That is good bay page.'}]
+            # {'id_view': 'goodbay', 'description': 'That is good bay page.'}
+            ]
 
     @property
     def get_VIEWS(self):
