@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Menu, Container, Popup } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 
-import Logo from '../content/various/Logo';
+import Logo from '../page_views/various/Logo'
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';

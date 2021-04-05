@@ -11,7 +11,7 @@ import {
 } from 'semantic-ui-react';
 
 import Content from '../layout/Content';
-import Logo from '../content/various/Logo';
+import Logo from '../page_views/various/Logo';
 import NavItem from './nav_item/NavItem';
 
 const SideBar = () => {

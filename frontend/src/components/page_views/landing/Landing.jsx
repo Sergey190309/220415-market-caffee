@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Segment,
   Container,
@@ -6,6 +6,7 @@ import {
 } from 'semantic-ui-react';
 
 const Landing = () => (
+
   <Container>
     <Segment color='violet'>
       <Header
