@@ -40,9 +40,11 @@ export const signUpAction = (userName, email, password) => async dispatch => {
       })
     );
     dispatch(setAlert(resp.data.message, 'info', 1000));
+    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name }
+    delete _payload['user_name'];
     dispatch({
       type: SIGN_UP_SUCCESS,
-      payload: resp.data,
+      payload: _payload,
     });
   } catch (error) {
     actRespErrorHandler(error, dispatch, SIGN_UP_FAIL);

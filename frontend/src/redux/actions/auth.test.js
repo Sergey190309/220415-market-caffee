@@ -1,9 +1,7 @@
 import mockAxios from '../../api/apiClient';
-// import mockAxios from 'axios';
 
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-// import MockAdapter from 'axios-mock-adapter'
 
 import {
   LOG_IN_MODAL_CLOSED,
@@ -12,11 +10,17 @@ import {
   SIGN_UP_MODAL_CLOSED,
   SET_ALERT,
   LOG_IN_FAIL,
+  SIGN_UP_SUCCESS,
+  SIGN_UP_FAIL,
 } from './types';
 
-import { logInAction, logOutAction, setLoggedInFalse, setSignedUpFalse } from './auth';
-
-// const mock = new MockAdapter(mockAxios)
+import {
+  logInAction,
+  logOutAction,
+  setLoggedInFalse,
+  setSignedUpFalse,
+  signUpAction,
+} from './auth';
 
 jest.mock('../reducers');
 
@@ -45,13 +49,14 @@ describe('Auth action testing', () => {
   });
 
   describe('async action creators', () => {
-    describe('logInAction', () => {
-      const middleWares = [thunk];
-      const mockStore = configureMockStore(middleWares);
-      const mockEmail = 'test@email.com';
-      const mockPassword = 'password';
+    const middleWares = [thunk];
+    const mockStore = configureMockStore(middleWares);
+    const mockUserName = 'User Name';
+    const mockEmail = 'test@email.com';
+    const mockPassword = 'password';
 
-      afterEach(() => {});
+    describe('logInAction', () => {
+      // afterEach(() => {});
 
       test('success', async () => {
         const mockState = {};
@@ -155,10 +160,113 @@ describe('Auth action testing', () => {
         await store.dispatch(logInAction(mockEmail, mockPassword));
         // console.log(store.getActions()[0]);
         expect(store.getActions()[0].type).toEqual(expActions[0].type);
-        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message)
-        expect(store.getActions()[0].payload.alertType).toBe(expActions[0].payload.alertType)
+        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
+        expect(store.getActions()[0].payload.alertType).toBe(
+          expActions[0].payload.alertType
+        );
         expect(store.getActions()[1]).toEqual(expActions[1]);
       });
+    });
+
+    describe('signUpAction', () => {
+      test('success', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          message: 'message',
+          payload: {
+            user_name: mockUserName,
+            email: mockEmail,
+          },
+        };
+        const expActions = [
+          {
+            type: SET_ALERT,
+            payload: {
+              message: 'message',
+              alertType: 'info',
+            },
+          },
+          {
+            type: SIGN_UP_SUCCESS,
+            payload: {
+              userName: mockUserName,
+              email: mockEmail,
+            },
+          },
+        ];
+        mockAxios.post.mockResolvedValueOnce({ data: mockData });
+        await store.dispatch(signUpAction(mockUserName, mockEmail, mockPassword));
+        expect(mockAxios.post).toHaveBeenCalledTimes(1);
+        expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
+        expect(store.getActions()[0].payload.alertType).toBe(
+          expActions[0].payload.alertType
+        );
+        // console.log(store.getActions()[1])
+        expect(store.getActions()[1]).toEqual(expActions[1]);
+      });
+      test('fail, already exists', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          data: {
+            message: 'user already exists',
+          },
+        };
+        const expActions = [
+          {
+            type: SET_ALERT,
+            payload: {
+              message: 'user already exists',
+              alertType: 'error',
+            },
+          },
+          {
+            type: SIGN_UP_FAIL,
+          },
+        ];
+        mockAxios.post.mockRejectedValueOnce({ response: mockData });
+        await store.dispatch(signUpAction(mockUserName, mockEmail, mockPassword));
+        expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        expect(store.getActions()[0].payload.message).toEqual(expActions[0].payload.message);
+        expect(store.getActions()[0].payload.alertType).toEqual(expActions[0].payload.alertType);
+        expect(store.getActions()[1]).toEqual(expActions[1]);
+        // console.log(store.getActions()[0].type)
+      });
+
+      test('fail, network error', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          request: { readyState: 4 },
+          message: 'network error',
+        };
+        const expActions = [
+          {
+            type: SET_ALERT,
+            payload: {
+              message: 'network error',
+              alertType: 'error',
+            },
+          },
+          {
+            type: SIGN_UP_FAIL,
+          },
+        ];
+        // console.log('test:', mockData.response.data.message)
+        mockAxios.post.mockRejectedValueOnce({ ...mockData });
+
+        await store.dispatch(signUpAction(mockUserName, mockEmail, mockPassword));
+        // console.log(store.getActions()[0]);
+        expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
+        expect(store.getActions()[0].payload.alertType).toBe(
+          expActions[0].payload.alertType
+        );
+        expect(store.getActions()[1]).toEqual(expActions[1]);
+      });
+
     });
   });
 });
