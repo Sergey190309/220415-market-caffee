@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import { getContents } from '../../../api/calls/getContents';
+import { getContents } from '../../../api/calls/getBackEndInfo';
 import { viewHeaderColor } from '../../../utils/colors';
 
 const getValues = keys => {
   // console.log('getValues ->', keys)
-  return getContents({...keys})
+  return getContents({ ...keys });
 };
 
 const ViewHeader = ({ keys, getValues }) => {
@@ -15,8 +15,8 @@ const ViewHeader = ({ keys, getValues }) => {
 
   const onClick = () => {
     // console.log('ViewHeader keys ->', keys)
-    getValues(keys)
-  }
+    getValues(keys);
+  };
 
   // useEffect(() => {
   //   setTitle('Title')
@@ -25,7 +25,8 @@ const ViewHeader = ({ keys, getValues }) => {
   // }, [getValues, keys]);
 
   return (
-    <Header as={Button}
+    <Header
+      as={Button}
       onClick={onClick}
       // color={viewHeaderColor}
       textAlign='center'
