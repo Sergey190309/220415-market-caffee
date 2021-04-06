@@ -8,7 +8,7 @@ import ViewPicture from '../view_elements/ViewPicture';
 
 const Landing = () => {
   const headerKeys = {
-    view_id: 'landing',
+    view_id: 'landin',
   };
   return (
     <Container>

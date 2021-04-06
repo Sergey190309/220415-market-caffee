@@ -23,13 +23,13 @@ export const actRespErrorHandler = (error, dispatch, actionType) => {
 
 export const respErrorHandler = (error) => {
   if (error.response) {
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
+    console.log('error.response.data ->', error.response.data);
+    console.log('error.response.status ->', error.response.status);
+    console.log('error.response.headers ->', error.response.headers);
   } else if (error.request) {
-    console.log(error.request)
+    console.log('error.request ->', error.request)
   } else {
-    console.log('Error', error.message);
+    console.log('error.message ->', error.message);
   }
-  console.log(error.config)
+  console.log('error.config ->', error.config)
 }
