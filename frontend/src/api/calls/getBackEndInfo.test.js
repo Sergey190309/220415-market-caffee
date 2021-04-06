@@ -37,9 +37,18 @@ describe('getContents testing', () => {
       },
       config: { config: 'Some config' },
     };
-    mockAxios.get.mockImplementationOnce(() => Promise.reject({...mockData}));
-    // expect(getContents(mockKeys)).toThrow()
-    const result = await getContents(mockKeys)
-    console.log(result)
+    mockAxios.get.mockImplementationOnce(() => Promise.reject({ ...mockData }));
+
+    const testing = (error) => {
+      expect(error).toEqual(mockData);
+    }
+
+    try {
+      await getContents(mockKeys);
+      // console.log(result);
+    } catch (err) {
+      // console.log(err);
+      testing(err)
+    }
   });
 });

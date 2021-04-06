@@ -7,13 +7,11 @@ from flask_babelplus import lazy_gettext as _
 
 from ..schemas.users import (
     user_schema,
-    # UserSchema,
     UserUpdateSchema
 )
 from ..models.users import UserModel
 from ..models.confirmations import ConfirmationModel
 
-# user_schema = UserSchema()
 user_update_schema = UserUpdateSchema()
 
 
@@ -39,7 +37,7 @@ class User(Resource):
                 _confirmation.save_to_db()
                 _user.send_confirmation_request()
                 _created_user = UserModel.find_by_email(_user.email)
-                # print('users.resources.User.post')
+                print('users.resources.User.post, user_schema.dump(_created_user) ->', user_schema.dump(_created_user))
                 return {
                     'message': str(_(
                         "User with email '%(email)s' created. "
@@ -62,11 +60,10 @@ class User(Resource):
         Get all user details by email in json.
         Allowd for owner or admin.
         '''
-        _json = request.get_json()
+        _email = request.args['email']
         # Below is for validation only.
-        user_update_schema.load(_json)
+        user_update_schema.load({'email': _email})
 
-        _email = _json['email']
         _user_logged = UserModel.find_by_id(get_jwt_identity())
         if not (_user_logged.is_admin or _user_logged.is_own_email(_email)):
             return {

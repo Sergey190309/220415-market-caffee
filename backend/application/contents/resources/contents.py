@@ -81,19 +81,15 @@ class Contents(Resource):
         Get instance from db.
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
-        print('contents, resources, Accept-Language ->', request.headers.get('Accept-Language'))
-        print('contents, resources, args ->', request.args['view_id'])
-        print('contents, resources, args ->', request.args['identity'])
+        # print('contents, resources, Accept-Language ->', request.headers.get('Accept-Language'))
+        # print('contents, resources, args ->', request.args['view_id'])
+        # print('contents, resources, args ->', request.args['identity'])
         _request_dict = {
             'view_id': request.args['view_id'],
             'identity': request.args['identity'],
             'locale_id': request.headers.get('Accept-Language')
         }
-        print('contents, resources, _request_dict ->', _request_dict)
-
-        # _request_json = request.get_json()
-        # _request_json.update({'locale_id': fbp.get_lng()})
-        # print('contents, resources, get, after -', request.get_json())
+        # print('contents, resources, _request_dict ->', _request_dict)
         _search_json = content_get_schema.load(_request_dict)
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
         if _content is None:

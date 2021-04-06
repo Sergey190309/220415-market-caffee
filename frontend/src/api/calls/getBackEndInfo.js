@@ -13,12 +13,7 @@ export const getContents = async keys => {
     // console.log('getContents, result ->', result);
     return result;
   } catch (error) {
-    // console.log('error:', error);
     respErrorHandler(error);
+    return error;
   }
-  // const json = {
-  //   "identity": identity,
-  //   "view_id": view_id,
-  // }
-  // return 'results'
 };
