@@ -4,6 +4,8 @@ from flask_restful import Resource
 from flask_babelplus import lazy_gettext as _
 
 from application.modules.dbs_global import dbs_global
+from application.modules.fbp import fbp
+# from application.global_init_data import global_variables
 from ..models.contents import ContentModel
 from ..schemas.contents import (
     content_schema,
@@ -78,7 +80,21 @@ class Contents(Resource):
         '''
         Get instance from db.
         '''
-        _search_json = content_get_schema.load(request.get_json())
+        fbp.set_lng(request.headers.get('Accept-Language'))
+        print('contents, resources, Accept-Language ->', request.headers.get('Accept-Language'))
+        print('contents, resources, args ->', request.args['view_id'])
+        print('contents, resources, args ->', request.args['identity'])
+        _request_dict = {
+            'view_id': request.args['view_id'],
+            'identity': request.args['identity'],
+            'locale_id': request.headers.get('Accept-Language')
+        }
+        print('contents, resources, _request_dict ->', _request_dict)
+
+        # _request_json = request.get_json()
+        # _request_json.update({'locale_id': fbp.get_lng()})
+        # print('contents, resources, get, after -', request.get_json())
+        _search_json = content_get_schema.load(_request_dict)
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
         if _content is None:
             return cls.not_found(**_search_json)

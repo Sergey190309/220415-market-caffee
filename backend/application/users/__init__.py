@@ -1,8 +1,8 @@
 from flask import Blueprint, current_app
-from flask_cors import CORS
+# from flask_cors import CORS
 
 
-def cleate_users():
+def create_users():
     # print('users.__init__.create_users')
     users_bp = Blueprint(
         'users_bp', __name__,
@@ -10,7 +10,7 @@ def cleate_users():
         # static_url_path='/users',
         template_folder='templates')
 
-    CORS(users_bp)
+    # CORS(users_bp)
 
     with current_app.app_context():
 
@@ -21,6 +21,10 @@ def cleate_users():
         # flask_restful and routining
         from .modules.api_users import api_users
         api_users.init_app(users_bp)
+
+        # flask_cors
+        from .modules.crs_users import crs_users
+        crs_users.init_app(users_bp)
 
         # flask_sqlalchemy
         from application.modules.dbs_global import dbs_global

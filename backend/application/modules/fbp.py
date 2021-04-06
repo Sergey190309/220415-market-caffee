@@ -43,5 +43,8 @@ class BabelBackend(Babel):
         if lng != self.global_variables.app_globals['locale']:
             self.set_locales({'locale': lng})
 
+    def get_lng(self) -> str:
+        return self.global_variables.app_globals['locale']
+
 
 fbp = BabelBackend()

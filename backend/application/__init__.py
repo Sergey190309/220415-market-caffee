@@ -40,8 +40,8 @@ def create_app(config='default_config.py'):
         app.register_blueprint(create_home(), url_prefix='/home')
 
         # Users' handling.
-        from .users import cleate_users
-        app.register_blueprint(cleate_users(), url_prefix='/users')
+        from .users import create_users
+        app.register_blueprint(create_users(), url_prefix='/users')
 
         # Module for site contents that can be used by front end with possibility to
         # correct it from site.

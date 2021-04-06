@@ -41,7 +41,7 @@ class GlobalVariables():
 
         self.app_globals = values
 
-    def set_globals(self, set_values: Dict):
+    def set_globals(self, set_values: Dict) -> None:
         for item in set_values:
             # print(item)
             self.app_globals[item] = set_values[item]
@@ -54,3 +54,8 @@ class GlobalVariables():
 
     def get_globals(self) -> Dict:
         return self.app_globals
+
+    # def get_lng(self) -> str:
+    #     return self.app_globals.get('locale')
+
+# global_variables = GlobalVariables()
