@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Segment, Container, Header } from 'semantic-ui-react';
 
 import { viewHeaderColor, viewSegmentColor } from '../../../utils/colors';
@@ -6,17 +8,19 @@ import ViewHeader from '../view_elements/ViewHeader';
 import ViewParagraph from '../view_elements/ViewParagraph';
 import ViewPicture from '../view_elements/ViewPicture';
 
-const Landing = () => {
-  // const [lng, setLng] = useState(initialState)
+const Landing = ({ language }) => {
+  // const [lng] = useState(language);
+
+  useEffect(() => {
+  }, [language])
+
   const headerKeys = {
     view_id: 'landing',
   };
   return (
     <Container>
       <Segment color={viewSegmentColor}>
-        <ViewHeader
-          keys={{ ...headerKeys, identity: 'view_heading' }}
-        />
+        <ViewHeader keys={{ ...headerKeys, identity: 'view_heading' }} />
         <ViewParagraph />
         <ViewParagraph />
         <ViewParagraph />
@@ -51,5 +55,16 @@ const Landing = () => {
     </Container>
   );
 };
+Landing.defaultProps = {
+  language: '',
+};
 
-export default Landing;
+Landing.propTypes = {
+  language: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  language: state.lng
+})
+
+export default connect(mapStateToProps)(Landing);

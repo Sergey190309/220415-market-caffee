@@ -7,4 +7,5 @@ export {
   setSignedUpFalse,
   logOutAction,
 } from './auth';
+export { setLngAction } from './lng';
 // export {setLocales, changeLocale} from './locales'

@@ -6,15 +6,14 @@ import i18next from 'i18next';
 import { Dropdown } from 'semantic-ui-react';
 import { axiosCommonLng } from '../../api/apiClient';
 
-
-// import { lngSwitch } from '../../api/calls/lngSwitch';
+import { setLngAction } from '../../redux/actions/lng';
 
 const onChange = (value, setActive) => {
   setActive(value);
   i18next.changeLanguage(value);
 };
 
-export const Language = ({ onChange }) => {
+export const Language = ({ onChange, setLngAction }) => {
   const [active, setActive] = useState(i18next.language);
   const [available] = useState(
     i18next.options.supportedLngs.filter(value => value !== 'cimode')
@@ -33,7 +32,8 @@ export const Language = ({ onChange }) => {
     evt.preventDefault();
     // console.log(value);
     // lngSwitch(value);
-    axiosCommonLng(value)
+    axiosCommonLng(value);
+    setLngAction(value);
     onChange(value, setActive);
   };
 
@@ -51,19 +51,17 @@ export const Language = ({ onChange }) => {
 };
 
 Language.defaultProps = {
-  locale: '',
-  locales: [],
   onChange: onChange,
+  setLngAction: setLngAction,
 };
 
 Language.propTypes = {
-  locale: PropTypes.string.isRequired,
-  locales: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired,
+  setLngAction: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  locales: state.availableLocales,
-});
+// const mapStateToProps = state => ({
+//   locales: state.availableLocales,
+// });
 
-export default connect(mapStateToProps)(Language);
+export default connect(null, { setLngAction })(Language);

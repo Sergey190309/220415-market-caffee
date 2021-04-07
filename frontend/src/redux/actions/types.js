@@ -19,4 +19,4 @@ export const LOG_IN_MODAL_CLOSED = 'LOG_IN_MODAL_CLOSED';
 export const LOG_OUT = 'LOG_OUT';
 
 // Language switcher
-// export const LNG_SWITCH = 'LNG_SWITCH';
+export const LNG_SWITCH = 'LNG_SWITCH';
