@@ -7,6 +7,7 @@ import ViewParagraph from '../view_elements/ViewParagraph';
 import ViewPicture from '../view_elements/ViewPicture';
 
 const Landing = () => {
+  // const [lng, setLng] = useState(initialState)
   const headerKeys = {
     view_id: 'landing',
   };

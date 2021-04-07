@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Header, Button } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
+// import { Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import { getContents } from '../../../api/calls/getBackEndInfo';
@@ -10,39 +11,54 @@ const getValues = keys => {
   return getContents({ ...keys });
 };
 
-const ViewHeader = ({ keys, getValues }) => {
-  const [title, setTitle] = useState('Title');
+const initData = {
+  title: 'Title',
+  content: 'Content',
+};
 
-  const onClick = () => {
-    // console.log('ViewHeader keys ->', keys)
-    getValues(keys);
-  };
+const ViewHeader = ({ keys, initData, getValues }) => {
+  const [data, setData] = useState(initData);
 
-  // useEffect(() => {
-  //   setTitle('Title')
-  //   getValues(keys)
-  //   // setTitle(getValues(keys))
-  // }, [getValues, keys]);
+  // const onClick = async () => {
+  //   const result = await getValues(keys);
+  //   console.log('ViewHeaders on Click ->', result);
+  // };
+
+  useEffect(() => {
+    let isMount = true;
+    const getData = async () => {
+      const result = await getValues(keys);
+      if (isMount) {
+        setData(result);
+      }
+    };
+    getData();
+    return () => {
+      isMount = false;
+    };
+  }, [getValues, keys]);
 
   return (
     <Header
-      as={Button}
-      onClick={onClick}
-      // color={viewHeaderColor}
+      // as={Button}
+      // onClick={onClick}
+      color={viewHeaderColor}
       textAlign='center'
       size='medium'
-      content={title}
+      content={data.title}
     />
   );
 };
 
 ViewHeader.defaultProps = {
   keys: {},
+  initData: initData,
   getValues: getValues,
 };
 
 ViewHeader.propTypes = {
   keys: PropTypes.object.isRequired,
+  initData: PropTypes.object.isRequired,
   getValues: PropTypes.func.isRequired,
 };
 

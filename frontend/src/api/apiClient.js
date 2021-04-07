@@ -6,14 +6,17 @@ const axiosClient = axios.create({
   headers: {
     // Accept: 'application/json',
     'Content-Type': 'application/json',
+    common: {
+      'Accept-Language': 'ru'
+    }
   },
 });
 
-export const axiosCommonPostLng = lng => {
+export const axiosCommonLng = lng => {
   axiosClient.defaults.headers.common['Accept-Language'] = lng;
 };
 
-export const axiosCommonPostToken = token => {
+export const axiosCommonToken = token => {
   axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
