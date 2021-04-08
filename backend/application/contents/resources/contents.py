@@ -81,10 +81,10 @@ class Contents(Resource):
         Get instance from db.
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
-        print('contents, resources, Accept-Language ->', request.headers.get('Accept-Language'))
-        print('contents, resources, Accept-Language type ->', type(request.headers.get('Accept-Language')))
-        print('contents, resources, args ->', request.args['view_id'])
-        print('contents, resources, args ->', request.args['identity'])
+        # print('contents, resources, Accept-Language ->', request.headers.get('Accept-Language'))
+        # print('contents, resources, Accept-Language type ->', type(request.headers.get('Accept-Language')))
+        # print('contents, resources, args ->', request.args['view_id'])
+        # print('contents, resources, args ->', request.args['identity'])
         _request_dict = {
             'view_id': request.args['view_id'],
             'identity': request.args['identity'],

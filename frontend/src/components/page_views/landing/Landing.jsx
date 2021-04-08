@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container, Header } from 'semantic-ui-react';
@@ -8,7 +8,7 @@ import ViewHeader from '../view_elements/ViewHeader';
 import ViewParagraph from '../view_elements/ViewParagraph';
 import ViewPicture from '../view_elements/ViewPicture';
 
-const Landing = ({ language }) => {
+export const Landing = ({ language }) => {
   // const [lng] = useState(language);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ const Landing = ({ language }) => {
   const headerKeys = {
     view_id: 'landing',
   };
+
   return (
     <Container>
       <Segment color={viewSegmentColor}>

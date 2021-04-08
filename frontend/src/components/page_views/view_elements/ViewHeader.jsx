@@ -7,28 +7,24 @@ import { getContents } from '../../../api/calls/getBackEndInfo';
 import { viewHeaderColor } from '../../../utils/colors';
 
 const getValues = keys => {
-  // console.log('getValues ->', keys)
+  console.log('getValues ->', keys);
   return getContents({ ...keys });
 };
 
 const initData = {
-  title: 'Title',
-  content: 'Content',
+  title: '',
+  content: '',
 };
 
-const ViewHeader = ({ keys, initData, getValues }) => {
+export const ViewHeader = ({ keys, initData, getValues, testFunction }) => {
   const [data, setData] = useState(initData);
-
-  // const onClick = async () => {
-  //   const result = await getValues(keys);
-  //   console.log('ViewHeaders on Click ->', result);
-  // };
 
   useEffect(() => {
     let isMount = true;
     const getData = async () => {
       const result = await getValues(keys);
       if (isMount) {
+        console.log('ViewHeader, use effect, result ->', result);
         setData(result);
       }
     };
@@ -40,8 +36,6 @@ const ViewHeader = ({ keys, initData, getValues }) => {
 
   return (
     <Header
-      // as={Button}
-      // onClick={onClick}
       color={viewHeaderColor}
       textAlign='center'
       size='medium'
