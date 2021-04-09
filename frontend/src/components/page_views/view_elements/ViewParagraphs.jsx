@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ViewParagraph = () => {
+const ViewParagraphs = () => {
   return (
     <div>
       <h3>View paragraph</h3>
@@ -8,4 +8,4 @@ const ViewParagraph = () => {
   )
 }
 
-export default ViewParagraph
+export default ViewParagraphs

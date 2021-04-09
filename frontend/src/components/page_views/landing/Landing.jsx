@@ -5,8 +5,8 @@ import { Segment, Container } from 'semantic-ui-react';
 
 import { viewHeaderColor, viewSegmentColor } from '../../../utils/colors';
 import ViewHeader from '../view_elements/ViewHeader';
-import ViewParagraph from '../view_elements/ViewParagraph';
-import ViewPicture from '../view_elements/ViewPicture';
+import ViewParagraph from '../view_elements/ViewParagraphs';
+import ViewPicture from '../view_elements/ViewPictures';
 
 export const Landing = ({ language }) => {
   // const [lng] = useState(language);

@@ -1,4 +1,4 @@
-import ViewParagraph from './ViewParagraph'
+import ViewParagraphs from './ViewParagraphs'
 
 describe('View paragraph', () => {
   test('it should exists', () => {
