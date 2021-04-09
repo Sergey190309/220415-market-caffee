@@ -22,7 +22,7 @@ export const Landing = ({ language }) => {
     <Container>
       <Segment color={viewSegmentColor}>
         <ViewHeader keys={{ ...keys, identity: 'view_heading' }} />
-        <ViewParagraphs keys={{...keys, identity: 'presentation'}} qnt={15} />
+        <ViewParagraphs keys={{...keys, identity: 'presentation'}} qnt={3} />
         {/* <ViewPictures /> */}
         {/* <ViewParagraphs /> */}
       </Segment>
