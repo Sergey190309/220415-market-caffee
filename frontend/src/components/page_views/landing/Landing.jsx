@@ -5,8 +5,8 @@ import { Segment, Container } from 'semantic-ui-react';
 
 import { viewHeaderColor, viewSegmentColor } from '../../../utils/colors';
 import ViewHeader from '../view_elements/ViewHeader';
-import ViewParagraph from '../view_elements/ViewParagraphs';
-import ViewPicture from '../view_elements/ViewPictures';
+import ViewParagraphs from '../view_elements/ViewParagraphs';
+import ViewPictures from '../view_elements/ViewPictures';
 
 export const Landing = ({ language }) => {
   // const [lng] = useState(language);
@@ -14,20 +14,17 @@ export const Landing = ({ language }) => {
   useEffect(() => {
   }, [language])
 
-  const headerKeys = {
+  const keys = {
     view_id: 'landing',
   };
 
   return (
     <Container>
       <Segment color={viewSegmentColor}>
-        <ViewHeader keys={{ ...headerKeys, identity: 'view_heading' }} />
-        <ViewParagraph />
-        <ViewParagraph />
-        <ViewParagraph />
-        <ViewPicture />
-        <ViewPicture />
-        <ViewParagraph />
+        <ViewHeader keys={{ ...keys, identity: 'view_heading' }} />
+        <ViewParagraphs keys={{...keys, identity: 'presentation'}} qnt={15} />
+        {/* <ViewPictures /> */}
+        {/* <ViewParagraphs /> */}
       </Segment>
     </Container>
   );

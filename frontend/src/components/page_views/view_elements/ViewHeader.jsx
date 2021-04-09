@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Header } from 'semantic-ui-react';
-// import { Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import { Container, Header } from 'semantic-ui-react';
 
 import { getContents } from '../../../api/calls/getBackEndInfo';
 import { viewHeaderColor } from '../../../utils/colors';
@@ -17,6 +16,7 @@ const initData = {
 };
 
 export const ViewHeader = ({ keys, initData, getValues, testFunction }) => {
+  // key contains view and name of data that with locale are primary keys in back end
   const [data, setData] = useState(initData);
 
   useEffect(() => {
@@ -43,9 +43,7 @@ export const ViewHeader = ({ keys, initData, getValues, testFunction }) => {
         size='medium'
         content={data.title}
       />
-      <p data-testid='content'>
-        {data.content}
-      </p>
+      <p data-testid='content'>{data.content}</p>
     </Container>
   );
 };
