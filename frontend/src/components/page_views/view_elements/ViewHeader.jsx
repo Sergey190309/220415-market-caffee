@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from 'semantic-ui-react';
+import { Container, Header } from 'semantic-ui-react';
 // import { Header, Button } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
@@ -7,7 +7,7 @@ import { getContents } from '../../../api/calls/getBackEndInfo';
 import { viewHeaderColor } from '../../../utils/colors';
 
 const getValues = keys => {
-  console.log('getValues ->', keys);
+  // console.log('getValues ->', keys);
   return getContents({ ...keys });
 };
 
@@ -24,7 +24,7 @@ export const ViewHeader = ({ keys, initData, getValues, testFunction }) => {
     const getData = async () => {
       const result = await getValues(keys);
       if (isMount) {
-        console.log('ViewHeader, use effect, result ->', result);
+        // console.log('ViewHeader, use effect, result ->', result);
         setData(result);
       }
     };
@@ -35,12 +35,18 @@ export const ViewHeader = ({ keys, initData, getValues, testFunction }) => {
   }, [getValues, keys]);
 
   return (
-    <Header
-      color={viewHeaderColor}
-      textAlign='center'
-      size='medium'
-      content={data.title}
-    />
+    <Container textAlign='center'>
+      <Header
+        data-testid='header'
+        color={viewHeaderColor}
+        textAlign='center'
+        size='medium'
+        content={data.title}
+      />
+      <p data-testid='content'>
+        {data.content}
+      </p>
+    </Container>
   );
 };
 
