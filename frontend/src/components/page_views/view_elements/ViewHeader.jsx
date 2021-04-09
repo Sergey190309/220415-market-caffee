@@ -15,7 +15,7 @@ const initData = {
   content: '',
 };
 
-export const ViewHeader = ({ keys, initData, getValues, testFunction }) => {
+export const ViewHeader = ({ keys, initData, getValues }) => {
   // key contains view and name of data that with locale are primary keys in back end
   const [data, setData] = useState(initData);
 

@@ -2,6 +2,11 @@ import axiosClient from '../apiClient';
 import { respErrorHandler } from '../../utils/respErrorHandler';
 
 export const getContents = async keys => {
+  // keys structure:
+  // {
+  //   identity: '',
+  //   view_id: '',
+  // }
   try {
     const resp = await axiosClient.get('/contents', { params: keys });
     // console.log('resp.date.message ->', resp.data.message)
