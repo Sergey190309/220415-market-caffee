@@ -20,7 +20,7 @@ def create_app(config='default_config.py'):
     # print('\napplication.__init__.py config\n', config)
 
     app = Flask(__name__)
-    load_dotenv('.env')
+    load_dotenv('.env', verbose=True)
     app.config.from_pyfile(config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
@@ -59,6 +59,7 @@ def create_app(config='default_config.py'):
 
         @current_app.before_first_request
         def init_dbs():
+            # print('\nbefore first request')
             from .modules.dbs_init_global import dbs_init_global
             dbs_init_global()
 

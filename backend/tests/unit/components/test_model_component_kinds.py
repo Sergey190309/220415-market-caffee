@@ -23,12 +23,15 @@ def saved_component_kind(component_kind_instance):
 
 # @pytest.mark.active
 def test_component_kind_save(
+        # app,
+        client,
         component_kinds_get_schema, component_kinds_schema,
         compnent_kind_json):
     '''
     Testing save with same private key.
     '''
     _first_compnent_kind = component_kinds_schema.load(
+        # compnent_kind_json, session=session)
         compnent_kind_json, session=dbs_global.session)
     error_message01 = _first_compnent_kind.save_to_db()
     assert error_message01 is None

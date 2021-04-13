@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useAsync, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Header } from 'semantic-ui-react';
+import { Container, Header, Card } from 'semantic-ui-react';
 
 import { getContents } from '../../../api/calls/getBackEndInfo';
 import { viewHeaderColor } from '../../../utils/colors';
@@ -12,22 +12,22 @@ import { idsByIdNum } from '../../../utils/utils';
 // };
 
 const getValues = async (view_id, ids) => {
-  // console.log('getValues args, view_id ->', view_id, '; id ->', ids[0]);
   const results = [];
   ids.map(async (id, index) => {
     const keys = { view_id: view_id, identity: id };
-    const result = await getContents({ ...keys });
-    result['no'] = index;
+    const result = getContents({ ...keys });
     results.push(result);
   });
-  // console.log('getValues ->', typeof(results))
-  return results;
+  // console.log('getValues, results ->', results)
+
+  return Promise.all(results);
 };
 
 const initData = [];
 // [{
-//   title: '',
-//   content: '',
+//   no: int,
+//   title: string,
+//   content: string,
 // }];
 
 const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
@@ -40,7 +40,12 @@ const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
     const ids = idsByIdNum(keys.identity, qnt);
     const getData = async () => {
       const results = await getValues(keys.view_id, ids);
-      // console.log(results)
+      results.forEach(item => {
+        item['no'] = item.identity.slice(-2);
+        delete item.identity;
+        // console.log('useEffect identity ->', item.no);
+      });
+
       if (isMounted) {
         setData(results);
       }
@@ -51,12 +56,19 @@ const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
     };
   }, [keys, qnt, getValues]);
 
-  // console.log(data);
-  // data.map((item) => console.log(item));
-  // console.log(typeof(data))
-  const reptiles = ["alligator", "snake", "lizard"]
   return (
-    data.map((item) => <li>{item.no}</li>)
+    <Fragment>
+      {data.map(item => {
+        return (
+          <Card
+            fluid
+            key={item.no}
+            header={item.title}
+            description={item.content}
+          />
+        );
+      })}
+    </Fragment>
   );
 };
 

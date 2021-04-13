@@ -9,14 +9,16 @@ export const getContents = async keys => {
   // }
   try {
     const resp = await axiosClient.get('/contents', { params: keys });
-    // console.log('resp.date.message ->', resp.data.message)
-    // console.log('resp.date.payload ->', resp.data.payload)
-    const result = {
-      title: resp.data.payload.title ? resp.data.payload.title : null,
-      content: resp.data.payload.content ? resp.data.payload.content : null,
-    };
+    // console.log('resp.date.message ->', resp.data.payload.identity)
+    return Promise.resolve(
+      {
+        identity: resp.data.payload.identity,
+        title: resp.data.payload.title ? resp.data.payload.title : null,
+        content: resp.data.payload.content ? resp.data.payload.content : null,
+      }
+    )
     // console.log('getContents, result ->', result);
-    return result;
+    // return result;
   } catch (error) {
     respErrorHandler(error);
     return error;

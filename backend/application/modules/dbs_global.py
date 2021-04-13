@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 class SQLAlchemyGlobal(SQLAlchemy):
     def __init__(self):
+        # print('\nSQLAlchemyGlobal')
         super().__init__()
 
 

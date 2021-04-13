@@ -12,21 +12,21 @@ def url_components(root_url):
 
 @pytest.fixture
 def component_api_resp(
-        test_client, url_components, component_instance,
+        client, url_components, component_instance,
         component_get_schema, random_words):
     def _method(lang: str = 'en'):
         values = {'locale_id': lang}
         _components_json = \
             component_get_schema.dump(component_instance(values))
         # print(_components_json.keys())
-        return test_client.post(url_components, json=_components_json)
+        return client.post(url_components, json=_components_json)
     return _method
 
 
 # @pytest.mark.active
 def test_components_post(
         allowed_language,
-        test_client, url_components,
+        client, url_components,
         component_api_resp):
 
     # Create random instance. Good.
@@ -47,13 +47,13 @@ def test_components_post(
         _component_bad_json.pop(key)
         _component_bad_json[_bad_key] = _temp
         # print(_component_bad_json.keys())
-        resp = test_client.post(url_components, json=_component_bad_json)
+        resp = client.post(url_components, json=_component_bad_json)
         assert resp.status_code == 400
         assert isinstance(resp.json, str)
 
     # Try to create instance with same primary keys. Bad.
     # print(_component_json.keys())
-    resp = test_client.post(url_components, json=_component_json)
+    resp = client.post(url_components, json=_component_json)
     # print(resp.status_code)
     assert resp.status_code == 400
     assert isinstance(resp.json, Dict)
@@ -62,7 +62,7 @@ def test_components_post(
     # change identity:
     _component_changed_json = _component_json.copy()
     _component_changed_json['identity'] = _component_changed_json['identity'] + '_'
-    resp = test_client.post(url_components, json=_component_changed_json)
+    resp = client.post(url_components, json=_component_changed_json)
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
     # # Change locale_id:
@@ -74,7 +74,7 @@ def test_components_post(
     else:
         _component_changed_json['locale_id'] = 'ru'
 
-    resp = test_client.post(url_components, json=_component_changed_json)
+    resp = client.post(url_components, json=_component_changed_json)
     assert resp.status_code == 201
     assert isinstance(resp.json['payload'], Dict)
 
@@ -82,7 +82,7 @@ def test_components_post(
 # @pytest.mark.active
 def test_components_get(
         allowed_language,
-        test_client, url_components, component_api_resp):
+        client, url_components, component_api_resp):
     # Create new random instance and send to API:
     # Create random instance. Good.
     resp = component_api_resp(allowed_language)
@@ -96,7 +96,7 @@ def test_components_get(
     _component_request_json.pop('locale')
     _component_request_json.pop('kind')
     # print(_component_request_json.keys())
-    resp = test_client.get(url_components, json=_component_request_json)
+    resp = client.get(url_components, json=_component_request_json)
     # Insure component is correctly gotten:
     assert resp.status_code == 200
     assert isinstance(resp.json['payload'], Dict)
@@ -110,18 +110,18 @@ def test_components_get(
         _component_bad_content_request_json['locale_id'] = 'en'
     else:
         _component_bad_content_request_json['locale_id'] = 'ru'
-    resp = test_client.get(url_components, json=_component_bad_content_request_json)
+    resp = client.get(url_components, json=_component_bad_content_request_json)
     assert resp.status_code == 404
     _component_bad_content_request_json = _component_request_json.copy()
     _component_bad_content_request_json['identity'] = 'asjgapos'
-    resp = test_client.get(url_components, json=_component_bad_content_request_json)
+    resp = client.get(url_components, json=_component_bad_content_request_json)
     assert resp.status_code == 404
 
 
 # @pytest.mark.active
 def test_components_put(
         allowed_language,
-        test_client, url_components, component_api_resp):
+        client, url_components, component_api_resp):
 
     # Create new random instance and send to API:
     # resp = component_api_resp('en')
@@ -141,7 +141,7 @@ def test_components_put(
         if key in ['title', 'content', 'details']}
 
     # Get object and test it's correctness:
-    resp = test_client.get(url_components, json=_component_keys_json)
+    resp = client.get(url_components, json=_component_keys_json)
     assert resp.status_code == 200
     for key in _component_json.keys():
         assert _component_json[key] == resp.json['payload'][key]
@@ -152,14 +152,14 @@ def test_components_put(
         _wrong_key = key + '_'
         _put_component_wrong_keys_json[_wrong_key] =\
             _put_component_wrong_keys_json.pop(key)
-        resp = test_client.put(url_components, json=_put_component_wrong_keys_json)
+        resp = client.put(url_components, json=_put_component_wrong_keys_json)
         assert resp.status_code == 400
 
     # Try to put object with wrong key values (get 404):
     for key in _component_keys_json.keys():
         _put_component_wrong_values_json = _component_json.copy()
         _put_component_wrong_values_json[key] += '_'
-        resp = test_client.put(url_components, json=_put_component_wrong_values_json)
+        resp = client.put(url_components, json=_put_component_wrong_values_json)
         assert resp.status_code == 404
         # print(key, '\t', _put_component_wrong_values_json[key])
 
@@ -172,7 +172,7 @@ def test_components_put(
         else:
             # pass
             _put_component_values_json[key] += '- corrected!'
-        resp = test_client.put(url_components, json=_put_component_values_json)
+        resp = client.put(url_components, json=_put_component_values_json)
         assert resp.status_code == 200
         assert resp.json['payload'][key] == _put_component_values_json[key]
 
@@ -180,7 +180,7 @@ def test_components_put(
 # @pytest.mark.active
 def test_components_delete(
         allowed_language,
-        test_client, url_components, component_api_resp):
+        client, url_components, component_api_resp):
 
     # Create new random instance and send to API:
     # resp = component_api_resp('en')
@@ -199,7 +199,7 @@ def test_components_delete(
         if key in ['identity', 'kind_id', 'locale_id']}
 
     # Get object and test it's correctness:
-    resp = test_client.get(url_components, json=_component_keys_json)
+    resp = client.get(url_components, json=_component_keys_json)
     assert resp.status_code == 200
     for key in _component_json.keys():
         assert _component_json[key] == resp.json['payload'][key]
@@ -210,7 +210,7 @@ def test_components_delete(
         _wrong_key = key + '_'
         _delete_component_wrong_keys_json[_wrong_key] =\
             _delete_component_wrong_keys_json.pop(key)
-        resp = test_client.delete(
+        resp = client.delete(
             url_components, json=_delete_component_wrong_keys_json)
         assert resp.status_code == 400
 
@@ -218,18 +218,18 @@ def test_components_delete(
     for key in _component_keys_json.keys():
         _delete_component_wrong_values_json = _component_keys_json.copy()
         _delete_component_wrong_values_json[key] += '_'
-        resp = test_client.delete(
+        resp = client.delete(
             url_components, json=_delete_component_wrong_values_json)
         assert resp.status_code == 404
 
     # Create json for deleting and delete object from db:
     _delete_component_json = _component_keys_json.copy()
-    resp = test_client.delete(url_components, json=_delete_component_json)
+    resp = client.delete(url_components, json=_delete_component_json)
     assert resp.status_code == 200
     assert isinstance(resp.json, Dict)
 
     # try to get object from API:
-    resp = test_client.delete(url_components, json=_delete_component_json)
+    resp = client.delete(url_components, json=_delete_component_json)
     assert resp.status_code == 404
     assert isinstance(resp.json, Dict)
 

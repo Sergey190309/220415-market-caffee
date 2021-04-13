@@ -2,8 +2,9 @@ import os
 
 DEBUG = True
 
-SECRET_KEY = os.getenv('APP_SECRET_KEY')
 # print('\nSECRET_KEY -', SECRET_KEY)
+
+# SQLALCHEMY_DATABASE_URI = 'sqlite:///home/sa/code/201201-market-caffee/backend/testdb.sqlite3'
 
 SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://' + \
@@ -16,6 +17,7 @@ SQLALCHEMY_DATABASE_URI = \
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 PROPAGATE_EXCEPTIONS = True
+SECRET_KEY = os.getenv('APP_SECRET_KEY')
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
 JWT_BLACKLIST_ENABLED = True
 JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']

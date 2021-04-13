@@ -3,7 +3,7 @@ from flask import Blueprint, current_app
 
 
 def create_users():
-    # print('users.__init__.create_users')
+    # print('\nusers.__init__.create_users')
     users_bp = Blueprint(
         'users_bp', __name__,
         static_folder='static',

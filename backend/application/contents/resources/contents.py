@@ -54,7 +54,7 @@ class Contents(Resource):
         Create content instance and save to db.
         '''
         _request_json = request.get_json()
-        # print('post, request.get_json -', _request_json)
+        print('\nContent post, request.get_json ->', _request_json)
         _content = content_schema.load(_request_json, session=dbs_global.session)
         _content_fm_db = ContentModel.find_by_identity_view_locale(
             identity=_content.identity,

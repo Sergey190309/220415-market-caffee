@@ -1,3 +1,5 @@
+from flask import current_app
+
 from ..global_init_data import global_constants
 # from ..globals import global_constants
 from .dbs_global import dbs_global
@@ -11,6 +13,7 @@ from ..models.locales_global import LocaleGlobalModel
 
 
 def dbs_init_global():
+    # print('\ndbs_init_global, SQLALCHEMY_DATABASE_URI ->', current_app.config['SQLALCHEMY_DATABASE_URI'])
     create_dbs()  # Create tables
     fill_locales()   # Fill table locales with default stuff
     # Blueprint tables' initiation:
@@ -41,6 +44,7 @@ def fill_locales():
 def create_dbs():
     try:
         dbs_global.create_all()
+        # print('\ncreate_dbs, SQLALCHEMY_DATABASE_URI ->', current_app.config['SQLALCHEMY_DATABASE_URI'])
     except Exception as err:
         print(
             'modules.dbs.SQLAlchemyBackend.init_app on '

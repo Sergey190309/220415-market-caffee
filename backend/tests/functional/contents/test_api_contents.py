@@ -18,13 +18,13 @@ def url_contents(root_url):
 @pytest.fixture
 def content_api_resp(
         content_instance,
-        test_client, url_contents, content_get_schema):
+        client, url_contents, content_get_schema):
     '''
     It makes post reques to API and retunrn responce.
     '''
     def _method(values: Dict = {}):
         _content_json = (content_get_schema.dump(content_instance(values)))
-        resp = test_client.post(url_contents, json=_content_json)
+        resp = client.post(url_contents, json=_content_json)
         # print(resp.json['payload'])
         assert resp.status_code == 201
         assert isinstance(resp.json['payload'], Dict)
@@ -47,14 +47,15 @@ def creating_values_json():
 def test_contents_post_already_exists(
         content_api_resp, creating_values_json,
         allowed_language, allowed_view,
-        test_client, url_contents):
+        client, url_contents):
     # Create one instance with random values:
     _original_values = {'view_id': allowed_view, 'locale_id': allowed_language}
     resp = content_api_resp(_original_values)
 
     # Get results of attemtion to create content indtance with same pks:
     _same_values = creating_values_json(resp.json['payload'])
-    resp = test_client.post(url_contents, json=_same_values)
+    resp = client.post(url_contents, json=_same_values)
+    # print('\ntest_contents_post_already_exists, resp.json[message] ->', resp.json['message'])
     assert resp.status_code == 400
     assert 'payload' not in resp.json.keys()
     assert isinstance(resp.json['message'], str)
@@ -65,7 +66,7 @@ def test_contents_post_create_other_instances(
         content_api_resp, creating_values_json,
         allowed_language, allowed_view,
         other_valid_item, random_text,
-        test_client, url_contents):
+        client, url_contents):
     '''
     Creating other instances with one of three primary keys changed.
     '''
@@ -85,18 +86,18 @@ def test_contents_post_create_other_instances(
         else:
             _changed_pks_json[key] = random_text(qnt=1)
 
-        resp = test_client.post(url_contents, json=_changed_pks_json)
+        resp = client.post(url_contents, json=_changed_pks_json)
         assert resp.status_code == 201
         assert 'payload' in resp.json.keys()
         assert isinstance(resp.json['payload'], Dict)
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_contents_post_wrong_fk(
         content_api_resp, creating_values_json,
         # allowed_language, allowed_view,
         # other_valid_item, random_text,
-        test_client, url_contents):
+        client, url_contents):
     '''
     Operation with foreign key that are not in appropriate tables.
     '''
@@ -107,7 +108,8 @@ def test_contents_post_wrong_fk(
     # Try to create instance briching db's constrains:
     _wrong_creating_json = _creating_json.copy()
     _wrong_creating_json['locale_id'] = 'not'
-    resp = test_client.post(url_contents, json=_wrong_creating_json)
+    print('\nTest_contents_post_wrong_fk, _wrong_creating_json ->', _wrong_creating_json)
+    resp = client.post(url_contents, json=_wrong_creating_json)
     assert resp.status_code == 500
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], str)
@@ -115,7 +117,7 @@ def test_contents_post_wrong_fk(
 
     _wrong_creating_json = _creating_json.copy()
     _wrong_creating_json['view_id'] = 'not'
-    resp = test_client.post(url_contents, json=_wrong_creating_json)
+    resp = client.post(url_contents, json=_wrong_creating_json)
     assert resp.status_code == 500
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], str)
@@ -127,7 +129,7 @@ def test_contents_get(
         content_api_resp, creating_values_json,
         # allowed_language, allowed_view,
         # other_valid_item, random_text,
-        test_client, url_contents):
+        client, url_contents):
 
     # Find data with normal set of keys:
     resp = content_api_resp()
@@ -135,7 +137,7 @@ def test_contents_get(
     _get_json = {
         key: value for (key, value) in resp.json['payload'].items()
         if key in ['identity', 'view_id', 'locale_id']}
-    resp = test_client.get(url_contents, json=_get_json)
+    resp = client.get(url_contents, json=_get_json)
     # Check something found and data has been identical:
     assert resp.status_code == 200
     assert 'payload' in resp.json.keys()
@@ -147,7 +149,7 @@ def test_contents_get(
     for key in _get_json.keys():
         _wrong_key_json = _get_json.copy()
         _wrong_key_json[key] += '_wrong'
-        resp = test_client.get(url_contents, json=_wrong_key_json)
+        resp = client.get(url_contents, json=_wrong_key_json)
         assert resp.status_code == 404
         assert 'payload' not in resp.json.keys()
         assert 'message' in resp.json.keys()
@@ -158,7 +160,7 @@ def test_contents_get(
         _wrong_key_json = _get_json.copy()
         _wrong_key = key + '_wrong'
         _wrong_key_json[_wrong_key] = _wrong_key_json.pop(key)
-        resp = test_client.get(url_contents, json=_wrong_key_json)
+        resp = client.get(url_contents, json=_wrong_key_json)
         assert resp.status_code == 400
         assert isinstance(resp.json, str)
         assert resp.json.find('Missing data for required field') != -1
@@ -173,7 +175,7 @@ def test_content_put(
         content_api_resp, creating_values_json,
         # allowed_language, allowed_view,
         # other_valid_item, random_text,
-        test_client, url_contents):
+        client, url_contents):
     # Create data with normal set of keys:
     resp = content_api_resp()
     # print(resp.json['payload'])
@@ -192,7 +194,7 @@ def test_content_put(
             _corrected_data[key] = 0
         elif isinstance(_corrected_data[key], str):
             _corrected_data[key] += ' - corrected'
-        resp = test_client.put(url_contents, json=_corrected_data)
+        resp = client.put(url_contents, json=_corrected_data)
         assert resp.status_code == 200
         assert 'payload' in resp.json.keys()
         assert resp.json['payload'][key] == _corrected_data[key]
@@ -201,7 +203,7 @@ def test_content_put(
     for key in _key_json.keys():
         _wrong_key_value = _original_json.copy()
         _wrong_key_value[key] += '_wrong'
-        resp = test_client.put(url_contents, json=_wrong_key_value)
+        resp = client.put(url_contents, json=_wrong_key_value)
         assert resp.status_code == 404
         assert 'payload' not in resp.json.keys()
         assert isinstance(resp.json, Dict)

@@ -1,4 +1,4 @@
-identity,view_id,locale_id,created,updated,user_id,title,content
+﻿identity,view_id,locale_id,created,updated,user_id,title,content
 offer_pic_00,landing,en,2021-04-04 00:00:00,NULL,1,Please take time to look to our pictures:,picture
 offer_pic_00,landing,ru,2021-04-04 00:00:00,NULL,1,Посмотрите пожалуйста на наше кафе:,picture
 offer_pic_01,landing,en,2021-04-04 00:00:00,NULL,1,We are ready to offer you:,picture
@@ -7,9 +7,9 @@ presentation_00,landing,en,2021-04-04 00:00:00,NULL,1,Couple of words about us.,
 presentation_00,landing,ru,2021-04-04 00:00:00,NULL,1,Пару слов о нас.,Мы предлагаем выпить и закусить по разумным ценам в уютном и милом месте.
 presentation_01,landing,en,2021-04-04 00:00:00,NULL,1,NULL,We are in Kuznechniy market bulding from Kuznechniy lane. Proceeding from Vladimirskaya square to Dostoevskogo street it is worth to visit us to have a snack and / or drink.
 presentation_01,landing,ru,2021-04-04 00:00:00,NULL,1,NULL,Мы расположены в здании Кузнечного рынка со стороны Кузнечного переулка. Проходя от Владимирской площади к улице Достоевского имеет смысл заглянуть к нам чтобы перекусить или промочить горло.
-presentation_02,landing,en,2021-04-04 00:00:00,NULL,1,NULL,Pay your attention we cook using fresh and healthy foodstuffs from market where we are placed. You should be sure about dishes qulity and taste. Our regular customers never allow us make something wrong.
-presentation_02,landing,ru,2021-04-04 00:00:00,NULL,1,NULL,"Обращаем ваше внимание, мы готови используя свежие и здоровые продукты с рынка, на котором мы раположены. Вы можете быть уверены в качестве и вкусе наших блюд. Наши завсегдатаи не позволят нам сделать что-либо не так."
+presentation_02,landing,en,2021-04-04 00:00:00,NULL,1,NULL,Pay your attention we alwais cook our dishex using fresh and healthy foodstuffs from market where we are placed. You should be sure about dishes qulity and taste. Our regular customers never allow us make something wrong.
+presentation_02,landing,ru,2021-04-04 00:00:00,NULL,1,NULL,"Обращаем ваше внимание, мы всегда готовим наши блюда используя свежие и здоровые продукты с рынка, на котором мы расположены. Вы можете быть уверены в качестве и вкусе наших блюд. Наши завсегдатаи не позволят нам сделать что-либо не так."
 view_footer,landing,en,2021-04-04 00:00:00,NULL,1,NULL,We would be glad to serve you daily since 10am till 10pm (Sun till 2100).
-view_footer,landing,ru,2021-04-04 00:00:00,NULL,1,NULL,Мы быдем рады обслужить вас ежедневно с 1000 до 2200 (воск до 2100).
+view_footer,landing,ru,2021-04-04 00:00:00,NULL,1,NULL,Мы будем рады обслужить вас ежедневно с 1000 до 2200 (воск до 2100).
 view_heading,landing,en,2021-04-04 00:00:00,NULL,1,Welcome to our nice caffee!,That’s english title’s content
 view_heading,landing,ru,2021-04-04 00:00:00,NULL,1,Добро пожаловать в наше доброе кафе!,Это содержание для русского заголовка

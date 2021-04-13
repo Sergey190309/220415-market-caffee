@@ -16,6 +16,7 @@ class ContentModel(dbs_global.Model):
         dbs_global.PrimaryKeyConstraint(
             'identity', 'view_id', 'locale_id'),
         {},)
+    # no = dbs_global.Column(dbs_global.Integer)  # that's just position in output groupes, used in paragraphs (vertical groups) and controls (horisontal groupes)
     identity = dbs_global.Column(dbs_global.String(64))
     view_id = dbs_global.Column(
         dbs_global.String(64),

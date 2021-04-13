@@ -25,4 +25,4 @@ def test_component_kinds(
     assert result[0] == id_kind
     assert result[1] == description
 
-    print(result)
+    # print('\n\nfucking results', result)

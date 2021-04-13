@@ -13,4 +13,4 @@ class ApiHome(Api):
         self.add_resource(Localization, '/localization')
 
 
-api = ApiHome()
+api_home = ApiHome()
