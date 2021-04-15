@@ -24,7 +24,7 @@ def url_localization(root_url):
 def test_home_localization_post(
     client, url_localization,
     locale, time_zone
-    ):
+):
 
     _json = {
         "locale": locale,
@@ -44,8 +44,6 @@ def test_home_index_get(app, client, url_index):
     WHEN the '/' page is requested (GET)
     THEN check that the response is valid
     """
-    # print('\ntest_home_index_get, SQLALCHEMY_DATABASE_URI ->', app.config['SQLALCHEMY_DATABASE_URI'])
-    # print('\ntest_home_index_get, app.Config ->', client.Config())
     resp = client.get(url_index)
     assert resp.status_code == 200
     # print('\ntest.functonal.test_home.test_home_index_get, resp.data ->', resp.data)

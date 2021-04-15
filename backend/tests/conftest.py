@@ -1,10 +1,11 @@
 import pytest
 
-from typing import Dict
+# from typing import Dict
 
 from application import create_app
 
-from random import choice, randint
+from random import choice
+# from random import choice, randint
 
 
 @pytest.fixture(scope='session')
@@ -94,6 +95,7 @@ def random_text(random_words):
     Quontity of worlds - argument.
     '''
     def _method(lang: str = 'en', qnt: int = 1):
+        # print('\nrandom_text, qnt ->', qnt)
         result = ''
         for index in range(0, qnt):
             result += random_words(lang) + ' '
@@ -109,6 +111,7 @@ def random_text_underscore(random_words):
     Quontity of worlds - argument.
     '''
     def _method(lang: str = 'en', qnt: int = 1):
+        # print('\nrandom_text_underscore, qnt ->', qnt)
         result = ''
         for index in range(0, qnt):
             result += random_words(lang) + '_'

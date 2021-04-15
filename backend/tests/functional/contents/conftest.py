@@ -1,15 +1,29 @@
 import pytest
 
 from typing import Dict
-from random import choice, randint
+from random import randint
+# from random import choice, randint
 
+from application.modules.dbs_global import dbs_global
 from application.contents.models.contents import ContentModel
+from application.contents.models.views import ViewModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
+from application.contents.schemas.views import ViewGetSchema, ViewSchema
 
 from application.global_init_data import global_constants
 from application.contents.local_init_data_contents import contents_constants
 # from application.components.local_init_data_components import components_constants
 # from application.users.local_init_data_users import users_constants
+
+
+@pytest.fixture(scope='session')
+def view_get_schema():
+    return ViewGetSchema()
+
+
+@pytest.fixture(scope='session')
+def view_schema():
+    return ViewSchema()
 
 
 @pytest.fixture(scope='session')
@@ -75,4 +89,28 @@ def content_instance(random_text, random_text_underscore):
             user_id=_user_id,
             title=_title,
             content=_content)
+    return _method
+
+
+@pytest.fixture(scope='module')
+def view_instance(random_text_underscore, random_text, view_schema):
+    '''
+    View model instance without saving.
+    id_kind - argument or random text of 3 word to avoid repeating keys,
+    description - argument or random set of 12 words.
+    '''
+    def _method(values: Dict = {}) -> 'ViewModel':
+        if values is None or not isinstance(values, Dict):
+            return 'Provide values in dictinary type'
+        _json = {}
+        keys = values.keys()
+        if 'id_view' in keys:
+            _json['id_view'] = values['id_view']
+        else:
+            _json['id_view'] = random_text_underscore(qnt=3)
+        if 'description' in keys:
+            _json['description'] = values['description']
+        else:
+            _json['description'] = random_text(qnt=12)
+        return view_schema.load(_json, session=dbs_global.session)
     return _method

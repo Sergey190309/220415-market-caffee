@@ -50,8 +50,10 @@ class Views(Resource):
         '''
         Get instance from db.
         '''
-        _search_json = view_get_schema.load(request.get_json())
-        # _view = view_get_schema.load(request.get_json(), session=dbs_global.session)
+        # print('\nviews, get request arg ->', request.args.get('id_view'))
+
+        _search_json = view_get_schema.load(
+            {'id_view': request.args.get('id_view')})
         _view = ViewModel.find_by_id(id_view=_search_json['id_view'])
         if _view is None:
             return cls.not_found(**_search_json)
@@ -83,7 +85,9 @@ class Views(Resource):
         '''
         Delete instance from db.
         '''
-        _delete_json = view_get_schema.load(request.get_json())
+        _requested_dict = view_get_schema.load(
+            {'id_view': request.args.get('id_view')})
+        _delete_json = view_get_schema.load(_requested_dict)
         _view = ViewModel.find_by_id(id_view=_delete_json['id_view'])
         if _view is None:
             return cls.not_found(**_delete_json)

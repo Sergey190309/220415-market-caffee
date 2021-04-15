@@ -7,19 +7,19 @@ TESTING = True
 # SECRET_KEY = os.getenv('APP_SECRET_KEY')
 # print('\nSECRET_KEY -', SECRET_KEY)
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:////home/sa/code/201201-market-caffee/backend/testdb.sqlite3'
+# SQLALCHEMY_DATABASE_URI = 'sqlite:////home/sa/code/201201-market-caffee/backend/testdb.sqlite3'
 
-# DATABASE_USER = 'coffee'
-# DATABASE_PASSWORD = 'lkdl;llLLpoi0988**9890'
-# DATABASE_HOST = 'localhost'
-# DATABASE_NAME = 'market_coffee_test'
+DATABASE_USER = 'coffee'
+DATABASE_PASSWORD = 'lkdl;llLLpoi0988**9890'
+DATABASE_HOST = 'localhost'
+DATABASE_NAME = 'market_coffee_test'
 
-# SQLALCHEMY_DATABASE_URI = \
-#     'mysql+pymysql://' + \
-#     DATABASE_USER + ':' + \
-#     DATABASE_PASSWORD + '@' + \
-#     DATABASE_HOST + '/' + \
-#     DATABASE_NAME
+SQLALCHEMY_DATABASE_URI = \
+    'mysql+pymysql://' + \
+    DATABASE_USER + ':' + \
+    DATABASE_PASSWORD + '@' + \
+    DATABASE_HOST + '/' + \
+    DATABASE_NAME
 
 
 SQLALCHEMY_TRACK_MODIFICATIONS = False

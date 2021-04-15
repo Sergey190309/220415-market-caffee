@@ -1,11 +1,27 @@
 import pytest
 
 from typing import Dict
+from random import choice  # randint
 
+from application.users.models import UserModel
+from application.users.schemas.users import UserSchema
 from application.global_init_data import global_constants
 from application.contents.local_init_data_contents import contents_constants
 from application.components.local_init_data_components import components_constants
 from application.users.local_init_data_users import users_constants
+
+
+@pytest.fixture(scope='session')
+def user_schema():
+    return UserSchema()
+
+
+@pytest.fixture
+def access_token():
+    def _method(user):
+        # print('\n\naccess_token fixture')
+        return user.get_tokens()['access_token']
+    return _method
 
 
 @pytest.fixture(scope='session')
@@ -76,4 +92,81 @@ def valid_item():
                 'message':
                     "Somthing went wrong."}
         return _active_constant[0][key]
+    return _method
+
+
+@pytest.fixture(scope='module')
+def random_email(random_words):
+    def _method(arg=None):
+        domens = ('com', 'ru', 'uk', 'ua', 'org', 'mil', 'su', 'cn')
+        return random_words() + '@' + random_words() + '.' + choice(domens)
+    return _method
+
+
+@pytest.fixture(scope='module')
+def user_instance(random_text, random_email, valid_item, user_schema):
+    '''
+    It generates instance without saving.
+    All elements are arguments if not:
+    user_name - random text 1 (language dependend),
+    email - random email,
+    password - 'qwer',
+    role_id - default value,
+    first_name - random text 1 (language dependend),
+    last_name - random text 1 (language dependend),
+    locale_id - default value,
+    remarks - random text 12 (language dependend)
+    '''
+    def _method(values: Dict = {}) -> 'UserModel':
+        if values is None or not isinstance(values, Dict):
+            return 'Provide values in dictinary type'
+        _json = {}
+        keys = values.keys()
+
+        if 'locale_id' in keys:
+            _json['locale_id'] = values['locale_id']
+        else:
+            _json['locale_id'] = valid_item('locale')
+
+        if 'user_name' in keys:
+            _json['user_name'] = values['user_name']
+        else:
+            _json['user_name'] = random_text(lang=_json['locale_id'])
+
+        if 'email' in keys:
+            _json['email'] = values['email']
+        else:
+            _json['email'] = random_email()
+
+        if 'password' in keys:
+            _json['password'] = values['password']
+        else:
+            _json['password'] = 'qwer'
+
+        if 'role_id' in keys:
+            _json['role_id'] = values['role_id']
+        else:
+            _json['role_id'] = valid_item('role')
+
+        if 'first_name' in keys:
+            _json['first_name'] = values['first_name']
+        else:
+            _json['first_name'] = random_text(lang=_json['locale_id'])
+
+        if 'last_name' in keys:
+            _json['last_name'] = values['last_name']
+        else:
+            _json['last_name'] = random_text(lang=_json['locale_id'])
+
+        if 'locale_id' in keys:
+            _json['locale_id'] = values['locale_id']
+        else:
+            _json['locale_id'] = valid_item('locale')
+
+        if 'remarks' in keys:
+            _json['remarks'] = values['remarks']
+        else:
+            _json['remarks'] = random_text(lang=_json['locale_id'], qnt=12)
+
+        return user_schema.load(_json)
     return _method

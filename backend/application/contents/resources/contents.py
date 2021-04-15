@@ -54,7 +54,7 @@ class Contents(Resource):
         Create content instance and save to db.
         '''
         _request_json = request.get_json()
-        print('\nContent post, request.get_json ->', _request_json)
+        # print('\nContent post, request.get_json ->', _request_json)
         _content = content_schema.load(_request_json, session=dbs_global.session)
         _content_fm_db = ContentModel.find_by_identity_view_locale(
             identity=_content.identity,
@@ -81,17 +81,13 @@ class Contents(Resource):
         Get instance from db.
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
-        # print('contents, resources, Accept-Language ->', request.headers.get('Accept-Language'))
-        # print('contents, resources, Accept-Language type ->', type(request.headers.get('Accept-Language')))
-        # print('contents, resources, args ->', request.args['view_id'])
-        # print('contents, resources, args ->', request.args['identity'])
-        _request_dict = {
+        _requested_dict = {
             'view_id': request.args['view_id'],
             'identity': request.args['identity'],
             'locale_id': request.headers.get('Accept-Language')
         }
-        # print('contents, resources, _request_dict ->', _request_dict)
-        _search_json = content_get_schema.load(_request_dict)
+        # print('contents, resources, _requested_dict ->', _requested_dict)
+        _search_json = content_get_schema.load(_requested_dict)
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
         if _content is None:
             return cls.not_found(**_search_json)
@@ -130,7 +126,18 @@ class Contents(Resource):
         '''
         Delete instance from db.
         '''
-        _delete_json = content_get_schema.load(request.get_json())
+        # print(
+        #     '\nContents, resources, Accept-Language ->',
+        #     request.headers.get('Accept-Language'))
+        # print('contents, resources, view_id ->', request.args['view_id'])
+        # print('contents, resources, identity ->', request.args['identity'])
+        fbp.set_lng(request.headers.get('Accept-Language'))
+        _requested_dict = {
+            'view_id': request.args['view_id'],
+            'identity': request.args['identity'],
+            'locale_id': request.headers.get('Accept-Language')
+        }
+        _delete_json = content_get_schema.load(_requested_dict)
         _content = ContentModel.find_by_identity_view_locale(**_delete_json)
         if _content is None:
             return cls.not_found(

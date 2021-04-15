@@ -1,4 +1,4 @@
-﻿identity,view_id,locale_id,created,updated,user_id,title,content
+identity,view_id,locale_id,created,updated,user_id,title,content
 offer_pic_00,landing,en,2021-04-04 00:00:00,NULL,1,Please take time to look to our pictures:,picture
 offer_pic_00,landing,ru,2021-04-04 00:00:00,NULL,1,Посмотрите пожалуйста на наше кафе:,picture
 offer_pic_01,landing,en,2021-04-04 00:00:00,NULL,1,We are ready to offer you:,picture

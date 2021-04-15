@@ -33,11 +33,11 @@ def access_token():
     return _method
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_users_confirm_get(  # Normal user cannot update other
     # users' info and own role_id. Admin is not allowed anithing in other users
     # but role_id.
-        test_client,
+        client,
         created_user,
         access_token,
         url_users_confirm_int):
@@ -47,7 +47,7 @@ def test_users_confirm_get(  # Normal user cannot update other
     headers = {'Authorization': f"Bearer {access_token(_power_user)}"}
 
     # User confirmaion. Update role_id from None to user:
-    resp = test_client.get(
+    resp = client.get(
         url_users_confirm_int(_user.id),
         headers=headers
     )
@@ -55,7 +55,7 @@ def test_users_confirm_get(  # Normal user cannot update other
     # print(_power_user.id, '\t', _power_user.role_id)
     assert resp.status_code == 200
     # Attempt to update (confirm) already confirmed user:
-    resp = test_client.get(
+    resp = client.get(
         url_users_confirm_int(_user.id),
         headers=headers
     )
@@ -66,27 +66,27 @@ def test_users_confirm_get(  # Normal user cannot update other
 
 # @pytest.mark.active
 def test_users_confirmation_get(
-        test_client, created_user, url_users_confirmation_str):
+        client, created_user, url_users_confirmation_str):
     # Non existing confirmations.
-    resp = test_client.get(url_users_confirmation_str('pooijoijisi'))
+    resp = client.get(url_users_confirmation_str('pooijoijisi'))
     assert resp.status_code == 404
     assert isinstance(resp.json['message'], str)
     # Normal update:
     _user = created_user()
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
-    resp = test_client.get(url_users_confirmation_str(_confirmation.id))
+    resp = client.get(url_users_confirmation_str(_confirmation.id))
     assert resp.status_code == 200
     # Update already confirmed user:
     _user = created_user(role_id='power_user')
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
-    resp = test_client.get(url_users_confirmation_str(_confirmation.id))
+    resp = client.get(url_users_confirmation_str(_confirmation.id))
     assert resp.status_code == 400
     assert isinstance(resp.json['message'], str)
     # Expired confirmation:
     _user = created_user()
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
     _confirmation.force_to_expire()
-    resp = test_client.get(url_users_confirmation_str(_confirmation.id))
+    resp = client.get(url_users_confirmation_str(_confirmation.id))
     assert resp.status_code == 400
     assert isinstance(resp.json['message'], str)
 
@@ -97,18 +97,18 @@ def test_users_confirmation_get(
 
 # @pytest.mark.active
 def test_users_confirmationbyuser_post(
-        test_client, created_user, url_users_confirmedbyuser_int):
+        client, created_user, url_users_confirmedbyuser_int):
     _user = created_user('power_user')
-    resp = test_client.post(url_users_confirmedbyuser_int(_user.id + 1))
+    resp = client.post(url_users_confirmedbyuser_int(_user.id + 1))
     assert resp.status_code == 404
     assert isinstance(resp.json, Dict)
     assert isinstance(resp.json['message'], str)
-    resp = test_client.post(url_users_confirmedbyuser_int(_user.id))
+    resp = client.post(url_users_confirmedbyuser_int(_user.id))
     assert resp.status_code == 400
     assert isinstance(resp.json, Dict)
     assert isinstance(resp.json['message'], str)
     _invalid_user = created_user()
-    resp = test_client.post(url_users_confirmedbyuser_int(_invalid_user.id))
+    resp = client.post(url_users_confirmedbyuser_int(_invalid_user.id))
     assert resp.status_code == 200
     assert isinstance(resp.json, Dict)
     assert isinstance(resp.json['message'], str)

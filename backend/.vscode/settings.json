@@ -30,5 +30,7 @@
     "**/.vscode": true,
     "**/.directory": true
   },
-  "explorerExclude.backup": null
+  "explorerExclude.backup": null,
+  "python.linting.mypyArgs": [],
+  "python.linting.banditEnabled": false
 }
