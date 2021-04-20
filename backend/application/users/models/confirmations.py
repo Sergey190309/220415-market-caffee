@@ -40,34 +40,40 @@ class ConfirmationModel(dbs_global.Model):
         self.confirmed = False
 
     @classmethod
-    def find_by_id(cls, id: str) -> 'ConfirmationModel':
+    def find_by_id(cls, id: str) -> 'ConfirmationModel':  # tested
+
         return cls.query.get(id)
 
     @classmethod
-    def find_by_user_id(cls, user_id: int) -> 'ConfirmationModel':
+    def find_by_user_id(cls, user_id: int) -> 'ConfirmationModel':  # tested
         return cls.query.filter_by(user_id=user_id).first()
 
     @classmethod
-    def find_first(cls) -> 'ConfirmationModel':
+    def find_first(cls) -> 'ConfirmationModel':  # tested
         return cls.query.first()
 
     @property
-    def is_expired(self) -> bool:
-        return time() > self.expire_at
+    def is_exist(self) -> bool:  # tested
+        return ConfirmationModel.find_by_id(self.id) is not None
 
     @property
-    def is_confirmed(self) -> bool:
+    def is_confirmed(self) -> bool:  # tested
         return self.confirmed
 
-    def force_to_expire(self) -> None:  # forcing current confirmation to expire
+    @property
+    def is_expired(self) -> bool:  # tested
+        return time() >= self.expire_at
+    # forcing current confirmation to expire
+
+    def force_to_expire(self) -> None:  # tested
         if not self.is_expired:
             self.expire_at = int(time())
             self.save_to_db()
 
-    def save_to_db(self) -> None:
+    def save_to_db(self) -> None:  # tested in fixture
         dbs_global.session.add(self)
         dbs_global.session.commit()
 
-    def delete_fm_db(self) -> None:
+    def delete_fm_db(self) -> None:  # tested in fixture
         dbs_global.session.delete(self)
         dbs_global.session.commit()

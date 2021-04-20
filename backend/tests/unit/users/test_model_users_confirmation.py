@@ -1,65 +1,79 @@
 import pytest
 
-from random import randint
-from time import time
+# from random import randint
+# from time import time
 
 from application.users.models.confirmations import ConfirmationModel
 
 
+# @pytest.fixture
+# def confirmaion_instance():
+#     _confirmaion = ConfirmationModel(user_id=randint(2, 10))
+#     # print(_confirmaion.id)
+#     # _confirmaion.save_to_db()
+#     return _confirmaion
+#     # confirmation_left = ConfirmationModel.find_first()
+#     # while confirmation_left:
+#     #     # print(confirmation_left.user_id)
+#     #     confirmation_left.delete_fm_db()
+#     #     confirmation_left = ConfirmationModel.find_first()
+#     # # print('Nothing left')
+
+
 @pytest.fixture
-def confirmaion_instance():
-    confirmaion = ConfirmationModel(randint(1, 10))
-    # print(confirmaion.id)
-    # confirmaion.save_to_db()
-    yield confirmaion
-    confirmation_left = ConfirmationModel.find_first()
-    while confirmation_left:
-        # print(confirmation_left.user_id)
-        confirmation_left.delete_fm_db()
-        confirmation_left = ConfirmationModel.find_first()
-    # print('Nothing left')
+def saved_confirmaion_instance(client, saved_user_instance, user_get_schema):
+    def _method():
+        _user_gen = saved_user_instance()
+        _user = next(_user_gen)
+        _confimation = ConfirmationModel(user_id=user_get_schema.dump(_user).get('id'))
+        _confimation.save_to_db()
+        yield _confimation
+        if _confimation.is_exist:
+            _confimation.delete_fm_db()
+        if _user.is_exist:
+            _user.delete_fm_db()
+        yield
+    return _method
+
+    # yield _confimation
 
 
 # @pytest.mark.active
-def test_confirmaion_save_finds_delete(test_client, confirmaion_instance):
-    # print()
-    _id = confirmaion_instance.id
-    confirmaion_instance.save_to_db()
-    _confirmaion_by_id = ConfirmationModel.find_by_id(confirmaion_instance.id)
-    _confirmaion_by_user_id = ConfirmationModel.find_by_user_id(
-        confirmaion_instance.user_id)
-    assert confirmaion_instance.id == _confirmaion_by_user_id.id
-    assert confirmaion_instance.id == _confirmaion_by_id.id
-    assert confirmaion_instance.user_id == _confirmaion_by_user_id.user_id
-    assert confirmaion_instance.user_id == _confirmaion_by_id.user_id
-    assert confirmaion_instance.expire_at == _confirmaion_by_user_id.expire_at
-    assert confirmaion_instance.expire_at == _confirmaion_by_id.expire_at
-    assert confirmaion_instance.confirmed == _confirmaion_by_user_id.confirmed
-    assert confirmaion_instance.confirmed == _confirmaion_by_id.confirmed
-    confirmaion_instance.delete_fm_db()
-    _confirmaion_by_id = ConfirmationModel.find_by_id(_id)
-    assert _confirmaion_by_id is None
+def test_confirmaion_finds_all(saved_confirmaion_instance):
+    _confirmaiton_gen = saved_confirmaion_instance()
+    _confirmaiton = next(_confirmaiton_gen)
+    _id = _confirmaiton.id
+    _user_id = _confirmaiton.user_id
+    # find_by_id
+    _user_by_id = ConfirmationModel.find_by_id('0')
+    assert _user_by_id is None
+    _user_by_id = ConfirmationModel.find_by_id(_id)
+    assert _user_by_id.id == _id
+    # find_by_user_id
+    _user_by_user_id = ConfirmationModel.find_by_user_id('_user_id')
+    assert _user_by_user_id is None
+    _user_by_user_id = ConfirmationModel.find_by_user_id(_user_id)
+    assert _user_by_user_id.id == _id
+    # find_first
+    _user_find_first = ConfirmationModel.find_first()
+    assert _user_find_first.id == _id
+    next(_confirmaiton_gen)
+    # _user_find_first = ConfirmationModel.find_first()
+    # assert _user_find_first is None
 
 
 # @pytest.mark.active
-def test_confirmation_expiring(test_client, confirmaion_instance):
-    # print()
-    # Maturity in seconds
-    _maturity = confirmaion_instance.expire_at - int(time())
-    assert 1790 <= _maturity <= 1800
-    assert not confirmaion_instance.is_expired
-
-    # Forse expiring.
-    confirmaion_instance.force_to_expire()
-    _maturity = confirmaion_instance.expire_at - int(time())
-    assert _maturity <= 0
-    assert confirmaion_instance.is_expired
-
-
-# @pytest.mark.active
-def test_confirmation_confirmed(test_client, confirmaion_instance):
-    # print()
-    assert not confirmaion_instance.is_confirmed
-    confirmaion_instance.confirmed = True
-    assert confirmaion_instance.is_confirmed
-    # print('Confirmed', confirmaion_instance.is_confirmed)
+def test_confirmaion_iss_force_to_expier(saved_confirmaion_instance):
+    _confirmaiton_gen = saved_confirmaion_instance()
+    _confirmaiton = next(_confirmaiton_gen)
+    # is_exist
+    assert _confirmaiton.is_exist
+    # is_confirmed
+    assert not _confirmaiton.is_confirmed
+    _confirmaiton.confirmed = True
+    assert _confirmaiton.is_confirmed
+    # is_expired
+    assert not _confirmaiton.is_expired
+    _confirmaiton.force_to_expire()
+    assert _confirmaiton.is_expired
+    next(_confirmaiton_gen)

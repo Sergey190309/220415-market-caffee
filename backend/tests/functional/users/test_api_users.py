@@ -1,32 +1,19 @@
-import pytest
+# import pytest
 from typing import Dict
 from time import time
+from flask import url_for
 
 from application.users.models.users import UserModel
-# from application.users.schemas.users import user_schema
 from application.users.models.confirmations import ConfirmationModel
 
 
-@pytest.fixture
-def url_users(root_url):
-    # def _method(user_id=None):
-    return root_url + '/users'
-    # return _method
-
-# @pytest.fixture
-
-
 # @pytest.mark.active
-def test_users_post(test_client, url_users, user_create_json):
-    # print()
+def test_users_post(client, user_create_json):
     _user_create_json = user_create_json().copy()
     _email = _user_create_json['email']
     _password = _user_create_json['password']
-    print(_user_create_json)
-    resp = test_client.post(url_users, json=_user_create_json)
+    resp = client.post(url_for('users_bp.user'), json=_user_create_json)
     _user = UserModel.find_by_email(_email)
-    # print()
-    # print('test')
     assert resp.status_code == 201
     assert isinstance(resp.json['message'], str)
     assert isinstance(resp.json['payload'], Dict)
@@ -45,14 +32,14 @@ def test_users_post(test_client, url_users, user_create_json):
 
 
 # @pytest.mark.active
-def test_users_get(test_client, url_users, access_token):
+def test_users_get(client, access_token):
     _user = UserModel.find_last()
-    resp = test_client.get(url_users, json={'email': _user.email})
+    params = {'email': _user.email}
+    resp = client.get(url_for('users_bp.user', **params))
     assert 'error' in resp.json.keys()
     _access_token = access_token(_user)
     headers = {'Authorization': f"Bearer {_access_token}"}
-    resp = test_client.get(url_users, json={'email': _user.email}, headers=headers)
+    resp = client.get(url_for('users_bp.user', **params), headers=headers)
+
     assert isinstance(resp.json['payload'], Dict)
     assert _user.email == resp.json['payload']['email']
-    # print(user_schema.dump(_user))
-    # print(resp.json)

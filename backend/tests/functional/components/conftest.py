@@ -2,27 +2,15 @@ import pytest
 
 from typing import Dict
 
-from random import choice, randint
+from random import randint
+# from random import choice, randint
 from application.modules.dbs_global import dbs_global
 
 from application.components.schemas.components import (
     ComponentGetSchema, ComponentSchema)
 
 
-from application.components.models.component_kinds import ComponentKindsModel
-from application.components.schemas.component_kinds import (
-    ComponentKindGetSchema, ComponentKindSchema)
-from application.global_init_data import global_constants
-
-
-@pytest.fixture(scope='session')
-def component_kinds_schema():
-    return ComponentKindSchema()
-
-
-@pytest.fixture(scope='session')
-def component_kinds_get_schema():
-    return ComponentKindGetSchema()
+# from application.global_init_data import global_constants
 
 
 @pytest.fixture(scope='session')
@@ -33,23 +21,6 @@ def component_schema():
 @pytest.fixture(scope='session')
 def component_get_schema():
     return ComponentGetSchema()
-
-
-@pytest.fixture(scope='module')
-def component_kind_instance(random_text):
-    '''
-    It generates instance without saving.
-    id_kind - argument, description - random set of 10 words.
-    '''
-    def _method(id_kind: str = None):
-        if id_kind is None:
-            id_kind = random_text(qnt=2)
-        _description = random_text(qnt=10)
-        return ComponentKindsModel(
-            id_kind=id_kind, description=_description)
-    return _method
-
-# @pytest.fixture(params=['en'])
 
 
 @pytest.fixture(scope='module')

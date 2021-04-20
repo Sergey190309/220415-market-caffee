@@ -31,6 +31,9 @@ class ViewModel(dbs_global.Model):
             setattr(self, key, update_values[key])
         self.save_to_db()
 
+    def is_exist(self):
+        return ViewModel.find_by_id(self.id_view) is not None
+
     def save_to_db(self) -> None:
         try:
             dbs_global.session.add(self)
@@ -39,6 +42,7 @@ class ViewModel(dbs_global.Model):
             print('contents.models.ViewsModel.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
+        # print('\nViewModel, delete_fm_db ->')
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()

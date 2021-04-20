@@ -30,7 +30,7 @@ class UserModel(dbs_global.Model):
     accessed = dbs_global.Column(dbs_global.DateTime)
     user_name = dbs_global.Column(dbs_global.String(80))
     email = dbs_global.Column(dbs_global.String(80), unique=True)
-    # User can update password only!
+    # User only can update password!
     password_hash = dbs_global.Column(dbs_global.String(128))
     role_id = dbs_global.Column(  # Admin can update role only!
         # If the column does not exists - user has not been confirmed.
@@ -56,7 +56,7 @@ class UserModel(dbs_global.Model):
         cascade='all,delete-orphan',
         lazy='dynamic')
 
-    def set_accessed(self) -> Union[None, str]:
+    def set_accessed(self) -> Union[None, str]:  # tested
         # print("users.models.UserModel.set_accessed datetime -", datetime.now())
         self.accessed = datetime.now()
         return self.save_to_db()
@@ -74,28 +74,34 @@ class UserModel(dbs_global.Model):
             emails=[self.email],
             link=_link)
 
-    def is_own_id(self, id: int) -> bool:
+    # @property
+    def is_own_id(self, id: int) -> bool:  # tested
         return self.id == id
 
-    def is_own_email(self, email: int) -> bool:
+    # @property
+    def is_own_email(self, email: int) -> bool:  # tested
         return self.email == email
 
     @property
-    def is_valid(self) -> bool:
+    def is_valid(self) -> bool:  # tested
         return self.role_id is not None
 
     @property
-    def is_admin(self) -> bool:
+    def is_admin(self) -> bool:  # tested
         return self.role_id == 'admin'
 
     @property
-    def is_power(self) -> bool:
+    def is_power(self) -> bool:  # tested
         return self.role_id == 'power_user'
 
-    def get_fresh_token(self) -> str:
+    @property
+    def is_exist(self) -> bool:  # tested (in fixture)
+        return UserModel.find_by_id(self.id) is not None
+
+    def get_fresh_token(self) -> str:  # tested
         return create_access_token(self.id, fresh=False)
 
-    def get_tokens(self) -> Dict:
+    def get_tokens(self) -> Dict:  # tested
         return {
             'user_name': self.user_name,
             'email': self.email,
@@ -105,7 +111,7 @@ class UserModel(dbs_global.Model):
         }
 
     @classmethod
-    def find(cls, searching_criteation: Dict = {}) -> List['UserModel']:
+    def find(cls, searching_criteation: Dict = {}) -> List['UserModel']:  # tested
         if searching_criteation is None:
             searching_criteation = {}
         return cls.query.filter_by(**searching_criteation).all()
@@ -116,39 +122,36 @@ class UserModel(dbs_global.Model):
         # return cls.query.all.order_by(id.desc()).first()
 
     @classmethod
-    def find_by_id(cls, id: int) -> 'UserModel':
+    def find_by_id(cls, id: int) -> 'UserModel':  # tested
         return cls.query.get(id)
         # return cls.query.filter_by(id=id).first()
 
     @classmethod
-    def find_by_email(cls, email: str) -> 'UserModel':
+    def find_by_email(cls, email: str) -> 'UserModel':  # tested
         return cls.query.filter_by(email=email).first()
 
-    def check_password(self, plain_password: str) -> bool:
+    def check_password(self, plain_password: str) -> bool:  # tested
         result = fbc_users.check_password_hash(self.password_hash, plain_password)
         if result:
             self.accessed = datetime.now()
         return result
 
-    def update_password(self, plain_password: str) -> Union[None, str]:
+    def update_password(self, plain_password: str) -> Union[None, str]:  # tested
         '''
         The update included secure update.
         '''
         self.password_hash = fbc_users.generate_password_hash(plain_password)
         return self.save_to_db()
 
-    def update(self, update_values: Dict = None) -> Union[None, str]:
-        # print('Update -', self.id)
-        # print('Update -', update_values)
+    def update(self, update_values: Dict = None) -> Union[None, str]:  # tested
         if update_values is None:
             return update_values
         self.updated = datetime.now()
         for key in update_values.keys():
-            # print(key, '\t', update_values[key])
             setattr(self, key, update_values[key])
         return self.save_to_db()
 
-    def save_to_db(self) -> Union[None, str]:
+    def save_to_db(self) -> Union[None, str]:  # tested
         # print('save_to_db -', self.locale_id)
         # print('save_to_db -', self.role_id)
         try:
@@ -163,7 +166,7 @@ class UserModel(dbs_global.Model):
         except Exception as error:
             print('users.models.UserModel.save_to_db Error\n', error)
 
-    def delete_fm_db(self, kill_first: bool = False) -> None:
+    def delete_fm_db(self, kill_first: bool = False) -> None:  # tested
         def kill():
             try:
                 dbs_global.session.delete(self)

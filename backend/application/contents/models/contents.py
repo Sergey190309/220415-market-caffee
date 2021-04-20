@@ -16,7 +16,9 @@ class ContentModel(dbs_global.Model):
         dbs_global.PrimaryKeyConstraint(
             'identity', 'view_id', 'locale_id'),
         {},)
-    # no = dbs_global.Column(dbs_global.Integer)  # that's just position in output groupes, used in paragraphs (vertical groups) and controls (horisontal groupes)
+    # no = dbs_global.Column(dbs_global.Integer)
+    # that's just position in output groupes, used in paragraphs
+    # (vertical groups) and controls (horisontal groupes)
     identity = dbs_global.Column(dbs_global.String(64))
     view_id = dbs_global.Column(
         dbs_global.String(64),
@@ -36,7 +38,7 @@ class ContentModel(dbs_global.Model):
         default=0)
     title = dbs_global.Column(
         dbs_global.String(64), default="That's title")
-        # dbs_global.String(64), nullable=False, default="That's title")
+    # dbs_global.String(64), nullable=False, default="That's title")
     # content on site:
     content = dbs_global.Column(dbs_global.UnicodeText)
 
@@ -46,7 +48,7 @@ class ContentModel(dbs_global.Model):
         'ViewModel', backref='contentmodel')
 
     @classmethod
-    def find(cls, searching_criterion: Dict = {}) -> 'ContentModel':
+    def find(cls, searching_criterion: Dict = {}) -> ['ContentModel']:
         # print(searching_criterion)
         if searching_criterion is None:
             searching_criterion = {}
@@ -55,10 +57,16 @@ class ContentModel(dbs_global.Model):
     @classmethod
     def find_by_identity_view_locale(
             cls, identity: str = '',
-            view_id: str = '', locale_id: str = '') -> 'ContentModel':
+            view_id: str = '',
+            locale_id: str = '') -> 'ContentModel':
         return cls.query.filter_by(
             identity=identity, view_id=view_id,
             locale_id=locale_id).first()
+
+    def is_exist(self) -> bool:
+        return ContentModel.find_by_identity_view_locale(
+            identity=self.identity, view_id=self.view_id,
+            locale_id=self.locale_id) is not None
 
     def update(self, update_values: Dict = None) -> Union[None, str]:
         # print(update_values)

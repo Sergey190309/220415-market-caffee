@@ -14,25 +14,11 @@ user_update_schema = UserUpdateSchema()
 
 class UserHandle(Resource):
 
-    # @classmethod
-    # def have_no_right(cls, user_id: int, logged_user_id: int) -> bool:
-    #     '''
-    #     Check whether user is not admin or not trying to access to own account.
-    #     '''
-    #     _logged_user = UserModel.find_by_id(logged_user_id)
-    #     # print('users.resources.UserHandle.have_no_right user_id -', user_id)
-    #     if _logged_user:
-    #         return not (user_id == logged_user_id)
-    #     else:
-    #         raise NotExistsError(
-    #             logged_user_id,
-    #             message='Users.resources.UserHandle.have_no_rights')
-
     @classmethod
     @jwt_required
     def post(cls, user_id: int) -> Dict:
         '''
-        The procedure updates user identified by id in ulr.
+        The procedure updates user identified by id in url.
         Items that has proper keys in request JSON will be updated.
         Even user_name, email and password.
         Admin only is allowed to change role. Also he's able to kill user.
@@ -41,6 +27,7 @@ class UserHandle(Resource):
         # That's dictionary with key-values to update an instance.
         _json = request.get_json()
         _keys = _json.keys()
+
         # Below is for validation only.
         user_update_schema.load(_json)
 
@@ -65,9 +52,6 @@ class UserHandle(Resource):
                 }, 401
         else:
             if UserModel.find_by_id(_logged_id).is_admin:
-                # print('users.resources.UserHandle.post not owner')
-                # print(_keys)
-                # print(len(_keys))
                 if not (('role_id' in _keys) and (len(_keys) == 1)):
                     return {
                         'message': str(_(

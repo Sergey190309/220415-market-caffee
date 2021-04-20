@@ -37,7 +37,8 @@ class User(Resource):
                 _confirmation.save_to_db()
                 _user.send_confirmation_request()
                 _created_user = UserModel.find_by_email(_user.email)
-                # print('users.resources.User.post, user_schema.dump(_created_user) ->', user_schema.dump(_created_user))
+                # print('users.resources.User.post, user_schema.dump(_created_user) ->',
+                # user_schema.dump(_created_user))
                 return {
                     'message': str(_(
                         "User with email '%(email)s' created. "

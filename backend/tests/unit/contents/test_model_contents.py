@@ -1,131 +1,151 @@
-from typing import Dict
-# from typing import Dict, NoneType
 import pytest
+from typing import Dict, List
+# from typing import Dict, NoneType
 
 from application.modules.dbs_global import dbs_global
 
 # from application.contents.schemas.contents import content_get_schema
-from application.contents.models import ContentModel
+# from application.contents
+from application.contents.models import ContentModel, ViewModel
 from application.contents.local_init_data_contents import contents_constants
 from application.global_init_data import global_constants
+from application.contents.modules.dbs_init_contents import fill_views
 
 
 @pytest.fixture
-def saved_content(content_instance):
+def saved_content_instance(client, content_instance) -> ContentModel:
     def _method(values: Dict = {}) -> ContentModel:
+        # print('\nsaved_content_instance, values ->', values)
         _saved_content = content_instance(values)
-        # print(_saved_content.save_to_db())
         _saved_content.save_to_db()
-        return _saved_content
-    return _method
-
-
-@pytest.fixture
-def searching_json():
-    def _method(_json: Dict = {}):
-        return {
-            key: value for (key, value) in _json.items()
-            if key in ['identity', 'view_id', 'locale_id']}
+        yield _saved_content
+        if _saved_content.is_exist():
+            _saved_content.delete_fm_db()
+        yield
     return _method
 
 
 # @pytest.mark.active
-def test_content_find(
-        saved_content, random_text_underscore,
-        other_valid_item, searching_json,
-        content_get_schema):
+def test_content_find_all(
+        saved_content_instance,
+        # random_text_underscore,
+        # other_valid_item,
+        # searching_json,
+        # content_get_schema
+):
     '''
     Testing find.
     Fields for searching:
     identity
     view_id
     locale_id
-    user_ids
     '''
-    _values = []
-    _searches = []
-    _saved_contents = []
+    # Clean up approapriate tables
+    ContentModel.query.delete()
+    ViewModel.query.delete()
+    fill_views()
 
-    _values.append({
-        'identity': 'identity01', 'view_id': 'main', 'locale_id': 'ru',
-        'user_id': 2, 'title': 'title_', 'content': 'content03'})
-    _values.append({
-        'identity': 'identity02', 'view_id': 'main', 'locale_id': 'ru',
-        'user_id': 2, 'title': 'title_', 'content': 'content03'})
-    _values.append({
-        'identity': 'identity03', 'view_id': 'hello', 'locale_id': 'en',
-        'user_id': 5, 'title': 'title_', 'content': 'content03'})
-    _values.append({
-        'identity': 'identity04', 'view_id': 'hello', 'locale_id': 'en',
-        'user_id': 5, 'title': 'title_', 'content': 'content04'})
-    _values.append({
-        'identity': 'identity05', 'view_id': 'goodbay', 'locale_id': 'en',
-        'user_id': 5, 'title': 'title_', 'content': 'content04'})
-    _values.append({
-        'identity': 'identity06', 'view_id': 'goodbay', 'locale_id': 'en',
-        'user_id': 5, 'title': 'title_', 'content': 'content04'})
+    _content_ids = []
+    _content_gens = []
+    _contents = []
+    _content_ids.append(
+        {'identity': 'identity00', 'view_id': 'test_one', 'locale_id': 'en'})
+    _content_ids.append(
+        {'identity': 'identity00', 'view_id': 'test_one', 'locale_id': 'ru'})
+    _content_ids.append(
+        {'identity': 'identity00', 'view_id': 'test_two', 'locale_id': 'en'})
+    _content_ids.append(
+        {'identity': 'identity00', 'view_id': 'test_two', 'locale_id': 'ru'})
+    _content_ids.append(
+        {'identity': 'identity01', 'view_id': 'test_one', 'locale_id': 'en'})
+    _content_ids.append(
+        {'identity': 'identity01', 'view_id': 'test_one', 'locale_id': 'ru'})
+    _content_ids.append(
+        {'identity': 'identity01', 'view_id': 'test_two', 'locale_id': 'en'})
+    _content_ids.append(
+        {'identity': 'identity01', 'view_id': 'test_two', 'locale_id': 'ru'})
+    for index, _content_id in enumerate(_content_ids):
+        _content_gens.append(saved_content_instance(_content_id))
+        _contents.append(next(_content_gens[index]))
 
-    _searches.append({'title': 'title_', 'qnt': 6})
-    _searches.append({'content': 'content03', 'locale_id': 'ru', 'qnt': 2})
-    _searches.append({'content': 'content03', 'locale_id': 'en', 'qnt': 1})
-    _searches.append({
-        'user_id': 5, 'title': 'title_', 'content': 'content04', 'qnt': 3})
+    # print('\nunit, contents, test_content_find, _content ->', _contents)
 
-    for _value in _values:
-        _found = ContentModel.find_by_identity_view_locale(**searching_json(_value))
-        if _found is not None:
-            _found.delete_fm_db()
-        _saved_contents.append(saved_content(_value))
-        # _saved_contents.append(saved_content(_value))
+    # testing find method it should return list
+    _result = ContentModel.find()
+    assert isinstance(_result, List)
+    assert len(_result) == 8
+    _result = ContentModel.find({'identity': 'identity00'})
+    assert len(_result) == 4
+    _result = ContentModel.find({'identity': 'identity00', 'view_id': 'test_two'})
+    assert len(_result) == 2
+    _result = ContentModel.find(
+        {'identity': 'identity00', 'view_id': 'test_two', 'locale_id': 'ru'})
+    assert len(_result) == 1
 
-    # for _saved_content in _saved_contents:
-    #     print(_saved_content)
+    # testing find_by_identity_view_locale it should retun model
+    _result = ContentModel.find_by_identity_view_locale(
+        identity='identity00',
+        view_id='test_two',
+        locale_id='ru'
+    )
 
-    for _search in _searches:
-        qnt = _search.pop('qnt')
-        _result = ContentModel.find(_search)
-        assert len(_result) == qnt
+    assert isinstance(_result, ContentModel)
+    _result = ContentModel.find_by_identity_view_locale(
+        identity='identity00',
+        view_id='test_two',
+        locale_id='xu'
+    )
+    assert _result is None
+    # print('\ntest_content_find_all, _result ->', _result)
 
-    for _saved_content in _saved_contents:
-        _saved_content.delete_fm_db()
+    for _content_gen in _content_gens:
+        next(_content_gen)
 
 
 # @pytest.mark.active
-def test_content_find_by_identity_view_locale_delete_good(
-        content_get_schema,
-        saved_content):
-    '''
-    Find and delete successfull.
-    '''
+def test_is_exist(saved_content_instance):
+    _content_gen = saved_content_instance()
+    _content = next(_content_gen)
+    assert _content.is_exist()
+    _content.delete_fm_db()
+    assert not _content.is_exist()
 
-    # Save instance and get values and primary keys for further reference:
-    _saved_content_json = content_get_schema.dump(saved_content())
-    _saved_content_pks = {
-        key: value for (key, value) in _saved_content_json.items()
-        if key in ['identity', 'view_id', 'locale_id']}
-
-    # Find instance with stored primany keys:
-    _found_content = ContentModel.find_by_identity_view_locale(**_saved_content_pks)
-    _found_content_json = content_get_schema.dump(_found_content)
-
-    # Insure found instance and saved one are identical:
-    for key in _found_content_json.keys():
-        assert _found_content_json[key] == _saved_content_json[key]
-        # print(_found_content_json[key])
-
-    # Delete instance from db:
-    _found_content.delete_fm_db()
-
-    # Try to find it by id:
-    _found_content = ContentModel.find_by_identity_view_locale(**_saved_content_pks)
-
-    # Insure you've found nothing:
-    assert _found_content is None
+    next(_content_gen)
 
 
 # @pytest.mark.active
-def test_content_typing(content_schema, saved_content):
-    _instance_json = content_schema.dump(saved_content())
+def test_content_update(
+        saved_content_instance,
+        content_get_schema):
+    '''
+    Update.
+    '''
+    # Get pks and values for saved content instance, keep instance to clean up db:
+    _content_gen = saved_content_instance()
+    _content = next(_content_gen)
+    _content_json = content_get_schema.dump(_content)
+    _content_values_json = {
+        key: value for (key, value) in _content_json.items()
+        if key not in ['identity', 'view_id', 'locale_id']}
+
+    # Correct values and check they are identical:
+    for key in _content_values_json.keys():
+        _update_values_json = _content_values_json.copy()
+        if isinstance(_update_values_json[key], int):
+            _update_values_json[key] = 0
+        else:
+            _update_values_json[key] += ' corrected'
+        _content.update(_update_values_json)
+        assert content_get_schema.dump(_content)[key] == _update_values_json[key]
+
+    # Clean up db:
+    next(_content_gen)
+
+
+# @pytest.mark.active
+def test_content_typing(content_schema, saved_content_instance):
+    _content_gen = saved_content_instance()
+    _instance_json = content_schema.dump(next(_content_gen))
     # print(_instance_json)
     for key in _instance_json.keys():
         if key in ['user_id']:
@@ -139,18 +159,22 @@ def test_content_typing(content_schema, saved_content):
         if key in ['locale', 'view']:
             assert isinstance(_instance_json[key], Dict)
 
+    # Clean up db:
+    next(_content_gen)
+
 
 # @pytest.mark.active
 def test_content_finds_wrong_values(
-        saved_content,
+        saved_content_instance,
         content_get_schema):
     '''
     That's impossible for find model with at wrong primary key values (error 404)
     '''
-    # Get saved in
+    _content_gen = saved_content_instance()
+    # Get saved keys
     _saved_content_pks = {
         key: value for (key, value)
-        in content_get_schema.dump(saved_content()).items()
+        in content_get_schema.dump(next(_content_gen)).items()
         if key in ['identity', 'view_id', 'locale_id']}
 
     # Find saved instance with pks user find and find_by_identity_view_locale:
@@ -170,39 +194,11 @@ def test_content_finds_wrong_values(
             **_pks_wrong)
         assert _found_instance_by_pks is None
 
-    # Delete test instance from db to keep it creaner:
-    _found_content_general[0].delete_fm_db()
+    # Clean up db:
+    next(_content_gen)
 
 
 # @pytest.mark.active
-def test_content_update(
-        saved_content,
-        content_get_schema):
-    '''
-    Update.
-    '''
-    # Get pks and values for saved content instance, keep instance to clean up db:
-    _saved_content = saved_content()
-    _saved_content_json = content_get_schema.dump(_saved_content)
-    _saved_values_json = {
-        key: value for (key, value) in _saved_content_json.items()
-        if key not in ['identity', 'view_id', 'locale_id']}
-
-    # Correct values and check they are identical:
-    for key in _saved_values_json.keys():
-        _update_values_json = _saved_values_json.copy()
-        if isinstance(_update_values_json[key], int):
-            _update_values_json[key] = 0
-        else:
-            _update_values_json[key] += ' corrected'
-        _saved_content.update(_update_values_json)
-        assert content_get_schema.dump(_saved_content)[key] ==\
-            _update_values_json[key]
-
-    # Clean up db:
-    _saved_content.delete_fm_db()
-
-
 @pytest.mark.parametrize(
     'language, lang_testing_result', [
         (global_constants.get_LOCALES[0]['id'], 'None'),
@@ -219,17 +215,18 @@ def test_content_save_wrong_fk(
         language, lang_testing_result,
         views, view_testing_result,
         content_schema, content_get_schema,
-        saved_content):
+        saved_content_instance):
     '''
     Saving instance with foreign keys not in respective tables or without foreign key.
     '''
+    _content_gen = saved_content_instance()
     # Get content instance for cleaning up and pks:
-    _saved_content = saved_content()
-    _saved_content_json = content_get_schema.dump(_saved_content)
-    _content_json = {'view_id': views, 'locale_id': language}
-    _new_content_json = _saved_content_json.copy()
-    for key in _content_json.keys():
-        _new_content_json[key] = _content_json[key]
+    _content = next(_content_gen)
+    _content_json = content_get_schema.dump(_content)
+    _allowed_json = {'view_id': views, 'locale_id': language}
+    _new_content_json = _content_json.copy()
+    for key in _allowed_json.keys():
+        _new_content_json[key] = _allowed_json[key]
     _new_content = content_schema.load(_new_content_json, session=dbs_global.session)
     result = _new_content.save_to_db()
     # print(result)
@@ -239,43 +236,5 @@ def test_content_save_wrong_fk(
     else:
         result.find('foreign key constraint fails') != -1
 
-    # _saved_content.delete_fm_db()
-
-
-@pytest.mark.parametrize(
-    'language, lang_testing_result', [
-        (global_constants.get_LOCALES[0]['id'], 'None'),
-        ('not', 'message'),
-        ('', 'message')
-    ])
-@pytest.mark.parametrize(
-    'views, view_testing_result', [
-        (contents_constants.get_VIEWS[0]['id_view'], 'None'),
-        ('not', 'message'),
-        ('', 'message')
-    ])
-def test_content_update_wrong_fk(
-        language, lang_testing_result,
-        views, view_testing_result,
-        content_schema, content_get_schema,
-        saved_content):
-    '''
-    Updating instance with foreign keys not in respective tables or
-    without foreign key.
-    '''
-    _saved_content = saved_content()
-    _saved_content_json = content_get_schema.dump(_saved_content)
-    _update_content_json = {'view_id': views, 'locale_id': language}
-    _new_content_json = _saved_content_json.copy()
-    for key in _update_content_json.keys():
-        _new_content_json[key] = _update_content_json[key]
-    _new_content = content_schema.load(_new_content_json, session=dbs_global.session)
-    result = _new_content.update(_update_content_json)
-    # print(result)
-    if (lang_testing_result == 'None') and (view_testing_result == 'None'):
-        assert result is None
-        _new_content.delete_fm_db()
-    else:
-        result.find('foreign key constraint fails') != -1
-
-    # _saved_content.delete_fm_db()
+    # Clean up db:
+    next(_content_gen)

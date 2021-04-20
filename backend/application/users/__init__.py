@@ -31,9 +31,9 @@ def create_users():
         # from .modules.dbs_users import dbs_users
         dbs_global.init_app(current_app)
 
-        @current_app.before_first_request
-        def init_dbs():
-            pass
+        # @current_app.before_first_request
+        # def init_dbs():
+        # pass
         #     from .modules.dbs_init_users import dbs_init_users
         #     dbs_init_users()
 

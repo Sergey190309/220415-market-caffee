@@ -1,4 +1,4 @@
-# import pytest
+import pytest
 from flask import current_app
 
 # from application.globals import confirmation_email_data
@@ -6,7 +6,7 @@ from application.mailing.modules.fml import fml
 
 
 # @pytest.mark.active
-def test_mailing_fml_send(test_client, random_email):
+def test_mailing_fml_send(client, random_email):
     _email = random_email()
     _link = 'test_link'
     outbox = fml.send([_email], _link)
