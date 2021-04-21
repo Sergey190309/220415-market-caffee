@@ -10,7 +10,7 @@ def create_contents():
 
     with current_app.app_context():
 
-        # Custom error handler
+        # Custom error handler Custom error handler for application
         from ..errors.register import register_error_handler
         register_error_handler(contents_bp)
 

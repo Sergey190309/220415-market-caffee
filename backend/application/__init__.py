@@ -48,15 +48,20 @@ def create_app(config='default_config.py'):
         from .contents import create_contents
         app.register_blueprint(create_contents(), url_prefix='/contents')
 
+        # Module for image handling
+        from .images import create_images
+        app.register_blueprint(create_images(), url_prefix='/images')
+        # I've translated those comonents on front end
         # Module with back-end part for front-end reusable components.
         # Navigation bars, buttons, etc.
-        from .components import create_components
-        app.register_blueprint(create_components(), url_prefix='/components')
+        # from .components import create_components
+        # app.register_blueprint(create_components(), url_prefix='/components')
 
         # Mailing
         from .mailing import create_mailing
         app.register_blueprint(create_mailing())
 
+        # DB inisiation
         @current_app.before_first_request
         def init_dbs():
             # print('\nbefore first request')

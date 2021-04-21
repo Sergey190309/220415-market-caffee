@@ -4,7 +4,8 @@ DEBUG = True
 
 # print('\nSECRET_KEY -', SECRET_KEY)
 
-# SQLALCHEMY_DATABASE_URI = 'sqlite:///home/sa/code/201201-market-caffee/backend/testdb.sqlite3'
+# SQLALCHEMY_DATABASE_URI =
+# 'sqlite:///home/sa/code/201201-market-caffee/backend/testdb.sqlite3'
 
 SQLALCHEMY_DATABASE_URI = \
     'mysql+pymysql://' + \

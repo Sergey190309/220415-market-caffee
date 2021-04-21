@@ -21,8 +21,6 @@ def set_selectors(fbp: 'BabelBackend') -> str:
         return fbp.global_variables.get_global_by_name('time_zone')
 
 
-
-
 class BabelBackend(Babel):
     def __init__(self):
         super().__init__()

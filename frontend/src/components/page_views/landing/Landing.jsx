@@ -21,8 +21,8 @@ export const Landing = ({ language }) => {
   return (
     <Container>
       <Segment color={viewSegmentColor}>
-        <ViewHeader keys={{ ...keys, identity: 'view_heading' }} />
-        <ViewParagraphs keys={{...keys, identity: 'presentation'}} qnt={3} />
+        <ViewHeader keys={{ ...keys, identity: 'txt_heading_00' }} />
+        <ViewParagraphs keys={{...keys, identity: 'txt_presentation'}} qnt={3} />
         {/* <ViewPictures /> */}
         {/* <ViewParagraphs /> */}
       </Segment>
