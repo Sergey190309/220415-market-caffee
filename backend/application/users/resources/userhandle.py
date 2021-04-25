@@ -15,7 +15,7 @@ user_update_schema = UserUpdateSchema()
 class UserHandle(Resource):
 
     @classmethod
-    @jwt_required
+    @jwt_required()
     def post(cls, user_id: int) -> Dict:
         '''
         The procedure updates user identified by id in url.
@@ -77,7 +77,7 @@ class UserHandle(Resource):
         }
 
     @classmethod
-    @jwt_required
+    @jwt_required()
     def get(cls, user_id: int) -> Dict:
         '''
         Get all user details by id in url. User can access to own info only.
@@ -111,7 +111,7 @@ class UserHandle(Resource):
         }, 200
 
     @classmethod
-    @jwt_required
+    @jwt_required()
     def delete(cls, user_id: int) -> None:
         pass
         '''

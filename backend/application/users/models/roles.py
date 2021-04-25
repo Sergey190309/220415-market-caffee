@@ -12,7 +12,8 @@ class RoleModel(dbs_global.Model):  # parent
     id = dbs_global.Column(dbs_global.String(24), primary_key=True)
     remarks = dbs_global.Column(dbs_global.UnicodeText())
 
-    user = dbs_global.relationship('UserModel', backref='rolemodel', lazy="dynamic")
+    user = dbs_global.relationship('UserModel', back_populates='role', lazy="dynamic")
+    # user = dbs_global.relationship('UserModel', backref='rolemodel', lazy="dynamic")
 
     @classmethod
     def find_by_id(cls, role_id: str) -> 'RoleModel':

@@ -262,17 +262,10 @@ def view_instance(random_text_underscore, random_text, view_schema):
     def _method(values: Dict = {}) -> 'ViewModel':
         if values is None or not isinstance(values, Dict):
             return 'Provide values in dictinary type'
-        _json = {}
-        keys = values.keys()
-        if 'id_view' in keys:
-            _json['id_view'] = values['id_view']
-        else:
-            _json['id_view'] = random_text_underscore(qnt=3)
-        if 'description' in keys:
-            _json['description'] = values['description']
-        else:
-            _json['description'] = random_text(qnt=12)
-        return view_schema.load(_json, session=dbs_global.session)
+        _values_json = {}
+        _values_json['id_view'] = values.get('id_view', random_text_underscore(qnt=3))
+        _values_json['description'] = values.get('description', random_text(qnt=12))
+        return view_schema.load(_values_json, session=dbs_global.session)
     return _method
 
 

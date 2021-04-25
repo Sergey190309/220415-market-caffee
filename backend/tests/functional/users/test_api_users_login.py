@@ -68,26 +68,26 @@ def test_user_login_post(
 
 
 # @pytest.mark.active
-def test_user_login_put(
+def test_user_login_delete(
         client,
         created_user,
         access_token):
     _user = created_user()
     headers = {'Authorization': f'Bearer {access_token(_user)}'}
-    resp = client.put(url_for('users_bp.userlogin'), headers=headers)
+    resp = client.delete(url_for('users_bp.userlogin'), headers=headers)
     # print(resp.json)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
 
 
 # @pytest.mark.active
-def test_user_login_patch(
+def test_user_login_put(
         client,
         created_user,
         refresh_token):
     _user = created_user()
     headers = {'Authorization': f'Bearer {refresh_token(_user)}'}
-    resp = client.patch(url_for('users_bp.userlogin'), headers=headers)
+    resp = client.put(url_for('users_bp.userlogin'), headers=headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()

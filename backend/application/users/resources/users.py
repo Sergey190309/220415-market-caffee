@@ -9,6 +9,7 @@ from ..schemas.users import (
     user_schema,
     UserUpdateSchema
 )
+from application.modules.fbp import fbp
 from ..models.users import UserModel
 from ..models.confirmations import ConfirmationModel
 
@@ -21,6 +22,7 @@ class User(Resource):
         '''
         Creates user based on json.
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
         # _json = request.get_json()
         # print('users.resources.users.User.post _json -', _json)
         _user = user_schema.load(request.get_json())
@@ -55,13 +57,14 @@ class User(Resource):
                         err=err))}, 500
 
     @classmethod
-    @jwt_required
+    @jwt_required()
     def get(cls) -> Dict:
         '''
         Get all user details by email in json.
         Allowd for owner or admin.
         '''
         _email = request.args['email']
+        fbp.set_lng(request.headers.get('Accept-Language'))
         # Below is for validation only.
         user_update_schema.load({'email': _email})
 
@@ -70,7 +73,7 @@ class User(Resource):
             return {
                 'message': str(_(
                     "Admins or account owner are allowed to see details "
-                    "by email. You are neither admin not own this account."))
+                    "by email. You neither are admin no own this account."))
             }, 401
 
         _user = UserModel.find_by_email(_email)
@@ -85,6 +88,6 @@ class User(Resource):
         else:
             return {
                 'message': str(_(
-                    "User with email '%(email)s' has not been found.",
+                    "Sorry but user with email '%(email)s' has not been found.",
                     email=_email)),
             }, 404

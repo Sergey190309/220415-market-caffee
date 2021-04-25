@@ -32,5 +32,6 @@
   },
   "explorerExclude.backup": null,
   "python.linting.mypyArgs": [],
-  "python.linting.banditEnabled": false
+  "python.linting.banditEnabled": false,
+  "python.pythonPath": "/home/sa/code/201201-market-caffee/backend/venv/bin/python3.9"
 }

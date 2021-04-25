@@ -1,11 +1,12 @@
-from flask import Blueprint, current_app
+from flask import Blueprint, current_app, url_for
 from flask_uploads import configure_uploads
 from .utils.image_helper import IMAGE_SET
 
 
 def create_images():
     images_bp = Blueprint(
-        'images_bp', __name__)
+        'images_bp', __name__,
+        static_folder='static')
 
     with current_app.app_context():
         # Custom error handler for application
@@ -14,6 +15,9 @@ def create_images():
 
         # flask_restful and routining
         from .modules.api_images import api_images
+        # print('images, __init__.py url ->', images_bp.static_folder)
+        # current_app.config['UPLOADED_IMAGES_DEST'] = 'application/images/static/images'
+        current_app.config['UPLOADED_IMAGES_DEST'] = images_bp.static_folder
         configure_uploads(current_app, IMAGE_SET)
         api_images.init_app(images_bp)
 

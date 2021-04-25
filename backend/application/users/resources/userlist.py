@@ -15,7 +15,7 @@ user_update_schema = UserUpdateSchema()
 class UserList(Resource):
 
     @classmethod
-    @jwt_required
+    @jwt_required()
     def get(cls) -> Dict:
         '''
         Just list of users. Admin rights are required.

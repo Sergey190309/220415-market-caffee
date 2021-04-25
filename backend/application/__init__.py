@@ -1,6 +1,6 @@
 # Flask extentions
 from dotenv import load_dotenv
-from flask import Flask, current_app
+from flask import Flask, current_app, url_for
 
 from application.modules.dbs_global import dbs_global
 from application.modules.flm_global import flm_global
@@ -17,7 +17,6 @@ import application.components.models  # Don't remove see above.
 
 
 def create_app(config='default_config.py'):
-    # print('\napplication.__init__.py config\n', config)
 
     app = Flask(__name__)
     load_dotenv('.env', verbose=True)
@@ -28,8 +27,7 @@ def create_app(config='default_config.py'):
     flm_global.init_app(app, dbs_global)  # Flask_migrate init.
     fbp.init_app(app)  # Flask_BabelPlus
 
-    with app.app_context():
-
+    with app.app_context(), app.test_request_context():
         # print('\napplication.__init__.py within with config -', config)
         # Error handler.
         from .errors import create_errors
@@ -62,6 +60,8 @@ def create_app(config='default_config.py'):
         app.register_blueprint(create_mailing())
 
         # DB inisiation
+        # print('\napplication.__init__.py url\n', url_for('images_bp.imageupload'))
+
         @current_app.before_first_request
         def init_dbs():
             # print('\nbefore first request')

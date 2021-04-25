@@ -22,7 +22,7 @@ class ConfirmationModel(dbs_global.Model):
 
     user = dbs_global.relationship(
         'UserModel',
-        backref='confirmationmodel'
+        back_populates='confirmation'
         # lazy='dynamic'
         # cascade='all,delete-orphan'
     )

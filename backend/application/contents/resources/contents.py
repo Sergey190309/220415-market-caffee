@@ -1,11 +1,13 @@
 from typing import Dict
 from flask import request
 from flask_restful import Resource
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_babelplus import lazy_gettext as _
 
 from application.modules.dbs_global import dbs_global
 from application.modules.fbp import fbp
 # from application.global_init_data import global_variables
+from application.users.models import UserModel
 from ..models.contents import ContentModel
 from ..schemas.contents import (
     content_schema,
@@ -49,10 +51,22 @@ class Contents(Resource):
         }, 500
 
     @classmethod
+    def no_access(cls) -> Dict:
+        return {
+            'message': str(_(
+                "Sorry, access to views' information is allowed to admin only."
+            ))
+        }, 401
+
+    @classmethod
+    @jwt_required()
     def post(cls) -> Dict:
         '''
         Create content instance and save to db.
         '''
+        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+            return Contents.no_access()
+        fbp.set_lng(request.headers.get('Accept-Language'))
         _request_json = request.get_json()
         # print('\nContent post, request.get_json ->', _request_json)
         _content = content_schema.load(_request_json, session=dbs_global.session)
@@ -76,10 +90,13 @@ class Contents(Resource):
         }, 201
 
     @classmethod
+    @jwt_required()
     def get(cls) -> Dict:
         '''
         Get instance from db.
         '''
+        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+            return Contents.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args['view_id'],
@@ -99,10 +116,15 @@ class Contents(Resource):
         }, 200
 
     @classmethod
+    @jwt_required()
     def put(cls) -> Dict:
         '''
         Update instance and save to db.
+        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+            return Contents.no_access()
         '''
+        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+            return Contents.no_access()
         _update_json = content_get_schema.load(request.get_json())
         _content = ContentModel.find_by_identity_view_locale(
             identity=_update_json['identity'],
@@ -122,15 +144,14 @@ class Contents(Resource):
         }, 200
 
     @classmethod
+    @jwt_required()
     def delete(cls):
         '''
         Delete instance from db.
         '''
-        # print(
-        #     '\nContents, resources, Accept-Language ->',
-        #     request.headers.get('Accept-Language'))
         # print('contents, resources, view_id ->', request.args['view_id'])
-        # print('contents, resources, identity ->', request.args['identity'])
+        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+            return Contents.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args['view_id'],

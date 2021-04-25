@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-03-29 06:27+0000\n"
-"PO-Revision-Date: 2021-03-29 06:29+0000\n"
+"POT-Creation-Date: 2021-04-25 13:56+0000\n"
+"PO-Revision-Date: 2021-04-25 13:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -38,7 +38,7 @@ msgid "The component kind has been saved successfully. Details are in payload."
 msgstr "Тип компонента успешно сохранен. Детали в сообщении."
 
 #: components/resources/component_kinds.py:65
-#: components/resources/components.py:72 contents/resources/views.py:59
+#: components/resources/components.py:72 contents/resources/views.py:114
 msgid "Found, see payload."
 msgstr "Нашел, смотри детали."
 
@@ -96,7 +96,7 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
 
-#: contents/resources/contents.py:21
+#: contents/resources/contents.py:25
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -105,7 +105,7 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: contents/resources/contents.py:34
+#: contents/resources/contents.py:38
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -114,24 +114,29 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:45
+#: contents/resources/contents.py:49
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:71
+#: contents/resources/contents.py:57 contents/resources/views.py:18
+msgid "Sorry, access to views' information is allowed to admin only."
+msgstr ""
+"Извиняйте, доступ к информации о страницах разрешен только администратору."
+
+#: contents/resources/contents.py:87
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:87
+#: contents/resources/contents.py:113
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:110
+#: contents/resources/contents.py:141
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:131
+#: contents/resources/contents.py:172
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -140,32 +145,27 @@ msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
 
-#: contents/resources/viewlist.py:32
+#: contents/resources/views.py:47
 #, python-format
 msgid "There are %(count)s views in our database as follows:"
 msgstr ""
 "В нашей базе зарегистрировано %(count)s пользователуй как указанно ниже:"
 
-#: contents/resources/viewlist.py:39
-msgid "Sorry, access to views' information is allowed to admin only."
-msgstr ""
-"Извиняйте, доступ к информации о страницах разрешен только администратору."
-
-#: contents/resources/views.py:18
+#: contents/resources/views.py:64
 #, python-format
 msgid "A view with identity '%(id_view)s' already exists."
 msgstr "Страничка с идентификатором '%(id_view)s' уже существует."
 
-#: contents/resources/views.py:26
+#: contents/resources/views.py:72
 #, python-format
 msgid "A view with identity '%(id_view)s' has not been found."
 msgstr "Страничка с идентификатором '%(id_view)s' не обнаружена."
 
-#: contents/resources/views.py:43
+#: contents/resources/views.py:93
 msgid "The view has been saved successfully. Details are in payload."
 msgstr "Страничка успешно сохранена. Детали в сообщении."
 
-#: contents/resources/views.py:75
+#: contents/resources/views.py:135
 #, python-format
 msgid ""
 "The view with id '%(id_view)s' has been updated successfully. Details are in "
@@ -174,45 +174,59 @@ msgstr ""
 "Страничка с идентификатором '%(id_view)s' успешно обновлена. Детали в "
 "сообщении."
 
-#: contents/resources/views.py:93
+#: contents/resources/views.py:158
 #, python-format
 msgid "The view with id '%(id_view)s' has been deleted successfully."
 msgstr "Страничка с идентификатором '%(id_view)s' убита на смерть."
 
-#: home/resources/index.py:25
+#: home/resources/index.py:26
 msgid "Global variables are as in payload."
 msgstr "Глобальные переменные теле сообщения."
 
-#: home/resources/index.py:42 home/resources/index.py:73
+#: home/resources/index.py:44 home/resources/index.py:75
 msgid "Date now is "
 msgstr "Сегодня "
 
-#: home/resources/index.py:45
+#: home/resources/index.py:47
 msgid "You asked about date"
 msgstr "Вы спрашивали насчет даты"
 
-#: home/resources/index.py:49 home/resources/index.py:75
+#: home/resources/index.py:51 home/resources/index.py:77
 msgid "Time is "
 msgstr "Время сейчас "
 
-#: home/resources/index.py:51
+#: home/resources/index.py:53
 msgid "You asked about time"
 msgstr "Вы спрашивали о времени"
 
-#: home/resources/index.py:55
+#: home/resources/index.py:57
 msgid "Not clear what do you want. I know date and time only. Please specify."
 msgstr ""
 "Не очень понятно что вы спрашиваете. Я знаю только дату и время. Прошу "
 "уточнить."
 
-#: home/resources/index.py:68 users/resources/userconfirm.py:38
+#: home/resources/index.py:70 users/resources/userconfirm.py:38
 #: users/resources/userconfirm.py:119
 msgid "Hi there!"
 msgstr "Привет всем тут!"
 
-#: home/resources/index.py:70
+#: home/resources/index.py:72
 msgid "I plan to do something from this project."
 msgstr "Я что-то планирую сделать из этого проекта."
+
+#: images/resources/images.py:32
+#, python-format
+msgid "Image '%(basename)s' uploaded"
+msgstr "Изображение '%(basename)s' загружено"
+
+#: images/resources/images.py:36
+#, python-format
+msgid "Extentions '%(extention)s' are not allowed"
+msgstr "Расширения '%(extention)s' не разрешены"
+
+#: images/schemas/image.py:8
+msgid "Not a valid image!"
+msgstr "Не действительное изображение!"
 
 #: mailing/local_init_data_mailing.py:31
 msgid "That's registration confirmatin."
@@ -240,23 +254,23 @@ msgstr "Не действительный регион."
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: users/errors/register_errors_users.py:39
+#: users/errors/register_errors_users.py:21
 msgid "The token has expired."
 msgstr "Срок годности жетона истек."
 
-#: users/errors/register_errors_users.py:47
+#: users/errors/register_errors_users.py:29
 msgid "Signature verification failed."
 msgstr "Подпись проверить не получилось."
 
-#: users/errors/register_errors_users.py:54
+#: users/errors/register_errors_users.py:36
 msgid "Request does not contain an access token."
 msgstr "Запрос не содержит жетона доступа."
 
-#: users/errors/register_errors_users.py:61
+#: users/errors/register_errors_users.py:43
 msgid "The token is not fresh."
 msgstr "Жетон не свежий."
 
-#: users/errors/register_errors_users.py:68
+#: users/errors/register_errors_users.py:50
 msgid "The token has been revoked."
 msgstr "Жетон отозван."
 
@@ -277,8 +291,8 @@ msgstr "У пользователя уже есть статус."
 msgid "You registration has been confirmed through %(email)s."
 msgstr "Ваша регистрация подтверждена через %(email)s."
 
-#: users/resources/userconfirm.py:60 users/resources/userhandle.py:119
-#: users/resources/userhandle.py:147
+#: users/resources/userconfirm.py:60 users/resources/userhandle.py:103
+#: users/resources/userhandle.py:131
 #, python-format
 msgid "User with user_id '%(user_id)s' has not been found."
 msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
@@ -306,51 +320,51 @@ msgstr ""
 "Во время отправления подтверждающего сообщения что-то пошло не так. Ошибка - "
 "%(err)s"
 
-#: users/resources/userhandle.py:54
+#: users/resources/userhandle.py:41
 #, python-format
 msgid "User you plan to update (with id = '%(user_id)s') not found."
 msgstr ""
 "Пользователь, которого вы планируете обновить (с идентификатором = "
 "'%(user_id)s'), не найден."
 
-#: users/resources/userhandle.py:63
+#: users/resources/userhandle.py:50
 msgid "Administrative privileges are needed to update users' rights."
 msgstr "Только администратору разрешено менять права пользователя."
 
-#: users/resources/userhandle.py:74
+#: users/resources/userhandle.py:58
 msgid "Admin is allowed to change role or kill user only."
 msgstr ""
 "Администратору разрешено только менять права пользователя или пристрелить "
 "его."
 
-#: users/resources/userhandle.py:79
+#: users/resources/userhandle.py:63
 msgid "Non admin users are allowed to change their own accounts but roles."
 msgstr ""
 "Не администратору позволено изменять собственные учетные записи кроме прав."
 
-#: users/resources/userhandle.py:90
+#: users/resources/userhandle.py:74
 #, python-format
 msgid "User with id '%(user_id)s' updated as in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' обновлен, как в теле сообщения."
 
-#: users/resources/userhandle.py:113
+#: users/resources/userhandle.py:97
 msgid "Access to user details is allowed to owners or admins onlys."
 msgstr ""
 "Доступ к информации пользователя разрешен только самому пользователю и "
 "администраторам."
 
-#: users/resources/userhandle.py:124
+#: users/resources/userhandle.py:108
 #, python-format
 msgid "User with id '%(user_id)s' found, details are in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' найден, детали в теле сообщения."
 
-#: users/resources/userhandle.py:141
+#: users/resources/userhandle.py:125
 msgid "Owners or admins are allowed to kill their accownts."
 msgstr "Владельцам или администраторам позволено убивать учетные записи."
 
-#: users/resources/userhandle.py:154
+#: users/resources/userhandle.py:138
 #, python-format
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
@@ -366,17 +380,17 @@ msgid "Sorry, access to user's information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации пользователей разрешен только администратору."
 
-#: users/resources/userlogin.py:30 users/resources/users.py:90
+#: users/resources/userlogin.py:35
 #, python-format
 msgid "User with email '%(email)s' has not been found."
 msgstr "Пользователь с email '%(email)s' не найден."
 
-#: users/resources/userlogin.py:37
+#: users/resources/userlogin.py:42
 #, python-format
 msgid "Wrong password for user with email '%(email)s'."
 msgstr "Неверный пароль для пользователя с email '%(email)s'."
 
-#: users/resources/userlogin.py:45
+#: users/resources/userlogin.py:50
 #, python-format
 msgid ""
 "It seems you have not confirm your account. Check email stated - '%(email)s'."
@@ -384,22 +398,22 @@ msgstr ""
 "Похоже вы не подтвердили свою учетную запись. Проверьте указанную "
 "электронную почту - '%(email)s'."
 
-#: users/resources/userlogin.py:54
+#: users/resources/userlogin.py:59
 #, python-format
 msgid "Hi '%(user_name)s'! You are welcome."
 msgstr "'Привет '%(user_name)s'! Добро пожаловать."
 
-#: users/resources/userlogin.py:68
+#: users/resources/userlogin.py:73
 msgid "Successfully logged out."
 msgstr "Пользователь успешно прекратил регистрацию."
 
-#: users/resources/userlogin.py:80
+#: users/resources/userlogin.py:86
 msgid "Something wrong with token refreshing. Try to log in again."
 msgstr ""
 "Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
 "раз."
 
-#: users/resources/userlogin.py:83
+#: users/resources/userlogin.py:89
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
@@ -408,7 +422,7 @@ msgstr "Жетон благополучно освежен."
 msgid "User with email '%(email)s' already exists."
 msgstr "Пользователь с email '%(email)s' уже существует."
 
-#: users/resources/users.py:45
+#: users/resources/users.py:46
 #, python-format
 msgid ""
 "User with email '%(email)s' created. We have sent your email, please visit "
@@ -417,23 +431,28 @@ msgstr ""
 "Пользователь с e-mail '%(email)s' успешно создан. Мы послали вам электронное "
 "письмо, пожалуйста зайдите в вашу почтовую программу и закончите регистрацию."
 
-#: users/resources/users.py:55
+#: users/resources/users.py:56
 #, python-format
 msgid "While creating user somthing went wrong. Error - %(err)s."
 msgstr "Во время создания пользователя что-то пошло не так. Ошибка - %(err)s."
 
-#: users/resources/users.py:74
+#: users/resources/users.py:75
 msgid ""
-"Admins or account owner are allowed to see details by email. You are neither "
-"admin not own this account."
+"Admins or account owner are allowed to see details by email. You neither are "
+"admin no own this account."
 msgstr ""
-"Администраторы или владельцы учетных записей имеют право смотреть "
-"особенности с помощью почты. Ты не администратор, ни владелец."
+"Только администраторы или владельцы учетных записей имеют право смотреть "
+"детали с помощью почты. Ты не администратор и не владелец."
 
-#: users/resources/users.py:83
+#: users/resources/users.py:84
 #, python-format
 msgid "User with email '%(email)s' found, details are in payload."
 msgstr "Пользователь с email '%(email)s' найден, детали в теле сообщения."
+
+#: users/resources/users.py:91
+#, python-format
+msgid "Sorry but user with email '%(email)s' has not been found."
+msgstr "Пользователь с почтой '%(email)s' не найден."
 
 #~ msgid "You are welcome, tokens are in payload."
 #~ msgstr "Добро пожаловать, жетоны теле сообщения."

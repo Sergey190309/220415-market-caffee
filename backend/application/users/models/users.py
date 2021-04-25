@@ -49,10 +49,10 @@ class UserModel(dbs_global.Model):
     # avatar = fields.ImageField(null=True)
 
     locale = dbs_global.relationship('LocaleGlobalModel', backref='usermodel')
-    role = dbs_global.relationship('RoleModel', backref='usermodel')
+    role = dbs_global.relationship('RoleModel', back_populates='user')
     confirmation = dbs_global.relationship(
         'ConfirmationModel',
-        backref='usermodel',
+        back_populates='user',
         cascade='all,delete-orphan',
         lazy='dynamic')
 
@@ -102,6 +102,7 @@ class UserModel(dbs_global.Model):
         return create_access_token(self.id, fresh=False)
 
     def get_tokens(self) -> Dict:  # tested
+        # print('\nget_token, id ->', type(self.id))
         return {
             'user_name': self.user_name,
             'email': self.email,

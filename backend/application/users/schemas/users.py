@@ -94,7 +94,7 @@ class UserSchema(fma_users.SQLAlchemyAutoSchema):  # noqa
 
     @pre_load
     def hash_password(self, in_data, **kwargs):
-        in_data['password'] = fbc_users.generate_password_hash(in_data['password'])
+        in_data['password'] = fbc_users.generate_password_hash(in_data.get('password'))
         return in_data
 
 

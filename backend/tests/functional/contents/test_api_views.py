@@ -14,122 +14,189 @@ def view_api_resp(
     '''
     It makes post reques to API and retunrn responce.
     '''
-    view_json = view_get_schema.dump(view_instance())
-    return client.post(url_for('contents_bp.views'), json=view_json)
+    def _method(values: Dict = {}, headers: Dict = {}):
+        _values_json = view_get_schema.dump(view_instance(values))
+        resp = client.post(url_for('contents_bp.view'), json=_values_json, headers=headers)
+        return resp
+    return _method
 
 
-@pytest.fixture
-def original_data(view_api_resp):
+# @pytest.mark.active
+def test_no_access(client, view_api_resp, user_instance, access_token):
     '''
-    Test responce from API and store result for further reference.
-    There is success test here as well.
+    Calling all APIs with no authorization token or with non admin one
     '''
-    resp = view_api_resp
-    assert resp.status_code == 201
-    assert isinstance(resp.json['payload'], Dict)
-    return resp.json['payload']
 
+    # access with not admin user
+    _user = user_instance(values={'role_id': 'user'})  # user not admin
+    # _user = user_instance(values={'role_id': 'admin'})
+    _user.save_to_db()  # to have user with this id
+    _access_token = access_token(_user)
+    _headers = {'Authorization': f'Bearer {_access_token}'}
+    resp = view_api_resp(headers=_headers)
+    # _user.delete_fm_db()
+    assert resp.status_code == 401
+    assert 'message' in resp.json.keys()
 
-@pytest.fixture()
-def original_key_data(original_data):
-    _data = original_data.copy()
-    _data.pop('description')
-    return _data
+    resp = client.get(url_for('contents_bp.view'), headers=_headers)
+    assert resp.status_code == 401
+    assert 'message' in resp.json.keys()
 
+    resp = client.put(url_for('contents_bp.view'), headers=_headers)
+    assert resp.status_code == 401
+    assert 'message' in resp.json.keys()
 
-@pytest.fixture()
-def original_value_data(original_data):
-    _data = original_data.copy()
-    _data.pop('id_view')
-    return _data
+    resp = client.delete(url_for('contents_bp.view'), headers=_headers)
+    assert resp.status_code == 401
+    assert 'message' in resp.json.keys()
+
+    # access without access_token
+    resp = view_api_resp()
+    assert resp.status_code == 401
+    assert 'description' in resp.json.keys()
+
+    resp = client.get(url_for('contents_bp.view'))
+    assert resp.status_code == 401
+    assert 'description' in resp.json.keys()
+
+    resp = client.put(url_for('contents_bp.view'))
+    assert resp.status_code == 401
+    assert 'description' in resp.json.keys()
+
+    resp = client.delete(url_for('contents_bp.view'))
+    assert resp.status_code == 401
+    assert 'description' in resp.json.keys()
+
+    # print('\nfunctional, contents, view resp ->', resp)
+    # print('functional, contents, view status ->', resp.status_code)
+    # print('functional, contents, view json ->', resp.json)
+    _user.delete_fm_db()
 
 
 # @pytest.mark.active
 def test_view_post_already_exists(
-        client, original_data):
+        client, view_api_resp, user_instance, access_token):
     # Make new request with same data as already created instance.
-    # print('\ntest_view_post_already_exists')
-    resp = client.post(url_for('contents_bp.views'), json=original_data)
+    # access with not admin user
+    _user = user_instance(values={'role_id': 'admin'})
+    _user.save_to_db()  # to have user with this id
+    _access_token = access_token(_user)
+    _headers = {'Authorization': f'Bearer {_access_token}'}
+    resp = view_api_resp(headers=_headers)
+    original_key = {}
+    original_key['id_view'] = resp.json.get('payload').get('id_view')
+    resp = client.post(url_for('contents_bp.view'), json=original_key, headers=_headers)
     assert resp.status_code == 400
     assert 'payload' not in resp.json.keys()
+    assert 'message' in resp.json.keys()
+    _user.delete_fm_db()
 
 
 # @pytest.mark.active
-def test_view_get(
-        client, original_key_data):
+def test_view_get(client, view_api_resp, user_instance, access_token):
+    # Make new request with same data as already created instance.
+    _user = user_instance(values={'role_id': 'admin'})
+    _user.save_to_db()  # to have user with this id
+    _access_token = access_token(_user)
+    _headers = {'Authorization': f'Bearer {_access_token}'}
+    resp = view_api_resp(headers=_headers)
     # Find data with normal set of keys:
-    params = {'id_view': original_key_data.get('id_view', 'wrong')}
-    resp = client.get(url_for('contents_bp.views', **params))
+    # print('functional, contents, view json ->', resp.json)
+    params = {'id_view': resp.json.get('payload').get('id_view')}
+    resp = client.get(url_for('contents_bp.view', **params), headers=_headers)
     assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], Dict)
 
-    # Try to find data with wrong value (404):
-    for key in original_key_data.keys():
-        _key_data = original_key_data.copy()
-        _key_data['id_view'] += '_wrong'
-        params = {'id_view': _key_data.get('id_view')}
-        resp = client.get(url_for('contents_bp.views', **params))
-        # print('\nTest_view_get, resp.json ->', resp.json)
-        assert resp.status_code == 404
-        assert 'payload' not in resp.json.keys()
-
-
-# @pytest.mark.active
-def test_view_put(
-        client,
-        original_data, original_key_data, original_value_data):
-    # Find and update data with normal set of keys:
-    for key in original_value_data.keys():
-        _corrected_data = original_data.copy()
-        _corrected_data[key] += ' !corrected!'
-        resp = client.put(url_for('contents_bp.views'), json=_corrected_data)
-        assert resp.status_code == 200
-        assert 'payload' in resp.json.keys()
-        assert isinstance(resp.json['payload'], Dict)
-        for resp_key in resp.json['payload'].keys():
-            assert _corrected_data[resp_key] == resp.json['payload'][resp_key]
-
-    # Try to find view with wrong value (404):
-    for key in original_key_data.keys():
-        _wrong_key_value = original_key_data.copy()
-        _wrong_key_value[key] += '_wrong'
-        resp = client.put(url_for('contents_bp.views'), json=_wrong_key_value)
-        assert resp.status_code == 404
-        assert 'payload' not in resp.json.keys()
-
-    # Marshmallow tested within test_view_get.
-
-
-# @pytest.mark.active
-def test_view_delete(
-        client,
-        original_key_data):
-    # Insure view is exist in db:
-    params = {'id_view': original_key_data.get('id_view', 'wrong')}
-    resp = client.get(url_for('contents_bp.views', **params))
-    assert resp.status_code == 200
-    assert 'payload' in resp.json.keys()
-    assert isinstance(resp.json['payload'], Dict)
-    # Try to find view with wrong value (404):
-    for key in original_key_data.keys():
-        _wrong_key_value = original_key_data.copy()
-        _wrong_key_value[key] += '_wrong'
-        params = {'id_view': _wrong_key_value.get('id_view', 'wrong')}
-        resp = client.delete(url_for('contents_bp.views', **params))
-        assert resp.status_code == 404
-        assert 'payload' not in resp.json.keys()
-
-    # delete view instance from db:
-    params = {'id_view': original_key_data.get('id_view', 'wrong')}
-    resp = client.delete(url_for('contents_bp.views', **params))
-    assert resp.status_code == 200
-    assert 'payload' not in resp.json.keys()
-
-    # Insure view is deleted in db:
-    params = {'id_view': original_key_data.get('id_view', 'wrong')}
-    resp = client.get(url_for('contents_bp.views', **params))
+    params = {'id_view': 'wrong_id'}
+    resp = client.get(url_for('contents_bp.view', **params), headers=_headers)
     assert resp.status_code == 404
+    assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
-    # print(resp.json)
-    # print(resp.status_code)
+    assert isinstance(resp.json.get('message'), str)
+    _user.delete_fm_db()
+
+
+# @pytest.mark.active
+def test_view_put(client, view_api_resp, user_instance, access_token):
+    # Make new request with same data as already created instance.
+    _user = user_instance(values={'role_id': 'admin'})
+    _user.save_to_db()  # to have user with this id
+    _headers = {'Authorization': f'Bearer {access_token(_user)}'}
+    resp = view_api_resp(headers=_headers)
+    # Find data with normal set of keys:
+    # print('functional, contents, view json ->', resp.json)
+    _json = {
+        'id_view': resp.json.get('payload').get('id_view'),
+        'description': 'Corrected!'
+    }
+    _params = {k: v for (k, v) in _json.items() if k in ['id_view']}
+    resp = client.put(url_for('contents_bp.view'), json=_json, headers=_headers)
+    assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json['payload'], Dict)
+
+    resp = client.get(url_for('contents_bp.view', **_params), headers=_headers)
+    assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json.get('payload'), Dict)
+    assert resp.json.get('payload').get('description') == 'Corrected!'
+
+    # print('functional, contents, view code ->', resp.status_code)
+    # print('functional, contents, view json ->', resp.json)
+
+    # Try to update view with wrong key
+    _wrong_key_json = _json.copy()
+    _wrong_key_json['id_view'] = 'wrong'
+    resp = client.put(url_for('contents_bp.view'), json=_wrong_key_json, headers=_headers)
+    assert resp.status_code == 404
+    assert 'message' in resp.json.keys()
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json.get('message'), str)
+    # print('functional, contents, view code ->', resp.status_code)
+    # print('functional, contents, view json ->', resp.json)
+    _user.delete_fm_db()
+
+
+# @pytest.mark.active
+def test_view_delete(client, view_api_resp, user_instance, access_token):
+    _user = user_instance(values={'role_id': 'admin'})
+    _user.save_to_db()  # to have user with this id
+    _headers = {'Authorization': f'Bearer {access_token(_user)}'}
+    resp = view_api_resp(headers=_headers)
+    # Ensure epecific view exists
+    _params = {'id_view': resp.json.get('payload').get('id_view')}
+    resp = client.get(url_for('contents_bp.view', **_params), headers=_headers)
+    assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
+    assert 'payload' in resp.json.keys()
+    assert isinstance(resp.json.get('payload'), Dict)
+
+    # try to delete with wring key
+    _wrong_params = {'id_view': 'wrong_key'}
+    resp = client.delete(url_for('contents_bp.view', **_wrong_params), headers=_headers)
+    assert resp.status_code == 404
+    assert 'message' in resp.json.keys()
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json.get('message'), str)
+
+    # delete wire with corrct key
+    resp = client.delete(url_for('contents_bp.view', **_params), headers=_headers)
+    assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json.get('message'), str)
+
+    # try to get killed view
+    resp = client.get(url_for('contents_bp.view', **_params), headers=_headers)
+    assert resp.status_code == 404
+    assert 'message' in resp.json.keys()
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json.get('message'), str)
+    # print('functional, contents, view code ->', resp.status_code)
+    # print('functional, contents, view json ->', resp.json)
+
+    _user.delete_fm_db()

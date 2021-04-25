@@ -2,38 +2,20 @@ from flask import jsonify
 
 from flask_babelplus import lazy_gettext as _
 
-from ..modules.blacklist import BLACKLIST
+# from ..modules.blacklist import BLACKLIST
 
 
-def set_loaders(jwt):
+def set_jwt_error_handlers(jwt):
     '''
     The procedure register error handling resulted from
     flask JWT extended activity.
     '''
-    # This method will check if a token is blacklisted, and will be called
-    # automatically when blacklist is enabled
-    @jwt.token_in_blacklist_loader
-    def check_if_token_in_black_list(decripted_token):
-        return decripted_token['jti'] in BLACKLIST
-        # Here we blacklist particular
-        # JWTs that have been created in the past. jti - unique identity.
-
-    # The following callbacks are used for customizing jwt response/
-    # error messages.
-    # The original ones may not be in a very pretty format (opinionated)
-    @jwt.user_claims_loader  # decorator link the function with jwt
-    def add_claim_to_jwt(identity):  # identity - same as we pass to
-        # JWT extended in create_access_token.
-        # Remember identity is what we define when creating
-        # the access token
-        return identity
-
     # The following callbacks are used for customizing jwt response/
     # error messages.
     # The original ones may not be in a very pretty format (opinionated)
     @jwt.expired_token_loader
     #  the function called when token expired
-    def expired_token_callback():
+    def expired_token_callback(jwt_header, jwt_payload):
         return jsonify({
             # 'description': 'The token has expired.',
             'description': str(_('The token has expired.')),
@@ -63,7 +45,7 @@ def set_loaders(jwt):
         }), 401
 
     @jwt.revoked_token_loader
-    def revoked_token_callback():
+    def revoked_token_callback(jwt_headers, jwt_payload):
         return jsonify({
             'description': str(_('The token has been revoked.')),
             'error': 'token_revoked'

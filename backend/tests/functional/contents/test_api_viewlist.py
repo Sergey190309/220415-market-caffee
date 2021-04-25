@@ -1,4 +1,4 @@
-import pytest
+# import pytest
 from typing import Dict, List
 from flask import url_for
 
@@ -15,7 +15,7 @@ def test_contents_view_list_get_no_token(client):
     '''
     Wrong - logged admin can access to this info only.
     '''
-    _resp = client.get(url_for('contents_bp.viewlist'))
+    _resp = client.get(url_for('contents_bp.views'))
     assert _resp.status_code == 401
     # print('\ntest_contents_view_list_get_no_token, _resp ->', _resp.json)
     assert isinstance(_resp.json, Dict)
@@ -38,7 +38,7 @@ def test_view_list_get_user(
     # print(_access_token_user)
     headers = {'Authorization': f"Bearer {_access_token_user}",
                'Accept-Language': 'ru'}
-    _resp = client.get(url_for('contents_bp.viewlist'), headers=headers)
+    _resp = client.get(url_for('contents_bp.views'), headers=headers)
     # print('\ntest_view_list_get_user, _resp ->', _resp.json)
     assert _resp.status_code == 401
     assert isinstance(_resp.json, Dict)
@@ -58,7 +58,7 @@ def test_users_list_get_admin(
     _access_token_admin = access_token(_admin)
     headers = {'Authorization': f"Bearer {_access_token_admin}",
                'Accept-Language': 'ru'}
-    _resp = client.get(url_for('contents_bp.viewlist'), headers=headers)
+    _resp = client.get(url_for('contents_bp.views'), headers=headers)
     assert _resp.status_code == 200
     assert isinstance(_resp.json, Dict)
     assert isinstance(_resp.json['payload'], List)

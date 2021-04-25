@@ -3,10 +3,12 @@ from typing import Dict
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import (
-    get_raw_jwt,
+    get_jwt,
+    # get_jti,
+    # get_raw_jwt,
     get_jwt_identity,
     jwt_required,
-    jwt_refresh_token_required
+    # jwt_refresh_token_required
 )
 from flask_babelplus import lazy_gettext as _
 # from ..modules.fbc import fbc
@@ -60,19 +62,20 @@ class UserLogin(Resource):
         }, 200
 
     @classmethod
-    @jwt_required
-    def put(cls) -> Dict:
+    @jwt_required()
+    def delete(cls) -> Dict:
         '''
         LogOut
         '''
-        jti = get_raw_jwt()['jti']  # jti is "JWT ID", a unique
-        # identifier for a JWT.
+        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
+        # get_raw_jwt()['jti']
         BLACKLIST.add(jti)
         return {"message": str(_("Successfully logged out."))}, 200
 
     @classmethod
-    @jwt_refresh_token_required
-    def patch(cls):
+    # @jwt_refresh_token_required
+    @jwt_required(refresh=True)
+    def put(cls):
         '''
         Token refresh
         '''
