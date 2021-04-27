@@ -1,5 +1,5 @@
-from typing import List
 # import pytest
+from typing import List
 from uuid import uuid4
 
 # from application.modules.dbs_global import dbs_global
@@ -12,7 +12,7 @@ from application.contents.schemas.views import (
 
 
 # @pytest.mark.active
-def test_view_instance(saved_view_instance, view_instance):
+def test_view_instance(saved_view_instance):
     """
     GIVEN - view model
     WHEN - new view created

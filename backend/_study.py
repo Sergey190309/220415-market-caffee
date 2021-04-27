@@ -1,23 +1,13 @@
-sample = {
-    'locale_id': 'ru',
-    'view': {
-        'id_view': 'test_one',
-        'description': 'Those views for testing purpose only'},
-    'title': 'или сми федеральное',
-    'updated': None,
-    'locale': {
-        'id': 'ru', 'remarks': 'Общий русский.'},
-    'content': 'и религии российским два для',
-    'identity': 'turbine_i',
-    'created': '2021-04-13T16:11:52',
-    'view_id': 'test_one',
-    'user_id': 23
-}
+from string import ascii_lowercase
+from random import choice
 
-output = {
-    key: value for (key, value) in sample.items() if key in ['view', 'identity']}
-output = {
+row = ascii_lowercase
 
-}
 
-print('\noutput ->', output)
+def chance_letters():
+    result = ''.join(choice(ascii_lowercase) for x in range(5))
+    return result
+
+
+for index in range(5):
+    print(chance_letters())

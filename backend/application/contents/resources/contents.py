@@ -120,8 +120,6 @@ class Contents(Resource):
     def put(cls) -> Dict:
         '''
         Update instance and save to db.
-        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
-            return Contents.no_access()
         '''
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return Contents.no_access()

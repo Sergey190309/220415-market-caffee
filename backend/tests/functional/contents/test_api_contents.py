@@ -32,7 +32,7 @@ def creating_values_json():
     return _method
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_no_access(client, content_api_resp, user_instance, access_token):
     '''
     test calling API without and with non admin user ID

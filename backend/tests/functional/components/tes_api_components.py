@@ -13,7 +13,7 @@ def url_components(root_url):
 @pytest.fixture
 def component_api_resp(
         client, url_components, component_instance,
-        component_get_schema, random_words):
+        component_get_schema):
     def _method(lang: str = 'en'):
         values = {'locale_id': lang}
         _components_json = \

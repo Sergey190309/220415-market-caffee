@@ -20,10 +20,20 @@ class LocaleGlobalModel(dbs_global.Model):
     def find_by_id(cls, id: str) -> 'LocaleGlobalModel':
         return cls.query.filter_by(id=id).first()
 
+    @property
+    def is_exist(self):
+        return LocaleGlobalModel.find_by_id(self.id) is not None
+
     def save_to_db(self) -> None:
-        dbs_global.session.add(self)
-        dbs_global.session.commit()
+        try:
+            dbs_global.session.add(self)
+            dbs_global.session.commit()
+        except Exception as err:
+            print('modules.models.Locale_global_model.save_to_db error\n', err)
 
     def delete_fm_db(self) -> None:
-        dbs_global.session.delete(self)
-        dbs_global.session.commit()
+        try:
+            dbs_global.session.delete(self)
+            dbs_global.session.commit()
+        except Exception as err:
+            print('modules.models.Locale_global_model.delete_fm_db error\n', err)

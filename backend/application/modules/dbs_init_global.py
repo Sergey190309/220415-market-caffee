@@ -16,14 +16,19 @@ def dbs_init_global():
     # print('\ndbs_init_global, SQLALCHEMY_DATABASE_URI ->',
     # current_app.config['SQLALCHEMY_DATABASE_URI'])
     create_dbs()  # Create tables
-    fill_locales()   # Fill table locales with default stuff
+    fill_locales()  # Fill table locales with default stuff
+    fill_views()  # Fill table views with default stuff
     # Blueprint tables' initiation:
     from ..users.modules.dbs_init_users import dbs_init_users
     dbs_init_users()
-    from ..components.modules.dbs_init_component import dbs_init_component
-    dbs_init_component()
+    # from ..components.modules.dbs_init_component import dbs_init_component
+    # dbs_init_component()
     from ..contents.modules.dbs_init_contents import dbs_init_contents
     dbs_init_contents()
+
+
+def fill_views():
+    pass
 
 
 def fill_locales():

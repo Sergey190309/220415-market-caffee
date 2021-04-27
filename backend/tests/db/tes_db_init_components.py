@@ -7,9 +7,9 @@ from sqlalchemy import MetaData, Table, select
 @pytest.mark.parametrize(
     'id_kind, description',
     [('button', 'That is common button that can be detailed in component class.')])
-def test_component_kinds(
-        id_kind, description,
-        _engine, table_name='component_kinds'):
+def test_component_kinds(client,
+                         id_kind, description,
+                         _engine, table_name='component_kinds'):
     '''
     Test checks role table contents.
     '''

@@ -5,23 +5,7 @@ from application.contents.models import ViewModel
 
 
 @pytest.fixture
-def view_instance(random_text_underscore, random_text):
-    def _method(values: Dict = {}):
-        # print('\nunit, contents. view_instance, values ->', values)
-        if values.get('id_view', ) is None:
-            values['id_view'] = random_text_underscore(qnt=3)
-        if values.get('description', ) is None:
-            values['description'] = random_text(qnt=10)
-        # print('unit, contents. view_instance, values ->', values)
-        _view_instance = ViewModel(**values)
-        return _view_instance
-    return _method
-
-
-@pytest.fixture
-def saved_view_instance(client, view_instance,
-                        random_text_underscore,
-                        random_text) -> ViewModel:
+def saved_view_instance(client, view_instance) -> ViewModel:
     '''
     This fixture test save action.
     '''

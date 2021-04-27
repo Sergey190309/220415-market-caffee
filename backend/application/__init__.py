@@ -10,7 +10,8 @@ from application.modules.fbp import fbp
 import application.models  # Don't remove untill you know what are you doing.
 import application.users.models  # Don't remove see above.
 import application.contents.models  # Don't remove see above.
-import application.components.models  # Don't remove see above.
+# import application.components.models  # Don't remove see above.
+# import application.structure.models  # Don't remove see above.
 
 
 # from application.default_config import LOCALE

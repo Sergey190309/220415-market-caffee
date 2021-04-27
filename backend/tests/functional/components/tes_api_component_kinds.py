@@ -11,10 +11,10 @@ def url_component_kinds(root_url):
 @pytest.fixture
 def component_kind_api_resp(
         client, url_component_kinds, component_kind_instance,
-        component_kinds_get_schema, random_words):
+        component_kinds_get_schema, random_text):
     _components_kinds_json = \
         component_kinds_get_schema.dump(
-            component_kind_instance(random_words() + random_words()))
+            component_kind_instance(random_text(qnt=1) + random_text(qnt=1)))
     return client.post(url_component_kinds, json=_components_kinds_json)
 
 
