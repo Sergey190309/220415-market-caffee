@@ -5,6 +5,7 @@ from flask import Flask, current_app, url_for
 from application.modules.dbs_global import dbs_global
 from application.modules.flm_global import flm_global
 from application.modules.fbp import fbp
+from application.modules.api_global import api_global
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
 import application.models  # Don't remove untill you know what are you doing.
@@ -26,6 +27,7 @@ def create_app(config='default_config.py'):
 
     dbs_global.init_app(app)  # Flask_SQLAlchemy init.
     flm_global.init_app(app, dbs_global)  # Flask_migrate init.
+    api_global.init_app(app)
     fbp.init_app(app)  # Flask_BabelPlus
 
     with app.app_context(), app.test_request_context():

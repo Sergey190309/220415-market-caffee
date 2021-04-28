@@ -30,10 +30,10 @@ def test_db_creation(_engine):
         'confirmations',
         'roles',
         'users',
-        'components',
-        'component_kinds',
+        # 'components',
+        # 'component_kinds',
         'contents',
-        'views'
+        'views_global'
     ]
     tables.sort()
     table_names.sort()

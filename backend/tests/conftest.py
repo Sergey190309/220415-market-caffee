@@ -1,7 +1,8 @@
 import pytest
 # from flask import current_app
 from typing import Dict
-from random import randint
+from random import randint, choice
+from string import ascii_lowercase
 
 from random_words import RandomWords, RandomEmails
 from transliterate import translit, get_available_language_codes
@@ -9,12 +10,13 @@ from transliterate import translit, get_available_language_codes
 from application import create_app
 from application.modules.dbs_global import dbs_global
 
-# from random import choice
-# from random import choice, randint
+from application.models.views_global import ViewGlobalModel
+from application.models.locales_global import LocaleGlobalModel
 
-from application.components.models.component_kinds import ComponentKindsModel
-from application.contents.models.views import ViewModel
-from application.contents.schemas.views import ViewGetSchema, ViewSchema
+# from application.contents.models.views import ViewModel
+from application.schemas.views_global import ViewGlobalSchema
+from application.schemas.locales_global import LocaleGlobalSchema, LocaleGlobalGetSchema
+# from application.contents.schemas.views import ViewGetSchema, ViewSchema
 from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
 from application.users.models.users import UserModel
@@ -22,7 +24,6 @@ from application.users.schemas.users import UserSchema, UserGetSchema
 
 from application.global_init_data import global_constants
 from application.contents.local_init_data_contents import contents_constants
-from application.components.local_init_data_components import components_constants
 from application.users.local_init_data_users import users_constants
 
 
@@ -37,9 +38,11 @@ def root_url():
     return 'http://127.0.0.1:5000'
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def app():
     app = create_app('testing_config.py')
+    dbs_global.create_all(app=app)  # to avoid delay when before_first_request started.
+    # Testing only.
     # print('\ntest.conftest, app ->')
     # dbs_global.init_app(app)
     return app
@@ -53,6 +56,16 @@ def content_schema():
 @pytest.fixture(scope='session')
 def content_get_schema():
     return ContentGetSchema()
+
+
+@pytest.fixture(scope='session')
+def locale_global_schema():
+    return LocaleGlobalSchema()
+
+
+@pytest.fixture(scope='session')
+def locale_global_get_schema():
+    return LocaleGlobalGetSchema()
 
 
 @pytest.fixture(scope='session')
@@ -78,9 +91,9 @@ def valid_item():
         elif item_kind == 'view':
             _active_constant = contents_constants.get_VIEWS
             key = 'id_view'
-        elif item_kind == 'kind':
-            _active_constant = components_constants.get_KINDS
-            key = 'id_kind'
+        # elif item_kind == 'kind':
+        #     _active_constant = components_constants.get_KINDS
+        #     key = 'id_kind'
         elif item_kind == 'role':
             _active_constant = users_constants.get_ROLES
             key = 'id'
@@ -107,9 +120,9 @@ def other_valid_item():
                 'message':
                     "You should provide item_kind you want. "
                     "It sould be 'kind_id', 'locale_id' or 'view_id'."}
-        if item_kind == 'kind_id':
-            _active_pks = components_constants.get_PKS
-        elif item_kind == 'locale_id':
+        # if item_kind == 'kind_id':
+        #     _active_pks = components_constants.get_PKS
+        if item_kind == 'locale_id':
             _active_pks = global_constants.get_PKS
         elif item_kind == 'view_id':
             _active_pks = contents_constants.get_PKS
@@ -143,23 +156,6 @@ def random_text():
     return _method
 
 
-@pytest.fixture(scope='module')
-def component_kind_instance(random_text):
-    '''
-    It generates instance without saving.
-    id_kind - argument, description - random set of 10 words.
-    '''
-    def _method(id_kind: str = None):
-        # with current_app.app_context():
-        #     current_app.app_context.push()
-        if id_kind is None:
-            id_kind = random_text(qnt=2)
-        _description = random_text(qnt=10)
-        return ComponentKindsModel(
-            id_kind=id_kind, description=_description)
-    return _method
-
-
 @pytest.fixture(scope='session')
 def user_schema():
     return UserSchema()
@@ -171,28 +167,46 @@ def user_get_schema():
 
 
 @pytest.fixture(scope='session')
-def view_schema():
-    return ViewSchema()
+def view_global_schema():
+    return ViewGlobalSchema()
 
 
-@pytest.fixture(scope='session')
-def view_get_schema():
-    return ViewGetSchema()
+# @pytest.fixture(scope='session')
+# def view_get_schema():
+#     return ViewGlobalGetSchema()
 
 
 @pytest.fixture(scope='module')
-def view_instance(random_text, view_schema):
+def view_instance(random_text, view_global_schema):
     '''
     View model instance without saving.
     id_kind - argument or random text of 3 word to avoid repeating keys,
     description - argument or random set of 12 words.
     '''
-    def _method(values: Dict = {}) -> 'ViewModel':
+    def _method(values: Dict = {}) -> 'ViewGlobalModel':
         _values_json = {
             'id_view': values.get('id_view', random_text(qnt=3, underscore=True)),
             'description': values.get('description', random_text(qnt=12))
         }
-        return view_schema.load(_values_json, session=dbs_global.session)
+        return view_global_schema.load(_values_json, session=dbs_global.session)
+    return _method
+
+
+@pytest.fixture()
+def saved_view_instance(client, view_instance) -> ViewGlobalModel:
+    '''
+    This fixture test save action.
+    '''
+    def _method(values: Dict = {}) -> ViewGlobalModel:
+        _view_instance = view_instance(values=values)
+        _view_instance.save_to_db()
+        # print('\nbefore yield')
+        yield _view_instance
+        # print('after yield')
+        if _view_instance.is_exist():
+            _view_instance.delete_fm_db()
+        yield
+        # yield 'Success'
     return _method
 
 
@@ -246,6 +260,32 @@ def content_instance(random_text):
             'content': values.get('content', random_text(lng=lng, qnt=5)),
         }
         return ContentModel(**_values)
+    return _method
+
+
+@pytest.fixture()
+def locale_instance(random_text, locale_global_schema):
+    def _method(values: Dict = {}) -> LocaleGlobalModel:
+        _values = {
+            'id': values.get('id', ''.join(choice(ascii_lowercase) for x in range(2))),
+            'remarks': values.get('remarks', random_text(qnt=5))
+        }
+        _locale = locale_global_schema.load(_values, session=dbs_global.session)
+        return _locale
+    return _method
+
+
+@pytest.fixture()
+def saved_locale_instance(client, locale_instance):
+    def _method(values: Dict = {}):
+        _locale_instance = locale_instance(values=values)
+        # print('\nsaved_locale_instance, _locale_instance ->', _locale_instance)
+        _locale_instance.save_to_db()
+        yield _locale_instance
+        # print('second')
+        if _locale_instance.is_exist:
+            _locale_instance.delete_fm_db()
+        yield
     return _method
 
 

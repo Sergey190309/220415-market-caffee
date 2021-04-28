@@ -1,4 +1,4 @@
-# from typing import List
+from typing import Dict
 
 from ..modules.dbs_global import dbs_global
 # from ..components.models.components import ComponentModel
@@ -17,7 +17,11 @@ class LocaleGlobalModel(dbs_global.Model):
     #     'ComponentModel', backref='localeglobalmodel', lazy="dynamic")
 
     @classmethod
-    def find_by_id(cls, id: str) -> 'LocaleGlobalModel':
+    def find(cls, searching_criterions: Dict = {}) -> ['LocaleGlobalModel']:
+        return cls.query.filter_by(**searching_criterions).all()
+
+    @classmethod
+    def find_by_id(cls, id: str = '') -> 'LocaleGlobalModel':
         return cls.query.filter_by(id=id).first()
 
     @property

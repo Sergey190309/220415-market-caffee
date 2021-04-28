@@ -10,13 +10,13 @@ from flask import url_for
 @pytest.fixture
 def view_api_resp(
         client, view_instance,
-        view_get_schema):
+        view_global_schema):
     '''
     It makes post reques to API and retunrn responce.
     '''
     def _method(values: Dict = {}, headers: Dict = {}):
-        _values_json = view_get_schema.dump(view_instance(values))
-        resp = client.post(url_for('contents_bp.view'), json=_values_json, headers=headers)
+        _values_json = view_global_schema.dump(view_instance(values))
+        resp = client.post(url_for('viewglobal'), json=_values_json, headers=headers)
         return resp
     return _method
 
@@ -38,15 +38,15 @@ def test_no_access(client, view_api_resp, user_instance, access_token):
     assert resp.status_code == 401
     assert 'message' in resp.json.keys()
 
-    resp = client.get(url_for('contents_bp.view'), headers=_headers)
+    resp = client.get(url_for('viewglobal'), headers=_headers)
     assert resp.status_code == 401
     assert 'message' in resp.json.keys()
 
-    resp = client.put(url_for('contents_bp.view'), headers=_headers)
+    resp = client.put(url_for('viewglobal'), headers=_headers)
     assert resp.status_code == 401
     assert 'message' in resp.json.keys()
 
-    resp = client.delete(url_for('contents_bp.view'), headers=_headers)
+    resp = client.delete(url_for('viewglobal'), headers=_headers)
     assert resp.status_code == 401
     assert 'message' in resp.json.keys()
 
@@ -55,15 +55,15 @@ def test_no_access(client, view_api_resp, user_instance, access_token):
     assert resp.status_code == 401
     assert 'description' in resp.json.keys()
 
-    resp = client.get(url_for('contents_bp.view'))
+    resp = client.get(url_for('viewglobal'))
     assert resp.status_code == 401
     assert 'description' in resp.json.keys()
 
-    resp = client.put(url_for('contents_bp.view'))
+    resp = client.put(url_for('viewglobal'))
     assert resp.status_code == 401
     assert 'description' in resp.json.keys()
 
-    resp = client.delete(url_for('contents_bp.view'))
+    resp = client.delete(url_for('viewglobal'))
     assert resp.status_code == 401
     assert 'description' in resp.json.keys()
 
@@ -85,7 +85,7 @@ def test_view_post_already_exists(
     resp = view_api_resp(headers=_headers)
     original_key = {}
     original_key['id_view'] = resp.json.get('payload').get('id_view')
-    resp = client.post(url_for('contents_bp.view'), json=original_key, headers=_headers)
+    resp = client.post(url_for('viewglobal'), json=original_key, headers=_headers)
     assert resp.status_code == 400
     assert 'payload' not in resp.json.keys()
     assert 'message' in resp.json.keys()
@@ -101,20 +101,21 @@ def test_view_get(client, view_api_resp, user_instance, access_token):
     _headers = {'Authorization': f'Bearer {_access_token}'}
     resp = view_api_resp(headers=_headers)
     # Find data with normal set of keys:
-    # print('functional, contents, view json ->', resp.json)
+    # print('\ntest, functional, contents, view json ->', resp.json)
     params = {'id_view': resp.json.get('payload').get('id_view')}
-    resp = client.get(url_for('contents_bp.view', **params), headers=_headers)
+    resp = client.get(url_for('viewglobal', **params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], Dict)
 
     params = {'id_view': 'wrong_id'}
-    resp = client.get(url_for('contents_bp.view', **params), headers=_headers)
+    resp = client.get(url_for('viewglobal', **params), headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
     assert isinstance(resp.json.get('message'), str)
+    # clean up users table
     _user.delete_fm_db()
 
 
@@ -132,13 +133,13 @@ def test_view_put(client, view_api_resp, user_instance, access_token):
         'description': 'Corrected!'
     }
     _params = {k: v for (k, v) in _json.items() if k in ['id_view']}
-    resp = client.put(url_for('contents_bp.view'), json=_json, headers=_headers)
+    resp = client.put(url_for('viewglobal'), json=_json, headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], Dict)
 
-    resp = client.get(url_for('contents_bp.view', **_params), headers=_headers)
+    resp = client.get(url_for('viewglobal', **_params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
@@ -151,7 +152,7 @@ def test_view_put(client, view_api_resp, user_instance, access_token):
     # Try to update view with wrong key
     _wrong_key_json = _json.copy()
     _wrong_key_json['id_view'] = 'wrong'
-    resp = client.put(url_for('contents_bp.view'), json=_wrong_key_json, headers=_headers)
+    resp = client.put(url_for('viewglobal'), json=_wrong_key_json, headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
@@ -169,7 +170,7 @@ def test_view_delete(client, view_api_resp, user_instance, access_token):
     resp = view_api_resp(headers=_headers)
     # Ensure epecific view exists
     _params = {'id_view': resp.json.get('payload').get('id_view')}
-    resp = client.get(url_for('contents_bp.view', **_params), headers=_headers)
+    resp = client.get(url_for('viewglobal', **_params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
@@ -177,21 +178,21 @@ def test_view_delete(client, view_api_resp, user_instance, access_token):
 
     # try to delete with wring key
     _wrong_params = {'id_view': 'wrong_key'}
-    resp = client.delete(url_for('contents_bp.view', **_wrong_params), headers=_headers)
+    resp = client.delete(url_for('viewglobal', **_wrong_params), headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
     assert isinstance(resp.json.get('message'), str)
 
     # delete wire with corrct key
-    resp = client.delete(url_for('contents_bp.view', **_params), headers=_headers)
+    resp = client.delete(url_for('viewglobal', **_params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
     assert isinstance(resp.json.get('message'), str)
 
     # try to get killed view
-    resp = client.get(url_for('contents_bp.view', **_params), headers=_headers)
+    resp = client.get(url_for('viewglobal', **_params), headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()

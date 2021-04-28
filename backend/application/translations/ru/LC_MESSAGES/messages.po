@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-25 13:56+0000\n"
-"PO-Revision-Date: 2021-04-25 13:57+0000\n"
+"POT-Creation-Date: 2021-04-27 15:08+0000\n"
+"PO-Revision-Date: 2021-04-27 15:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -23,26 +23,27 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
 
-#: components/resources/component_kinds.py:19
+#: _components/resources/component_kinds.py:19
 #, python-format
 msgid "The component kind with id_kind '%(id_kind)s' already exists."
 msgstr "Тип компонента с идентификатором '%(id_kind)s' уже существует."
 
-#: components/resources/component_kinds.py:27
+#: _components/resources/component_kinds.py:27
 #, python-format
 msgid "The component kind with identity '%(id_kind)s' has not been found."
 msgstr "Тип компонента с идентификатором '%(id_kind)s' не обнаружен."
 
-#: components/resources/component_kinds.py:48
+#: _components/resources/component_kinds.py:48
 msgid "The component kind has been saved successfully. Details are in payload."
 msgstr "Тип компонента успешно сохранен. Детали в сообщении."
 
-#: components/resources/component_kinds.py:65
-#: components/resources/components.py:72 contents/resources/views.py:114
+#: _components/resources/component_kinds.py:65
+#: _components/resources/components.py:72 contents/resources/_views.py:114
+#: resources/views_global.py:113
 msgid "Found, see payload."
 msgstr "Нашел, смотри детали."
 
-#: components/resources/component_kinds.py:86
+#: _components/resources/component_kinds.py:86
 #, python-format
 msgid ""
 "The component kind with id '%(id_kind)s' has been updated successfully. "
@@ -51,12 +52,12 @@ msgstr ""
 "Тип компонента с идентификатором '%(id_kind)s' успешно обновлен. Детали в "
 "сообщении."
 
-#: components/resources/component_kinds.py:107
+#: _components/resources/component_kinds.py:107
 #, python-format
 msgid "The component kind with id '%(id_kind)s' has been deleted."
 msgstr "Тип компонента с идентификатором '%(id_kind)s' убит на смерть."
 
-#: components/resources/components.py:20
+#: _components/resources/components.py:20
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -65,7 +66,7 @@ msgstr ""
 "Компонента с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: components/resources/components.py:32
+#: _components/resources/components.py:32
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -74,11 +75,11 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' не обнаружен."
 
-#: components/resources/components.py:58
+#: _components/resources/components.py:58
 msgid "The component has been saved successfully. Details are in payload."
 msgstr "Компонент успешно сохранен. Детали в сообщении."
 
-#: components/resources/components.py:90
+#: _components/resources/components.py:90
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -87,7 +88,7 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно обновлен. Детали в сообщении."
 
-#: components/resources/components.py:115
+#: _components/resources/components.py:115
 #, python-format
 msgid ""
 "The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
@@ -95,6 +96,46 @@ msgid ""
 msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
+
+#: contents/resources/_views.py:18 contents/resources/contents.py:57
+#: resources/views_global.py:20
+msgid "Sorry, access to views' information is allowed to admin only."
+msgstr ""
+"Извиняйте, доступ к информации о страницах разрешен только администратору."
+
+#: contents/resources/_views.py:47 resources/views_global.py:46
+#, python-format
+msgid "There are %(count)s views in our database as follows:"
+msgstr ""
+"В нашей базе зарегистрировано %(count)s пользователуй как указанно ниже:"
+
+#: contents/resources/_views.py:64 resources/views_global.py:63
+#, python-format
+msgid "A view with identity '%(id_view)s' already exists."
+msgstr "Страничка с идентификатором '%(id_view)s' уже существует."
+
+#: contents/resources/_views.py:72 resources/views_global.py:71
+#, python-format
+msgid "A view with identity '%(id_view)s' has not been found."
+msgstr "Страничка с идентификатором '%(id_view)s' не обнаружена."
+
+#: contents/resources/_views.py:93 resources/views_global.py:92
+msgid "The view has been saved successfully. Details are in payload."
+msgstr "Страничка успешно сохранена. Детали в сообщении."
+
+#: contents/resources/_views.py:135 resources/views_global.py:134
+#, python-format
+msgid ""
+"The view with id '%(id_view)s' has been updated successfully. Details are in "
+"payload."
+msgstr ""
+"Страничка с идентификатором '%(id_view)s' успешно обновлена. Детали в "
+"сообщении."
+
+#: contents/resources/_views.py:158 resources/views_global.py:157
+#, python-format
+msgid "The view with id '%(id_view)s' has been deleted successfully."
+msgstr "Страничка с идентификатором '%(id_view)s' убита на смерть."
 
 #: contents/resources/contents.py:25
 #, python-format
@@ -114,20 +155,15 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:49
+#: contents/resources/contents.py:49 structure/resources/structure.py:26
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:57 contents/resources/views.py:18
-msgid "Sorry, access to views' information is allowed to admin only."
-msgstr ""
-"Извиняйте, доступ к информации о страницах разрешен только администратору."
-
-#: contents/resources/contents.py:87
+#: contents/resources/contents.py:89
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:113
+#: contents/resources/contents.py:115
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
@@ -136,7 +172,7 @@ msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:172
+#: contents/resources/contents.py:173
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -144,40 +180,6 @@ msgid ""
 msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
-
-#: contents/resources/views.py:47
-#, python-format
-msgid "There are %(count)s views in our database as follows:"
-msgstr ""
-"В нашей базе зарегистрировано %(count)s пользователуй как указанно ниже:"
-
-#: contents/resources/views.py:64
-#, python-format
-msgid "A view with identity '%(id_view)s' already exists."
-msgstr "Страничка с идентификатором '%(id_view)s' уже существует."
-
-#: contents/resources/views.py:72
-#, python-format
-msgid "A view with identity '%(id_view)s' has not been found."
-msgstr "Страничка с идентификатором '%(id_view)s' не обнаружена."
-
-#: contents/resources/views.py:93
-msgid "The view has been saved successfully. Details are in payload."
-msgstr "Страничка успешно сохранена. Детали в сообщении."
-
-#: contents/resources/views.py:135
-#, python-format
-msgid ""
-"The view with id '%(id_view)s' has been updated successfully. Details are in "
-"payload."
-msgstr ""
-"Страничка с идентификатором '%(id_view)s' успешно обновлена. Детали в "
-"сообщении."
-
-#: contents/resources/views.py:158
-#, python-format
-msgid "The view with id '%(id_view)s' has been deleted successfully."
-msgstr "Страничка с идентификатором '%(id_view)s' убита на смерть."
 
 #: home/resources/index.py:26
 msgid "Global variables are as in payload."
@@ -246,6 +248,18 @@ msgstr ""
 "вы не регистрировались, можете спокойно проигнорировать это сообщение.</"
 "p><p>С наилучшими пожеланиями</p><p>Сергей</p>"
 
+#: resources/locale_global.py:18
+msgid "Sorry, access to locales' information is allowed to admin only."
+msgstr ""
+"Извиняйте, доступ к информации о доступных языках разрешен только "
+"администратору."
+
+#: resources/locale_global.py:42
+#, python-format
+msgid "There are %(count)s locales in our database as follows:"
+msgstr ""
+"В нашей базе зарегистрировано %(count)s возможных языков как указанно ниже:"
+
 #: schemas/locale_time_zone.py:8
 msgid "Not a valid locale."
 msgstr "Не действительный регион."
@@ -253,6 +267,11 @@ msgstr "Не действительный регион."
 #: schemas/locale_time_zone.py:25
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
+
+#: structure/resources/structure.py:34
+msgid "Sorry, access to structure information is allowed to admin only."
+msgstr ""
+"Извиняйте, доступ с информации о структуре разрешен только администратору."
 
 #: users/errors/register_errors_users.py:21
 msgid "The token has expired."

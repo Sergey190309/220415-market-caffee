@@ -10,6 +10,7 @@ Error is normal if module is not user explicitly in this file.
 '''
 
 from ..models.locales_global import LocaleGlobalModel
+# from ..models.views_global import ViewGlobalModel
 
 
 def dbs_init_global():

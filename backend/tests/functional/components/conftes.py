@@ -6,21 +6,21 @@ from random import randint
 # from random import choice, randint
 from application.modules.dbs_global import dbs_global
 
-from application.components.schemas.components import (
-    ComponentGetSchema, ComponentSchema)
+# from application.components.schemas.components import
+# (ComponentGetSchema, ComponentSchema)
 
 
 # from application.global_init_data import global_constants
 
 
-@pytest.fixture(scope='session')
-def component_schema():
-    return ComponentSchema()
+# @pytest.fixture(scope='session')
+# def component_schema():
+#     return ComponentSchema()
 
 
-@pytest.fixture(scope='session')
-def component_get_schema():
-    return ComponentGetSchema()
+# @pytest.fixture(scope='session')
+# def component_get_schema():
+#     return ComponentGetSchema()
 
 
 @pytest.fixture(scope='module')

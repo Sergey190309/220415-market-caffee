@@ -64,11 +64,13 @@ class Contents(Resource):
         '''
         Create content instance and save to db.
         '''
+        # _id = get_jwt_identity()
+        # print('\nContent post, _id ->', _id)
+        # if not UserModel.find_by_id(_id).is_admin:
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return Contents.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
         _request_json = request.get_json()
-        # print('\nContent post, request.get_json ->', _request_json)
         _content = content_schema.load(_request_json, session=dbs_global.session)
         _content_fm_db = ContentModel.find_by_identity_view_locale(
             identity=_content.identity,
@@ -156,6 +158,7 @@ class Contents(Resource):
             'identity': request.args['identity'],
             'locale_id': request.headers.get('Accept-Language')
         }
+        # testing fields
         _delete_json = content_get_schema.load(_requested_dict)
         _content = ContentModel.find_by_identity_view_locale(**_delete_json)
         if _content is None:

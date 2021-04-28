@@ -3,7 +3,8 @@ from ..modules.fma_contents import fma_contents
 # Below schemas used for correctness nested parts. Error not used is normal.
 # This error is kind of marshmallow feature error.
 from application.schemas.locales_global import LocaleGlobalSchema  # noqa: 401
-from .views import ViewSchema  # noqa: 401
+from application.schemas.views_global import ViewGlobalSchema  # noqa: 401
+# from .views import ViewSchema  # noqa: 401
 
 from ..models.contents import ContentModel
 
@@ -13,7 +14,7 @@ class ContentSchema(fma_contents.SQLAlchemyAutoSchema):  # noqa
     The schema used for reguliar content creation and for 'information' dump.
     '''
     locale = fma_contents.Nested('LocaleGlobalSchema', many=False)
-    view = fma_contents.Nested('ViewSchema', many=False)
+    view = fma_contents.Nested('ViewGlobalSchema', many=False)
 
     class Meta:
         model = ContentModel

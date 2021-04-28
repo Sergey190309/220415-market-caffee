@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from application.modules.dbs_global import dbs_global
 from application.models.locales_global import LocaleGlobalModel  # noqa: 401
+from application.models.views_global import ViewGlobalModel  # noqa: 401
 # from ..models import ViewModel  # noqa: 401
 
 
@@ -22,7 +23,7 @@ class ContentModel(dbs_global.Model):
     identity = dbs_global.Column(dbs_global.String(64))
     view_id = dbs_global.Column(
         dbs_global.String(64),
-        dbs_global.ForeignKey('views.id_view'),
+        dbs_global.ForeignKey('views_global.id_view'),
         nullable=False)
     locale_id = dbs_global.Column(
         dbs_global.String(16),
@@ -45,7 +46,7 @@ class ContentModel(dbs_global.Model):
     locale = dbs_global.relationship(
         'LocaleGlobalModel', backref='contentmodel')
     view = dbs_global.relationship(
-        'ViewModel', backref='contentmodel')
+        'ViewGlobalModel', backref='contentmodel')
 
     @classmethod
     def find(cls, searching_criterion: Dict = {}) -> ['ContentModel']:
