@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-27 15:08+0000\n"
-"PO-Revision-Date: 2021-04-27 15:10+0000\n"
+"POT-Creation-Date: 2021-04-29 10:20+0000\n"
+"PO-Revision-Date: 2021-04-29 10:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -97,7 +97,7 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
 
-#: contents/resources/_views.py:18 contents/resources/contents.py:57
+#: contents/resources/_views.py:18 contents/resources/contents.py:58
 #: resources/views_global.py:20
 msgid "Sorry, access to views' information is allowed to admin only."
 msgstr ""
@@ -137,7 +137,7 @@ msgstr ""
 msgid "The view with id '%(id_view)s' has been deleted successfully."
 msgstr "Страничка с идентификатором '%(id_view)s' убита на смерть."
 
-#: contents/resources/contents.py:25
+#: contents/resources/contents.py:26
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -146,7 +146,7 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: contents/resources/contents.py:38
+#: contents/resources/contents.py:39
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -155,24 +155,28 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:49 structure/resources/structure.py:26
+#: contents/resources/contents.py:50 structure/resources/structure.py:26
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:89
+#: contents/resources/contents.py:90
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:115
+#: contents/resources/contents.py:108
+msgid "Something went wrong. Sorry we'll reverting."
+msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
+
+#: contents/resources/contents.py:123
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:141
+#: contents/resources/contents.py:149
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:173
+#: contents/resources/contents.py:181
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -185,36 +189,48 @@ msgstr ""
 msgid "Global variables are as in payload."
 msgstr "Глобальные переменные теле сообщения."
 
-#: home/resources/index.py:44 home/resources/index.py:75
+#: home/resources/index.py:43 home/resources/index.py:70
 msgid "Date now is "
 msgstr "Сегодня "
 
-#: home/resources/index.py:47
+#: home/resources/index.py:45
 msgid "You asked about date"
 msgstr "Вы спрашивали насчет даты"
 
-#: home/resources/index.py:51 home/resources/index.py:77
+#: home/resources/index.py:48 home/resources/index.py:72
 msgid "Time is "
 msgstr "Время сейчас "
 
-#: home/resources/index.py:53
+#: home/resources/index.py:50
 msgid "You asked about time"
 msgstr "Вы спрашивали о времени"
 
-#: home/resources/index.py:57
+#: home/resources/index.py:53
 msgid "Not clear what do you want. I know date and time only. Please specify."
 msgstr ""
 "Не очень понятно что вы спрашиваете. Я знаю только дату и время. Прошу "
 "уточнить."
 
-#: home/resources/index.py:70 users/resources/userconfirm.py:38
+#: home/resources/index.py:65 users/resources/userconfirm.py:38
 #: users/resources/userconfirm.py:119
 msgid "Hi there!"
 msgstr "Привет всем тут!"
 
-#: home/resources/index.py:72
+#: home/resources/index.py:67
 msgid "I plan to do something from this project."
 msgstr "Я что-то планирую сделать из этого проекта."
+
+#: home/resources/tec_auth.py:20
+msgid "Something went wrong, there is not valid JSON in the request."
+msgstr "Что-то пошло не так, в запросе отсутствует правильный JSON."
+
+#: home/resources/tec_auth.py:25
+msgid "Something went wrong, there is not proper key in the JSON."
+msgstr "Что-то пошло не так, в  JSON нет правильного ключа."
+
+#: home/resources/tec_auth.py:30
+msgid "TecAuth reporing! Tec token is in payload."
+msgstr "ТехРег докладывает! Тех жетон в сообщении."
 
 #: images/resources/images.py:32
 #, python-format

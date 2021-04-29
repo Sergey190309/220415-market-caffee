@@ -1,16 +1,16 @@
-import pytest
+# import pytest
 from typing import Dict
 from flask import url_for
 # from application.users.models.users import UserModel
 from application.users.models.confirmations import ConfirmationModel
 
 
-@pytest.fixture
-def access_token():
-    def _method(user):
-        # print('\n\naccess_token fixture')
-        return user.get_tokens()['access_token']
-    return _method
+# @pytest.fixture
+# def access_token():
+#     def _method(user):
+#         # print('\n\naccess_token fixture')
+#         return user.get_tokens()['access_token']
+#     return _method
 
 
 # @pytest.mark.active

@@ -8,6 +8,7 @@ from application.modules.dbs_global import dbs_global
 from application.modules.fbp import fbp
 # from application.global_init_data import global_variables
 from application.users.models import UserModel
+from application.home.local_init_data_home import sessions
 from ..models.contents import ContentModel
 from ..schemas.contents import (
     content_schema,
@@ -15,7 +16,7 @@ from ..schemas.contents import (
 )
 
 
-class Contents(Resource):
+class Content(Resource):
     @classmethod
     def already_exists(
             cls, identity: str = '',
@@ -68,7 +69,7 @@ class Contents(Resource):
         # print('\nContent post, _id ->', _id)
         # if not UserModel.find_by_id(_id).is_admin:
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
-            return Contents.no_access()
+            return cls.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
         _request_json = request.get_json()
         _content = content_schema.load(_request_json, session=dbs_global.session)
@@ -97,15 +98,22 @@ class Contents(Resource):
         '''
         Get instance from db.
         '''
-        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
-            return Contents.no_access()
+        # _jwt_identity = get_jwt_identity()
+        # print(_jwt_identity)
+        # if sessions.is_valid(_jwt_identity):
+        #     print('It is good!')
+        if not sessions.is_valid(get_jwt_identity()):
+            return {
+                'message': str(_(
+                    "Something went wrong. Sorry we'll reverting."))
+            }, 500
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args['view_id'],
             'identity': request.args['identity'],
             'locale_id': request.headers.get('Accept-Language')
         }
-        # print('contents, resources, _requested_dict ->', _requested_dict)
+        # print('cls, resources, _requested_dict ->', _requested_dict)
         _search_json = content_get_schema.load(_requested_dict)
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
         if _content is None:
@@ -124,7 +132,7 @@ class Contents(Resource):
         Update instance and save to db.
         '''
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
-            return Contents.no_access()
+            return cls.no_access()
         _update_json = content_get_schema.load(request.get_json())
         _content = ContentModel.find_by_identity_view_locale(
             identity=_update_json['identity'],
@@ -149,9 +157,9 @@ class Contents(Resource):
         '''
         Delete instance from db.
         '''
-        # print('contents, resources, view_id ->', request.args['view_id'])
+        # print('cls, resources, view_id ->', request.args['view_id'])
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
-            return Contents.no_access()
+            return cls.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args['view_id'],

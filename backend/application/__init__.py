@@ -47,7 +47,7 @@ def create_app(config='default_config.py'):
         # Module for site contents that can be used by front end with possibility to
         # correct it from site.
         from .contents import create_contents
-        app.register_blueprint(create_contents(), url_prefix='/contents')
+        app.register_blueprint(create_contents(), url_prefix='/content')
 
         # Module for image handling
         from .images import create_images

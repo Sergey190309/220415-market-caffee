@@ -1,4 +1,4 @@
-import pytest
+# import pytest
 from flask import current_app
 
 # from application.globals import confirmation_email_data

@@ -12,11 +12,11 @@ def login_json(user_create_json):
     }
 
 
-@pytest.fixture
-def access_token():
-    def _method(user):
-        return user.get_tokens()['access_token']
-    return _method
+# @pytest.fixture
+# def access_token():
+#     def _method(user):
+#         return user.get_tokens()['access_token']
+#     return _method
 
 
 @pytest.fixture

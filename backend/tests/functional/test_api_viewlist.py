@@ -62,7 +62,7 @@ def test_view_list_get_user(
         ('ru', 'нашей базе')
     ]
 )
-@pytest.mark.active
+# @pytest.mark.active
 def test_users_list_get_admin(
         client,
         access_token, user_instance,
