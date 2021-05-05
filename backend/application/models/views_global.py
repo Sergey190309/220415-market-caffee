@@ -8,7 +8,8 @@ class ViewGlobalModel(dbs_global.Model):
 
     '''
     __tablename__ = 'views_global'
-    id_view = dbs_global.Column(dbs_global.String(64), primary_key=True)
+
+    view_id = dbs_global.Column(dbs_global.String(64), primary_key=True)
     description = dbs_global.Column(dbs_global.UnicodeText)
 
     @classmethod
@@ -17,9 +18,9 @@ class ViewGlobalModel(dbs_global.Model):
         return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
-    def find_by_id(cls, id_view: str = None) -> 'ViewGlobalModel':
-        # print(id_view)
-        return cls.query.filter_by(id_view=id_view).first()
+    def find_by_id(cls, view_id: str = '') -> 'ViewGlobalModel':
+        # print(view_id)
+        return cls.query.filter_by(view_id=view_id).first()
 
     def update(self, update_values: Dict = None) -> None:
         if update_values is None:
@@ -29,7 +30,7 @@ class ViewGlobalModel(dbs_global.Model):
         self.save_to_db()
 
     def is_exist(self):
-        return ViewGlobalModel.find_by_id(self.id_view) is not None
+        return ViewGlobalModel.find_by_id(self.view_id) is not None
 
     def save_to_db(self) -> None:
         try:

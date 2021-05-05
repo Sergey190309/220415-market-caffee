@@ -17,10 +17,10 @@ def test_view_instance(saved_view_instance):
     _saved_view = next(_view_gen)
     # _view = view_instance()
     assert isinstance(_saved_view, ViewGlobalModel)
-    assert getattr(_saved_view, 'id_view', None) is not None
+    assert getattr(_saved_view, 'view_id', None) is not None
     assert getattr(_saved_view, 'description', None) is not None
-    # print('\ntest_view_instance, _saved_view ->', getattr(_saved_view, 'id_view'))
-    # print('\ntest_view_instance, _view ->', getattr(_view, 'id_view'))
+    # print('\ntest_view_instance, _saved_view ->', getattr(_saved_view, 'view_id'))
+    # print('\ntest_view_instance, _view ->', getattr(_view, 'view_id'))
 
     next(_view_gen)  # to delete test instance
 
@@ -55,7 +55,7 @@ def test_view_find_all(saved_view_instance):
     # create 5 sets of ids, view dederators and saved views
     for index in range(5):
         _ids.append(str(uuid4()))
-        _view_gens.append(saved_view_instance({'id_view': _ids[index]}))
+        _view_gens.append(saved_view_instance({'view_id': _ids[index]}))
         _views.append(next(_view_gens[index]))
 
     # find all views in view
@@ -84,7 +84,7 @@ def test_view_find_by_id(saved_view_instance, view_global_schema):
     assert _found_view_instance is None
 
     # Find instance by id:
-    _found_view_instance = ViewGlobalModel.find_by_id(_original_data.get('id_view'))
+    _found_view_instance = ViewGlobalModel.find_by_id(_original_data.get('view_id'))
     _found_data = view_global_schema.dump(_found_view_instance)
 
     # Insure found instance is same as saved one:
@@ -108,7 +108,7 @@ def test_view_update(saved_view_instance, view_global_schema):
     _view.update(_changed_data)
 
     # Get instance by id from db:
-    _found_view = ViewGlobalModel.find_by_id(_original_data.get('id_view'))
+    _found_view = ViewGlobalModel.find_by_id(_original_data.get('view_id'))
     _found_data = view_global_schema.dump(_found_view)
     # print(_found_data)
 
@@ -141,14 +141,14 @@ def test_view_delete(saved_view_instance, view_global_schema):
     _original_data = view_global_schema.dump(_view)
 
     # Find by id and insure is exists:
-    _found_view = ViewGlobalModel.find_by_id(_original_data.get('id_view'))
+    _found_view = ViewGlobalModel.find_by_id(_original_data.get('view_id'))
     assert _found_view is not None
 
     # Delete instance:
     _view.delete_fm_db()
 
     # Try to find by id and get None as a result:
-    _found_view = ViewGlobalModel.find_by_id(_original_data.get('id_view'))
+    _found_view = ViewGlobalModel.find_by_id(_original_data.get('view_id'))
     assert _found_view is None
 
     # Destroy saved view it's not nesessary here couse the instance already deleted

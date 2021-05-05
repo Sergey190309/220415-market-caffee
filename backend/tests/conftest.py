@@ -19,11 +19,13 @@ from application.schemas.locales_global import LocaleGlobalSchema, LocaleGlobalG
 # from application.contents.schemas.views import ViewGetSchema, ViewSchema
 from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
+from application.structure.models.structure import StructureModel
+from application.structure.shemas.structure import StructureSchema, StructureGetSchema
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema, UserGetSchema
 
 from application.global_init_data import global_constants
-from application.contents.local_init_data_contents import contents_constants
+# from application.contents.local_init_data_contents import contents_constants
 from application.users.local_init_data_users import users_constants
 
 
@@ -59,6 +61,16 @@ def content_get_schema():
 
 
 @pytest.fixture(scope='session')
+def structure_schema():
+    return StructureSchema()
+
+
+@pytest.fixture(scope='session')
+def structure_get_schema():
+    return StructureGetSchema()
+
+
+@pytest.fixture(scope='session')
 def locale_global_schema():
     return LocaleGlobalSchema()
 
@@ -84,13 +96,13 @@ def valid_item():
             return {
                 'message':
                     "You should provide item_kind you want. "
-                    "It sould be 'id' for locale_id, 'id_kind' or 'id_view'."}
+                    "It sould be 'id' for locale_id, 'id_kind' or 'view_id'."}
         if item_kind == 'locale':
             _active_constant = global_constants.get_LOCALES
             key = 'id'
         elif item_kind == 'view':
-            _active_constant = contents_constants.get_VIEWS
-            key = 'id_view'
+            _active_constant = global_constants.get_VIEWS
+            key = 'view_id'
         # elif item_kind == 'kind':
         #     _active_constant = components_constants.get_KINDS
         #     key = 'id_kind'
@@ -125,7 +137,7 @@ def other_valid_item():
         if item_kind == 'locale_id':
             _active_pks = global_constants.get_PKS
         elif item_kind == 'view_id':
-            _active_pks = contents_constants.get_PKS
+            _active_pks = global_constants.get_VIEWS_PKS
         # print('\nother_valid_item, _active_pks ->', _active_pks)
         _active_pks = [item for item in _active_pks if item != prev_item]
         # print(_active_pks)
@@ -185,7 +197,7 @@ def view_instance(random_text, view_global_schema):
     '''
     def _method(values: Dict = {}) -> 'ViewGlobalModel':
         _values_json = {
-            'id_view': values.get('id_view', random_text(qnt=3, underscore=True)),
+            'view_id': values.get('view_id', random_text(qnt=3, underscore=True)),
             'description': values.get('description', random_text(qnt=12))
         }
         return view_global_schema.load(_values_json, session=dbs_global.session)
@@ -241,6 +253,22 @@ def user_instance(random_text, random_email, valid_item, user_schema):
 
 
 @pytest.fixture(scope='module')
+def structure_instance(random_text):
+    '''
+    structure model instance without saving.
+    view_id - valid view
+    '''
+    def _method(values: Dict = {}):
+        _values = {
+            'view_id': values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'user_id': values.get('user_id', randint(1, 128)),
+            'attributes': values.get('attributes', {})
+        }
+        return StructureModel(**_values)
+    return _method
+
+
+@pytest.fixture(scope='module')
 def content_instance(random_text):
     '''
     Content model instance without saving.
@@ -253,7 +281,7 @@ def content_instance(random_text):
         lng = values.get('locale_id', global_constants.get_LOCALES[0]['id'])
         _values = {
             'identity': values.get('identity', random_text(qnt=2, underscore=True)),
-            'view_id': values.get('view_id', contents_constants.get_VIEWS[0]['id_view']),
+            'view_id': values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
             'locale_id': lng,
             'user_id': values.get('user_id', randint(1, 128)),
             'title': values.get('title', random_text(lng=lng, qnt=3)),

@@ -6,7 +6,7 @@ import { Segment, Container } from 'semantic-ui-react';
 import { viewHeaderColor, viewSegmentColor } from '../../../utils/colors';
 import ViewHeader from '../view_elements/ViewHeader';
 import ViewParagraphs from '../view_elements/ViewParagraphs';
-import ViewPictures from '../view_elements/ViewPictures';
+// import ViewPictures from '../view_elements/ViewPictures';
 
 export const Landing = ({ language }) => {
   // const [lng] = useState(language);
@@ -21,8 +21,8 @@ export const Landing = ({ language }) => {
   return (
     <Container>
       <Segment color={viewSegmentColor}>
-        <ViewHeader keys={{ ...keys, identity: 'txt_heading_00' }} />
-        <ViewParagraphs keys={{...keys, identity: 'txt_presentation'}} qnt={3} />
+        {/* <ViewHeader keys={{ ...keys, identity: 'txt_heading_00' }} /> */}
+        {/* <ViewParagraphs keys={{...keys, identity: 'txt_presentation'}} qnt={3} /> */}
         {/* <ViewPictures /> */}
         {/* <ViewParagraphs /> */}
       </Segment>

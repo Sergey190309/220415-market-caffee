@@ -57,20 +57,20 @@ class ViewsGlobal(Resource):
 class ViewGlobal(Resource):
 
     @classmethod
-    def already_exists(cls, id_view: str = None) -> Dict:
+    def already_exists(cls, view_id: str = None) -> Dict:
         return {
             'message': str(_(
-                "A view with identity '%(id_view)s' already exists.",
-                id_view=id_view.get('id_view'))),
+                "A view with identity '%(view_id)s' already exists.",
+                view_id=view_id.get('view_id'))),
         }, 400
 
     @classmethod
-    def not_found(cls, id_view: str = None) -> Dict:
+    def not_found(cls, view_id: str = None) -> Dict:
         return {
             'message': str(_(
-                "A view with identity '%(id_view)s' "
+                "A view with identity '%(view_id)s' "
                 "has not been found.",
-                id_view=id_view)),
+                view_id=view_id)),
         }, 404
 
     @classmethod
@@ -83,9 +83,9 @@ class ViewGlobal(Resource):
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
         _view = view_global_schema.load(request.get_json(), session=dbs_global.session)
-        _view_fm_db = ViewGlobalModel.find_by_id(id_view=_view.id_view)
+        _view_fm_db = ViewGlobalModel.find_by_id(view_id=_view.view_id)
         if _view_fm_db is not None:
-            return cls.already_exists({'id_view': _view.id_view})
+            return cls.already_exists({'view_id': _view.view_id})
         _view.save_to_db()
         return {
             'message': str(_(
@@ -100,13 +100,13 @@ class ViewGlobal(Resource):
         '''
         Get instance from db.
         '''
-        # print('\nviews, get request arg ->', request.args.get('id_view'))
+        # print('\nviews, get request arg ->', request.args.get('view_id'))
 
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
         _search_json = view_global_get_schema.load(
-            {'id_view': request.args.get('id_view')})
-        _view = ViewGlobalModel.find_by_id(id_view=_search_json.get('id_view'))
+            {'view_id': request.args.get('view_id')})
+        _view = ViewGlobalModel.find_by_id(view_id=_search_json.get('view_id'))
         if _view is None:
             return cls.not_found(**_search_json)
         return {
@@ -125,15 +125,15 @@ class ViewGlobal(Resource):
         # print('\ncontents, resources, view, update_json ->', request.get_json())
         _update_json = view_global_get_schema.load(request.get_json())
         # print('\ncontents, resources, view, update_json ->', _update_json)
-        _view = ViewGlobalModel.find_by_id(id_view=_update_json['id_view'])
+        _view = ViewGlobalModel.find_by_id(view_id=_update_json['view_id'])
         if _view is None:
-            return cls.not_found(_update_json.get('id_view'))
+            return cls.not_found(_update_json.get('view_id'))
         _view.update(_update_json)
         return {
             'message': str(_(
-                "The view with id '%(id_view)s' has been updated "
+                "The view with id '%(view_id)s' has been updated "
                 "successfully. Details are in payload.",
-                id_view=_update_json['id_view'])),
+                view_id=_update_json['view_id'])),
             'payload': view_global_get_schema.dump(_view)
         }, 200
 
@@ -145,16 +145,16 @@ class ViewGlobal(Resource):
         '''
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
-        _requested_dict = {'id_view': request.args.get('id_view')}
+        _requested_dict = {'view_id': request.args.get('view_id')}
         # testing fields
         _delete_json = view_global_get_schema.load(_requested_dict)
-        _view = ViewGlobalModel.find_by_id(id_view=_delete_json.get('id_view'))
+        _view = ViewGlobalModel.find_by_id(view_id=_delete_json.get('view_id'))
         if _view is None:
             return cls.not_found(**_delete_json)
         _view.delete_fm_db()
         return {
             'message': str(_(
-                "The view with id '%(id_view)s' has been deleted "
+                "The view with id '%(view_id)s' has been deleted "
                 "successfully.",
-                id_view=_delete_json['id_view']))
+                view_id=_delete_json['view_id']))
         }, 200

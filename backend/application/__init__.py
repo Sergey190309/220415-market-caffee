@@ -6,13 +6,13 @@ from application.modules.dbs_global import dbs_global
 from application.modules.flm_global import flm_global
 from application.modules.fbp import fbp
 from application.modules.api_global import api_global
+from application.errors.register import register_error_handler
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
 import application.models  # Don't remove untill you know what are you doing.
 import application.users.models  # Don't remove see above.
 import application.contents.models  # Don't remove see above.
-# import application.components.models  # Don't remove see above.
-# import application.structure.models  # Don't remove see above.
+import application.structure.models  # Don't remove see above.
 
 
 # from application.default_config import LOCALE
@@ -25,16 +25,22 @@ def create_app(config='default_config.py'):
     app.config.from_pyfile(config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
-    dbs_global.init_app(app)  # Flask_SQLAlchemy init.
-    flm_global.init_app(app, dbs_global)  # Flask_migrate init.
+    # Flask_SQLAlchemy init.
+    dbs_global.init_app(app)
+    # Flask_migrate init.
+    flm_global.init_app(app, dbs_global)
+    # Global api endpoint
     api_global.init_app(app)
-    fbp.init_app(app)  # Flask_BabelPlus
+    # Flask_BabelPlus
+    fbp.init_app(app)
+    # Global error handling
+    register_error_handler(app)
 
     with app.app_context(), app.test_request_context():
         # print('\napplication.__init__.py within with config -', config)
         # Error handler.
-        from .errors import create_errors
-        app.register_blueprint(create_errors())
+        # from .errors import create_errors
+        # app.register_blueprint(create_errors())
 
         # Auxiliary module for training and testing.
         from .home import create_home
@@ -52,11 +58,16 @@ def create_app(config='default_config.py'):
         # Module for image handling
         from .images import create_images
         app.register_blueprint(create_images(), url_prefix='/images')
+
         # I've translated those comonents on front end
         # Module with back-end part for front-end reusable components.
         # Navigation bars, buttons, etc.
         # from .components import create_components
         # app.register_blueprint(create_components(), url_prefix='/components')
+
+        # Application structure - element used to store views's contents, pictures, etc
+        from .structure import create_structure
+        app.register_blueprint(create_structure(), url_prefix='/structure')
 
         # Mailing
         from .mailing import create_mailing

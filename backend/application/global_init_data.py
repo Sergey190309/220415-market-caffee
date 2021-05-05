@@ -8,10 +8,44 @@ class GlobalConstants():
     The class contains constants that are accessible for all application.
     Currently those are:
     '''
+
     def __init__(self):
         self._LOCALES = [
             {'id': 'ru', 'remarks': 'Общий русский.'},
-            {'id': 'en', 'remarks': 'General english.'}]
+            {'id': 'en', 'remarks': 'General english.'}
+        ]
+        self._VIEWS = [
+            {
+                'view_id': 'landing',
+                'description':
+                    'That is root view where customers come from searching engines.'
+            },
+            {
+                'view_id': 'price_list',
+                'description':
+                    'The view with price to our services.'
+            },
+            {
+                'view_id': 'pictures',
+                'description': 'Some pictures with our kind interiors.'
+            },
+            {
+                'view_id': 'private',
+                'description': 'View that available to logged users only.'
+            },
+            {
+                'view_id': 'admin',
+                'description': 'Views that available to logged admins only.'
+            },
+        ]
+
+    @property
+    def get_VIEWS(self):
+        return self._VIEWS
+
+    @property
+    def get_VIEWS_PKS(self):
+        return [item.get('view_id') for item in self._VIEWS]
 
     @property
     def get_LOCALES(self):
@@ -33,6 +67,7 @@ class GlobalVariables():
     'time_zone': 'ETC/GMT-3'
 
     '''
+
     def __init__(self, values: Dict = {
         # 'locale': 'ru',
         'locale': 'en',

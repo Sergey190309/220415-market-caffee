@@ -8,7 +8,7 @@ from application.modules.dbs_global import dbs_global
 # from application.contents
 from application.contents.models import ContentModel
 from application.models.views_global import ViewGlobalModel
-from application.contents.local_init_data_contents import contents_constants
+# from application.contents.local_init_data_contents import contents_constants
 from application.global_init_data import global_constants
 from application.contents.modules.dbs_init_contents import fill_views
 
@@ -19,6 +19,7 @@ def saved_content_instance(client, content_instance) -> ContentModel:
         # print('\nsaved_content_instance, values ->', values)
         _saved_content = content_instance(values)
         _saved_content.save_to_db()
+        # print('\nsaved_content_instance, _saved_content ->', _saved_content)
         yield _saved_content
         if _saved_content.is_exist():
             _saved_content.delete_fm_db()
@@ -50,26 +51,25 @@ def test_content_find_all(
     _content_gens = []
     _contents = []
     _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'test_one', 'locale_id': 'en'})
+        {'identity': 'identity00', 'view_id': 'landing', 'locale_id': 'en'})
     _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'test_one', 'locale_id': 'ru'})
+        {'identity': 'identity00', 'view_id': 'landing', 'locale_id': 'ru'})
     _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'test_two', 'locale_id': 'en'})
+        {'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'en'})
     _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'test_two', 'locale_id': 'ru'})
+        {'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'ru'})
     _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'test_one', 'locale_id': 'en'})
+        {'identity': 'identity01', 'view_id': 'landing', 'locale_id': 'en'})
     _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'test_one', 'locale_id': 'ru'})
+        {'identity': 'identity01', 'view_id': 'landing', 'locale_id': 'ru'})
     _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'test_two', 'locale_id': 'en'})
+        {'identity': 'identity01', 'view_id': 'price_list', 'locale_id': 'en'})
     _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'test_two', 'locale_id': 'ru'})
+        {'identity': 'identity01', 'view_id': 'price_list', 'locale_id': 'ru'})
     for index, _content_id in enumerate(_content_ids):
         _content_gens.append(saved_content_instance(_content_id))
         _contents.append(next(_content_gens[index]))
-
-    # print('\nunit, contents, test_content_find, _content ->', _contents)
+        # print('\nunit, contents, test_content_find, _content ->', _contents)
 
     # testing find method it should return list
     _result = ContentModel.find()
@@ -77,23 +77,23 @@ def test_content_find_all(
     assert len(_result) == 8
     _result = ContentModel.find({'identity': 'identity00'})
     assert len(_result) == 4
-    _result = ContentModel.find({'identity': 'identity00', 'view_id': 'test_two'})
+    _result = ContentModel.find({'identity': 'identity00', 'view_id': 'price_list'})
     assert len(_result) == 2
     _result = ContentModel.find(
-        {'identity': 'identity00', 'view_id': 'test_two', 'locale_id': 'ru'})
+        {'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'ru'})
     assert len(_result) == 1
 
     # testing find_by_identity_view_locale it should retun model
     _result = ContentModel.find_by_identity_view_locale(
         identity='identity00',
-        view_id='test_two',
+        view_id='price_list',
         locale_id='ru'
     )
-
     assert isinstance(_result, ContentModel)
+
     _result = ContentModel.find_by_identity_view_locale(
         identity='identity00',
-        view_id='test_two',
+        view_id='price_list',
         locale_id='xu'
     )
     assert _result is None
@@ -208,7 +208,7 @@ def test_content_finds_wrong_values(
     ])
 @pytest.mark.parametrize(
     'views, view_testing_result', [
-        (contents_constants.get_VIEWS[0]['id_view'], 'None'),
+        (global_constants.get_VIEWS[0]['view_id'], 'None'),
         ('not', 'message'),
         ('', 'message')
     ])

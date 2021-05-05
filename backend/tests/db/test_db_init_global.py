@@ -19,9 +19,11 @@ from sqlalchemy import MetaData, Table, select
 
 
 # @pytest.mark.active
+@pytest.mark.db_init
 def test_db_creation(_engine):
     '''
-    Test checks all tables availability
+    Test checks all tables availability.
+    While _engine running create all tables and filling them with initial values.
     '''
     tables = _engine.table_names()
 
@@ -30,10 +32,9 @@ def test_db_creation(_engine):
         'confirmations',
         'roles',
         'users',
-        # 'components',
-        # 'component_kinds',
         'contents',
-        'views_global'
+        'views_global',
+        'structure'
     ]
     tables.sort()
     table_names.sort()

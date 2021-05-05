@@ -10,23 +10,27 @@ from .custom_exception import NotExistsError
 
 def register_error_handler(module):
     # python
-    @module.app_errorhandler(ValueError)
+    @module.errorhandler(ValueError)
+    # @module.app_errorhandler(ValueError)
     def handle_ValueError(error):
         print(error)
         return jsonify(str(error)), 400
 
     # SQLAlchemy
-    @module.app_errorhandler(InvalidRequestError)
+    @module.errorhandler(InvalidRequestError)
+    # @module.app_errorhandler(InvalidRequestError)
     def handle_InvalidRequestError(error):
         print(error)
         return jsonify(str(error)), 500
 
-    @module.app_errorhandler(OperationalError)
+    @module.errorhandler(OperationalError)
+    # @module.app_errorhandler(OperationalError)
     def handle_OperationalError(error):
         print(error)
         return jsonify(str(error)), 500
 
-    @module.app_errorhandler(ProgrammingError)
+    @module.errorhandler(ProgrammingError)
+    # @module.app_errorhandler(ProgrammingError)
     def handle_ProgrammingError(error):
         print(error)
         return jsonify(str(error)), 500
@@ -37,19 +41,22 @@ def register_error_handler(module):
     #     return jsonify(str(error)), 500
 
     # marshmallow
-    @module.app_errorhandler(ValidationError)
+    @module.errorhandler(ValidationError)
+    # @module.app_errorhandler(ValidationError)
     def handle_marshmallow(error):
         print(error)
         return jsonify(str(error)), 400
 
     # custom
-    @module.app_errorhandler(NotExistsError)
+    @module.errorhandler(NotExistsError)
+    # @module.app_errorhandler(NotExistsError)
     def handle_NotExistsError(error):
         print(error)
         return jsonify(str(error)), 400
 
     # babel
-    @module.app_errorhandler(UnknownLocaleError)
+    @module.errorhandler(UnknownLocaleError)
+    # @module.app_errorhandler(UnknownLocaleError)
     def handle_UnknownLocaleError(error):
         print(error)
         return {'message': str(error)}, 400

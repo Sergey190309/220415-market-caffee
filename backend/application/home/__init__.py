@@ -11,14 +11,15 @@ def create_home():
 
     with current_app.app_context():
 
-        from ..errors.register import register_error_handler
-        register_error_handler(home_bp)
+        # from ..errors.register import register_error_handler
+        # register_error_handler(home_bp)
 
         from .modules.api_home import api_home
         # from .modules.api_home import api_home
         api_home.init_app(home_bp)
 
-        # flask_cors
+        # flask_cors. Keep it in modules to have independed
+        # Cross Origin Resource Sharing (CORS) handling
         from .modules.crs_home import crs_home
         crs_home.init_app(home_bp)
 

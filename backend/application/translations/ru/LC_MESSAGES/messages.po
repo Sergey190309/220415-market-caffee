@@ -111,13 +111,13 @@ msgstr ""
 
 #: contents/resources/_views.py:64 resources/views_global.py:63
 #, python-format
-msgid "A view with identity '%(id_view)s' already exists."
-msgstr "Страничка с идентификатором '%(id_view)s' уже существует."
+msgid "A view with identity '%(view_id)s' already exists."
+msgstr "Страничка с идентификатором '%(view_id)s' уже существует."
 
 #: contents/resources/_views.py:72 resources/views_global.py:71
 #, python-format
-msgid "A view with identity '%(id_view)s' has not been found."
-msgstr "Страничка с идентификатором '%(id_view)s' не обнаружена."
+msgid "A view with identity '%(view_id)s' has not been found."
+msgstr "Страничка с идентификатором '%(view_id)s' не обнаружена."
 
 #: contents/resources/_views.py:93 resources/views_global.py:92
 msgid "The view has been saved successfully. Details are in payload."
@@ -126,16 +126,16 @@ msgstr "Страничка успешно сохранена. Детали в с
 #: contents/resources/_views.py:135 resources/views_global.py:134
 #, python-format
 msgid ""
-"The view with id '%(id_view)s' has been updated successfully. Details are in "
+"The view with id '%(view_id)s' has been updated successfully. Details are in "
 "payload."
 msgstr ""
-"Страничка с идентификатором '%(id_view)s' успешно обновлена. Детали в "
+"Страничка с идентификатором '%(view_id)s' успешно обновлена. Детали в "
 "сообщении."
 
 #: contents/resources/_views.py:158 resources/views_global.py:157
 #, python-format
-msgid "The view with id '%(id_view)s' has been deleted successfully."
-msgstr "Страничка с идентификатором '%(id_view)s' убита на смерть."
+msgid "The view with id '%(view_id)s' has been deleted successfully."
+msgstr "Страничка с идентификатором '%(view_id)s' убита на смерть."
 
 #: contents/resources/contents.py:26
 #, python-format

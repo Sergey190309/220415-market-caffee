@@ -17,14 +17,14 @@ def sessions():
 
 
 @pytest.fixture
-def content_api_resp(
-        content_instance,
+def structure_api_resp(
+        structure_instance,
         client, content_get_schema):
     '''
     It makes post reques to API and retunrn responce.
     '''
     def _method(values: Dict = {}, headers: Dict = {}):
-        _content_json = content_get_schema.dump(content_instance(values))
+        _content_json = content_get_schema.dump(structure_instance(values))
         resp = client.post(url_for('contents_bp.content'),
                            json=_content_json, headers=headers)
         # print('functional, contents, content code ->', resp.status_code)
@@ -32,17 +32,17 @@ def content_api_resp(
     return _method
 
 
-@pytest.fixture
-def creating_values_json():
-    def _method(values: Dict = {}):
-        return {
-            key: value for (key, value) in values.items()
-            if key not in ['view', 'locale', 'created', 'updated']}
-    return _method
+# @pytest.fixture
+# def creating_values_json():
+#     def _method(values: Dict = {}):
+#         return {
+#             key: value for (key, value) in values.items()
+#             if key not in ['view', 'locale', 'created', 'updated']}
+#     return _method
 
 
 # @pytest.mark.active
-def test_no_access(client, content_api_resp, user_instance, access_token, sessions):
+def tes_no_access(client, content_api_resp, user_instance, access_token, sessions):
     '''
     test calling API without and with non admin user ID
     '''
@@ -103,7 +103,7 @@ def test_no_access(client, content_api_resp, user_instance, access_token, sessio
 
 
 # @pytest.mark.active
-def test_contents_post_already_exists(
+def tes_contents_post_already_exists(
         client, content_api_resp,
         user_instance, access_token):
     _user = user_instance(values={'role_id': 'admin'})  # user not admin
@@ -131,7 +131,7 @@ def test_contents_post_already_exists(
 
 
 # @pytest.mark.active
-def test_contents_post_wrong_fk(client, content_api_resp, user_instance, access_token):
+def tes_contents_post_wrong_fk(client, content_api_resp, user_instance, access_token):
     '''
     Operation with foreign key that are not in appropriate tables.
     '''
@@ -175,7 +175,7 @@ def test_contents_post_wrong_fk(client, content_api_resp, user_instance, access_
 
 
 # @pytest.mark.active
-def test_contents_get(client, content_api_resp, sessions, user_instance, access_token):
+def tes_contents_get(client, content_api_resp, sessions, user_instance, access_token):
     # user admin to create content instance
     _user = user_instance(values={'role_id': 'admin'})
     _user.save_to_db()
@@ -221,7 +221,7 @@ def test_contents_get(client, content_api_resp, sessions, user_instance, access_
 
 
 # @pytest.mark.active
-def test_content_put(client, content_api_resp, user_instance, access_token):
+def tes_content_put(client, content_api_resp, user_instance, access_token):
     _user = user_instance(values={'role_id': 'admin'})  # user not admin
     _user.save_to_db()  # to have user with this id
     _access_token = access_token(_user)
@@ -267,7 +267,7 @@ def test_content_put(client, content_api_resp, user_instance, access_token):
 
 
 # @pytest.mark.active
-def test_content_delete(client, content_api_resp, sessions, user_instance, access_token):
+def tes_content_delete(client, content_api_resp, sessions, user_instance, access_token):
     lng = 'en'
     # Create data with normal set of keys:
     _user = user_instance(values={'role_id': 'admin'})  # user not admin

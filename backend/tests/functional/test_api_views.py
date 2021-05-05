@@ -84,7 +84,7 @@ def test_view_post_already_exists(
     _headers = {'Authorization': f'Bearer {_access_token}'}
     resp = view_api_resp(headers=_headers)
     original_key = {}
-    original_key['id_view'] = resp.json.get('payload').get('id_view')
+    original_key['view_id'] = resp.json.get('payload').get('view_id')
     resp = client.post(url_for('viewglobal'), json=original_key, headers=_headers)
     assert resp.status_code == 400
     assert 'payload' not in resp.json.keys()
@@ -102,14 +102,14 @@ def test_view_get(client, view_api_resp, user_instance, access_token):
     resp = view_api_resp(headers=_headers)
     # Find data with normal set of keys:
     # print('\ntest, functional, contents, view json ->', resp.json)
-    params = {'id_view': resp.json.get('payload').get('id_view')}
+    params = {'view_id': resp.json.get('payload').get('view_id')}
     resp = client.get(url_for('viewglobal', **params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], Dict)
 
-    params = {'id_view': 'wrong_id'}
+    params = {'view_id': 'wrong_id'}
     resp = client.get(url_for('viewglobal', **params), headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
@@ -129,10 +129,10 @@ def test_view_put(client, view_api_resp, user_instance, access_token):
     # Find data with normal set of keys:
     # print('functional, contents, view json ->', resp.json)
     _json = {
-        'id_view': resp.json.get('payload').get('id_view'),
+        'view_id': resp.json.get('payload').get('view_id'),
         'description': 'Corrected!'
     }
-    _params = {k: v for (k, v) in _json.items() if k in ['id_view']}
+    _params = {k: v for (k, v) in _json.items() if k in ['view_id']}
     resp = client.put(url_for('viewglobal'), json=_json, headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
@@ -151,7 +151,7 @@ def test_view_put(client, view_api_resp, user_instance, access_token):
 
     # Try to update view with wrong key
     _wrong_key_json = _json.copy()
-    _wrong_key_json['id_view'] = 'wrong'
+    _wrong_key_json['view_id'] = 'wrong'
     resp = client.put(url_for('viewglobal'), json=_wrong_key_json, headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
@@ -169,7 +169,7 @@ def test_view_delete(client, view_api_resp, user_instance, access_token):
     _headers = {'Authorization': f'Bearer {access_token(_user)}'}
     resp = view_api_resp(headers=_headers)
     # Ensure epecific view exists
-    _params = {'id_view': resp.json.get('payload').get('id_view')}
+    _params = {'view_id': resp.json.get('payload').get('view_id')}
     resp = client.get(url_for('viewglobal', **_params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
@@ -177,7 +177,7 @@ def test_view_delete(client, view_api_resp, user_instance, access_token):
     assert isinstance(resp.json.get('payload'), Dict)
 
     # try to delete with wring key
-    _wrong_params = {'id_view': 'wrong_key'}
+    _wrong_params = {'view_id': 'wrong_key'}
     resp = client.delete(url_for('viewglobal', **_wrong_params), headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()

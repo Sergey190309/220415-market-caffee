@@ -23,7 +23,7 @@ class ContentModel(dbs_global.Model):
     identity = dbs_global.Column(dbs_global.String(64))
     view_id = dbs_global.Column(
         dbs_global.String(64),
-        dbs_global.ForeignKey('views_global.id_view'),
+        dbs_global.ForeignKey('views_global.view_id'),
         nullable=False)
     locale_id = dbs_global.Column(
         dbs_global.String(16),

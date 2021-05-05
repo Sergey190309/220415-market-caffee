@@ -1,8 +1,7 @@
 from typing import Dict, Union
 from datetime import datetime
 # import json
-from sqlalchemy.dialects import mysql
-from sqlalchemy.ext.mutable import MutableDict
+# from sqlalchemy.dialects import mysql
 # from sqlalchemy.ext.declarative import declarative_base
 # from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -20,11 +19,10 @@ class StructureModel(dbs_global.Model):
     created = dbs_global.Column(dbs_global.DateTime, nullable=False, default=datetime.now())
     updated = dbs_global.Column(dbs_global.DateTime)
     user_id = dbs_global.Column(dbs_global.Integer, nullable=False, default=0)
-    attributes = dbs_global.Column(MutableDict.as_mutable(mysql.JSON), nullable=False)
-    # 'attributes', mysql.MEDIUMTEXT)
+    # _attributes = dbs_global.Column('attributes', mysql.MEDIUMTEXT)
 
     # view = dbs_global.relationship(
-    #     'ViewGlobalModel', backref='structuremodel')
+    #     'ViewGlobalModel', backref='contentmodel')
 
     # @hybrid_property
     # def attributes(self) -> Dict:
@@ -44,22 +42,15 @@ class StructureModel(dbs_global.Model):
 
     @classmethod
     def find_by_id(cls, view_id: str = '') -> Union['StructureModel', None]:
-        # _result = cls.query.filter_by(view_id=view_id).first()
         return cls.query.filter_by(view_id=view_id).first()
-        # return _result
-
-    @property
-    def is_exist(self):
-        return StructureModel.find_by_id(self.view_id) is not None
 
     def update(self, update_values: Dict = None) -> Union[None, str]:
         # print(update_values)
         if update_values is None:
-            return None
+            return
         for key in update_values.keys():
             # print(key)
             setattr(self, key, update_values[key])
-            # self.attributes = update_values.get(key).copy()
         self.updated = datetime.now()
         return self.save_to_db()
 
@@ -70,11 +61,10 @@ class StructureModel(dbs_global.Model):
         except InterruptedError as error:
             dbs_global.session.rollback()
             return (
-                "\nstructure.models.StructureModel.save_to_db IntegrityError:\n"
+                "structure.models.StructureModel.save_to_db IntegrityError:\n"
                 f"{error.orig}")
         except Exception as error:
-            dbs_global.session.rollback()
-            print('\nstructure.models.StructureModel.save_to_db Error\n', error)
+            print('structure.models.StructureModel.save_to_db Error\n', error)
 
     def delete_fm_db(self) -> None:
         try:
