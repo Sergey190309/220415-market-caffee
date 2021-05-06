@@ -65,9 +65,6 @@ class Content(Resource):
         '''
         Create content instance and save to db.
         '''
-        # _id = get_jwt_identity()
-        # print('\nContent post, _id ->', _id)
-        # if not UserModel.find_by_id(_id).is_admin:
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
@@ -98,10 +95,6 @@ class Content(Resource):
         '''
         Get instance from db.
         '''
-        # _jwt_identity = get_jwt_identity()
-        # print(_jwt_identity)
-        # if sessions.is_valid(_jwt_identity):
-        #     print('It is good!')
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
@@ -111,7 +104,7 @@ class Content(Resource):
         _requested_dict = {
             'view_id': request.args.get('view_id'),
             'identity': request.args.get('identity'),
-            'locale_id': request.headers.get('Accept-Language')
+            'locale_id': request.args.get('locale_id'),
         }
         # print('cls, resources, _requested_dict ->', _requested_dict)
         _search_json = content_get_schema.load(_requested_dict)
@@ -133,16 +126,17 @@ class Content(Resource):
         '''
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
+        fbp.set_lng(request.headers.get('Accept-Language'))
         _update_json = content_get_schema.load(request.get_json())
         _content = ContentModel.find_by_identity_view_locale(
-            identity=_update_json['identity'],
-            view_id=_update_json['view_id'],
-            locale_id=_update_json['locale_id'])
+            identity=_update_json.get('identity'),
+            view_id=_update_json.get('view_id'),
+            locale_id=_update_json.get('locale_id'))
         if _content is None:
             return cls.not_found(
-                identity=_update_json['identity'],
-                view_id=_update_json['view_id'],
-                locale_id=_update_json['locale_id'])
+                identity=_update_json.get('identity'),
+                view_id=_update_json.get('view_id'),
+                locale_id=_update_json.get('locale_id'))
         _content.update(_update_json)
         return {
             'message': str(_(
@@ -164,7 +158,8 @@ class Content(Resource):
         _requested_dict = {
             'view_id': request.args.get('view_id'),
             'identity': request.args.get('identity'),
-            'locale_id': request.headers.get('Accept-Language')
+            'locale_id': request.args.get('locale_id'),
+            # 'locale_id': request.headers.get('Accept-Language')
         }
         # testing fields
         _delete_json = content_get_schema.load(_requested_dict)

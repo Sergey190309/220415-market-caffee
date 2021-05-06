@@ -8,14 +8,7 @@ from typing import (
 from flask import url_for
 from flask_jwt_extended import create_access_token
 
-from application.home.local_init_data_home import Sessions
 from application.structure.models import StructureModel
-
-
-# @pytest.fixture(scope='module', autouse=True)
-@pytest.fixture
-def sessions():
-    return Sessions()
 
 
 @pytest.fixture
@@ -330,7 +323,7 @@ def test_structure_put(
         ('ru', 'труктур', 'жетон')
     ]
 )
-@pytest.mark.active
+# @pytest.mark.active
 def test_structure_delete(
     structure_api_resp, client, structure_get_schema,
     user_instance, access_token,
@@ -384,8 +377,8 @@ def test_structure_delete(
     _no_token_headers = {'Content-Type': 'application/json',
                          'Accept-Language': lng}
     _params = {'view_id': view_id}
-    _resp = client.delete(url_for('structure_bp.structure', **
-                          _params), headers=_no_token_headers)
+    _resp = client.delete(url_for('structure_bp.structure',
+                                  **_params), headers=_no_token_headers)
     assert _resp.status_code == 401
     assert 'description' in _resp.json.keys()
     assert 'error' in _resp.json.keys()

@@ -28,6 +28,7 @@ from application.users.schemas.users import UserSchema, UserGetSchema
 from application.global_init_data import global_constants
 # from application.contents.local_init_data_contents import contents_constants
 from application.users.local_init_data_users import users_constants
+from application.home.local_init_data_home import Sessions
 
 
 rv = RandomWords()
@@ -49,6 +50,11 @@ def app():
     # print('\ntest.conftest, app ->')
     # dbs_global.init_app(app)
     return app
+
+
+@pytest.fixture
+def sessions():
+    return Sessions()
 
 
 @pytest.fixture(scope='session')

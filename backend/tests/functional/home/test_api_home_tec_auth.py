@@ -9,13 +9,6 @@ from flask_jwt_extended import (
     decode_token,
 )
 
-from application.home.local_init_data_home import Sessions
-
-
-@pytest.fixture()
-def sessions():
-    return Sessions()
-
 
 @pytest.mark.parametrize(
     'lng, test_world',

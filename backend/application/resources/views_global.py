@@ -82,6 +82,7 @@ class ViewGlobal(Resource):
         # print('post')
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
+        fbp.set_lng(request.headers.get('Accept-Language'))
         _view = view_global_schema.load(request.get_json(), session=dbs_global.session)
         _view_fm_db = ViewGlobalModel.find_by_id(view_id=_view.view_id)
         if _view_fm_db is not None:
@@ -145,6 +146,7 @@ class ViewGlobal(Resource):
         '''
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
+        fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {'view_id': request.args.get('view_id')}
         # testing fields
         _delete_json = view_global_get_schema.load(_requested_dict)

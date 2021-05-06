@@ -7,14 +7,8 @@ from typing import (
 from flask import url_for
 from flask_jwt_extended import create_access_token
 
-from application.home.local_init_data_home import Sessions
-
 
 # @pytest.fixture(scope='module', autouse=True)
-@pytest.fixture
-def sessions():
-    return Sessions()
-
 
 @pytest.fixture
 def content_api_resp(
@@ -102,21 +96,30 @@ def test_no_access(client, content_api_resp, user_instance, access_token, sessio
     _user.delete_fm_db()
 
 
+@pytest.mark.parametrize(
+    'lng, test_word',
+    [
+        ('en', 'content'),
+        ('ru', 'одержание'),
+    ]
+)
 # @pytest.mark.active
-def test_contents_post_already_exists(
-        client, content_api_resp,
-        user_instance, access_token):
+def test_contents_post_already_exists(client, content_api_resp,
+                                      lng, test_word,
+                                      user_instance, access_token):
     _user = user_instance(values={'role_id': 'admin'})  # user admin
     _user.save_to_db()  # to have user with this id
     _access_token = access_token(_user)
-    _headers = {'Authorization': f'Bearer {_access_token}'}
-
-    # Create one instance with random values:
-    resp = content_api_resp(headers=_headers)
+    _headers = {'Authorization': f'Bearer {_access_token}',
+                'Content-Type': 'application/json',
+                'Accept-Language': lng}
+    # Create one instance
+    resp = content_api_resp(values={'locale_id': lng}, headers=_headers)
     assert resp.status_code == 201
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json.get('payload'), Dict)
+    assert resp.json.get('message').find(test_word) != -1
 
     # Try to save other instance with same keys
     _create_json = {k: v for(k, v) in resp.json.get('payload').items()
@@ -126,27 +129,43 @@ def test_contents_post_already_exists(
     assert resp.status_code == 400
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
+    assert resp.json.get('message').find(test_word) != -1
 
     # Clean up user table
     _user.delete_fm_db()
 
 
+@pytest.mark.parametrize(
+    'lng, test_word, test_word_01',
+    [
+        ('en', 'content', 'Something went wrong'),
+        ('ru', 'одержание', 'Что-то пошло не так'),
+    ]
+)
 # @pytest.mark.active
-def test_contents_post_wrong_fk(client, content_api_resp, user_instance, access_token):
+def test_contents_post_wrong_fk(client, content_api_resp,
+                                lng, test_word, test_word_01,
+                                user_instance, access_token):
     '''
     Operation with foreign key that are not in appropriate tables.
     '''
     _user = user_instance(values={'role_id': 'admin'})
     _user.save_to_db()  # to have user with this id
     _access_token = access_token(_user)
-    _headers = {'Authorization': f'Bearer {_access_token}'}
-
-    # Create dict without relationships and dates:
-    resp = content_api_resp(headers=_headers)
+    # create content instance to confirm it works
+    _headers = {'Authorization': f'Bearer {_access_token}',
+                'Content-Type': 'application/json',
+                'Accept-Language': lng}
+    _lng_key = {'locale_id': lng}
+    resp = content_api_resp(values=_lng_key, headers=_headers)
     assert resp.status_code == 201
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json.get('payload'), Dict)
+    assert resp.json.get('message').find(test_word) != -1
+    assert resp.json.get('payload').get('locale_id') == lng
+
+    # Create dict without relationships and dates:
     _create_json = {k: v for(k, v) in resp.json.get('payload').items()
                     if k not in ['created', 'view', 'locale']}
 
@@ -159,6 +178,7 @@ def test_contents_post_wrong_fk(client, content_api_resp, user_instance, access_
     assert resp.status_code == 500
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], str)
+    assert resp.json['message'].find(test_word_01) != -1
     assert resp.json['payload'].find('foreign key constraint fails') != -1
 
     # wrong view_id
@@ -169,89 +189,127 @@ def test_contents_post_wrong_fk(client, content_api_resp, user_instance, access_
     assert resp.status_code == 500
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], str)
+    assert resp.json['message'].find(test_word_01) != -1
     assert resp.json['payload'].find('foreign key constraint fails') != -1
+    # print('\ntest_content_post, code ->', resp.status_code)
+    # print('test_content_post, json ->', resp.json)
 
     # Clean up user table
     _user.delete_fm_db()
 
 
+@pytest.mark.parametrize(
+    'lng, test_word, test_word_01',
+    [
+        ('en', 'content', 'not found'),
+        ('ru', 'одержание', 'не обнаружено'),
+    ]
+)
 # @pytest.mark.active
-def test_contents_get(client, content_api_resp, sessions, user_instance, access_token):
+def test_contents_get(client, content_api_resp,
+                      lng, test_word, test_word_01,
+                      sessions, user_instance, access_token):
     # user admin to create content instance
     _user = user_instance(values={'role_id': 'admin'})
     _user.save_to_db()
     _access_token = access_token(_user)
-    lng = 'ru'
+
+    # Create instance
+    _headers = {'Authorization': f'Bearer {_access_token}',
+                'Content-Type': 'application/json',
+                'Accept-Language': lng}
+    _lng_key = {'locale_id': lng}
+    resp = content_api_resp(values=_lng_key, headers=_headers)
+    assert resp.status_code == 201
+    assert 'message' in resp.json.keys()
+    assert 'payload' in resp.json.keys()
+    assert resp.json.get('message').find(test_word) != -1
+    assert resp.json.get('payload').get('locale_id') == lng
+
     # Find data with normal set of keys having tec_token and sessions:
     _uuid = uuid4()
     sessions.setter(str(_uuid))
     _tec_token = create_access_token(_uuid, expires_delta=False)
-    _headers = {'Authorization': f'Bearer {_access_token}',
-                'Content-Type': 'application/json',
-                'Accept-Language': lng}
-
-    resp = content_api_resp(headers=_headers)
-    _original_json = resp.json['payload'].copy()
+    _original_json = resp.json.get('payload').copy()
     _key_json = {key: value for (key, value) in _original_json.items()
                  if key in ['view_id', 'identity', 'locale_id']}
-    params = {k: v for (k, v) in _key_json.items() if k != 'locale_id'}
-    _headers = {**_headers, 'Authorization': f'Bearer {_tec_token}'}
-    # print('------------------------')
-    resp = client.get(url_for('contents_bp.content', **params), headers=_headers)
-    # Check something found and data has been identical:
+    _get_headers = {**_headers, 'Authorization': f'Bearer {_tec_token}'}
+    resp = client.get(url_for('contents_bp.content', **_key_json), headers=_get_headers)
+
+    # Check found data has been identical:
     assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
-    assert isinstance(resp.json['payload'], Dict)
+    assert resp.json.get('message').find(test_word) != -1
     for key in _original_json.keys():
-        assert _original_json[key] == resp.json.get('payload')[key]
+        assert _original_json.get(key) == resp.json.get('payload').get(key)
+
     # Try to find data with wrong value (404):
     for key in _key_json.keys():
         _wrong_value_json = _key_json.copy()
         _wrong_value_json[key] += '_wrong'
-        params = {k: v for (k, v) in _wrong_value_json.items() if k != 'locale_id'}
-        _headers = {**_headers, 'Accept-Language': _wrong_value_json['locale_id']}
-        resp = client.get(url_for('contents_bp.content', **params), headers=_headers)
-        # print('Test_contents_get. token ->', _tec_token)
-        # print('Test_contents_get. json ->', resp.json)
+
+        resp = client.get(url_for('contents_bp.content',
+                                  **_wrong_value_json), headers=_get_headers)
         assert resp.status_code == 404
         assert 'payload' not in resp.json.keys()
         assert 'message' in resp.json.keys()
+        assert resp.json.get('message').find(test_word) != -1
+        assert resp.json.get('message').find(lng) != -1
+        print('\ntest_content_get, code ->', resp.status_code)
+        print('test_content_get, json ->', resp.json)
 
     # Clean up user table
     _user.delete_fm_db()
 
 
-# @pytest.mark.active
-def test_content_put(client, content_api_resp, user_instance, access_token):
-    _user = user_instance(values={'role_id': 'admin'})  # user not admin
-    _user.save_to_db()  # to have user with this id
-    _access_token = access_token(_user)
-    _headers = {'Authorization': f'Bearer {_access_token}'}
-
+@pytest.mark.parametrize(
+    'lng, test_word, test_word_01',
+    [
+        ('en', 'content', 'not found'),
+        ('ru', 'одержание', 'не обнаружено'),
+    ]
+)
+@pytest.mark.active
+def test_content_put(client, content_api_resp,
+                     lng, test_word, test_word_01,
+                     user_instance, access_token):
+    _admin = user_instance(values={'role_id': 'admin'})
+    _admin.save_to_db()  # to have user with this id
+    _access_token = access_token(_admin)
+    _headers = {'Authorization': f'Bearer {_access_token}',
+                'Content-Type': 'application/json',
+                'Accept-Language': lng}
     # Create data with normal set of keys:
-    resp = content_api_resp(headers=_headers)
+    _lng_key = {'locale_id': lng}
+    resp = content_api_resp(values=_lng_key, headers=_headers)
     _original_json = {k: v for(k, v) in resp.json.get('payload').items() if k not in [
         'locale', 'created', 'updated', 'view']}
     _key_json = {key: value for (key, value) in _original_json.items() if key in [
         'identity', 'view_id', 'locale_id']}
     _value_json = {key: value for (key, value) in _original_json.items() if key not in [
         'identity', 'view_id', 'locale_id']}
+    assert resp.status_code == 201
+    assert 'message' in resp.json.keys()
+    assert 'payload' in resp.json.keys()
+    assert resp.json.get('message').find(test_word) != -1
+    assert resp.json.get('payload').get('locale_id') == lng
+
     # Find and update data with normal set of keys:
     for key in _value_json.keys():
         # print(key)
         _corrected_data = _original_json.copy()
-        if isinstance(_corrected_data[key], int):
+        if isinstance(_corrected_data.get(key), int):
             _corrected_data[key] = 0
-        elif isinstance(_corrected_data[key], str):
+        elif isinstance(_corrected_data.get(key), str):
             _corrected_data[key] += ' - corrected'
         resp = client.put(url_for('contents_bp.content'),
                           json=_corrected_data, headers=_headers)
         assert resp.status_code == 200
         assert 'payload' in resp.json.keys()
         assert resp.json['payload'][key] == _corrected_data[key]
-
-    # print('\nfunctional, contents, content code ->', resp.status_code)
-    # print('functional, contents, content json ->', resp.json)
+        assert resp.json.get('message').find(test_word) != -1
+        assert resp.json.get('payload').get('locale_id') == lng
 
     # Try to find view with wrong value (404):
     for key in _key_json.keys():
@@ -262,21 +320,34 @@ def test_content_put(client, content_api_resp, user_instance, access_token):
         assert resp.status_code == 404
         assert 'payload' not in resp.json.keys()
         assert isinstance(resp.json, Dict)
+        assert resp.json.get('message').find(test_word) != -1
+        assert resp.json.get('message').find(lng) != -1
+        # print('\nfunctional, contents, put code ->', resp.status_code)
+        # print('functional, contents, put json ->', resp.json)
 
     # Clean up user table
-    _user.delete_fm_db()
+    _admin.delete_fm_db()
 
 
+@pytest.mark.parametrize(
+    'lng, test_word',
+    [
+        ('en', 'content'),
+        ('ru', 'одержание'),
+    ]
+)
 # @pytest.mark.active
 def test_content_delete(client, content_api_resp,
                         sessions, user_instance,
+                        lng, test_word,
                         access_token):
-    lng = 'en'
+    # lng = 'en'
     # Create data with normal set of keys:
     _user = user_instance(values={'role_id': 'admin'})  # user not admin
     _user.save_to_db()  # to have user with this id
     _access_token = access_token(_user)
     _headers = {'Authorization': f'Bearer {_access_token}',
+                'Content-Type': 'application/json',
                 'Accept-Language': lng}
 
     resp = content_api_resp(values={'locale_id': lng}, headers=_headers)
@@ -287,46 +358,53 @@ def test_content_delete(client, content_api_resp,
     _uuid = uuid4()
     sessions.setter(str(_uuid))
     _tec_token = create_access_token(_uuid, expires_delta=False)
-    params = {k: v for (k, v) in _key_json.items() if k not in ['locale_id']}
+    params = _key_json.copy()
+    # params = {k: v for (k, v) in _key_json.items() if k not in ['locale_id']}
     _get_headers = {**_headers, 'Authorization': f'Bearer {_tec_token}'}
-    # print('\ntest_content_delete, params ->', params, '\theaders ->', headers)
+
     resp = client.get(url_for('contents_bp.content', **params), headers=_get_headers)
-    # print('\ntest_content_delete, _key_json ->', _key_json)
-    # print('test_content_delete, params ->', params)
-    # print('test_content_delete, get resp ->', resp.json)
     assert resp.status_code == 200
     assert 'payload' in resp.json.keys()
     assert isinstance(resp.json['payload'], Dict)
+    assert resp.json.get('message').find(test_word) != -1
 
     # Try to find view with wrong value (404):
     for key in _key_json.keys():
         _wrong_key_value = _key_json.copy()
         _wrong_key_value[key] += '_wrong'
-        params = {k: v for (k, v) in _wrong_key_value.items()
-                  if k not in ['locale_id']}
-        headers = {**_headers, 'Accept-Language': _wrong_key_value['locale_id']}
+        # params = {k: v for (k, v) in _wrong_key_value.items()
+        # if k not in ['locale_id']}
+        headers = {**_headers, 'Accept-Language': lng}
         # print('\ntest_content_delete, params ->', params, '\theaders ->', headers)
-        resp = client.delete(url_for('contents_bp.content', **params), headers=headers)
+        resp = client.delete(url_for('contents_bp.content',
+                                     **_wrong_key_value), headers=headers)
         assert resp.status_code == 404
+        assert 'message' in resp.json.keys()
         assert 'payload' not in resp.json.keys()
-        assert isinstance(resp.json, Dict)
-    # print('\ntest_content_delete, resp ->', resp)
+        assert resp.json.get('message').find(test_word) != -1
 
     # delete view instance from db:
-    params = {k: v for (k, v) in _key_json.items() if k not in ['locale_id']}
-    # headers = {**_headers, 'Accept-Language': _key_json['locale_id']}
-    resp = client.delete(url_for('contents_bp.content', **params), headers=_headers)
+    resp = client.delete(url_for('contents_bp.content', **_key_json), headers=_headers)
     assert resp.status_code == 200
+    assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
-    assert isinstance(resp.json, Dict)
+    assert resp.json.get('message').find(test_word) != -1
+
+    # try to delete already deleted instance
+    resp = client.delete(url_for('contents_bp.content', **_key_json), headers=_headers)
+    assert resp.status_code == 404
+    assert 'message' in resp.json.keys()
+    assert 'payload' not in resp.json.keys()
+    assert resp.json.get('message').find(test_word) != -1
 
     # Insure view is deleted in db:
-    params = {k: v for (k, v) in _key_json.items() if k not in ['locale_id']}
-    # headers = {**_headers, 'Accept-Language': _key_json['locale_id']}
-    resp = client.get(url_for('contents_bp.content', **params), headers=_get_headers)
+    resp = client.get(url_for('contents_bp.content', **_key_json), headers=_get_headers)
     assert resp.status_code == 404
+    assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
-    assert isinstance(resp.json, Dict)
+    assert resp.json.get('message').find(test_word) != -1
+    # print('\ntest_content_delete, resp ->', resp.status_code)
+    # print('test_content_delete, resp ->', resp.json)
 
     # Clean up user table
     _user.delete_fm_db()
