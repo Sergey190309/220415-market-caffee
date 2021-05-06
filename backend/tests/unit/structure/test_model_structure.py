@@ -16,48 +16,6 @@ def saved_structure_instance(client, structure_instance):
     return _method
 
 
-@pytest.fixture()
-def view_id():
-    return 'landing'
-
-
-@pytest.fixture()
-def attributes():
-    return {
-        '00':
-            {
-                'type': 'header',
-                'name': 'header',
-            },
-        '01':
-            {
-                'type': 'vblock',
-                'name': 'vblock00',
-                'subtype': 'txt',
-                "qnt": 3,
-            },
-        '02':
-            {
-                'type': 'hblock',
-                'name': 'hblock00',
-                'subtype': 'pix',
-                "qnt": 2
-            },
-        '03':
-            {
-                'type': 'vblock',
-                'name': 'vblock01',
-                'subtype': 'pix',
-                "qnt": 2
-            },
-        '04':
-            {
-                'type': 'footer',
-                'name': 'footer',
-            },
-    }
-
-
 # @pytest.mark.active
 def test_find_by_id(saved_structure_instance, structure_get_schema,
                     view_id, attributes):
@@ -98,13 +56,12 @@ def test_update(saved_structure_instance, structure_get_schema,
     _corrected_fm_db = StructureModel.find_by_id(view_id)
 
     assert structure_get_schema.dump(_corrected_fm_db).get('attributes') == _attributes
-    print('\nunit, test, structure _corrected_fm_db ->',
-          structure_get_schema.dump(_corrected_fm_db))
+    assert isinstance(structure_get_schema.dump(_corrected_fm_db).get('updated'), str)
     # assert structure_get_schema.dump(_corrected_fm_db).get('attributes') == attributes
     next(_structure_gen)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_delete(saved_structure_instance, structure_get_schema,
                 view_id, attributes):
     structure_fm_db = StructureModel.find_by_id(view_id)

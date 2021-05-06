@@ -106,7 +106,7 @@ def test_no_access(client, content_api_resp, user_instance, access_token, sessio
 def test_contents_post_already_exists(
         client, content_api_resp,
         user_instance, access_token):
-    _user = user_instance(values={'role_id': 'admin'})  # user not admin
+    _user = user_instance(values={'role_id': 'admin'})  # user admin
     _user.save_to_db()  # to have user with this id
     _access_token = access_token(_user)
     _headers = {'Authorization': f'Bearer {_access_token}'}
@@ -121,7 +121,8 @@ def test_contents_post_already_exists(
     # Try to save other instance with same keys
     _create_json = {k: v for(k, v) in resp.json.get('payload').items()
                     if k not in ['created', 'view', 'locale']}
-    resp = client.post(url_for('contents_bp.content'), json=_create_json, headers=_headers)
+    resp = client.post(url_for('contents_bp.content'),
+                       json=_create_json, headers=_headers)
     assert resp.status_code == 400
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
@@ -267,7 +268,9 @@ def test_content_put(client, content_api_resp, user_instance, access_token):
 
 
 # @pytest.mark.active
-def test_content_delete(client, content_api_resp, sessions, user_instance, access_token):
+def test_content_delete(client, content_api_resp,
+                        sessions, user_instance,
+                        access_token):
     lng = 'en'
     # Create data with normal set of keys:
     _user = user_instance(values={'role_id': 'admin'})  # user not admin

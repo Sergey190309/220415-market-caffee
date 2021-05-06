@@ -16,6 +16,12 @@ def register_error_handler(module):
         print(error)
         return jsonify(str(error)), 400
 
+    @module.errorhandler(AttributeError)
+    # @module.app_errorhandler(ValueError)
+    def handle_AttributeError(error):
+        print(error)
+        return jsonify(str(error)), 400
+
     # SQLAlchemy
     @module.errorhandler(InvalidRequestError)
     # @module.app_errorhandler(InvalidRequestError)

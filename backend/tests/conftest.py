@@ -3,6 +3,7 @@ import pytest
 from typing import Dict
 from random import randint, choice
 from string import ascii_lowercase
+from datetime import datetime
 
 from random_words import RandomWords, RandomEmails
 from transliterate import translit, get_available_language_codes
@@ -252,6 +253,48 @@ def user_instance(random_text, random_email, valid_item, user_schema):
     return _method
 
 
+@pytest.fixture()
+def view_id():
+    return 'landing'
+
+
+@pytest.fixture()
+def attributes():
+    return {
+        '00':
+            {
+                'type': 'header',
+                'name': 'header',
+            },
+        '01':
+            {
+                'type': 'vblock',
+                'name': 'vblock00',
+                'subtype': 'txt',
+                "qnt": 3,
+            },
+        '02':
+            {
+                'type': 'hblock',
+                'name': 'hblock00',
+                'subtype': 'pix',
+                "qnt": 2
+            },
+        '03':
+            {
+                'type': 'vblock',
+                'name': 'vblock01',
+                'subtype': 'pix',
+                "qnt": 2
+            },
+        '04':
+            {
+                'type': 'footer',
+                'name': 'footer',
+            },
+    }
+
+
 @pytest.fixture(scope='module')
 def structure_instance(random_text):
     '''
@@ -260,7 +303,9 @@ def structure_instance(random_text):
     '''
     def _method(values: Dict = {}):
         _values = {
-            'view_id': values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'view_id':
+                values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'created': values.get('created', datetime.now()),
             'user_id': values.get('user_id', randint(1, 128)),
             'attributes': values.get('attributes', {})
         }
@@ -281,7 +326,8 @@ def content_instance(random_text):
         lng = values.get('locale_id', global_constants.get_LOCALES[0]['id'])
         _values = {
             'identity': values.get('identity', random_text(qnt=2, underscore=True)),
-            'view_id': values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'view_id':
+                values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
             'locale_id': lng,
             'user_id': values.get('user_id', randint(1, 128)),
             'title': values.get('title', random_text(lng=lng, qnt=3)),

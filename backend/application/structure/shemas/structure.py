@@ -9,10 +9,12 @@ class StructureSchema(fma_structure.SQLAlchemyAutoSchema):  # noqa
     '''
     The schema used for reguliar structure operations.
     '''
-    # view = fma_structure.Nested('ViewGlobalSchema', many=False)
+    view = fma_structure.Nested('ViewGlobalSchema', many=False)
 
     class Meta:
         model = StructureModel
+        # dump_only = ('created', 'updated')
+        # exclude = ('created',)
 
         include_fk = True
         load_instance = True

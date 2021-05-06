@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-04-29 10:20+0000\n"
-"PO-Revision-Date: 2021-04-29 10:21+0000\n"
+"POT-Creation-Date: 2021-05-05 15:27+0000\n"
+"PO-Revision-Date: 2021-05-05 15:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -38,8 +38,7 @@ msgid "The component kind has been saved successfully. Details are in payload."
 msgstr "Тип компонента успешно сохранен. Детали в сообщении."
 
 #: _components/resources/component_kinds.py:65
-#: _components/resources/components.py:72 contents/resources/_views.py:114
-#: resources/views_global.py:113
+#: _components/resources/components.py:72 resources/views_global.py:113
 msgid "Found, see payload."
 msgstr "Нашел, смотри детали."
 
@@ -97,46 +96,6 @@ msgstr ""
 "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
 "локализацией '%(locale_id)s' успешно убит."
 
-#: contents/resources/_views.py:18 contents/resources/contents.py:58
-#: resources/views_global.py:20
-msgid "Sorry, access to views' information is allowed to admin only."
-msgstr ""
-"Извиняйте, доступ к информации о страницах разрешен только администратору."
-
-#: contents/resources/_views.py:47 resources/views_global.py:46
-#, python-format
-msgid "There are %(count)s views in our database as follows:"
-msgstr ""
-"В нашей базе зарегистрировано %(count)s пользователуй как указанно ниже:"
-
-#: contents/resources/_views.py:64 resources/views_global.py:63
-#, python-format
-msgid "A view with identity '%(view_id)s' already exists."
-msgstr "Страничка с идентификатором '%(view_id)s' уже существует."
-
-#: contents/resources/_views.py:72 resources/views_global.py:71
-#, python-format
-msgid "A view with identity '%(view_id)s' has not been found."
-msgstr "Страничка с идентификатором '%(view_id)s' не обнаружена."
-
-#: contents/resources/_views.py:93 resources/views_global.py:92
-msgid "The view has been saved successfully. Details are in payload."
-msgstr "Страничка успешно сохранена. Детали в сообщении."
-
-#: contents/resources/_views.py:135 resources/views_global.py:134
-#, python-format
-msgid ""
-"The view with id '%(view_id)s' has been updated successfully. Details are in "
-"payload."
-msgstr ""
-"Страничка с идентификатором '%(view_id)s' успешно обновлена. Детали в "
-"сообщении."
-
-#: contents/resources/_views.py:158 resources/views_global.py:157
-#, python-format
-msgid "The view with id '%(view_id)s' has been deleted successfully."
-msgstr "Страничка с идентификатором '%(view_id)s' убита на смерть."
-
 #: contents/resources/contents.py:26
 #, python-format
 msgid ""
@@ -155,15 +114,21 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:50 structure/resources/structure.py:26
+#: contents/resources/contents.py:50 structure/resources/structure.py:36
+#: structure_/resources/structure.py:26
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
+
+#: contents/resources/contents.py:58 resources/views_global.py:20
+msgid "Sorry, access to views' information is allowed to admin only."
+msgstr ""
+"Извиняйте, доступ к информации о страницах разрешен только администратору."
 
 #: contents/resources/contents.py:90
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:108
+#: contents/resources/contents.py:108 structure/resources/structure.py:87
 msgid "Something went wrong. Sorry we'll reverting."
 msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
 
@@ -276,6 +241,40 @@ msgid "There are %(count)s locales in our database as follows:"
 msgstr ""
 "В нашей базе зарегистрировано %(count)s возможных языков как указанно ниже:"
 
+#: resources/views_global.py:46
+#, python-format
+msgid "There are %(count)s views in our database as follows:"
+msgstr ""
+"В нашей базе зарегистрировано %(count)s пользователуй как указанно ниже:"
+
+#: resources/views_global.py:63
+#, python-format
+msgid "A view with identity '%(view_id)s' already exists."
+msgstr "Страничка с идентификатором '%(view_id)s' уже существует."
+
+#: resources/views_global.py:71
+#, python-format
+msgid "A view with identity '%(view_id)s' has not been found."
+msgstr "Страничка с идентификатором '%(view_id)s' не обнаружена."
+
+#: resources/views_global.py:92
+msgid "The view has been saved successfully. Details are in payload."
+msgstr "Страничка успешно сохранена. Детали в сообщении."
+
+#: resources/views_global.py:134
+#, python-format
+msgid ""
+"The view with id '%(view_id)s' has been updated successfully. Details are in "
+"payload."
+msgstr ""
+"Страничка с идентификатором '%(view_id)s' успешно обновлена. Детали в "
+"сообщении."
+
+#: resources/views_global.py:157
+#, python-format
+msgid "The view with id '%(view_id)s' has been deleted successfully."
+msgstr "Страничка с идентификатором '%(view_id)s' убита на смерть."
+
 #: schemas/locale_time_zone.py:8
 msgid "Not a valid locale."
 msgstr "Не действительный регион."
@@ -284,10 +283,40 @@ msgstr "Не действительный регион."
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: structure/resources/structure.py:34
+#: structure/resources/structure.py:20
+#, python-format
+msgid "A structure with identity '%(view_id)s' already exists."
+msgstr "Структура с идентификатором '%(view_id)s' уже существует."
+
+#: structure/resources/structure.py:28
+#, python-format
+msgid "A structure with identity '%(view_id)s' not found."
+msgstr "Структура с идентификатором '%(view_id)s' не обнаружена."
+
+#: structure/resources/structure.py:44 structure_/resources/structure.py:34
 msgid "Sorry, access to structure information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации о структуре разрешен только администратору."
+
+#: structure/resources/structure.py:68
+msgid "The structure has been saved successfully. Details are in payload."
+msgstr "Структура успешно сохранена. Детали в сообщении."
+
+#: structure/resources/structure.py:100
+msgid "The structure has been found. Details are in payload."
+msgstr "Структура обнаружена. Детали в сообщении."
+
+#: structure/resources/structure.py:120
+msgid ""
+"The structure has been found and successfully updated. Details are in "
+"payload."
+msgstr "Структура обнаружена и успешно обновлена. Детали в сообщении."
+
+#: structure/resources/structure.py:144
+#, python-format
+msgid ""
+"The structure for view '%(view_id)s' has been found and successfully deleted."
+msgstr "Структура с идентификатором '%(view_id)s' найдена и убита на смерть."
 
 #: users/errors/register_errors_users.py:21
 msgid "The token has expired."
@@ -488,6 +517,22 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid "A view with identity '%(id_view)s' already exists."
+#~ msgstr "Страничка с идентификатором '%(view_id)s' уже существует."
+
+#~ msgid "A view with identity '%(id_view)s' has not been found."
+#~ msgstr "Страничка с идентификатором '%(view_id)s' не обнаружена."
+
+#~ msgid ""
+#~ "The view with id '%(id_view)s' has been updated successfully. Details are "
+#~ "in payload."
+#~ msgstr ""
+#~ "Страничка с идентификатором '%(view_id)s' успешно обновлена. Детали в "
+#~ "сообщении."
+
+#~ msgid "The view with id '%(id_view)s' has been deleted successfully."
+#~ msgstr "Страничка с идентификатором '%(view_id)s' убита на смерть."
 
 #~ msgid "You are welcome, tokens are in payload."
 #~ msgstr "Добро пожаловать, жетоны теле сообщения."

@@ -7,10 +7,12 @@ from application.modules.dbs_global import dbs_global
 # from application.contents.schemas.contents import content_get_schema
 # from application.contents
 from application.contents.models import ContentModel
+from application.structure.models import StructureModel
 from application.models.views_global import ViewGlobalModel
 # from application.contents.local_init_data_contents import contents_constants
 from application.global_init_data import global_constants
-from application.contents.modules.dbs_init_contents import fill_views
+# from application.contents.modules.dbs_init_contents import fill_views
+from application.modules.dbs_init_global import fill_views
 
 
 @pytest.fixture
@@ -43,6 +45,7 @@ def test_content_find_all(
     locale_id
     '''
     # Clean up approapriate tables
+    StructureModel.query.delete()
     ContentModel.query.delete()
     ViewGlobalModel.query.delete()
     fill_views()

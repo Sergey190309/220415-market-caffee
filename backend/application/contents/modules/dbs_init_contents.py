@@ -15,7 +15,7 @@ def dbs_init_contents():
     # fill_views()
 
 
-def fill_views():
+def _fill_views():
     for _view in global_constants.get_VIEWS:
         _existing_view = ViewGlobalModel.find_by_id(_view.get('view_id'))
         if _existing_view is None:

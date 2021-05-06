@@ -109,8 +109,8 @@ class Content(Resource):
             }, 500
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
-            'view_id': request.args['view_id'],
-            'identity': request.args['identity'],
+            'view_id': request.args.get('view_id'),
+            'identity': request.args.get('identity'),
             'locale_id': request.headers.get('Accept-Language')
         }
         # print('cls, resources, _requested_dict ->', _requested_dict)
@@ -162,8 +162,8 @@ class Content(Resource):
             return cls.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
-            'view_id': request.args['view_id'],
-            'identity': request.args['identity'],
+            'view_id': request.args.get('view_id'),
+            'identity': request.args.get('identity'),
             'locale_id': request.headers.get('Accept-Language')
         }
         # testing fields
@@ -171,15 +171,15 @@ class Content(Resource):
         _content = ContentModel.find_by_identity_view_locale(**_delete_json)
         if _content is None:
             return cls.not_found(
-                identity=_delete_json['identity'],
-                view_id=_delete_json['view_id'],
-                locale_id=_delete_json['locale_id'])
+                identity=_delete_json.get('identity'),
+                view_id=_delete_json.get('view_id'),
+                locale_id=_delete_json.get('locale_id'))
 
         _content.delete_fm_db()
         return {
             'message': str(_(
                 "The content on view '%(view_id)s' with locale '%(locale_id)s' and "
                 "identity '%(identity)s' has been found and successfully deleted.",
-                identity=_delete_json['identity'],
-                view_id=_delete_json['view_id'],
-                locale_id=_delete_json['locale_id']))}, 200
+                identity=_delete_json.get('identity'),
+                view_id=_delete_json.get('view_id'),
+                locale_id=_delete_json.get('locale_id')))}, 200

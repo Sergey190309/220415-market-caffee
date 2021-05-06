@@ -16,11 +16,18 @@ class StructureModel(dbs_global.Model):
     '''
     __tablename__ = 'structure'
 
-    view_id = dbs_global.Column(dbs_global.String(64), primary_key=True)
-    created = dbs_global.Column(dbs_global.DateTime, nullable=False, default=datetime.now())
+    view_id = dbs_global.Column(dbs_global.String(64),
+                                dbs_global.ForeignKey('views_global.view_id'),
+                                primary_key=True)
+    created = dbs_global.Column(
+        dbs_global.DateTime, nullable=False, default=datetime.now())
     updated = dbs_global.Column(dbs_global.DateTime)
     user_id = dbs_global.Column(dbs_global.Integer, nullable=False, default=0)
-    attributes = dbs_global.Column(MutableDict.as_mutable(mysql.JSON), nullable=False)
+    attributes = dbs_global.Column(MutableDict.as_mutable(
+        mysql.JSON), nullable=False, default={})
+
+    view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
+
     # 'attributes', mysql.MEDIUMTEXT)
 
     # view = dbs_global.relationship(
@@ -69,16 +76,19 @@ class StructureModel(dbs_global.Model):
             dbs_global.session.commit()
         except InterruptedError as error:
             dbs_global.session.rollback()
-            return (
-                "\nstructure.models.StructureModel.save_to_db IntegrityError:\n"
-                f"{error.orig}")
+            # return (
+            #     "\nstructure.models.StructureModel.save_to_db IntegrityError:\n"
+            #     f"{error.orig}")
+            return str(error)
         except Exception as error:
             dbs_global.session.rollback()
-            print('\nstructure.models.StructureModel.save_to_db Error\n', error)
+            # print('\nstructure.models.StructureModel.save_to_db Error\n', error)
+            return str(error)
 
     def delete_fm_db(self) -> None:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()
         except Exception as error:
-            print('structure.models.StructureModel.save_to_db Error\n', error)
+            # print('structure.models.StructureModel.save_to_db Error\n', error)
+            return str(error)
