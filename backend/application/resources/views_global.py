@@ -30,10 +30,6 @@ class ViewsGlobal(Resource):
         The resource give list of available view in the system.
         User should be admin.
         '''
-        # print('\nViewList, get jtw_identity ->')
-        # _jtw_identity = 'Fuck!'
-        # _jtw_identity = get_jwt_identity()
-        # print('\nViewList, get jtw_identity ->', _jtw_identity)
         fbp.set_lng(request.headers.get('Accept-Language'))
 
         if UserModel.find_by_id(get_jwt_identity()).is_admin:
@@ -49,9 +45,6 @@ class ViewsGlobal(Resource):
             }, 200
         else:
             return no_access()
-        # return {
-        #     'message': 'shit happens'
-        # }
 
 
 class ViewGlobal(Resource):

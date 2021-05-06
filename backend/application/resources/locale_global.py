@@ -29,8 +29,8 @@ class LocalesGlobal(Resource):
         User should be admin.
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
-        print('\n application, resources, locale_global, lng ->',
-              request.headers.get('Accept-Language'))
+        # print('\n application, resources, locale_global, lng ->',
+        #   request.headers.get('Accept-Language'))
 
         if UserModel.find_by_id(get_jwt_identity()).is_admin:
             payload = [

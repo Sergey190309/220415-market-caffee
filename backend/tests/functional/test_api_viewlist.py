@@ -17,7 +17,6 @@ def test_contents_view_list_get_no_token(client):
     '''
     _resp = client.get(url_for('viewsglobal'))
     assert _resp.status_code == 401
-    # print('\ntest_contents_view_list_get_no_token, _resp ->', _resp.json)
     assert isinstance(_resp.json, Dict)
     assert 'description' in _resp.json.keys()
     assert 'error' in _resp.json.keys()
@@ -40,9 +39,7 @@ def test_view_list_get_user(
     '''
     _user = user_instance()
     _user.save_to_db()
-    # print(_user)
     _access_token_user = access_token(_user)
-    # print(_access_token_user)
     headers = {'Authorization': f"Bearer {_access_token_user}",
                'Accept-Language': lng}
     _resp = client.get(url_for('viewsglobal'), headers=headers)
