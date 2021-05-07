@@ -4,8 +4,11 @@ import { v4 } from 'uuid';
 
 export const getTecToken = async () => {
   try {
-    const sessionId = v4()
-    console.log('getTecToken, uuid ->', sessionId);
+    // const sessionId = v4()
+    // const
+    const resp = await axiosClient.post('/global/locales')
+    // const resp = await axiosClient.post('/global/locales', {"tec_id": sessionId})
+    console.log('getTecToken, resp ->', resp);
   } catch (error) {
     console.error(error);
   }
