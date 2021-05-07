@@ -4,7 +4,16 @@ import { getContents, getTecToken } from './getBackEndInfo';
 
 describe('getTecToken testing', () => {
   test('success', async () => {
-    getTecToken()
+    const mockData = {
+      "message": "Mock message here.",
+      "payload": "mock_tec_token"
+  }
+    mockAxios.post.mockImplementationOnce(() => Promise.resolve({data: mockData}))
+    const result = await getTecToken()
+    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+
+    console.log('getTecToken testing, result ->', result)
+
   });
 });
 
@@ -34,6 +43,7 @@ describe('getContents testing', () => {
     mockAxios.get.mockImplementationOnce(() => Promise.resolve({ data: mockData }));
 
     const result = await getContents(mockKeys);
+    // console.log('getContents, resp ->', result)
     expect(mockAxios.get).toHaveBeenCalledTimes(1);
     expect(mockAxios.get).toHaveBeenCalledWith('/contents', { params: mockKeys });
     expect(result).toEqual(expResults);
