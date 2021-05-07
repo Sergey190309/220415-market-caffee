@@ -270,7 +270,7 @@ def test_contents_get(client, content_api_resp,
         ('ru', 'одержание', 'не обнаружено'),
     ]
 )
-@pytest.mark.active
+# @pytest.mark.actives
 def test_content_put(client, content_api_resp,
                      lng, test_word, test_word_01,
                      user_instance, access_token):

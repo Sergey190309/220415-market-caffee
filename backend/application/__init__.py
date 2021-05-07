@@ -38,9 +38,6 @@ def create_app(config='default_config.py'):
 
     with app.app_context(), app.test_request_context():
         # print('\napplication.__init__.py within with config -', config)
-        # Error handler.
-        # from .errors import create_errors
-        # app.register_blueprint(create_errors())
 
         # Auxiliary module for training and testing.
         from .home import create_home
@@ -59,12 +56,6 @@ def create_app(config='default_config.py'):
         from .images import create_images
         app.register_blueprint(create_images(), url_prefix='/images')
 
-        # I've translated those comonents on front end
-        # Module with back-end part for front-end reusable components.
-        # Navigation bars, buttons, etc.
-        # from .components import create_components
-        # app.register_blueprint(create_components(), url_prefix='/components')
-
         # Application structure - element used to store views's contents, pictures, etc
         from .structure import create_structure
         app.register_blueprint(create_structure(), url_prefix='/structure')
@@ -72,9 +63,6 @@ def create_app(config='default_config.py'):
         # Mailing
         from .mailing import create_mailing
         app.register_blueprint(create_mailing())
-
-        # DB inisiation
-        # print('\napplication.__init__.py url\n', url_for('images_bp.imageupload'))
 
         @current_app.before_first_request
         def init_dbs():

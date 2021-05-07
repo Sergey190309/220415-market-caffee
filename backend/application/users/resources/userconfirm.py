@@ -32,7 +32,7 @@ class Confirmation(Resource):
         if _user.role_id is not None:
             return {'message': str(_("User has some status already."))}, 400
         # print('Role -', global_constants.get_ROLES[0]['id'])
-        if _user.update({'role_id': users_constants.get_ROLES[0]['id']}):
+        if _user.update({'role_id': users_constants.get_ROLES[0]['id']}) is None:
             _confirmation.delete_fm_db()
         headers = {'Content-Type': 'text/html'}
         greetings = _('Hi there!')

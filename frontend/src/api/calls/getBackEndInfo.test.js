@@ -1,6 +1,18 @@
 import mockAxios from '../apiClient';
 import { getContents } from './getBackEndInfo';
 
+describe('getTecToken testing', () => {
+  test('success', async () => {
+
+  });
+});
+
+describe('getLocales testing', () => {
+  test('success', async () => {
+
+  });
+});
+
 describe('getContents testing', () => {
   const mockKeys = {
     one: 'one',

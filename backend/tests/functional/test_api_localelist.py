@@ -1,8 +1,12 @@
 import pytest
 from typing import List, Dict
+from uuid import uuid4
 from flask import url_for
 
-from application.users.models import UserModel
+from flask_jwt_extended import create_access_token
+from application.home.local_init_data_home import sessions
+from application.global_init_data import global_constants
+# from application.users.models import UserModel
 
 
 # @pytest.mark.active
@@ -10,7 +14,7 @@ def test_contents_view_list_get_no_token(client):
     '''
     Wrong - logged admin can access to this info only.
     '''
-    headers = {'Accept-Language': 'en'}
+    headers = {'Accept-Language': 'en', 'Content-Type': 'application/json'}
     _resp = client.get(url_for('localesglobal'), headers=headers)
     # print('\ntest, functional, test_api_localelist, code ->', _resp.status_code)
     # print('test, functional, test_api_localelist, json ->', _resp.json)
@@ -23,8 +27,8 @@ def test_contents_view_list_get_no_token(client):
 
 @pytest.mark.parametrize(
     'lng, test_word', [
-        ('en', 'Sorry'),
-        ('ru', 'Извиняйте')
+        ('en', 'Something went wrong'),
+        ('ru', 'Что-то пошло не так')
     ]
 )
 # @pytest.mark.active
@@ -33,16 +37,16 @@ def test_locale_list_get_user(
         lng, test_word,
         access_token, user_instance):
     '''
-    Wrong - not enought right.
+    Wrong - wrong token.
     '''
     _user = user_instance()
     _user.save_to_db()
     _access_token_user = access_token(_user)
     headers = {'Authorization': f"Bearer {_access_token_user}",
+               'Content-Type': 'application/json',
                'Accept-Language': lng}
     _resp = client.get(url_for('localesglobal'), headers=headers)
-    assert _resp.status_code == 401
-    assert isinstance(_resp.json, Dict)
+    assert _resp.status_code == 500
     assert 'message' in _resp.json.keys()
     assert 'payload' not in _resp.json.keys()
     assert _resp.json.get('message').find(test_word) != -1
@@ -65,22 +69,17 @@ def test_users_list_get_admin(
     '''
     Right
     '''
-    _locale_gen00 = saved_locale_instance()
-    _locale_gen01 = saved_locale_instance()
-
-    next(_locale_gen00)
-    next(_locale_gen01)
-    _admin = UserModel.find_by_id(1)
-    _access_token_admin = access_token(_admin)
-    headers = {'Authorization': f"Bearer {_access_token_admin}",
+    _uuid = uuid4()
+    sessions.setter(str(_uuid))
+    _tec_token = create_access_token(_uuid, expires_delta=False)
+    headers = {'Authorization': f"Bearer {_tec_token}",
+               'Content-Type': 'application/json',
                'Accept-Language': lng}
     _resp = client.get(url_for('localesglobal'), headers=headers)
 
     assert _resp.status_code == 200
-    assert isinstance(_resp.json, Dict)
     assert isinstance(_resp.json.get('payload'), List)
-    assert len(_resp.json['payload']) >= 4
+    assert len(_resp.json['payload']) == len(global_constants.get_LOCALES)
     assert _resp.json.get('message').find(test_word) != -1
-
-    next(_locale_gen00)
-    next(_locale_gen01)
+    # print('\ntests func, test_api_locale list, status ->', _resp.status_code)
+    # print('tests func, test_api_locale list, json ->', _resp.json)

@@ -1,5 +1,14 @@
 import axiosClient from '../apiClient';
 import { respErrorHandler } from '../../utils/respErrorHandler';
+import uuid from 'uuid'
+
+// export const getTecToken = async sessionId => {
+//   console.log('getTecToken, uuid ->', uuid())
+// }
+
+// export const getLocales = async sessionId => {
+//   console.log(getLocales)
+// }
 
 export const getContents = async keys => {
   // keys structure:
