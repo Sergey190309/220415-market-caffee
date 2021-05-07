@@ -2,14 +2,14 @@ import axiosClient from '../apiClient';
 import { respErrorHandler } from '../../utils/respErrorHandler';
 import { v4 } from 'uuid';
 
-export const getTecToken = async (sessionId = v4()) => {
+export const getTechToken = async (sessionId = v4()) => {
   try {
     // const sessionId = v4()
-    const resp = await axiosClient.post('/home/tec/auth', {"tec_id": sessionId})
+    const resp = await axiosClient.post('/home/tech/auth', {"tech_id": sessionId})
     // const resp = await axiosClient.post('/global/locales', {"tec_id": sessionId})
     // console.log('getTecToken, resp ->', resp);
     return Promise.resolve({
-      tec_token: resp.data.payload? resp.data.payload: null
+      tech_token: resp.data.payload? resp.data.payload: null
     })
   } catch (error) {
     respErrorHandler(error);

@@ -1,35 +1,35 @@
 import mockAxios from '../apiClient';
-import { getContents, getTecToken } from './getBackEndInfo';
+import { getContents, getTechToken } from './getBackEndInfo';
 
 
-describe('getTecToken testing', () => {
+describe('getTechToken testing', () => {
 
   test('success', async () => {
     const mockData = {
       "message": "Mock message here.",
-      "payload": "mock_tec_token"
+      "payload": "mock_tech_token"
     }
     mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockData }))
-    const expResult = {'tec_token': mockData.payload}
-    const result = await getTecToken('sessionId')
+    const expResult = {'tech_token': mockData.payload}
+    const result = await getTechToken('sessionId')
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith('/home/tec/auth', { 'tec_id': 'sessionId' });
+    expect(mockAxios.post).toHaveBeenCalledWith('/home/tech/auth', { 'tech_id': 'sessionId' });
     expect(result).toEqual(expResult);
-    // console.log('getTecToken testing, result ->', result)
+    // console.log('getTechToken testing, result ->', result)
   });
 
-  test('fail, no tec_token (payload)', async () => {
+  test('fail, no tech_token (payload)', async () => {
     const mockData = {
       "message": "Mock message here.",
-      // "payload": "mock_tec_token"
+      // "payload": "mock_tech_token"
     }
-    const expResult = {'tec_token': null}
+    const expResult = {'tech_token': null}
     mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }))
-    const result = await getTecToken('sessionId')
+    const result = await getTechToken('sessionId')
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith('/home/tec/auth', { 'tec_id': 'sessionId' });
+    expect(mockAxios.post).toHaveBeenCalledWith('/home/tech/auth', { 'tech_id': 'sessionId' });
     expect(result).toEqual(expResult);
-    // console.log('getTecToken testing, result ->', result)
+    // console.log('getTechToken testing, result ->', result)
   });
 
 });
