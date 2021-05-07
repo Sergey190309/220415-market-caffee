@@ -12,15 +12,19 @@ import { idsByIdNum } from '../../../utils/utils';
 // };
 
 const getValues = async (view_id, ids) => {
-  const results = [];
-  ids.map(async (id, index) => {
-    const keys = { view_id: view_id, identity: id };
-    const result = getContents({ ...keys });
-    results.push(result);
-  });
+  try {
+    const results = [];
+    ids.map(async (id, index) => {
+      const keys = { view_id: view_id, identity: id };
+      const result = getContents({ ...keys });
+      results.push(result);
+    });
+    return Promise.all(results);
+  } catch (error) {
+    console.error(error)
+  }
   // console.log('getValues, results ->', results)
 
-  return Promise.all(results);
 };
 
 const initData = [];
@@ -39,15 +43,20 @@ const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
     let isMounted = true;
     const ids = idsByIdNum(keys.identity, qnt);
     const getData = async () => {
-      const results = await getValues(keys.view_id, ids);
-      results.forEach(item => {
-        item['no'] = item.identity.slice(-2);
-        delete item.identity;
-        // console.log('useEffect identity ->', item.no);
-      });
+      try {
+        const results = await getValues(keys.view_id, ids);
+        console.log('useEffect identity ->', results);
 
-      if (isMounted) {
-        setData(results);
+        // results.forEach(item => {
+        //   item['no'] = item.identity.slice(-2);
+        //   delete item.identity;
+        // });
+
+        // if (isMounted) {
+        //   setData(results);
+        // }
+      } catch (error) {
+        console.error(error)
       }
     };
     getData();

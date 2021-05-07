@@ -7,7 +7,7 @@ const axiosClient = axios.create({
     // Accept: 'application/json',
     'Content-Type': 'application/json',
     common: {
-      'Accept-Language': 'ru'
+      'Accept-Language': 'en'
     }
   },
 });

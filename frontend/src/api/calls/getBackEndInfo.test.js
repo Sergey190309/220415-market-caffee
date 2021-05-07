@@ -1,9 +1,10 @@
 import mockAxios from '../apiClient';
-import { getContents } from './getBackEndInfo';
+import { getContents, getTecToken } from './getBackEndInfo';
+
 
 describe('getTecToken testing', () => {
   test('success', async () => {
-
+    getTecToken()
   });
 });
 
