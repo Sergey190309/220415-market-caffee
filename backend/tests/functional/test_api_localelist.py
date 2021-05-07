@@ -71,8 +71,8 @@ def test_users_list_get_admin(
     '''
     _uuid = uuid4()
     sessions.setter(str(_uuid))
-    _tec_token = create_access_token(_uuid, expires_delta=False)
-    headers = {'Authorization': f"Bearer {_tec_token}",
+    _tech_token = create_access_token(_uuid, expires_delta=False)
+    headers = {'Authorization': f"Bearer {_tech_token}",
                'Content-Type': 'application/json',
                'Accept-Language': lng}
     _resp = client.get(url_for('localesglobal'), headers=headers)

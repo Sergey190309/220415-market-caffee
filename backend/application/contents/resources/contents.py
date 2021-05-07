@@ -98,7 +98,7 @@ class Content(Resource):
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
-                    "Something went wrong. Check tec_token and sessions set up."))
+                    "Something went wrong. Check tech_token and sessions set up."))
             }, 500
         fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {

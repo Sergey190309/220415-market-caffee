@@ -8,7 +8,7 @@ from application.modules.fbp import fbp
 from ..local_init_data_home import sessions
 
 
-class TecAuth(Resource):
+class TechAuth(Resource):
     @classmethod
     def post(cls):
         fbp.set_lng(request.headers.get('Accept-Language'))
@@ -19,14 +19,14 @@ class TecAuth(Resource):
                 'message': str(_(
                     'Something went wrong, there is not valid JSON in the request.'))
             }, 400
-        if 'tec_id' not in _id_json.keys():
+        if 'tech_id' not in _id_json.keys():
             return {
                 'message': str(_(
                     'Something went wrong, there is not proper key in the JSON.'))
             }, 400
-        _tec_token = create_access_token(_id_json.get('tec_id'), expires_delta=False)
-        sessions.setter(_id_json.get('tec_id'))
+        _tech_token = create_access_token(_id_json.get('tech_id'), expires_delta=False)
+        sessions.setter(_id_json.get('tech_id'))
         return {
-            'message': str(_("TecAuth reporing! Tec token is in payload.")),
-            'payload': _tec_token
+            'message': str(_("TechAuth reporing! Tech token is in payload.")),
+            'payload': _tech_token
         }, 200

@@ -2,9 +2,9 @@ import axiosClient from '../apiClient';
 import { respErrorHandler } from '../../utils/respErrorHandler';
 import { v4 } from 'uuid';
 
-export const getTecToken = async () => {
+export const getTecToken = async (sessionId = v4()) => {
   try {
-    const sessionId = v4()
+    // const sessionId = v4()
     const resp = await axiosClient.post('/home/tec/auth', {"tec_id": sessionId})
     // const resp = await axiosClient.post('/global/locales', {"tec_id": sessionId})
     // console.log('getTecToken, resp ->', resp);
@@ -12,7 +12,8 @@ export const getTecToken = async () => {
       tec_token: resp.data.payload? resp.data.payload: null
     })
   } catch (error) {
-    console.error(error);
+    respErrorHandler(error);
+    return error;
   }
 };
 

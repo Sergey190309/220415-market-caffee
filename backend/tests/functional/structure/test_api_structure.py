@@ -143,8 +143,8 @@ def test_structure_get(
 
     _uuid = uuid4()
     sessions.setter(str(_uuid))
-    _tec_token = create_access_token(_uuid, expires_delta=False)
-    _headers = {'Authorization': f'Bearer {_tec_token}',
+    _tech_token = create_access_token(_uuid, expires_delta=False)
+    _headers = {'Authorization': f'Bearer {_tech_token}',
                 'Content-Type': 'application/json',
                 'Accept-Language': lng}
 
@@ -164,7 +164,7 @@ def test_structure_get(
     assert 'paiload' not in _resp.json.keys()
     assert _resp.json.get('message').find(test_word) != -1
 
-    # Non tec_token available.
+    # Non tech_token available.
     _headers.pop('Authorization')
     _params = {'view_id': view_id}
     _resp = client.get(url_for('structure_bp.structure', **_params), headers=_headers)
@@ -257,8 +257,8 @@ def test_structure_put(
 
     _uuid = uuid4()
     sessions.setter(str(_uuid))
-    _tec_token = create_access_token(_uuid, expires_delta=False)
-    _get_headers = {'Authorization': f'Bearer {_tec_token}',
+    _tech_token = create_access_token(_uuid, expires_delta=False)
+    _get_headers = {'Authorization': f'Bearer {_tech_token}',
                     'Content-Type': 'application/json',
                     'Accept-Language': lng}
     _params = {'view_id': view_id}
@@ -361,8 +361,8 @@ def test_structure_delete(
     # find instance in db
     _uuid = uuid4()
     sessions.setter(str(_uuid))
-    _tec_token = create_access_token(_uuid, expires_delta=False)
-    _get_headers = {'Authorization': f'Bearer {_tec_token}',
+    _tech_token = create_access_token(_uuid, expires_delta=False)
+    _get_headers = {'Authorization': f'Bearer {_tech_token}',
                     'Content-Type': 'application/json',
                     'Accept-Language': lng}
     _params = {'view_id': view_id}

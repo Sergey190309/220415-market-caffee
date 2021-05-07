@@ -226,14 +226,14 @@ def test_contents_get(client, content_api_resp,
     assert resp.json.get('message').find(test_word) != -1
     assert resp.json.get('payload').get('locale_id') == lng
 
-    # Find data with normal set of keys having tec_token and sessions:
+    # Find data with normal set of keys having tech_token and sessions:
     _uuid = uuid4()
     sessions.setter(str(_uuid))
-    _tec_token = create_access_token(_uuid, expires_delta=False)
+    _tech_token = create_access_token(_uuid, expires_delta=False)
     _original_json = resp.json.get('payload').copy()
     _key_json = {key: value for (key, value) in _original_json.items()
                  if key in ['view_id', 'identity', 'locale_id']}
-    _get_headers = {**_headers, 'Authorization': f'Bearer {_tec_token}'}
+    _get_headers = {**_headers, 'Authorization': f'Bearer {_tech_token}'}
     resp = client.get(url_for('contents_bp.content', **_key_json), headers=_get_headers)
 
     # Check found data has been identical:
@@ -357,10 +357,10 @@ def test_content_delete(client, content_api_resp,
     # Insure content is exist in db:
     _uuid = uuid4()
     sessions.setter(str(_uuid))
-    _tec_token = create_access_token(_uuid, expires_delta=False)
+    _tech_token = create_access_token(_uuid, expires_delta=False)
     params = _key_json.copy()
     # params = {k: v for (k, v) in _key_json.items() if k not in ['locale_id']}
-    _get_headers = {**_headers, 'Authorization': f'Bearer {_tec_token}'}
+    _get_headers = {**_headers, 'Authorization': f'Bearer {_tech_token}'}
 
     resp = client.get(url_for('contents_bp.content', **params), headers=_get_headers)
     assert resp.status_code == 200

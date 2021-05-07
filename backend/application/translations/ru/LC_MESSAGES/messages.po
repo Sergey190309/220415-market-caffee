@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-07 07:04+0000\n"
-"PO-Revision-Date: 2021-05-07 07:05+0000\n"
+"POT-Creation-Date: 2021-05-07 12:51+0000\n"
+"PO-Revision-Date: 2021-05-07 12:52+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -128,8 +128,8 @@ msgstr ""
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:101 resources/locale_global.py:36
-msgid "Something went wrong. Check tec_token and sessions set up."
+#: contents/resources/contents.py:101 resources/locale_global.py:37
+msgid "Something went wrong. Check tech_token and sessions set up."
 msgstr "Что-то пошло не так, проверь технический жетон и организацию сессий."
 
 #: contents/resources/contents.py:116
@@ -194,7 +194,7 @@ msgid "Something went wrong, there is not proper key in the JSON."
 msgstr "Что-то пошло не так, в  JSON нет правильного ключа."
 
 #: home/resources/tec_auth.py:30
-msgid "TecAuth reporing! Tec token is in payload."
+msgid "TechAuth reporing! Tech token is in payload."
 msgstr "ТехРег докладывает! Тех жетон в сообщении."
 
 #: images/resources/images.py:32
@@ -235,7 +235,7 @@ msgstr ""
 "Извиняйте, доступ к информации о доступных языках разрешен только "
 "администратору."
 
-#: resources/locale_global.py:48
+#: resources/locale_global.py:47
 #, python-format
 msgid "There are %(count)s locales in our database as follows:"
 msgstr ""

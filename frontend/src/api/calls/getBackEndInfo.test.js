@@ -3,18 +3,35 @@ import { getContents, getTecToken } from './getBackEndInfo';
 
 
 describe('getTecToken testing', () => {
+
   test('success', async () => {
     const mockData = {
       "message": "Mock message here.",
       "payload": "mock_tec_token"
-  }
-    mockAxios.post.mockImplementationOnce(() => Promise.resolve({data: mockData}))
-    const result = await getTecToken()
+    }
+    mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockData }))
+    const expResult = {'tec_token': mockData.payload}
+    const result = await getTecToken('sessionId')
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-
-    console.log('getTecToken testing, result ->', result)
-
+    expect(mockAxios.post).toHaveBeenCalledWith('/home/tec/auth', { 'tec_id': 'sessionId' });
+    expect(result).toEqual(expResult);
+    // console.log('getTecToken testing, result ->', result)
   });
+
+  test('fail, no tec_token (payload)', async () => {
+    const mockData = {
+      "message": "Mock message here.",
+      // "payload": "mock_tec_token"
+    }
+    const expResult = {'tec_token': null}
+    mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }))
+    const result = await getTecToken('sessionId')
+    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+    expect(mockAxios.post).toHaveBeenCalledWith('/home/tec/auth', { 'tec_id': 'sessionId' });
+    expect(result).toEqual(expResult);
+    // console.log('getTecToken testing, result ->', result)
+  });
+
 });
 
 describe('getLocales testing', () => {
