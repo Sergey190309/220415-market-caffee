@@ -12,6 +12,8 @@ import {
   LOG_IN_FAIL,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  TECH_IN_SUCCESS,
+  TECH_IN_FAIL
 } from './types';
 
 import {
@@ -55,7 +57,12 @@ describe('Auth action testing', () => {
     const mockEmail = 'test@email.com';
     const mockPassword = 'password';
 
-    describe('logInAction', () => {
+    describe('techInAction testing', () => {
+      test('siccess', () => {
+
+      });
+    });
+    describe('logInAction testing', () => {
       // afterEach(() => {});
 
       test('success', async () => {

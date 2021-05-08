@@ -7,10 +7,25 @@ import {
   SIGN_UP_FAIL,
   SIGN_UP_MODAL_CLOSED,
   LOG_OUT,
+  TECH_IN_SUCCESS,
+  TECH_IN_FAIL
 } from './types';
 import { actRespErrorHandler } from '../../utils/respErrorHandler';
 
 import axiosClient from '../../api/apiClient';
+
+export const techInAction = (techToken) => async dispatch => {
+  try {
+    dispatch({
+      type: TECH_IN_SUCCESS,
+      payload: techToken
+    })
+  } catch (error) {
+    actRespErrorHandler(error, dispatch, TECH_IN_FAIL);
+  }
+}
+
+
 
 export const logOutAction = () => {
   return {
