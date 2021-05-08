@@ -5,15 +5,12 @@ import { v4 } from 'uuid';
 export const getTechToken = async (sessionId = v4()) => {
   try {
     // const sessionId = v4()
-    const resp = await axiosClient.post('/home/tech/auth', {"tech_id": sessionId})
-    // const resp = await axiosClient.post('/global/locales', {"tec_id": sessionId})
-    // console.log('getTecToken, resp ->', resp);
-    return Promise.resolve({
-      tech_token: resp.data.payload? resp.data.payload: null
-    })
+    const resp = await axiosClient.post('/home/tech/auth', { "tech_id": sessionId })
+    // console.log('getTechToken, resp ->', resp)
+    return {techToken: resp.data.payload? resp.data.payload: null}
   } catch (error) {
-    respErrorHandler(error);
-    return error;
+  respErrorHandler(error);
+  return error;
   }
 };
 

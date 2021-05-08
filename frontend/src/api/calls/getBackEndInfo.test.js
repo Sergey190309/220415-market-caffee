@@ -10,12 +10,12 @@ describe('getTechToken testing', () => {
       "payload": "mock_tech_token"
     }
     mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockData }))
-    const expResult = {'tech_token': mockData.payload}
+    const expResult = {'techToken': mockData.payload}
+    // console.log('getTechToken testing, result ->', expResult)
     const result = await getTechToken('sessionId')
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
     expect(mockAxios.post).toHaveBeenCalledWith('/home/tech/auth', { 'tech_id': 'sessionId' });
     expect(result).toEqual(expResult);
-    // console.log('getTechToken testing, result ->', result)
   });
 
   test('fail, no tech_token (payload)', async () => {
@@ -23,13 +23,13 @@ describe('getTechToken testing', () => {
       "message": "Mock message here.",
       // "payload": "mock_tech_token"
     }
-    const expResult = {'tech_token': null}
+    const expResult = {'techToken': null}
     mockAxios.post.mockImplementationOnce(() => Promise.resolve({ data: mockData }))
     const result = await getTechToken('sessionId')
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
     expect(mockAxios.post).toHaveBeenCalledWith('/home/tech/auth', { 'tech_id': 'sessionId' });
     expect(result).toEqual(expResult);
-    // console.log('getTechToken testing, result ->', result)
+    // console.log('getTechToken testing fail, result ->', result)
   });
 
 });

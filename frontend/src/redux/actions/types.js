@@ -18,5 +18,8 @@ export const LOG_IN_MODAL_CLOSED = 'LOG_IN_MODAL_CLOSED';
 
 export const LOG_OUT = 'LOG_OUT';
 
+export const TECH_IN_SUCCESS = 'TECH_IN_SUCCESS'
+export const TECH_IN_FAIL = 'TECH_IN_FAIL'
+
 // Language switcher
 export const LNG_SWITCH = 'LNG_SWITCH';
