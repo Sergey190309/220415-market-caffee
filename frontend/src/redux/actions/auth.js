@@ -8,24 +8,22 @@ import {
   SIGN_UP_MODAL_CLOSED,
   LOG_OUT,
   TECH_IN_SUCCESS,
-  TECH_IN_FAIL
+  TECH_IN_FAIL,
 } from './types';
 import { actRespErrorHandler } from '../../utils/respErrorHandler';
 
 import axiosClient from '../../api/apiClient';
 
-export const techInAction = (techToken) => async dispatch => {
+export const techInAction = techToken => async dispatch => {
   try {
     dispatch({
       type: TECH_IN_SUCCESS,
-      payload: techToken
-    })
+      payload: techToken,
+    });
   } catch (error) {
     actRespErrorHandler(error, dispatch, TECH_IN_FAIL);
   }
-}
-
-
+};
 
 export const logOutAction = () => {
   return {
@@ -55,7 +53,7 @@ export const signUpAction = (userName, email, password) => async dispatch => {
       })
     );
     dispatch(setAlert(resp.data.message, 'info', 1000));
-    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name }
+    const _payload = { ...resp.data.payload, userName: resp.data.payload.user_name };
     delete _payload['user_name'];
     dispatch({
       type: SIGN_UP_SUCCESS,

@@ -13,7 +13,7 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
   TECH_IN_SUCCESS,
-  TECH_IN_FAIL
+  TECH_IN_FAIL,
 } from './types';
 
 import {
@@ -22,6 +22,7 @@ import {
   setLoggedInFalse,
   setSignedUpFalse,
   signUpAction,
+  techInAction,
 } from './auth';
 
 jest.mock('../reducers');
@@ -58,10 +59,22 @@ describe('Auth action testing', () => {
     const mockPassword = 'password';
 
     describe('techInAction testing', () => {
-      test('siccess', () => {
-
+      test('siccess', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          techToken: 'mockTechToken',
+        };
+        const expActions = [
+          {
+            type: TECH_IN_SUCCESS,
+            payload: mockData.techToken,
+          },
+        ];
+        await store.dispatch(techInAction(...mockData));
       });
     });
+
     describe('logInAction testing', () => {
       // afterEach(() => {});
 
@@ -236,8 +249,12 @@ describe('Auth action testing', () => {
         mockAxios.post.mockRejectedValueOnce({ response: mockData });
         await store.dispatch(signUpAction(mockUserName, mockEmail, mockPassword));
         expect(store.getActions()[0].type).toEqual(expActions[0].type);
-        expect(store.getActions()[0].payload.message).toEqual(expActions[0].payload.message);
-        expect(store.getActions()[0].payload.alertType).toEqual(expActions[0].payload.alertType);
+        expect(store.getActions()[0].payload.message).toEqual(
+          expActions[0].payload.message
+        );
+        expect(store.getActions()[0].payload.alertType).toEqual(
+          expActions[0].payload.alertType
+        );
         expect(store.getActions()[1]).toEqual(expActions[1]);
         // console.log(store.getActions()[0].type)
       });
@@ -273,7 +290,6 @@ describe('Auth action testing', () => {
         );
         expect(store.getActions()[1]).toEqual(expActions[1]);
       });
-
     });
   });
 });
