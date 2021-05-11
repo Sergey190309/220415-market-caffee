@@ -107,7 +107,7 @@ describe('Auth action testing', () => {
         // expect(store.getActions()[0]).toEqual(expActions[0]);
         // expect(store.getActions()[1]).toBeUndefined()
         expect(store.getActions()[1]).toEqual(expActions[1]);
-        // console.log('techInAction ->', store.getActions()[0])
+        console.log('techInAction ->', store.getActions()[0])
       });
 
     });
