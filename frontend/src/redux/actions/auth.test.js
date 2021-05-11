@@ -72,7 +72,11 @@ describe('Auth action testing', () => {
           },
         ];
         mockAxios.post.mockResolvedValueOnce({ data: mockData });
-        // await store.dispatch(techInAction(...mockData));
+        await store.dispatch(techInAction(mockData.techToken));
+        expect(mockAxios.post).toHaveBeenCalledTimes(1);
+        // expect(store.getActions())
+        // expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        console.log('techInAction ->', store.getActions()[0].type)
       });
     });
 
@@ -117,6 +121,7 @@ describe('Auth action testing', () => {
         await store.dispatch(logInAction(mockEmail, mockPassword));
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
         expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        // console.log('logInAction, success ->', store.getActions()[0])
         expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
         expect(store.getActions()[0].payload.alertType).toBe(
           expActions[0].payload.alertType
