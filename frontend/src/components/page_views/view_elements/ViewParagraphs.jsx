@@ -45,7 +45,7 @@ const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
     const getData = async () => {
       try {
         const results = await getValues(keys.view_id, ids);
-        console.log('useEffect identity ->', results);
+        // console.log('useEffect identity ->', results);
 
         // results.forEach(item => {
         //   item['no'] = item.identity.slice(-2);
