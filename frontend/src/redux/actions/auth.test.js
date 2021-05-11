@@ -80,7 +80,7 @@ describe('Auth action testing', () => {
         // console.log('techInAction ->', store.getActions()[1])
       });
 
-      test.only('fail, network error', async () => {
+      test('fail, network error', async () => {
         const mockState = {};
         const store = mockStore(mockState);
         const mockData = {
@@ -99,15 +99,16 @@ describe('Auth action testing', () => {
             type: TECH_IN_FAIL,
           },
         ];
-        mockAxios.post.mockResolvedValueOnce({ ...mockData });
+        mockAxios.post.mockRejectedValueOnce({ ...mockData });
         await store.dispatch(techInAction());
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
         expect(store.getActions()[0].type).toBe(expActions[0].type)
-        // expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message)
+        expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message)
+        expect(store.getActions()[0].payload.alertType).toBe(expActions[0].payload.alertType)
         // expect(store.getActions()[0]).toEqual(expActions[0]);
         // expect(store.getActions()[1]).toBeUndefined()
+        // console.log('techInAction ->', store.getActions()[0])
         expect(store.getActions()[1]).toEqual(expActions[1]);
-        console.log('techInAction ->', store.getActions()[0])
       });
 
     });

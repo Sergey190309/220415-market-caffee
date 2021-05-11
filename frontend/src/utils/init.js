@@ -9,5 +9,5 @@ import store from '../redux/store';
 // The dispatch used to emulate connect without component
 //-------------------------------------------------------------------------
 
-console.log('init ->');
+// console.log('init ->');
 store.dispatch(techInAction());

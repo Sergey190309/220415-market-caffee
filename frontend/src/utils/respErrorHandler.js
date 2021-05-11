@@ -1,7 +1,7 @@
 import { setAlert } from '../redux/actions/alert';
 
 export const actRespErrorHandler = (error, dispatch, actionType) => {
-  console.log('actRespErrorHandler -', error)
+  // console.log('actRespErrorHandler -', error)
   if (error.response) {
     dispatch(setAlert(error.response.data.message, 'error'));
     // console.log(error.response.data);
@@ -9,7 +9,7 @@ export const actRespErrorHandler = (error, dispatch, actionType) => {
     // console.log(error.response.headers);
   } else if (error.request) {
     // console.log(error.request)
-    console.log('actRespErrorHandler, error ->', error.message)
+    // console.log('actRespErrorHandler, error ->', error.message)
     dispatch(setAlert(error.message, 'error', 5000));
   } else {
     dispatch(setAlert(error.message, 'error'));
