@@ -76,7 +76,7 @@ describe('Auth action testing', () => {
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
         // expect(store.getActions())
         expect(store.getActions()[0]).toEqual(expActions[0]);
-        // expect(store.getActions()[1]).
+        expect(store.getActions()[1]).toBeUndefined()
         // console.log('techInAction ->', store.getActions()[1])
       });
 
@@ -103,8 +103,9 @@ describe('Auth action testing', () => {
         await store.dispatch(techInAction());
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
         expect(store.getActions()[0].type).toBe(expActions[0].type)
+        // expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message)
         // expect(store.getActions()[0]).toEqual(expActions[0]);
-        // expect(store.getActions()[1]).
+        // expect(store.getActions()[1]).toBeUndefined()
         console.log('techInAction ->', store.getActions()[0])
       });
 
@@ -217,8 +218,7 @@ describe('Auth action testing', () => {
         // console.log(store.getActions()[0]);
         expect(store.getActions()[0].type).toEqual(expActions[0].type);
         expect(store.getActions()[0].payload.message).toBe(expActions[0].payload.message);
-        expect(store.getActions()[0].payload.alertType).toBe(
-          expActions[0].payload.alertType
+        expect(store.getActions()[0].payload.alertType).toBe(expActions[0].payload.alertType
         );
         expect(store.getActions()[1]).toEqual(expActions[1]);
       });
