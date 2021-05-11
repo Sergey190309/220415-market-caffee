@@ -6,6 +6,8 @@ import {
   LOG_IN_FAIL,
   LOG_IN_MODAL_CLOSED,
   LOG_OUT,
+  TECH_IN_SUCCESS,
+  TECH_IN_FAIL,
 } from '../actions/types';
 
 // ----------------------> DO NOT REMOVE
@@ -16,6 +18,7 @@ import {
 // isAdmin
 // access_token
 // refresh_token
+// tech_token
 
 export const initialStore = {
   ...JSON.parse(localStorage.getItem('logInInfo')),
@@ -33,23 +36,29 @@ const auth = (store = initialStore, action) => {
     case LOG_IN_FAIL:
       localStorage.removeItem('logInInfo');
       return {
+        tech_token: store.tech_token,
         isSignedUp: false,
         isLoggedIn: false,
         // isAuthenticated: false,
         loading: false,
       };
     case SIGN_UP_SUCCESS:
-      localStorage.removeItem('logInInfo');
-      return {
-        isSignedUp: true,
-        isLoggedIn: false,
-        // isAuthenticated: false,
-        loading: false,
-      };
+    localStorage.removeItem('logInInfo');
+    return {
+      isSignedUp: true,
+      isLoggedIn: false,
+      // isAuthenticated: false,
+      loading: false,
+    };
     case SIGN_UP_MODAL_CLOSED:
       return {
         ...store,
         isSignedUp: false,
+      };
+    case TECH_IN_SUCCESS:
+      return {
+        ...store,
+        tech_token: payload,
       };
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;

@@ -4,6 +4,8 @@ import {
   LOG_IN_FAIL,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
+  TECH_IN_SUCCESS,
+  TECH_IN_FAIL
 } from '../actions/types';
 
 describe('Auth reducer testing', () => {
@@ -22,6 +24,18 @@ describe('Auth reducer testing', () => {
     isSignedUp: false,
   };
 
+  test('tech in success', () => {
+    const action = {
+      type: TECH_IN_SUCCESS,
+      payload: 'test_tech_token_value'
+    }
+    const expResultStore = {
+      ...testInitStore,
+      tech_token: action.payload
+    }
+    expect(testInitStore).not.toEqual(expResultStore);
+    console.log('tech in success ->', auth(testInitStore, action))
+  });
   test('sign up success', () => {
     const action = {
       type: SIGN_UP_SUCCESS,
@@ -52,7 +66,7 @@ describe('Auth reducer testing', () => {
 
   test('login success', () => {
     const userName = 'test User Name';
-    const email = 'Test@mail.com';
+    const email = 'test@mail.com';
     const isAdmin = true;
     const isAuthenticated = true;
     const access_token = 'test access_token';
