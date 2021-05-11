@@ -76,7 +76,7 @@ describe('Auth action testing', () => {
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
         // expect(store.getActions())
         // expect(store.getActions()[0].type).toEqual(expActions[0].type);
-        console.log('techInAction ->', store.getActions()[0].type)
+        console.log('techInAction ->', store.getActions()[0])
       });
     });
 
