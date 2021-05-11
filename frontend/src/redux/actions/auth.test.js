@@ -71,7 +71,8 @@ describe('Auth action testing', () => {
             payload: mockData.techToken,
           },
         ];
-        await store.dispatch(techInAction(...mockData));
+        mockAxios.post.mockResolvedValueOnce({ data: mockData });
+        // await store.dispatch(techInAction(...mockData));
       });
     });
 

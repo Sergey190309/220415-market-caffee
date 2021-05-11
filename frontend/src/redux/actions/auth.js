@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import { setAlert } from './alert';
 import {
   LOG_IN_SUCCESS,
@@ -14,11 +15,14 @@ import { actRespErrorHandler } from '../../utils/respErrorHandler';
 
 import axiosClient from '../../api/apiClient';
 
-export const techInAction = techToken => async dispatch => {
+// export const techInAction = async (sessionId = v4()) => {
+export const techInAction = (sessionId = v4()) => async dispatch => {
   try {
-    dispatch({
+    const resp = await axiosClient.post('/home/tech/auth', { "tech_id": sessionId })
+    // console.log('actions auth, techInAction, resp ->', resp.data.payload)
+    return({
       type: TECH_IN_SUCCESS,
-      payload: techToken,
+      payload: resp.data.payload? resp.data.payload: null,
     });
   } catch (error) {
     actRespErrorHandler(error, dispatch, TECH_IN_FAIL);
