@@ -19,7 +19,7 @@ import axiosClient from '../../api/apiClient';
 export const techInAction = (sessionId = v4()) => async dispatch => {
   try {
     const resp = await axiosClient.post('/home/tech/auth', { "tech_id": sessionId })
-    console.log('actions auth, techInAction, resp ->', resp.data.payload)
+    // console.log('actions auth, techInAction, resp ->', resp.data.payload)
     dispatch({
       type: TECH_IN_SUCCESS,
       payload: resp.data.payload? resp.data.payload: null,

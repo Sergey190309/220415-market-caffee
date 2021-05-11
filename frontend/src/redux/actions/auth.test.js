@@ -63,21 +63,51 @@ describe('Auth action testing', () => {
         const mockState = {};
         const store = mockStore(mockState);
         const mockData = {
-          techToken: 'mockTechToken',
+          payload: 'mockTechToken',
         };
         const expActions = [
           {
             type: TECH_IN_SUCCESS,
-            payload: mockData.techToken,
+            payload: mockData.payload,
           },
         ];
         mockAxios.post.mockResolvedValueOnce({ data: mockData });
-        await store.dispatch(techInAction(mockData.techToken));
+        await store.dispatch(techInAction(mockData.payload));
         expect(mockAxios.post).toHaveBeenCalledTimes(1);
         // expect(store.getActions())
-        // expect(store.getActions()[0].type).toEqual(expActions[0].type);
+        expect(store.getActions()[0]).toEqual(expActions[0]);
+        // expect(store.getActions()[1]).
+        // console.log('techInAction ->', store.getActions()[1])
+      });
+
+      test('fail, network error', async () => {
+        const mockState = {};
+        const store = mockStore(mockState);
+        const mockData = {
+          request: { readyState: 4 },
+          message: 'network error',
+        };
+        const expActions = [
+          {
+            type: SET_ALERT,
+            payload: {
+              message: 'network error',
+              alertType: 'error',
+            },
+          },
+          {
+            type: LOG_IN_FAIL,
+          },
+        ];
+        mockAxios.post.mockResolvedValueOnce({ ...mockData });
+        await store.dispatch(techInAction());
+        expect(mockAxios.post).toHaveBeenCalledTimes(1);
+        expect(store.getActions()[0].type).toBe(expActions[0].type)
+        // expect(store.getActions()[0]).toEqual(expActions[0]);
+        // expect(store.getActions()[1]).
         console.log('techInAction ->', store.getActions()[0])
       });
+
     });
 
     describe('logInAction testing', () => {
