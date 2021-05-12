@@ -5,7 +5,7 @@ from typing import Dict
 
 from flask_babelplus import Babel
 
-from application.global_init_data import GlobalVariables
+from application.global_init_data import GlobalVariables, global_constants
 
 
 def set_selectors(fbp: 'BabelBackend') -> str:
@@ -38,6 +38,8 @@ class BabelBackend(Babel):
         return self.global_variables.get_globals()
 
     def set_lng(self, lng: str) -> None:
+        if lng not in global_constants.get_PKS:
+            lng = global_constants.get_LOCALES[0].get('id')
         if lng != self.global_variables.app_globals['locale']:
             self.set_locales({'locale': lng})
 

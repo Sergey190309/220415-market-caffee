@@ -28,7 +28,7 @@ class LocalesGlobal(Resource):
         '''
         The resource give list of available locales in the system based on back-end
         info.
-        Request should contain. tech_token with valid session id.
+        Request should contains tech_token with valid session id.
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
         if not sessions.is_valid(get_jwt_identity()):

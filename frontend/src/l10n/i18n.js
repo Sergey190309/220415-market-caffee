@@ -5,6 +5,9 @@ import HttpApi from 'i18next-http-backend';
 import { axiosCommonLng } from '../api/apiClient'
 // import { setLocales } from '../redux/actions';
 
+// The function gets list of supported languages from back-end
+
+
 const supportedLngs = ['en', 'ru', 'cn'];
 const nameSpaces = ['navbar', 'login', 'signup', 'general']
 

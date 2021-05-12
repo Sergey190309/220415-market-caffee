@@ -31,11 +31,11 @@ export const initialStore = {
 };
 
 
-export const setToken = (token) => {
-  axiosCommonToken(token)
-}
+// export const setToken = (token) => {
+//   axiosCommonToken(token)
+// }
 
-const auth = (store = initialStore, action, _setToken = setToken) => {
+const auth = (store = initialStore, action, setToken = axiosCommonToken) => {
   const { type, payload } = action;
   switch (type) {
     case LOG_OUT:
@@ -43,7 +43,7 @@ const auth = (store = initialStore, action, _setToken = setToken) => {
     case LOG_IN_FAIL:
       localStorage.removeItem('logInInfo');
       // const state = store.getState();
-      _setToken(store.tech_token)
+      setToken(store.tech_token)
       return {
         tech_token: store.tech_token,
         isSignedUp: false,
@@ -65,13 +65,14 @@ const auth = (store = initialStore, action, _setToken = setToken) => {
         isSignedUp: false,
       };
     case TECH_IN_SUCCESS:
-      _setToken(payload)
+      setToken(payload)
       return {
         ...store,
         tech_token: payload,
       };
     case TECH_IN_FAIL:
       localStorage.removeItem('logInInfo');
+      setToken(null)
       return {
         isSignedUp: false,
         isLoggedIn: false,
@@ -79,7 +80,7 @@ const auth = (store = initialStore, action, _setToken = setToken) => {
       };
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;
-      axiosCommonToken(payload.access_token)
+      setToken(payload.access_token)
       localStorage.setItem('logInInfo', JSON.stringify(payload));
       return {
         ...store,

@@ -11,8 +11,8 @@ class GlobalConstants():
 
     def __init__(self):
         self._LOCALES = [
+            {'id': 'en', 'remarks': 'General english.'},
             {'id': 'ru', 'remarks': 'Общий русский.'},
-            {'id': 'en', 'remarks': 'General english.'}
         ]
         self._VIEWS = [
             {

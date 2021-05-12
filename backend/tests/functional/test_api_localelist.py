@@ -28,7 +28,8 @@ def test_contents_view_list_get_no_token(client):
 @pytest.mark.parametrize(
     'lng, test_word', [
         ('en', 'Something went wrong'),
-        ('ru', 'Что-то пошло не так')
+        ('ru', 'Что-то пошло не так'),
+        ('sljsdjaglsj', 'Something went wrong'),
     ]
 )
 # @pytest.mark.active
@@ -57,11 +58,12 @@ def test_locale_list_get_user(
 @pytest.mark.parametrize(
     'lng, test_word', [
         ('en', 'database'),
-        ('ru', 'нашей базе')
+        ('ru', 'нашей базе'),
+        ('sljsdjaglsj', 'database'),
     ]
 )
 # @pytest.mark.active
-def test_users_list_get_admin(
+def test_locale_list_get_tech_token(
         client,
         access_token, user_instance,
         lng, test_word,

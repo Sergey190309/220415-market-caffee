@@ -2,6 +2,16 @@ import axiosClient from '../apiClient';
 import { respErrorHandler } from '../../utils/respErrorHandler';
 import { v4 } from 'uuid';
 
+export const getLngList = async () => {
+  try {
+    const resp = await axiosClient.get('/global/locales')
+    console.log(resp.data)
+  } catch (error) {
+    respErrorHandler(error);
+    return error;
+  }
+}
+
 export const getTechToken = async (sessionId = v4()) => {
   try {
     // const sessionId = v4()

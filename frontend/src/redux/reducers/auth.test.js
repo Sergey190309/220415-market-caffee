@@ -1,3 +1,4 @@
+// import mockAxios from '../../api/apiClient';
 import auth from './auth';
 import {
   LOG_IN_SUCCESS,
@@ -5,7 +6,8 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
   TECH_IN_SUCCESS,
-  TECH_IN_FAIL
+  TECH_IN_FAIL,
+  LOG_OUT,
 } from '../actions/types';
 
 describe('Auth reducer testing', () => {
@@ -24,21 +26,41 @@ describe('Auth reducer testing', () => {
     isSignedUp: false,
   };
 
+  test('log out', () => {
+    const mockSetToken = jest.fn()
+    const action = {
+      type: LOG_OUT,
+    };
+    const expResult = {
+      // isAuthenticated: false,
+      loading: false,
+      isSignedUp: false,
+      isLoggedIn: false,
+    };
+    expect(testInitStore).not.toEqual(expResult);
+    // console.log(auth(testInitStore, action));
+    expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
+    expect(mockSetToken).toHaveBeenCalledTimes(1);
+  });
   test('tech in success', () => {
+    const mockSetToken = jest.fn()
     const action = {
       type: TECH_IN_SUCCESS,
-      payload: 'test_tech_token_value'
-    }
+      payload: 'test_tech_token_value',
+    };
     const expResultStore = {
       ...testInitStore,
-      tech_token: action.payload
-    }
+      tech_token: action.payload,
+    };
     expect(testInitStore).not.toEqual(expResultStore);
-    expect(auth(testInitStore, action)).toEqual(expResultStore);
+    expect(auth(testInitStore, action, mockSetToken)).toEqual(expResultStore);
+    expect(mockSetToken).toHaveBeenCalledTimes(1);
+    expect(mockSetToken).toHaveBeenCalledWith(action.payload);
     // console.log('tech in success ->', action.payload)
     // console.log('tech in success ->', auth(testInitStore, action))
   });
   test('tech in fail', () => {
+    const mockSetToken = jest.fn()
     const action = {
       type: TECH_IN_FAIL,
     };
@@ -50,8 +72,9 @@ describe('Auth reducer testing', () => {
     };
     expect(testInitStore).not.toEqual(expResult);
     // console.log(auth(testInitStore, action));
-    expect(auth(testInitStore, action)).toEqual(expResult);
-
+    expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
+    expect(mockSetToken).toHaveBeenCalledTimes(1);
+    expect(mockSetToken).toHaveBeenCalledWith(null);
   });
   test('sign up success', () => {
     const action = {
@@ -68,6 +91,7 @@ describe('Auth reducer testing', () => {
   });
 
   test('sign up fail', () => {
+    const mockSetToken = jest.fn()
     const action = {
       type: SIGN_UP_FAIL,
     };
@@ -78,10 +102,14 @@ describe('Auth reducer testing', () => {
       isLoggedIn: false,
     };
     expect(testInitStore).not.toEqual(expResult);
-    expect(auth(testInitStore, action)).toEqual(expResult);
+    expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
+    expect(mockSetToken).toHaveBeenCalledTimes(1);
+    // expect(mockSetToken).toHaveBeenCalledWith(action.payload);
+    // console.log('tech in fail ->', mockSetToken.mock.calls)
   });
 
   test('login success', () => {
+    const mockSetToken = jest.fn()
     const userName = 'test User Name';
     const email = 'test@mail.com';
     const isAdmin = true;
@@ -114,11 +142,13 @@ describe('Auth reducer testing', () => {
       isLoggedIn: true,
     };
     expect(testInitStore).not.toEqual(expResult);
-    expect(auth(testInitStore, action)).toEqual(expResult);
-    // console.log(result);
+    expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
+    expect(mockSetToken).toHaveBeenCalledTimes(1);
+    expect(mockSetToken).toHaveBeenCalledWith(action.payload.access_token);
   });
 
   test('log in fail', () => {
+    const mockSetToken = jest.fn()
     const action = {
       type: LOG_IN_FAIL,
     };
@@ -130,6 +160,10 @@ describe('Auth reducer testing', () => {
     };
     expect(testInitStore).not.toEqual(expResult);
     // console.log(auth(testInitStore, action));
-    expect(auth(testInitStore, action)).toEqual(expResult);
+    expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
+    expect(mockSetToken).toHaveBeenCalledTimes(1);
+    // expect(mockSetToken).toHaveBeenCalledWith(action.payload);
   });
+
+
 });
