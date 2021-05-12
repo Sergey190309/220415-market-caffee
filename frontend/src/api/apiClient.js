@@ -12,6 +12,7 @@ const axiosClient = axios.create({
   },
 });
 
+
 export const axiosCommonLng = lng => {
   axiosClient.defaults.headers.common['Accept-Language'] = lng;
 };

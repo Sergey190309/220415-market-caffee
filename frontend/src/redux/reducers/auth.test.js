@@ -34,7 +34,24 @@ describe('Auth reducer testing', () => {
       tech_token: action.payload
     }
     expect(testInitStore).not.toEqual(expResultStore);
-    console.log('tech in success ->', auth(testInitStore, action))
+    expect(auth(testInitStore, action)).toEqual(expResultStore);
+    // console.log('tech in success ->', action.payload)
+    // console.log('tech in success ->', auth(testInitStore, action))
+  });
+  test('tech in fail', () => {
+    const action = {
+      type: TECH_IN_FAIL,
+    };
+    const expResult = {
+      // isAuthenticated: false,
+      loading: false,
+      isSignedUp: false,
+      isLoggedIn: false,
+    };
+    expect(testInitStore).not.toEqual(expResult);
+    // console.log(auth(testInitStore, action));
+    expect(auth(testInitStore, action)).toEqual(expResult);
+
   });
   test('sign up success', () => {
     const action = {
