@@ -3,9 +3,6 @@ import React from 'react';
 import ViewParagraphs from './ViewParagraphs';
 import {
   render,
-// connectedLinkedRender,
-// screen,
-  // waitFor,
 } from '../../../testUtils/modifiedRenderReactTesting';
 
 describe('View paragraphs', () => {
