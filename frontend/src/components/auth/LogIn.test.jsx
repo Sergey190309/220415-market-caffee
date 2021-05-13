@@ -39,7 +39,7 @@ describe('LogIn component testing', () => {
     });
   });
 
-  describe('component testing', () => {
+  describe.skip('component testing', () => {
     describe('apiance', () => {
       test('it exists and has all elements', () => {
         connectedLinkedRender(<LogIn {...testProps} />);
