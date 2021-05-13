@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import i18next from 'i18next';
@@ -13,11 +13,19 @@ const onChange = (value, setActive) => {
   i18next.changeLanguage(value);
 };
 
-export const Language = ({ onChange, setLngAction }) => {
+export const Language = ({ loading, onChange, setLngAction }) => {
   const [active, setActive] = useState(i18next.language);
-  const [available] = useState(
-    i18next.options.supportedLngs.filter(value => value !== 'cimode')
-  );
+  const [available, setAvailable] = useState([]);
+
+  // console.log('Language, loading ->', loading)
+
+  useEffect(() => {
+    console.log('Language, useEffect, loading ->', loading)
+    if (!loading) {
+        // setAvailable(i18next.options.supportedLngs);
+        setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
+      }
+    }, [loading]);
 
   let localeOptions = [];
   available.forEach(lang => {
@@ -34,6 +42,7 @@ export const Language = ({ onChange, setLngAction }) => {
     // lngSwitch(value);
     axiosCommonLng(value);
     setLngAction(value);
+    // setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
     onChange(value, setActive);
   };
 
@@ -51,17 +60,19 @@ export const Language = ({ onChange, setLngAction }) => {
 };
 
 Language.defaultProps = {
+  loading: true,
   onChange: onChange,
   setLngAction: setLngAction,
 };
 
 Language.propTypes = {
+  loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   setLngAction: PropTypes.func.isRequired,
 };
 
-// const mapStateToProps = state => ({
-//   locales: state.availableLocales,
-// });
+const mapStateToProps = state => ({
+  loading: state.logIn.loading,
+});
 
-export default connect(null, { setLngAction })(Language);
+export default connect(mapStateToProps, { setLngAction })(Language);

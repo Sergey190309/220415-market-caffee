@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
 
 import { viewHeaderColor, viewSegmentColor } from '../../../utils/colors';
-import ViewHeader from '../view_elements/ViewHeader';
-import ViewParagraphs from '../view_elements/ViewParagraphs';
+// import ViewHeader from '../view_elements/ViewHeader';
+// import ViewParagraphs from '../view_elements/ViewParagraphs';
 // import ViewPictures from '../view_elements/ViewPictures';
 
 export const Landing = ({ language }) => {

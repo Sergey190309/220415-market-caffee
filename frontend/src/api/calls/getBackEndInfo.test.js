@@ -1,6 +1,11 @@
 import mockAxios from '../apiClient';
 import { getContents, getTechToken, getLngList } from './getBackEndInfo';
 
+describe('getLngList testing', () => {
+  test('success', async () => {
+    console.log('getLngList testing, success, result ->', await getLngList())
+  });
+});
 
 describe('getTechToken testing', () => {
 

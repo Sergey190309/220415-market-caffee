@@ -2,10 +2,13 @@ import axiosClient from '../apiClient';
 import { respErrorHandler } from '../../utils/respErrorHandler';
 import { v4 } from 'uuid';
 
-export const getLngList = async () => {
+export const getLngList = async (tech_token) => {
   try {
+    // console.log('getLngList axios->', axiosClient.defaults.headers.common)
     const resp = await axiosClient.get('/global/locales')
-    console.log(resp.data)
+    const result = resp.data.payload.map(item => item.id)
+    // console.log('getLngList axios->', result)
+    return result
   } catch (error) {
     respErrorHandler(error);
     return error;

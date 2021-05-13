@@ -6,6 +6,7 @@ from application.modules.dbs_global import dbs_global
 from application.modules.flm_global import flm_global
 from application.modules.fbp import fbp
 from application.modules.api_global import api_global
+from application.modules.crs_global import crs_global
 from application.errors.register import register_error_handler
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
@@ -31,6 +32,8 @@ def create_app(config='default_config.py'):
     flm_global.init_app(app, dbs_global)
     # Global api endpoint
     api_global.init_app(app)
+    # flask_cors.
+    crs_global.init_app(app)
     # Flask_BabelPlus
     fbp.init_app(app)
     # Global error handling
