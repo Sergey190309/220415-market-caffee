@@ -12,7 +12,7 @@ import device from '../redux/reducers/device'
 import logIn from '../redux/reducers/auth'
 import lng from '../redux/reducers/lng'
 
-// import { rootReducer } from '../redux/reducers';
+// import rootReducer from '../redux/reducers';
 const rootReducer = combineReducers({
   alerts,
   device,
