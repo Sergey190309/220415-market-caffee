@@ -1,8 +1,8 @@
 import React from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
-import { render, screen } from '../../../testUtils/modifiedRenderReactTesting';
+// import { render, screen } from '../../../testUtils/modifiedRenderReactTesting';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
+// import userEvent from '@testing-library/user-event';
 
 import { Landing } from './Landing';
 
