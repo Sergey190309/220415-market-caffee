@@ -31,6 +31,6 @@ describe('View paragraphs', () => {
   test('it should exists', () => {
     render(<ViewParagraphs {...testProps} />);
 
-    // console.log('testing, testProps ->', testProps)
+    console.log('testing, testProps ->', testProps)
   });
 });
