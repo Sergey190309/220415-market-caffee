@@ -1,12 +1,9 @@
 import React from 'react';
 // import axios from 'axios'
 
-import {
-  render,
-  // connectedLinkedRender,
-  screen,
-  waitFor,
-} from '../../../testUtils/modifiedRenderReactTesting';
+// import { render, screen, waitFor } from '../../../testUtils/modifiedRenderReactTesting';
+import { render, screen, waitFor } from '@testing-library/react';
+
 import '@testing-library/jest-dom';
 // import userEvent from '@testing-library/user-event';
 import renderer from 'react-test-renderer';
