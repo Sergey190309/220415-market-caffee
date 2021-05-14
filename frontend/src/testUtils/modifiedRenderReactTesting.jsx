@@ -4,21 +4,21 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { render } from '@testing-library/react';
 
-import { createStore, combineReducers } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import alerts from '../redux/reducers/alert'
-import device from '../redux/reducers/device'
-import logIn from '../redux/reducers/auth'
-import lng from '../redux/reducers/lng'
+// import alerts from '../redux/reducers/alert'
+// import device from '../redux/reducers/device'
+// import logIn from '../redux/reducers/auth'
+// import lng from '../redux/reducers/lng'
 
-// import rootReducer from '../redux/reducers';
-const rootReducer = combineReducers({
-  alerts,
-  device,
-  logIn,
-  lng
-});
+import rootReducer from '../redux/reducers';
+// const rootReducer = combineReducers({
+//   alerts,
+//   device,
+//   logIn,
+//   lng
+// });
 
 const connectedRender = (
   ui,

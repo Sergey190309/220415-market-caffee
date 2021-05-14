@@ -18,14 +18,14 @@ import { finishLoading } from '../redux/actions/auth';
 //   console.log('init, directly ->', await getTechToken())
 // })()
 
-export const initI18next = (supportedLngs = ['en', 'ru', 'cn']) => {
+export const initI18next = (supportedLngs = ['en', 'ru']) => {
   // const supportedLngs = ['en', 'ru', 'cn'];
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
   i18next
     .use(initReactI18next)
     .use(HttpApi)
     .init({
-      lng: 'ru',
+      lng: 'en',
       supportedLngs: supportedLngs,
       ns: nameSpaces,
       defaultNS: 'general',
@@ -60,7 +60,7 @@ export const setSupportedLngs = async () => {
   const result =  await getLngList()
   // console.log('i18n, setSupportedLngs result from back-end ->', result);
   i18next.options.supportedLngs = [...result, 'cimode']
-  store.dispatch(finishLoading())
+  // store.dispatch(finishLoading())
 };
 
 export default i18next;

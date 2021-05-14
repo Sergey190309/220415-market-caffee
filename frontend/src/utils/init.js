@@ -1,4 +1,4 @@
-import { techInAction } from '../redux/actions/auth';
+import { techInAction, startLoading } from '../redux/actions/tech';
 import store from '../redux/store';
 // import { getTechToken } from '../api/calls/getBackEndInfo';
 
@@ -10,4 +10,5 @@ import store from '../redux/store';
 //-------------------------------------------------------------------------
 
 // console.log('init ->');
+store.dispatch(startLoading());
 store.dispatch(techInAction());

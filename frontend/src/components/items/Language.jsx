@@ -20,7 +20,7 @@ export const Language = ({ loading, onChange, setLngAction }) => {
   // console.log('Language, loading ->', loading)
 
   useEffect(() => {
-    console.log('Language, useEffect, loading ->', loading)
+    // console.log('Language, useEffect, loading ->', loading)
     if (!loading) {
         // setAvailable(i18next.options.supportedLngs);
         setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));

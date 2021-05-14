@@ -2,15 +2,11 @@ import React from 'react';
 // import {
 //   Icon,
 // } from 'semantic-ui-react';
-import {
-  // render,
-  screen,
-  // cleanup,
-  connectedLinkedRender,
-  waitFor,
-  // fireEvent,
-  // waitFor
-} from '../../testUtils/modifiedRenderReactTesting';
+// import {
+//   screen,
+//   connectedLinkedRender,
+//   waitFor,
+// } from '../../testUtils/modifiedRenderReactTesting';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { SignUp, formStructure, signUpSchema } from './SignUp';
@@ -18,7 +14,7 @@ import { useTranslation } from '../../../__mock__/react-i18next';
 // import { string } from 'yup/lib/locale';
 // import { exact } from 'prop-types';
 
-describe('SignUp form testing', () => {
+describe.skip('SignUp form testing', () => {
   const initValues = {
     userName: 'sa',
     email: 'sa6702@gmail.com',

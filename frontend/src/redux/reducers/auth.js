@@ -6,13 +6,13 @@ import {
   LOG_IN_FAIL,
   LOG_IN_MODAL_CLOSED,
   LOG_OUT,
-  TECH_IN_SUCCESS,
-  TECH_IN_FAIL,
-  FINISH_LOADING,
+  // TECH_IN_SUCCESS,
+  // TECH_IN_FAIL,
+  // FINISH_LOADING,
 } from '../actions/types';
 // import store from '../store'
 import { axiosCommonToken } from '../../api/apiClient';
-import { setSupportedLngs } from '../../l10n/i18n';
+// import { setSupportedLngs } from '../../l10n/i18n';
 
 // ----------------------> DO NOT REMOVE
 // store.LogIn keys are stated below and stored in localStorage:
@@ -27,7 +27,7 @@ import { setSupportedLngs } from '../../l10n/i18n';
 export const initialStore = {
   ...JSON.parse(localStorage.getItem('logInInfo')),
   // isAuthenticated: null,
-  loading: true,
+  // loading: true,
   isSignedUp: false,
   isLoggedIn: false,
 };
@@ -40,7 +40,7 @@ const auth = (
   store = initialStore,
   action,
   setToken = axiosCommonToken,
-  setLngs = setSupportedLngs
+  // setLngs = setSupportedLngs
 ) => {
   const { type, payload } = action;
   switch (type) {
@@ -57,12 +57,6 @@ const auth = (
         // isAuthenticated: false,
         loading: false,
       };
-    case FINISH_LOADING:
-      console.log('finishLoading reducer ->')
-      return {
-        ...store,
-        loading: false,
-      }
     case SIGN_UP_SUCCESS:
       localStorage.removeItem('logInInfo');
       return {
@@ -76,23 +70,6 @@ const auth = (
         ...store,
         isSignedUp: false,
       };
-    case TECH_IN_SUCCESS:
-      setToken(payload);
-      setLngs();
-      // console.log('reducers, auth, loading ->', store.loading);
-      return {
-        ...store,
-        // loading: false,
-        tech_token: payload,
-      };
-    case TECH_IN_FAIL:
-      localStorage.removeItem('logInInfo');
-      setToken(null);
-      return {
-        isSignedUp: false,
-        isLoggedIn: false,
-        loading: false,
-      };
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;
       setToken(payload.access_token);
@@ -100,6 +77,7 @@ const auth = (
       return {
         ...store,
         ...payload,
+        // isAuthenticated: false,
         loading: false,
         isLoggedIn: true,
       };

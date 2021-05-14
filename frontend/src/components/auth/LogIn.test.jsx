@@ -1,20 +1,16 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
-import {
-  // render,
-  screen,
-  // cleanup,
-  connectedLinkedRender,
-  waitFor,
-  // fireEvent,
-  // waitFor
-} from '../../testUtils/modifiedRenderReactTesting';
+// import {
+//   screen,
+//   connectedLinkedRender,
+//   waitFor,
+// } from '../../testUtils/modifiedRenderReactTesting';
 import userEvent from '@testing-library/user-event';
 
 import { LogIn, logInSchema, formStructure } from './LogIn';
 import { useTranslation } from '../../../__mock__/react-i18next';
 
-describe('LogIn component testing', () => {
+describe.skip('LogIn component testing', () => {
   const initValues = {
     email: 'a@agatha-ng.com',
     password: 'qwerty',
