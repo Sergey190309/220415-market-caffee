@@ -1,5 +1,6 @@
 import device from './device';
 import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from '../actions/types';
+// it seems it works
 
 describe('Set device configuration', () => {
   let initState, action_to_medium, action_to_small, action_modal_open, action_modal_close;

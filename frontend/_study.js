@@ -1,7 +1,12 @@
-const source = {userName: "sa", email: "sa6702@gmail.com", password: "qwerty", password2: "qwerty"}
+function* generatorExample() {
+  yield 'first';
+  yield 'second';
+}
+// Our function returns a generator object which returns a series of values.
+const genObject = generatorExample();
 
-const {userName, password2, ...otherProps} = source
 
-const result = {user_name: userName, ...otherProps}
 
-console.log(result)
+console.log(genObject.next()); // first call returns { value: 'first', done: false }
+console.log(genObject.next()); // second call returns { value: 'second', done: false }
+console.log(genObject.next()); // third call returns { value: undefined, done: true }
