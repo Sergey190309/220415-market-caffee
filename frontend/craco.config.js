@@ -7,7 +7,7 @@ module.exports = {
       globals: {
         CONFIG: true,
       },
-      setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+      setupFilesAfterEnv: ['jest-extended', '<rootDir>/src/setupTests.js'],
       // "coveragePathIgnorePatterns": [...defaults.coveragePathIgnorePatterns, '<rootDir>/src/index.js'],
       // "snapshotSerializers": ["enzyme-to-json/serializer"],
       verbose: true,
