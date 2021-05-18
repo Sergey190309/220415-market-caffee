@@ -11,6 +11,7 @@ import {
 import { setAlertData } from '../actions/alert';
 import axiosClient from '../../api/apiClient';
 import { actRespErrorHandler, respErrorHandler } from '../../utils/respErrorHandler';
+import { alertActions } from '../actions/alert';
 
 // function that makes the api request and returns a Promise for response
 const logInCall = logInData => {
@@ -36,17 +37,24 @@ export function* logInFetch(action) {
     const userData = yield call(logInCall, action.payload);
     // console.log('logInFetch userData ->', userData.data.message);
     yield put({ type: LOG_IN_SUCCESS, payload: userData.data.payload });
-    yield put({
-      type: START_ALERT,
-      payload: setAlertData({
+    yield put(
+      alertActions({
         message: userData.data.message,
         alertType: 'info',
-        timeout: 3000,
-      }),
-    });
+        timeout: 3000
+      })
+    );
+    // yield put({
+    //   type: START_ALERT,
+    //   payload: setAlertData({
+    //     message: userData.data.message,
+    //     alertType: 'info',
+    //     timeout: 3000,
+    //   }),
+    // });
   } catch (error) {
     yield put({ type: LOG_IN_FAIL, payload: error });
-    const errorMessage = actRespErrorHandler(error)
+    const errorMessage = actRespErrorHandler(error);
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
     yield put({
@@ -54,9 +62,9 @@ export function* logInFetch(action) {
       payload: setAlertData({
         message: errorMessage,
         alertType: 'error',
-        timeout: 5000
-      })
-    })
+        timeout: 5000,
+      }),
+    });
   }
 }
 
@@ -85,7 +93,7 @@ function* signUpFetch(action) {
     yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
   } catch (error) {
     yield put({ type: SIGN_UP_FAIL, payload: error });
-    const errorMessage = actRespErrorHandler(error)
+    const errorMessage = actRespErrorHandler(error);
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
     yield put({
@@ -93,9 +101,9 @@ function* signUpFetch(action) {
       payload: setAlertData({
         message: errorMessage,
         alertType: 'error',
-        timeout: 5000
-      })
-    })
+        timeout: 5000,
+      }),
+    });
   }
 }
 
