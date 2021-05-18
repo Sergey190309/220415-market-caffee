@@ -1,5 +1,5 @@
 import {setAlertData, alertActions} from './alert'
-import { REMOVE_ALERT, START_ALERT } from '../actions/types';
+import { START_ALERT } from '../actions/types';
 
 describe('alert action testing', () => {
   test('setAlertData', () => {
@@ -12,6 +12,25 @@ describe('alert action testing', () => {
     const { id, ...otherProps } = result
 
     expect(otherProps).toEqual(mockIncomeData);
-    expect(id).not.toBeUndefined();
+    expect(id).toBeString()
+    // expect(id).not.toBeUndefined();
   });
+
+  test('alertActions', () => {
+    const mockAlertData = {
+      message: 'message',
+      alertType: 'info',
+      timeout: 3000
+    }
+    const result = alertActions(mockAlertData)
+    const { type, payload } = result
+    const { id, ...otherProps } = payload
+
+    expect(type).toEqual(START_ALERT);
+    expect(otherProps).toEqual(mockAlertData);
+    expect(id).toBeString()
+    // expect(id).not.toBeUndefined();
+  });
+
+
 });

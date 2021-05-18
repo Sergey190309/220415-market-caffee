@@ -8,7 +8,7 @@ export const setAlertData = (incomeData) => {
 }
 
 export const alertActions = alertData => {
-  console.log('actions, alert alertData->', alertData);
+  // console.log('actions, alert alertData->', alertData);
   // const id = v4();
   return {
     type: START_ALERT,

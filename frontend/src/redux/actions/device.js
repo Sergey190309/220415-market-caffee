@@ -2,8 +2,8 @@ import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from './types';
 
 // Device sizes could be small (width less then 780) - phone; medium (1080) - tablet; big - normal PC
 
-const smallDeviceLimit = 780; // That's limit where device deemed small (side bar)
-const mediumDeviceLimit = 1080; // That's limit where device deemed small (side bar)
+export const smallDeviceLimit = 780; // That's limit where device deemed small (side bar)
+export const mediumDeviceLimit = 1080; // That's limit where device deemed small (side bar)
 
 export const setDeviceSize = width =>  {
   // console.log('actions setDeviceSize width', width)
