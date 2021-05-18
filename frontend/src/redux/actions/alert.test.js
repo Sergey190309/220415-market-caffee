@@ -12,5 +12,6 @@ describe('alert action testing', () => {
     const { id, ...otherProps } = result
 
     expect(otherProps).toEqual(mockIncomeData);
+    expect(id).not.toBeUndefined();
   });
 });
