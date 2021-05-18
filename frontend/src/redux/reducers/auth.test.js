@@ -42,7 +42,7 @@ describe('Auth reducer testing', () => {
     expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
     expect(mockSetToken).toHaveBeenCalledTimes(1);
   });
-  test('tech in success', () => {
+  test.skip('tech in success', () => {
     const mockSetToken = jest.fn()
     const action = {
       type: TECH_IN_SUCCESS,
@@ -59,7 +59,7 @@ describe('Auth reducer testing', () => {
     // console.log('tech in success ->', action.payload)
     // console.log('tech in success ->', auth(testInitStore, action))
   });
-  test('tech in fail', () => {
+  test.skip('tech in fail', () => {
     const mockSetToken = jest.fn()
     const action = {
       type: TECH_IN_FAIL,

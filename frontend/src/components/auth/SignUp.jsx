@@ -57,7 +57,6 @@ export const SignUp = ({
   setSignedUpFalse,
 }) => {
   useEffect(() => {
-
     if (isSignedUp) {
       setModalClosed();
       setSignedUpFalse();
@@ -66,10 +65,12 @@ export const SignUp = ({
 
   const { t } = useTranslation('signup');
 
-  const onSubmit = async (formData, { setSubmitting }) => {
-    const { userName, email, password } = formData;
-    // console.log(email, password);
-    await signUpAction(userName, email, password);
+  const onSubmit = (formData, { setSubmitting }) => {
+    const {userName, password2, ...otherProps} = formData
+    const signUpData = {user_name: userName, ...otherProps}
+    // const { userName, email, password } = formData;
+    // console.log('SignUp, signUpData ->', signUpData);
+    signUpAction(signUpData);
     setSubmitting(false);
   };
 

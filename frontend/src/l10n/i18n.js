@@ -5,8 +5,8 @@ import HttpApi from 'i18next-http-backend';
 // import store from '../redux/store';
 import { axiosCommonLng } from '../api/apiClient';
 import { getLngList } from '../api/calls/getBackEndInfo';
-import store from '../redux/store'
-import { finishLoading } from '../redux/actions/auth';
+// import store from '../redux/store'
+// import { finishLoading } from '../redux/actions/auth';
 
 // const state = store.getState();
 // console.log('i18n ->', state.logIn);

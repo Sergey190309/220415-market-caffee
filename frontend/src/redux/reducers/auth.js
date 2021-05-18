@@ -2,6 +2,7 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
   SIGN_UP_MODAL_CLOSED,
+  LOG_IN_START,
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
   LOG_IN_MODAL_CLOSED,
@@ -27,7 +28,7 @@ import { axiosCommonToken } from '../../api/apiClient';
 export const initialStore = {
   ...JSON.parse(localStorage.getItem('logInInfo')),
   // isAuthenticated: null,
-  // loading: true,
+  loading: false,
   isSignedUp: false,
   isLoggedIn: false,
 };
@@ -43,6 +44,7 @@ const auth = (
   // setLngs = setSupportedLngs
 ) => {
   const { type, payload } = action;
+  // console.log('reducers -', action)
   switch (type) {
     case LOG_OUT:
     case SIGN_UP_FAIL:
@@ -70,6 +72,12 @@ const auth = (
         ...store,
         isSignedUp: false,
       };
+    case LOG_IN_START:
+      // console.log('login reducer ->')
+      return {
+        ...store,
+        loading: true
+      }
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;
       setToken(payload.access_token);

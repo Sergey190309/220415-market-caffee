@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Menu, Container, Popup } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
 
-import Logo from '../page_views/various/Logo'
+import Logo from '../page_views/various/Logo';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
@@ -40,6 +40,7 @@ export const NavBar = ({
   isAuthenticated,
   isAdmin,
   logOutAction,
+  // alertActions,
 }) => {
   const [activeItem, setActiveItem] = useState(initActive);
   let history = useHistory();
@@ -50,6 +51,9 @@ export const NavBar = ({
   const color = 'teal';
 
   const _ClickHandler = async (e, { name }) => {
+    // console.log('NavBar _ClickHandler, name ->', name);
+    // console.log('NavBar _ClickHandler, alert ->', alert);
+    // alertActions({ message: 'alert', alertType: 'info', timeout: 3000 });
     clickHandler(name, setActiveItem, setModalOpened, isAuthenticated, logOutAction);
     // console.log(await swapiGetter(1));
     history.push('/');
@@ -142,6 +146,7 @@ NavBar.defaultProps = {
   isAuthenticated: false,
   isAdmin: false,
   logOutAction: logOutAction,
+  // alertActions: alertActions,
 };
 
 NavBar.propTypes = {
@@ -151,6 +156,7 @@ NavBar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   logOutAction: PropTypes.func.isRequired,
+  // alertActions: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -158,4 +164,10 @@ const mapStateToProps = state => ({
   isAdmin: state.logIn.isAdmin,
 });
 
-export default connect(mapStateToProps, { setModalOpened, logOutAction })(NavBar);
+const mapDispatchToProps = dispatch => ({
+  // alertActions: alertData => dispatch(alertActions(alertData)),
+  setModalOpened: kindOfModal => dispatch(setModalOpened(kindOfModal)),
+  logOutAction: () => dispatch(logOutAction()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

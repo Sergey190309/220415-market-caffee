@@ -6,6 +6,7 @@ import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-reac
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
+// import {LOG_IN_START} from '../../redux/actions/types'
 
 import {
   authPositiveColor,
@@ -54,9 +55,10 @@ export const LogIn = ({
   const { t } = useTranslation('login');
 
   const onSubmit = (formData, { setSubmitting }) => {
-    const { email, password } = formData;
-    // console.log(email, password);
-    logInAction(email, password);
+    // const { email, password } = formData;
+    // console.log('components, auth, logIn, fromData ->', formData);
+    // logInStart()
+    logInAction(formData);
     setSubmitting(false);
   };
 
@@ -193,10 +195,18 @@ const mapStateToProps = state => ({
   isLoggedIn: state.logIn.isLoggedIn,
 });
 
+const mapDispatchToProps = dispatch => ({
+  setModalOpened: kindOfModal => dispatch(setModalOpened(kindOfModal)),
+  setModalClosed: () => dispatch(setModalClosed()),
+  logInAction: (email, password) => dispatch(logInAction(email, password)),
+  setLoggedInFalse: () => dispatch(setLoggedInFalse()),
+});
+
 // export default LogIn;
-export default connect(mapStateToProps, {
-  setModalOpened,
-  setModalClosed,
-  logInAction,
-  setLoggedInFalse,
-})(LogIn);
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+// export default connect(mapStateToProps, {
+//   setModalOpened,
+//   setModalClosed,
+//   logInAction,
+//   setLoggedInFalse,
+// })(LogIn);

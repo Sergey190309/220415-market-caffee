@@ -10,5 +10,5 @@ import store from '../redux/store';
 //-------------------------------------------------------------------------
 
 // console.log('init ->');
-store.dispatch(startLoading());
-store.dispatch(techInAction());
+// store.dispatch(startLoading());
+// store.dispatch(techInAction());

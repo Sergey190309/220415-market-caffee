@@ -1,4 +1,4 @@
-import { SET_ALERT, REMOVE_ALERT } from '../actions/types';
+import { REMOVE_ALERT, START_ALERT } from '../actions/types';
 import alertReducer from './alert';
 
 describe('alertReducer', () => {
@@ -7,19 +7,29 @@ describe('alertReducer', () => {
   });
 
   test('should set alert', () => {
-    const action = {
-      type: SET_ALERT,
-      payload: {
+    const mockState = [
+      {
         message: 'Test message',
         alertType: 'Alert type',
         id: 'test id',
+      }
+    ]
+    const action = {
+      type: START_ALERT,
+      payload: {
+        message: 'Test message 2',
+        alertType: 'Alert type 2',
+        id: 'test id 2',
       },
     };
-    expect(alertReducer(undefined, action)[0]).toEqual(action.payload);
+    const expState = [...mockState, action.payload]
+    // console.log(expState)
+    // console.log(alertReducer(mockState, action))
+    expect(alertReducer(mockState, action)).toEqual(expState);
   });
 
   test('it should remove alert', () => {
-    const state = [
+    const mockState = [
       {
         message: 'Test message',
         alertType: 'Alert type',
@@ -35,7 +45,7 @@ describe('alertReducer', () => {
       type: REMOVE_ALERT,
       payload: 'test id',
     };
-    expect(alertReducer(state, action)).toEqual([
+    expect(alertReducer(mockState, action)).toEqual([
       {
         message: 'Test message 2',
         alertType: 'Alert type 2',

@@ -1,6 +1,7 @@
-export { setAlert } from './alert';
+export { alertActions } from './alert';
 export { setDeviceSize, setModalOpened, setModalClosed } from './device';
 export {
+  // logInStart,
   logInAction,
   setLoggedInFalse,
   signUpAction,

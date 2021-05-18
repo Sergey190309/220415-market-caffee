@@ -1,24 +1,13 @@
-import { setAlert } from '../redux/actions/alert';
+// import { alertActions } from '../redux/actions/alert';
 
-export const actRespErrorHandler = (error, dispatch, actionType) => {
+export const actRespErrorHandler = (error) => {
   // console.log('actRespErrorHandler -', error)
+
   if (error.response) {
-    dispatch(setAlert(error.response.data.message, 'error'));
-    // console.log(error.response.data);
-    // console.log(error.response.status);
-    // console.log(error.response.headers);
-  } else if (error.request) {
-    // console.log(error.request)
-    // console.log('actRespErrorHandler, error ->', error.message)
-    dispatch(setAlert(error.message, 'error', 5000));
+    return `${error.response.data.message} ${error.response.status}`
   } else {
-    dispatch(setAlert(error.message, 'error'));
-    // console.log('respErrorHandler', error.request);
+    return error.message
   }
-  // console.log(error.config)
-  dispatch({
-    type: actionType,
-  });
 };
 
 export const respErrorHandler = (error) => {

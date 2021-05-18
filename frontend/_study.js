@@ -1,8 +1,7 @@
-const source = [
-  {id: "en", remarks: "General english."},
-  {id: "ru", remarks: "Общий русский."}
-]
+const source = {userName: "sa", email: "sa6702@gmail.com", password: "qwerty", password2: "qwerty"}
 
-const result = source.map(item => item.id)
+const {userName, password2, ...otherProps} = source
+
+const result = {user_name: userName, ...otherProps}
 
 console.log(result)

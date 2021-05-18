@@ -6,13 +6,14 @@ import { connect } from 'react-redux';
 // export const Alert = ({alerts}) => {
 export const Alert = ({ alerts }) => {
   // console.log('alerts')
-  // console.log(alerts)
+  // console.log('Alert components, alerts ->', alerts)
   let color;
   return (
     // <h1>alert</h1>
     alerts !== null &&
     alerts.length > 0 &&
     alerts.map(alert => {
+      // console.log('Alert components, alertType ->', alert.alertType)
       switch (alert.alertType) {
         case 'error':
           color = 'orange';
