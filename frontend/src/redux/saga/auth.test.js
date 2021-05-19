@@ -53,7 +53,7 @@ describe('auth testing', () => {
     test('success logIn', async () => {
       mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
       const initialAction = {
-        type: LOG_IN_START,
+        // type: LOG_IN_START,
         payload: mockLogInData,
       };
       const dispatched = await recordSaga(logInFetch, initialAction);

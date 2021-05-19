@@ -1,8 +1,8 @@
 // import { takeEvery } from 'redux-saga/effects';
 
-// import {START_ALERT} from '../actions/types'
+import {START_ALERT} from '../actions/types'
 // import { alertActions } from '../actions/alert';
-import { alertSaga } from './alert';
+import { alertSaga, alertWorker } from './alert';
 import { recordSaga } from '../../testUtils';
 import { delayAlertHiding } from './alert';
 
@@ -13,13 +13,14 @@ describe('Whole Saga testing', () => {
     jest.resetAllMocks();
   });
 
-  test('alertActions testing', () => {
+  test('alertWorker testing', async () => {
     delayAlertHiding.mockImplementation(() => Promise.resolve());
     const initialAction = {
-      payload: { timeout: 1000 },
+      type: START_ALERT,
+      payload: { timeout: 10 },
     };
-    const dispatched = recordSaga(alertSaga, initialAction);
-    console.log('alertActions testing, dispatched ->', dispatched);
+    // const dispatched = await recordSaga(alertWorker, initialAction);
+    // console.log('alertActions testing, dispatched ->', dispatched);
     // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
   });
 });
