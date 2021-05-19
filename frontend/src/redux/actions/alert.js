@@ -16,17 +16,3 @@ export const alertActions = alertData => {
     payload: setAlertData(alertData),
   };
 };
-
-// export const setAlert = (message, alertType, timeout = 3000) => dispatch => {
-//   console.log('alert ->', message)
-//   const id = v4();
-//   dispatch({
-//     type: SET_ALERT,
-//     payload: {
-//       message,
-//       alertType,
-//       id,
-//     },
-//   });
-//   setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), timeout);
-// };
