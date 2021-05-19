@@ -7,7 +7,7 @@ import {
   REMOVE_ALERT,
 } from '../actions/types';
 
-export const delay = ms => new Promise(res => setTimeout(res, ms));
+export const delayAlertHiding = ms => new Promise(res => setTimeout(res, ms));
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* alertSaga() {
   // console.log('alertSaga wathcher ->')
@@ -17,7 +17,7 @@ export function* alertSaga() {
 // worker saga: makes the api call when watcher saga sees the action
 export function* alertWorker(action) {
   // console.log('alertSaga worker ->', action.payload);
-  yield call(delay, action.payload.timeout);
+  yield call(delayAlertHiding, action.payload.timeout);
   yield put({
     type: REMOVE_ALERT,
     payload: action.payload.id,

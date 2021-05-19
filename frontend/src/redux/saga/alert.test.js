@@ -1,21 +1,23 @@
-import { takeEvery } from 'redux-saga/effects';
+// import { takeEvery } from 'redux-saga/effects';
 
-import {START_ALERT} from '../actions/types'
-import { alertSaga, delay } from './alert';
+// import {START_ALERT} from '../actions/types'
+import { recordSaga } from '../../testUtils';
+import { delayAlertHiding } from './alert';
 
-describe('Alert saga tesing', () => {
-  describe('Normal func testing', () => {
-    test('delay func testing', () => {
-      console.log('delay func testing, result ->', delay(1000))
-    });
+
+
+jest.mock('./alert', () => ({ delayAlertHiding: jest.fn() }));
+
+describe('Whole Saga testing', () => {
+
+  beforeAll(() => {
+    jest.resetAllMocks();
   });
 
-  describe('Saga testing', () => {
-    test('it should wait every start alert', () => {
-      // console.log(genObject.next().value)
-      // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
-    });
-
+  test('it should wait every start alert', () => {
+    // delayAlertHiding.mockImplementation(() => Promise.resolve());
+    // const dispatched = recordSaga()
+    // console.log(genObject.next().value)
+    // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
   });
-
 });

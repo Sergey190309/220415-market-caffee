@@ -32,7 +32,6 @@ export function* logInSaga() {
 
 // worker saga: makes the api call when watcher saga sees the action
 export function* logInFetch(action) {
-  // export function* logInFetch(action, _actRespErrorHandler = actRespErrorHandler) {
   // console.log('saga, logInFetch ->', action);
   try {
     const userData = yield call(logInCall, action.payload);
