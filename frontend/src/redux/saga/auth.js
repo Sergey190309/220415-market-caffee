@@ -44,27 +44,26 @@ export function* logInFetch(action) {
         timeout: 3000
       })
     );
-    // yield put({
-    //   type: START_ALERT,
-    //   payload: setAlertData({
-    //     message: userData.data.message,
-    //     alertType: 'info',
-    //     timeout: 3000,
-    //   }),
-    // });
   } catch (error) {
     yield put({ type: LOG_IN_FAIL, payload: error });
     const errorMessage = actRespErrorHandler(error);
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
-    yield put({
-      type: START_ALERT,
-      payload: setAlertData({
+    yield put(
+      alertActions({
         message: errorMessage,
         alertType: 'error',
-        timeout: 5000,
-      }),
-    });
+        timeout: 5000
+      })
+    )
+    // yield put({
+    //   type: START_ALERT,
+    //   payload: setAlertData({
+    //     message: errorMessage,
+    //     alertType: 'error',
+    //     timeout: 5000,
+    //   }),
+    // });
   }
 }
 

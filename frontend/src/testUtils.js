@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { runSaga } from 'redux-saga';
+
 import { BrowserRouter } from 'react-router-dom';
 
 import { render } from '@testing-library/react';
@@ -12,14 +14,10 @@ import { Provider } from 'react-redux';
 // import logIn from '../redux/reducers/auth'
 // import lng from '../redux/reducers/lng'
 
-import rootReducer from '../redux/reducers';
-// const rootReducer = combineReducers({
-//   alerts,
-//   device,
-//   logIn,
-//   lng
-// });
-
+import rootReducer from './redux/reducers'
+// ===================================================
+// The block about rendering connected components.
+// ---------------------------------------------------
 const connectedRender = (
   ui,
   { initialState, store = createStore(rootReducer, initialState), ...renderOptions } = {}
@@ -51,7 +49,29 @@ const connectedLinkedRender = (
   return render(ui, { wrapper: Wrapper, ...renderOptions });
 };
 
+
 // const linkedRender = (ui) => {}
 
 export * from '@testing-library/react';
 export { connectedRender, linkedRender, connectedLinkedRender };
+// ===================================================
+
+// ===================================================
+// Saga action recoder.
+// ---------------------------------------------------
+
+export const recordSaga = async (saga, initialAction) => {
+  const dispatched = [];
+
+  await runSaga(
+    {
+      dispatch: action => dispatched.push(action),
+    },
+    saga,
+    initialAction
+  ).done;
+
+  return dispatched;
+};
+
+// ===================================================
