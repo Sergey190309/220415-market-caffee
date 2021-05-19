@@ -2,11 +2,12 @@
 
 import {START_ALERT} from '../actions/types'
 // import { alertActions } from '../actions/alert';
+// import alertWorker from './alert';
 import { alertSaga, alertWorker } from './alert';
 import { recordSaga } from '../../testUtils';
-import { delayAlertHiding } from './alert';
+import { delaySomthing } from './sagasUtils';
 
-jest.mock('./alert', () => ({ delayAlertHiding: jest.fn() }));
+jest.mock('./sagasUtils', () => ({ delaySomthing: jest.fn() }));
 
 describe('Whole Saga testing', () => {
   beforeAll(() => {
@@ -14,12 +15,13 @@ describe('Whole Saga testing', () => {
   });
 
   test('alertWorker testing', async () => {
-    delayAlertHiding.mockImplementation(() => Promise.resolve());
+    // delayAlertHiding.mockImplementation(() => Promise.resolve());
     const initialAction = {
       type: START_ALERT,
       payload: { timeout: 10 },
     };
-    // const dispatched = await recordSaga(alertWorker, initialAction);
+    console.log('alert testing, alertWorker ->', alertWorker)
+    const dispatched = await recordSaga(alertWorker, initialAction);
     // console.log('alertActions testing, dispatched ->', dispatched);
     // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
   });

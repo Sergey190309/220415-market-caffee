@@ -56,6 +56,7 @@ describe('auth testing', () => {
         // type: LOG_IN_START,
         payload: mockLogInData,
       };
+      console.log('auth testing, logInFetch ->', logInFetch)
       const dispatched = await recordSaga(logInFetch, initialAction);
       expect(mockAxios.post).toHaveBeenCalledTimes(1);
       expect(mockAxios.post.mock.calls[0][0]).toBe('/users/login');

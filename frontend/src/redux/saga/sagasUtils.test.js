@@ -1,12 +1,11 @@
-import { delayAlertHiding } from './alert';
-
+import { delaySomthing } from './sagasUtils';
 
 describe('Normal func testing', () => {
   test('delayAlertHiding func testing', async () => {
-    await expect(delayAlertHiding(5)).toResolve();
-    await expect(delayAlertHiding(5)).not.toReject();
+    await expect(delaySomthing(5)).toResolve();
+    await expect(delaySomthing(5)).not.toReject();
   });
-})
+});
 
 // jest.mock('./alert', () => ({ delayAlertHiding: jest.fn() }));
 

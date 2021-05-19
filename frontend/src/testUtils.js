@@ -62,6 +62,7 @@ export { connectedRender, linkedRender, connectedLinkedRender };
 
 export const recordSaga = async (saga, initialAction) => {
   const dispatched = [];
+  // console.log(saga)
 
   await runSaga(
     {
