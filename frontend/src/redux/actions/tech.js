@@ -7,7 +7,7 @@ import {
 } from './types';
 
 import axiosClient from '../../api/apiClient';
-import { actRespErrorHandler } from '../../utils/respErrorHandler';
+import { actRespErrorMessage } from '../../utils/respErrorHandler';
 
 // export const techInAction = async (sessionId = v4()) => {
 export const techInAction =
@@ -21,7 +21,7 @@ export const techInAction =
         payload: resp.data.payload ? resp.data.payload : null,
       });
     } catch (error) {
-      actRespErrorHandler(error, dispatch, TECH_IN_FAIL);
+      actRespErrorMessage(error, dispatch, TECH_IN_FAIL);
     }
   };
 

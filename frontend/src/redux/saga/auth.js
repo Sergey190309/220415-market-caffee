@@ -10,7 +10,7 @@ import {
 } from '../actions/types';
 import { setAlertData } from '../actions/alert';
 import axiosClient from '../../api/apiClient';
-import { actRespErrorHandler, respErrorHandler } from '../../utils/respErrorHandler';
+import { actRespErrorMessage } from '../../utils/respErrorHandler';
 import { alertActions } from '../actions/alert';
 
 // function that makes the api request and returns a Promise for response
@@ -32,6 +32,7 @@ export function* logInSaga() {
 
 // worker saga: makes the api call when watcher saga sees the action
 export function* logInFetch(action) {
+  // export function* logInFetch(action, _actRespErrorHandler = actRespErrorHandler) {
   // console.log('saga, logInFetch ->', action);
   try {
     const userData = yield call(logInCall, action.payload);
@@ -41,21 +42,21 @@ export function* logInFetch(action) {
       alertActions({
         message: userData.data.message,
         alertType: 'info',
-        timeout: 3000
+        timeout: 3000,
       })
     );
   } catch (error) {
     yield put({ type: LOG_IN_FAIL, payload: error });
-    const errorMessage = actRespErrorHandler(error);
+    const errorMessage = actRespErrorMessage(error);
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
     yield put(
       alertActions({
         message: errorMessage,
         alertType: 'error',
-        timeout: 5000
+        timeout: 5000,
       })
-    )
+    );
     // yield put({
     //   type: START_ALERT,
     //   payload: setAlertData({
@@ -92,7 +93,7 @@ function* signUpFetch(action) {
     yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
   } catch (error) {
     yield put({ type: SIGN_UP_FAIL, payload: error });
-    const errorMessage = actRespErrorHandler(error);
+    const errorMessage = actRespErrorMessage(error);
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
     yield put({

@@ -1,6 +1,6 @@
 // import { alertActions } from '../redux/actions/alert';
 
-export const actRespErrorHandler = (error) => {
+export const actRespErrorMessage = (error) => {
   // console.log('actRespErrorHandler -', error)
 
   if (error.response) {
