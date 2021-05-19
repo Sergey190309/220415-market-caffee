@@ -15,14 +15,19 @@ describe('Whole Saga testing', () => {
   });
 
   test('alertWorker testing', async () => {
-    // delayAlertHiding.mockImplementation(() => Promise.resolve());
+    delaySomthing.mockImplementation(() => Promise.resolve());
     const initialAction = {
-      type: START_ALERT,
-      payload: { timeout: 10 },
+      // type: START_ALERT,
+      payload: { id: 'mockId' },
     };
-    console.log('alert testing, alertWorker ->', alertWorker)
+    // console.log('alert testing, alertWorker ->', alertWorker)
     const dispatched = await recordSaga(alertWorker, initialAction);
-    // console.log('alertActions testing, dispatched ->', dispatched);
+    expect(dispatched[0]).toEqual({
+      type: 'REMOVE_ALERT',
+      payload: initialAction.payload.id
+    });
+    console.log('alertActions testing, dispatched ->', dispatched);
+
     // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
   });
 });
