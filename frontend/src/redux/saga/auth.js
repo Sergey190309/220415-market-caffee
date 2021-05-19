@@ -57,14 +57,6 @@ export function* logInFetch(action) {
         timeout: 5000,
       })
     );
-    // yield put({
-    //   type: START_ALERT,
-    //   payload: setAlertData({
-    //     message: errorMessage,
-    //     alertType: 'error',
-    //     timeout: 5000,
-    //   }),
-    // });
   }
 }
 

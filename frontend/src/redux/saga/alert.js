@@ -8,16 +8,6 @@ import {
 } from '../actions/types';
 
 export const delay = ms => new Promise(res => setTimeout(res, ms));
-
-// export const showAlert = (alertData) => {
-//   const id = v4()
-//   const payloadData = {...alertData, id: id}
-//   return ({
-//     type: START_ALERT,
-//     payload: payloadData
-//   })
-// }
-
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* alertSaga() {
   // console.log('alertSaga wathcher ->')
@@ -33,17 +23,3 @@ export function* alertWorker(action) {
     payload: action.payload.id,
   });
 }
-
-// const setAlert = (message, alertType, timeout = 3000) => {
-//   const id = v4();
-//   // console.log(message)
-//   return ({
-//     type: SET_ALERT,
-//     payload: {
-//       message,
-//       alertType,
-//       id,
-//     },
-//   });
-//   setTimeout(() => ({ type: REMOVE_ALERT, payload: id }), timeout);
-// }

@@ -1,15 +1,21 @@
 import { takeEvery } from 'redux-saga/effects';
 
 import {START_ALERT} from '../actions/types'
-import { alertSaga, alertWorker } from './alert';
+import { alertSaga, delay } from './alert';
 
 describe('Alert saga tesing', () => {
-  const genObject = alertSaga()
+  describe('Normal func testing', () => {
+    test('delay func testing', () => {
+      console.log('delay func testing, result ->', delay(1000))
+    });
+  });
 
-  test('it should wait every start alert', () => {
-    console.log(genObject.next().value)
-    // console.log(genObject.next().value)
-    // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
+  describe('Saga testing', () => {
+    test('it should wait every start alert', () => {
+      // console.log(genObject.next().value)
+      // expect(genObject.next().value).toEqual(takeEvery(START_ALERT, ));
+    });
+
   });
 
 });

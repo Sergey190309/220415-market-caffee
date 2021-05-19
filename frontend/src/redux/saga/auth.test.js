@@ -2,7 +2,7 @@ import mockAxios from '../../api/apiClient';
 
 import { takeEvery } from 'redux-saga/effects';
 // import { runSaga } from 'redux-saga';
-import { LOG_IN_START, LOG_IN_SUCCESS, START_ALERT } from '../actions/types';
+import { LOG_IN_FAIL, LOG_IN_START, LOG_IN_SUCCESS, START_ALERT } from '../actions/types';
 import { logInSaga, logInFetch } from './auth';
 import { recordSaga } from '../../testUtils';
 import { actRespErrorMessage } from '../../utils/respErrorHandler';
@@ -76,39 +76,33 @@ describe('auth testing', () => {
       });
       // console.log(dispatched)
     });
-    test('fail logIn, wrong password', async () => {
+    test('fail logIn, not found', async () => {
       mockAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }));
       const initialAction = {
         type: LOG_IN_START,
         payload: mockLogInData,
       };
-      actRespErrorMessage.mockImplementation(() => ({
-
-      }))
+      actRespErrorMessage.mockImplementation(
+        () => `${mockRejectData.response.data.message} ${mockRejectData.response.status}`
+      );
       const dispatched = await recordSaga(logInFetch, initialAction);
-      // expect(mockAxios.post).toHaveBeenCalledTimes(1);
-      // expect(mockAxios.post.mock.calls[0][0]).toBe('/users/login');
-      // expect(mockAxios.post.mock.calls[0][1]).toEqual(mockLogInData);
-
-      // console.log(mockAxios.post.mock.calls[0][0])
-
-      // expect(dispatched[0]).toEqual(
-      //   {
-      //     type: LOG_IN_SUCCESS,
-      //     payload: mockRejectData.payload
-      //   }
-      // );
-      // const { type, payload } = dispatched[1]
-      // expect(type).toBe(START_ALERT);
-      // const { id, ...otherProps } = payload
-      // expect(id).toBeString()
-      // expect(otherProps).toEqual({
-      //   message: mockRejectData.message,
-      //   alertType: 'info',
-      //   timeout: 3000
-      // });
-      console.log('function ->', actRespErrorMessage.mock.calls[0][0].data);
-      console.log('dispatched ->', dispatched);
+      expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
+      expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
+      expect(dispatched[0]).toEqual({
+        type: LOG_IN_FAIL,
+        payload: { data: mockRejectData },
+      });
+      const { type, payload } = dispatched[1]
+      expect(type).toBe(START_ALERT);
+      const { id, ...otherProps } = payload
+      expect(otherProps).toEqual({
+        message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
+        alertType: 'error',
+        timeout: 5000,
+      });
+      // console.log('function, calls ->', actRespErrorMessage.mock.calls[0][0].data);
+      // console.log('function, results ->', actRespErrorMessage.mock.results[0]);
+      // console.log('dispatched ->', dispatched[1]);
     });
   });
 });

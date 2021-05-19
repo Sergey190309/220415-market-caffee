@@ -3,7 +3,7 @@ import { getContents, getTechToken, getLngList } from './getBackEndInfo';
 
 describe('getLngList testing', () => {
   test('success', async () => {
-    console.log('getLngList testing, success, result ->', await getLngList())
+    // console.log('getLngList testing, success, result ->', await getLngList())
   });
 });
 
