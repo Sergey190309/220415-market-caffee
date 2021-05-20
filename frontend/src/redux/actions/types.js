@@ -24,12 +24,15 @@ export const LOG_OUT = 'LOG_OUT';
 // Applicatin technical items - initiation, etc (tech)
 export const START_LOADING = 'START_LOADING';
 
+export const START_TECH_IN = 'START_TECH_IN';
 export const TECH_IN_SUCCESS = 'TECH_IN_SUCCESS';
 export const TECH_IN_FAIL = 'TECH_IN_FAIL';
 
+export const START_LNGS_IN = 'START_LNGS_IN';
 export const LNGS_IN_SUCCESS = 'LNGS_IN_SUCCESS';
 export const LNGS_IN_FAIL = 'LNGS_IN_FAIL';
 
+export const START_I18N = 'START_I18N';
 export const I18N_SUCCESS = 'I18N_SUCCESS';
 export const I18N_FAIL = 'I18N_FAIL';
 
