@@ -2,11 +2,11 @@ import React from 'react';
 // import {
 //   Icon,
 // } from 'semantic-ui-react';
-// import {
-//   screen,
-//   connectedLinkedRender,
-//   waitFor,
-// } from '../../testUtils/modifiedRenderReactTesting';
+import {
+  screen,
+  connectedLinkedRender,
+  waitFor,
+} from '../../testUtils'
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { SignUp, formStructure, signUpSchema } from './SignUp';
@@ -14,7 +14,7 @@ import { useTranslation } from '../../../__mock__/react-i18next';
 // import { string } from 'yup/lib/locale';
 // import { exact } from 'prop-types';
 
-describe.skip('SignUp form testing', () => {
+describe('SignUp form testing', () => {
   const initValues = {
     userName: 'sa',
     email: 'sa6702@gmail.com',
@@ -108,9 +108,10 @@ describe.skip('SignUp form testing', () => {
         userEvent.click(signUpButton);
         await waitFor(() => {
           expect(activeProps.signUpAction).toHaveBeenCalledTimes(1);
-          expect(activeProps.signUpAction.mock.calls[0][0]).toEqual(
-            activeValues.userName, activeValues.email, activeValues.password
-          );
+          const {userName, password2, ...otherProps} = activeValues
+          const sentValues = {...otherProps, user_name: userName}
+          // console.log('buttong sign up, activeValues ->', sentValues)
+          expect(activeProps.signUpAction.mock.calls[0][0]).toEqual(sentValues);
         });
       });
 

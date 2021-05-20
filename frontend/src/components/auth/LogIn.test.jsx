@@ -1,10 +1,10 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
-// import {
-//   screen,
-//   connectedLinkedRender,
-//   waitFor,
-// } from '../../testUtils/modifiedRenderReactTesting';
+import {
+  screen,
+  connectedLinkedRender,
+  waitFor,
+} from '../../testUtils'
 import userEvent from '@testing-library/user-event';
 
 import { LogIn, logInSchema, formStructure } from './LogIn';
@@ -35,7 +35,7 @@ describe('LogIn component testing', () => {
     });
   });
 
-  describe.skip('component testing', () => {
+  describe('component testing', () => {
     describe('apiance', () => {
       test('it exists and has all elements', () => {
         connectedLinkedRender(<LogIn {...testProps} />);
@@ -92,22 +92,13 @@ describe('LogIn component testing', () => {
 
     describe('buttons behavior', () => {
       test('login', async () => {
-        // const initValues = {
-        //   email: 'test@mail.test',
-        //   password: 'password',
-        // };
-        // const activeProps = {
-        //   ...testProps,
-        //   initValues: initValues,
-        // };
         connectedLinkedRender(<LogIn {...testProps} />);
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
           expect(testProps.logInAction).toHaveBeenCalledTimes(1);
           // console.log(testProps.logInAction.mock.calls[0][0])
-          expect(testProps.logInAction.mock.calls[0][0]).toEqual(initValues.email);
-          expect(testProps.logInAction.mock.calls[0][1]).toEqual(initValues.password);
+          expect(testProps.logInAction.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
