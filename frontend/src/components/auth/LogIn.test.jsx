@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 import { LogIn, logInSchema, formStructure } from './LogIn';
 import { useTranslation } from '../../../__mock__/react-i18next';
 
-describe.skip('LogIn component testing', () => {
+describe('LogIn component testing', () => {
   const initValues = {
     email: 'a@agatha-ng.com',
     password: 'qwerty',

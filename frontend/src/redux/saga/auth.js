@@ -76,7 +76,7 @@ export function* signUpSaga() {
 }
 
 // worker saga: makes the api call when watcher saga sees the action
-function* signUpFetch(action) {
+export function* signUpFetch(action) {
   try {
     const userData = yield call(signUpCall, action.payload);
     // console.log('logInFetch userData ->', userData.data.payload);
