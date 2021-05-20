@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
 import mockAxios from '../../api/apiClient';
-import { TECH_IN_FAIL, TECH_IN_SUCCESS } from '../actions/types';
+import { START_TECH_IN, TECH_IN_FAIL, TECH_IN_SUCCESS } from '../actions/types';
 import { recordSaga } from '../../testUtils';
-import { techInFetch } from './tech';
+import { startInitWorker, techInFetch } from './tech';
 
 describe('Tech saga testing', () => {
   const mockTechInData = v4();
@@ -23,6 +23,15 @@ describe('Tech saga testing', () => {
 
   beforeAll(() => {
     jest.resetAllMocks();
+  });
+
+  test('start init saga', async () => {
+    const dispatched = await recordSaga(startInitWorker)
+    expect(dispatched.length).toBe(1);
+    const { type, payload } = dispatched[0]
+    expect(type).toBe(START_TECH_IN);
+    expect(payload).toBeString()
+    // console.log('start init saga, dispatched ->', dispatched)
   });
 
   test('tech in success', async () => {
