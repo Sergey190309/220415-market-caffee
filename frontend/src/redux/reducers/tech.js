@@ -45,7 +45,6 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
       setToken(payload);
       localStorage.setItem('tech_token', payload);
       // fire action to load language list
-
       return {
         ...store,
         tech_loaded: true,
@@ -82,7 +81,7 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
         i18n_loaded: false,
       };
     default:
-      return { ...store };
+      return store;
   }
 };
 
