@@ -1,13 +1,13 @@
-import { v4 } from 'uuid';
-import { START_LOADING } from './types';
+// import { v4 } from 'uuid';
+import { START_INIT_LOADING } from './types';
 
 // import axiosClient from '../../api/apiClient';
 // import { actRespErrorMessage } from '../../utils/respErrorHandler';
 
-export const startLoading = (sessionId = v4()) => {
-  // console.log('finish loading ->')
+export const startLoading = () => {
+  // console.log('startLoading ->', sessionId)
   return {
-    type: START_LOADING,
-    payload: sessionId,
+    type: START_INIT_LOADING,
+    // payload: sessionId,
   };
 };

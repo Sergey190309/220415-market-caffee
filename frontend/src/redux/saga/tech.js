@@ -1,12 +1,23 @@
+import {v4}from 'uuid'
 import { call, put, takeEvery } from 'redux-saga/effects';
 
 import axiosClient from '../../api/apiClient'
-import { START_LOADING, TECH_IN_FAIL, TECH_IN_SUCCESS } from '../actions/types';
+import { START_INIT_LOADING, START_TECH_IN, TECH_IN_FAIL, TECH_IN_SUCCESS } from '../actions/types';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
-export function* techInSaga() {
+export function* startInitSaga() {
   // console.log('logInSaga wathcher ->')
-  yield takeEvery(START_LOADING, techInFetch);
+  yield takeEvery(START_INIT_LOADING, startInitWorker);
+}
+
+
+export function* startInitWorker() {
+  yield put({type: START_TECH_IN, payload: v4()})
+}
+
+// watcher
+export function* techInSaga() {
+  yield takeEvery(START_TECH_IN, techInFetch)
 }
 
 export function* techInFetch(action) {

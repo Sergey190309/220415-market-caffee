@@ -1,7 +1,8 @@
 import tech from './tech';
 import {
-  FINISH_LOADING,
-  START_LOADING,
+  FINISH_INIT_LOADING,
+  START_INIT_LOADING,
+  START_TECH_IN,
   TECH_IN_FAIL,
   TECH_IN_SUCCESS,
 } from '../actions/types';
@@ -18,9 +19,9 @@ describe('tech reducer testing', () => {
 
     techToken: null,
   };
-  test('start loading', () => {
+  test('start init loading', () => {
     const testAction = {
-      type: START_LOADING,
+      type: START_INIT_LOADING,
     };
     const expStore = {
       ...generalInitStore,
@@ -32,9 +33,9 @@ describe('tech reducer testing', () => {
     expect(tech(generalInitStore, testAction)).toEqual(expStore);
   });
 
-  test('finish loading', () => {
+  test('finish init loading', () => {
     const testAction = {
-      type: FINISH_LOADING,
+      type: FINISH_INIT_LOADING,
     };
     const initStore = {
       ...generalInitStore,
@@ -47,6 +48,24 @@ describe('tech reducer testing', () => {
     expect(initStore).not.toEqual(expStore);
     expect(tech(initStore, testAction)).toEqual(expStore);
   });
+
+  test('start tech in', () => {
+    const testAction = {
+      type: START_TECH_IN,
+    };
+    const initStore = {
+      ...generalInitStore,
+      techLoaded: true,
+      loading: true,
+    };
+    const expStore = {
+      ...initStore,
+      techLoaded: false
+    };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
+
 
   test('tech in token success', () => {
     const testAction = {

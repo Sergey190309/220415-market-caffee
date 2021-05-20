@@ -1,12 +1,13 @@
 import {
-  START_LOADING,
-  FINISH_LOADING,
+  START_INIT_LOADING,
+  FINISH_INIT_LOADING,
   TECH_IN_SUCCESS,
   TECH_IN_FAIL,
   LNGS_IN_SUCCESS,
   LNGS_IN_FAIL,
   I18N_SUCCESS,
   I18N_FAIL,
+  START_TECH_IN,
 } from '../actions/types';
 import { axiosCommonToken } from '../../api/apiClient';
 
@@ -30,17 +31,22 @@ export const initialStore = {
 const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
   const { type, payload } = action;
   switch (type) {
-    case START_LOADING:
+    case START_INIT_LOADING:
       return {
         ...store,
         loading: true,
       };
-    case FINISH_LOADING:
+    case FINISH_INIT_LOADING:
       return {
         ...store,
         loading: false,
         // loaded: true,
       };
+    case START_TECH_IN:
+      return {
+        ...store,
+        techLoaded: false
+      }
     case TECH_IN_SUCCESS:
       setToken(payload);
       localStorage.setItem('techToken', payload);
