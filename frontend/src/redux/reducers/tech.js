@@ -12,19 +12,19 @@ import { axiosCommonToken } from '../../api/apiClient';
 
 // ----------------------> DO NOT REMOVE
 // loading: bool
-// tech_loaded: bool
-// lngs_loaded: bool
-// i18n_loaded: bool
+// techLoaded: bool
+// lngsLoaded: bool
+// i18nLoaded: bool
 // stored in localStorage:
-// tech_token: str
+// techToken: str
 
 export const initialStore = {
   loading: false,
-  tech_loaded: false,
-  lngs_loaded: false,
-  i18n_loaded: false,
+  techLoaded: false,
+  lngsLoaded: false,
+  i18nLoaded: false,
 
-  tech_token: null,
+  techToken: null,
 };
 
 const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
@@ -43,42 +43,42 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
       };
     case TECH_IN_SUCCESS:
       setToken(payload);
-      localStorage.setItem('tech_token', payload);
+      localStorage.setItem('techToken', payload);
       // fire action to load language list
       return {
         ...store,
-        tech_loaded: true,
-        tech_token: payload,
+        techLoaded: true,
+        techToken: payload,
       };
     case TECH_IN_FAIL:
-      localStorage.removeItem('tech_token');
+      localStorage.removeItem('techToken');
       return {
         ...store,
-        tech_loaded: false,
-        tech_token: null,
+        techLoaded: false,
+        techToken: null,
       };
     case LNGS_IN_SUCCESS:
       // fire action to initiate  i18n
 
       return {
         ...store,
-        lngs_loaded: true,
+        lngsLoaded: true,
       };
     case LNGS_IN_FAIL:
       return {
         ...store,
-        lngs_loaded: false,
+        lngsLoaded: false,
       };
     case I18N_SUCCESS:
       return {
         ...store,
-        i18n_loaded: true,
+        i18nLoaded: true,
         loading: false,
       };
     case I18N_FAIL:
       return {
         ...store,
-        i18n_loaded: false,
+        i18nLoaded: false,
       };
     default:
       return store;
