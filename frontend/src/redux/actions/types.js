@@ -23,7 +23,6 @@ export const LOG_OUT = 'LOG_OUT';
 
 // Applicatin technical items - initiation, etc (tech)
 export const START_LOADING = 'START_LOADING';
-export const FINISH_LOADING = 'FINISH_LOADING';
 
 export const TECH_IN_SUCCESS = 'TECH_IN_SUCCESS';
 export const TECH_IN_FAIL = 'TECH_IN_FAIL';
@@ -33,6 +32,8 @@ export const LNGS_IN_FAIL = 'LNGS_IN_FAIL';
 
 export const I18N_SUCCESS = 'I18N_SUCCESS';
 export const I18N_FAIL = 'I18N_FAIL';
+
+export const FINISH_LOADING = 'FINISH_LOADING';
 
 // Language switcher
 export const LNG_SWITCH = 'LNG_SWITCH';
