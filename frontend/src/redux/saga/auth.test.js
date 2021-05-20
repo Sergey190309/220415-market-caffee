@@ -1,24 +1,14 @@
 import mockAxios from '../../api/apiClient';
 
-import { takeEvery } from 'redux-saga/effects';
 // import { runSaga } from 'redux-saga';
-import { LOG_IN_FAIL, LOG_IN_START, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../actions/types';
-import { logInSaga, logInFetch, signUpFetch } from './auth';
+import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../actions/types';
+import { logInFetch, signUpFetch } from './auth';
 import { recordSaga } from '../../testUtils';
 import { actRespErrorMessage } from '../../utils/respErrorHandler';
 
 jest.mock('../../utils/respErrorHandler', () => ({ actRespErrorMessage: jest.fn() }));
 
 describe('auth testing', () => {
-  describe('logIn step by step tesing', () => {
-    const genObject = logInSaga();
-    test('should catch every LOG_IN_START call', () => {
-      // console.log(genObject.next().value)
-      expect(genObject.next().value).toEqual(takeEvery(LOG_IN_START, logInFetch));
-      // console.log(genObject.next().value)
-      expect(genObject.next().done).toBeTruthy();
-    });
-  });
   describe('log In whole saga testing', () => {
     const mockLogInData = {
       email: 'mock@email.test',
@@ -54,12 +44,13 @@ describe('auth testing', () => {
         // type: LOG_IN_START,
         payload: mockLogInData,
       };
-      console.log('success logIn, logInFetch ->', logInFetch)
+      // console.log('success logIn, logInFetch ->', logInFetch)
       const dispatched = await recordSaga(logInFetch, initialAction);
       expect(mockAxios.post).toHaveBeenCalledTimes(1);
       expect(mockAxios.post.mock.calls[0][0]).toBe('/users/login');
       expect(mockAxios.post.mock.calls[0][1]).toEqual(mockLogInData);
       // console.log(mockAxios.post.mock.calls[0][0])
+      expect(dispatched.length).toBe(2);
       expect(dispatched[0]).toEqual({
         type: LOG_IN_SUCCESS,
         payload: mockResolveData.payload,

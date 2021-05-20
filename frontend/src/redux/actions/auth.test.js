@@ -1,7 +1,7 @@
-import mockAxios from '../../api/apiClient';
+// import mockAxios from '../../api/apiClient';
 
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+// import configureMockStore from 'redux-mock-store';
+// import thunk from 'redux-thunk';
 
 import {
   LOG_IN_MODAL_CLOSED,
@@ -17,7 +17,7 @@ import {
   setLoggedInFalse,
   setSignedUpFalse,
   signUpAction,
-  techInAction,
+  // techInAction,
 } from './auth';
 
 jest.mock('../reducers');
