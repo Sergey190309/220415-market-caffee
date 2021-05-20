@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import mockAxios from '../../api/apiClient';
-import { START_TECH_IN, TECH_IN_FAIL, TECH_IN_SUCCESS } from '../actions/types';
+import { START_LNGS, START_TECH_IN, TECH_IN_FAIL, TECH_IN_SUCCESS } from '../actions/types';
 import { recordSaga } from '../../testUtils';
 import { startInitWorker, techInFetch } from './tech';
 
@@ -40,18 +40,22 @@ describe('Tech saga testing', () => {
       // type: LOG_IN_START,
       payload: mockTechInData,
     };
-    const expDispatch = {
+    const expDispatch00 = {
       type: TECH_IN_SUCCESS,
       payload: mockResolveData.payload
+    }
+    const expDispatch01 = {
+      type: START_LNGS,
     }
     const dispatched = await recordSaga(techInFetch, initialAction);
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
     expect(mockAxios.post.mock.calls[0][0]).toBe('/home/tech/auth');
     expect(mockAxios.post.mock.calls[0][1]).toEqual({ tech_id: mockTechInData});
-    expect(dispatched.length).toBe(1);
-    expect(dispatched[0]).toEqual(expDispatch);
+    expect(dispatched.length).toBe(2);
+    expect(dispatched[0]).toEqual(expDispatch00);
+    expect(dispatched[1]).toEqual(expDispatch01);
 
-    // console.log('tech in success tesing, dispatched ->', dispatched)
+    // console.log('tech in success tesing, daispatched ->', dispatched)
 
   });
 

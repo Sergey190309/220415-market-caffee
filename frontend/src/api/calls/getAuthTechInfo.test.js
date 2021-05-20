@@ -22,6 +22,7 @@ describe('Testing API calls', () => {
     beforeAll(() => {
       jest.resetAllMocks();
     });
+
     test('techInCall success', async () => {
       mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
       const resp = await techInCall(mockTechInData)

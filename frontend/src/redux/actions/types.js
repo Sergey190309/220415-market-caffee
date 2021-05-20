@@ -28,9 +28,9 @@ export const START_TECH_IN = 'START_TECH_IN';
 export const TECH_IN_SUCCESS = 'TECH_IN_SUCCESS';
 export const TECH_IN_FAIL = 'TECH_IN_FAIL';
 
-export const START_LNGS_IN = 'START_LNGS_IN';
-export const LNGS_IN_SUCCESS = 'LNGS_IN_SUCCESS';
-export const LNGS_IN_FAIL = 'LNGS_IN_FAIL';
+export const START_LNGS = 'START_LNGS';
+export const LNGS_SUCCESS = 'LNGS_SUCCESS';
+export const LNGS_FAIL = 'LNGS_FAIL';
 
 export const START_I18N = 'START_I18N';
 export const I18N_SUCCESS = 'I18N_SUCCESS';

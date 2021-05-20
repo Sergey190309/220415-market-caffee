@@ -3,11 +3,12 @@ import {
   FINISH_INIT_LOADING,
   TECH_IN_SUCCESS,
   TECH_IN_FAIL,
-  LNGS_IN_SUCCESS,
-  LNGS_IN_FAIL,
+  LNGS_SUCCESS,
+  LNGS_FAIL,
   I18N_SUCCESS,
   I18N_FAIL,
   START_TECH_IN,
+  START_LNGS,
 } from '../actions/types';
 import { axiosCommonToken } from '../../api/apiClient';
 
@@ -45,8 +46,8 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
     case START_TECH_IN:
       return {
         ...store,
-        techLoaded: false
-      }
+        techLoaded: false,
+      };
     case TECH_IN_SUCCESS:
       setToken(payload);
       localStorage.setItem('techToken', payload);
@@ -58,20 +59,25 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
       };
     case TECH_IN_FAIL:
       localStorage.removeItem('techToken');
-      console.log('tech in fail, error ->', payload)
+      console.log('tech in fail, error ->', payload);
       return {
         ...store,
         techLoaded: false,
         techToken: null,
       };
-    case LNGS_IN_SUCCESS:
+    case START_LNGS:
+      return {
+        ...store,
+        lngsLoaded: false,
+      };
+    case LNGS_SUCCESS:
       // fire action to initiate  i18n
 
       return {
         ...store,
         lngsLoaded: true,
       };
-    case LNGS_IN_FAIL:
+    case LNGS_FAIL:
       return {
         ...store,
         lngsLoaded: false,

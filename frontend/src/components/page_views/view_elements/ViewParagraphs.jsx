@@ -2,7 +2,8 @@ import React, { useState, useEffect, useAsync, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
-import { getContents } from '../../../api/calls/getBackEndInfo';
+import { getContents } from '../../../api/calls/getViewsContents'
+  // '../../../api/calls/getBackEndInfo';
 // import { viewHeaderColor } from '../../../utils/colors';
 import { idsByIdNum } from '../../../utils/utils';
 

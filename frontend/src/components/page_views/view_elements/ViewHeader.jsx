@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Header } from 'semantic-ui-react';
 
-import { getContents } from '../../../api/calls/getBackEndInfo';
+import { getContents } from '../../../api/calls/getViewsContents';
 import { viewHeaderColor } from '../../../utils/colors';
 
 const getValues = keys => {

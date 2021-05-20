@@ -2,6 +2,7 @@ import tech from './tech';
 import {
   FINISH_INIT_LOADING,
   START_INIT_LOADING,
+  START_LNGS,
   START_TECH_IN,
   TECH_IN_FAIL,
   TECH_IN_SUCCESS,
@@ -112,4 +113,23 @@ describe('tech reducer testing', () => {
     expect(localStorage.removeItem.mock.calls[0]).toEqual(['techToken']);
     // console.log('tech test reducer ->', localStorage.setItem.mock.calls[0]);
   });
+
+  test('start lngs loading', () => {
+    const testAction = {
+      type: START_LNGS,
+    };
+    const initStore = {
+      ...generalInitStore,
+      lngsLoaded: true,
+      loading: true,
+    };
+    const expStore = {
+      ...initStore,
+      lngsLoaded: false
+    };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
+
+
 });
