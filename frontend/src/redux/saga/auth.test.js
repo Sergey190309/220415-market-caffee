@@ -3,7 +3,7 @@ import mockAxios from '../../api/apiClient';
 import { takeEvery } from 'redux-saga/effects';
 // import { runSaga } from 'redux-saga';
 import { LOG_IN_FAIL, LOG_IN_START, LOG_IN_SUCCESS, START_ALERT } from '../actions/types';
-import { logInSaga, logInFetch } from './auth';
+import { logInSaga, logInFetch,  } from './auth';
 import { recordSaga } from '../../testUtils';
 import { actRespErrorMessage } from '../../utils/respErrorHandler';
 
@@ -56,7 +56,7 @@ describe('auth testing', () => {
         // type: LOG_IN_START,
         payload: mockLogInData,
       };
-      console.log('auth testing, logInFetch ->', logInFetch)
+      // console.log('auth testing, logInFetch ->', logInFetch)
       const dispatched = await recordSaga(logInFetch, initialAction);
       expect(mockAxios.post).toHaveBeenCalledTimes(1);
       expect(mockAxios.post.mock.calls[0][0]).toBe('/users/login');
@@ -105,5 +105,24 @@ describe('auth testing', () => {
       // console.log('function, results ->', actRespErrorMessage.mock.results[0]);
       // console.log('dispatched ->', dispatched[1]);
     });
+  });
+
+  describe('Sign up whole saga testign', () => {
+    const mockSignUpData = {
+      user_name: 'mockUserName',
+      email: 'mock@email.test',
+      password: 'mockPassword',
+    };
+    const mockResolveData = {
+      message: 'Hi! You are welcome.',
+      payload: {
+        user_name: 'admin',
+        email: 'a@agatha-ng.com',
+        isAdmin: true,
+        access_token: 'mock-access-token',
+        refresh_token: 'mock-refresh-token',
+      },
+    };
+
   });
 });

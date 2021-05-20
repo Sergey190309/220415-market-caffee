@@ -63,7 +63,6 @@ export function* logInFetch(action) {
 const signUpCall = signUpData => {
   try {
     // console.log('saga signUpCall ->', signUpData);
-
     const resp = axiosClient.post('/users', signUpData);
     return resp;
   } catch (error) {
@@ -82,6 +81,13 @@ function* signUpFetch(action) {
     const userData = yield call(signUpCall, action.payload);
     // console.log('logInFetch userData ->', userData.data.payload);
     yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
+    yield put(
+      alertActions({
+        message: userData.data.message,
+        alertType: 'info',
+        timeout: 3000,
+      })
+    );
   } catch (error) {
     yield put({ type: SIGN_UP_FAIL, payload: error });
     const errorMessage = actRespErrorMessage(error);

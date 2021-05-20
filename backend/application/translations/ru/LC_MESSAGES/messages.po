@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-07 12:51+0000\n"
-"PO-Revision-Date: 2021-05-07 12:52+0000\n"
+"POT-Creation-Date: 2021-05-20 07:47+0000\n"
+"PO-Revision-Date: 2021-05-20 07:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -359,8 +359,8 @@ msgstr "У пользователя уже есть статус."
 msgid "You registration has been confirmed through %(email)s."
 msgstr "Ваша регистрация подтверждена через %(email)s."
 
-#: users/resources/userconfirm.py:60 users/resources/userhandle.py:103
-#: users/resources/userhandle.py:131
+#: users/resources/userconfirm.py:60 users/resources/userhandle.py:108
+#: users/resources/userhandle.py:138
 #, python-format
 msgid "User with user_id '%(user_id)s' has not been found."
 msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
@@ -388,51 +388,50 @@ msgstr ""
 "Во время отправления подтверждающего сообщения что-то пошло не так. Ошибка - "
 "%(err)s"
 
-#: users/resources/userhandle.py:41
+#: users/resources/userhandle.py:45
 #, python-format
 msgid "User you plan to update (with id = '%(user_id)s') not found."
 msgstr ""
 "Пользователь, которого вы планируете обновить (с идентификатором = "
 "'%(user_id)s'), не найден."
 
-#: users/resources/userhandle.py:50
-msgid "Administrative privileges are needed to update users' rights."
+#: users/resources/userhandle.py:54
+msgid "Admin's privileges are needed to update users' rights."
 msgstr "Только администратору разрешено менять права пользователя."
 
-#: users/resources/userhandle.py:58
+#: users/resources/userhandle.py:62
 msgid "Admin is allowed to change role or kill user only."
 msgstr ""
 "Администратору разрешено только менять права пользователя или пристрелить "
 "его."
 
-#: users/resources/userhandle.py:63
-msgid "Non admin users are allowed to change their own accounts but roles."
-msgstr ""
-"Не администратору позволено изменять собственные учетные записи кроме прав."
+#: users/resources/userhandle.py:67
+msgid "Users are not allowed to change own role, admins are."
+msgstr "Пользователям не разрешено менять свой статус, только администраторам."
 
-#: users/resources/userhandle.py:74
+#: users/resources/userhandle.py:77
 #, python-format
 msgid "User with id '%(user_id)s' updated as in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' обновлен, как в теле сообщения."
 
-#: users/resources/userhandle.py:97
-msgid "Access to user details is allowed to owners or admins onlys."
+#: users/resources/userhandle.py:102
+msgid "Access to user details is allowed to owners or admins only."
 msgstr ""
 "Доступ к информации пользователя разрешен только самому пользователю и "
 "администраторам."
 
-#: users/resources/userhandle.py:108
+#: users/resources/userhandle.py:113
 #, python-format
 msgid "User with id '%(user_id)s' found, details are in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' найден, детали в теле сообщения."
 
-#: users/resources/userhandle.py:125
-msgid "Owners or admins are allowed to kill their accownts."
-msgstr "Владельцам или администраторам позволено убивать учетные записи."
+#: users/resources/userhandle.py:132
+msgid "Owners are allowed to kill their own acconts only."
+msgstr "Владельцам позволено убивать только свои учетные записи."
 
-#: users/resources/userhandle.py:138
+#: users/resources/userhandle.py:145
 #, python-format
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
@@ -521,6 +520,13 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid ""
+#~ "Non admin users are allowed to change their own accounts but not allowed "
+#~ "to change roles."
+#~ msgstr ""
+#~ "Не администратору позволено изменять данные собственных учетных записей "
+#~ "кроме прав."
 
 #~ msgid "A view with identity '%(id_view)s' already exists."
 #~ msgstr "Страничка с идентификатором '%(view_id)s' уже существует."

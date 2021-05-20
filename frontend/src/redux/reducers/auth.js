@@ -1,4 +1,5 @@
 import {
+  SIGN_UP_START,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
   SIGN_UP_MODAL_CLOSED,
@@ -40,7 +41,7 @@ export const initialStore = {
 const auth = (
   store = initialStore,
   action,
-  setToken = axiosCommonToken,
+  setToken = axiosCommonToken
   // setLngs = setSupportedLngs
 ) => {
   const { type, payload } = action;
@@ -59,6 +60,12 @@ const auth = (
         // isAuthenticated: false,
         loading: false,
       };
+    case SIGN_UP_START:
+    case LOG_IN_START:
+      return {
+        ...store,
+        loading: true,
+      };
     case SIGN_UP_SUCCESS:
       localStorage.removeItem('logInInfo');
       return {
@@ -72,12 +79,6 @@ const auth = (
         ...store,
         isSignedUp: false,
       };
-    case LOG_IN_START:
-      // console.log('login reducer ->')
-      return {
-        ...store,
-        loading: true
-      }
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;
       setToken(payload.access_token);

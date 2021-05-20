@@ -5,6 +5,8 @@ from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask_babelplus import lazy_gettext as _
 
+from application.modules.fbp import fbp
+
 from ..schemas.users import UserSchema, UserUpdateSchema
 from ..models.users import UserModel
 
@@ -24,6 +26,8 @@ class UserHandle(Resource):
         Admin only is allowed to change role. Also he's able to kill user.
         User only is allowed to change own detatils but role.
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
+
         # That's dictionary with key-values to update an instance.
         _json = request.get_json()
         _keys = _json.keys()
@@ -47,7 +51,7 @@ class UserHandle(Resource):
             if 'role_id' in _keys and not (UserModel.find_by_id(_logged_id).is_admin):
                 return {
                     'message': str(_(
-                        "Administrative privileges are needed to update "
+                        "Admin's privileges are needed to update "
                         "users' rights."))
                 }, 401
         else:
@@ -60,8 +64,7 @@ class UserHandle(Resource):
             else:
                 return {
                     'message': str(_(
-                        "Non admin users are allowed to change their "
-                        "own accounts but roles."))
+                        "Users are not allowed to change own role, admins are."))
                 }, 401
 
         _updated_user_before.update(_json)  # Sent data to model to update
@@ -89,12 +92,14 @@ class UserHandle(Resource):
                 does not exist
         show
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
+
         _logged_user = UserModel.find_by_id(get_jwt_identity())
         _user = UserModel.find_by_id(user_id)
         if not(user_id == get_jwt_identity() or _logged_user.is_admin):
             return {
                 'message': str(_(
-                    "Access to user details is allowed to owners or admins onlys.")),
+                    "Access to user details is allowed to owners or admins only.")),
             }, 401
         else:
             if not _user:
@@ -117,12 +122,16 @@ class UserHandle(Resource):
         '''
         Delete user by id in url
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
+
+        # print('UserHandle, delete get_jwt_identity() ->', get_jwt_identity())
         _logged_user = UserModel.find_by_id(get_jwt_identity())
+        # print('UserHandle, delete logged user ->', _logged_user)
         _user = UserModel.find_by_id(user_id)
         if not((user_id == get_jwt_identity()) or _logged_user.is_admin):
             return {
                 'message': str(_(
-                    "Owners or admins are allowed to kill their accownts.")),
+                    "Owners are allowed to kill their own acconts only.")),
             }, 401
         else:
             if not _user:

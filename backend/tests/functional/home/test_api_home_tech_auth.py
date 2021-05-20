@@ -48,7 +48,7 @@ def test_post_create_sessions_localization(client, sessions, lng, test_world):
     # assert len(sessions.getter()) == 2
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_post_tech_token_extraction(client):
     lng = 'en'
     _tech_id = str(uuid4())

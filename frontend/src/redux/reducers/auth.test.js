@@ -8,6 +8,8 @@ import {
   // TECH_IN_SUCCESS,
   // TECH_IN_FAIL,
   LOG_OUT,
+  SIGN_UP_START,
+  LOG_IN_START,
 } from '../actions/types';
 
 describe('Auth reducer testing', () => {
@@ -22,7 +24,7 @@ describe('Auth reducer testing', () => {
     isAdmin: null,
     access_token: access_token,
     refresh_token: refresh_token,
-    loading: true,
+    loading: null,
     isSignedUp: false,
   };
 
@@ -42,6 +44,18 @@ describe('Auth reducer testing', () => {
     expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
     expect(mockSetToken).toHaveBeenCalledTimes(1);
   });
+  test('sign up start', () => {
+    const action = {
+      type: SIGN_UP_START,
+    };
+    const expResult = {
+      ...testInitStore,
+      loading: true
+    };
+    expect(testInitStore).not.toEqual(expResult);
+    expect(auth(testInitStore, action)).toEqual(expResult);
+  });
+
   test('sign up success', () => {
     const action = {
       type: SIGN_UP_SUCCESS,
@@ -72,6 +86,18 @@ describe('Auth reducer testing', () => {
     expect(mockSetToken).toHaveBeenCalledTimes(1);
     // expect(mockSetToken).toHaveBeenCalledWith(action.payload);
     // console.log('tech in fail ->', mockSetToken.mock.calls)
+  });
+
+  test('log in start', () => {
+    const action = {
+      type: LOG_IN_START,
+    };
+    const expResult = {
+      ...testInitStore,
+      loading: true
+    };
+    expect(testInitStore).not.toEqual(expResult);
+    expect(auth(testInitStore, action)).toEqual(expResult);
   });
 
   test('login success', () => {
