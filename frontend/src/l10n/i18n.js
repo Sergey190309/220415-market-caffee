@@ -4,7 +4,7 @@ import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 // import store from '../redux/store';
 import { axiosCommonLng } from '../api/apiClient';
-import { getLngList } from '../api/calls/getBackEndInfo';
+import { getLngList } from '../api/calls/getViewsContents';
 // import store from '../redux/store'
 // import { finishLoading } from '../redux/actions/auth';
 

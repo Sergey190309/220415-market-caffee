@@ -9,20 +9,21 @@ import {
   SIGN_UP_FAIL,
 } from '../actions/types';
 import { setAlertData } from '../actions/alert';
-import axiosClient from '../../api/apiClient';
+// import axiosClient from '../../api/apiClient';
+import {logInCall, signUpCall} from '../../api/calls/getAuthTechInfo'
 import { actRespErrorMessage } from '../../utils/respErrorHandler';
 import { alertActions } from '../actions/alert';
 
 // function that makes the api request and returns a Promise for response
-const logInCall = logInData => {
-  try {
-    // console.log('saga logInCall ->', logInData);
-    const resp = axiosClient.post('/users/login', logInData);
-    return resp;
-  } catch (error) {
-    console.log('logInCall error\n', error);
-  }
-};
+// const logInCall = logInData => {
+//   try {
+//     // console.log('saga logInCall ->', logInData);
+//     const resp = axiosClient.post('/users/login', logInData);
+//     return resp;
+//   } catch (error) {
+//     console.log('logInCall error\n', error);
+//   }
+// };
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* logInSaga() {
@@ -60,15 +61,15 @@ export function* logInFetch(action) {
 }
 
 // function that makes the api request and returns a Promise for response
-const signUpCall = signUpData => {
-  try {
-    // console.log('saga signUpCall ->', signUpData);
-    const resp = axiosClient.post('/users', signUpData);
-    return resp;
-  } catch (error) {
-    console.log('signUpCall error\n', error);
-  }
-};
+// const signUpCall = signUpData => {
+//   try {
+//     // console.log('saga signUpCall ->', signUpData);
+//     const resp = axiosClient.post('/users', signUpData);
+//     return resp;
+//   } catch (error) {
+//     console.log('signUpCall error\n', error);
+//   }
+// };
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* signUpSaga() {

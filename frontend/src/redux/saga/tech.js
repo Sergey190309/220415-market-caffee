@@ -1,7 +1,8 @@
 import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import axiosClient from '../../api/apiClient';
+// import axiosClient from '../../api/apiClient';
+import{techInCall} from '../../api/calls/getAuthTechInfo'
 import { startTechIn } from '../actions/tech';
 import {
   START_INIT_LOADING,
@@ -35,10 +36,10 @@ export function* techInFetch(action) {
   }
 }
 
-export const techInCall = techInData => {
-  const resp = axiosClient.post('/home/tech/auth', techInData);
-  return resp;
-};
+// export const techInCall = techInData => {
+//   const resp = axiosClient.post('/home/tech/auth', techInData);
+//   return resp;
+// };
 
 // export const techInAction = async (sessionId = v4()) => {
 // export const techInAction =

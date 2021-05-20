@@ -1,5 +1,5 @@
 import mockAxios from '../apiClient';
-import { getContents, getTechToken, getLngList } from './getBackEndInfo';
+import { getContents, getTechToken, getLngList } from './getViewsContents';
 
 describe('getLngList testing', () => {
   test('success', async () => {
