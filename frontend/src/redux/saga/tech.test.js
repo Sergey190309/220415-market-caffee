@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import mockAxios from '../../api/apiClient';
+// import { mockAxios } from '../../api/apiClient';
 import {
   START_LNGS,
   START_TECH_IN,
@@ -8,7 +8,7 @@ import {
 } from '../actions/types';
 import { recordSaga } from '../../testUtils';
 import { startInitWorker, techInFetch } from './tech';
-import { axiosCommonToken } from '../../api/apiClient';
+// import { axiosCommonToken } from '../../api/apiClient';
 
 // jest.mock('../../api/apiClient', () => ({ axiosCommonToken: jest.fn() }));
 
@@ -43,7 +43,14 @@ describe('Tech saga testing', () => {
     // console.log('start init saga, dispatched ->', dispatched)
   });
 
-  test.only('tech in success', async () => {
+  test.only('normal function calls tesing', () => {
+    const apiClient = require('../../api/apiClient');
+
+    console.log('tech in success, axiosCommonToken ->', apiClient);
+    jest.spyOn(apiClient, 'mockApiClient')
+  });
+
+  test('tech in success', async () => {
     mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
     const initialAction = {
       // type: LOG_IN_START,
