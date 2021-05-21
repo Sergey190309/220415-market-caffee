@@ -2,6 +2,7 @@ import axiosClient from '../apiClient'
 
 export const lngsCall = () => {
   const resp = axiosClient.get('/global/locales')
+  return resp
 }
 
 export const techInCall = techInData => {

@@ -33,7 +33,7 @@ export function* techInFetch(action) {
   try {
     const techInResp = yield call(techInCall, { tech_id: action.payload });
     yield put(techInSuccess(techInResp.data.payload));
-    axiosCommonToken(techInResp.data.payload);
+    // axiosCommonToken(techInResp.data.payload);
     yield put(startLngs());
   } catch (error) {
     yield put(techInFail(error));
