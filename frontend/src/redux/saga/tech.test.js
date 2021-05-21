@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-// import { mockAxios } from '../../api/apiClient';
+import mockAxios from '../../api/apiClient';
 import {
   START_LNGS,
   START_TECH_IN,
@@ -44,10 +44,11 @@ describe('Tech saga testing', () => {
   });
 
   test.only('normal function calls tesing', () => {
-    const apiClient = require('../../api/apiClient');
+    const something = require('../../api/apiClientUtils');
 
-    console.log('tech in success, axiosCommonToken ->', apiClient);
-    jest.spyOn(apiClient, 'mockApiClient')
+    console.log('tech in success, axiosCommonToken ->', something);
+    // jest.spyOn(apiClient, 'mockApiClient')
+    // console.log('tech in success, axiosCommonToken ->', apiClient.axiosCommonToken);
   });
 
   test('tech in success', async () => {

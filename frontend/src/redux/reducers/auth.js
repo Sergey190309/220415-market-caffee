@@ -13,7 +13,8 @@ import {
   // FINISH_LOADING,
 } from '../actions/types';
 // import store from '../store'
-import { axiosCommonToken } from '../../api/apiClient';
+import { axiosCommonToken } from '../../api/apiClientUtils';
+// import { axiosCommonToken } from '../../api/apiClient';
 // import { setSupportedLngs } from '../../l10n/i18n';
 
 // ----------------------> DO NOT REMOVE

@@ -13,12 +13,12 @@ export const axiosClient = axios.create({
 });
 
 
-export const axiosCommonLng = lng => {
-  axiosClient.defaults.headers.common['Accept-Language'] = lng;
-};
+// export const axiosCommonLng = lng => {
+//   axiosClient.defaults.headers.common['Accept-Language'] = lng;
+// };
 
-export const axiosCommonToken = token => {
-  axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-};
+// export const axiosCommonToken = token => {
+//   axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+// };
 
 export default axiosClient;
