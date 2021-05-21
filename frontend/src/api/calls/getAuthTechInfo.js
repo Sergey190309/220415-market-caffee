@@ -1,5 +1,8 @@
 import axiosClient from '../apiClient'
 
+export const lngsCall = () => {
+  const resp = axiosClient.get('/global/locales')
+}
 
 export const techInCall = techInData => {
   const resp = axiosClient.post('/home/tech/auth', techInData);

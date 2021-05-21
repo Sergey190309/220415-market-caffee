@@ -1,4 +1,4 @@
-import { techInAction, startLoading } from '../redux/actions/tech';
+import { startLoading } from '../redux/actions/tech';
 import store from '../redux/store';
 // import { getTechToken } from '../api/calls/getBackEndInfo';
 

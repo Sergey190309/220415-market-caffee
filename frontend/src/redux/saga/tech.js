@@ -1,8 +1,8 @@
 import { v4 } from 'uuid';
-import { call, put, take, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 
-// import axiosClient from '../../api/apiClient';
-import{techInCall} from '../../api/calls/getAuthTechInfo'
+import { axiosCommonToken } from '../../api/apiClient';
+import { techInCall } from '../../api/calls/getAuthTechInfo';
 import { startTechIn, startLngs, techInSuccess, techInFail } from '../actions/tech';
 import {
   START_INIT_LOADING,
@@ -28,22 +28,26 @@ export function* techInSaga() {
   yield takeEvery(START_TECH_IN, techInFetch);
 }
 
+// Worker
 export function* techInFetch(action) {
   try {
     const techInResp = yield call(techInCall, { tech_id: action.payload });
     yield put(techInSuccess(techInResp.data.payload));
-    yield put(startLngs())
+    axiosCommonToken(techInResp.data.payload);
+    yield put(startLngs());
   } catch (error) {
     yield put(techInFail(error));
   }
 }
 
 export function* lngsSaga() {
-  yield takeEvery(START_LNGS, lngsWorker)
+  yield takeEvery(START_LNGS, lngsWorker);
 }
 
 export function* lngsWorker(action) {
-
+  try {
+    const lngs = yield call();
+  } catch (error) {}
 }
 
 // export const techInCall = techInData => {
