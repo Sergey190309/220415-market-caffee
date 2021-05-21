@@ -43,19 +43,21 @@ describe('Tech saga testing', () => {
     // console.log('start init saga, dispatched ->', dispatched)
   });
 
-  test.only('normal function calls tesing', () => {
-    const something = require('../../api/apiClientUtils');
+  // test.only('normal function calls tesing', () => {
+  //   const apiClientUtils = require('../../api/apiClientUtils');
 
-    console.log('tech in success, axiosCommonToken ->', something);
-    // jest.spyOn(apiClient, 'mockApiClient')
-    // console.log('tech in success, axiosCommonToken ->', apiClient.axiosCommonToken);
-  });
+  //   // console.log('tech in success, axiosCommonToken ->', apiClientUtils.axiosCommonToken);
+  //   jest.spyOn(apiClientUtils, 'mockApiClient');
+  //   // console.log('tech in success, axiosCommonToken ->', apiClient.axiosCommonToken);
+  // });
 
   test('tech in success', async () => {
     mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    const setToken = jest.fn()
     const initialAction = {
       // type: LOG_IN_START,
       payload: mockTechInData,
+
     };
     const expDispatch00 = {
       type: TECH_IN_SUCCESS,
@@ -64,10 +66,12 @@ describe('Tech saga testing', () => {
     const expDispatch01 = {
       type: START_LNGS,
     };
-    const dispatched = await recordSaga(techInFetch, initialAction);
+    const dispatched = await recordSaga(techInFetch, initialAction, setToken);
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
     expect(mockAxios.post.mock.calls[0][0]).toBe('/home/tech/auth');
     expect(mockAxios.post.mock.calls[0][1]).toEqual({ tech_id: mockTechInData });
+    expect(setToken).toHaveBeenCalledTimes(1);
+
     // expect(axiosCommonToken).toHaveBeenCalledTimes(1);
     expect(dispatched.length).toBe(2);
     expect(dispatched[0]).toEqual(expDispatch00);

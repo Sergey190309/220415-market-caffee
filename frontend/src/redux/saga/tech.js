@@ -1,15 +1,15 @@
 import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import { axiosCommonToken } from '../../api/apiClient';
+import { axiosCommonToken } from '../../api/apiClientUtils';
 import { techInCall } from '../../api/calls/getAuthTechInfo';
 import { startTechIn, startLngs, techInSuccess, techInFail } from '../actions/tech';
 import {
   START_INIT_LOADING,
   START_LNGS,
   START_TECH_IN,
-  TECH_IN_FAIL,
-  TECH_IN_SUCCESS,
+  // TECH_IN_FAIL,
+  // TECH_IN_SUCCESS,
 } from '../actions/types';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
@@ -29,11 +29,14 @@ export function* techInSaga() {
 }
 
 // Worker
-export function* techInFetch(action) {
+export function* techInFetch(action, setToken = axiosCommonToken) {
   try {
     const techInResp = yield call(techInCall, { tech_id: action.payload });
     yield put(techInSuccess(techInResp.data.payload));
-    // axiosCommonToken(techInResp.data.payload);
+    // console.log('techInFetch, success, techToken ->', techInResp.data.payload)
+    // setToken(techInResp.data.payload);
+    // call(setToken, techInResp.data.payload);
+    yield call(setToken, techInResp.data.payload);
     yield put(startLngs());
   } catch (error) {
     yield put(techInFail(error));
