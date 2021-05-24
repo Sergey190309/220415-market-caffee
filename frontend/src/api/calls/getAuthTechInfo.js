@@ -1,13 +1,23 @@
 import axiosClient from '../apiClient'
 
 export const lngsCall = () => {
-  const resp = axiosClient.get('/global/locales')
-  return resp
+  try {
+    const resp = axiosClient.get('/global/locales')
+    return resp
+  } catch (error) {
+    console.log('logInCall error\n', error);
+    throw error;
+  }
 }
 
 export const techInCall = techInData => {
-  const resp = axiosClient.post('/home/tech/auth', techInData);
-  return resp;
+  try {
+    const resp = axiosClient.post('/home/tech/auth', techInData);
+    return resp;
+  } catch (error) {
+    console.log('logInCall error\n', error);
+    throw error;
+  }
 };
 
 export const logInCall = logInData => {
@@ -17,6 +27,7 @@ export const logInCall = logInData => {
     return resp;
   } catch (error) {
     console.log('logInCall error\n', error);
+    throw error;
   }
 };
 
@@ -27,5 +38,6 @@ export const signUpCall = signUpData => {
     return resp;
   } catch (error) {
     console.log('signUpCall error\n', error);
+    throw error;
   }
 };

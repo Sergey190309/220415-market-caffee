@@ -60,7 +60,7 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
       };
     case TECH_IN_FAIL:
       localStorage.removeItem('techToken');
-      console.log('tech in fail, error ->', payload);
+      // console.log('tech in fail, error ->', payload);
       return {
         ...store,
         techLoaded: false,

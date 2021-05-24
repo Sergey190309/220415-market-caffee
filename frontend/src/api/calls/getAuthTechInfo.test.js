@@ -1,8 +1,44 @@
 import { v4 } from 'uuid';
 import mockAxios from '../../api/apiClient';
-import {techInCall}from './getAuthTechInfo'
+import {lngsCall, techInCall}from './getAuthTechInfo'
 
 describe('Testing API calls', () => {
+
+  describe('lngsCall testing', () => {
+    const mockResolveData = {
+        message: 'There are 2 locales in our database as follows:',
+        payload: [
+            {
+                id: 'en',
+                remarks: 'General english.'
+            },
+            {
+                id: 'ru',
+                remarks: 'Общий русский.'
+            }
+        ]
+    }
+    const mockRejectData = {
+      response: {
+        data: {
+          message: 'Something went wrong. Check tech_token and sessions set up.'
+        },
+        status: 500,
+        headers: { header: 'Some header' },
+      },
+      config: { config: 'Some config' },
+    }
+    beforeAll(() => {
+      jest.resetAllMocks();
+    });
+
+    test('lngsCall success', async () => {
+      mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+      const resp = await lngsCall()
+      console.log('lngsCall success ->', resp.data)
+    });
+  });
+
   describe('techInCall tesint', () => {
     const mockTechInData = { tech_id: v4() };
     const mockResolveData = {
