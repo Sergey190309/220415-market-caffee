@@ -1,12 +1,14 @@
-function* generatorExample() {
-  yield 'first';
-  yield 'second';
-}
-// Our function returns a generator object which returns a series of values.
-const genObject = generatorExample();
+const  payload = [
+    {
+      "remarks": "General english.",
+      "id": "en"
+    },
+    {
+      "remarks": "Общий русский.",
+      "id": "ru"
+    }
+]
 
+const result = payload.map((item) => item.id)
 
-
-console.log(genObject.next()); // first call returns { value: 'first', done: false }
-console.log(genObject.next()); // second call returns { value: 'second', done: false }
-console.log(genObject.next()); // third call returns { value: undefined, done: true }
+console.log(result)

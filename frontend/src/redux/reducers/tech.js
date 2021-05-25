@@ -1,6 +1,6 @@
 import {
   START_INIT_LOADING,
-  FINISH_INIT_LOADING,
+  INIT_LOADING_SUCCESS,
   TECH_IN_SUCCESS,
   TECH_IN_FAIL,
   LNGS_SUCCESS,
@@ -9,6 +9,7 @@ import {
   I18N_FAIL,
   START_TECH_IN,
   START_LNGS,
+  START_I18N,
 } from '../actions/types';
 import { axiosCommonToken } from '../../api/apiClientUtils';
 // import { axiosCommonToken } from '../../api/apiClient';
@@ -38,7 +39,7 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
         ...store,
         loading: true,
       };
-    case FINISH_INIT_LOADING:
+    case INIT_LOADING_SUCCESS:
       return {
         ...store,
         loading: false,
@@ -65,6 +66,7 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
         ...store,
         techLoaded: false,
         techToken: null,
+        loading: false,
       };
     case START_LNGS:
       return {
@@ -72,8 +74,6 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
         lngsLoaded: false,
       };
     case LNGS_SUCCESS:
-      // fire action to initiate  i18n
-
       return {
         ...store,
         lngsLoaded: true,
@@ -82,17 +82,24 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
       return {
         ...store,
         lngsLoaded: false,
+        loading: false,
+      };
+    case START_I18N:
+      return {
+        ...store,
+        i18nLoaded: false,
+        loading: true,
       };
     case I18N_SUCCESS:
       return {
         ...store,
         i18nLoaded: true,
-        loading: false,
       };
     case I18N_FAIL:
       return {
         ...store,
         i18nLoaded: false,
+        loading: false,
       };
     default:
       return store;

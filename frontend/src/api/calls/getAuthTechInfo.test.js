@@ -35,7 +35,10 @@ describe('Testing API calls', () => {
     test('lngsCall success', async () => {
       mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
       const resp = await lngsCall()
-      console.log('lngsCall success ->', resp.data)
+      expect(mockAxios.get).toHaveBeenCalledTimes(1);
+      expect(mockAxios.get.mock.calls[0]).toEqual(['/global/locales']);
+      // console.log('lngsCall success ->', resp.data)
+      expect(resp.data).toEqual(mockResolveData);
     });
   });
 

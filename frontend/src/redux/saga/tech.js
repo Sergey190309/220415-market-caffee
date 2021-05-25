@@ -2,9 +2,18 @@ import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { axiosCommonToken } from '../../api/apiClientUtils';
-import { techInCall } from '../../api/calls/getAuthTechInfo';
-import { startTechIn, startLngs, techInSuccess, techInFail } from '../actions/tech';
+import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import {
+  startTechIn,
+  techInSuccess,
+  techInFail,
+  startLngs,
+  lngsSuccess,
+  lngsFail,
+  startI18n,
+} from '../actions/tech';
+import {
+  START_I18N,
   START_INIT_LOADING,
   START_LNGS,
   START_TECH_IN,
@@ -14,6 +23,7 @@ import {
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* startInitSaga() {
+  //the sa
   // console.log('logInSaga wathcher ->')
   yield takeEvery(START_INIT_LOADING, startInitWorker);
 }
@@ -49,27 +59,22 @@ export function* lngsSaga() {
 
 export function* lngsWorker(action) {
   try {
-    const lngs = yield call();
-  } catch (error) {}
+    const lngs = yield call(lngsCall);
+    yield put(lngsSuccess(lngs));
+    yield put(startI18n(lngs))
+  } catch (error) {
+    yield put(lngsFail(error))
+  }
 }
 
-// export const techInCall = techInData => {
-//   const resp = axiosClient.post('/home/tech/auth', techInData);
-//   return resp;
-// };
+export function* i18nSaga() {
+  yield takeEvery(START_I18N)
+}
 
-// export const techInAction = async (sessionId = v4()) => {
-// export const techInAction =
-//   (sessionId = v4()) =>
-//   async dispatch => {
-//     try {
-//       const resp = await axiosClient.post('/home/tech/auth', { tech_id: sessionId });
-//       // console.log('actions auth, techInAction,q resp ->', resp.data.payload)
-//       dispatch({
-//         type: TECH_IN_SUCCESS,
-//         payload: resp.data.payload ? resp.data.payload : null,
-//       });
-//     } catch (error) {
-//       actRespErrorMessage(error, dispatch, TECH_IN_FAIL);
-//     }
-//   };
+export function* i18bWorker(action) {
+  try {
+
+  } catch (error) {
+
+  }
+}

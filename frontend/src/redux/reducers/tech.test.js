@@ -1,6 +1,12 @@
 import tech from './tech';
 import {
   FINISH_INIT_LOADING,
+  I18N_FAIL,
+  I18N_SUCCESS,
+  INIT_LOADING_SUCCESS,
+  LNGS_FAIL,
+  LNGS_SUCCESS,
+  START_I18N,
   START_INIT_LOADING,
   START_LNGS,
   START_TECH_IN,
@@ -34,9 +40,9 @@ describe('tech reducer testing', () => {
     expect(tech(generalInitStore, testAction)).toEqual(expStore);
   });
 
-  test('finish init loading', () => {
+  test('init loading success', () => {
     const testAction = {
-      type: FINISH_INIT_LOADING,
+      type: INIT_LOADING_SUCCESS,
     };
     const initStore = {
       ...generalInitStore,
@@ -105,6 +111,7 @@ describe('tech reducer testing', () => {
       ...initStore,
       techLoaded: false,
       techToken: null,
+      loading: false,
     };
     expect(initStore).not.toEqual(expStore);
     expect(tech(initStore, testAction, mockSetToken)).toEqual(expStore);
@@ -131,5 +138,88 @@ describe('tech reducer testing', () => {
     expect(tech(initStore, testAction)).toEqual(expStore);
   });
 
+  test('lngs success', () => {
+    const testAction = {
+      type: LNGS_SUCCESS,
+    };
+    const initStore = {
+      ...generalInitStore,
+      lngsLoaded: false,
+      loading: true,
+    };
+    const expStore = {
+      ...initStore,
+      lngsLoaded: true
+    };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
+  test('lngs fail', () => {
+    const testAction = {
+      type: LNGS_FAIL,
+    };
+    const initStore = {
+      ...generalInitStore,
+      lngsLoaded: true,
+      loading: true,
+    };
+    const expStore = {
+      ...initStore,
+      lngsLoaded: false,
+      loading: false,
+    };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
 
+  test('start i18n initiation', () => {
+    const testAction = {
+      type: START_I18N,
+    };
+    const initStore = {
+      ...generalInitStore,
+      i18nLoaded: true,
+      loading: false,
+  };
+    const expStore = {
+      ...initStore,
+      i18nLoaded: false,
+      loading: true,
+  };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
+
+  test('i18n success', () => {
+    const testAction = {
+      type: I18N_SUCCESS,
+    };
+    const initStore = {
+      ...generalInitStore,
+      i18nLoaded: false,
+    };
+    const expStore = {
+      ...initStore,
+      i18nLoaded: true,
+    };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
+  test('i18n fail', () => {
+    const testAction = {
+      type: I18N_FAIL,
+    };
+    const initStore = {
+      ...generalInitStore,
+      i18nLoaded: true,
+      loading: true,
+  };
+    const expStore = {
+      ...initStore,
+      i18nLoaded: false,
+      loading: false,
+  };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
 });

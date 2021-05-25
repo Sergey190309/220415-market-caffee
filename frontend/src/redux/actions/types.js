@@ -36,7 +36,7 @@ export const START_I18N = 'START_I18N';
 export const I18N_SUCCESS = 'I18N_SUCCESS';
 export const I18N_FAIL = 'I18N_FAIL';
 
-export const FINISH_INIT_LOADING = 'FINISH_INIT_LOADING';
+export const INIT_LOADING_SUCCESS = 'INIT_LOADING_SUCCESS';
 
 // Language switcher
 export const LNG_SWITCH = 'LNG_SWITCH';
