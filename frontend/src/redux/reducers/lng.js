@@ -1,6 +1,7 @@
 import { LNG_SWITCH } from '../actions/types';
 
-const initialStore = 'ru';
+const initialStore = '';
+// const initialStore = 'ru';
 
 const lngSwitch = (store = initialStore, action) => {
   const { type, payload } = action;

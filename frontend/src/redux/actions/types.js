@@ -33,6 +33,7 @@ export const LNGS_SUCCESS = 'LNGS_SUCCESS';
 export const LNGS_FAIL = 'LNGS_FAIL';
 
 export const START_I18N = 'START_I18N';
+export const I18N_INITIATED = 'I18N_INITIATED';
 export const I18N_SUCCESS = 'I18N_SUCCESS';
 export const I18N_FAIL = 'I18N_FAIL';
 

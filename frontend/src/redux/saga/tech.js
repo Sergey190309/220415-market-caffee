@@ -1,7 +1,8 @@
 import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
+import i18next from 'i18next';
 
-import { axiosCommonToken } from '../../api/apiClientUtils';
+import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import {
   startTechIn,
@@ -11,6 +12,9 @@ import {
   lngsSuccess,
   lngsFail,
   startI18n,
+  i18nFail,
+  i18nSuccess,
+  loadingSuccess,
 } from '../actions/tech';
 import {
   START_I18N,
@@ -21,6 +25,8 @@ import {
   // TECH_IN_SUCCESS,
 } from '../actions/types';
 
+import { initI18next } from '../../l10n/i18n';
+
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* startInitSaga() {
   //the sa
@@ -30,7 +36,11 @@ export function* startInitSaga() {
 
 export function* startInitWorker() {
   yield put(startTechIn(v4()));
-  // yield put({ type: START_TECH_IN, payload: v4() });
+  // ==================================================================================
+  // It should start i18n initiation using direct call to i18n API.
+  // When i18n has finished it should set I18N_INITIATED it true
+  // ==================================================================================
+  // yield call(initI18next);
 }
 
 // watcher
@@ -59,22 +69,29 @@ export function* lngsSaga() {
 
 export function* lngsWorker(action) {
   try {
-    const lngs = yield call(lngsCall);
-    yield put(lngsSuccess(lngs));
-    yield put(startI18n(lngs))
+    const resp = yield call(lngsCall);
+    const lngs = resp.data.payload.map(item => item.id);
+    // console.log('lngs worker, lngs ->', lngs)
+    yield put(lngsSuccess());
+    yield put(startI18n(lngs));
   } catch (error) {
-    yield put(lngsFail(error))
+    yield put(lngsFail(error));
   }
 }
 
 export function* i18nSaga() {
-  yield takeEvery(START_I18N)
+  yield takeEvery(START_I18N, i18nWorker);
 }
 
-export function* i18bWorker(action) {
+export function* i18nWorker(action) {
   try {
-
+    // console.log('i18n worker, action.payload ->', action.payload)
+    // yield initI18next(action.payload);
+    // yield put(i18nSuccess())
+    yield call(axiosCommonLng, i18next.language);
+    // console.log('i18nWorker, i18next.language ->', i18next.language)
+    yield put(loadingSuccess());
   } catch (error) {
-
+    yield put(i18nFail(error));
   }
 }

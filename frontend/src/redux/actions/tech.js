@@ -11,12 +11,16 @@ import {
   START_I18N,
   I18N_SUCCESS,
   I18N_FAIL,
+  I18N_INITIATED,
 } from './types';
 
 // import axiosClient from '../../api/apiClient';
 // import { actRespErrorMessage } from '../../utils/respErrorHandler';
 
 export const startLoading = () => {
+  // ==================================================================================
+  // It should start load tech sequence and start i18n initiation.
+  // ==================================================================================
   // console.log('startLoading ->', sessionId)
   return {
     type: START_INIT_LOADING,
@@ -74,13 +78,21 @@ export const lngsFail = error => {
 };
 
 export const startI18n = lngs => {
+  // lngs - array of string
   return {
     type: START_I18N,
     payload: lngs,
   };
 };
 
+export const i18nInitiated = () => {
+  return {
+    type: I18N_INITIATED,
+  }
+}
+
 export const i18nSuccess = () => {
+  // console.log('i18nSuccess')
   return {
     type: I18N_SUCCESS,
     // payload: lngs,

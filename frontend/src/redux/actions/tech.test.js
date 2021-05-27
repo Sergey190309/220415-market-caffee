@@ -11,6 +11,7 @@ import {
   startI18n,
   i18nSuccess,
   i18nFail,
+  i18nInitiated,
 } from './tech';
 import {
   START_INIT_LOADING,
@@ -24,6 +25,7 @@ import {
   START_I18N,
   LNGS_FAIL,
   LNGS_SUCCESS,
+  I18N_INITIATED,
 } from '../actions/types';
 
 describe('actions tech tests', () => {
@@ -106,6 +108,13 @@ describe('actions tech tests', () => {
       payload: lngs
     };
     expect(startI18n(lngs)).toEqual(expAction);
+  });
+
+  test('i18nInitiated', () => {
+    const expAction = {
+      type: I18N_INITIATED,
+    }
+    expect(i18nInitiated()).toEqual(expAction);
   });
 
   test('i18nSuccess', () => {

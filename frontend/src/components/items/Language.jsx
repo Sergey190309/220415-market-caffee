@@ -23,6 +23,8 @@ export const Language = ({ loading, onChange, setLngAction }) => {
     // console.log('Language, useEffect, loading ->', loading)
     if (!loading) {
         // setAvailable(i18next.options.supportedLngs);
+      // console.log('Lanaguage compenent, loading ->', loading)
+      // console.log('Lanaguage compenent, supported lngs ->', i18next.options.supportedLngs)
         setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
       }
     }, [loading]);
@@ -72,7 +74,7 @@ Language.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  loading: state.logIn.loading,
+  loading: state.tech.loading,
 });
 
 export default connect(mapStateToProps, { setLngAction })(Language);

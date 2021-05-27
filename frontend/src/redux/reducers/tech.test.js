@@ -39,7 +39,6 @@ describe('tech reducer testing', () => {
     expect(generalInitStore).not.toEqual(expStore);
     expect(tech(generalInitStore, testAction)).toEqual(expStore);
   });
-
   test('init loading success', () => {
     const testAction = {
       type: INIT_LOADING_SUCCESS,
@@ -72,8 +71,6 @@ describe('tech reducer testing', () => {
     expect(initStore).not.toEqual(expStore);
     expect(tech(initStore, testAction)).toEqual(expStore);
   });
-
-
   test('tech in token success', () => {
     const testAction = {
       type: TECH_IN_SUCCESS,
@@ -96,7 +93,6 @@ describe('tech reducer testing', () => {
     // expect(localStorage.setItem.mock.calls[0]).toEqual(['techToken', testAction.payload]);
     // console.log('tech test reducer ->', localStorage.setItem.mock.calls[0]);
   });
-
   test('tech in token fail', () => {
     const testAction = {
       type: TECH_IN_FAIL,
@@ -137,7 +133,6 @@ describe('tech reducer testing', () => {
     expect(initStore).not.toEqual(expStore);
     expect(tech(initStore, testAction)).toEqual(expStore);
   });
-
   test('lngs success', () => {
     const testAction = {
       type: LNGS_SUCCESS,
@@ -189,7 +184,6 @@ describe('tech reducer testing', () => {
     expect(initStore).not.toEqual(expStore);
     expect(tech(initStore, testAction)).toEqual(expStore);
   });
-
   test('i18n success', () => {
     const testAction = {
       type: I18N_SUCCESS,

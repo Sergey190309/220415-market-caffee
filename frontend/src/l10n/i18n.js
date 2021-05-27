@@ -3,7 +3,7 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 // import store from '../redux/store';
-import { axiosCommonLng } from '../api/apiClientUtils';
+// import { axiosCommonLng } from '../api/apiClientUtils';
 // import { axiosCommonLng } from '../api/apiClient';
 import { getLngList } from '../api/calls/getViewsContents';
 // import store from '../redux/store'
@@ -19,14 +19,21 @@ import { getLngList } from '../api/calls/getViewsContents';
 //   console.log('init, directly ->', await getTechToken())
 // })()
 
-export const initI18next = (supportedLngs = ['en', 'ru']) => {
+export const initI18next = (supportedLngs = []) => {
+  // -------------------------------------------------------------------------
+  // This i18n instance is just dummy one.
+  // It should take all values upon loading appropriate values from back - end.
+  // -------------------------------------------------------------------------
+  // export const initI18next = (supportedLngs = ['ru', 'en', 'cn']) => {
   // const supportedLngs = ['en', 'ru', 'cn'];
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
+  const lng = 'cimode'
+  // console.log('initI18next, lng ->', lng)
   i18next
     .use(initReactI18next)
     .use(HttpApi)
     .init({
-      lng: 'en',
+      lng: lng,
       supportedLngs: supportedLngs,
       ns: nameSpaces,
       defaultNS: 'general',
@@ -38,18 +45,19 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
       interpolation: {
         escapeValue: false,
       },
-      debug: false,
-      // debug: process.env.NODE_ENV === 'development',
+      // debug: false,
+      debug: process.env.NODE_ENV === 'development',
       backend: {
         loadPath: './locales/{{lng}}/{{ns}}.json',
         addPath: './locales/l10n/add/{{lng}}/{{ns}}.json',
       },
     })
-    .then(() => {
-      axiosCommonLng(i18next.language);
-      // finishLoading()
-      // store.dispatch()
-    });
+    // .then(() => {
+    //   console.log('initI18next.then, i18next.language ->', i18next.language)
+    //   axiosCommonLng(i18next.language);
+    //   // finishLoading()
+    //   // store.dispatch()
+    // });
 }
 
 initI18next()
