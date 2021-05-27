@@ -1,34 +1,17 @@
-// import { connect } from 'react-redux';
 import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
-// import store from '../redux/store';
-// import { axiosCommonLng } from '../api/apiClientUtils';
-// import { axiosCommonLng } from '../api/apiClient';
 import { getLngList } from '../api/calls/getViewsContents';
-// import store from '../redux/store'
-// import { finishLoading } from '../redux/actions/auth';
-
-// const state = store.getState();
-// console.log('i18n ->', state.logIn);
-// (async () => {
-//   console.log('i18n ->', await getLngList());
-// })();
-
-// (async () => {
-//   console.log('init, directly ->', await getTechToken())
-// })()
+import store from '../redux/store'
+import {i18nInitiated} from '../redux/actions/tech'
 
 export const initI18next = (supportedLngs = []) => {
   // -------------------------------------------------------------------------
   // This i18n instance is just dummy one.
-  // It should take all values upon loading appropriate values from back - end.
+  // This instance should take all values upon loading appropriate values from back - end.
   // -------------------------------------------------------------------------
-  // export const initI18next = (supportedLngs = ['ru', 'en', 'cn']) => {
-  // const supportedLngs = ['en', 'ru', 'cn'];
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
   const lng = 'cimode'
-  // console.log('initI18next, lng ->', lng)
   i18next
     .use(initReactI18next)
     .use(HttpApi)
@@ -52,15 +35,15 @@ export const initI18next = (supportedLngs = []) => {
         addPath: './locales/l10n/add/{{lng}}/{{ns}}.json',
       },
     })
-    // .then(() => {
-    //   console.log('initI18next.then, i18next.language ->', i18next.language)
-    //   axiosCommonLng(i18next.language);
-    //   // finishLoading()
-    //   // store.dispatch()
-    // });
+    .then(() => {
+      // console.log('initI18next.then, i18next.language ->', i18next.language)
+      store.dispatch(i18nInitiated())
+      // finishLoading()
+      // store.dispatch()
+    });
 }
 
-initI18next()
+// initI18next()
 
 
 // The function set list of supported languages from back-end.

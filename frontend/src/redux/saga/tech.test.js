@@ -34,22 +34,15 @@ describe('Tech saga testing', () => {
     jest.resetAllMocks();
   });
 
-  test('start init saga', async () => {
-    const dispatched = await recordSaga(startInitWorker);
-    expect(dispatched.length).toBe(1);
-    const { type, payload } = dispatched[0];
-    expect(type).toBe(START_TECH_IN);
-    expect(payload).toBeString();
-    // console.log('start init saga, dispatched ->', dispatched)
-  });
-
-  // test.only('normal function calls tesing', () => {
-  //   const apiClientUtils = require('../../api/apiClientUtils');
-
-  //   // console.log('tech in success, axiosCommonToken ->', apiClientUtils.axiosCommonToken);
-  //   jest.spyOn(apiClientUtils, 'mockApiClient');
-  //   // console.log('tech in success, axiosCommonToken ->', apiClient.axiosCommonToken);
+  // test.skip('start init saga', async () => {
+  //   const dispatched = await recordSaga(startInitWorker);
+  //   expect(dispatched.length).toBe(1);
+  //   const { type, payload } = dispatched[0];
+  //   expect(type).toBe(START_TECH_IN);
+  //   expect(payload).toBeString();
+  //   console.log('start init saga, dispatched ->', dispatched)
   // });
+
 
   test('tech in success', async () => {
     mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));

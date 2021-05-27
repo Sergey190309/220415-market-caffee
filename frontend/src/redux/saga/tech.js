@@ -40,7 +40,7 @@ export function* startInitWorker() {
   // It should start i18n initiation using direct call to i18n API.
   // When i18n has finished it should set I18N_INITIATED it true
   // ==================================================================================
-  // yield call(initI18next);
+  yield call(initI18next);
 }
 
 // watcher
