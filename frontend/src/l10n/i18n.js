@@ -13,8 +13,8 @@ export const initI18next = (supportedLngs = []) => {
   // from back - end.
   // -------------------------------------------------------------------------
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
-  const lng = 'cimode';
-  // const lng = 'en'
+  // const lng = 'cimode';
+  const lng = 'en'
   i18next
     .use(initReactI18next)
     .use(HttpApi)
@@ -47,26 +47,27 @@ export const initI18next = (supportedLngs = []) => {
 
 // initI18next()
 
-export const setI18next = async lngs => {
-  console.log('setI18next, lngs ->', lngs);
-  i18next.options.supportedLngs = lngs;
-  console.log('setI18next, supportedLngs ->', i18next.languages);
-  await i18next.changeLanguage(lngs[0])
+export const setI18next = (lngs, supportedLngs = i18next.options.supportedLngs) => {
+  // const _lngs = [...lngs, 'cn']
+  const lngsToAdd = []
+  lngs.forEach(value => {
+    if (!supportedLngs.includes(value)) {
+      // if (!i18next.options.supportedLngs.includes(value)) {
+      lngsToAdd.push(value)
+    }
+  })
+  lngsToAdd.forEach(value => {
+    supportedLngs.push(value);
+  })
   // console.log('setI18next, i18next.languages before ->', i18next.languages)
-  // console.log('setI18next, i18next.namespaces ->', i18next.options.ns)
-  // await i18next.addResourceBundle(lngs[0], i18next.options.ns[0], i18next.options.backend)
-  // await i18next.reloadResources(lngs)
-  // console.log('setI18next, i18next.languages after ->', i18next.language)
 };
 
 // ==================================================================================
 // The function set list of supported languages from back-end.
 // ==================================================================================
-export const setSupportedLngs = async () => {
-  const result = await getLngList();
-  // console.log('i18n, setSupportedLngs result from back-end ->', result);
-  i18next.options.supportedLngs = [...result, 'cimode'];
-  // store.dispatch(finishLoading())
-};
+// export const setSupportedLngs = async () => {
+//   const result = await getLngList();
+//   i18next.options.supportedLngs = [...result, 'cimode'];
+// };
 
 export default i18next;

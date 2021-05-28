@@ -1,14 +1,12 @@
-const  payload = [
-    {
-      "remarks": "General english.",
-      "id": "en"
-    },
-    {
-      "remarks": "Общий русский.",
-      "id": "ru"
-    }
-]
+const supportedLngs = ['cimode', 'en']
+const fmBackEnd = ['en', 'ru', 'cn']
 
-const result = payload.map((item) => item.id)
+const cleanned = []
 
-console.log(result)
+fmBackEnd.forEach(value => {
+  if (!supportedLngs.includes(value)) {
+    cleanned.push(value)
+  }
+})
+
+console.log(cleanned)

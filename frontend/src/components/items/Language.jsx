@@ -22,14 +22,16 @@ export const Language = ({ loading, onChange, setLngAction }) => {
   useEffect(() => {
     // console.log('Language, useEffect, loading ->', loading)
     if (!loading) {
-        // setAvailable(i18next.options.supportedLngs);
+      // setAvailable(i18next.options.supportedLngs);
       // console.log('Lanaguage compenent, loading ->', loading)
-      // console.log('Lanaguage compenent, supported lngs ->', i18next.options.supportedLngs)
-        setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
-      }
-    }, [loading]);
+      // console.log('Lanaguage compenent, supported lngs ->', i18next.options.supportedLngs);
+      setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
+      setActive(i18next.language);
+    }
+  }, [loading]);
 
   let localeOptions = [];
+
   available.forEach(lang => {
     localeOptions.push({
       key: lang,

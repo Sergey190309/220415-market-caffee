@@ -1,6 +1,6 @@
 import { LNG_SWITCH } from '../actions/types';
 
-const initialStore = '';
+const initialStore = 'en';
 // const initialStore = 'ru';
 
 const lngSwitch = (store = initialStore, action) => {
