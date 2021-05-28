@@ -40,7 +40,7 @@ export function* startInitWorker() {
   // It should start i18n initiation using direct call to i18n API.
   // When i18n has finished it should set I18N_INITIATED it true
   // ==================================================================================
-  const lngs = ['en']
+  const lngs = ['en'];
   yield call(initI18next, lngs);
 }
 
@@ -86,11 +86,13 @@ export function* i18nSaga() {
 
 export function* i18nWorker(action) {
   try {
-    yield call(setI18next, action.payload)
+
+    yield call(setI18next, action.payload); // Set lng switcher and current language
+    // according locales awailable on back end.
+
     // console.log('i18n worker, i18next.languages ->', i18next.languages)
-    // yield initI18next(action.payload);
-    // yield put(i18nSuccess())
-    yield call(axiosCommonLng, i18next.language);
+    yield call(axiosCommonLng, i18next.language);  // Set axios header for backend calls.
+    yield put(i18nSuccess())
     // console.log('i18nWorker, i18next.language ->', i18next.language)
     yield put(loadingSuccess());
   } catch (error) {
