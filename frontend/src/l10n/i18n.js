@@ -4,6 +4,7 @@ import HttpApi from 'i18next-http-backend';
 // import { getLngList } from '../api/calls/getViewsContents';
 import store from '../redux/store';
 import { i18nInitiated } from '../redux/actions/tech';
+import { axiosCommonLng } from '../api/apiClientUtils';
 
 export const initI18next = (supportedLngs = []) => {
   // export const initI18next = (supportedLngs = ['en', 'ru']) => {
@@ -14,7 +15,7 @@ export const initI18next = (supportedLngs = []) => {
   // -------------------------------------------------------------------------
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
   // const lng = 'cimode';
-  const lng = 'en'
+  const lng = 'en';
   i18next
     .use(initReactI18next)
     .use(HttpApi)
@@ -31,8 +32,8 @@ export const initI18next = (supportedLngs = []) => {
       interpolation: {
         escapeValue: false,
       },
-      // debug: false,
-      debug: process.env.NODE_ENV === 'development',
+      debug: false,
+      // debug: process.env.NODE_ENV === 'development',
       backend: {
         loadPath: './locales/{{lng}}/{{ns}}.json',
         addPath: './locales/l10n/add/{{lng}}/{{ns}}.json',
@@ -49,16 +50,19 @@ export const initI18next = (supportedLngs = []) => {
 
 export const setI18next = (lngs, supportedLngs = i18next.options.supportedLngs) => {
   // const _lngs = [...lngs, 'cn']
-  const lngsToAdd = []
+  const lngsToAdd = [];
   lngs.forEach(value => {
     if (!supportedLngs.includes(value)) {
       // if (!i18next.options.supportedLngs.includes(value)) {
-      lngsToAdd.push(value)
+      lngsToAdd.push(value);
     }
-  })
+  });
   lngsToAdd.forEach(value => {
     supportedLngs.push(value);
-  })
+  });
+
+  axiosCommonLng(i18next.language); // Set axios header for backend calls.
+
   // console.log('setI18next, i18next.languages before ->', i18next.languages)
 };
 

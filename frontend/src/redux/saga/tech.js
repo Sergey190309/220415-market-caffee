@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import i18next from 'i18next';
 
-import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
+// import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import {
   startTechIn,
@@ -25,6 +25,7 @@ import {
   // TECH_IN_SUCCESS,
 } from '../actions/types';
 
+// import { axiosCommonLng } from '../../api/apiClientUtils';
 import { initI18next, setI18next } from '../../l10n/i18n';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
@@ -50,14 +51,15 @@ export function* techInSaga() {
 }
 
 // Worker
-export function* techInFetch(action, setToken = axiosCommonToken) {
+export function* techInFetch(action) {
+  // export function* techInFetch(action, setToken = axiosCommonToken) {
   try {
     const techInResp = yield call(techInCall, { tech_id: action.payload });
     yield put(techInSuccess(techInResp.data.payload));
     // console.log('techInFetch, success, techToken ->', techInResp.data.payload)
     // setToken(techInResp.data.payload);
     // call(setToken, techInResp.data.payload);
-    yield call(setToken, techInResp.data.payload);
+    // yield call(setToken, techInResp.data.payload);
     yield put(startLngs());
   } catch (error) {
     yield put(techInFail(error));
@@ -84,15 +86,18 @@ export function* i18nSaga() {
   yield takeEvery(START_I18N, i18nWorker);
 }
 
-export function* i18nWorker(action) {
+export function* i18nWorker(
+  action,
+  // setI18n = setI18next,
+  // setCommonLng = axiosCommonLng
+) {
   try {
-
     yield call(setI18next, action.payload); // Set lng switcher and current language
     // according locales awailable on back end.
 
     // console.log('i18n worker, i18next.languages ->', i18next.languages)
-    yield call(axiosCommonLng, i18next.language);  // Set axios header for backend calls.
-    yield put(i18nSuccess())
+    // call(axiosCommonLng, i18next.language); // Set axios header for backend calls.
+    yield put(i18nSuccess());
     // console.log('i18nWorker, i18next.language ->', i18next.language)
     yield put(loadingSuccess());
   } catch (error) {
