@@ -2,6 +2,7 @@ import tech from './tech';
 import {
   FINISH_INIT_LOADING,
   I18N_FAIL,
+  I18N_INITIATED,
   I18N_SUCCESS,
   INIT_LOADING_SUCCESS,
   LNGS_FAIL,
@@ -180,6 +181,21 @@ describe('tech reducer testing', () => {
       ...initStore,
       i18nLoaded: false,
       loading: true,
+  };
+    expect(initStore).not.toEqual(expStore);
+    expect(tech(initStore, testAction)).toEqual(expStore);
+  });
+  test('i18n initiated', () => {
+    const testAction = {
+      type: I18N_INITIATED,
+    };
+    const initStore = {
+      ...generalInitStore,
+      i18nInitiated: false,
+  };
+    const expStore = {
+      ...initStore,
+      i18nInitiated: true,
   };
     expect(initStore).not.toEqual(expStore);
     expect(tech(initStore, testAction)).toEqual(expStore);

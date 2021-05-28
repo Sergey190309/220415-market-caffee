@@ -25,7 +25,7 @@ import {
   // TECH_IN_SUCCESS,
 } from '../actions/types';
 
-import { initI18next } from '../../l10n/i18n';
+import { initI18next, setI18next } from '../../l10n/i18n';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* startInitSaga() {
@@ -85,7 +85,8 @@ export function* i18nSaga() {
 
 export function* i18nWorker(action) {
   try {
-    // console.log('i18n worker, action.payload ->', action.payload)
+    yield call(setI18next, action.payload)
+    // console.log('i18n worker, i18next.languages ->', i18next.languages)
     // yield initI18next(action.payload);
     // yield put(i18nSuccess())
     yield call(axiosCommonLng, i18next.language);

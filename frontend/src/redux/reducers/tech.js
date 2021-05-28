@@ -10,6 +10,7 @@ import {
   START_TECH_IN,
   START_LNGS,
   START_I18N,
+  I18N_INITIATED,
 } from '../actions/types';
 import { axiosCommonToken } from '../../api/apiClientUtils';
 // import { axiosCommonToken } from '../../api/apiClient';
@@ -18,6 +19,7 @@ import { axiosCommonToken } from '../../api/apiClientUtils';
 // loading: bool
 // techLoaded: bool
 // lngsLoaded: bool
+// i18nInitiated: bool
 // i18nLoaded: bool
 // stored in localStorage:
 // techToken: str
@@ -26,6 +28,7 @@ export const initialStore = {
   loading: false,
   techLoaded: false,
   lngsLoaded: false,
+  i18nInitiated: false,
   i18nLoaded: false,
 
   techToken: null,
@@ -89,6 +92,11 @@ const tech = (store = initialStore, action, setToken = axiosCommonToken) => {
         ...store,
         i18nLoaded: false,
         loading: true,
+      };
+    case I18N_INITIATED:
+      return {
+        ...store,
+        i18nInitiated: true,
       };
     case I18N_SUCCESS:
       return {
