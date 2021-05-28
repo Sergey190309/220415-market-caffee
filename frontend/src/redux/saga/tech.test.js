@@ -34,7 +34,7 @@ describe('Tech saga testing', () => {
     jest.resetAllMocks();
   });
 
-  // test.skip('start init saga', async () => {
+  // test('start init saga', async () => {
   //   const dispatched = await recordSaga(startInitWorker);
   //   expect(dispatched.length).toBe(1);
   //   const { type, payload } = dispatched[0];
