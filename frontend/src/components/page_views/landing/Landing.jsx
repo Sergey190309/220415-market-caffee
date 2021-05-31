@@ -2,21 +2,27 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
+import {contentsStart} from '../../../redux/actions/contents'
 
-import { viewHeaderColor, viewSegmentColor } from '../../../utils/colors';
+import {
+  // viewHeaderColor,
+  viewSegmentColor
+} from '../../../utils/colors';
 // import ViewHeader from '../view_elements/ViewHeader';
 // import ViewParagraphs from '../view_elements/ViewParagraphs';
 // import ViewPictures from '../view_elements/ViewPictures';
 
-export const Landing = ({ language }) => {
+export const Landing = ({ language, contentsStart }) => {
   // const [lng] = useState(language);
 
   useEffect(() => {
-  }, [language])
+    // console.log('landing, useEffect, lng ->', language)
+    contentsStart('landing')
+  }, [contentsStart])
 
-  const keys = {
-    view_id: 'landing',
-  };
+  // const keys = {
+  //   view_id: 'landing',
+  // };
 
   return (
     <Container>
@@ -29,6 +35,7 @@ export const Landing = ({ language }) => {
     </Container>
   );
 };
+
 Landing.defaultProps = {
   language: '',
 };
@@ -41,4 +48,8 @@ const mapStateToProps = state => ({
   language: state.lng
 })
 
-export default connect(mapStateToProps)(Landing);
+const mapDispatchToProps = dispatch => ({
+  contentsStart: (viewName) => dispatch(contentsStart(viewName))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-20 07:47+0000\n"
-"PO-Revision-Date: 2021-05-20 07:47+0000\n"
+"POT-Creation-Date: 2021-05-31 07:31+0000\n"
+"PO-Revision-Date: 2021-05-31 09:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -360,7 +360,7 @@ msgid "You registration has been confirmed through %(email)s."
 msgstr "Ваша регистрация подтверждена через %(email)s."
 
 #: users/resources/userconfirm.py:60 users/resources/userhandle.py:108
-#: users/resources/userhandle.py:138
+#: users/resources/userhandle.py:140
 #, python-format
 msgid "User with user_id '%(user_id)s' has not been found."
 msgstr "Пользователь с идентификатором '%(user_id)s' не найден."
@@ -427,11 +427,11 @@ msgid "User with id '%(user_id)s' found, details are in payload."
 msgstr ""
 "Пользователь с идентификатором '%(user_id)s' найден, детали в теле сообщения."
 
-#: users/resources/userhandle.py:132
+#: users/resources/userhandle.py:134
 msgid "Owners are allowed to kill their own acconts only."
 msgstr "Владельцам позволено убивать только свои учетные записи."
 
-#: users/resources/userhandle.py:145
+#: users/resources/userhandle.py:147
 #, python-format
 msgid "User with id '%(user_id)s' found, and deleted."
 msgstr "Пользователь с идентификатором '%(user_id)s' найден и убит."
