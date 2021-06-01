@@ -42,7 +42,6 @@ def create_default_admin():
     if _user:  # check whether user with id == 1 exists
         if _user.is_admin:
             # If he's admin it's nothing to do!
-            # print('He is an admin')
             return
         else:
             # if he is not an admin shoot him and create new admin one.
@@ -53,6 +52,7 @@ def create_default_admin():
             _user.delete_fm_db(kill_first=True)
     # else:
     # User No 1 does not exists, so create him
+    # print('Creating')
     _admin = user_create_schema.load(
         default_admin.get_default_admin, session=dbs_global.session)
     _admin.save_to_db()

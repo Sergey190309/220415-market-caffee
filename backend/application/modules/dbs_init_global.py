@@ -23,6 +23,8 @@ def dbs_init_global():
     # Blueprint tables' initiation:
     from ..users.modules.dbs_init_users import dbs_init_users
     dbs_init_users()
+    from ..structure.modules.dbs_init_structure import dbs_init_structure
+    dbs_init_structure()
 
     # from ..contents.modules.dbs_init_contents import dbs_init_contents
     # dbs_init_contents()
