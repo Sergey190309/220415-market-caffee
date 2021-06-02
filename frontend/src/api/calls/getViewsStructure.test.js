@@ -100,6 +100,7 @@ export const mockRejectData = {
   },
   config: { config: 'Some config' },
 }
+
 describe('getViewContents testing', () => {
   beforeAll(() => {
     jest.resetAllMocks();
@@ -108,8 +109,9 @@ describe('getViewContents testing', () => {
   test('dummy', async () => {
     mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
     const resp = await getViewStructure();
-    console.log('lngsCall success ->', resp.data)
-
-
+    expect(mockAxios.get).toHaveBeenCalledTimes(1);
+    expect(mockAxios.get).toHaveBeenCalledWith('/structure/list');
+    // console.log('lngsCall success ->', resp.data)
+    expect(resp.data).toEqual(mockResolveData);
   });
 });

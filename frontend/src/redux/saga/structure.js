@@ -1,4 +1,5 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { takeEvery } from 'redux-saga/effects';
+// import { call, put, takeEvery } from 'redux-saga/effects';
 import axiosClient from '../../api/apiClient';
 import { getViewStructure } from '../../api/calls/getViewsStructure';
 
