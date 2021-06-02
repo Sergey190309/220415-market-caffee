@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import i18next from 'i18next';
+// import i18next from 'i18next';
 
 // import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
@@ -56,10 +56,8 @@ export function* techInFetch(action) {
   try {
     const techInResp = yield call(techInCall, { tech_id: action.payload });
     yield put(techInSuccess(techInResp.data.payload));
-    // console.log('techInFetch, success, techToken ->', techInResp.data.payload)
-    // setToken(techInResp.data.payload);
-    // call(setToken, techInResp.data.payload);
-    // yield call(setToken, techInResp.data.payload);
+    // ----------------------------------------------------------------------------------
+    // initate structure loading here
     yield put(startLngs());
   } catch (error) {
     yield put(techInFail(error));

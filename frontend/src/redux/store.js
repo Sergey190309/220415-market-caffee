@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 // import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers';
-import rootSaga from "./saga/index";
+import rootSaga from "./saga";
 // import { rootReducer } from './reducers';
 
 const initialState = {};

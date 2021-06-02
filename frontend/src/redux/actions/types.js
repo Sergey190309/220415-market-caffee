@@ -39,12 +39,15 @@ export const I18N_FAIL = 'I18N_FAIL';
 
 export const INIT_LOADING_SUCCESS = 'INIT_LOADING_SUCCESS';
 
-// Content loading
-export const CONTENTS_START = 'CONTENT_START'  // Whole page loading
+// Structure loading (initiated by tech)
+export const STRUCTURE_START = 'STRUCTURE_START'  // Start whole structure loading
+export const STRUCTURE_SUCCESS = 'STRUCTURE_SUCCESS'
+export const STRUCTURE_FAIL = 'STRUCTURE_FAIL'
+
+// Content loading (initiated by component)
+export const CONTENT_START = 'CONTENT_START'
 export const CONTENT_SUCCESS = 'CONTENT_SUCCESS'  // Specific element loading
 export const CONTENT_FAIL = 'CONTENT_FAIL'
-export const CONTENTS_SUCCESS = 'CONTENT_SUCCESS'
-export const CONTENTS_FAIL = 'CONTENT_FAIL'
 
 // Language switcher
 export const LNG_SWITCH = 'LNG_SWITCH';

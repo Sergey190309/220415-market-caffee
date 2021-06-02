@@ -1,32 +1,30 @@
-import { CONTENTS_FAIL, CONTENTS_START, CONTENT_SUCCESS } from '../actions/types';
+import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../actions/types';
 
 export const initialStore = {
   loading: false,
 };
 
-const contents = (store = initialStore, action) => {
+const structure = (store = initialStore, action) => {
   const { type, payload } = action;
   switch (type) {
-    case CONTENTS_START:
+    case STRUCTURE_START:
       return {
         ...store,
         loading: true,
       };
-    case CONTENT_SUCCESS:
+    case STRUCTURE_SUCCESS:
       return {
         ...store,
         loading: false,
       };
-    case CONTENTS_FAIL:
+    case STRUCTURE_FAIL:
       return {
         ...store,
         loading: false,
       };
     default:
-      return {
-        store,
-      };
+      return store;
   }
 };
 
-export default contents;
+export default structure;
