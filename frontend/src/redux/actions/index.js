@@ -9,4 +9,5 @@ export {
   logOutAction,
 } from './auth';
 export { setLngAction } from './lng';
+export { structureStart, structureSuccess, structureFail } from './structure';
 // export {setLocales, changeLocale} from './locales'

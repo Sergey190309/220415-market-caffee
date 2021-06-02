@@ -10,7 +10,7 @@ describe('structure reducers testing', () => {
       type: STRUCTURE_START
     }
     const actStore = {...testStore}
-    const expStore = { ...actStore, loading: true }
+    const expStore = { ...actStore, loading: true, loaded: false }
 
     expect(actStore).not.toEqual(expStore);
     expect(structure(actStore, testAction)).toEqual(expStore);
