@@ -1,6 +1,6 @@
 from flask_restful import Api
 
-from ..resources.structure import Structure
+from ..resources.structure import Structure, StructureList
 
 
 class ApiStructure(Api):
@@ -8,6 +8,7 @@ class ApiStructure(Api):
         super().__init__()
 
         self.add_resource(Structure, '')
+        self.add_resource(StructureList, '/list')
 
 
 api_structure = ApiStructure()

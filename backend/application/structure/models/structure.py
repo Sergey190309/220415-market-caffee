@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Union, List
 from datetime import datetime
 # import json
 from sqlalchemy.dialects import mysql
@@ -48,6 +48,10 @@ class StructureModel(dbs_global.Model):
     #     except Exception:
     #         # parse failed, return an empty dict
     #         return {}
+
+    @classmethod
+    def find(cls, searching_criterions: Dict = {}) -> List['StructureModel']:
+        return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
     def find_by_id(cls, view_id: str = '') -> Union['StructureModel', None]:

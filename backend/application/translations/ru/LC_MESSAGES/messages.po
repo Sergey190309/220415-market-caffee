@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-05-31 07:31+0000\n"
-"PO-Revision-Date: 2021-05-31 09:38+0000\n"
+"POT-Creation-Date: 2021-06-02 09:45+0000\n"
+"PO-Revision-Date: 2021-06-02 09:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -114,8 +114,7 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:50 structure/resources/structure.py:36
-#: structure_/resources/structure.py:26
+#: contents/resources/contents.py:50 structure/resources/structure.py:61
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
@@ -129,6 +128,7 @@ msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
 #: contents/resources/contents.py:101 resources/locale_global.py:37
+#: structure/resources/structure.py:27
 msgid "Something went wrong. Check tech_token and sessions set up."
 msgstr "Что-то пошло не так, проверь технический жетон и организацию сессий."
 
@@ -283,40 +283,45 @@ msgstr "Не действительный регион."
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: structure/resources/structure.py:20
+#: structure/resources/structure.py:34
+#, python-format
+msgid "There are %(count)s structures in our database as follows:"
+msgstr "В нашей базе числятся %(count)s структуры как указанно ниже:"
+
+#: structure/resources/structure.py:45
 #, python-format
 msgid "A structure with identity '%(view_id)s' already exists."
 msgstr "Структура с идентификатором '%(view_id)s' уже существует."
 
-#: structure/resources/structure.py:28
+#: structure/resources/structure.py:53
 #, python-format
 msgid "A structure with identity '%(view_id)s' not found."
 msgstr "Структура с идентификатором '%(view_id)s' не обнаружена."
 
-#: structure/resources/structure.py:44 structure_/resources/structure.py:34
+#: structure/resources/structure.py:69
 msgid "Sorry, access to structure information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации о структуре разрешен только администратору."
 
-#: structure/resources/structure.py:68
+#: structure/resources/structure.py:93
 msgid "The structure has been saved successfully. Details are in payload."
 msgstr "Структура успешно сохранена. Детали в сообщении."
 
-#: structure/resources/structure.py:87
+#: structure/resources/structure.py:112
 msgid "Something went wrong. Sorry we'll reverting."
 msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
 
-#: structure/resources/structure.py:100
+#: structure/resources/structure.py:125
 msgid "The structure has been found. Details are in payload."
 msgstr "Структура обнаружена. Детали в сообщении."
 
-#: structure/resources/structure.py:120
+#: structure/resources/structure.py:145
 msgid ""
 "The structure has been found and successfully updated. Details are in "
 "payload."
 msgstr "Структура обнаружена и успешно обновлена. Детали в сообщении."
 
-#: structure/resources/structure.py:144
+#: structure/resources/structure.py:169
 #, python-format
 msgid ""
 "The structure for view '%(view_id)s' has been found and successfully deleted."

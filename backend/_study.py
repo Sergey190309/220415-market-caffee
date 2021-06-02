@@ -1,51 +1,11 @@
-dict00 = {
-    '00':
-        {
-            'type': 'header',
-            'name': 'header',
-        },
-    '01':
-        {
-            'type': 'vblock',
-            'name': 'vblock00',
-            'subtype': 'txt',
-            "qnt": 3,
-        },
-    '02':
-        {
-            'type': 'hblock',
-            'name': 'hblock00',
-            'subtype': 'pix',
-            "qnt": 2
-        },
-    '03':
-        {
-            'type': 'vblock',
-            'name': 'vblock01',
-            'subtype': 'pix',
-            "qnt": 2
-        },
-    '04':
-        {
-            'type': 'footer',
-            'name': 'footer',
-        },
-}
+source = [
+    {'updated': None, 'attributes': {}, 'user_id': 0, 'view_id': 'admin', 'created': '2021-06-01T11:50:04'},
+    {'updated': None, 'attributes': {'00': {'name': 'header', 'type': 'header'}, '01': {'qnt': 3, 'name': 'vblock00', 'type': 'vblock', 'subtype': 'txt'}, '02': {'qnt': 2, 'name': 'hblock00', 'type': 'hblock', 'subtype': 'pix'}, '03': {'qnt': 2, 'name': 'vblock01', 'type': 'vblock', 'subtype': 'pix'}, '04': {'name': 'footer', 'type': 'footer'}}, 'user_id': 83, 'view_id': 'landing', 'created': '2021-06-01T12:13:54'},
+    {'updated': None, 'attributes': {}, 'user_id': 0, 'view_id': 'pictures', 'created': '2021-06-01T11:50:04'},
+    {'updated': None, 'attributes': {}, 'user_id': 0, 'view_id': 'price_list', 'created': '2021-06-01T11:50:04'},
+    {'updated': None, 'attributes': {}, 'user_id': 0, 'view_id': 'private', 'created': '2021-06-01T11:50:04'}
+]
 
-dict01 = {
-    '05':
-        {
-            'test_key': 'test_value'
-        }
-}
+result = [structure.get('view_id') for structure in source]
 
-dict02 = {**dict00, **{
-    '05':
-        {
-            'test_key': 'test_value'
-        }
-}}
-
-# print('dict00 ->', dict00)
-for item in dict02.items():
-    print('item ->', item)
+print(result)

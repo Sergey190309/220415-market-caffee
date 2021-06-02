@@ -261,7 +261,12 @@ def user_instance(random_text, random_email, valid_item, user_schema):
 
 @pytest.fixture()
 def view_id():
-    return 'landing'
+    return global_constants.get_VIEWS_PKS[0]
+
+
+@pytest.fixture()
+def view_ids():
+    return global_constants.get_VIEWS_PKS[0]
 
 
 @pytest.fixture()
@@ -308,6 +313,9 @@ def structure_instance(random_text):
     view_id - valid view
     '''
     def _method(values: Dict = {}):
+        # for value in values:
+        #     print('conftest, structure_instance, value ->', values.get(value))
+
         _values = {
             'view_id':
                 values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
@@ -315,6 +323,8 @@ def structure_instance(random_text):
             'user_id': values.get('user_id', randint(1, 128)),
             'attributes': values.get('attributes', {})
         }
+        # for value in _values:
+        # print('conftest, structure_instance, value ->', _values.get(value))
         return StructureModel(**_values)
     return _method
 

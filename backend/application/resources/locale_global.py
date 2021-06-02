@@ -24,7 +24,7 @@ def no_access() -> Dict:
 class LocalesGlobal(Resource):
     @classmethod
     @jwt_required()
-    def get(cls) -> [Dict]:
+    def get(cls) -> Dict:
         '''
         The resource give list of available locales in the system based on back-end
         info.

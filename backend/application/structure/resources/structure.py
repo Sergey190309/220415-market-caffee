@@ -12,6 +12,31 @@ from ..shemas.structure import structure_schema, structure_get_schema
 from ..models.structure import StructureModel
 
 
+class StructureList(Resource):
+
+    @classmethod
+    @jwt_required()
+    def get(cls) -> Dict:
+        '''
+        List of structure loaded once upon inititaion. tech_token is reauired.
+        '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
+        if not sessions.is_valid(get_jwt_identity()):
+            return {
+                'message': str(_(
+                    "Something went wrong. Check tech_token and sessions set up."))
+            }, 500
+        payload = [structure_schema.dump(_structure)
+                   for _structure in StructureModel.find()]
+        count = len(payload)
+        return {
+            'message': str(_(
+                "There are %(count)s structures in our database as follows:",
+                count=count)),
+            'payload': payload
+        }, 200
+
+
 class Structure(Resource):
     @classmethod
     def already_exists(cls, view_id: str = '') -> Dict:

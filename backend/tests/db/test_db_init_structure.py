@@ -5,7 +5,7 @@ from sqlalchemy import MetaData, Table, select
 from application.global_init_data import global_constants
 
 
-@pytest.mark.active
+# @pytest.mark.active
 # @pytest.mark.parametrize(
 #     'id, remark',
 #     [
