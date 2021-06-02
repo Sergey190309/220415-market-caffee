@@ -19,7 +19,7 @@ export function* structureWorker(action) {
     // console.log('structureWorker, viewStructure ->', result.data.payload);
     const viewStructures = result.data.payload;
     console.log('structureWorker, viewStructures ->', viewStructures);
-    yield viewStructures
+    yield viewStructures()
   } catch (error) {
     console.log('content worker, error', error);
   }

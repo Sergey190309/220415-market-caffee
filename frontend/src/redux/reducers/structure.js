@@ -1,10 +1,11 @@
 import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../actions/types';
 
 export const initialStore = {
-  loading: false,
+  loading: null,
 };
 
 const structure = (store = initialStore, action) => {
+  // console.log(action)
   const { type, payload } = action;
   switch (type) {
     case STRUCTURE_START:

@@ -1,6 +1,5 @@
 import tech from './tech';
 import {
-  FINISH_INIT_LOADING,
   I18N_FAIL,
   I18N_INITIATED,
   I18N_SUCCESS,
