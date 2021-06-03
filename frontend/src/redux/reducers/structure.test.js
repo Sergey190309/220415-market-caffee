@@ -39,7 +39,7 @@ describe('structure reducers testing', () => {
     const testAction = {
       type: STRUCTURE_FAIL,
     };
-    const actStore = { ...initialStore };
+    const actStore = { ...initialStore, loading: true };
     const expStore = { ...actStore, loading: false, loaded: false };
 
     expect(actStore).not.toEqual(expStore);

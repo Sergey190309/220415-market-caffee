@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
@@ -12,14 +12,17 @@ import {
 // import ViewParagraphs from '../view_elements/ViewParagraphs';
 // import ViewPictures from '../view_elements/ViewPictures';
 
-export const Landing = ({ language, structureStart }) => {
+export const Landing = ({loaded, loadedStructure}) => {
   // const [lng] = useState(language);
-  const [structure, setStructure] = useState({})
+  const [structure, setStructure] = useState({});
 
   useEffect(() => {
-    console.log('landing, useEffect, structure ->', structure)
+    // -> upon rendering set structre with loaded values
+    setStructure(loadedStructure)
+    //
+    // console.log('landing, useEffect, structure ->', structure);
     // structureStart('landing');
-  }, [structure]);
+  }, [loaded, loadedStructure, structure]);
 
   // const keys = {
   //   view_id: 'landing',
@@ -38,19 +41,22 @@ export const Landing = ({ language, structureStart }) => {
 };
 
 Landing.defaultProps = {
-  language: '',
+  loaded: false,
+  loadedStructure: {},
 };
 
 Landing.propTypes = {
-  language: PropTypes.string.isRequired,
+  loaded: PropTypes.bool.isRequired,
+  loadedStructure: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-  language: state.lng,
+  loaded: state.structure.loaded,
+  loadedStructure: state.structure.landing,
 });
 
 const mapDispatchToProps = dispatch => ({
-  structureStart: viewName => dispatch(structureStart(viewName)),
+  // structureStart: viewName => dispatch(structureStart(viewName)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);

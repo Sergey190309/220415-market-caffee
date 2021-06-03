@@ -1,8 +1,8 @@
 import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../actions/types';
 
 export const initialStore = {
-  loading: null,
-  loaded: null,
+  loading: false,
+  loaded: false,
 };
 
 const structure = (store = initialStore, action) => {
