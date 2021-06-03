@@ -64,10 +64,12 @@ export function* techInFetch(action) {
   }
 }
 
+// Watcher
 export function* lngsSaga() {
   yield takeEvery(START_LNGS, lngsWorker);
 }
 
+// Worker
 export function* lngsWorker(action) {
   try {
     const resp = yield call(lngsCall);

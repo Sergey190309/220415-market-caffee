@@ -2,7 +2,7 @@ import React, { useState, useEffect, useAsync, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'semantic-ui-react';
 
-import { getContents } from '../../../api/calls/getViewsContents'
+// import { getContents } from '../../../api/calls/getViewsContents'
   // '../../../api/calls/getBackEndInfo';
 // import { viewHeaderColor } from '../../../utils/colors';
 import { idsByIdNum } from '../../../utils/utils';
@@ -17,8 +17,8 @@ const getValues = async (view_id, ids) => {
     const results = [];
     ids.map(async (id, index) => {
       const keys = { view_id: view_id, identity: id };
-      const result = getContents({ ...keys });
-      results.push(result);
+      // const result = getContents({ ...keys });
+      // results.push(result);
     });
     return Promise.all(results);
   } catch (error) {

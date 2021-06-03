@@ -87,22 +87,14 @@ const result00 = payload.map(item => {
   return {[item['view_id']]: item['attributes']}
 })
 
-// const resultKeys = result00.map((item => {
-//   return Object.keys(item)
-// })).flat()
 
-// const resultValues = result00.map((item => {
-//   return Object.values(item)
-// })).flat()
+console.log('array ->', result00)
 
-const result = result00.map(item => {
-  const keys = Object.keys(item)
-  const values = Object.values(item)
-  return {[keys[0]]: values[0]}
+let state = {}
+
+result00.map(item => {
+    state = { ...state, ...item }
+    return state
 })
 
-// console.log(result00)
-// console.log(...result00)
-// console.log(resultKeys)
-// console.log(resultValues)
-console.log(result)
+console.log('state ->', state)
