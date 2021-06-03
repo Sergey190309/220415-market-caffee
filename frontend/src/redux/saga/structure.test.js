@@ -9,16 +9,12 @@ describe('Structure saga testing', () => {
 
   test('Structure saga worker success', async () => {
     mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
-    const action = {
+
+    const initialAction = {
       payload: 'payload'
     }
-    const auth = 'auth'
-    const args = [
-      action,
-      auth
-    ]
-    const dispatched = await recordSaga(structureWorker, args)
     mockAxios.defaults.headers.common['Authorization'] = 'something'
+    const dispatched = await recordSaga(structureWorker, initialAction)
     console.log('Structure saga worker success, dispatched ->', dispatched)
   });
 });

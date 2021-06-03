@@ -12,14 +12,10 @@ export function* structureSaga() {
 }
 
 // Worker
-export function* structureWorker(
-  action,
-  auth = axiosClient.defaults.headers.common['Authorization']
-) {
-  console.log('structureWorker, action.payload ->', action[1]);
-  console.log('structureWorker, auth ->', auth);
+export function* structureWorker(action) {
+  // console.log('structureWorker, action ->', action);
   try {
-    if (auth === undefined) {
+    if (axiosClient.defaults.headers.common['Authorization'] === undefined) {
       console.log('structureWorker, viewName');
       return;
     }
