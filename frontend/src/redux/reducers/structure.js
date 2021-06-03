@@ -21,8 +21,7 @@ const structure = (store = initialStore, action) => {
         structures = { ...structures, ...structure };
         return structure; // Just to avoid error
       });
-      console.log('STRUCTURE_SUCCESS reducer, structures ->', structures);
-      // const info = {k: v for }
+      // console.log('STRUCTURE_SUCCESS reducer, structures ->', structures);
       return {
         ...store,
         ...structures,
