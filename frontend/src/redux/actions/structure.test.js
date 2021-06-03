@@ -11,12 +11,14 @@ describe('View structure action testing', () => {
   });
 
   test('stractureSuccess', () => {
+    const viewStructures = mockResolveData.payload.map(structure => ({
+      [structure['view_id']]: structure['attributes'],
+    }));
     const expAction = {
       type: STRUCTURE_SUCCESS,
-      payload: mockResolveData.payload
-    }
-
-    console.log('structureSuccess ->', structureSuccess(mockResolveData.payload))
+      payload: viewStructures,
+    };
+    expect(structureSuccess(viewStructures)).toEqual(expAction);
+    // console.log('structureSuccess ->', structureSuccess(mockResolveData.payload));
   });
-
 });

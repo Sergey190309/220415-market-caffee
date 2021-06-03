@@ -3,6 +3,7 @@ import mockAxios from '../../api/apiClient';
 import {
   LNGS_FAIL,
   START_LNGS,
+  STRUCTURE_START,
   // START_TECH_IN,
   TECH_IN_FAIL,
   TECH_IN_SUCCESS,
@@ -60,6 +61,9 @@ describe('Tech sagas tesing', () => {
         payload: mockResolveData.payload,
       };
       const expDispatch01 = {
+        type: STRUCTURE_START,
+      };
+      const expDispatch02 = {
         type: START_LNGS,
       };
       const dispatched = await recordSaga(techInFetch, initialAction);
@@ -69,9 +73,11 @@ describe('Tech sagas tesing', () => {
       // expect(setToken).toHaveBeenCalledTimes(1);
 
       // expect(axiosCommonToken).toHaveBeenCalledTimes(1);
-      expect(dispatched.length).toBe(2);
+      expect(dispatched.length).toBe(3);
       expect(dispatched[0]).toEqual(expDispatch00);
       expect(dispatched[1]).toEqual(expDispatch01);
+      expect(dispatched[2]).toEqual(expDispatch02);
+      // console.log('tech in success, dispatched ->', dispatched[1])
     });
 
     test('tech in fail', async () => {

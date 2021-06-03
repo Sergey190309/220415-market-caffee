@@ -16,6 +16,7 @@ import {
   i18nSuccess,
   loadingSuccess,
 } from '../actions/tech';
+import { structureStart } from '../actions/structure';
 import {
   START_I18N,
   START_INIT_LOADING,
@@ -58,6 +59,7 @@ export function* techInFetch(action) {
     yield put(techInSuccess(techInResp.data.payload));
     // ----------------------------------------------------------------------------------
     // initate structure loading here
+    yield put(structureStart());
     yield put(startLngs());
   } catch (error) {
     yield put(techInFail(error));
@@ -87,7 +89,7 @@ export function* i18nSaga() {
 }
 
 export function* i18nWorker(
-  action,
+  action
   // setI18n = setI18next,
   // setCommonLng = axiosCommonLng
 ) {

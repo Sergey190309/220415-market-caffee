@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
@@ -14,11 +14,12 @@ import {
 
 export const Landing = ({ language, structureStart }) => {
   // const [lng] = useState(language);
+  const [structure, setStructure] = useState({})
 
   useEffect(() => {
-    // console.log('landing, useEffect, lng ->', language)
-    structureStart('landing');
-  }, [structureStart]);
+    console.log('landing, useEffect, structure ->', structure)
+    // structureStart('landing');
+  }, [structure]);
 
   // const keys = {
   //   view_id: 'landing',

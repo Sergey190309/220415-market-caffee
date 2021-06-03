@@ -13,17 +13,14 @@ export function* structureSaga() {
 
 // Worker
 export function* structureWorker(action) {
-  // console.log('structureWorker, action ->', action);
   try {
     if (axiosClient.defaults.headers.common['Authorization'] === undefined) {
-      console.log('structureWorker, viewName');
       return;
     }
-    const result = yield call(getViewStructure, action.payload);
-    // console.log('structureWorker, viewStructure ->', result.data.payload);
-    const viewStructures = result.data.payload.map(sturcture => {
-      return { [sturcture['view_id']]: sturcture['attributes'] };
-    });
+    const result = yield call(getViewStructure);
+    const viewStructures = result.data.payload.map(sturcture => ({
+      [sturcture['view_id']]: sturcture['attributes'],
+    }));
     // console.log('structureWorker, viewStructures ->', viewStructures);
     yield put(structureSuccess(viewStructures));
   } catch (error) {

@@ -101,12 +101,12 @@ export const mockRejectData = {
   config: { config: 'Some config' },
 }
 
-describe('getViewContents testing', () => {
+describe('getViewStructure testing', () => {
   beforeAll(() => {
     jest.resetAllMocks();
   });
 
-  test('dummy', async () => {
+  test('getViewStructure success', async () => {
     mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
     const resp = await getViewStructure();
     expect(mockAxios.get).toHaveBeenCalledTimes(1);

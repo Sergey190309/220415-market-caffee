@@ -9,7 +9,7 @@ import { axiosCommonLng } from '../api/apiClientUtils';
 export const initI18next = (supportedLngs = []) => {
   // export const initI18next = (supportedLngs = ['en', 'ru']) => {
   // -------------------------------------------------------------------------
-  // This i18n instance is just dummy one.
+  // This i18n instance is just 'empty' one for correct component rendering.
   // This instance should take all values upon loading appropriate values
   // from back - end.
   // -------------------------------------------------------------------------
