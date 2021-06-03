@@ -12,16 +12,20 @@ export function* structureSaga() {
 }
 
 // Worker
-export function* structureWorker(action) {
+export function* structureWorker(
+  action,
+  auth = axiosClient.defaults.headers.common['Authorization']
+) {
+  console.log('structureWorker, auth ->', auth);
   try {
-    if (axiosClient.defaults.headers.common['Authorization'] === undefined) {
-      // console.log('structureWorker, viewName ->')
+    if (auth === undefined) {
+      console.log('structureWorker, viewName');
       return;
     }
     const result = yield call(getViewStructure, action.payload);
     // console.log('structureWorker, viewStructure ->', result.data.payload);
     const viewStructures = result.data.payload.map(sturcture => {
-      return {[sturcture['view_id']]: sturcture['attributes']}
+      return { [sturcture['view_id']]: sturcture['attributes'] };
     });
     // console.log('structureWorker, viewStructures ->', viewStructures);
     yield put(structureSuccess(viewStructures));
