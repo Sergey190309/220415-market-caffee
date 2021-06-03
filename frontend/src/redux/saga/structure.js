@@ -16,6 +16,7 @@ export function* structureWorker(
   action,
   auth = axiosClient.defaults.headers.common['Authorization']
 ) {
+  console.log('structureWorker, action.payload ->', action[1]);
   console.log('structureWorker, auth ->', auth);
   try {
     if (auth === undefined) {
