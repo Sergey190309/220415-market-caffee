@@ -7,15 +7,15 @@ export const structureStart = () => {
 };
 
 export const structureSuccess = viewStructures => {
+  console.log('structureSuccess, action, viewStructures ->', viewStructures);
   return {
     type: STRUCTURE_SUCCESS,
-    payload: viewStructures
-  }
-}
+    payload: viewStructures,
+  };
+};
 
 export const structureFail = () => {
   return {
     type: STRUCTURE_FAIL,
-  }
-}
-
+  };
+};

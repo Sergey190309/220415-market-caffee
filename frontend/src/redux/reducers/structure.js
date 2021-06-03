@@ -16,11 +16,16 @@ const structure = (store = initialStore, action) => {
         loaded: false,
       };
     case STRUCTURE_SUCCESS:
-      console.log('STRUCTURE_SUCCESS reducer, payload ->', payload)
+      let structures = {};
+      payload.map(structure => {
+        structures = { ...structures, ...structure };
+        return structure; // Just to avoid error
+      });
+      console.log('STRUCTURE_SUCCESS reducer, structures ->', structures);
       // const info = {k: v for }
       return {
         ...store,
-        // ...payload,
+        ...structures,
         loading: false,
         loaded: true,
       };
