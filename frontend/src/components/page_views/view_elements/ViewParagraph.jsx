@@ -35,7 +35,7 @@ const initData = [];
 //   content: string,
 // }];
 
-const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
+const ViewParagraph = ({ keys, qnt, initData, getValues }) => {
   const [data, setData] = useState(initData);
   // arguments are key and quantity of elements in an array that should be retrieved from back end
   // key contains view and name of data that with locale are primary keys in back end
@@ -82,18 +82,18 @@ const ViewParagraphs = ({ keys, qnt, initData, getValues }) => {
   );
 };
 
-ViewParagraphs.defaultProps = {
+ViewParagraph.defaultProps = {
   keys: {},
   qnt: 0,
   initData: initData,
   getValues: getValues,
 };
 
-ViewParagraphs.propTypes = {
+ViewParagraph.propTypes = {
   keys: PropTypes.object.isRequired,
   qnt: PropTypes.number.isRequired,
   initData: PropTypes.array.isRequired,
   getValues: PropTypes.func.isRequired,
 };
 
-export default ViewParagraphs;
+export default ViewParagraph;

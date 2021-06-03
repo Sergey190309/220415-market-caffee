@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ViewParagraphs from './ViewParagraphs';
+import ViewParagraph from './ViewParagraph';
 import { render } from '@testing-library/react';
 
 // import { render } from '../../../testUtils/modifiedRenderReactTesting';
@@ -29,7 +29,7 @@ describe('View paragraphs', () => {
     };
   });
   test('it should exists', () => {
-    render(<ViewParagraphs {...testProps} />);
+    render(<ViewParagraph {...testProps} />);
 
     // console.log('testing, testProps ->', testProps)
   });

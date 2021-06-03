@@ -39,7 +39,7 @@ describe('View header testing', () => {
         };
       });
 
-      test('calling API function', async () => {
+      test.skip('calling API function', async () => {
         render(<ViewHeader {...testProps} />);
         await waitFor(() => {
           const header = screen.getByTestId('header');
@@ -56,7 +56,7 @@ describe('View header testing', () => {
         });
       });
 
-      test('Having appropriate text in HTML structure', async () => {
+      test.skip('Having appropriate text in HTML structure', async () => {
         render(<ViewHeader {...testProps} />);
         await waitFor(() => {
           const header = screen.getByTestId('header');

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
-import { structureStart } from '../../../redux/actions/structure';
+// import { structureStart } from '../../../redux/actions/structure';
 
 import {
   // viewHeaderColor,
