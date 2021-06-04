@@ -1,25 +1,49 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Divider } from 'semantic-ui-react';
 import ViewHeader from './ViewHeader';
+import ViewFooter from './ViewFooter';
+import ViewVBlock from './ViewVBlock';
+import ViewHBlock from './ViewHBlock';
 
-export const Output = ({ structure }) => {
-  console.log('Output, structure ->', structure)
-  // return <ViewHeader />
-  return <ViewHeader componentType={ structure['00']['type'] } />
-  // const keys = Object.keys(structure);
-  // keys.forEach(item => {
-  //   console.log(item, '\t-\t', structure[item]['type']);
-  //   switch (structure[item]['type']) {
-  //     case 'header':
-  //       console.log('ViewHeader');
-  //       return (
-  //         <ViewHeader type={structure[item]['type']} />
-  //       );
-
-  //     default:
-  //       return null;
-  //   }
-  // });
-  // console.log('output, structure ->', structure);
+export const Output = ({ structure, viewName }) => {
+  // console.log(structure);
+  const keys = Object.keys(structure);
+  const output = keys.map((key, index) => {
+    const componentType = structure[key]['type'];
+    const componentSubType = structure[key]['subtype'] ? structure[key]['subtype'] : null;
+    const subComponentQnt = structure[key]['qnt'] ? structure[key]['qnt'] : null;
+    let component;
+    const recordId =
+      `${key}_${componentType}` +
+      (componentSubType ? `_${componentSubType}` : '') +
+      (subComponentQnt ? `_${subComponentQnt}` : '');
+    // console.log(recordId)
+    const props = { recordId: recordId, viewName: viewName };
+    switch (componentType) {
+      case 'header':
+        component = <ViewHeader {...props} />;
+        break;
+      case 'footer':
+        component = <ViewFooter {...props} />;
+        break;
+      case 'hblock':
+        component = <ViewHBlock {...props} />;
+        break;
+      case 'vblock':
+        component = <ViewVBlock {...props} />;
+        break;
+      default:
+        component = <ViewHeader />;
+    }
+    return (
+      <Fragment key={key}>
+        {component}
+        {index < keys.length - 1 ? <Divider /> : null}
+      </Fragment>
+    );
+  });
+  // console.log('output, output ->', output);
+  return output;
 };
 
 export default Output;

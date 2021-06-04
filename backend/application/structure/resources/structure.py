@@ -102,16 +102,13 @@ class Structure(Resource):
         '''
         Get instance from db.
         '''
-        # _jwt_identity = get_jwt_identity()
-        # print(_jwt_identity)
-        # if sessions.is_valid(_jwt_identity):
-        #     print('It is good!')
+        fbp.set_lng(request.headers.get('Accept-Language'))
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
                     "Something went wrong. Sorry we'll reverting."))
             }, 500
-        fbp.set_lng(request.headers.get('Accept-Language'))
+
         _requested_dict = {
             'view_id': request.args.get('view_id'),
         }

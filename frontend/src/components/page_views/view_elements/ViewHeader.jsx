@@ -1,18 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Header } from 'semantic-ui-react';
+
+// import { Container, Header } from 'semantic-ui-react';
 
 // import { getContents } from '../../../api/calls/getViewsContents';
-import { viewHeaderColor } from '../../../utils/colors';
+// import { viewHeaderColor } from '../../../utils/colors';
 
-export const ViewHeader = ({ componentType }) => {
-  // console.log('ViewHeader, type ->', componentType);
+export const ViewHeader = ({ recordId, viewName, lng }) => {
+  const [content, setContent] = useState({ title: '', content: '' });
+  // console.log('ViewHeader, type ->', recordId);
   return (
     <div>
-      <h1>{componentType}</h1>
+      <h1>ViewHeader</h1>
+      <h2>{recordId}</h2>
+      <h2>{viewName}</h2>
+      <h2>{lng}</h2>
     </div>
   );
 };
+
+ViewHeader.defaultProps = {
+  recordId: '',
+  viewName: '',
+  lng: '',
+};
+
+ViewHeader.propTypes = {
+  recordId: PropTypes.string.isRequired,
+  viewName: PropTypes.string.isRequired,
+  lng: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  lng: state.lng,
+});
+
+// const mapDispatchToProps = dispatch => ({
+// structureStart: viewName => dispatch(structureStart(viewName)),
+// });
+
+export default connect(mapStateToProps)(ViewHeader);
 
 // const getValues = keys => {
 //   console.log('getValues ->', keys);
@@ -56,13 +84,3 @@ export const ViewHeader = ({ componentType }) => {
 //     </Container>
 //   );
 // };
-
-ViewHeader.defaultProps = {
-  componentType: 'ViewHeader',
-};
-
-ViewHeader.propTypes = {
-  componentType: PropTypes.string.isRequired,
-};
-
-export default ViewHeader;

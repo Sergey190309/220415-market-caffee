@@ -95,12 +95,12 @@ class Content(Resource):
         '''
         Get instance from db.
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
                     "Something went wrong. Check tech_token and sessions set up."))
             }, 500
-        fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args.get('view_id'),
             'identity': request.args.get('identity'),

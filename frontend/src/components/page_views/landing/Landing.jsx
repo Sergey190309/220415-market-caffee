@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
 import Output from '../view_elements/ElementSwitcher';
-import ViewHeader from '../view_elements/ViewHeader';
+// import ViewHeader from '../view_elements/ViewHeader';
 // import { structureStart } from '../../../redux/actions/structure';
 
 import {
@@ -34,7 +34,7 @@ export const Landing = ({ structureLoaded, loadedStructure }) => {
   // }
 
   const _output = (structure) => {
-    return (<Output structure={structure} />)
+    return (<Output viewName='landing' structure={structure} />)
   }
 
   return (

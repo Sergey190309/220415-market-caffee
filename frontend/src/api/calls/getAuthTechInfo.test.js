@@ -17,16 +17,16 @@ describe('Testing API calls', () => {
         },
       ],
     };
-    const mockRejectData = {
-      response: {
-        data: {
-          message: 'Something went wrong. Check tech_token and sessions set up.',
-        },
-        status: 500,
-        headers: { header: 'Some header' },
-      },
-      config: { config: 'Some config' },
-    };
+    // const mockRejectData = {
+    //   response: {
+    //     data: {
+    //       message: 'Something went wrong. Check tech_token and sessions set up.',
+    //     },
+    //     status: 500,
+    //     headers: { header: 'Some header' },
+    //   },
+    //   config: { config: 'Some config' },
+    // };
     beforeAll(() => {
       jest.resetAllMocks();
     });
@@ -48,16 +48,16 @@ describe('Testing API calls', () => {
       payload:
         'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTYyMTUwNjcyNywianRpIjoiY2E2MjMxYzEtNTUxOS00NGE2LThlZjItYjg5ZTI1MzNjYWRkIiwibmJmIjoxNjIxNTA2NzI3LCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoiMDliMjFjNGQtOTlmNC00YmJhLWI0MmYtZjBkNzllOGVhNDU1IiwiaWQiOiIwOWIyMWM0ZC05OWY0LTRiYmEtYjQyZi1mMGQ3OWU4ZWE0NTUifQ.Th7t0ArPxn8j0sb5spFX0_uB8wPBLYCs6_TB0bIuuLU',
     };
-    const mockRejectData = {
-      response: {
-        data: {
-          message: 'Error message',
-        },
-        status: 400,
-        headers: { header: 'Some header' },
-      },
-      config: { config: 'Some config' },
-    };
+    // const mockRejectData = {
+    //   response: {
+    //     data: {
+    //       message: 'Error message',
+    //     },
+    //     status: 400,
+    //     headers: { header: 'Some header' },
+    //   },
+    //   config: { config: 'Some config' },
+    // };
     beforeAll(() => {
       jest.resetAllMocks();
     });

@@ -90,7 +90,7 @@ describe('View header testing', () => {
           getValues: mockGetValues,
         };
       });
-      test('snapshot', async () => {
+      test.skip('snapshot', async () => {
         const result = renderer.create(<ViewHeader {...testProps} />).toJSON();
         //   const result = await renderer.create(<ViewHeader {...testProps} />)
         //   const jsonResult = await result.toJSON()
