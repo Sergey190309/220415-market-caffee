@@ -5,14 +5,14 @@ import { Container, Header } from 'semantic-ui-react';
 // import { getContents } from '../../../api/calls/getViewsContents';
 import { viewHeaderColor } from '../../../utils/colors';
 
-
-export const ViewHeader = () => {
+export const ViewHeader = ({ componentType }) => {
+  // console.log('ViewHeader, type ->', componentType);
   return (
     <div>
-      <h1>ViewHeader</h1>
+      <h1>{componentType}</h1>
     </div>
-  )
-}
+  );
+};
 
 // const getValues = keys => {
 //   console.log('getValues ->', keys);
@@ -57,16 +57,12 @@ export const ViewHeader = () => {
 //   );
 // };
 
-// ViewHeader.defaultProps = {
-//   keys: {},
-//   initData: initData,
-//   getValues: getValues,
-// };
+ViewHeader.defaultProps = {
+  componentType: 'ViewHeader',
+};
 
-// ViewHeader.propTypes = {
-//   keys: PropTypes.object.isRequired,
-//   initData: PropTypes.object.isRequired,
-//   getValues: PropTypes.func.isRequired,
-// };
+ViewHeader.propTypes = {
+  componentType: PropTypes.string.isRequired,
+};
 
 export default ViewHeader;
