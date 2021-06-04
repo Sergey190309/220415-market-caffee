@@ -1,5 +1,5 @@
-import { structureStart, structureSuccess } from './structure';
-import { STRUCTURE_START, STRUCTURE_SUCCESS } from './types';
+import { structureFail, structureStart, structureSuccess } from './structure';
+import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from './types';
 import { mockResolveData } from '../../api/calls/getViewsStructure.test';
 
 describe('View structure action testing', () => {
@@ -20,5 +20,12 @@ describe('View structure action testing', () => {
     };
     expect(structureSuccess(viewStructures)).toEqual(expAction);
     // console.log('structureSuccess ->', structureSuccess(mockResolveData.payload));
+  });
+
+  test('structureFail', () => {
+    const expAction = {
+      type: STRUCTURE_FAIL,
+    };
+    expect(structureFail()).toEqual(expAction);
   });
 });

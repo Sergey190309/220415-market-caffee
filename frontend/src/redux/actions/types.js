@@ -44,10 +44,5 @@ export const STRUCTURE_START = 'STRUCTURE_START'  // Start whole structure loadi
 export const STRUCTURE_SUCCESS = 'STRUCTURE_SUCCESS'
 export const STRUCTURE_FAIL = 'STRUCTURE_FAIL'
 
-// Content loading (initiated by component)
-export const CONTENT_START = 'CONTENT_START'
-export const CONTENT_SUCCESS = 'CONTENT_SUCCESS'  // Specific element loading
-export const CONTENT_FAIL = 'CONTENT_FAIL'
-
 // Language switcher
 export const LNG_SWITCH = 'LNG_SWITCH';
