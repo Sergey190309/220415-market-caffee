@@ -137,7 +137,8 @@ describe('Auth reducer testing', () => {
     expect(auth(testInitStore, action, mockSetToken)).toEqual(expResult);
     expect(mockSetToken).toHaveBeenCalledTimes(1);
     // expect(mockSetToken).toHaveBeenCalledWith(action.payload.access_token);
-    console.log('auth reducer, login success', mockSetToken.mock)
+    expect(mockSetToken.mock.calls[0][0]).toBe(action.payload.access_token);
+    // console.log('auth reducer, login success', mockSetToken.mock.calls[0][1])
 
   });
 
