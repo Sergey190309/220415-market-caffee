@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 // import { call, put, takeEvery } from 'redux-saga/effects';
-import axiosClient from '../../api/apiClient';
+import { techAxiosClient } from '../../api/apiClient';
 import { getViewStructure } from '../../api/calls/getViewsStructure';
 
 import { structureSuccess } from '../actions';
@@ -14,7 +14,7 @@ export function* structureSaga() {
 // Worker
 export function* structureWorker(action) {
   try {
-    if (axiosClient.defaults.headers.common['Authorization'] === undefined) {
+    if (techAxiosClient.defaults.headers.common['Authorization'] === undefined) {
       return;
     }
     const result = yield call(getViewStructure);

@@ -13,7 +13,8 @@ import {
   // FINISH_LOADING,
 } from '../actions/types';
 // import store from '../store'
-import { axiosCommonToken } from '../../api/apiClientUtils';
+
+import { axiosCommonToken, authAxiosClient } from '../../api/apiClient';
 // import { axiosCommonToken } from '../../api/apiClient';
 // import { setSupportedLngs } from '../../l10n/i18n';
 
@@ -53,7 +54,7 @@ const auth = (
     case LOG_IN_FAIL:
       localStorage.removeItem('logInInfo');
       // const state = store.getState();
-      setToken(store.tech_token);
+      // setToken(store.tech_token);
       return {
         tech_token: store.tech_token,
         isSignedUp: false,
@@ -82,7 +83,7 @@ const auth = (
       };
     case LOG_IN_SUCCESS:
       payload['isAuthenticated'] = true;
-      setToken(payload.access_token);
+      setToken(payload.access_token, authAxiosClient);
       localStorage.setItem('logInInfo', JSON.stringify(payload));
       return {
         ...store,

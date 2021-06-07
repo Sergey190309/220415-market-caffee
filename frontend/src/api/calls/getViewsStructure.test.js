@@ -1,4 +1,4 @@
-import mockAxios from '../apiClient';
+import { techAxiosClient } from '../apiClient';
 // import { getContents, getTechToken, getLngList } from './getViewsContents';
 import { getViewStructure } from './getViewsStructure';
 
@@ -107,10 +107,10 @@ describe('getViewStructure testing', () => {
   });
 
   test('getViewStructure success', async () => {
-    mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    techAxiosClient.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
     const resp = await getViewStructure();
-    expect(mockAxios.get).toHaveBeenCalledTimes(1);
-    expect(mockAxios.get).toHaveBeenCalledWith('/structure/list');
+    expect(techAxiosClient.get).toHaveBeenCalledTimes(1);
+    expect(techAxiosClient.get).toHaveBeenCalledWith('/structure/list');
     // console.log('lngsCall success ->', resp.data)
     expect(resp.data).toEqual(mockResolveData);
   });

@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import mockAxios from '../../api/apiClient';
+import { techAxiosClient as mockAxios } from '../../api/apiClient';
 import { lngsCall, techInCall } from './getAuthTechInfo';
 
 describe('Testing API calls', () => {

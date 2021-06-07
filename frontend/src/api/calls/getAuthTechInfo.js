@@ -1,8 +1,8 @@
-import axiosClient from '../apiClient'
+import {techAxiosClient} from '../apiClient'
 
 export const lngsCall = () => {
   try {
-    const resp = axiosClient.get('/global/locales')
+    const resp = techAxiosClient.get('/global/locales')
     return resp
   } catch (error) {
     console.log('logInCall error\n', error);
@@ -12,7 +12,8 @@ export const lngsCall = () => {
 
 export const techInCall = techInData => {
   try {
-    const resp = axiosClient.post('/home/tech/auth', techInData);
+    const resp = techAxiosClient.post('/home/tech/auth', techInData);
+    // console.log('techInCall, resp ->', resp)
     return resp;
   } catch (error) {
     console.log('logInCall error\n', error);
@@ -23,7 +24,7 @@ export const techInCall = techInData => {
 export const logInCall = logInData => {
   try {
     // console.log('saga logInCall ->', logInData);
-    const resp = axiosClient.post('/users/login', logInData);
+    const resp = techAxiosClient.post('/users/login', logInData);
     return resp;
   } catch (error) {
     console.log('logInCall error\n', error);
@@ -34,7 +35,7 @@ export const logInCall = logInData => {
 export const signUpCall = signUpData => {
   try {
     // console.log('saga signUpCall ->', signUpData);
-    const resp = axiosClient.post('/users', signUpData);
+    const resp = techAxiosClient.post('/users', signUpData);
     return resp;
   } catch (error) {
     console.log('signUpCall error\n', error);

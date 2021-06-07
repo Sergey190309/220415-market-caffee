@@ -12,7 +12,7 @@ import {
   START_I18N,
   I18N_INITIATED,
 } from '../actions/types';
-import { axiosCommonToken } from '../../api/apiClientUtils';
+import { axiosCommonToken } from '../../api/apiClient';
 // import { axiosCommonToken } from '../../api/apiClient';
 
 // ----------------------> DO NOT REMOVE

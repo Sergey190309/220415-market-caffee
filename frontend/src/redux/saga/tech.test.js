@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import mockAxios from '../../api/apiClient';
+import { techAxiosClient as mockAxios } from '../../api/apiClient';
 import {
   LNGS_FAIL,
   START_LNGS,
@@ -16,6 +16,7 @@ import {
   i18nWorker,
 } from './tech';
 import * as i18n from '../../l10n/i18n';
+// import { techAxiosClient } from '../../api/apiClient';
 
 // jest.mock('../../api/apiClient', () => ({ axiosCommonToken: jest.fn() }));
 

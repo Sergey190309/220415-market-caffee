@@ -1,4 +1,4 @@
-import mockAxios from '../../api/apiClient';
+import { techAxiosClient as mockAxios } from '../../api/apiClient';
 
 // import { runSaga } from 'redux-saga';
 import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../actions/types';

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import i18next from 'i18next';
 
 import { Dropdown } from 'semantic-ui-react';
-import { axiosCommonLng } from '../../api/apiClientUtils';
+import { axiosCommonLng } from '../../api/apiClient';
 
 import { setLngAction } from '../../redux/actions/lng';
 

@@ -56,6 +56,7 @@ export function* techInFetch(action) {
   // export function* techInFetch(action, setToken = axiosCommonToken) {
   try {
     const techInResp = yield call(techInCall, { tech_id: action.payload });
+    // console.log('techInFetch, techInResp ->', techInResp.data.payload)
     yield put(techInSuccess(techInResp.data.payload));
     // ----------------------------------------------------------------------------------
     // initate structure loading here

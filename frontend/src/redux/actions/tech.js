@@ -21,7 +21,7 @@ export const startLoading = () => {
   // ==================================================================================
   // It should start load tech sequence and start i18n initiation.
   // ==================================================================================
-  // console.log('startLoading ->', sessionId)
+  // console.log('startLoading ->')
   return {
     type: START_INIT_LOADING,
     // payload: sessionId,
@@ -29,7 +29,7 @@ export const startLoading = () => {
 };
 
 export const loadingSuccess = () => {
-  // console.log('startLoading ->', sessionId)
+  // console.log('startLoading ->')
   return {
     type: INIT_LOADING_SUCCESS,
     // payload: sessionId,
