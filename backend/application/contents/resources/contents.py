@@ -95,6 +95,8 @@ class Content(Resource):
         '''
         Get instance from db.
         '''
+
+        # print('cls, resources, _requested_dict ->', _requested_dict)
         fbp.set_lng(request.headers.get('Accept-Language'))
         if not sessions.is_valid(get_jwt_identity()):
             return {
@@ -106,7 +108,6 @@ class Content(Resource):
             'identity': request.args.get('identity'),
             'locale_id': request.args.get('locale_id'),
         }
-        # print('cls, resources, _requested_dict ->', _requested_dict)
         _search_json = content_get_schema.load(_requested_dict)
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
         if _content is None:

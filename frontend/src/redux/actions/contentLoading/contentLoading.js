@@ -1,3 +1,5 @@
+// ==================================================================================
+// The reducer has not been needed.
 import { CONTENT_FAIL, CONTENT_START, CONTENT_SUCCESS } from './types';
 
 export const contentStart = () => {

@@ -15,14 +15,14 @@ export const createIO = () => {
   };
 };
 
-export const useSaga = (componentSaga, initState) => {
+export const useSaga = (saga, initState) => {
 // ----------------------------------------------------------------------------------
   const [state, setState] = useState(initState);
   const IO = useRef(createIO());
   useEffect(() => {
-    const task = runSaga(IO.current, componentSaga, setState)
+    const task = runSaga(IO.current, saga, setState)
     return () => task.cancel()
-  }, [componentSaga])
+  }, [saga])
 
   return [state, IO.current.dispatch]
 };

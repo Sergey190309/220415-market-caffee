@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -27,7 +27,7 @@ export const ViewHeader = ({ recordId, viewName, lng }) => {
   return (
     <div>
       <h1>{state.title}</h1>
-      <h2>{state.content}</h2>
+      <p>{state.content}</p>
     </div>
   );
 };
