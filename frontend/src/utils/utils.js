@@ -23,11 +23,16 @@ export const recordIdList = recordId => {
   // ]
   // ==================================================================================
   const splitted = recordId.split('_');
-  const qnt = parseInt(splitted.slice(-1));
+  let qnt = parseInt(splitted.slice(-1));
+  if (isNaN(qnt)) {
+    return 0
+  }
+  qnt = qnt < 1001? qnt: 1000
+  // console.log(qnt)
   const idBase = splitted.slice(0, -1).join('_');
   const result = [];
   for (let i = 0; i < qnt; i++) {
-    result.push(idBase.concat('_', i.toString().padStart(2, 0)));
+    result.push(idBase.concat('_', i.toString().padStart(3, 0)));
   }
   return result;
 };
