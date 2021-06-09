@@ -1,24 +1,27 @@
 import React, { Fragment } from 'react';
 import { Divider } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+
 import ViewHeader from './ViewHeader';
 import ViewFooter from './ViewFooter';
 import ViewVBlock from './ViewVBlock';
 import ViewHBlock from './ViewHBlock';
+import ViewNothing from './ViewNothing';
 
-export const Output = ({ structure, viewName }) => {
+export const Output = ({ structure, viewName, lng }) => {
   // console.log(structure);
   const keys = Object.keys(structure);
   const output = keys.map((key, index) => {
     const componentType = structure[key]['type'];
     const componentSubType = structure[key]['subtype'] ? structure[key]['subtype'] : null;
     const subComponentQnt = structure[key]['qnt'] ? structure[key]['qnt'] : null;
-    let component;
     const recordId =
-      `${key}_${componentType}` +
-      (componentSubType ? `_${componentSubType}` : '') +
-      (subComponentQnt ? `_${subComponentQnt}` : '');
+    `${key}_${componentType}` +
+    (componentSubType ? `_${componentSubType}` : '') +
+    (subComponentQnt ? `_${subComponentQnt}` : '');
     // console.log(recordId)
-    const props = { recordId: recordId, viewName: viewName };
+    let component;
+    const props = { recordId: recordId, viewName: viewName, lng: lng };
     switch (componentType) {
       case 'header':
         component = <ViewHeader {...props} />;
@@ -33,7 +36,7 @@ export const Output = ({ structure, viewName }) => {
         component = <ViewVBlock {...props} />;
         break;
       default:
-        component = <ViewHeader />;
+        component = <ViewNothing {...props} />;
     }
     return (
       <Fragment key={key}>
@@ -45,5 +48,17 @@ export const Output = ({ structure, viewName }) => {
   // console.log('output, output ->', output);
   return output;
 };
+
+Output.defaultProps = {
+  structure: {},
+  viewName: '',
+  lng: '',
+};
+
+Output.propTypes = {
+  structure: PropTypes.object.isRequired,
+  viewName: PropTypes.string.isRequired,
+  lng: PropTypes.string.isRequired,
+}
 
 export default Output;

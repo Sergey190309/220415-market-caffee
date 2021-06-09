@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { CONTENT_REQUESTED } from '../../../redux/actions/contentLoading/types';
@@ -44,12 +44,13 @@ ViewFooter.propTypes = {
   lng: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  lng: state.lng,
-});
+// const mapStateToProps = state => ({
+//   lng: state.lng,
+// });
 
 // const mapDispatchToProps = dispatch => ({
 // structureStart: viewName => dispatch(structureStart(viewName)),
 // });
 
-export default connect(mapStateToProps)(ViewFooter);
+export default ViewFooter;
+// export default connect(mapStateToProps)(ViewFooter);

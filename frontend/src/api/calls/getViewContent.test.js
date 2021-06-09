@@ -1,4 +1,4 @@
-import { techAxiosClient } from '../apiClient';
+import { techAxiosClient as mockAxios } from '../apiClient'
 import { getViewContent } from './getViewContent';
 
 export const mockResolveData = {
@@ -40,10 +40,11 @@ describe('getViewContent testing', () => {
   beforeAll(() => {
     jest.resetAllMocks();
   });
-  test('not done! getViewContent, success', async () => {
-    techAxiosClient.get.mockImplementation(() =>
+  test('getViewContent, success', async () => {
+    mockAxios.get.mockImplementation(() =>
       Promise.resolve({ data: mockResolveData })
     );
     const resp = await getViewContent();
+    console.log('getViewContent, resp ->', resp)
   });
 });

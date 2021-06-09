@@ -4,44 +4,26 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
 import Output from '../view_elements/ElementSwitcher';
-// import ViewHeader from '../view_elements/ViewHeader';
-// import { structureStart } from '../../../redux/actions/structure';
 
-import {
-  // viewHeaderColor,
-  viewSegmentColor,
-} from '../../../utils/colors';
-// import ViewHeader from '../view_elements/ViewHeader';
-// import ViewParagraphs from '../view_elements/ViewParagraphs';
-// import ViewPictures from '../view_elements/ViewPictures';
+import { viewSegmentColor } from '../../../utils/colors';
 
-export const Landing = ({ structureLoaded, loadedStructure }) => {
+export const Landing = ({ structureLoaded, loadedStructure, lng }) => {
   // const [lng] = useState(language);
   const [structure, setStructure] = useState({});
-
-  // let output = null
 
   useEffect(() => {
     // -> upon rendering set structre with loaded values
     setStructure(loadedStructure);
-    //
     // console.log('landing, useEffect, structure ->', structure);
-    // structureStart('landing');
   }, [structureLoaded, loadedStructure]);
 
-  // if (structure !== {}) {
-  // output = _output(structure)
-  // }
-
-  const _output = (structure) => {
-    return (<Output viewName='landing' structure={structure} />)
-  }
+  const _output = structure => {
+    return <Output viewName='landing' structure={structure} lng={lng} />;
+  };
 
   return (
     <Container>
-      {/* <Segment color={viewSegmentColor}>{_output(structure)}</Segment> */}
       <Segment color={viewSegmentColor}>
-        {/* <ViewHeader componentType='something' /> */}
         {isEmpty(structure) ? null : _output(structure)}
       </Segment>
     </Container>
@@ -51,7 +33,7 @@ export const Landing = ({ structureLoaded, loadedStructure }) => {
 Landing.defaultProps = {
   structureLoaded: false,
   loadedStructure: {},
-  // _output: output,
+  lng: '',
 };
 
 Landing.propTypes = {
@@ -63,6 +45,7 @@ Landing.propTypes = {
 const mapStateToProps = state => ({
   structureLoaded: state.structure.loaded,
   loadedStructure: state.structure.landing,
+  lng: state.lng
 });
 
 const mapDispatchToProps = dispatch => ({

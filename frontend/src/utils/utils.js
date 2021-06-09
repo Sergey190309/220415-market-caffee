@@ -12,7 +12,7 @@ export const idsByIdNum = (id, qnt) => {
   return ids;
 };
 
-export const recordIdList = recordId => {
+export const makeRecordIdList = recordId => {
   // ==================================================================================
   // The function return recordId in the form '01_vblock_txt_133' return array as below
   // [

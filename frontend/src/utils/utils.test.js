@@ -1,4 +1,4 @@
-import { idsByIdNum, recordIdList } from './utils';
+import { idsByIdNum, makeRecordIdList } from './utils';
 
 describe('Utils testing', () => {
   describe('idsByIdNum testing', () => {
@@ -28,7 +28,7 @@ describe('Utils testing', () => {
     });
   });
 
-  describe('recordIdList testing', () => {
+  describe('makeRecordIdList testing', () => {
     test('normal, small qnt', () => {
       const arg = '01_vblock_txt_3'
       const expResult = [
@@ -36,8 +36,8 @@ describe('Utils testing', () => {
         '01_vblock_txt_001',
         '01_vblock_txt_002',
       ]
-      expect(recordIdList(arg)).toEqual(expResult);
-      expect(recordIdList(arg).length).toBe(3);
+      expect(makeRecordIdList(arg)).toEqual(expResult);
+      expect(makeRecordIdList(arg).length).toBe(3);
     });
 
     test('number can not be converted to int', () => {
@@ -47,8 +47,8 @@ describe('Utils testing', () => {
       //   '01_vblock_txt_001',
       //   '01_vblock_txt_002',
       // ]
-      expect(recordIdList(arg)).toBe(0);
-      console.log('recordIdList testing, recordIdList(arg) ->', recordIdList(arg))
+      expect(makeRecordIdList(arg)).toBe(0);
+      console.log('makeRecordIdList testing, makeRecordIdList(arg) ->', makeRecordIdList(arg))
     });
 
     test('number has been above 1000', () => {
@@ -58,8 +58,8 @@ describe('Utils testing', () => {
       //   '01_vblock_txt_001',
       //   '01_vblock_txt_002',
       // ]
-      expect(recordIdList(arg).length).toBe(1000);
-      // console.log('recordIdList testing, recordIdList(arg) ->', recordIdList(arg))
+      expect(makeRecordIdList(arg).length).toBe(1000);
+      // console.log('makeRecordIdList testing, makeRecordIdList(arg) ->', makeRecordIdList(arg))
     });
   });
 });
