@@ -45,6 +45,6 @@ describe('getViewContent testing', () => {
       Promise.resolve({ data: mockResolveData })
     );
     const resp = await getViewContent();
-    console.log('getViewContent, resp ->', resp)
+    console.log('getViewContent, resp ->', resp.data)
   });
 });
