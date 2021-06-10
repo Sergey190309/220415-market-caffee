@@ -1,4 +1,4 @@
-import {actRespErrorMessage}from './errorHandler'
+import { actRespErrorMessage, sagaErrorHandler } from './errorHandler';
 
 describe('errorHandler testing', () => {
   describe('actRespErrorMessage testing', () => {
@@ -11,10 +11,29 @@ describe('errorHandler testing', () => {
           },
         },
       };
-      console.log('response is available, result ->' actRespErrorMessage(mockError))
+      const expResult = `${mockError.response.data.message} ${mockError.response.status}`;
+      expect(actRespErrorMessage(mockError)).toBe(expResult);
+      // console.log('response is available, result ->', actRespErrorMessage(mockError))
+    });
+
+    test('not response', () => {
+      const mockError = {
+        message: 'error message',
+      };
+      const expResult = mockError.message;
+      expect(actRespErrorMessage(mockError)).toBe(expResult);
     });
   });
+
   describe('sagaErrorHandler testing', () => {
-    test('dummy', () => {});
+    test('dummy, response is available', () => {
+
+    });
+    test('no response', () => {
+      const mockError = {
+        message: 'error message',
+      };
+      sagaErrorHandler(mockError)
+    });
   });
 });

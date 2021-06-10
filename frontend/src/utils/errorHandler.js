@@ -14,7 +14,7 @@ export const actRespErrorMessage = (error) => {
 };
 
 export const sagaErrorHandler = (error) => {
-  console.log('sagaErrorHandler, type ->', typeof(error));
+  // console.log('sagaErrorHandler, type ->', typeof(error));
 
   if (error.response) {
     console.log('sagaErrorHandler, error.response ->');
