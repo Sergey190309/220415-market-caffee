@@ -4,9 +4,9 @@ import { techAxiosClient as mockAxios } from '../../api/apiClient';
 import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../actions/types';
 import { logInFetch, signUpFetch } from './auth';
 import { recordSaga } from '../../testUtils';
-import { actRespErrorMessage } from '../../utils/respErrorHandler';
+import { actRespErrorMessage } from '../../utils/errorHandler'
 
-jest.mock('../../utils/respErrorHandler', () => ({ actRespErrorMessage: jest.fn() }));
+jest.mock('../../utils/errorHandler', () => ({ actRespErrorMessage: jest.fn() }));
 
 describe('auth testing', () => {
   describe('log In whole saga testing', () => {
@@ -66,6 +66,7 @@ describe('auth testing', () => {
       });
       // console.log(dispatched)
     });
+
     test('fail logIn, not found', async () => {
       mockAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }));
       const initialAction = {

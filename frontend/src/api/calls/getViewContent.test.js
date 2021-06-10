@@ -1,4 +1,4 @@
-import { techAxiosClient as mockAxios } from '../apiClient'
+import { techAxiosClient as mockAxios } from '../apiClient';
 import { getViewContent } from './getViewContent';
 
 export const mockResolveData = {
@@ -36,15 +36,34 @@ export const mockRejectData = {
   config: { config: 'Some config' },
 };
 
+export const params = {
+  view_id: 'mock view_id',
+  identity: 'mock identity',
+  locale_id: 'mock locale_id',
+};
+
 describe('getViewContent testing', () => {
   beforeAll(() => {
     jest.resetAllMocks();
   });
+
   test('getViewContent, success', async () => {
-    mockAxios.get.mockImplementation(() =>
-      Promise.resolve({ data: mockResolveData })
-    );
-    const resp = await getViewContent();
-    console.log('getViewContent, resp ->', resp.data)
+    mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    const resp = await getViewContent(params);
+    expect(mockAxios.get).toHaveBeenCalledTimes(1);
+    expect(mockAxios.get.mock.calls[0][0]).toBe('/content');
+    expect(mockAxios.get.mock.calls[0][1]).toEqual({params: params});
+    expect(resp.data).toEqual(mockResolveData);
+    // console.log('getViewContent, resp ->', resp.data);
+  });
+
+  test('getViewContent, network Error', async () => {
+    const errorMessage = 'Network Error'
+    mockAxios.get.mockImplementation(() => Promise.reject(new Error(errorMessage)));
+    // const resp = await getViewContent(params);
+    await expect(getViewContent(params)).rejects.toThrow(errorMessage)
+    expect(mockAxios.get).toHaveBeenCalledTimes(1);
+    expect(mockAxios.get.mock.calls[0][0]).toBe('/content');
+    expect(mockAxios.get.mock.calls[0][1]).toEqual({params: params});
   });
 });

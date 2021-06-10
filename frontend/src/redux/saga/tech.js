@@ -3,7 +3,16 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 // import i18next from 'i18next';
 
 // import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
-import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
+import { sagaErrorHandler } from '../../utils/errorHandler';
+
+import {
+  START_I18N,
+  START_INIT_LOADING,
+  START_LNGS,
+  START_TECH_IN,
+  // TECH_IN_FAIL,
+  // TECH_IN_SUCCESS,
+} from '../actions/types';
 import {
   startTechIn,
   techInSuccess,
@@ -17,16 +26,9 @@ import {
   loadingSuccess,
 } from '../actions/tech';
 import { structureStart } from '../actions/structure';
-import {
-  START_I18N,
-  START_INIT_LOADING,
-  START_LNGS,
-  START_TECH_IN,
-  // TECH_IN_FAIL,
-  // TECH_IN_SUCCESS,
-} from '../actions/types';
+// import { alertActions } from '../actions/alert';
 
-// import { axiosCommonLng } from '../../api/apiClientUtils';
+import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import { initI18next, setI18next } from '../../l10n/i18n';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
@@ -63,6 +65,9 @@ export function* techInFetch(action) {
     yield put(structureStart());
     yield put(startLngs());
   } catch (error) {
+    // console.log('techInFetch, error ->', error.message);
+    sagaErrorHandler(error);
+    // yield call(sagaErrorHandler, error)
     yield put(techInFail(error));
   }
 }
@@ -81,6 +86,7 @@ export function* lngsWorker(action) {
     yield put(lngsSuccess());
     yield put(startI18n(lngs));
   } catch (error) {
+    sagaErrorHandler(error);
     yield put(lngsFail(error));
   }
 }
