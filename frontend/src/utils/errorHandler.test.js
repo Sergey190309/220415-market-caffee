@@ -31,6 +31,7 @@ describe('errorHandler testing', () => {
     });
     test('no response', () => {
       const mockError = {
+        request: 'request',
         message: 'error message',
       };
       sagaErrorHandler(mockError)
