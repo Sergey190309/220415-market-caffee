@@ -48,7 +48,7 @@ describe('Utils testing', () => {
       //   '01_vblock_txt_002',
       // ]
       expect(makeRecordIdList(arg)).toBe(0);
-      console.log('makeRecordIdList testing, makeRecordIdList(arg) ->', makeRecordIdList(arg))
+      // console.log('makeRecordIdList testing, makeRecordIdList(arg) ->', makeRecordIdList(arg))
     });
 
     test('number has been above 1000', () => {

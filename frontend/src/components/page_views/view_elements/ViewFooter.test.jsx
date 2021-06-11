@@ -1,5 +1,5 @@
 describe('ViewFooter testing', () => {
-  test('dummy', () => {
+  test('dummy, I do not have enough knowlage to test sagaDispatch', () => {
 
   });
 });

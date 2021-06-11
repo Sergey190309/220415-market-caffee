@@ -1,5 +1,5 @@
 describe('ViewNothing testing', () => {
-  test('dummy', () => {
+  test('dummy, the component has not been fisnished.', () => {
 
   });
 });

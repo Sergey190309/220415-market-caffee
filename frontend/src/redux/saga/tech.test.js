@@ -92,7 +92,7 @@ describe('Tech sagas tesing', () => {
 
       // expect(dispatched[0]).toEqual(expDispatch);
 
-      console.log('tech in fail, dispatched ->', dispatched)
+      // console.log('tech in fail, dispatched ->', dispatched)
     });
   });
 
@@ -129,21 +129,8 @@ describe('Tech sagas tesing', () => {
       jest.resetAllMocks();
     });
 
-    // test('start init saga', async () => {
-    //   const dispatched = await recordSaga(startInitWorker);
-    //   expect(dispatched.length).toBe(1);
-    //   const { type, payload } = dispatched[0];
-    //   expect(type).toBe(START_TECH_IN);
-    //   expect(payload).toBeString();
-    //   console.log('start init saga, dispatched ->', dispatched)
-    // });
-
     test('lngs success', async () => {
       mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
-      // const initialAction = {
-      //   // type: LOG_IN_START,
-      //   payload: mockTechInData,
-      // };
       const expDispatch00 = {
         type: 'LNGS_SUCCESS',
       };

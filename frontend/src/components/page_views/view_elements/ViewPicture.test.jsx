@@ -1,5 +1,5 @@
 describe('ViewPictures testing', () => {
-  test('dummy', () => {
+  test('dummy, not yet done', () => {
 
   });
 });
