@@ -3,6 +3,25 @@ import { put } from 'redux-saga/effects';
 // import { call } from 'redux-saga/effects';
 // import store from '../redux/store'
 
+export const apiCallsErrorHandler = error => {
+  if (error.response) {
+    console.log('sagaErrorHandler, error.response ->');
+    console.log(error.response.data);
+    console.log(error.response.status);
+    console.log(error.response.headers);
+  } else if (error.request) {
+    // store.dispatch(
+    //   alertActions({
+    //     message: error.message,
+    //     alertType: 'error',
+    //     timeout: 5000
+    //   })
+    // )
+    console.log('sagaErrorHandler, error.request ->', error.request);
+  } else {
+    console.log('Error ->', error.message);
+  }
+}
 
 export const actRespErrorMessage = (error) => {
   // console.log('actRespErrorHandler -', error)
@@ -16,10 +35,17 @@ export const actRespErrorMessage = (error) => {
 
 export function* sagaErrorHandler(error) {
   if (error.response) {
-    console.log('sagaErrorHandler, error.response ->');
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
+    yield put(
+      alertActions({
+        message: actRespErrorMessage(error),
+        alertType: 'error',
+        timeout: 5000
+      })
+    )
+    // console.log('sagaErrorHandler, error.response ->');
+    // console.log(error.response.data);
+    // console.log(error.response.status);
+    // console.log(error.response.headers);
   } else if (error.request) {
     yield put(
       alertActions({
@@ -35,9 +61,9 @@ export function* sagaErrorHandler(error) {
     //     timeout: 5000
     //   })
     // )
-    console.log('sagaErrorHandler, error.request ->', error.request);
+    // console.log('sagaErrorHandler, error.request ->', error.request);
   } else {
-    console.log('Error ->', error.message);
+    // console.log('Error ->', error.message);
   }
 
 }

@@ -6,8 +6,8 @@ const headers = {
     // Accept: 'application/json',
     'Content-Type': 'application/json',
     common: {
-      'Accept-Language': 'ru'
-      // 'Accept-Language': 'en'
+      // 'Accept-Language': 'ru'
+      'Accept-Language': 'en'
     }
 }
 

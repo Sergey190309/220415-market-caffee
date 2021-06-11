@@ -92,7 +92,7 @@ describe('Tech sagas tesing', () => {
 
       // expect(dispatched[0]).toEqual(expDispatch);
 
-      // console.log('tech in success tesing, dispatched ->', dispatched[0].payload)
+      console.log('tech in fail, dispatched ->', dispatched)
     });
   });
 
