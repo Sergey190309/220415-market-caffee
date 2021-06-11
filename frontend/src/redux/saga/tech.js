@@ -65,8 +65,19 @@ export function* techInFetch(action) {
     yield put(structureStart());
     yield put(startLngs());
   } catch (error) {
+    yield sagaErrorHandler(error)
+    // if (error.response) {
+    //   console.log('sagaErrorHandler, error.response ->');
+    //   console.log(error.response.data);
+    //   console.log(error.response.status);
+    //   console.log(error.response.headers);
+    // } else if (error.request) {
+    // } else {
+    //   console.log('Error', error.message);
+    // }
+
     // console.log('techInFetch, error ->', error.message);
-    sagaErrorHandler(error);
+    // sagaErrorHandler(error);
     // yield call(sagaErrorHandler, error)
     yield put(techInFail(error));
   }
@@ -86,7 +97,7 @@ export function* lngsWorker(action) {
     yield put(lngsSuccess());
     yield put(startI18n(lngs));
   } catch (error) {
-    sagaErrorHandler(error);
+    // sagaErrorHandler(error);
     yield put(lngsFail(error));
   }
 }

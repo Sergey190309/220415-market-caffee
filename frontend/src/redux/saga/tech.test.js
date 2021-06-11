@@ -42,15 +42,6 @@ describe('Tech sagas tesing', () => {
       jest.resetAllMocks();
     });
 
-    // test('start init saga', async () => {
-    //   const dispatched = await recordSaga(startInitWorker);
-    //   expect(dispatched.length).toBe(1);
-    //   const { type, payload } = dispatched[0];
-    //   expect(type).toBe(START_TECH_IN);
-    //   expect(payload).toBeString();
-    //   console.log('start init saga, dispatched ->', dispatched)
-    // });
-
     test('tech in success', async () => {
       mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
       const initialAction = {
@@ -71,9 +62,7 @@ describe('Tech sagas tesing', () => {
       expect(mockAxios.post).toHaveBeenCalledTimes(1);
       expect(mockAxios.post.mock.calls[0][0]).toBe('/home/tech/auth');
       expect(mockAxios.post.mock.calls[0][1]).toEqual({ tech_id: mockTechInData });
-      // expect(setToken).toHaveBeenCalledTimes(1);
 
-      // expect(axiosCommonToken).toHaveBeenCalledTimes(1);
       expect(dispatched.length).toBe(3);
       expect(dispatched[0]).toEqual(expDispatch00);
       expect(dispatched[1]).toEqual(expDispatch01);
