@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
+
 import Output from '../view_elements/ElementSwitcher';
 
 import { viewSegmentColor } from '../../../utils/colors';
@@ -20,6 +21,7 @@ export const Landing = ({ structureLoaded, loadedStructure, lng }) => {
   const _output = structure => {
     return <Output viewName='landing' structure={structure} lng={lng} />;
   };
+  console.log('Landing, loadedStructure ->', loadedStructure)
 
   return (
     <Container>
@@ -39,6 +41,7 @@ Landing.defaultProps = {
 Landing.propTypes = {
   structureLoaded: PropTypes.bool.isRequired,
   loadedStructure: PropTypes.object.isRequired,
+  lng: PropTypes.string.isRequired,
   // _output: PropTypes.func.isRequired,
 };
 
