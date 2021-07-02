@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import { ViewHeader } from './ViewHeader';
+import ViewHeader from './ViewHeader';
 import ViewFooter from './ViewFooter';
 import ViewVBlock from './ViewVBlock';
 import ViewHBlock from './ViewHBlock';

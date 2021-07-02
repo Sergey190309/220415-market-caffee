@@ -2,12 +2,12 @@ import React from 'react';
 import { render, screen } from '../../../testUtils';
 import ElementSwitcher from './ElementSwitcher';
 import { structure } from '../../page_views/landing/Landing.test';
-import { ViewHeader } from './ViewHeader';
+import ViewHeader from './ViewHeader';
 
 // jest.mock('./ViewHeader', () => ({
 //   ViewHeader: jest.fn(({ children }) => <div data-testid='ViewHeader'>{children}</div>),
 // }));
-jest.mock('./ViewHeader');
+// jest.mock('./ViewHeader');
 // jest.mock('./ViewFooter');
 // jest.mock('./ViewVBlock');
 // jest.mock('./ViewHBlock');
