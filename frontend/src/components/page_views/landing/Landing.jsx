@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
 
-import Output from '../view_elements/ElementSwitcher';
+import ElementSwitcher from '../view_elements/ElementSwitcher';
 
 import { viewSegmentColor } from '../../../utils/colors';
 
@@ -14,18 +14,20 @@ export const Landing = ({ structureLoaded, loadedStructure, lng }) => {
 
   useEffect(() => {
     // -> upon rendering set structre with loaded values
-    setStructure(loadedStructure);
+    if (structureLoaded) {
+      setStructure(loadedStructure);
+    }
     // console.log('landing, useEffect, structure ->', structure);
   }, [structureLoaded, loadedStructure]);
 
   const _output = structure => {
-    return <Output viewName='landing' structure={structure} lng={lng} />;
+    return <ElementSwitcher viewName='landing' structure={structure} lng={lng} />;
   };
-  console.log('Landing, loadedStructure ->', loadedStructure)
+  // console.log('Landing, loadedStructure ->', loadedStructure)
 
   return (
-    <Container>
-      <Segment color={viewSegmentColor}>
+    <Container data-testid='LandingContainer'>
+      <Segment color={viewSegmentColor} data-testid='LandingSegment'>
         {isEmpty(structure) ? null : _output(structure)}
       </Segment>
     </Container>
@@ -48,7 +50,7 @@ Landing.propTypes = {
 const mapStateToProps = state => ({
   structureLoaded: state.structure.loaded,
   loadedStructure: state.structure.landing,
-  lng: state.lng
+  lng: state.lng,
 });
 
 const mapDispatchToProps = dispatch => ({

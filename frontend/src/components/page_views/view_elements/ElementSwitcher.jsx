@@ -8,7 +8,7 @@ import ViewVBlock from './ViewVBlock';
 import ViewHBlock from './ViewHBlock';
 import ViewNothing from './ViewNothing';
 
-export const Output = ({ structure, viewName, lng }) => {
+const ElementSwitcher = ({ structure, viewName, lng }) => {
   // console.log(structure);
   const keys = Object.keys(structure);
   const output = keys.map((key, index) => {
@@ -49,16 +49,16 @@ export const Output = ({ structure, viewName, lng }) => {
   return output;
 };
 
-Output.defaultProps = {
+ElementSwitcher.defaultProps = {
   structure: {},
   viewName: '',
   lng: '',
 };
 
-Output.propTypes = {
+ElementSwitcher.propTypes = {
   structure: PropTypes.object.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
 }
 
-export default Output;
+export default ElementSwitcher;
