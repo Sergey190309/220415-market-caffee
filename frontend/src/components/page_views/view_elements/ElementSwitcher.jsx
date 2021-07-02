@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { Divider } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import ViewHeader from './ViewHeader';
+import { ViewHeader } from './ViewHeader';
 import ViewFooter from './ViewFooter';
 import ViewVBlock from './ViewVBlock';
 import ViewHBlock from './ViewHBlock';
@@ -16,9 +16,9 @@ const ElementSwitcher = ({ structure, viewName, lng }) => {
     const componentSubType = structure[key]['subtype'] ? structure[key]['subtype'] : null;
     const subComponentQnt = structure[key]['qnt'] ? structure[key]['qnt'] : null;
     const recordId =
-    `${key}_${componentType}` +
-    (componentSubType ? `_${componentSubType}` : '') +
-    (subComponentQnt ? `_${subComponentQnt}` : '');
+      `${key}_${componentType}` +
+      (componentSubType ? `_${componentSubType}` : '') +
+      (subComponentQnt ? `_${subComponentQnt}` : '');
     // console.log(recordId)
     let component;
     const props = { recordId: recordId, viewName: viewName, lng: lng };
@@ -59,6 +59,6 @@ ElementSwitcher.propTypes = {
   structure: PropTypes.object.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-}
+};
 
 export default ElementSwitcher;

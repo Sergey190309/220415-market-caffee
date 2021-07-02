@@ -27,7 +27,7 @@ const testProps = {
     const result = render(<Landing {...testProps} />);
     expect(result).toMatchSnapshot();
   });
-  describe('appeance', () => {
+  describe('appearance', () => {
     const keys = Object.keys(testProps['loadedStructure']);
     test('rendering with props (structure)', () => {
       render(<Landing {...testProps} />);
