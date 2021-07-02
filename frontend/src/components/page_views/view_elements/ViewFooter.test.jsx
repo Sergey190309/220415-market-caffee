@@ -18,4 +18,13 @@ describe('ViewFooter testing', () => {
     const result = render(<ViewFooter {...testProps} />)
     expect(result).toMatchSnapshot();
   });
+
+  test('it should render with correct text)', () => {
+    render(<ViewFooter {...testProps} />)
+    const _title = screen.getByText(testProps['initState']['title'])
+    expect(_title).toBeInTheDocument()
+    const _content = screen.getByText(testProps['initState']['content'])
+    expect(_content).toBeInTheDocument()
+  });
+
 });

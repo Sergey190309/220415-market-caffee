@@ -6,11 +6,8 @@ import { CONTENT_REQUESTED } from '../../../redux/actions/contentLoading/types';
 import { useSaga } from '../../../redux/saga/contentLoading/createIO';
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
 
-const ViewFooter = ({ recordId, viewName, lng }) => {
-  const [state, sagaDispatch] = useSaga(contentSaga, {
-    title: '',
-    content: '',
-  });
+const ViewFooter = ({ recordId, viewName, lng, initState }) => {
+  const [state, sagaDispatch] = useSaga(contentSaga, initState);
 
   useEffect(() => {
     // console.log('ViewFooter, useEffect ->', recordId, viewName, lng)
@@ -36,12 +33,17 @@ ViewFooter.defaultProps = {
   recordId: '',
   viewName: '',
   lng: '',
+  initState: {
+    title: '',
+    content: '',
+  }
 };
 
 ViewFooter.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
+  initState: PropTypes.object.isRequired,
 };
 
 // const mapStateToProps = state => ({
