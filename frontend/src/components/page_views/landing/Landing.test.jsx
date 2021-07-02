@@ -5,35 +5,26 @@ import { render, screen } from '../../../testUtils';
 // import userEvent from '@testing-library/user-event';
 
 import { Landing } from './Landing';
-import ElementSwitcher from '../view_elements/ElementSwitcher'
+import { landingPageStructure } from '../../../testContants';
+import ElementSwitcher from '../view_elements/ElementSwitcher';
 
 const mockElementSwitcher = ({ structure, viewName, lng }) => {
-  return (
-    <div data-testid='ElementSwitcher' />
-  )
-}
+  return <div data-testid='ElementSwitcher' />;
+};
 
 jest.mock('../view_elements/ElementSwitcher', () => ({
   __esModule: true,
-  default: jest.fn()
+  default: jest.fn(),
 }));
 
-
-export const structure = {
-  '00': { type: 'header' },
-  '01': { qnt: 3, type: 'vblock', subtype: 'txt' },
-  '02': { qnt: 2, type: 'hblock', subtype: 'pix' },
-  '03': { qnt: 2, type: 'vblock', subtype: 'pix' },
-  '04': { type: 'footer' },
-}
 describe('Landing page testing', () => {
   beforeEach(() => {
-    ElementSwitcher.mockImplementation(mockElementSwitcher)
-  })
+    ElementSwitcher.mockImplementation(mockElementSwitcher);
+  });
 
   const testProps = {
     structureLoaded: true,
-    loadedStructure: structure,
+    loadedStructure: landingPageStructure,
     lng: 'en',
   };
 
@@ -61,7 +52,8 @@ describe('Landing page testing', () => {
       // expect(LandingSegment).toHaveTextContent(`landing${testProps.lng}`);
       // expect(LandingSegment).toHaveTextContent('ElementSwitcher');
 
-      // screen.debug();
+      // console.log('Landing page testing ->');
+      screen.debug();
     });
 
     test('rendering witout props (structure)', () => {
@@ -73,7 +65,6 @@ describe('Landing page testing', () => {
       expect(LandingSegment).toBeEmptyDOMElement();
       expect(LandingSegment).toHaveClass('segment');
       // console.log('landing page testing, LandingSegment ->', LandingSegment)
-
     });
   });
 });

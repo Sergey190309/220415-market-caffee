@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '../../../testUtils';
 import ElementSwitcher from './ElementSwitcher';
-import { structure } from '../../page_views/landing/Landing.test';
+import { landingPageStructure } from '../../../testContants'
 import ViewHeader from './ViewHeader';
 import ViewFooter from './ViewFooter';
 import ViewVBlock from './ViewVBlock';
@@ -35,7 +35,7 @@ describe('ElementSwitcher testing', () => {
     ViewNothing.mockImplementation(MockViewNothing);
   });
   const testProps = {
-    structure: { ...structure, '05': { type: 'wrongType' } },
+    structure: { ...landingPageStructure, '05': { type: 'wrongType' } },
     viewName: 'landing',
     lng: 'en',
   };
