@@ -32,28 +32,22 @@ describe('Landing page testing', () => {
     const result = render(<Landing {...testProps} />);
     expect(result).toMatchSnapshot();
   });
-  describe('appearance', () => {
-    const keys = Object.keys(testProps['loadedStructure']);
+  describe('appearance, rendering child with proper props', () => {
+    // const keys = Object.keys(testProps['loadedStructure']);
 
     test('rendering with props (structure)', () => {
+      const { loadedStructure, lng } = testProps
+      const expArgs = {structure: loadedStructure, lng, viewName: 'landing'}
       render(<Landing {...testProps} />);
-      // const { container } = render(<Landing {...testProps} />);
-      // const havingType = screen.toHaveTextContent('ElementSwitcher');
-      // console.log('landing page testing, keys ->', keys);
-      // keys.map(key => {
-      //   const element = screen.getByTestId(key);
-      //   const searchingText = Object.entries(testProps['loadedStructure'][key])[0].join(
-      //     ''
-      //   );
-      //   expect(element).toHaveTextContent(searchingText);
-      //   return '';
-      // });
-      const LandingSegment = screen.getByTestId('LandingSegment');
-      // expect(LandingSegment).toHaveTextContent(`landing${testProps.lng}`);
-      // expect(LandingSegment).toHaveTextContent('ElementSwitcher');
+      expect(ElementSwitcher).toHaveBeenCalledTimes(1);
+      // console.log('Landing page testing, testProps ->', testProps);
+      expect(ElementSwitcher.mock.calls[0][0]).toEqual(expArgs);
 
-      // console.log('Landing page testing ->');
-      screen.debug();
+      const LandingSegment = screen.getByTestId('LandingSegment');
+      expect(LandingSegment).not.toBeEmptyDOMElement()
+      expect(LandingSegment).toHaveClass('segment');
+
+      // screen.debug();
     });
 
     test('rendering witout props (structure)', () => {
