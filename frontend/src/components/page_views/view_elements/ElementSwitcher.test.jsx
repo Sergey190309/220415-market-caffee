@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '../../../testUtils';
+import { render } from '../../../testUtils';
 import ElementSwitcher from './ElementSwitcher';
 import { structure } from '../../page_views/landing/Landing.test';
 import ViewHeader from './ViewHeader';
