@@ -38,7 +38,8 @@ export const output = (recordId, viewName, lng, recordIdList) => {
 
 
 const ViewVBlock = ({ recordId, viewName, lng, output }) => {
-  // const [state, sagaDispatch] = useSaga()
+  // recordId -> 01_vblock_txt_3
+  // console.log('ViewVBlock, recordId ->', recordId)
   const [recordIdList, setRecordIdList] = useState([])
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const ViewVBlock = ({ recordId, viewName, lng, output }) => {
 
   return (
     <Fragment>
+      {/* <Output /> */}
       {output(recordId, viewName, lng, recordIdList)}
     </Fragment>
   );
@@ -57,7 +59,7 @@ ViewVBlock.defaultProps = {
   recordId: '',
   viewName: '',
   lng: '',
-  output: output
+  output: output,
 };
 
 ViewVBlock.propTypes = {
