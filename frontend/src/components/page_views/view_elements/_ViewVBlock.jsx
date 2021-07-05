@@ -9,16 +9,7 @@ import ViewPicture from './ViewPicture';
 import ViewNothing from './ViewNothing';
 
 
-const ViewVBlock = ({ recordId, viewName, lng }) => {
-  // recordId -> 01_vblock_txt_3
-  // console.log('ViewVBlock, recordId ->', recordId)
-  const [recordIdList, setRecordIdList] = useState([])
-
-  useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordId));
-    // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
-  }, [recordId]);
-
+export const output = (recordId, viewName, lng, recordIdList) => {
   const props = {
     viewName: viewName,
     lng: lng
@@ -46,16 +37,37 @@ const ViewVBlock = ({ recordId, viewName, lng }) => {
   return <ViewNothing />;
 };
 
+
+const ViewVBlock = ({ recordId, viewName, lng, output }) => {
+  // recordId -> 01_vblock_txt_3
+  // console.log('ViewVBlock, recordId ->', recordId)
+  const [recordIdList, setRecordIdList] = useState([])
+
+  useEffect(() => {
+    setRecordIdList(makeRecordIdList(recordId));
+    // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
+  }, [recordId]);
+
+  return (
+    <Fragment>
+      {/* <Output /> */}
+      {output(recordId, viewName, lng, recordIdList)}
+    </Fragment>
+  );
+};
+
 ViewVBlock.defaultProps = {
   recordId: '',
   viewName: '',
   lng: '',
+  output: output,
 };
 
 ViewVBlock.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
+  output: PropTypes.func.isRequired,
 };
 
 // const mapStateToProps = state => ({

@@ -1,31 +1,90 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { makeRecordIdList } from '../../../utils/utils';
 
 import ViewVBlock from './ViewVBlock';
 
+// import { output } from './ViewVBlock';
+
 import ViewParagraph from './ViewParagraph';
 import ViewPicture from './ViewPicture';
 import ViewNothing from './ViewNothing';
 
+const mockViewParagraph = ({ recordId, viewName, lng }) => {
+  return <div data-testid='ViewParagraph' />;
+};
+const mockViewPicture = ({ recordId, viewName, lng }) => {
+  return <div data-testid='ViewPicture' />;
+};
+const mockViewNothing = ({ recordId, viewName, lng }) => {
+  return <div data-testid='ViewNothing' />;
+};
+
+jest.mock('./ViewParagraph', () => ({ __esModule: true, default: jest.fn() }));
+jest.mock('./ViewPicture', () => ({ __esModule: true, default: jest.fn() }));
+jest.mock('./ViewNothing', () => ({ __esModule: true, default: jest.fn() }));
+
 describe('ViewVBlock testing', () => {
-  const testProps = {
-    recordId: '01_vblock_txt_3',
-    viewName: 'landing',
-    lng: 'en',
-    output: jest.fn(),
-  };
+  beforeEach(() => {
+    ViewParagraph.mockImplementation(mockViewParagraph);
+    ViewPicture.mockImplementation(mockViewPicture);
+    ViewNothing.mockImplementation(mockViewNothing);
+  });
 
-  test('it should call output function with proper args', () => {
+  test('output calling ViewParagraph', () => {
+    const testProps = {
+      recordId: '01_vblock_txt_3',
+      viewName: 'mockViewName',
+      lng: 'mockLng',
+    };
+    const mockRecordIdList = makeRecordIdList(testProps['recordId']);
+      const viewParagraphPropsList = mockRecordIdList.map(item => ({
+      viewName: testProps['viewName'],
+      lng: testProps['lng'],
+      recordId: item,
+    }));
     render(<ViewVBlock {...testProps} />);
-    console.log(
-      'ViewVBlock testing, calling output ->',
-      testProps['output'].mock.calls[0]
-    );
+    expect(ViewParagraph).toHaveBeenCalledTimes(3);
+    expect(ViewPicture).toHaveBeenCalledTimes(0);
+    expect(ViewNothing).toHaveBeenCalledTimes(0);
+    viewParagraphPropsList.forEach((item, index) => {
+      expect(ViewParagraph.mock.calls[index][0]).toEqual(item);
+    });
+    // console.log('output calling ViewParagraph ->', ViewParagraph.mock.calls);
+  });
+  test('output calling ViewPicture', () => {
+    const testProps = {
+      recordId: '01_vblock_pix_4',
+      viewName: 'mockViewName',
+      lng: 'mockLng',
+    };
+    const mockRecordIdList = makeRecordIdList(testProps['recordId']);
+      const viewParagraphPropsList = mockRecordIdList.map(item => ({
+      viewName: testProps['viewName'],
+      lng: testProps['lng'],
+      recordId: item,
+    }));
+    render(<ViewVBlock {...testProps} />);
+    expect(ViewParagraph).toHaveBeenCalledTimes(0);
+    expect(ViewPicture).toHaveBeenCalledTimes(4);
+    expect(ViewNothing).toHaveBeenCalledTimes(0);
+    viewParagraphPropsList.forEach((item, index) => {
+      expect(ViewPicture.mock.calls[index][0]).toEqual(item);
+    });
+    // console.log('output calling ViewPicture ->', ViewPicture.mock.calls);
+  });
+  test('output calling ViewNothing', () => {
+    const testProps = {
+      recordId: '01_vblock_xxx_4',
+      viewName: 'mockViewName',
+      lng: 'mockLng',
+    };
+    render(<ViewVBlock {...testProps} />);
+    expect(ViewParagraph).toHaveBeenCalledTimes(0);
+    expect(ViewPicture).toHaveBeenCalledTimes(0);
+    expect(ViewNothing).toHaveBeenCalledTimes(2);
+    // console.log('output calling ViewNothing ->', ViewNothing.mock.calls);
   });
 
-  describe('output function testing', () => {
-    test('dummy', () => {});
-  });
 });
