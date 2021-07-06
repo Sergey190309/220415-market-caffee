@@ -7,7 +7,7 @@ import {
   SIGN_UP_START,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
-} from '../actions/types';
+} from '../constants/types';
 import { setAlertData } from '../actions/alert';
 // import axiosClient from '../../api/apiClient';
 import {logInCall, signUpCall} from '../../api/calls/getAuthTechInfo'

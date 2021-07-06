@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { START_ALERT } from './types';
+import { START_ALERT } from '../constants/types';
 // import { START_ALERT, SET_ALERT, REMOVE_ALERT } from './types';
 
 export const setAlertData = incomeData => {

@@ -12,7 +12,7 @@ import {
   I18N_SUCCESS,
   I18N_FAIL,
   I18N_INITIATED,
-} from './types';
+} from '../constants/types';
 
 // import axiosClient from '../../api/apiClient';
 // import { actRespErrorMessage } from '../../utils/respErrorHandler';

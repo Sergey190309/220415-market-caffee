@@ -1,6 +1,6 @@
 import lngSwitch from './lng'
 
-import {LNG_SWITCH} from '../actions/types'
+import {LNG_SWITCH} from '../constants/types'
 
 describe('Language switcher reducer', () => {
 

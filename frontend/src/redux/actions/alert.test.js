@@ -1,5 +1,5 @@
 import {setAlertData, alertActions} from './alert'
-import { START_ALERT } from '../actions/types';
+import { START_ALERT } from '../constants/types';
 
 describe('alert action testing', () => {
   test('setAlertData', () => {

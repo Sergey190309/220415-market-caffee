@@ -10,7 +10,7 @@ import {
   LOG_OUT,
   SIGN_UP_START,
   LOG_IN_START,
-} from '../actions/types';
+} from '../constants/types';
 
 describe('Auth reducer testing', () => {
   const access_token = 'access_token';

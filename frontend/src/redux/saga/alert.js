@@ -5,7 +5,7 @@ import {
   START_ALERT,
   // SET_ALERT,
   REMOVE_ALERT,
-} from '../actions/types';
+} from '../constants/types';
 
 import { delaySomthing } from './sagasUtils';
 

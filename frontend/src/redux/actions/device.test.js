@@ -1,4 +1,4 @@
-import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from './types';
+import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from '../constants/types';
 import {
   setDeviceSize,
   setModalOpened,

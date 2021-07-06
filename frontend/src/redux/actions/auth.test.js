@@ -9,7 +9,7 @@ import {
   LOG_OUT,
   SIGN_UP_MODAL_CLOSED,
   SIGN_UP_START,
-} from './types';
+} from '../constants/types';
 
 import {
   logInAction,

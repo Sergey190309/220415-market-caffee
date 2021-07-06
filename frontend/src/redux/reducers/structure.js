@@ -1,4 +1,4 @@
-import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../actions/types';
+import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../constants/types';
 
 export const initialStore = {
   loading: false,

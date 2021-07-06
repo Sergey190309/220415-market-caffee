@@ -1,4 +1,4 @@
-import { LNG_SWITCH } from './types';
+import { LNG_SWITCH } from '../constants/types';
 import { setLngAction } from './lng';
 
 describe('Language switcher action', () => {

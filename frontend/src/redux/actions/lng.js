@@ -1,4 +1,4 @@
-import { LNG_SWITCH } from './types';
+import { LNG_SWITCH } from '../constants/types';
 
 export const setLngAction = lng =>{
   return {

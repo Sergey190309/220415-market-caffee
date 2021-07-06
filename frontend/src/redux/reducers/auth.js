@@ -11,7 +11,7 @@ import {
   // TECH_IN_SUCCESS,
   // TECH_IN_FAIL,
   // FINISH_LOADING,
-} from '../actions/types';
+} from '../constants/types';
 // import store from '../store'
 
 import { axiosCommonToken, authAxiosClient } from '../../api/apiClient';

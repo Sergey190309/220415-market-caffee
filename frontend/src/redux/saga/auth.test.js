@@ -1,7 +1,7 @@
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
 
 // import { runSaga } from 'redux-saga';
-import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../actions/types';
+import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../constants/types';
 import { logInFetch, signUpFetch } from './auth';
 import { recordSaga } from '../../testUtils';
 import { actRespErrorMessage } from '../../utils/errorHandler'

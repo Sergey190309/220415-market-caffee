@@ -11,7 +11,7 @@ import {
   START_LNGS,
   START_I18N,
   I18N_INITIATED,
-} from '../actions/types';
+} from '../constants/types';
 import { axiosCommonToken } from '../../api/apiClient';
 // import { axiosCommonToken } from '../../api/apiClient';
 

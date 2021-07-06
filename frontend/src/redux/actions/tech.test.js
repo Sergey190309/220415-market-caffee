@@ -26,7 +26,7 @@ import {
   LNGS_FAIL,
   LNGS_SUCCESS,
   I18N_INITIATED,
-} from '../actions/types';
+} from '../constants/types';
 
 describe('actions tech tests', () => {
   test('startLoading', () => {

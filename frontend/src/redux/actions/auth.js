@@ -5,7 +5,7 @@ import {
   SIGN_UP_START,
   SIGN_UP_MODAL_CLOSED,
   LOG_OUT,
-} from './types';
+} from '../constants/types';
 
 export const logOutAction = () => {
   return {

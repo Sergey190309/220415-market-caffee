@@ -12,7 +12,7 @@ import {
   START_TECH_IN,
   // TECH_IN_FAIL,
   // TECH_IN_SUCCESS,
-} from '../actions/types';
+} from '../constants/types';
 import {
   startTechIn,
   techInSuccess,

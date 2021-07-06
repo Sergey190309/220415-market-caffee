@@ -1,5 +1,5 @@
 import structure from './structure';
-import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../actions/types';
+import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../constants/types';
 
 import { mockResolveData } from '../../api/calls/getViewsStructure.test';
 import { initialStore } from './structure';

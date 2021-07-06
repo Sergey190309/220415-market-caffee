@@ -4,7 +4,7 @@ import { techAxiosClient } from '../../api/apiClient';
 import { getViewStructure } from '../../api/calls/getViewsStructure';
 
 import { structureSuccess } from '../actions';
-import { STRUCTURE_START } from '../actions/types';
+import { STRUCTURE_START } from '../constants/types';
 
 // Watcher
 export function* structureSaga() {

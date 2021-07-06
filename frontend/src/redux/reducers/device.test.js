@@ -1,5 +1,5 @@
 import device from './device';
-import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from '../actions/types';
+import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from '../constants/types';
 // it seems it works
 
 describe('Set device configuration', () => {

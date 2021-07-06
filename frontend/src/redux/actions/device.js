@@ -1,4 +1,4 @@
-import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from './types';
+import { SET_DEVICE_SIZE, OPEN_MODAL, CLOSE_MODAL } from '../constants/types';
 
 // Device sizes could be small (width less then 780) - phone; medium (1080) - tablet; big - normal PC
 

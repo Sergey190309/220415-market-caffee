@@ -1,5 +1,5 @@
 import { structureFail, structureStart, structureSuccess } from './structure';
-import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from './types';
+import { STRUCTURE_FAIL, STRUCTURE_START, STRUCTURE_SUCCESS } from '../constants/types';
 import { mockResolveData } from '../../api/calls/getViewsStructure.test';
 
 describe('View structure action testing', () => {

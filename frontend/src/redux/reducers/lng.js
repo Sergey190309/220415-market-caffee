@@ -1,4 +1,4 @@
-import { LNG_SWITCH } from '../actions/types';
+import { LNG_SWITCH } from '../constants/types';
 
 const initialStore = 'en';
 // const initialStore = 'ru';

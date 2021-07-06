@@ -1,4 +1,4 @@
-import { REMOVE_ALERT, START_ALERT } from '../actions/types';
+import { REMOVE_ALERT, START_ALERT } from '../constants/types';
 import alertReducer from './alert';
 
 describe('alertReducer', () => {

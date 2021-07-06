@@ -1,6 +1,6 @@
 // import { takeEvery } from 'redux-saga/effects';
 
-import { REMOVE_ALERT } from '../actions/types';
+import { REMOVE_ALERT } from '../constants/types';
 // import { alertActions } from '../actions/alert';
 // import alertWorker from './alert';
 import { alertWorker } from './alert';
