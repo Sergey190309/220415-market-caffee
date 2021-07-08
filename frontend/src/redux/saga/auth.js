@@ -10,7 +10,7 @@ import {
 } from '../constants/types';
 import { setAlertData } from '../actions/alert';
 // import axiosClient from '../../api/apiClient';
-import {logInCall, signUpCall} from '../../api/calls/getAuthTechInfo'
+import { logInCall, signUpCall } from '../../api/calls/getAuthTechInfo';
 import { actRespErrorMessage } from '../../utils/errorHandler';
 import { alertActions } from '../actions/alert';
 
