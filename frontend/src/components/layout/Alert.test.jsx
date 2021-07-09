@@ -22,10 +22,11 @@ beforeEach(() => {
   });
   test('rendering (snapshot)', async () => {
     let state = store.getState().alerts
-    store.dispatch(startAlert(mockAlertInfo))
-    connectedRender(<Alert />)
+    console.log('Alert component testing, state ->', state)
+    store.dispatch(startAlert({...mockAlertInfo, id:'mockId1', alertType: 'error'}))
     state = store.getState().alerts
-    // console.log('Alert component testing, state ->', state)
-    await screen.debug()
+    console.log('Alert component testing, state ->', state)
+    const {container} = await connectedRender(<Alert />)
+    screen.debug()
   });
 });

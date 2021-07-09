@@ -2,15 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 // import alerts from '../reducers/alert'
 
 export const initialState = {
-  // alerts: []
-  alerts: [
-    {
-      message: 'mockMessage',
-      alertType: 'info',
-      timeout: 3000,
-      id: 'mockId'
-    }
-  ]
+  alerts: []
+  // alerts: [
+  //   {
+  //     message: 'mockMessage',
+  //     alertType: 'info',
+  //     timeout: 3000,
+  //     id: 'mockId'
+  //   }
+  // ]
 };
 
 const alertsSlice = createSlice({
