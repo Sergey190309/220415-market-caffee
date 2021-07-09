@@ -9,9 +9,9 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { setModalClosed, signUpAction, setSignedUpFalse } from '../../redux/actions';
 import {
-  authPositiveColor,
-  authNeutralColor,
-  authWorningColor,
+  positiveColor,
+  neutralColor,
+  warningColor,
 } from '../../utils/colors';
 
 import Alert from '../layout/Alert';
@@ -83,7 +83,7 @@ export const SignUp = ({
       <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
-          <Header as='h2' textAlign='center' color={authPositiveColor}>
+          <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               {t('header')}
@@ -95,7 +95,7 @@ export const SignUp = ({
             validationSchema={signUpSchema(t)}
             onSubmit={onSubmit}>
             <Form size='large'>
-              <Segment color={authPositiveColor} stacked>
+              <Segment color={positiveColor} stacked>
                 <Input
                   id='input-userName'
                   name='userName'
@@ -137,21 +137,21 @@ export const SignUp = ({
                 <Button.Group widths='1'>
                   <SubmitButton
                     basic
-                    color={authPositiveColor}
+                    color={positiveColor}
                     size='large'
                     content={t('buttons.signUp')}
                   />
                   <Button.Or text={t('buttons.or')} />
                   <ResetButton
                     basic
-                    color={authNeutralColor}
+                    color={neutralColor}
                     size='large'
                     content={t('buttons.reset')}
                   />
                   <Button.Or text={t('buttons.or')} />
                   <Button
                     basic
-                    color={authWorningColor}
+                    color={warningColor}
                     size='large'
                     content={t('buttons.cancel')}
                     type='button'

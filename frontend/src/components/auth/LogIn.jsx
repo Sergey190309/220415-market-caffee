@@ -9,9 +9,9 @@ import { useTranslation } from 'react-i18next';
 // import {LOG_IN_START} from '../../redux/actions/types'
 
 import {
-  authPositiveColor,
-  authNeutralColor,
-  authWorningColor,
+  positiveColor,
+  neutralColor,
+  warningColor,
 } from '../../utils/colors';
 import {
   setModalOpened,
@@ -72,7 +72,7 @@ export const LogIn = ({
       <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
-          <Header as='h2' textAlign='center' color={authPositiveColor}>
+          <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               {t('header')}
@@ -85,7 +85,7 @@ export const LogIn = ({
             onSubmit={onSubmit}>
             {({ isSubmitting }) => (
               <Form size='large'>
-                <Segment color={authPositiveColor} stacked>
+                <Segment color={positiveColor} stacked>
                   <Input
                     id='input-email'
                     name='email'
@@ -111,7 +111,7 @@ export const LogIn = ({
                   <Button.Group widths='1'>
                     <SubmitButton
                       basic
-                      color={authPositiveColor}
+                      color={positiveColor}
                       size='large'
                       content={t('buttons.logIn')}
                       // disabled={isSubmitting}
@@ -119,14 +119,14 @@ export const LogIn = ({
                     <Button.Or text={t('buttons.or')} />
                     <ResetButton
                       basic
-                      color={authNeutralColor}
+                      color={neutralColor}
                       size='large'
                       content={t('buttons.reset')}
                     />
                     <Button.Or text={t('buttons.or')} />
                     <Button
                       basic
-                      color={authWorningColor}
+                      color={warningColor}
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
@@ -137,7 +137,7 @@ export const LogIn = ({
               </Form>
             )}
           </Formik>
-          <Segment color={authPositiveColor}>
+          <Segment color={positiveColor}>
             <Grid columns={2}>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width='9' textAlign='right'>
@@ -147,7 +147,7 @@ export const LogIn = ({
                   <Button
                     // primary
                     basic
-                    color={authPositiveColor}
+                    color={positiveColor}
                     floated='left'
                     size='large'
                     content={t('buttons.signUp')}
