@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { combineReducers } from 'redux';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -12,8 +13,8 @@ import { render } from '@testing-library/react';
 // import logIn from '../redux/reducers/auth'
 // import lng from '../redux/reducers/lng'
 
-import rootReducer from './redux/reducers';
-// import { combineReducers } from '@redux-saga/core/node_modules/redux';
+import rootReducer from './redux/slices';
+// import reducer from './redux/slices';
 // ===================================================
 // The block about rendering connected components.
 // ---------------------------------------------------
@@ -77,7 +78,7 @@ export const recordSaga = async (saga, initialAction) => {
 /**
  * Return store based on live reducers from slicers
  */
-// export const createTestStore = reducers => {
-//   const store = createStore(combineReducers(reducers));
-//   return store;
-// };
+export const createTestStore = () => {
+  const store = createStore(combineReducers({ ...rootReducer }));
+  return store;
+};

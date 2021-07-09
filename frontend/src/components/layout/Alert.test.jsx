@@ -1,19 +1,21 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import { render } from '../../testUtils'
-import Alert from './Alert'
+import React from 'react';
+import { Provider } from 'react-redux';
+import { connectedRender } from '../../testUtils';
+import { screen } from '@testing-library/react';
 
-import { createTestStore } from '../../testUtils'
-import alerts from '../../redux/slices/alerts'
+import Alert from './Alert';
+import { createTestStore } from '../../testUtils';
+// import alerts from '../../redux/slices/alerts';
 
 describe('Alert component testing', () => {
-  let store
+  let store;
+
   beforeEach(() => {
-    store = createTestStore(alerts)
-    })
+    // store = createTestStore();
+    // store = createTestStore(alerts);
+  });
   test('rendering (snapshot)', () => {
-    render(<Provider store={store}>
-      <Alert />
-    </Provider>)
+    connectedRender(<Alert />)
+    screen.debug()
   });
 });
