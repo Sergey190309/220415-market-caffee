@@ -13,7 +13,7 @@ import { render } from '@testing-library/react';
 // import lng from '../redux/reducers/lng'
 
 import rootReducer from './redux/reducers';
-import { combineReducers } from '@redux-saga/core/node_modules/redux';
+// import { combineReducers } from '@redux-saga/core/node_modules/redux';
 // ===================================================
 // The block about rendering connected components.
 // ---------------------------------------------------
@@ -77,7 +77,7 @@ export const recordSaga = async (saga, initialAction) => {
 /**
  * Return store based on live reducers from slicers
  */
-export const createTestStore = reducers => {
-  const store = createStore(combineReducers(reducers));
-  return store;
-};
+// export const createTestStore = reducers => {
+//   const store = createStore(combineReducers(reducers));
+//   return store;
+// };
