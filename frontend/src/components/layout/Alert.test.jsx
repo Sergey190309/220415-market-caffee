@@ -25,7 +25,7 @@ beforeEach(() => {
     store.dispatch(startAlert(mockAlertInfo))
     connectedRender(<Alert />)
     state = store.getState().alerts
-    console.log('Alert component testing, state ->', state)
+    // console.log('Alert component testing, state ->', state)
     await screen.debug()
   });
 });
