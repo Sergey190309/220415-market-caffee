@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header, Segment } from 'semantic-ui-react';
 import { useSelector } from 'react-redux';
-import { alertsSelector } from '../../redux/slices/alert';
+import { alertsSelector } from '../../redux/slices/alerts';
 
 export const Alert = () => {
   const { alerts } = useSelector(alertsSelector);

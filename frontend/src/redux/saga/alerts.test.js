@@ -3,7 +3,7 @@
 // import { REMOVE_ALERT } from '../constants/types';
 // import { alertActions } from '../actions/alert';
 // import alertWorker from './alert';
-import { alertWorker } from './alert';
+import { alertWorker } from './alerts';
 import { recordSaga } from '../../testUtils';
 import { delaySomthing } from './sagasUtils';
 

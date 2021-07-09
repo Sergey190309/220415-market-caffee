@@ -9,7 +9,7 @@ import {
 
 // import { delaySomthing } from './sagasUtils';
 import { delaySomthing } from '../../utils/utils'
-import { removeAlert } from '../slices/alert';
+import { removeAlert } from '../slices/alerts';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* alertSaga() {

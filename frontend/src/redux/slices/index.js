@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 // import alerts from '../reducers/alert';
-import alerts from './alert'
+import alerts from './alerts'
 import device from '../reducers/device';
 import logIn from '../reducers/auth';
 import lng from '../reducers/lng';

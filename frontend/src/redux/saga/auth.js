@@ -13,7 +13,7 @@ import {
 import { logInCall, signUpCall } from '../../api/calls/getAuthTechInfo';
 import { actRespErrorMessage } from '../../utils/errorHandler';
 // import { alertActions } from '../actions/alert';
-import { startAlert } from '../slices/alert';
+import { startAlert } from '../slices/alerts';
 import { setAlertData } from '../../utils/utils';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
