@@ -1,4 +1,4 @@
-import { alertActions } from '../redux/actions/alert';
+import { alertActions } from '../redux/actions/na_alert';
 import { put } from 'redux-saga/effects';
 // import { call } from 'redux-saga/effects';
 // import store from '../redux/store'

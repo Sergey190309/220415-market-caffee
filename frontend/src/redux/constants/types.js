@@ -1,7 +1,7 @@
 // Alerts (alerts):
-export const START_ALERT = 'START_ALERT';
+// export const START_ALERT = 'START_ALERT';
 // export const SET_ALERT = 'SET_ALERT';
-export const REMOVE_ALERT = 'REMOVE_ALERT';
+// export const REMOVE_ALERT = 'REMOVE_ALERT';
 
 // Device configuration (device):
 export const SET_DEVICE_SIZE = 'SET_DEVICE_SIZE';

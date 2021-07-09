@@ -1,6 +1,6 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import {
-  START_ALERT,
+  // START_ALERT,
   LOG_IN_START,
   LOG_IN_SUCCESS,
   LOG_IN_FAIL,
@@ -8,22 +8,13 @@ import {
   SIGN_UP_SUCCESS,
   SIGN_UP_FAIL,
 } from '../constants/types';
-import { setAlertData } from '../actions/alert';
+// import { setAlertData } from '../actions/alert';
 // import axiosClient from '../../api/apiClient';
 import { logInCall, signUpCall } from '../../api/calls/getAuthTechInfo';
 import { actRespErrorMessage } from '../../utils/errorHandler';
-import { alertActions } from '../actions/alert';
-
-// function that makes the api request and returns a Promise for response
-// const logInCall = logInData => {
-//   try {
-//     // console.log('saga logInCall ->', logInData);
-//     const resp = axiosClient.post('/users/login', logInData);
-//     return resp;
-//   } catch (error) {
-//     console.log('logInCall error\n', error);
-//   }
-// };
+// import { alertActions } from '../actions/alert';
+import { startAlert } from '../slices/alert';
+import { setAlertData } from '../../utils/utils';
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* logInSaga() {
@@ -36,14 +27,15 @@ export function* logInFetch(action) {
   // console.log('saga, logInFetch ->', action);
   try {
     const userData = yield call(logInCall, action.payload);
-    // console.log('logInFetch userData ->', userData.data.message);
     yield put({ type: LOG_IN_SUCCESS, payload: userData.data.payload });
     yield put(
-      alertActions({
-        message: userData.data.message,
-        alertType: 'info',
-        timeout: 3000,
-      })
+      startAlert(
+        setAlertData({
+          message: userData.data.message,
+          alertType: 'info',
+          timeout: 3000,
+        })
+      )
     );
   } catch (error) {
     yield put({ type: LOG_IN_FAIL, payload: error });
@@ -51,25 +43,16 @@ export function* logInFetch(action) {
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
     yield put(
-      alertActions({
-        message: errorMessage,
-        alertType: 'error',
-        timeout: 5000,
-      })
+      startAlert(
+        setAlertData({
+          message: errorMessage,
+          alertType: 'error',
+          timeout: 5000,
+        })
+      )
     );
   }
 }
-
-// function that makes the api request and returns a Promise for response
-// const signUpCall = signUpData => {
-//   try {
-//     // console.log('saga signUpCall ->', signUpData);
-//     const resp = axiosClient.post('/users', signUpData);
-//     return resp;
-//   } catch (error) {
-//     console.log('signUpCall error\n', error);
-//   }
-// };
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function* signUpSaga() {
@@ -83,25 +66,26 @@ export function* signUpFetch(action) {
     // console.log('logInFetch userData ->', userData.data.payload);
     yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
     yield put(
-      alertActions({
-        message: userData.data.message,
-        alertType: 'info',
-        timeout: 3000,
-      })
+      startAlert(
+        setAlertData({
+          message: userData.data.message,
+          alertType: 'info',
+          timeout: 3000,
+        })
+      )
     );
   } catch (error) {
     yield put({ type: SIGN_UP_FAIL, payload: error });
     const errorMessage = actRespErrorMessage(error);
-    // console.log('logIn saga, error ->', error.response.data.message)
-    // console.log('logIn saga, error ->', error.response.status)
-    yield put({
-      type: START_ALERT,
-      payload: setAlertData({
-        message: errorMessage,
-        alertType: 'error',
-        timeout: 5000,
-      }),
-    });
+    yield put(
+      startAlert(
+        setAlertData({
+          message: errorMessage,
+          alertType: 'error',
+          timeout: 5000,
+        })
+      )
+    );
   }
 }
 

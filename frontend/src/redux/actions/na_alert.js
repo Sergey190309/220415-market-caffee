@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { START_ALERT } from '../constants/types';
+// import { START_ALERT } from '../constants/types';
 // import { START_ALERT, SET_ALERT, REMOVE_ALERT } from './types';
 
 export const setAlertData = incomeData => {
@@ -20,11 +20,11 @@ export const alertActions = (
   //   alertType: string info | error
   //   timeout: int
   // }
-  // console.log('actions, alert alertData->', alertData);
+  console.log('actions, alert alertData->', alertData);
   // const id = v4();
 
   return {
-    type: START_ALERT,
+    // type: START_ALERT,
     // payload: alertData,
     payload: setAlertData(alertData),
   };

@@ -1,4 +1,4 @@
-export { alertActions } from './alert';
+export { alertActions } from './na_alert';
 export { setDeviceSize, setModalOpened, setModalClosed } from './device';
 export {
   // logInStart,

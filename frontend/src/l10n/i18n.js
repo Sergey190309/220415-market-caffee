@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 // import { getLngList } from '../api/calls/getViewsContents';
-import store from '../redux/store_no_rtk';
+import store from '../redux/store';
 import { i18nInitiated } from '../redux/actions/tech';
 import { axiosCommonLng } from '../api/apiClient';
 

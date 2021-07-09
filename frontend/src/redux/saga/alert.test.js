@@ -1,6 +1,6 @@
 // import { takeEvery } from 'redux-saga/effects';
 
-import { REMOVE_ALERT } from '../constants/types';
+// import { REMOVE_ALERT } from '../constants/types';
 // import { alertActions } from '../actions/alert';
 // import alertWorker from './alert';
 import { alertWorker } from './alert';
@@ -25,7 +25,7 @@ describe('Whole Saga testing', () => {
     expect(delaySomthing).toHaveBeenCalledTimes(1);
     expect(dispatched.length).toBe(1);
     expect(dispatched[0]).toEqual({
-      type: REMOVE_ALERT,
+      type: 'REMOVE_ALERT',
       payload: initialAction.payload.id,
     });
     // console.log('alertActions testing, dispatched ->', dispatched);
