@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 // import alerts from '../reducers/alert'
 
-const initialState = {
+export const initialState = {
   alerts: []
 };
 
