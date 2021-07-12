@@ -27,86 +27,51 @@ const techSlice = createSlice({
   initialState,
   reducers: {
     startInitLoading: state => {
-      console.log('teckSlice, startInitLoading');
-      state = {
-        ...state,
-        loading: true,
-      };
+      // console.log('teckSlice, startInitLoading');
+      state.loading = true;
     },
     initLoadingSuccess: state => {
-      state = {
-        ...state,
-        loading: false,
-      };
+      state.loading = false;
     },
     startTechIn: state => {
-      state = {
-        ...state,
-        techLoaded: false,
-      };
+      state.techLoaded = false;
     },
     techInSuccess: (state, { payload }) => {
+      // console.log('tech slicer, techInSuccess, payload ->', payload);
       axiosCommonToken(payload);
       localStorage.setItem(TECH_TOKEN, payload);
-      state = {
-        ...state,
-        techLoaded: true,
-        techToken: payload,
-      };
+      state.techLoaded = true
+      state.teckToken= payload
     },
     techInFail: state => {
       localStorage.removeItem(TECH_TOKEN);
-      state = {
-        ...state,
-        techLoaded: false,
-        techToken: null,
-        loading: false,
-      };
+      state.techLoaded = false
+      state.techToken = null
+      state.loading = false
     },
     startLngs: state => {
-      state = {
-        ...state,
-        lngsLoaded: false,
-      };
+      state.lngsLoaded = false
     },
     lngsSuccess: state => {
-      state = {
-        ...state,
-        lngsLoaded: true,
-      };
+      state.lngsLoaded = true
     },
     lngsFail: state => {
-      state = {
-        ...state,
-        lngsLoaded: false,
-        loading: false,
-      };
+      state.lngsLoaded = false
+      state.loading = false
     },
     startI18n: state => {
-      state = {
-        ...state,
-        i18nLoaded: false,
-        loading: true,
-      };
+      state.i18nLoaded = false
+      state.loading = true
     },
     i18nInitiated: state => {
-      state = {
-        ...state,
-        i18nInitiated: true,
-      };
+      state.i18nInitiated = true
     },
     i18nSuccess: state => {
-      state = {
-        ...state,
-        i18nLoaded: true,
-      };
+      state.i18nLoaded =true
     },
     i18nFail: state => {
-      state = {
-        ...state,
-        i18nLoaded: false,
-        loading: false,
-      };
+      state.i18nLoaded = false
+      state.loading = false
     },
   },
 });

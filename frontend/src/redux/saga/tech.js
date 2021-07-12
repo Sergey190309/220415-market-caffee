@@ -1,18 +1,8 @@
 import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
-// import i18next from 'i18next';
 
-// import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
 import { sagaErrorHandler } from '../../utils/errorHandler';
 
-import {
-  // START_I18N,
-  // START_INIT_LOADING,
-  // START_LNGS,
-  // START_TECH_IN,
-  // TECH_IN_FAIL,
-  // TECH_IN_SUCCESS,
-} from '../constants/types';
 import {
   startInitLoading,
   initLoadingSuccess,
@@ -26,21 +16,8 @@ import {
   i18nSuccess,
   i18nFail,
 } from '../slices/tech'
-import {
-  // startTechIn,
-  // techInSuccess,
-  // techInFail,
-  // startLngs,
-  // lngsSuccess,
-  // lngsFail,
-  // startI18n,
-  // i18nFail,
-  // i18nSuccess,
-  // loadingSuccess,
-} from '../actions/tech';
 
 import { structureStart } from '../actions/structure';
-// import { alertActions } from '../actions/alert';
 
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import { initI18next, setI18next } from '../../l10n/i18n';

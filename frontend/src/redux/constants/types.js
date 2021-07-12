@@ -22,22 +22,22 @@ export const LOG_IN_MODAL_CLOSED = 'LOG_IN_MODAL_CLOSED';
 export const LOG_OUT = 'LOG_OUT';
 
 // Applicatin technical items - initiation, etc (tech)
-export const START_INIT_LOADING = 'START_INIT_LOADING';
+// export const START_INIT_LOADING = 'START_INIT_LOADING';
 
-export const START_TECH_IN = 'START_TECH_IN';
-export const TECH_IN_SUCCESS = 'TECH_IN_SUCCESS';
-export const TECH_IN_FAIL = 'TECH_IN_FAIL';
+// export const START_TECH_IN = 'START_TECH_IN';
+// export const TECH_IN_SUCCESS = 'TECH_IN_SUCCESS';
+// export const TECH_IN_FAIL = 'TECH_IN_FAIL';
 
-export const START_LNGS = 'START_LNGS';
-export const LNGS_SUCCESS = 'LNGS_SUCCESS';
-export const LNGS_FAIL = 'LNGS_FAIL';
+// export const START_LNGS = 'START_LNGS';
+// export const LNGS_SUCCESS = 'LNGS_SUCCESS';
+// export const LNGS_FAIL = 'LNGS_FAIL';
 
-export const START_I18N = 'START_I18N';
-export const I18N_INITIATED = 'I18N_INITIATED';
-export const I18N_SUCCESS = 'I18N_SUCCESS';
-export const I18N_FAIL = 'I18N_FAIL';
+// export const START_I18N = 'START_I18N';
+// export const I18N_INITIATED = 'I18N_INITIATED';
+// export const I18N_SUCCESS = 'I18N_SUCCESS';
+// export const I18N_FAIL = 'I18N_FAIL';
 
-export const INIT_LOADING_SUCCESS = 'INIT_LOADING_SUCCESS';
+// export const INIT_LOADING_SUCCESS = 'INIT_LOADING_SUCCESS';
 
 // Structure loading (initiated by tech)
 export const STRUCTURE_START = 'STRUCTURE_START'  // Start whole structure loading

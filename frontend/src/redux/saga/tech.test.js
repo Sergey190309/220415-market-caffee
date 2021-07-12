@@ -1,13 +1,14 @@
 import { v4 } from 'uuid';
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
 import {
-  LNGS_FAIL,
-  START_LNGS,
+  // LNGS_FAIL,
+  // START_LNGS,
   STRUCTURE_START,
   // START_TECH_IN,
-  TECH_IN_FAIL,
-  TECH_IN_SUCCESS,
+  // TECH_IN_FAIL,
+  // TECH_IN_SUCCESS,
 } from '../constants/types';
+import { i18nSuccess, initLoadingSuccess, lngsFail, lngsSuccess, startI18n, startLngs, techInFail, techInSuccess } from '../slices/tech';
 import { recordSaga } from '../../testUtils';
 import {
   // startInitWorker,
@@ -49,14 +50,14 @@ describe('Tech sagas tesing', () => {
         payload: mockTechInData,
       };
       const expDispatch00 = {
-        type: TECH_IN_SUCCESS,
+        type: techInSuccess.type,
         payload: mockResolveData.payload,
       };
       const expDispatch01 = {
         type: STRUCTURE_START,
       };
       const expDispatch02 = {
-        type: START_LNGS,
+        type: startLngs.type,
       };
       const dispatched = await recordSaga(techInFetch, initialAction);
       expect(mockAxios.post).toHaveBeenCalledTimes(1);
@@ -86,7 +87,7 @@ describe('Tech sagas tesing', () => {
       expect(mockAxios.post.mock.calls[0][1]).toEqual({ tech_id: mockTechInData });
       expect(dispatched.length).toBe(1);
       const { type, payload } = dispatched[0];
-      expect(type).toBe(TECH_IN_FAIL);
+      expect(type).toBe(techInFail.type);
       expect(payload).toBeObject();
       expect(payload).toContainKeys(['data']);
 
@@ -132,10 +133,10 @@ describe('Tech sagas tesing', () => {
     test('lngs success', async () => {
       mockAxios.get.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
       const expDispatch00 = {
-        type: 'LNGS_SUCCESS',
+        type: lngsSuccess.type,
       };
       const expDispatch01 = {
-        type: 'START_I18N',
+        type: startI18n.type,
         payload: ['en', 'ru', 'cn'],
       };
       const dispatched = await recordSaga(lngsWorker);
@@ -156,7 +157,7 @@ describe('Tech sagas tesing', () => {
       expect(mockAxios.get.mock.calls[0][0]).toBe('/global/locales');
       expect(dispatched.length).toBe(1);
       const { type, payload } = dispatched[0];
-      expect(type).toBe(LNGS_FAIL);
+      expect(type).toBe(lngsFail.type);
       expect(payload).toBeObject();
       expect(payload).toContainKeys(['data']);
 
@@ -178,10 +179,10 @@ describe('Tech sagas tesing', () => {
         .mockImplementation(() => Promise.resolve());
 
       const expDispatch00 = {
-        type: 'I18N_SUCCESS',
+        type: i18nSuccess.type,
       };
       const expDispatch01 = {
-        type: 'INIT_LOADING_SUCCESS',
+        type: initLoadingSuccess.type,
       };
       // const args = [mockSetI18n, mockSetCommonLng];
       const dispatched = await recordSaga(i18nWorker, action);
