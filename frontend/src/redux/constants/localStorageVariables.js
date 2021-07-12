@@ -1,0 +1,1 @@
+export const TECH_TOKEN = 'TECH_TOKEN'

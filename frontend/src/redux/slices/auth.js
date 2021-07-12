@@ -27,42 +27,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logOut: state => {
-      localStorage.removeItem('logInInfo');
-      state = {
-        ...state,
-        ...notLoggedInfo,
-        isSignedUp: false,
-        isLoggedIn: false,
-        loading: false,
-      };
-    },
-    signUpFail: state => {
-      localStorage.removeItem('logInInfo');
-      state = {
-        ...state,
-        ...notLoggedInfo,
-        isSignedUp: false,
-        isLoggedIn: false,
-        loading: false,
-      };
-    },
-    logInFail: state => {
-      state = {
-        ...state,
-        ...notLoggedInfo,
-        isSignedUp: false,
-        isLoggedIn: false,
-        loading: false,
-      };
-    },
     signUpStart: state => {
-      state = {
-        ...state,
-        loading: true,
-      };
-    },
-    logInStart: state => {
       state = {
         ...state,
         loading: true,
@@ -77,6 +42,22 @@ const authSlice = createSlice({
         loading: false,
       };
     },
+    signUpFail: state => {
+      localStorage.removeItem('logInInfo');
+      state = {
+        ...state,
+        ...notLoggedInfo,
+        isSignedUp: false,
+        isLoggedIn: false,
+        loading: false,
+      };
+    },
+    logInStart: state => {
+      state = {
+        ...state,
+        loading: true,
+      };
+    },
     logInSuccess: (state, { payload }) => {
       payload.isAuthenticated = true;
       axiosCommonToken(payload.access_token, authAxiosClient);
@@ -86,6 +67,25 @@ const authSlice = createSlice({
         ...payload,
         loading: false,
         isLoggedIn: true,
+      };
+    },
+    logInFail: state => {
+      state = {
+        ...state,
+        ...notLoggedInfo,
+        isSignedUp: false,
+        isLoggedIn: false,
+        loading: false,
+      };
+    },
+    logOut: state => {
+      localStorage.removeItem('logInInfo');
+      state = {
+        ...state,
+        ...notLoggedInfo,
+        isSignedUp: false,
+        isLoggedIn: false,
+        loading: false,
       };
     },
     signUpModalClosed: state => {
@@ -102,3 +102,19 @@ const authSlice = createSlice({
     },
   },
 });
+
+
+export const {
+  signUpStart,
+    signUpSuccess,
+    signUpFail,
+    logInStart,
+    logInSuccess,
+    logInFail,
+    logOut,
+    signUpModalClosed,
+    logInModalClosed,
+} = authSlice.actions
+
+export const authSelector = (state) => state.auth
+export default authSlice.reducer

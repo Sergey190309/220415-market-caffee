@@ -30,7 +30,6 @@ export const initialStore = {
   lngsLoaded: false,
   i18nInitiated: false,
   i18nLoaded: false,
-
   techToken: null,
 };
 
