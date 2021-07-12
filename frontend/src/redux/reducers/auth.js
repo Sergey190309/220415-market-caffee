@@ -92,7 +92,7 @@ const auth = (
         loading: false,
         isLoggedIn: true,
       };
-    case LOG_IN_MODAL_CLOSED:
+      case LOG_IN_MODAL_CLOSED:
       return {
         ...store,
         isLoggedIn: false,
