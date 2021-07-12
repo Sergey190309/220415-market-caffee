@@ -2,6 +2,7 @@ import { techAxiosClient } from '../../api/apiClient';
 import { recordSaga } from '../../testUtils';
 import { mockResolveData, mockRejectData } from '../../api/calls/getViewsStructure.test';
 import { structureWorker } from './structure';
+
 describe('Structure saga testing', () => {
   beforeAll(() => {
     jest.resetAllMocks();
