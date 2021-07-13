@@ -15,7 +15,7 @@ export const initI18next = (supportedLngs = []) => {
   // from back - end.
   // -------------------------------------------------------------------------
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
-  // console.log('initI18n, supportedLngs ->', supportedLngs);
+  console.log('initI18n, supportedLngs ->', supportedLngs);
   // const lng = 'cimode';
   const lng = 'en';
   i18next
