@@ -1,14 +1,13 @@
 import i18next from 'i18next';
 import { setI18next, initI18next } from './i18n';
 
-const mockI18next = jest.createMockFromModule('i18next');
 
-jest.mock('i18next', () => ({
-  __esModule: true,
-  default: {
-    use: jest.fn(),
-  },
-}));
+// jest.mock('i18next', () => ({
+//   __esModule: true,
+//   default: {
+//     use: jest.fn(),
+//   },
+// }));
 // jest.mock('i18next', () => ({
 //   __esModule: true,
 //   default: {
