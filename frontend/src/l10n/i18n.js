@@ -7,7 +7,7 @@ import { i18nInitiated } from '../redux/slices/tech';
 // import { i18nInitiated } from '../redux/actions/tech';
 import { axiosCommonLng } from '../api/apiClient';
 
-export const initI18next = (supportedLngs = []) => {
+export const initI18next = (supportedLngs = [], i18nInstance = i18next) => {
   // export const initI18next = (supportedLngs = ['en', 'ru']) => {
   // -------------------------------------------------------------------------
   // This i18n instance is just 'empty' one for correct component rendering.
@@ -18,7 +18,8 @@ export const initI18next = (supportedLngs = []) => {
   console.log('initI18n, supportedLngs ->', supportedLngs);
   // const lng = 'cimode';
   const lng = 'en';
-  i18next
+  i18nInstance
+  // i18next
     .use(initReactI18next)
     .use(HttpApi)
     .init({
