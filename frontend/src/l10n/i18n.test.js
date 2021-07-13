@@ -1,27 +1,29 @@
 import i18next from 'i18next';
 import { setI18next, initI18next } from './i18n';
 
+jest.mock('i18next', () = ({
+  use: jest.fn()
+}));
 
+// const
 // jest.mock('i18next', () => ({
-//   __esModule: true,
-//   default: {
-//     use: jest.fn(),
-//   },
+//   // __esModule: true,
+//   use: jest.fn(() => ({})),
+//   init: jest.fn(() => ({})),
+//   t: k => k,
 // }));
-// jest.mock('i18next', () => ({
-//   __esModule: true,
-//   default: {
-//     use: jest.fn(),
-//     init: jest.fn().mockImplementation(() => Promise.resolve({ result: 'result' })),
-//   },
-// }));
+const mockI18next = i18next.use;
+
+beforeEach(() => {
+  jest.resetAllMocks();
+  // i18next.mockImplementation(mockI18next);
+});
+
 describe('setI18next testing', () => {
   const supportedLngs = ['cimode', 'en'];
   const fmBackEnd = ['en', 'ru', 'cn'];
-  beforeEach(() => {
-    // i18next.mockImplementation(mockI18next);
-  });
   test('initI18next testing', () => {
+    mockI18next.mockImplementation(jest.fn());
     const result = initI18next(fmBackEnd);
     console.log('initI18next testing, result ->', result);
   });
