@@ -43,7 +43,7 @@ export const initI18next = (supportedLngs = []) => {
     })
     .then(() => {
       // console.log('initI18next.then, i18next.language ->', i18next.languages)
-      console.log('initI18next.then, ->')
+      console.log('initI18next.then, i18next.supportedLngs->', i18next['options'].supportedLngs)
       store.dispatch(i18nInitiated());
     });
 };
