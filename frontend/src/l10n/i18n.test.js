@@ -1,9 +1,10 @@
 import i18next from 'i18next';
 import { setI18next, initI18next } from './i18n';
 
-jest.mock('i18next', () = ({
-  use: jest.fn()
-}));
+jest.mock('i18next')
+// jest.mock('i18next', () => ({
+//   use: () => {},
+// }));
 
 // const
 // jest.mock('i18next', () => ({
@@ -12,7 +13,7 @@ jest.mock('i18next', () = ({
 //   init: jest.fn(() => ({})),
 //   t: k => k,
 // }));
-const mockI18next = i18next.use;
+// const mockI18next = i18next.use;
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -23,7 +24,8 @@ describe('setI18next testing', () => {
   const supportedLngs = ['cimode', 'en'];
   const fmBackEnd = ['en', 'ru', 'cn'];
   test('initI18next testing', () => {
-    mockI18next.mockImplementation(jest.fn());
+    console.log('initI18next testing, i18next.supportedLngs ->', i18next['options'].supportedLngs)
+    // mockI18next.mockImplementation(jest.fn());
     const result = initI18next(fmBackEnd);
     console.log('initI18next testing, result ->', result);
   });
