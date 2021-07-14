@@ -10,8 +10,8 @@ const initialState = {
 const device = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
-    case SET_DEVICE_SIZE:
-      return { ...state, deviceSize: payload };
+    // case SET_DEVICE_SIZE:
+    //   return { ...state, deviceSize: payload };
     case OPEN_MODAL:
       // console.log('reducer, open modal')
       return { ...state, kindOfModal: payload };

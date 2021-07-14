@@ -1,15 +1,17 @@
 import React, { Fragment, useState, useEffect } from 'react';
 // Redux
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
 import Layout from './layout/Layout';
-// import { getLngList } from '../api/calls/getBackEndInfo';
 
-import { setDeviceSize } from '../redux/actions';
+import { setDeviceSize } from '../redux/slices/device';
+// import { setDeviceSize } from '../redux/actions';
 
 export const App = ({ setDeviceSize }) => {
   const [width, setWidth] = useState(0);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     updateDimentions();
@@ -25,7 +27,7 @@ export const App = ({ setDeviceSize }) => {
   const updateDimentions = () => {
     const _width = window.outerWidth;
     setWidth(_width);
-    setDeviceSize(_width);
+    dispatch(setDeviceSize(_width));
   };
 
   return (
@@ -37,19 +39,12 @@ export const App = ({ setDeviceSize }) => {
 
 App.defaultProps = {
   // techToken: '',
-  setDeviceSize: () => {
-    console.log('setDeviceSize called');
-  },
+  setDeviceSize: setDeviceSize,
 };
 
 App.propTypes = {
-  // techToken: PropTypes.string.isRequired,
   setDeviceSize: PropTypes.func.isRequired,
 };
 
-// const mapStateToProps = state => ({
-//   techToken: state.tech.tech_token,
-// });
-
-export default connect(null, { setDeviceSize })(App);
-// export default connect(mapStateToProps, { setDeviceSize })(App);
+export default App;
+// export default connect(null, { setDeviceSize })(App);

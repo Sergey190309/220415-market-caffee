@@ -34,5 +34,5 @@ const structureSlice = createSlice({
 });
 
 export const { structureStart, structureSuccess, structureFail } = structureSlice.actions;
-export const structureSelector = state => state.structure;
+// export const structureSelector = state => state.structure;
 export default structureSlice.reducer;

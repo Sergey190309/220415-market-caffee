@@ -90,5 +90,5 @@ export const {
   i18nSuccess,
   i18nFail,
 } = techSlice.actions;
-export const techSelector = state => state.tech;
+// export const techSelector = state => state.tech;
 export default techSlice.reducer;
