@@ -15,6 +15,6 @@ describe('Tech slice testing', () => {
     store.dispatch(startInitLoading());
     state = await store.getState().tech;
     // expect(state.loading).toBeTruthy();
-    console.log('startInitLoading, state ->', state);
+    // console.log('startInitLoading, state ->', state);
   });
 });
