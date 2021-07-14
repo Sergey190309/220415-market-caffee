@@ -25,7 +25,7 @@ describe('setI18next testing', () => {
   const supportedLngs = ['cimode', 'en'];
   const fmBackEnd = ['en', 'ru', 'cn'];
   test('initI18next testing', () => {
-    console.log('initI18next testing, i18next ->', i18next)
+    // console.log('initI18next testing, i18next ->', i18next)
     // mockI18next.mockImplementation(jest.fn());
     const result = initI18next(fmBackEnd);
     console.log('initI18next testing, result ->', result);

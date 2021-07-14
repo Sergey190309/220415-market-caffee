@@ -15,7 +15,7 @@ export const initI18next = (supportedLngs = []) => {
   // from back - end.
   // -------------------------------------------------------------------------
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
-  console.log('initI18n, i18next ->', i18next);
+  // console.log('initI18n, i18next ->', i18next);
   // const lng = 'cimode';
   const lng = 'en';
   i18next
@@ -44,7 +44,7 @@ export const initI18next = (supportedLngs = []) => {
     })
     .then(() => {
       // console.log('initI18next.then, i18next.language ->', i18next.languages)
-      console.log('initI18next.then, i18next.supportedLngs->', i18next['options'].supportedLngs)
+      // console.log('initI18next.then, i18next.supportedLngs->', i18next['options'].supportedLngs)
       store.dispatch(i18nInitiated());
     });
 };

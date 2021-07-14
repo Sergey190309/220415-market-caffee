@@ -19,8 +19,7 @@ ReactDOM.render(
           {/* </React.StrictMode> */}
         </React.Suspense>
       </BrowserRouter>
-    </Provider>
-  ,
+    </Provider>,
   document.getElementById('root')
 );
 
