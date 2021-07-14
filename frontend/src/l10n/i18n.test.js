@@ -1,7 +1,7 @@
-import i18next from 'i18next';
-import { setI18next, initI18next } from './i18n';
+// import i18next from 'i18next';
+import { setI18next } from './i18n';
 
-jest.mock('i18next')
+jest.mock('i18next');
 
 // jest.mock('i18next', () => ({
 //   use: () => {},
