@@ -1,5 +1,5 @@
 import { techAxiosClient } from '../apiClient';
-import { apiCallsErrorHandler } from '../../utils/errorHandler';
+// import { apiCallsErrorHandler } from '../../utils/errorHandler';
 
 export const lngsCall = () => {
   try {
