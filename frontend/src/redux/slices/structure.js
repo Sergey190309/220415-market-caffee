@@ -22,7 +22,13 @@ const structureSlice = createSlice({
       Object.assign(state, structures, { loaded: true, loading: false });
     },
     structureFail: state => {
-      state = { loaded: false, loading: false };
+      Object.keys(state).forEach(key => {
+        if (!['loading', 'loaded'].includes(key)) {
+          delete state[key];
+        }
+      });
+      state.loading = false;
+      state.loaded = false;
     },
   },
 });

@@ -26,7 +26,7 @@ describe('structure testing', () => {
     store.dispatch(structureFail());
     state = store.getState().structure;
 
-    console.log('state testing, state ->', state);
+    console.log('state testing,  state ->', state);
 
   });
 });
