@@ -22,14 +22,11 @@ const structureSlice = createSlice({
       Object.assign(state, structures, { loaded: true, loading: false });
     },
     structureFail: state => {
-      state.loaded = false;
-      state.loading = false;
+      state = { loaded: false, loading: false };
     },
   },
 });
 
-export const {
-  structureStart, structureSuccess, structureFail
-} = structureSlice.actions;
+export const { structureStart, structureSuccess, structureFail } = structureSlice.actions;
 export const structureSelector = state => state.structure;
 export default structureSlice.reducer;

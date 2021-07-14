@@ -1,5 +1,5 @@
 import store from '../store';
-import {
+import structure, {
   initialState,
   structureStart,
   structureSuccess,
@@ -17,9 +17,16 @@ describe('structure testing', () => {
     state = store.getState().structure;
     expect(state).toEqual({ ...initialState, loading: true });
 
-    store.dispatch(structureSuccess({ payload: structures }));
+    store.dispatch(structureSuccess(structures));
     state = store.getState().structure;
+    let expState = { loading: false, loaded: true };
+    structures.forEach(structure => Object.assign(expState, structure));
+    expect(state).toEqual(expState);
+
+    store.dispatch(structureFail());
+    state = store.getState().structure;
+
     console.log('state testing, state ->', state);
-    console.log('state testing, structures ->', structures);
+
   });
 });

@@ -4,7 +4,7 @@ export const landingPageStructure = {
   '02': { qnt: 2, type: 'hblock', subtype: 'pix' },
   '03': { qnt: 2, type: 'vblock', subtype: 'pix' },
   '04': { type: 'footer' },
-}
+};
 
 // ==================================================================================
 const landing = {
@@ -45,11 +45,6 @@ const pictures = {
   },
 };
 
-const admin ={}
+const admin = {};
 
-export const structures = [
-  landing,
-  pictures,
-  admin
-];
-
+export const structures = [{ landing }, { pictures }, { admin }];
