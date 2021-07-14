@@ -15,6 +15,7 @@ const structureSlice = createSlice({
     },
     structureSuccess: (state, { payload }) => {
       let structures = {};
+      // console.log('structureSlice, structureSuccess, payload ->', payload)
       payload.forEach(structure => {
         structures = { ...structures, ...structure };
       });
