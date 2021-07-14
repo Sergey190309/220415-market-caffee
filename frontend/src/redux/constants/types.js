@@ -40,9 +40,9 @@ export const LOG_OUT = 'LOG_OUT';
 // export const INIT_LOADING_SUCCESS = 'INIT_LOADING_SUCCESS';
 
 // Structure loading (initiated by tech)
-export const STRUCTURE_START = 'STRUCTURE_START'  // Start whole structure loading
-export const STRUCTURE_SUCCESS = 'STRUCTURE_SUCCESS'
-export const STRUCTURE_FAIL = 'STRUCTURE_FAIL'
+// export const STRUCTURE_START = 'STRUCTURE_START'  // Start whole structure loading
+// export const STRUCTURE_SUCCESS = 'STRUCTURE_SUCCESS'
+// export const STRUCTURE_FAIL = 'STRUCTURE_FAIL'
 
 // Language switcher
 export const LNG_SWITCH = 'LNG_SWITCH';

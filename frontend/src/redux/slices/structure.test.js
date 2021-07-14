@@ -1,5 +1,5 @@
 import store from '../store';
-import structure, {
+import {
   initialState,
   structureStart,
   structureSuccess,
@@ -25,8 +25,9 @@ describe('structure testing', () => {
 
     store.dispatch(structureFail());
     state = store.getState().structure;
+    expect(state).toEqual(initialState);
 
-    console.log('state testing,  state ->', state);
+    // console.log('state testing, state ->', state);
 
   });
 });
