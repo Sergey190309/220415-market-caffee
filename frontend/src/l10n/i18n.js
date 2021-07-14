@@ -19,9 +19,8 @@ export const initI18next = (supportedLngs = []) => {
   // const lng = 'cimode';
   const lng = 'en';
   i18next
-  // i18next
-    .use(initReactI18next)
-    .use(HttpApi)
+    // .use(initReactI18next)
+    // .use(HttpApi)
     .init({
       lng: lng,
       supportedLngs: supportedLngs,

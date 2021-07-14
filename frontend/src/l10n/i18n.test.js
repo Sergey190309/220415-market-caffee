@@ -28,7 +28,7 @@ describe('setI18next testing', () => {
     console.log('initI18next testing, i18next ->', i18next.use)
     // mockI18next.mockImplementation(jest.fn());
     const result = initI18next(fmBackEnd);
-    console.log('initI18next testing, result ->', result);
+    // console.log('initI18next testing, result ->', result);
   });
 
   test.skip('setI18next success', () => {
