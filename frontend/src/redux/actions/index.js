@@ -9,7 +9,7 @@ export {
   logOutAction,
 } from './auth';
 export { setLngAction } from './lng';
-export { structureStart, structureSuccess, structureFail } from './structure';
+export { structureStart, structureSuccess, structureFail } from './na_structure';
 // export {
 //   contentStart,
 //   contentSuccess,

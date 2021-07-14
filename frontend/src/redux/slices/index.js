@@ -6,9 +6,10 @@ import alerts from './alerts'
 import device from '../reducers/device';
 import logIn from '../reducers/auth';
 import lng from '../reducers/lng';
-import structure from '../reducers/structure';
-// import tech from '../reducers/tech';
+import structure from './structure';
+// import structure from '../reducers/structure';
 import tech from './tech'
+// import tech from '../reducers/tech';
 
 export const rootReducer = combineReducers({
   alerts,

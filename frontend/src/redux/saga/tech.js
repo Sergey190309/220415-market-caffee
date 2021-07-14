@@ -17,7 +17,8 @@ import {
   i18nFail,
 } from '../slices/tech'
 
-import { structureStart } from '../actions/structure';
+import { structureStart } from '../slices/structure';
+// import { structureStart } from '../actions/structure';
 
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import { initI18next, setI18next } from '../../l10n/i18n';

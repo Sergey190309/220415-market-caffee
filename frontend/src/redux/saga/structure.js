@@ -3,12 +3,13 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { techAxiosClient } from '../../api/apiClient';
 import { getViewStructure } from '../../api/calls/getViewsStructure';
 
-import { structureSuccess } from '../actions';
-import { STRUCTURE_START } from '../constants/types';
+// import { structureSuccess } from '../actions';
+// import { STRUCTURE_START } from '../constants/types';
+import {structureStart, structureSuccess  } from '../slices/structure'
 
 // Watcher
 export function* structureSaga() {
-  yield takeEvery(STRUCTURE_START, structureWorker);
+  yield takeEvery(structureStart.type, structureWorker);
 }
 
 // Worker
