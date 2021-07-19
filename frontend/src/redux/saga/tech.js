@@ -84,7 +84,7 @@ export function* lngsSaga() {
 export function* lngsWorker(action) {
   try {
     const resp = yield call(lngsCall);
-    console.log('lngsWorker, resp ->', resp.data)
+    // console.log('lngsWorker, resp ->', resp.data)
     const lngs = resp.data.payload.map(item => item.id);
     // console.log('lngs worker, lngs ->', lngs)
     yield put(lngsSuccess());

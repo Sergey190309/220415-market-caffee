@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const smallDeviceLimit = 780; // That's limit where device deemed small (side bar)
+export const mediumDeviceLimit = 1080; // That's limit where device deemed small (side bar)
+
 export const initialState = {
   // Device sizes could be small (width less then 780) - phone; medium (1080) - tablet; big - normal PC
   deviceSize: 'small',
@@ -12,9 +15,17 @@ const deviceSlice = createSlice({
   initialState,
   reducers: {
     setDeviceSize: (state, { payload }) => {
-      state.deviceSize = payload;
+      /**
+       * Device sizes could be small (width less then 780) - phone;
+       * medium (1080) - tablet;
+       * big - normal PC
+       */
+      // console.log('deviceSlice, setDeviceSize, payload ->', payload)
+      // state.deviceSize = payload;
+      state.deviceSize = payload < smallDeviceLimit ? 'small' : payload < mediumDeviceLimit ? 'medium' : 'big';
     },
     openModal: (state, { payload }) => {
+      // console.log('deviceSlice, openModal, payload ->', payload)
       state.kindOfModal = payload;
     },
     closeModal: state => {

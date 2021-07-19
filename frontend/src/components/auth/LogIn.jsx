@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
@@ -8,17 +8,14 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 // import {LOG_IN_START} from '../../redux/actions/types'
 
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
 import {
-  positiveColor,
-  neutralColor,
-  warningColor,
-} from '../../utils/colors';
-import {
-  setModalOpened,
-  setModalClosed,
+  // openModal,
+  // closeModal,
   logInAction,
   setLoggedInFalse,
 } from '../../redux/actions';
+import { openModal, closeModal } from '../../redux/slices';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -40,32 +37,30 @@ export const logInSchema = t =>
 export const LogIn = ({
   initValues,
   logInSchema,
-  setModalOpened,
-  setModalClosed,
+  openModal,
+  closeModal,
   logInAction,
   isLoggedIn,
   setLoggedInFalse,
 }) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isLoggedIn) {
-      setModalClosed();
+      console.log('useEffect for logout')
+      dispatch(closeModal());
       setLoggedInFalse();
     }
-  }, [isLoggedIn, setModalClosed, setLoggedInFalse]);
+  }, [isLoggedIn, closeModal, setLoggedInFalse, dispatch]);
+
   const { t } = useTranslation('login');
 
   const onSubmit = (formData, { setSubmitting }) => {
     // const { email, password } = formData;
-    // console.log('components, auth, logIn, fromData ->', formData);
-    // logInStart()
+    console.log('components, auth, logIn, fromData ->', formData);
     logInAction(formData);
     setSubmitting(false);
   };
-
-  // console.log()
-  // const color = 'teal';
-  // const resColor = 'olive';
-  // const canColor = 'orange';
 
   return (
     <Container fluid textAlign='center'>
@@ -130,7 +125,9 @@ export const LogIn = ({
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
-                      onClick={setModalClosed}
+                      onClick={() => {
+                        dispatch(closeModal());
+                      }}
                     />
                   </Button.Group>
                 </Segment>
@@ -152,7 +149,7 @@ export const LogIn = ({
                     size='large'
                     content={t('buttons.signUp')}
                     onClick={() => {
-                      setModalOpened('signUp');
+                      dispatch(openModal('signUp'));
                     }}
                   />
                 </Grid.Column>
@@ -168,10 +165,10 @@ export const LogIn = ({
 LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
-  setModalOpened: () => {
+  openModal: () => {
     console.log('Modal open called');
   },
-  setModalClosed: () => {
+  closeModal: () => {
     console.log('Modal close called');
   },
   logInAction: () => {
@@ -185,8 +182,8 @@ LogIn.defaultProps = {
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
   logInSchema: PropTypes.func.isRequired,
-  setModalOpened: PropTypes.func.isRequired,
-  setModalClosed: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   logInAction: PropTypes.func.isRequired,
   setLoggedInFalse: PropTypes.func.isRequired,
 };
@@ -196,8 +193,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setModalOpened: kindOfModal => dispatch(setModalOpened(kindOfModal)),
-  setModalClosed: () => dispatch(setModalClosed()),
+  openModal: kindOfModal => dispatch(openModal(kindOfModal)),
+  closeModal: () => dispatch(closeModal()),
   logInAction: (email, password) => dispatch(logInAction(email, password)),
   setLoggedInFalse: () => dispatch(setLoggedInFalse()),
 });
@@ -205,8 +202,8 @@ const mapDispatchToProps = dispatch => ({
 // export default LogIn;
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
 // export default connect(mapStateToProps, {
-//   setModalOpened,
-//   setModalClosed,
+//   openModal,
+//   closeModal,
 //   logInAction,
 //   setLoggedInFalse,
 // })(LogIn);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Menu, Container, Popup } from 'semantic-ui-react';
@@ -9,17 +9,22 @@ import Logo from '../page_views/various/Logo';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
+
+import { positiveColor } from '../../utils/colors'
 // import { swapiGetter } from '../../api/calls/study';
 
-import { setModalOpened, logOutAction } from '../../redux/actions';
+import { logOutAction } from '../../redux/actions';
+import { openModal } from '../../redux/slices';
 
 export const clickHandler = (
   name,
+  dispatch,
   setActiveItem,
-  setModalOpened,
+  openModal,
   isAuthenticated,
   logOutAction
 ) => {
+
   if (!(name === 'signInOut' || name === 'language')) {
     // to avoid making above fitures active after click on
     setActiveItem(name);
@@ -28,14 +33,15 @@ export const clickHandler = (
     if (isAuthenticated) {
       logOutAction();
     } else {
-      setModalOpened('logIn');
+      // console.log('NavBar, clickHandler, setModal')
+      dispatch(openModal('logIn'));
     }
   }
 };
 
 export const NavBar = ({
   initActive,
-  setModalOpened,
+  openModal,
   clickHandler,
   isAuthenticated,
   isAdmin,
@@ -43,19 +49,17 @@ export const NavBar = ({
   // alertActions,
 }) => {
   const [activeItem, setActiveItem] = useState(initActive);
+  const dispatch = useDispatch()
   let history = useHistory();
 
   // const [showRemark, setShowRemark] = useState(false);
   const { t } = useTranslation('navbar');
 
-  const color = 'teal';
+  const color = positiveColor;
 
-  const _ClickHandler = async (e, { name }) => {
+  const _ClickHandler = (e, { name }) => {
     // console.log('NavBar _ClickHandler, name ->', name);
-    // console.log('NavBar _ClickHandler, alert ->', alert);
-    // alertActions({ message: 'alert', alertType: 'info', timeout: 3000 });
-    clickHandler(name, setActiveItem, setModalOpened, isAuthenticated, logOutAction);
-    // console.log(await swapiGetter(1));
+    clickHandler(name, dispatch, setActiveItem, openModal, isAuthenticated, logOutAction);
     history.push('/');
   };
 
@@ -141,7 +145,7 @@ export const NavBar = ({
 
 NavBar.defaultProps = {
   initActive: '',
-  setModalOpened: () => {},
+  openModal: openModal,
   clickHandler: clickHandler,
   isAuthenticated: false,
   isAdmin: false,
@@ -151,7 +155,7 @@ NavBar.defaultProps = {
 
 NavBar.propTypes = {
   initActive: PropTypes.string.isRequired,
-  setModalOpened: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   clickHandler: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
@@ -166,8 +170,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   // alertActions: alertData => dispatch(alertActions(alertData)),
-  setModalOpened: kindOfModal => dispatch(setModalOpened(kindOfModal)),
+  openModal: kindOfModal => dispatch(openModal(kindOfModal)),
   logOutAction: () => dispatch(logOutAction()),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
 import Loader from '../items/Loader';
-import { setModalClosed } from '../../redux/actions';
+import { closeModal } from '../../redux/slices';
+// import { closeModal } from '../../redux/actions';
 
-export const onCloseHandle = (setModalClosed, setOpen) => {
-  setModalClosed();
+export const onCloseHandle = (dispatch, closeModal, setOpen) => {
+  dispatch(closeModal());
   setOpen(false);
 };
 
-export const ModalLogIn = ({ kindOfModal, setModalClosed, onCloseHandle }) => {
-  // console.log('ModalLogIn', kindOfModal)
+export const ModalLogIn = ({ kindOfModal, closeModal, onCloseHandle }) => {
+  // console.log('ModalLogIn, kindOfModal ->', kindOfModal)
   const [open, setOpen] = useState(kindOfModal === '' ? false : true);
+  const dispatch = useDispatch()
+
   useEffect(() => {
+  // console.log('ModalLogIn, useEffect, kindOfModal ->', kindOfModal)
     setOpen(kindOfModal === '' ? false : true);
   }, [kindOfModal]);
 
   const _onCloseHandle = () => {
-    onCloseHandle(setModalClosed, setOpen);
+    onCloseHandle(dispatch, closeModal, setOpen);
   };
 
   let content = '';
@@ -56,17 +60,17 @@ export const ModalLogIn = ({ kindOfModal, setModalClosed, onCloseHandle }) => {
 
 ModalLogIn.defaultProps = {
   kindOfModal: '',
-  setModalClosed: () => {},
+  closeModal: () => {},
   onCloseHandle: onCloseHandle,
 };
 
 ModalLogIn.propTypes = {
   kindOfModal: PropTypes.string.isRequired,
-  setModalClosed: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   onCloseHandle: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ kindOfModal: state.device.kindOfModal });
 // const mapStateToProps = state => ({ kindOfModal: state.layout.kindOfModal });
 
-export default connect(mapStateToProps, { setModalClosed })(ModalLogIn);
+export default connect(mapStateToProps, { closeModal })(ModalLogIn);
