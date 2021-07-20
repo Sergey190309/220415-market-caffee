@@ -39,6 +39,8 @@ const authSlice = createSlice({
   reducers: {
     signUpStart: state => {
       state.loading = true;
+      state.isSignedUp = false;
+      state.isLoggedIn = false;
     },
     signUpSuccess: state => {
       localStorage.removeItem(LOG_IN_INFO);

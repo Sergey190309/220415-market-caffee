@@ -22,7 +22,11 @@ describe('Auth slicer testing', () => {
     expect(state).toEqual(expState);
 
     store.dispatch(signUpStart())
-    // console.log('authSlice testing, state ->', state)
+    expState = {...expState, loading: true}
+    state = store.getState().auth
+    expect(state).toEqual(expState);
+
+    console.log('authSlice testing, state ->', state)
 
   });
 });
