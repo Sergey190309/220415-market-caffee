@@ -37,12 +37,12 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signUpStart: state => {
+    signUpStart: state => {  // tested
       state.loading = true;
       state.isSignedUp = false;
       state.isLoggedIn = false;
     },
-    signUpSuccess: state => {
+    signUpSuccess: state => {  // tested
       localStorage.removeItem(LOG_IN_INFO);
       state.loading = false;
       state.isSignedUp = true;
