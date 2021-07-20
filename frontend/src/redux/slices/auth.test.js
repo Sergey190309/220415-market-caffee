@@ -54,12 +54,12 @@ describe('Auth slicer testing', () => {
     state = store.getState().auth;
     expect(state).toEqual(expState);
     expect(localStorage.removeItem).toHaveBeenLastCalledWith(LOG_IN_INFO);
-    // console.log('authSlice testing, signUp state ->', state);
+    console.log('authSlice testing, signUp state ->', state);
   });
 
   test('state testing, logIn', () => {
     mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
-    console.log('authSlice testing, logIn state ->', initialState);
+    // console.log('authSlice testing, logIn state ->', initialState);
 
     let state = store.getState().auth;
     let expState = { ...initialState };

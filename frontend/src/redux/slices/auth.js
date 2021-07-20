@@ -37,7 +37,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    reset: state => {
+    resetState: state => {
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: false,
@@ -100,6 +100,7 @@ const authSlice = createSlice({
 });
 
 export const {
+  resetState,
   signUpStart,
   signUpSuccess,
   signUpFail,
