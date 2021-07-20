@@ -1,13 +1,13 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import {
-  // START_ALERT,
-  // LOG_IN_START,
-  // LOG_IN_SUCCESS,
-  // LOG_IN_FAIL,
-  SIGN_UP_START,
-  SIGN_UP_SUCCESS,
-  SIGN_UP_FAIL,
-} from '../constants/types';
+// import {
+//   // START_ALERT,
+//   // LOG_IN_START,
+//   // LOG_IN_SUCCESS,
+//   // LOG_IN_FAIL,
+//   SIGN_UP_START,
+//   SIGN_UP_SUCCESS,
+//   SIGN_UP_FAIL,
+// } from '../constants/type_s';
 import {
   startAlert,
   signUpStart,

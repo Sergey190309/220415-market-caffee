@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 // import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { CONTENT_REQUESTED } from '../../../redux/constants/contentLoading/types';
+import { CONTENT_REQUESTED } from '../../../redux/constants/types';
 import { useSaga } from '../../../redux/saga/contentLoading/createIO';
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
 

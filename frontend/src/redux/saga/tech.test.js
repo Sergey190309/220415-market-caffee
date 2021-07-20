@@ -1,14 +1,14 @@
 import { v4 } from 'uuid';
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
-import {
+// import {
   // LNGS_FAIL,
   // START_LNGS,
-  STRUCTURE_START,
+  // STRUCTURE_START,
   // START_TECH_IN,
   // TECH_IN_FAIL,
   // TECH_IN_SUCCESS,
-} from '../constants/types';
-import { i18nSuccess, initLoadingSuccess, lngsFail, lngsSuccess, startI18n, startLngs, techInFail, techInSuccess } from '../slices/tech';
+// } from '../constants/type_s';
+import { i18nSuccess, initLoadingSuccess, lngsFail, lngsSuccess, startI18n, startLngs, techInFail, techInSuccess, structureStart } from '../slices';
 import { recordSaga } from '../../testUtils';
 import {
   // startInitWorker,
@@ -54,7 +54,7 @@ describe('Tech sagas tesing', () => {
         payload: mockResolveData.payload,
       };
       const expDispatch01 = {
-        type: STRUCTURE_START,
+        type: structureStart.Type,
       };
       const expDispatch02 = {
         type: startLngs.type,
