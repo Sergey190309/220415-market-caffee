@@ -1,5 +1,5 @@
 import { techAxiosClient } from '../apiClient';
-import { apiCallsErrorHandler } from '../../utils/errorHandler';
+// import { apiCallsErrorHandler } from '../../utils/errorHandler';
 
 export const lngsCall = () => {
   try {
@@ -20,14 +20,8 @@ export const techInCall = techInData => {
 };
 
 export const logInCall = logInData => {
-  try {
-    // console.log('saga logInCall ->', logInData);
-    const resp = techAxiosClient.post('/users/login', logInData);
-    return resp;
-  } catch (error) {
-    console.log('logInCall error\n', error);
-    throw error;
-  }
+  const resp = techAxiosClient.post('/users/login', logInData);
+  return resp;
 };
 
 export const signUpCall = signUpData => {

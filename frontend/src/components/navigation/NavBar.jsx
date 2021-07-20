@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Menu, Container, Popup } from 'semantic-ui-react';
@@ -9,53 +9,68 @@ import Logo from '../page_views/various/Logo';
 import NavItem from './nav_item/NavItem';
 import SignInOut from '../items/LogInOut';
 import Language from '../items/Language';
+
+import { positiveColor } from '../../utils/colors';
 // import { swapiGetter } from '../../api/calls/study';
 
-import { setModalOpened, logOutAction } from '../../redux/actions';
+import { logOut, openModal, authSelector } from '../../redux/slices';
+// import { l_ogOutAction } from '../../redux/actions';
 
 export const clickHandler = (
   name,
+  dispatch,
   setActiveItem,
-  setModalOpened,
-  isAuthenticated,
-  logOutAction
+  openModal,
+  isLoggedIn,
+  logOut
+  // l_ogOutAction,
 ) => {
   if (!(name === 'signInOut' || name === 'language')) {
     // to avoid making above fitures active after click on
     setActiveItem(name);
   }
   if (name === 'signInOut') {
-    if (isAuthenticated) {
-      logOutAction();
+    if (isLoggedIn) {
+      dispatch(logOut());
+      // l_ogOutAction();
     } else {
-      setModalOpened('logIn');
+      // console.log('NavBar, clickHandler, setModal')
+      dispatch(openModal('logIn'));
     }
   }
 };
 
 export const NavBar = ({
   initActive,
-  setModalOpened,
+  openModal,
   clickHandler,
-  isAuthenticated,
-  isAdmin,
-  logOutAction,
+  // isAuthenticated,
+  // isAdmin,
+  logOut,
   // alertActions,
 }) => {
   const [activeItem, setActiveItem] = useState(initActive);
+  const dispatch = useDispatch();
+  const {isAdmin, isLoggedIn} = useSelector(authSelector)
   let history = useHistory();
 
   // const [showRemark, setShowRemark] = useState(false);
   const { t } = useTranslation('navbar');
 
-  const color = 'teal';
+  const color = positiveColor;
 
-  const _ClickHandler = async (e, { name }) => {
+  const _ClickHandler = (e, { name }) => {
     // console.log('NavBar _ClickHandler, name ->', name);
-    // console.log('NavBar _ClickHandler, alert ->', alert);
-    // alertActions({ message: 'alert', alertType: 'info', timeout: 3000 });
-    clickHandler(name, setActiveItem, setModalOpened, isAuthenticated, logOutAction);
-    // console.log(await swapiGetter(1));
+    clickHandler(
+      name,
+      dispatch,
+      setActiveItem,
+      openModal,
+      isLoggedIn,
+      // isAuthenticated,
+      logOut,
+      // l_ogOutAction
+    );
     history.push('/');
   };
 
@@ -92,7 +107,7 @@ export const NavBar = ({
           <Popup
             trigger={
               <Menu.Item
-                as={isAuthenticated ? Link : null}
+                as={isLoggedIn ? Link : null}
                 to='/private'
                 name='private'
                 active={activeItem === 'private'}
@@ -100,13 +115,13 @@ export const NavBar = ({
                 <NavItem
                   name='private'
                   title={t('forFriends')}
-                  disabled={!isAuthenticated}
+                  disabled={!isLoggedIn}
                 />
               </Menu.Item>
             }
             on='hover'
             position='top center'
-            disabled={isAuthenticated === undefined ? false : isAuthenticated}
+            disabled={isLoggedIn === undefined ? false : isLoggedIn}
             content={t('plsLogIn')}
           />
           <Menu.Item
@@ -124,7 +139,7 @@ export const NavBar = ({
         </Menu.Menu>
         <Menu.Menu position='right'>
           <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
-            <SignInOut title={isAuthenticated ? t('logOut') : t('logIn')} />
+            <SignInOut title={isLoggedIn ? t('logOut') : t('logIn')} />
           </Menu.Item>
           <Menu.Item
             data-testid='lngSwitcher'
@@ -141,33 +156,25 @@ export const NavBar = ({
 
 NavBar.defaultProps = {
   initActive: '',
-  setModalOpened: () => {},
+  openModal: openModal,
   clickHandler: clickHandler,
-  isAuthenticated: false,
-  isAdmin: false,
-  logOutAction: logOutAction,
+  // isLoggedIn: false,
+  // isAdmin: false,
+  logOut: logOut,
+  // l_ogOutAction: l_ogOutAction,
   // alertActions: alertActions,
 };
 
 NavBar.propTypes = {
   initActive: PropTypes.string.isRequired,
-  setModalOpened: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   clickHandler: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired,
-  logOutAction: PropTypes.func.isRequired,
+  // isAuthenticated: PropTypes.bool.isRequired,
+  // isAdmin: PropTypes.bool.isRequired,
+  logOut: PropTypes.func.isRequired,
+  // l_ogOutAction: PropTypes.func.isRequired,
   // alertActions: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.logIn.isAuthenticated,
-  isAdmin: state.logIn.isAdmin,
-});
 
-const mapDispatchToProps = dispatch => ({
-  // alertActions: alertData => dispatch(alertActions(alertData)),
-  setModalOpened: kindOfModal => dispatch(setModalOpened(kindOfModal)),
-  logOutAction: () => dispatch(logOutAction()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default NavBar;

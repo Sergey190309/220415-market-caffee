@@ -3,7 +3,8 @@ import { initReactI18next } from 'react-i18next';
 import HttpApi from 'i18next-http-backend';
 // import { getLngList } from '../api/calls/getViewsContents';
 import store from '../redux/store';
-import { i18nInitiated } from '../redux/actions/tech';
+import { i18nInitiated } from '../redux/slices/tech';
+// import { i18nInitiated } from '../redux/actions/tech';
 import { axiosCommonLng } from '../api/apiClient';
 
 export const initI18next = (supportedLngs = []) => {
@@ -14,6 +15,7 @@ export const initI18next = (supportedLngs = []) => {
   // from back - end.
   // -------------------------------------------------------------------------
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
+  // console.log('initI18n, i18next ->', i18next.use);
   // const lng = 'cimode';
   const lng = 'en';
   i18next
@@ -41,7 +43,7 @@ export const initI18next = (supportedLngs = []) => {
     })
     .then(() => {
       // console.log('initI18next.then, i18next.language ->', i18next.languages)
-      // console.log('initI18next.then, resource ->', )
+      // console.log('initI18next.then, i18next.supportedLngs->', i18next['options'].supportedLngs)
       store.dispatch(i18nInitiated());
     });
 };

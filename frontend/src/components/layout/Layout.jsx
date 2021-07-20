@@ -8,9 +8,6 @@ import NavBar from "../navigation/NavBar";
 import SideBar from "../navigation/SideBar";
 import Content from "./Content";
 import ModalLogIn from '../auth/ModalLogIn'
-// import Landing from "../content/landing/Landing";
-// import PriceList from "../content/price_list/PriceList";
-// import Pictures from "../content/pictures/Pictures";
 
 export const Layout = ( {layout} ) => {
   const [deviceSize, setDeviceSize] = useState("");

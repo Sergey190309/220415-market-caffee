@@ -27,7 +27,7 @@ export const axiosCommonLng = lng => {
 };
 
 export const axiosCommonToken = (token, axiosInstance = techAxiosClient) => {
-  // console.log('axiosCommonToken, token ->', token)
+  // console.log('axiosCommonToken, headers ->', axiosInstance.defaults.headers.common['Authorization'])
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 

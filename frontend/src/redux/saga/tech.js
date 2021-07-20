@@ -1,19 +1,11 @@
 import { v4 } from 'uuid';
 import { call, put, takeEvery } from 'redux-saga/effects';
-// import i18next from 'i18next';
 
-// import { axiosCommonToken, axiosCommonLng } from '../../api/apiClientUtils';
 import { sagaErrorHandler } from '../../utils/errorHandler';
 
 import {
-  START_I18N,
-  START_INIT_LOADING,
-  START_LNGS,
-  START_TECH_IN,
-  // TECH_IN_FAIL,
-  // TECH_IN_SUCCESS,
-} from '../constants/types';
-import {
+  startInitLoading,
+  initLoadingSuccess,
   startTechIn,
   techInSuccess,
   techInFail,
@@ -21,12 +13,12 @@ import {
   lngsSuccess,
   lngsFail,
   startI18n,
-  i18nFail,
   i18nSuccess,
-  loadingSuccess,
-} from '../actions/tech';
-import { structureStart } from '../actions/structure';
-// import { alertActions } from '../actions/alert';
+  i18nFail,
+} from '../slices/tech'
+
+import { structureStart } from '../slices/structure';
+// import { structureStart } from '../actions/structure';
 
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo';
 import { initI18next, setI18next } from '../../l10n/i18n';
@@ -35,7 +27,7 @@ import { initI18next, setI18next } from '../../l10n/i18n';
 export function* startInitSaga() {
   //the sa
   // console.log('logInSaga wathcher ->')
-  yield takeEvery(START_INIT_LOADING, startInitWorker);
+  yield takeEvery(startInitLoading.type, startInitWorker);
 }
 
 export function* startInitWorker() {
@@ -50,7 +42,7 @@ export function* startInitWorker() {
 
 // watcher
 export function* techInSaga() {
-  yield takeEvery(START_TECH_IN, techInFetch);
+  yield takeEvery(startTechIn.type, techInFetch);
 }
 
 // Worker
@@ -66,32 +58,20 @@ export function* techInFetch(action) {
     yield put(startLngs());
   } catch (error) {
     yield sagaErrorHandler(error)
-    // if (error.response) {
-    //   console.log('sagaErrorHandler, error.response ->');
-    //   console.log(error.response.data);
-    //   console.log(error.response.status);
-    //   console.log(error.response.headers);
-    // } else if (error.request) {
-    // } else {
-    //   console.log('Error', error.message);
-    // }
-
-    // console.log('techInFetch, error ->', error.message);
-    // sagaErrorHandler(error);
-    // yield call(sagaErrorHandler, error)
     yield put(techInFail(error));
   }
 }
 
 // Watcher
 export function* lngsSaga() {
-  yield takeEvery(START_LNGS, lngsWorker);
+  yield takeEvery(startLngs.type, lngsWorker);
 }
 
 // Worker
 export function* lngsWorker(action) {
   try {
     const resp = yield call(lngsCall);
+    // console.log('lngsWorker, resp ->', resp.data)
     const lngs = resp.data.payload.map(item => item.id);
     // console.log('lngs worker, lngs ->', lngs)
     yield put(lngsSuccess());
@@ -103,7 +83,7 @@ export function* lngsWorker(action) {
 }
 
 export function* i18nSaga() {
-  yield takeEvery(START_I18N, i18nWorker);
+  yield takeEvery(startI18n.type, i18nWorker);
 }
 
 export function* i18nWorker(
@@ -119,7 +99,7 @@ export function* i18nWorker(
     // call(axiosCommonLng, i18next.language); // Set axios header for backend calls.
     yield put(i18nSuccess());
     // console.log('i18nWorker, i18next.language ->', i18next.language)
-    yield put(loadingSuccess());
+    yield put(initLoadingSuccess());
   } catch (error) {
     yield put(i18nFail(error));
   }

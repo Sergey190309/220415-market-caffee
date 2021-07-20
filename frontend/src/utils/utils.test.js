@@ -1,6 +1,13 @@
-import { idsByIdNum, makeRecordIdList } from './utils';
+import { idsByIdNum, makeRecordIdList, delaySomthing } from './utils';
+
 
 describe('Utils testing', () => {
+  describe('delaySomthing testing', () => {
+    test('delayAlertHiding func testing', async () => {
+      await expect(delaySomthing(5)).toResolve();
+      await expect(delaySomthing(5)).not.toReject();
+    });
+  });
   describe('idsByIdNum testing', () => {
 
     test('idsByIdNum testing', () => {

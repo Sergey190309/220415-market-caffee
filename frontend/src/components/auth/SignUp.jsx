@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 // import PropTypes, { oneOf } from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
@@ -7,12 +7,14 @@ import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-reac
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import { setModalClosed, signUpAction, setSignedUpFalse } from '../../redux/actions';
+// import { closeModal, signUpStart, signUpModalClosed } from '../../redux/actions';
 import {
-  authPositiveColor,
-  authNeutralColor,
-  authWorningColor,
-} from '../../utils/colors';
+  signUpStart,
+  authSelector,
+  closeModal,
+  signUpModalClosed,
+} from '../../redux/slices';
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
 
 import Alert from '../layout/Alert';
 
@@ -51,26 +53,28 @@ export const signUpSchema = t =>
 export const SignUp = ({
   initValues,
   signUpSchema,
-  setModalClosed,
-  signUpAction,
-  isSignedUp,
-  setSignedUpFalse,
+  // closeModal,
+  // signUpStart,
+  // isSignedUp,
+  // signUpModalClosed,
 }) => {
+  const dispatch = useDispatch();
+  const { isSignedUp } = useSelector(authSelector);
   useEffect(() => {
     if (isSignedUp) {
-      setModalClosed();
-      setSignedUpFalse();
+      dispatch(closeModal());
+      dispatch(signUpModalClosed());
     }
-  }, [isSignedUp, setModalClosed, setSignedUpFalse]);
+  }, [dispatch, isSignedUp]);
 
   const { t } = useTranslation('signup');
 
   const onSubmit = (formData, { setSubmitting }) => {
-    const {userName, password2, ...otherProps} = formData
-    const signUpData = {user_name: userName, ...otherProps}
+    const { userName, password2, ...otherProps } = formData;
+    const signUpData = { user_name: userName, ...otherProps };
     // const { userName, email, password } = formData;
     // console.log('SignUp, signUpData ->', signUpData);
-    signUpAction(signUpData);
+    dispatch(signUpStart(signUpData));
     setSubmitting(false);
   };
 
@@ -83,7 +87,7 @@ export const SignUp = ({
       <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
-          <Header as='h2' textAlign='center' color={authPositiveColor}>
+          <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               {t('header')}
@@ -95,7 +99,7 @@ export const SignUp = ({
             validationSchema={signUpSchema(t)}
             onSubmit={onSubmit}>
             <Form size='large'>
-              <Segment color={authPositiveColor} stacked>
+              <Segment color={positiveColor} stacked>
                 <Input
                   id='input-userName'
                   name='userName'
@@ -137,26 +141,26 @@ export const SignUp = ({
                 <Button.Group widths='1'>
                   <SubmitButton
                     basic
-                    color={authPositiveColor}
+                    color={positiveColor}
                     size='large'
                     content={t('buttons.signUp')}
                   />
                   <Button.Or text={t('buttons.or')} />
                   <ResetButton
                     basic
-                    color={authNeutralColor}
+                    color={neutralColor}
                     size='large'
                     content={t('buttons.reset')}
                   />
                   <Button.Or text={t('buttons.or')} />
                   <Button
                     basic
-                    color={authWorningColor}
+                    color={warningColor}
                     size='large'
                     content={t('buttons.cancel')}
                     type='button'
                     onClick={() => {
-                      setModalClosed();
+                      dispatch(closeModal());
                     }}
                   />
                 </Button.Group>
@@ -168,36 +172,29 @@ export const SignUp = ({
     </Container>
   );
 };
+
 SignUp.defaultProps = {
   initValues: formStructure,
   signUpSchema: signUpSchema,
-  setModalClosed: () => {
-    console.log('Modal close called');
-  },
-  signUpAction: () => {
-    console.log('Axios action called');
-  },
-  isSignedUp: false,
-  setSignedUpFalse: () => {
-    console.log('setSignedUpFalse action called');
-  },
+  // closeModal: () => {
+  //   console.log('Modal close called');
+  // },
+  // signUpStart: () => {
+  //   console.log('Axios action called');
+  // },
+  // isSignedUp: false,
+  // signUpModalClosed: () => {
+  //   console.log('signUpModalClosed action called');
+  // },
 };
 
 SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
-  setModalClosed: PropTypes.func.isRequired,
-  signUpAction: PropTypes.func.isRequired,
-  isSignedUp: PropTypes.bool.isRequired,
-  setSignedUpFalse: PropTypes.func.isRequired,
+  // closeModal: PropTypes.func.isRequired,
+  // signUpStart: PropTypes.func.isRequired,
+  // isSignedUp: PropTypes.bool.isRequired,
+  // signUpModalClosed: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isSignedUp: state.logIn.isSignedUp,
-});
-
-export default connect(mapStateToProps, {
-  setModalClosed,
-  signUpAction,
-  setSignedUpFalse,
-})(SignUp);
+export default SignUp;

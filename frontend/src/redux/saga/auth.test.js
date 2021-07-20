@@ -1,7 +1,7 @@
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
 
 // import { runSaga } from 'redux-saga';
-import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../constants/types';
+// import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../constants/type_s';
 import { logInFetch, signUpFetch } from './auth';
 import { recordSaga } from '../../testUtils';
 import { actRespErrorMessage } from '../../utils/errorHandler'
@@ -80,11 +80,11 @@ describe('auth testing', () => {
       expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
       expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
       expect(dispatched[0]).toEqual({
-        type: LOG_IN_FAIL,
+        // type: LOG_IN_FAIL,
         payload: { data: mockRejectData },
       });
       const { type, payload } = dispatched[1]
-      expect(type).toBe(START_ALERT);
+      // expect(type).toBe(START_ALERT);
       const { id, ...otherProps } = payload
       expect(otherProps).toEqual({
         message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
@@ -153,7 +153,7 @@ describe('auth testing', () => {
         payload: mockResolveData.payload,
       });
       const { type, payload } = dispatched[1];
-      expect(type).toBe(START_ALERT);
+      // expect(type).toBe(START_ALERT);
       const { id, ...otherProps } = payload;
       expect(id).toBeString();
       expect(otherProps).toEqual({
@@ -177,11 +177,11 @@ describe('auth testing', () => {
       expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
       expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
       expect(dispatched[0]).toEqual({
-        type: LOG_IN_FAIL,
+        // type: LOG_IN_FAIL,
         payload: { data: mockRejectData },
       });
       const { type, payload } = dispatched[1]
-      expect(type).toBe(START_ALERT);
+      // expect(type).toBe(START_ALERT);
       const { id, ...otherProps } = payload
       expect(otherProps).toEqual({
         message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,

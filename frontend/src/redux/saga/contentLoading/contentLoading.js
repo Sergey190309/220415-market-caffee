@@ -1,7 +1,7 @@
 import { take, call } from 'redux-saga/effects';
 // import { useSaga } from './createIO';
 import { getViewContent } from '../../../api/calls/getViewContent';
-import {CONTENT_REQUESTED} from '../../constants/contentLoading/types'
+import {CONTENT_REQUESTED} from '../../constants/types'
 
 export const contentSaga = function* (setter) {
   while (true) {

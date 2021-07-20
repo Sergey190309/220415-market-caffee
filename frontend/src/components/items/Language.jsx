@@ -1,38 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import i18next from 'i18next';
 
 import { Dropdown } from 'semantic-ui-react';
 import { axiosCommonLng } from '../../api/apiClient';
 
-import { setLngAction } from '../../redux/actions/lng';
+import { lngSelector, techSelector, lngSwitch } from '../../redux/slices';
+// import { setLngAction } from '../../redux/actions/lng';
 
-const onChange = (value, setActive) => {
-  setActive(value);
-  i18next.changeLanguage(value);
+const onChange = (value, setActiveLng, dispatch) => {
+  // console.log('Lanaguage component, onChange, value ->', value);
+  i18next.changeLanguage(value); // Set language in i18next.
+  axiosCommonLng(value); // Set language for API calls in request header.
+  setActiveLng(value); // Set this component's state.
+  dispatch(lngSwitch(value)); // Change language in state.
 };
 
-export const Language = ({ loading, onChange, setLngAction }) => {
-  const [active, setActive] = useState(i18next.language);
-  const [available, setAvailable] = useState([]);
-
-  // console.log('Language, loading ->', loading)
+export const Language = ({ onChange }) => {
+  const [activeLng, setActiveLng] = useState(i18next.language); // Active language
+  const [availableLngs, setAvailableLngs] = useState([]); // availableLngs languages
+  const dispatch = useDispatch();
+  // const {lng} = useSelector(lngSelector)
+  const { loaded } = useSelector(techSelector);
 
   useEffect(() => {
-    // console.log('Language, useEffect, loading ->', loading)
-    if (!loading) {
-      // setAvailable(i18next.options.supportedLngs);
-      // console.log('Lanaguage compenent, loading ->', loading)
-      // console.log('Lanaguage compenent, supported lngs ->', i18next.options.supportedLngs);
-      setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
-      setActive(i18next.language);
+    if (loaded) {
+      setAvailableLngs(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
+      setActiveLng(i18next.language);
     }
-  }, [loading]);
+  }, [loaded]);
 
   let localeOptions = [];
 
-  available.forEach(lang => {
+  availableLngs.forEach(lang => {
     localeOptions.push({
       key: lang,
       value: lang,
@@ -42,12 +43,7 @@ export const Language = ({ loading, onChange, setLngAction }) => {
 
   const _onChange = (evt, { value }) => {
     evt.preventDefault();
-    // console.log(value);
-    // lngSwitch(value);
-    axiosCommonLng(value);
-    setLngAction(value);
-    // setAvailable(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
-    onChange(value, setActive);
+    onChange(value, setActiveLng, dispatch);
   };
 
   return (
@@ -58,25 +54,17 @@ export const Language = ({ loading, onChange, setLngAction }) => {
       placeholder='Select language'
       options={localeOptions}
       onChange={_onChange}
-      value={active}
+      value={activeLng}
     />
   );
 };
 
 Language.defaultProps = {
-  loading: true,
   onChange: onChange,
-  setLngAction: setLngAction,
 };
 
 Language.propTypes = {
-  loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  setLngAction: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  loading: state.tech.loading,
-});
-
-export default connect(mapStateToProps, { setLngAction })(Language);
+export default Language;

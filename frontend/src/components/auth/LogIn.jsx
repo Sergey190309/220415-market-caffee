@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
@@ -8,17 +8,14 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 // import {LOG_IN_START} from '../../redux/actions/types'
 
-import {
-  authPositiveColor,
-  authNeutralColor,
-  authWorningColor,
-} from '../../utils/colors';
-import {
-  setModalOpened,
-  setModalClosed,
-  logInAction,
-  setLoggedInFalse,
-} from '../../redux/actions';
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
+// import {
+  // openModal,
+  // closeModal,
+  // logInAction,
+  // setLoggedInFalse,
+// } from '../../redux/actions';
+import { openModal, closeModal, logInStart, logInModalClosed } from '../../redux/slices';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -40,39 +37,37 @@ export const logInSchema = t =>
 export const LogIn = ({
   initValues,
   logInSchema,
-  setModalOpened,
-  setModalClosed,
-  logInAction,
+  openModal,
+  closeModal,
+  logInStart,
   isLoggedIn,
   setLoggedInFalse,
 }) => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isLoggedIn) {
-      setModalClosed();
+      // console.log('useEffect for logout')
+      dispatch(closeModal());
       setLoggedInFalse();
     }
-  }, [isLoggedIn, setModalClosed, setLoggedInFalse]);
+  }, [isLoggedIn, closeModal, setLoggedInFalse, dispatch]);
+
   const { t } = useTranslation('login');
 
   const onSubmit = (formData, { setSubmitting }) => {
     // const { email, password } = formData;
     // console.log('components, auth, logIn, fromData ->', formData);
-    // logInStart()
-    logInAction(formData);
+    dispatch(logInStart(formData));
     setSubmitting(false);
   };
-
-  // console.log()
-  // const color = 'teal';
-  // const resColor = 'olive';
-  // const canColor = 'orange';
 
   return (
     <Container fluid textAlign='center'>
       <Alert />
       <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 500 }}>
-          <Header as='h2' textAlign='center' color={authPositiveColor}>
+          <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
               {t('header')}
@@ -85,7 +80,7 @@ export const LogIn = ({
             onSubmit={onSubmit}>
             {({ isSubmitting }) => (
               <Form size='large'>
-                <Segment color={authPositiveColor} stacked>
+                <Segment color={positiveColor} stacked>
                   <Input
                     id='input-email'
                     name='email'
@@ -111,7 +106,7 @@ export const LogIn = ({
                   <Button.Group widths='1'>
                     <SubmitButton
                       basic
-                      color={authPositiveColor}
+                      color={positiveColor}
                       size='large'
                       content={t('buttons.logIn')}
                       // disabled={isSubmitting}
@@ -119,25 +114,27 @@ export const LogIn = ({
                     <Button.Or text={t('buttons.or')} />
                     <ResetButton
                       basic
-                      color={authNeutralColor}
+                      color={neutralColor}
                       size='large'
                       content={t('buttons.reset')}
                     />
                     <Button.Or text={t('buttons.or')} />
                     <Button
                       basic
-                      color={authWorningColor}
+                      color={warningColor}
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
-                      onClick={setModalClosed}
+                      onClick={() => {
+                        dispatch(closeModal());
+                      }}
                     />
                   </Button.Group>
                 </Segment>
               </Form>
             )}
           </Formik>
-          <Segment color={authPositiveColor}>
+          <Segment color={positiveColor}>
             <Grid columns={2}>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width='9' textAlign='right'>
@@ -147,12 +144,12 @@ export const LogIn = ({
                   <Button
                     // primary
                     basic
-                    color={authPositiveColor}
+                    color={positiveColor}
                     floated='left'
                     size='large'
                     content={t('buttons.signUp')}
                     onClick={() => {
-                      setModalOpened('signUp');
+                      dispatch(openModal('signUp'));
                     }}
                   />
                 </Grid.Column>
@@ -168,45 +165,37 @@ export const LogIn = ({
 LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
-  setModalOpened: () => {
-    console.log('Modal open called');
-  },
-  setModalClosed: () => {
-    console.log('Modal close called');
-  },
-  logInAction: () => {
-    console.log('Axios action called');
-  },
-  setLoggedInFalse: () => {
-    console.log('setLoggedInFalse action called');
-  },
+  openModal: openModal,
+  closeModal: closeModal,
+  logInStart: logInStart,
+  setLoggedInFalse: logInModalClosed,
 };
 
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
   logInSchema: PropTypes.func.isRequired,
-  setModalOpened: PropTypes.func.isRequired,
-  setModalClosed: PropTypes.func.isRequired,
-  logInAction: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  logInStart: PropTypes.func.isRequired,
   setLoggedInFalse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.logIn.isLoggedIn,
+  isLoggedIn: state.auth.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setModalOpened: kindOfModal => dispatch(setModalOpened(kindOfModal)),
-  setModalClosed: () => dispatch(setModalClosed()),
-  logInAction: (email, password) => dispatch(logInAction(email, password)),
-  setLoggedInFalse: () => dispatch(setLoggedInFalse()),
+  // openModal: kindOfModal => dispatch(openModal(kindOfModal)),
+  // closeModal: () => dispatch(closeModal()),
+  // logInStart: (email, password) => dispatch(logInStart(email, password)),
+  // setLoggedInFalse: () => dispatch(setLoggedInFalse()),
 });
 
 // export default LogIn;
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
 // export default connect(mapStateToProps, {
-//   setModalOpened,
-//   setModalClosed,
+//   openModal,
+//   closeModal,
 //   logInAction,
 //   setLoggedInFalse,
 // })(LogIn);

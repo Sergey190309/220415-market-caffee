@@ -1,20 +1,20 @@
 import React from 'react';
-
-import { runSaga } from 'redux-saga';
-
 import { BrowserRouter } from 'react-router-dom';
-
-import { render } from '@testing-library/react';
+import { combineReducers } from 'redux';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { runSaga } from 'redux-saga';
+
+import { render } from '@testing-library/react';
 
 // import alerts from '../redux/reducers/alert'
 // import device from '../redux/reducers/device'
 // import logIn from '../redux/reducers/auth'
 // import lng from '../redux/reducers/lng'
 
-import rootReducer from './redux/reducers'
+import rootReducer from './redux/slices';
+// import reducer from './redux/slices';
 // ===================================================
 // The block about rendering connected components.
 // ---------------------------------------------------
@@ -49,7 +49,6 @@ const connectedLinkedRender = (
   return render(ui, { wrapper: Wrapper, ...renderOptions });
 };
 
-
 // const linkedRender = (ui) => {}
 
 export * from '@testing-library/react';
@@ -76,3 +75,10 @@ export const recordSaga = async (saga, initialAction) => {
 };
 
 // ===================================================
+/**
+ * Return store based on live reducers from slicers
+ */
+export const createTestStore = () => {
+  const store = createStore(combineReducers({ ...rootReducer }));
+  return store;
+};
