@@ -5,16 +5,19 @@ import { axiosCommonToken } from '../../api/apiClient';
 
 /**
  * loading: bool
+ * loaded: bool
  * techLoaded: bool
  * lngsLoaded: bool
  * i18nInitiated: bool
  * i18nLoaded: bool
+ *
  * stored in localStorage:
  * techToken: str
  */
 
 export const initialState = {
   loading: false,
+  loaded: false,
   techLoaded: false,
   lngsLoaded: false,
   i18nInitiated: false,
@@ -32,6 +35,7 @@ const techSlice = createSlice({
     },
     initLoadingSuccess: state => {
       state.loading = false;
+      state.loaded = true;
     },
     startTechIn: state => {
       state.techLoaded = false;
@@ -90,5 +94,5 @@ export const {
   i18nSuccess,
   i18nFail,
 } = techSlice.actions;
-// export const techSelector = state => state.tech;
+export const techSelector = state => state.tech;
 export default techSlice.reducer;

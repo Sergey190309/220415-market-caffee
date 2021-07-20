@@ -3,17 +3,17 @@
 // } from './na_alert';
 export {
   // setDeviceSize,
-  setModalOpened,
-  setModalClosed
+  // setModalOpened,
+  // setModalClosed
 } from './device';
 export {
   // logInStart,
-  logInAction,
-  setLoggedInFalse,
-  signUpAction,
-  setSignedUpFalse,
-  logOutAction,
-} from './auth';
+  // logInAction,
+  // setLoggedInFalse,
+  // signUpAction,
+  // setSignedUpFalse,
+  // logOutAction,
+} from './na_auth';
 export {
   setLngAction
 } from './lng';

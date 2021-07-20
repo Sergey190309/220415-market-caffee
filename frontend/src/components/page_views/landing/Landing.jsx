@@ -1,27 +1,39 @@
 import isEmpty from 'lodash/isEmpty';
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Segment, Container } from 'semantic-ui-react';
 
 import ElementSwitcher from '../view_elements/ElementSwitcher';
+import { lngSelector, structureSelector } from '../../../redux/slices';
 
 import { viewSegmentColor } from '../../../utils/colors';
 
-export const Landing = ({ structureLoaded, loadedStructure, lng }) => {
-  // const [lng] = useState(language);
+export const getLoadedStructure = (pageName, structures) => {
+  /**
+   * The function created for testing.
+   * Reciev all structures, return one that corresspong to component name
+   */
+  const { [pageName]: value } = structures;
+  return value;
+};
+
+export const Landing = ({ getLoadedStructure }) => {
   const [structure, setStructure] = useState({});
+  const [componentName] = useState('landing');
+  const { lng } = useSelector(lngSelector);
+  const { loaded } = useSelector(structureSelector);
+
+  const loadedStructures = useSelector(structureSelector);
 
   useEffect(() => {
-    // -> upon rendering set structre with loaded values
-    if (structureLoaded) {
-      setStructure(loadedStructure);
+    if (loaded) {
+      setStructure(getLoadedStructure(componentName, loadedStructures));
     }
-    // console.log('landing, useEffect, structure ->', structure);
-  }, [structureLoaded, loadedStructure]);
+  }, [loaded, getLoadedStructure, componentName, loadedStructures]);
 
   const _output = structure => {
-    return <ElementSwitcher viewName='landing' structure={structure} lng={lng} />;
+    return <ElementSwitcher viewName={componentName} structure={structure} lng={lng} />;
   };
   // console.log('Landing, loadedStructure ->', loadedStructure)
 
@@ -35,26 +47,11 @@ export const Landing = ({ structureLoaded, loadedStructure, lng }) => {
 };
 
 Landing.defaultProps = {
-  structureLoaded: false,
-  loadedStructure: {},
-  lng: '',
+  getLoadedStructure: getLoadedStructure,
 };
 
 Landing.propTypes = {
-  structureLoaded: PropTypes.bool.isRequired,
-  loadedStructure: PropTypes.object.isRequired,
-  lng: PropTypes.string.isRequired,
-  // _output: PropTypes.func.isRequired,
+  getLoadedStructure: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  structureLoaded: state.structure.loaded,
-  loadedStructure: state.structure.landing,
-  lng: state.lng,
-});
-
-const mapDispatchToProps = dispatch => ({
-  // structureStart: viewName => dispatch(structureStart(viewName)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Landing);
+export default Landing;

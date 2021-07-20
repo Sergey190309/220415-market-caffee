@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
@@ -9,13 +9,13 @@ import { useTranslation } from 'react-i18next';
 // import {LOG_IN_START} from '../../redux/actions/types'
 
 import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
-import {
+// import {
   // openModal,
   // closeModal,
-  logInAction,
-  setLoggedInFalse,
-} from '../../redux/actions';
-import { openModal, closeModal } from '../../redux/slices';
+  // logInAction,
+  // setLoggedInFalse,
+// } from '../../redux/actions';
+import { openModal, closeModal, logInStart, logInModalClosed } from '../../redux/slices';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -39,7 +39,7 @@ export const LogIn = ({
   logInSchema,
   openModal,
   closeModal,
-  logInAction,
+  logInStart,
   isLoggedIn,
   setLoggedInFalse,
 }) => {
@@ -47,7 +47,7 @@ export const LogIn = ({
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log('useEffect for logout')
+      // console.log('useEffect for logout')
       dispatch(closeModal());
       setLoggedInFalse();
     }
@@ -57,8 +57,8 @@ export const LogIn = ({
 
   const onSubmit = (formData, { setSubmitting }) => {
     // const { email, password } = formData;
-    console.log('components, auth, logIn, fromData ->', formData);
-    logInAction(formData);
+    // console.log('components, auth, logIn, fromData ->', formData);
+    dispatch(logInStart(formData));
     setSubmitting(false);
   };
 
@@ -165,18 +165,10 @@ export const LogIn = ({
 LogIn.defaultProps = {
   initValues: formStructure,
   logInSchema: logInSchema,
-  openModal: () => {
-    console.log('Modal open called');
-  },
-  closeModal: () => {
-    console.log('Modal close called');
-  },
-  logInAction: () => {
-    console.log('Axios action called');
-  },
-  setLoggedInFalse: () => {
-    console.log('setLoggedInFalse action called');
-  },
+  openModal: openModal,
+  closeModal: closeModal,
+  logInStart: logInStart,
+  setLoggedInFalse: logInModalClosed,
 };
 
 LogIn.propTypes = {
@@ -184,19 +176,19 @@ LogIn.propTypes = {
   logInSchema: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
-  logInAction: PropTypes.func.isRequired,
+  logInStart: PropTypes.func.isRequired,
   setLoggedInFalse: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.logIn.isLoggedIn,
+  isLoggedIn: state.auth.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
-  openModal: kindOfModal => dispatch(openModal(kindOfModal)),
-  closeModal: () => dispatch(closeModal()),
-  logInAction: (email, password) => dispatch(logInAction(email, password)),
-  setLoggedInFalse: () => dispatch(setLoggedInFalse()),
+  // openModal: kindOfModal => dispatch(openModal(kindOfModal)),
+  // closeModal: () => dispatch(closeModal()),
+  // logInStart: (email, password) => dispatch(logInStart(email, password)),
+  // setLoggedInFalse: () => dispatch(setLoggedInFalse()),
 });
 
 // export default LogIn;

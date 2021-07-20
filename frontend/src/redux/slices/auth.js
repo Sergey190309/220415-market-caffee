@@ -1,26 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { axiosCommonToken, authAxiosClient } from '../../api/apiClient';
+import { LOG_IN_INFO } from '../constants/localStorageVariables';
 
 const notLoggedInfo = {
   user_name: '',
   email: '',
   isAdmin: false,
-  isAuthenticated: false,
+  // isAuthenticated: false,
   access_token: '',
   refresh_token: '',
 };
 
+export const logInInfo = () => {
+  const _localStorage = localStorage.getItem(LOG_IN_INFO)
+    ? { ...JSON.parse(localStorage.getItem(LOG_IN_INFO)), isLoggedIn: true }
+    : { ...notLoggedInfo, isLoggedIn: false };
+  // console.log('auth slice, logInInfo, _localStorage ->', _localStorage);
+  return _localStorage;
+};
+
 export const initialState = {
-  ...JSON.parse(
-    localStorage.getItem('logInInfo')
-      ? localStorage.getItem('logInInfo')
-      : { ...notLoggedInfo }
-  ),
-  // isAuthenticated: null,
+  ...logInInfo(),
+  // ...JSON.parse(logInInfo()),
+  // ...JSON.parse(
+  //   localStorage.getItem(LOG_IN_INFO)
+  //     ? localStorage.getItem(LOG_IN_INFO)
+  //     : { ...notLoggedInfo }
+  // ),
+  // isAuthenticated: false,
   loading: false,
   isSignedUp: false,
-  isLoggedIn: false,
+  // isLoggedIn: false,
 };
 
 const authSlice = createSlice({
@@ -28,93 +39,70 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     signUpStart: state => {
-      state = {
-        ...state,
-        loading: true,
-      };
+      state.loading = true;
     },
     signUpSuccess: state => {
-      localStorage.removeItem('logInInfo');
-      state = {
-        ...state,
-        isSignedUp: true,
-        isLoggedIn: false,
-        loading: false,
-      };
+      localStorage.removeItem(LOG_IN_INFO);
+      state.loading = false;
+      state.isSignedUp = true;
+      state.isLoggedIn = false;
     },
     signUpFail: state => {
-      localStorage.removeItem('logInInfo');
-      state = {
-        ...state,
-        ...notLoggedInfo,
+      localStorage.removeItem(LOG_IN_INFO);
+      Object.assign(state, notLoggedInfo, {
         isSignedUp: false,
         isLoggedIn: false,
         loading: false,
-      };
+      });
     },
     logInStart: state => {
-      state = {
-        ...state,
-        loading: true,
-      };
+      state.loading = true;
     },
     logInSuccess: (state, { payload }) => {
       payload.isAuthenticated = true;
+      // console.log('authSlice, logInSuccess, payload ->', payload);
       axiosCommonToken(payload.access_token, authAxiosClient);
-      localStorage.setItem('logInInfo', JSON.stringify(payload));
-      state = {
-        ...state,
-        ...payload,
-        loading: false,
-        isLoggedIn: true,
-      };
+      localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload));
+      Object.assign(state, payload, { loading: false, isLoggedIn: true });
     },
     logInFail: state => {
-      state = {
-        ...state,
-        ...notLoggedInfo,
+      Object.assign(state, notLoggedInfo, {
         isSignedUp: false,
         isLoggedIn: false,
         loading: false,
-      };
+      });
     },
     logOut: state => {
-      localStorage.removeItem('logInInfo');
-      state = {
-        ...state,
-        ...notLoggedInfo,
+      // console.log('authSlice, logOut')
+      localStorage.removeItem(LOG_IN_INFO);
+      Object.assign(state, notLoggedInfo, {
         isSignedUp: false,
         isLoggedIn: false,
         loading: false,
-      };
+      });
     },
     signUpModalClosed: state => {
-      state = {
-        ...state,
-        isSignedUp: false,
-      };
+      state.isSignedUp = false;
     },
+
     logInModalClosed: state => {
-      state = {
-        ...state,
-        isLoggedIn: false,
-      };
+      state.isLoggedIn = false;
     },
   },
 });
 
-
 export const {
   signUpStart,
-    signUpSuccess,
-    signUpFail,
-    logInStart,
-    logInSuccess,
-    logInFail,
-    logOut,
-    signUpModalClosed,
-    logInModalClosed,
-} = authSlice.actions
+  signUpSuccess,
+  signUpFail,
+  logInStart,
+  logInSuccess,
+  logInFail,
+  logOut,
+  signUpModalClosed,
+  logInModalClosed,
+} = authSlice.actions;
 
-export const authSelector = (state) => state.auth
-export default authSlice.reducer
+export const authSelector = state => state.auth;
+
+export default authSlice.reducer;
