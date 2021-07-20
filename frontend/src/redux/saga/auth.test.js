@@ -1,6 +1,10 @@
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
 
-import { logInData as mockLogInData } from '../../testAxiosConstants'
+import {
+  logInData as mockLogInData,
+  resolveData as mockResolveData,
+  rejectData as mockRejectData,
+} from '../../testAxiosConstants'
 
 // import { runSaga } from 'redux-saga';
 // import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../constants/type_s';
@@ -13,30 +17,6 @@ jest.mock('../../utils/errorHandler', () => ({ actRespErrorMessage: jest.fn() })
 
 describe('auth testing', () => {
   describe('log In whole saga testing', () => {
-    // const mockLogInData = {
-    //   email: 'mock@email.test',
-    //   password: 'mockPassword',
-    // };
-    const mockResolveData = {
-      message: 'Hi! You are welcome.',
-      payload: {
-        user_name: 'admin',
-        email: 'a@agatha-ng.com',
-        isAdmin: true,
-        access_token: 'mock-access-token',
-        refresh_token: 'mock-refresh-token',
-      },
-    };
-    const mockRejectData = {
-      response: {
-        data: {
-          message: 'Error message',
-        },
-        status: 404,
-        headers: { header: 'Some header' },
-      },
-      config: { config: 'Some config' },
-    };
 
     beforeAll(() => {
       jest.resetAllMocks();
