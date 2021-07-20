@@ -4,15 +4,21 @@ import { axiosCommonToken, authAxiosClient } from '../../api/apiClient';
 import { LOG_IN_INFO } from '../constants/localStorageVariables';
 
 const notLoggedInfo = {
+  /**
+   * Used for create and return to 'empty' set of state values
+   */
   user_name: '',
   email: '',
   isAdmin: false,
-  // isAuthenticated: false,
   access_token: '',
   refresh_token: '',
 };
 
 export const logInInfo = () => {
+  /**
+   * Used to avoin undefined value if local ctorage does not contain
+   * needed variables.
+   */
   const _localStorage = localStorage.getItem(LOG_IN_INFO)
     ? { ...JSON.parse(localStorage.getItem(LOG_IN_INFO)), isLoggedIn: true }
     : { ...notLoggedInfo, isLoggedIn: false };
@@ -22,16 +28,9 @@ export const logInInfo = () => {
 
 export const initialState = {
   ...logInInfo(),
-  // ...JSON.parse(logInInfo()),
-  // ...JSON.parse(
-  //   localStorage.getItem(LOG_IN_INFO)
-  //     ? localStorage.getItem(LOG_IN_INFO)
-  //     : { ...notLoggedInfo }
-  // ),
-  // isAuthenticated: false,
   loading: false,
   isSignedUp: false,
-  // isLoggedIn: false,
+  isLoggedIn: false,
 };
 
 const authSlice = createSlice({

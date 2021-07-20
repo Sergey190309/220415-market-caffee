@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import alerts from '../reducers/alert'
 
 export const initialState = {
+  /**
+   * state structure:
+   * alerts: [
+   *   {
+   *     message: 'mockMessage',
+   *     alertType: 'info',
+   *     timeout: 3000,
+   *     id: 'mockId'
+   *   }
+   * ]
+   */
   alerts: []
-  // alerts: [
-  //   {
-  //     message: 'mockMessage',
-  //     alertType: 'info',
-  //     timeout: 3000,
-  //     id: 'mockId'
-  //   }
-  // ]
 };
 
 const alertsSlice = createSlice({
@@ -18,7 +20,6 @@ const alertsSlice = createSlice({
   initialState,
   reducers: {
     startAlert: (state, { payload }) => {
-      // console.log('alertsSlicer, startAlert, payload ->', payload);
       state.alerts.push(payload);
     },
     removeAlert: (state, { payload }) => {
