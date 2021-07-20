@@ -8,7 +8,7 @@ import { LOG_IN_INFO } from '../constants/localStorageVariables';
 
 import store from '../store';
 import {
-  initialState, signUpFail, signUpStart, signUpSuccess
+  initialState, logInStart, resetState, signUpFail, signUpStart, signUpSuccess
 } from './auth';
 
 describe('Auth slicer testing', () => {
@@ -62,18 +62,21 @@ describe('Auth slicer testing', () => {
     // console.log('authSlice testing, logIn state ->', initialState);
 
     let state = store.getState().auth;
+    store.dispatch(resetState())
+    state = store.getState().auth;
     let expState = { ...initialState };
-    // expect(state).toEqual(expState);
+    expect(state).toEqual(expState);
 
-    // store.dispatch(signUpStart());
-    // expState = {
-    //   ...initialState,
-    //   loading: true,
-    //   isSignedUp: false,
-    //   isLoggedIn: false
-    // };
-    // state = store.getState().auth;
-    // expect(state).toEqual(expState);
+    store.dispatch(logInStart());
+    expState = {
+      ...initialState,
+      loading: true,
+      isSignedUp: false,
+      isLoggedIn: false
+    };
+    state = store.getState().auth;
+    expect(state).toEqual(expState);
+
     console.log('authSlice testing, logIn state ->', state);
 
   });

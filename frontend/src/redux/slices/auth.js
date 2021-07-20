@@ -30,7 +30,6 @@ export const initialState = {
   ...logInInfo(),
   loading: false,
   isSignedUp: false,
-  isLoggedIn: false,
 };
 
 const authSlice = createSlice({
@@ -67,7 +66,7 @@ const authSlice = createSlice({
       state.loading = true;
     },
     logInSuccess: (state, { payload }) => {
-      payload.isAuthenticated = true;
+      // payload.isAuthenticated = true;
       // console.log('authSlice, logInSuccess, payload ->', payload);
       axiosCommonToken(payload.access_token, authAxiosClient);
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload));
