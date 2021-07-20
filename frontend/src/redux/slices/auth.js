@@ -37,6 +37,13 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    reset: state => {
+      Object.assign(state, notLoggedInfo, {
+        loading: false,
+        isSignedUp: false,
+        isLoggedIn: false,
+      })
+    },
     signUpStart: state => {  // tested
       state.loading = true;
       state.isSignedUp = false;
