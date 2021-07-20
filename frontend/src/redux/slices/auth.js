@@ -64,6 +64,8 @@ const authSlice = createSlice({
     },
     logInStart: state => {
       state.loading = true;
+      state.isSignedUp = false;
+      state.isLoggedIn = false;
     },
     logInSuccess: (state, { payload }) => {
       // payload.isAuthenticated = true;
@@ -74,18 +76,18 @@ const authSlice = createSlice({
     },
     logInFail: state => {
       Object.assign(state, notLoggedInfo, {
+        loading: false,
         isSignedUp: false,
         isLoggedIn: false,
-        loading: false,
       });
     },
     logOut: state => {
       // console.log('authSlice, logOut')
       localStorage.removeItem(LOG_IN_INFO);
       Object.assign(state, notLoggedInfo, {
+        loading: false,
         isSignedUp: false,
         isLoggedIn: false,
-        loading: false,
       });
     },
     signUpModalClosed: state => {
