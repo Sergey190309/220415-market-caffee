@@ -7,7 +7,6 @@ import {
 } from '../../testAxiosConstants'
 
 // import { runSaga } from 'redux-saga';
-// import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../constants/type_s';
 import { logInFail, logInSuccess, signUpSuccess, startAlert } from '../slices'
 import { logInFetch, signUpFetch } from './auth';
 import { recordSaga } from '../../testUtils';
