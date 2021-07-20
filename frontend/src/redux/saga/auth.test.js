@@ -1,7 +1,10 @@
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
 
+import { logInData as mockLogInData } from '../../testAxiosConstants'
+
 // import { runSaga } from 'redux-saga';
 // import { LOG_IN_FAIL, LOG_IN_SUCCESS, SIGN_UP_SUCCESS, START_ALERT } from '../constants/type_s';
+import { logInFail, logInSuccess, signUpSuccess, startAlert } from '../slices'
 import { logInFetch, signUpFetch } from './auth';
 import { recordSaga } from '../../testUtils';
 import { actRespErrorMessage } from '../../utils/errorHandler'
@@ -10,10 +13,10 @@ jest.mock('../../utils/errorHandler', () => ({ actRespErrorMessage: jest.fn() })
 
 describe('auth testing', () => {
   describe('log In whole saga testing', () => {
-    const mockLogInData = {
-      email: 'mock@email.test',
-      password: 'mockPassword',
-    };
+    // const mockLogInData = {
+    //   email: 'mock@email.test',
+    //   password: 'mockPassword',
+    // };
     const mockResolveData = {
       message: 'Hi! You are welcome.',
       payload: {
@@ -52,11 +55,12 @@ describe('auth testing', () => {
       // console.log(mockAxios.post.mock.calls[0][0])
       expect(dispatched.length).toBe(2);
       expect(dispatched[0]).toEqual({
-        type: LOG_IN_SUCCESS,
+        type: logInSuccess.type,
+        // type: LOG_IN_SUCCESS,
         payload: mockResolveData.payload,
       });
       const { type, payload } = dispatched[1];
-      expect(type).toBe(START_ALERT);
+      expect(type).toBe(startAlert.type);
       const { id, ...otherProps } = payload;
       expect(id).toBeString();
       expect(otherProps).toEqual({
@@ -80,20 +84,18 @@ describe('auth testing', () => {
       expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
       expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
       expect(dispatched[0]).toEqual({
-        // type: LOG_IN_FAIL,
+        type: logInFail.type,
         payload: { data: mockRejectData },
       });
       const { type, payload } = dispatched[1]
-      // expect(type).toBe(START_ALERT);
+      expect(type).toBe(startAlert.type);
       const { id, ...otherProps } = payload
       expect(otherProps).toEqual({
-        message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
-        alertType: 'error',
-        timeout: 5000,
-      });
-      // console.log('function, calls ->', actRespErrorMessage.mock.calls[0][0].data);
-      // console.log('function, results ->', actRespErrorMessage.mock.results[0]);
-      // console.log('dispatched ->', dispatched[1]);
+          message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
+          alertType: 'error',
+          timeout: 5000,
+        });
+        // console.log('dispatched ->', dispatched[1]);
     });
   });
 
@@ -149,7 +151,7 @@ describe('auth testing', () => {
       expect(mockAxios.post.mock.calls[0][1]).toEqual(mockSignUpData);
       // console.log(mockAxios.post.mock.calls[0][0])
       expect(dispatched[0]).toEqual({
-        type: SIGN_UP_SUCCESS,
+        type: signUpSuccess.type,
         payload: mockResolveData.payload,
       });
       const { type, payload } = dispatched[1];
@@ -177,11 +179,11 @@ describe('auth testing', () => {
       expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
       expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
       expect(dispatched[0]).toEqual({
-        // type: LOG_IN_FAIL,
+        type: logInFail.type,
         payload: { data: mockRejectData },
       });
       const { type, payload } = dispatched[1]
-      // expect(type).toBe(START_ALERT);
+      expect(type).toBe(startAlert.type);
       const { id, ...otherProps } = payload
       expect(otherProps).toEqual({
         message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
