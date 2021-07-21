@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import i18next from 'i18next';
 
 import { Dropdown } from 'semantic-ui-react';
 import { axiosCommonLng } from '../../api/apiClient';
 
-import { lngSelector, techSelector, lngSwitch } from '../../redux/slices';
+import { techSelector, lngSelector, lngSwitch } from '../../redux/slices';
 // import { setLngAction } from '../../redux/actions/lng';
 
 const onChange = (value, setActiveLng, dispatch) => {
@@ -14,32 +14,35 @@ const onChange = (value, setActiveLng, dispatch) => {
   i18next.changeLanguage(value); // Set language in i18next.
   axiosCommonLng(value); // Set language for API calls in request header.
   setActiveLng(value); // Set this component's state.
-  dispatch(lngSwitch(value)); // Change language in state.
+  dispatch(lngSwitch(value)); // Change language in application state state.
 };
 
 export const Language = ({ onChange }) => {
   const [activeLng, setActiveLng] = useState(i18next.language); // Active language
   const [availableLngs, setAvailableLngs] = useState([]); // availableLngs languages
   const dispatch = useDispatch();
-  // const {lng} = useSelector(lngSelector)
   const { loaded } = useSelector(techSelector);
+  const { lng } = useSelector(lngSelector);
 
   useEffect(() => {
     if (loaded) {
-      setAvailableLngs(i18next.options.supportedLngs.filter(value => value !== 'cimode'));
+      // console.log('component, Languages, eseEffect(loaded), i18next.languages ->', i18next.languages)
+      setAvailableLngs(
+        i18next.languages.map(lng => ({
+          key: lng,
+          value: lng,
+          flag: lng === 'en' ? 'uk' : lng,
+        }))
+      );
       setActiveLng(i18next.language);
     }
   }, [loaded]);
 
-  let localeOptions = [];
-
-  availableLngs.forEach(lang => {
-    localeOptions.push({
-      key: lang,
-      value: lang,
-      flag: lang === 'en' ? 'uk' : lang,
-    });
-  });
+  useEffect(() => {
+    if (lng !== activeLng) {
+      setActiveLng(lng);
+    }
+  }, [activeLng, lng]);
 
   const _onChange = (evt, { value }) => {
     evt.preventDefault();
@@ -52,7 +55,8 @@ export const Language = ({ onChange }) => {
       floating
       button
       placeholder='Select language'
-      options={localeOptions}
+      options={availableLngs}
+      // options={localeOptions}
       onChange={_onChange}
       value={activeLng}
     />

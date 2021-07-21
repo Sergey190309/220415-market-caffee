@@ -32,6 +32,7 @@ const techSlice = createSlice({
     startInitLoading: state => {
       // console.log('teckSlice, startInitLoading');
       state.loading = true;
+      state.loaded = false;
     },
     initLoadingSuccess: state => {
       state.loading = false;
@@ -45,7 +46,7 @@ const techSlice = createSlice({
       axiosCommonToken(payload);
       localStorage.setItem(TECH_TOKEN, payload);
       state.techLoaded = true
-      state.teckToken= payload
+      state.techToken= payload
     },
     techInFail: state => {
       localStorage.removeItem(TECH_TOKEN);

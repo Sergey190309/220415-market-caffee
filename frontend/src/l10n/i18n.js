@@ -7,7 +7,7 @@ import { i18nInitiated } from '../redux/slices/tech';
 // import { i18nInitiated } from '../redux/actions/tech';
 import { axiosCommonLng } from '../api/apiClient';
 
-export const initI18next = (supportedLngs = []) => {
+export const initI18next = (supportedLngs = ['en', 'ru']) => {
   // export const initI18next = (supportedLngs = ['en', 'ru']) => {
   // -------------------------------------------------------------------------
   // This i18n instance is just 'empty' one for correct component rendering.
@@ -15,9 +15,9 @@ export const initI18next = (supportedLngs = []) => {
   // from back - end.
   // -------------------------------------------------------------------------
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
-  // console.log('initI18n, i18next ->', i18next.use);
+  // console.log('initI18n,  supportedLngs->', supportedLngs);
   // const lng = 'cimode';
-  const lng = 'en';
+  const lng = supportedLngs[0];
   i18next
     .use(initReactI18next)
     .use(HttpApi)
@@ -42,30 +42,44 @@ export const initI18next = (supportedLngs = []) => {
       },
     })
     .then(() => {
-      // console.log('initI18next.then, i18next.language ->', i18next.languages)
-      // console.log('initI18next.then, i18next.supportedLngs->', i18next['options'].supportedLngs)
+      // console.log('initI18next.then, i18next.language ->', i18next.options.supportedLngs)
       store.dispatch(i18nInitiated());
     });
 };
 
 // initI18next()
 
-export const setI18next = (lngs, supportedLngs = i18next.options.supportedLngs) => {
-  // const _lngs = [...lngs, 'cn']
+export const setI18next = lngs => {
   const lngsToAdd = [];
   lngs.forEach(value => {
-    if (!supportedLngs.includes(value)) {
+    if (!i18next.languages.includes(value)) {
       // if (!i18next.options.supportedLngs.includes(value)) {
       lngsToAdd.push(value);
     }
   });
   lngsToAdd.forEach(value => {
-    supportedLngs.push(value);
+    i18next.languages.push(value);
   });
 
-  axiosCommonLng(i18next.language); // Set axios header for backend calls.
+  // console.log('setI18next, i18next.languages ->', i18next.languages);
+  // console.log(
+  //   'setI18next, i18next.options.supportedLngs, before ->',
+  //   i18next.options.supportedLngs
+  // );
+// i18next
+//     .loadLanguages(lngsToAdd)
+//     .then(result => {
+//     console.log(
+//       'setI18next, i18next.options.supportedLngs, after ->',
+//       i18next.options.supportedLngs
+//     );
+//     console.log('then', result);
+//     })
+//     .catch(error => {
+//       console.log(error)
+//     });
 
-  // console.log('setI18next, i18next.languages before ->', i18next.languages)
+  axiosCommonLng(i18next.language); // Set axios header for backend calls.
 };
 
 // ==================================================================================

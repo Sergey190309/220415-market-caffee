@@ -8,8 +8,10 @@ export const lngInfo = () => {
    * { lng: 'en' }
    */
   const _LngInfo = localStorage.getItem(LNG_INFO)
+    // ? localStorage.getItem(LNG_INFO)
     ? { ...JSON.parse(localStorage.getItem(LNG_INFO)) }
     : { lng: 'en' };
+  // console.log('lngSlice, lngInfo ->', _LngInfo)
   return _LngInfo;
 };
 
@@ -22,6 +24,7 @@ const lngSlice = createSlice({
   initialState,
   reducers: {
     lngSwitch: (state, { payload }) => {
+      localStorage.setItem(LNG_INFO, JSON.stringify({lng: payload}))
       state.lng = payload;
     },
   },

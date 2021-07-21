@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Menu, Container, Popup } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 import Logo from '../page_views/various/Logo';
 import NavItem from './nav_item/NavItem';
@@ -13,7 +14,7 @@ import Language from '../items/Language';
 import { positiveColor } from '../../utils/colors';
 // import { swapiGetter } from '../../api/calls/study';
 
-import { logOut, openModal, authSelector } from '../../redux/slices';
+import { logOut, openModal, authSelector, lngSelector } from '../../redux/slices';
 // import { l_ogOutAction } from '../../redux/actions';
 
 export const clickHandler = (
@@ -51,11 +52,21 @@ export const NavBar = ({
 }) => {
   const [activeItem, setActiveItem] = useState(initActive);
   const dispatch = useDispatch();
-  const {isAdmin, isLoggedIn} = useSelector(authSelector)
+  const { isAdmin, isLoggedIn } = useSelector(authSelector);
+  const { lng } = useSelector(lngSelector);
   let history = useHistory();
 
-  // const [showRemark, setShowRemark] = useState(false);
   const { t } = useTranslation('navbar');
+
+  useEffect(() => {
+    if (i18next.language !== lng) {
+      i18next.changeLanguage(lng);
+    }
+    // console.log('Component, NavBar, useEffect, lng ->', lng )
+    // console.log('Component, NavBar, useEffect, i18next.language ->', i18next.language )
+  }, [lng]);
+  // const [showRemark, setShowRemark] = useState(false);
+  // console.log('Component, NavBar, t ->', t )
 
   const color = positiveColor;
 
@@ -68,7 +79,7 @@ export const NavBar = ({
       openModal,
       isLoggedIn,
       // isAuthenticated,
-      logOut,
+      logOut
       // l_ogOutAction
     );
     history.push('/');
@@ -112,11 +123,7 @@ export const NavBar = ({
                 name='private'
                 active={activeItem === 'private'}
                 onClick={_ClickHandler}>
-                <NavItem
-                  name='private'
-                  title={t('forFriends')}
-                  disabled={!isLoggedIn}
-                />
+                <NavItem name='private' title={t('forFriends')} disabled={!isLoggedIn} />
               </Menu.Item>
             }
             on='hover'
@@ -175,6 +182,5 @@ NavBar.propTypes = {
   // l_ogOutAction: PropTypes.func.isRequired,
   // alertActions: PropTypes.func.isRequired,
 };
-
 
 export default NavBar;

@@ -24,6 +24,6 @@ describe('device testing', () => {
     expState = {...expState, kindOfModal: ''}
     expect(state).toEqual(expState);
 
-    console.log('device, state ->', state);
+    // console.log('device, state ->', state);
   });
 });
