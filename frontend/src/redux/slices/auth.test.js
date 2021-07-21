@@ -8,8 +8,19 @@ import { LOG_IN_INFO } from '../constants/localStorageVariables';
 
 import store from '../store';
 import {
-  initialState, logInStart, resetState, signUpFail, signUpStart, signUpSuccess
+  initialState,
+  logInStart,
+  logInSuccess,
+  resetState,
+  signUpFail,
+  signUpStart,
+  signUpSuccess,
 } from './auth';
+
+jest.mock('../../api/apiClient');
+// jest.mock('../../api/apiClient', () => ({
+//   axiosCommonToken: () => 'axiosCommonToken',
+// }));
 
 describe('Auth slicer testing', () => {
   beforeAll(() => {
@@ -28,7 +39,7 @@ describe('Auth slicer testing', () => {
       ...expState,
       loading: true,
       isSignedUp: false,
-      isLoggedIn: false
+      isLoggedIn: false,
     };
     state = store.getState().auth;
     expect(state).toEqual(expState);
@@ -38,7 +49,7 @@ describe('Auth slicer testing', () => {
       ...expState,
       loading: false,
       isSignedUp: true,
-      isLoggedIn: false
+      isLoggedIn: false,
     };
     state = store.getState().auth;
     expect(state).toEqual(expState);
@@ -49,7 +60,7 @@ describe('Auth slicer testing', () => {
       ...expState,
       loading: false,
       isSignedUp: false,
-      isLoggedIn: false
+      isLoggedIn: false,
     };
     state = store.getState().auth;
     expect(state).toEqual(expState);
@@ -62,7 +73,7 @@ describe('Auth slicer testing', () => {
     // console.log('authSlice testing, logIn state ->', initialState);
 
     let state = store.getState().auth;
-    store.dispatch(resetState())
+    store.dispatch(resetState());
     state = store.getState().auth;
     let expState = { ...initialState };
     expect(state).toEqual(expState);
@@ -72,12 +83,21 @@ describe('Auth slicer testing', () => {
       ...initialState,
       loading: true,
       isSignedUp: false,
-      isLoggedIn: false
+      isLoggedIn: false,
     };
     state = store.getState().auth;
     expect(state).toEqual(expState);
 
-    console.log('authSlice testing, logIn state ->', state);
+    store.dispatch(logInSuccess());
+    expState = {
+      ...initialState,
+      loading: true,
+      isSignedUp: false,
+      isLoggedIn: false,
+    };
+    state = store.getState().auth;
+    // expect(state).toEqual(expState);
 
+    console.log('authSlice testing, logIn state ->', state);
   });
 });
