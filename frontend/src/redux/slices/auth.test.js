@@ -88,7 +88,9 @@ describe('Auth slicer testing', () => {
     state = store.getState().auth;
     expect(state).toEqual(expState);
 
-    store.dispatch(logInSuccess());
+    store.dispatch(logInSuccess({
+      payload: 'mockPayload'
+    }));
     expState = {
       ...initialState,
       loading: true,
