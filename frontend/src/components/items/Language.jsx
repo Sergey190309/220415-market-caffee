@@ -56,7 +56,6 @@ export const Language = ({ onChange, i18next }) => {
       button
       placeholder='Select language'
       options={availableLngs}
-      // options={localeOptions}
       onChange={_onChange}
       value={activeLng}
     />
