@@ -2,13 +2,16 @@ import { techAxiosClient as mockAxios } from '../../api/apiClient';
 import {
   // logInData as mockLogInData,
   resolveData as mockResolveData,
+  logInSuccessArgs as mockLogInSuccessArgs,
   // rejectData as mockRejectData,
 } from '../../testAxiosConstants';
 import { LOG_IN_INFO } from '../constants/localStorageVariables';
 
 import store from '../store';
 import {
+  notLoggedInfo,
   initialState,
+  logInFail,
   logInStart,
   logInSuccess,
   resetState,
@@ -65,7 +68,7 @@ describe('Auth slicer testing', () => {
     state = store.getState().auth;
     expect(state).toEqual(expState);
     expect(localStorage.removeItem).toHaveBeenLastCalledWith(LOG_IN_INFO);
-    console.log('authSlice testing, signUp state ->', state);
+    // console.log('authSlice testing, signUp state ->', state);
   });
 
   test('state testing, logIn', () => {
@@ -88,17 +91,32 @@ describe('Auth slicer testing', () => {
     state = store.getState().auth;
     expect(state).toEqual(expState);
 
-    store.dispatch(logInSuccess({
-      payload: 'mockPayload'
-    }));
+    store.dispatch(logInSuccess(mockLogInSuccessArgs));
     expState = {
-      ...initialState,
-      loading: true,
+      ...mockLogInSuccessArgs,
+      loading: false,
       isSignedUp: false,
-      isLoggedIn: false,
+      isLoggedIn: true,
     };
     state = store.getState().auth;
+    expect(state).toEqual(expState);
+    const { loading, isSignedUp, isLoggedIn, ...localStored } = state;
+    expect(localStorage.setItem).toHaveBeenLastCalledWith(
+      LOG_IN_INFO,
+      JSON.stringify(localStored)
+    );
+
+    store.dispatch(logInFail())
+    expState = {
+      ...notLoggedInfo,
+      loading: false,
+      isSignedUp: false,
+      isLoggedIn: false,
+    }
+    state = store.getState().auth;
     // expect(state).toEqual(expState);
+    console.log('authSlice testing, logIn notLoggedInfo ->', notLoggedInfo);
+    console.log('authSlice testing, logIn expState ->', expState);
 
     console.log('authSlice testing, logIn state ->', state);
   });

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { axiosCommonToken, authAxiosClient } from '../../api/apiClient';
 import { LOG_IN_INFO } from '../constants/localStorageVariables';
 
-const notLoggedInfo = {
+export const notLoggedInfo = {
   /**
    * Used for create and return to 'empty' set of state values
    */
@@ -54,7 +54,7 @@ const authSlice = createSlice({
       state.isSignedUp = true;
       state.isLoggedIn = false;
     },
-    signUpFail: state => {
+    signUpFail: state => {  // tested
       localStorage.removeItem(LOG_IN_INFO);
       Object.assign(state, notLoggedInfo, {
         isSignedUp: false,
@@ -62,7 +62,7 @@ const authSlice = createSlice({
         loading: false,
       });
     },
-    logInStart: state => {
+    logInStart: state => {  // tested
       state.loading = true;
       state.isSignedUp = false;
       state.isLoggedIn = false;
@@ -74,7 +74,7 @@ const authSlice = createSlice({
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload));
       Object.assign(state, payload, { loading: false, isLoggedIn: true });
     },
-    logInFail: state => {
+    logInFail: state => {  // tested
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: false,

@@ -26,4 +26,10 @@ export const rejectData = {
 
 }
 
-
+export const logInSuccessArgs = {
+  user_name: 'mockUserName',
+  email: 'mockEmail',
+  isAdmin: true,
+  access_token: 'mockAccessToken',
+  refresh_token: 'mockRefreshToken',
+}
