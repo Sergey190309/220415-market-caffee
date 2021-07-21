@@ -9,7 +9,7 @@ import { axiosCommonLng } from '../../api/apiClient';
 import { techSelector, lngSelector, lngSwitch } from '../../redux/slices';
 // import { setLngAction } from '../../redux/actions/lng';
 
-const onChange = (value, setActiveLng, dispatch) => {
+export const onChange = (value, setActiveLng, dispatch) => {
   // console.log('Lanaguage component, onChange, value ->', value);
   i18next.changeLanguage(value); // Set language in i18next.
   axiosCommonLng(value); // Set language for API calls in request header.
