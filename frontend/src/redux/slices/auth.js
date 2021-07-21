@@ -67,7 +67,7 @@ const authSlice = createSlice({
       state.isSignedUp = false;
       state.isLoggedIn = false;
     },
-    logInSuccess: (state, { payload }) => {
+    logInSuccess: (state, { payload }) => {  // tested
       // payload.isAuthenticated = true;
       // console.log('authSlice, logInSuccess, payload ->', payload);
       axiosCommonToken(payload.access_token, authAxiosClient);
@@ -81,7 +81,7 @@ const authSlice = createSlice({
         isLoggedIn: false,
       });
     },
-    logOut: state => {
+    logOut: state => {  // tested
       // console.log('authSlice, logOut')
       localStorage.removeItem(LOG_IN_INFO);
       Object.assign(state, notLoggedInfo, {

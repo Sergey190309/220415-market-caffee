@@ -18,6 +18,7 @@ import {
   signUpFail,
   signUpStart,
   signUpSuccess,
+  logOut,
 } from './auth';
 
 jest.mock('../../api/apiClient');
@@ -114,9 +115,26 @@ describe('Auth slicer testing', () => {
       isLoggedIn: false,
     }
     state = store.getState().auth;
-    // expect(state).toEqual(expState);
-    console.log('authSlice testing, logIn notLoggedInfo ->', notLoggedInfo);
-    console.log('authSlice testing, logIn expState ->', expState);
+    expect(state).toEqual(expState);
+
+    store.dispatch(logInSuccess(mockLogInSuccessArgs))  // emulate logged condition
+    expState = {
+      ...mockLogInSuccessArgs,
+      loading: false,
+      isSignedUp: false,
+      isLoggedIn: true,
+    };
+    state = store.getState().auth;
+    expect(state).toEqual(expState);  // Check logged condition
+    store.dispatch(logOut())
+    expState = {
+      ...notLoggedInfo,
+      loading: false,
+      isSignedUp: false,
+      isLoggedIn: false,
+    }
+    state = store.getState().auth;
+    expect(state).toEqual(expState);
 
     console.log('authSlice testing, logIn state ->', state);
   });
