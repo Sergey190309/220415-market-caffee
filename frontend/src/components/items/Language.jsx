@@ -17,7 +17,7 @@ export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   dispatch(lngSwitch(value)); // Change language in application state state.
 };
 
-export const Language = ({ onChange }) => {
+export const Language = ({ onChange, i18next }) => {
   const [activeLng, setActiveLng] = useState(i18next.language); // Active language
   const [availableLngs, setAvailableLngs] = useState([]); // availableLngs languages
   const dispatch = useDispatch();
@@ -36,11 +36,11 @@ export const Language = ({ onChange }) => {
       );
       setActiveLng(i18next.language);
     }
-  }, [loaded]);
+  }, [loaded, i18next]);
 
   useEffect(() => {
     if (lng !== activeLng) {
-      setActiveLng(lng);  // caried out once when initiated with lng 'ru'
+      setActiveLng(lng); // caried out once when initiated with lng 'ru'
     }
   }, [activeLng, lng]);
 
@@ -65,10 +65,12 @@ export const Language = ({ onChange }) => {
 
 Language.defaultProps = {
   onChange: onChange,
+  i18next: i18next,
 };
 
 Language.propTypes = {
   onChange: PropTypes.func.isRequired,
+  i18next: PropTypes.object.isRequired,
 };
 
 export default Language;

@@ -15,17 +15,26 @@ describe('Language switcher testing', () => {
       );
       const item = screen.getByRole('listbox');
       expect(item).toBeVisible();
+      screen.debug()
     });
   });
   describe('function testing', () => {
     test('onChange testing', () => {
-      const value = 'mockValue'
-      const setActiveLng =jest.fn()
-      const dispatch = jest.fn()
+      const mockValue = 'mockValue'
+      const mockSetActiveLng =jest.fn()
+      const mockDispatch = jest.fn()
+      const mockI18next = {
+        changeLanguage: jest.fn()
+      }
 
-      onChange(value, setActiveLng, dispatch)
-      expect(setActiveLng).toHaveBeenCalledTimes(1);
-      expect(setActiveLng).toHaveBeenCalledWith(value);
+      onChange(mockValue, mockSetActiveLng, mockDispatch, mockI18next)
+      expect(mockSetActiveLng).toHaveBeenCalledTimes(1);
+      expect(mockSetActiveLng).toHaveBeenCalledWith(mockValue);
+
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+      expect(mockI18next.changeLanguage).toHaveBeenCalledTimes(1);
+      expect(mockI18next.changeLanguage).toHaveBeenCalledWith(mockValue);
     })
   });
 });
