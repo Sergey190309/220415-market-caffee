@@ -4,6 +4,7 @@ import { LNG_INFO } from '../constants/localStorageVariables';
 
 export const lngInfo = () => {
   /**
+   * Structure
    * { lng: 'en' }
    */
   const _LngInfo = localStorage.getItem(LNG_INFO)

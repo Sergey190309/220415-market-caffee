@@ -14,7 +14,7 @@ const deviceSlice = createSlice({
   name: 'device',
   initialState,
   reducers: {
-    setDeviceSize: (state, { payload }) => {
+    setDeviceSize: (state, { payload }) => {  // tested
       /**
        * Device sizes could be small (width less then 780) - phone;
        * medium (1080) - tablet;
@@ -24,11 +24,11 @@ const deviceSlice = createSlice({
       // state.deviceSize = payload;
       state.deviceSize = payload < smallDeviceLimit ? 'small' : payload < mediumDeviceLimit ? 'medium' : 'big';
     },
-    openModal: (state, { payload }) => {
+    openModal: (state, { payload }) => {  // tested
       // console.log('deviceSlice, openModal, payload ->', payload)
       state.kindOfModal = payload;
     },
-    closeModal: state => {
+    closeModal: state => {  // tested
       state.kindOfModal = '';
     },
   },

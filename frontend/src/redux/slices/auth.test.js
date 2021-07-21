@@ -136,6 +136,6 @@ describe('Auth slicer testing', () => {
     state = store.getState().auth;
     expect(state).toEqual(expState);
 
-    console.log('authSlice testing, logIn state ->', state);
+    // console.log('authSlice testing, logIn state ->', state);
   });
 });
