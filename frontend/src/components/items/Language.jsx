@@ -9,9 +9,9 @@ import { axiosCommonLng } from '../../api/apiClient';
 import { techSelector, lngSelector, lngSwitch } from '../../redux/slices';
 // import { setLngAction } from '../../redux/actions/lng';
 
-export const onChange = (value, setActiveLng, dispatch) => {
+export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   // console.log('Lanaguage component, onChange, value ->', value);
-  i18next.changeLanguage(value); // Set language in i18next.
+  _i18next.changeLanguage(value); // Set language in i18next.
   axiosCommonLng(value); // Set language for API calls in request header.
   setActiveLng(value); // Set this component's state.
   dispatch(lngSwitch(value)); // Change language in application state state.
@@ -40,7 +40,7 @@ export const Language = ({ onChange }) => {
 
   useEffect(() => {
     if (lng !== activeLng) {
-      setActiveLng(lng);
+      setActiveLng(lng);  // caried out once when initiated with lng 'ru'
     }
   }, [activeLng, lng]);
 
