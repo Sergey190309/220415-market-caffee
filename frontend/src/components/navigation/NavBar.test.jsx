@@ -92,8 +92,9 @@ describe('NavBar testing', () => {
       test.only('it exists and has appropriate elements not admin logged', () => {
         store.dispatch(logInSuccess(regularUserPayload))
         const state = store.getState().auth
-        console.log('NavBar testing, state ->', state)
-        connectedLinkedRender(<NavBar {...testProps} store={store} />);
+        const acitveProps = { ...testProps, store: store };
+        // console.log('NavBar testing, state ->', state)
+        connectedLinkedRender(<NavBar {...acitveProps} />);
         // expect(screen.getAllByRole('link').length).toBe(4);
         // expect(screen.getAllByRole('img').length).toBe(1);
         // expect(screen.getAllByRole('heading').length).toBe(3);
@@ -101,7 +102,7 @@ describe('NavBar testing', () => {
         // expect(screen.getAllByRole('listbox').length).toBe(1);
         // expect(screen.getAllByRole('alert').length).toBe(1);
         // expect(screen.getAllByRole('option').length).toBe(2);
-        screen.getByRole('');
+        // screen.getByRole('');
       });
 
       test('it exists and has appropriate elements admin logged', () => {

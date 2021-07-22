@@ -39,8 +39,8 @@ const connectedLinkedRender = (
   ui,
   { initialState, store = createStore(rootReducer, initialState), ...renderOptions } = {}
 ) => {
-  const state = store.getState().auth
-  console.log('connectedLinkedRender, state ->', state)
+  // const state = store.getState().auth
+  // console.log('connectedLinkedRender, state ->', state)
   const Wrapper = ({ children }) => {
     return (
       <Provider store={store}>
