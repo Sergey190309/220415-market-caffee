@@ -1,12 +1,13 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 
-import { connectedLinkedRender, screen, waitFor } from '../../testUtils';
-import store from '../../redux/store'
+import { linkedRender, connectedLinkedRender, screen, waitFor } from '../../testUtils';
+import store from '../../redux/store';
 import NavBar, { clickHandler } from './NavBar';
 import { logInSuccess } from '../../redux/slices';
-import { regularUserPayload, adminUserPayload } from '../../testConstants'
+import { regularUserPayload, adminUserPayload } from '../../testConstants';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -76,51 +77,20 @@ describe('NavBar testing', () => {
       logOut: jest.fn(),
     };
     describe('appearance', () => {
-      test('it exists and has appropriate elements not logged', () => {
-        connectedLinkedRender(<NavBar {...testProps} store={store}  />);
+      test('it exists and has appropriate elements and classes not logged', () => {
+        connectedLinkedRender(<NavBar {...testProps} store={store} />);
+        /**
+         * Quontities
+         */
         expect(screen.getAllByRole('link').length).toBe(3);
         expect(screen.getAllByRole('img').length).toBe(1);
         expect(screen.getAllByRole('heading').length).toBe(3);
         expect(screen.getAllByRole('button').length).toBe(1);
         expect(screen.getAllByRole('listbox').length).toBe(1);
         expect(screen.getAllByRole('alert').length).toBe(1);
-        // expect(screen.getAllByRole('option').length).toBe(2);
-        // screen.getByRole('');
-        // screen.debug()
-      });
-
-      test.only('it exists and has appropriate elements not admin logged', () => {
-        store.dispatch(logInSuccess(regularUserPayload))
-        const state = store.getState().auth
-        const acitveProps = { ...testProps, store: store };
-        // console.log('NavBar testing, state ->', state)
-        connectedLinkedRender(<NavBar {...acitveProps} />);
-        // expect(screen.getAllByRole('link').length).toBe(4);
-        // expect(screen.getAllByRole('img').length).toBe(1);
-        // expect(screen.getAllByRole('heading').length).toBe(3);
-        // expect(screen.getAllByRole('button').length).toBe(1);
-        // expect(screen.getAllByRole('listbox').length).toBe(1);
-        // expect(screen.getAllByRole('alert').length).toBe(1);
-        // expect(screen.getAllByRole('option').length).toBe(2);
-        // screen.getByRole('');
-      });
-
-      test('it exists and has appropriate elements admin logged', () => {
-        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
-        connectedLinkedRender(<NavBar {...acitveProps} />);
-        expect(screen.getAllByRole('link').length).toBe(5);
-        expect(screen.getAllByRole('img').length).toBe(1);
-        expect(screen.getAllByRole('heading').length).toBe(4);
-        expect(screen.getAllByRole('button').length).toBe(1);
-        expect(screen.getAllByRole('listbox').length).toBe(1);
-        expect(screen.getAllByRole('alert').length).toBe(1);
-        expect(screen.getAllByRole('option').length).toBe(2);
-        // screen.getByRole('');
-      });
-
-      test('vital elements has appropriate classes noone logged', () => {
-        connectedLinkedRender(<NavBar {...testProps} />);
-        // screen.debug()
+        /**
+         * Classes
+         */
         expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
         expect(screen.getByRole('link', { name: 'menu' })).toHaveAttribute(
           'href',
@@ -137,11 +107,34 @@ describe('NavBar testing', () => {
         expect(screen.getByRole('listbox')).toHaveClass('ui button floating dropdown', {
           exact: true,
         });
+        /**
+         * For friends disabled and has no href when noone logged.
+         */
+        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' });
+        expect(forFriendsItem).toHaveClass('ui disabled header', { exact: true });
+        expect(forFriendsItem).not.toHaveAttribute('/href');
       });
-      test('vital elements has appropriate classes not admin logged', () => {
-        const acitveProps = { ...testProps, isAuthenticated: true };
-        connectedLinkedRender(<NavBar {...acitveProps} />);
-        expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
+
+      test('it exists and has appropriate elements and classes not admin logged', () => {
+        store.dispatch(logInSuccess(regularUserPayload));
+        linkedRender(
+          <Provider store={store}>
+            <NavBar {...testProps} />
+          </Provider>
+        );
+        /**
+         * Quontities
+         */
+        expect(screen.getAllByRole('link').length).toBe(4);
+        expect(screen.getAllByRole('img').length).toBe(1);
+        expect(screen.getAllByRole('heading').length).toBe(3);
+        expect(screen.getAllByRole('button').length).toBe(1);
+        expect(screen.getAllByRole('listbox').length).toBe(1);
+        expect(screen.getAllByRole('alert').length).toBe(1);
+        /**
+         * Classes
+         */
+         expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
         expect(screen.getByRole('link', { name: 'menu' })).toHaveAttribute(
           'href',
           '/pricelist'
@@ -163,9 +156,25 @@ describe('NavBar testing', () => {
         });
       });
 
-      test('vital elements has appropriate classes admin logged', () => {
-        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
-        connectedLinkedRender(<NavBar {...acitveProps} />);
+      test('it exists and has appropriate elements and classes admin logged', () => {
+        store.dispatch(logInSuccess(adminUserPayload));
+        linkedRender(
+          <Provider store={store}>
+            <NavBar {...testProps} />
+          </Provider>
+        );
+        /**
+         * Quontities
+         */
+        expect(screen.getAllByRole('link').length).toBe(5);
+        expect(screen.getAllByRole('img').length).toBe(1);
+        expect(screen.getAllByRole('heading').length).toBe(4);
+        expect(screen.getAllByRole('button').length).toBe(1);
+        expect(screen.getAllByRole('listbox').length).toBe(1);
+        expect(screen.getAllByRole('alert').length).toBe(1);
+        /**
+         * Classes
+         */
         expect(screen.getByRole('link', { name: 'logo' })).toHaveAttribute('href', '/');
         expect(screen.getByRole('link', { name: 'menu' })).toHaveAttribute(
           'href',
@@ -190,13 +199,8 @@ describe('NavBar testing', () => {
         expect(screen.getByRole('listbox')).toHaveClass('ui button floating dropdown', {
           exact: true,
         });
-      });
-
-      test('for friends item disabled and has no /href when noone logged in', () => {
-        connectedLinkedRender(<NavBar {...testProps} />);
-        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' });
-        expect(forFriendsItem).toHaveClass('ui disabled header', { exact: true });
-        expect(forFriendsItem).not.toHaveAttribute('/href');
+        // expect(screen.getAllByRole('option').length).toBe(2);
+        // screen.getByRole('');
       });
     });
 
@@ -243,8 +247,12 @@ describe('NavBar testing', () => {
         expect(testProps.clickHandler).toHaveBeenCalledTimes(5);
       });
       test('clicking not admin logged in', async () => {
-        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
-        connectedLinkedRender(<NavBar {...acitveProps} />);
+        store.dispatch(logInSuccess(regularUserPayload));
+        linkedRender(
+          <Provider store={store}>
+            <NavBar {...testProps} />
+          </Provider>
+        );
         const logoItem = screen.getByRole('link', { name: 'logo' });
         const menuItem = screen.getByRole('link', { name: 'menu' });
         const galleryItem = screen.getByRole('link', { name: 'gallery' });
@@ -285,8 +293,12 @@ describe('NavBar testing', () => {
       });
 
       test('clicking admin logged in', async () => {
-        const acitveProps = { ...testProps, isAuthenticated: true, isAdmin: true };
-        connectedLinkedRender(<NavBar {...acitveProps} />);
+        store.dispatch(logInSuccess(adminUserPayload));
+        linkedRender(
+          <Provider store={store}>
+            <NavBar {...testProps} />
+          </Provider>
+        );
         const logoItem = screen.getByRole('link', { name: 'logo' });
         const menuItem = screen.getByRole('link', { name: 'menu' });
         const galleryItem = screen.getByRole('link', { name: 'gallery' });
