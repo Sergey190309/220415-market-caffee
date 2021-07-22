@@ -24,6 +24,8 @@ export const Language = ({ onChange, i18next }) => {
   const { loaded } = useSelector(techSelector);
   const { lng } = useSelector(lngSelector);
 
+  // console.log('component, Language, i18next.language ->', i18next.language)
+
   useEffect(() => {
     if (loaded) {
       // console.log('component, Languages, eseEffect(loaded), i18next.languages ->', i18next.languages)
@@ -40,6 +42,7 @@ export const Language = ({ onChange, i18next }) => {
 
   useEffect(() => {
     if (lng !== activeLng) {
+      // console.log('component, Language, useEffect, lng ->', lng)
       setActiveLng(lng); // caried out once when initiated with lng 'ru'
     }
   }, [activeLng, lng]);

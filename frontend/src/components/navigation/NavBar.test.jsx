@@ -9,7 +9,7 @@ import {
 import {clickHandler, NavBar} from './NavBar'
 // import { exact } from 'prop-types';
 
-describe('NavBar testing', () => {
+describe.skip('NavBar testing', () => {
   describe('non react elements', () => {
     describe('clickHandling function testing', () => {
       const activateItems = ['logo', 'priceList', 'pictures', 'private', 'admin'];
