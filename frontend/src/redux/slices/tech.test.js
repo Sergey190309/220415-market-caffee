@@ -8,6 +8,17 @@ import store from '../store'
 
 jest.mock('../../api/apiClient');
 
+jest.mock('react-i18next', () => ({
+  languages: ['en', 'ru']
+  // useTranslation: () => ({
+  //   t: key => key,
+  //   i18n: {
+  //     changeLanguage: jest.fn(),
+  //   },
+  // }),
+}));
+
+
 describe('Tech slice testing', () => {
   beforeAll(() => {
     jest.resetAllMocks();
@@ -23,6 +34,6 @@ describe('Tech slice testing', () => {
     expState = { ...expState, loading: true, loaded: false }
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state ->', state)
+    console.log('tech slice testing, state  ->', state)
   });
 });

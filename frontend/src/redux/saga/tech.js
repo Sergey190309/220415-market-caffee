@@ -73,9 +73,9 @@ export function* lngsSaga() {
 export function* lngsWorker(action) {
   try {
     const resp = yield call(lngsCall);
-    console.log('lngsWorker, resp ->', resp)
+    // console.log('lngsWorker, resp ->', resp)
     const lngs = resp.data.payload.map(item => item.id);
-    console.log('lngs worker, lngs ->', lngs)
+    // console.log('lngs worker, lngs ->', lngs)
     yield put(lngsSuccess());
     yield put(startI18n(lngs));
   } catch (error) {
