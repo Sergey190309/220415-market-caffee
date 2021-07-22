@@ -41,6 +41,8 @@ export const logInSuccessArgs = {
  * tech in constants
  */
 export const resolveDataTechIn = {
-  message: 'TechAuth reporing! Tech token is in payload.',
-  payload: 'mock tech token'
+  data: {
+    message: 'TechAuth reporing! Tech token is in payload.',
+    payload: 'mock tech token'
+  }
 }

@@ -10,7 +10,7 @@ describe('Tech slice testing', () => {
     jest.resetAllMocks();
   });
   test('state testing', async () => {
-    mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    mockAxios.post.mockImplementation(() => Promise.resolve( mockResolveData ));
     let state = store.getState().tech
     let expState = {...initialState}
     expect(state).toEqual(expState);
@@ -19,6 +19,6 @@ describe('Tech slice testing', () => {
     expState = { ...expState, loading: true, loaded: false }
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state  ->', state)
+    console.log('tech slice testing, state ->', state)
   });
 });
