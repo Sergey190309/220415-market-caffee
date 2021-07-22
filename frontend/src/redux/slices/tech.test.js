@@ -1,5 +1,5 @@
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
-import { mockResolveData } from '../../testAxiosConstants'
+import { resolveDataTechIn as mockResolveData } from '../../testAxiosConstants'
 import { initialState, startInitLoading } from './tech'
 import store from '../store'
 
@@ -19,6 +19,6 @@ describe('Tech slice testing', () => {
     expState = { ...expState, loading: true, loaded: false }
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state ->', state)
+    console.log('tech slice testing, state  ->', state)
   });
 });

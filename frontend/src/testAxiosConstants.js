@@ -1,4 +1,7 @@
-export const logInData ={
+/**
+ * Auth contants
+ */
+export const logInData = {
   email: 'mock@email.test',
   password: 'mockPassword',
 }
@@ -32,4 +35,12 @@ export const logInSuccessArgs = {
   isAdmin: true,
   access_token: 'mockAccessToken',
   refresh_token: 'mockRefreshToken',
+}
+// ==================================================================================
+/**
+ * tech in constants
+ */
+export const resolveDataTechIn = {
+  message: 'TechAuth reporing! Tech token is in payload.',
+  payload: 'mock tech token'
 }

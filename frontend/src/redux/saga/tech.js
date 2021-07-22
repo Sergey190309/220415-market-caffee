@@ -50,8 +50,9 @@ export function* techInSaga() {
 export function* techInFetch(action) {
   // export function* techInFetch(action, setToken = axiosCommonToken) {
     try {
-    console.log('techInFetch, techInResp ->', action.payload)
+    console.log('techInFetch, techInCall args ->', action.payload)
     const techInResp = yield call(techInCall, { tech_id: action.payload });
+    console.log('techInFetch, techInResp ->', techInResp)
     yield put(techInSuccess(techInResp.data.payload));
     // ----------------------------------------------------------------------------------
     // initate structure loading here
