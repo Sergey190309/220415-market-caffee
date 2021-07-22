@@ -10,7 +10,7 @@ export const techInCall = techInData => {
   // techInData = '';
   // const resp = techAxiosClient.post('/home/tech/auth');
   const resp = techAxiosClient.post('/home/tech/auth', techInData);
-  console.log('techInCall, resp ->', resp);
+  // console.log('techInCall, resp ->', resp);
   return resp;
 };
 
@@ -25,7 +25,7 @@ export const signUpCall = signUpData => {
     const resp = techAxiosClient.post('/users', signUpData);
     return resp;
   } catch (error) {
-    console.log('signUpCall error\n', error);
+    // console.log('signUpCall error\n', error);
     throw error;
   }
 };
