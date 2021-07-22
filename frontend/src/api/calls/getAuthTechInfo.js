@@ -2,13 +2,8 @@ import { techAxiosClient } from '../apiClient';
 // import { apiCallsErrorHandler } from '../../utils/errorHandler';
 
 export const lngsCall = () => {
-  try {
-    const resp = techAxiosClient.get('/global/locales');
-    return resp;
-  } catch (error) {
-    console.log('logInCall error\n', error);
-    throw error;
-  }
+  const resp = techAxiosClient.get('/global/locales');
+  return resp;
 };
 
 export const techInCall = techInData => {

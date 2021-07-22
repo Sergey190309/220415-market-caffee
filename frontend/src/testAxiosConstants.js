@@ -40,9 +40,25 @@ export const logInSuccessArgs = {
 /**
  * tech in constants
  */
-export const resolveDataTechIn = {
+export const resolveDataTechInPost = {
   data: {
     message: 'TechAuth reporing! Tech token is in payload.',
     payload: 'mock tech token'
+  }
+}
+
+export const resolveDataTechInGet = {
+  data: {
+    message: 'There are 2 locales in our database as follows:',
+    payload: [
+        {
+            'remarks': 'General english.',
+            'id': 'en'
+        },
+        {
+            'remarks': 'Общий русский.',
+            'id': 'ru'
+        }
+    ]
   }
 }
