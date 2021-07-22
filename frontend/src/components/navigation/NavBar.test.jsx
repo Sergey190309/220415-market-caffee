@@ -1,26 +1,37 @@
 import React from 'react';
 
-import userEvent from '@testing-library/user-event'
-import {
-  connectedLinkedRender,
-  screen,
-  waitFor,
-} from '../../testUtils'
-import {clickHandler, NavBar} from './NavBar'
-// import { exact } from 'prop-types';
+// import userEvent from '@testing-library/user-event';
 
-describe.skip('NavBar testing', () => {
+import { connectedLinkedRender, screen, waitFor } from '../../testUtils';
+import store from '../../redux/store'
+import NavBar, { clickHandler } from './NavBar';
+import { logInSuccess } from '../../redux/slices';
+import { regularUserPayload, adminUserPayload } from '../../testConstants'
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: key => key,
+    i18n: {
+      changeLanguage: jest.fn(),
+    },
+  }),
+}));
+
+describe('NavBar testing', () => {
   describe('non react elements', () => {
     describe('clickHandling function testing', () => {
       const activateItems = ['logo', 'priceList', 'pictures', 'private', 'admin'];
       const notActivateItems = ['signInOut', 'language'];
       // const activateModal = 'signInOut';
+      const dispatch = jest.fn();
       const setActiveItem = jest.fn();
-      const setModalOpened = jest.fn();
+      const openModal = jest.fn();
+      const isLoggedIn = true;
+      const logOut = jest.fn();
 
       test('calling from items that makes them active', () => {
         activateItems.forEach(item => {
-          clickHandler(item, setActiveItem, setModalOpened);
+          clickHandler(item, dispatch, setActiveItem, openModal, isLoggedIn, logOut);
           expect(setActiveItem).toHaveBeenCalledWith(item);
         });
         expect(setActiveItem).toHaveBeenCalledTimes(5);
@@ -28,17 +39,31 @@ describe.skip('NavBar testing', () => {
 
       test('calling from items that does not make them active', () => {
         notActivateItems.forEach(item => {
-          clickHandler(item, setActiveItem, setModalOpened);
+          clickHandler(item, dispatch, setActiveItem, openModal, isLoggedIn, logOut);
         });
         expect(setActiveItem).not.toHaveBeenCalled();
       });
 
-      test('only one item activate modal and call with proper arg', () => {
+      test('only one item activate dispatch with logOut if logged', () => {
+        logOut.mockReturnValue('logOut');
         [...activateItems, ...notActivateItems].forEach(item => {
-          clickHandler(item, setActiveItem, setModalOpened);
+          clickHandler(item, dispatch, setActiveItem, openModal, isLoggedIn, logOut);
         });
-        expect(setModalOpened).toHaveBeenCalledTimes(1);
-        expect(setModalOpened).toHaveBeenCalledWith('logIn');
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith('logOut');
+
+        // console.log('NavBar testing, dispatch call ->', dispatch.mock.calls[0][0]);
+      });
+
+      test('only one item activate dispatch with openModal if logged out', () => {
+        openModal.mockReturnValue('openModal');
+        [...activateItems, ...notActivateItems].forEach(item => {
+          clickHandler(item, dispatch, setActiveItem, openModal, false, logOut);
+        });
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenCalledWith('openModal');
+
+        // console.log('NavBar testing, dispatch call ->', dispatch.mock.calls[0][0]);
       });
     });
   });
@@ -46,36 +71,37 @@ describe.skip('NavBar testing', () => {
   describe('react components', () => {
     const testProps = {
       initActive: '',
-      setModalOpened: jest.fn(),
+      openModal: jest.fn(),
       clickHandler: jest.fn(),
-      isAuthenticated: false,
-      isAdmin: false,
-      logOutAction: jest.fn(),
+      logOut: jest.fn(),
     };
     describe('appearance', () => {
       test('it exists and has appropriate elements not logged', () => {
-        connectedLinkedRender(<NavBar {...testProps} />);
+        connectedLinkedRender(<NavBar {...testProps} store={store}  />);
         expect(screen.getAllByRole('link').length).toBe(3);
         expect(screen.getAllByRole('img').length).toBe(1);
         expect(screen.getAllByRole('heading').length).toBe(3);
         expect(screen.getAllByRole('button').length).toBe(1);
         expect(screen.getAllByRole('listbox').length).toBe(1);
         expect(screen.getAllByRole('alert').length).toBe(1);
-        expect(screen.getAllByRole('option').length).toBe(2);
+        // expect(screen.getAllByRole('option').length).toBe(2);
         // screen.getByRole('');
+        // screen.debug()
       });
 
-      test('it exists and has appropriate elements not admin logged', () => {
-        const acitveProps = { ...testProps, isAuthenticated: true };
-        connectedLinkedRender(<NavBar {...acitveProps} />);
-        expect(screen.getAllByRole('link').length).toBe(4);
-        expect(screen.getAllByRole('img').length).toBe(1);
-        expect(screen.getAllByRole('heading').length).toBe(3);
-        expect(screen.getAllByRole('button').length).toBe(1);
-        expect(screen.getAllByRole('listbox').length).toBe(1);
-        expect(screen.getAllByRole('alert').length).toBe(1);
-        expect(screen.getAllByRole('option').length).toBe(2);
-        // screen.getByRole('');
+      test.only('it exists and has appropriate elements not admin logged', () => {
+        store.dispatch(logInSuccess(regularUserPayload))
+        const state = store.getState().auth
+        console.log('NavBar testing, state ->', state)
+        connectedLinkedRender(<NavBar {...testProps} store={store} />);
+        // expect(screen.getAllByRole('link').length).toBe(4);
+        // expect(screen.getAllByRole('img').length).toBe(1);
+        // expect(screen.getAllByRole('heading').length).toBe(3);
+        // expect(screen.getAllByRole('button').length).toBe(1);
+        // expect(screen.getAllByRole('listbox').length).toBe(1);
+        // expect(screen.getAllByRole('alert').length).toBe(1);
+        // expect(screen.getAllByRole('option').length).toBe(2);
+        screen.getByRole('');
       });
 
       test('it exists and has appropriate elements admin logged', () => {

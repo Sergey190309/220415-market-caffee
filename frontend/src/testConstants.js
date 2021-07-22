@@ -48,3 +48,17 @@ const pictures = {
 const admin = {};
 
 export const structures = [{ landing }, { pictures }, { admin }];
+
+// ==================================================================================
+export const regularUserPayload = {
+  user_name: 'mockUserName',
+  email: 'mockEmail',
+  isAdmin: false,
+  access_token: 'mockAccessToken',
+  refresh_token: 'mockRefreshToken',
+};
+// ==================================================================================
+export const adminUserPayload = {
+  ...regularUserPayload,
+  isAdmin: true,
+};

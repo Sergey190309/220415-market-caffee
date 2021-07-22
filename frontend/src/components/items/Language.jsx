@@ -33,6 +33,7 @@ export const Language = ({ onChange, i18next }) => {
         i18next.languages.map(lng => ({
           key: lng,
           value: lng,
+          // text: lng,
           flag: lng === 'en' ? 'uk' : lng,
         }))
       );
@@ -42,7 +43,6 @@ export const Language = ({ onChange, i18next }) => {
 
   useEffect(() => {
     if (lng !== activeLng) {
-      // console.log('component, Language, useEffect, lng ->', lng)
       setActiveLng(lng); // caried out once when initiated with lng 'ru'
     }
   }, [activeLng, lng]);
@@ -50,14 +50,18 @@ export const Language = ({ onChange, i18next }) => {
   const _onChange = (evt, { value }) => {
     evt.preventDefault();
     onChange(value, setActiveLng, dispatch);
+    // console.log('component, Language, _onChange, activeLng ->', activeLng)
   };
+  // console.log('component, Language, activeLng ->', activeLng)
 
   return (
     <Dropdown
       name='langSwitcher'
       floating
       button
-      placeholder='Select language'
+      defaultOpen={false}
+      placeholder='langSwitcher'
+      data-testid='dropdown'
       options={availableLngs}
       onChange={_onChange}
       value={activeLng}

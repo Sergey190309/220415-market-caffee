@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Menu, Container, Popup } from 'semantic-ui-react';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
+// import i18next from 'i18next';
 
 import Logo from '../page_views/various/Logo';
 import NavItem from './nav_item/NavItem';
@@ -45,26 +45,24 @@ export const NavBar = ({
   initActive,
   openModal,
   clickHandler,
-  // isAuthenticated,
-  // isAdmin,
   logOut,
-  // alertActions,
 }) => {
   const [activeItem, setActiveItem] = useState(initActive);
+
   const dispatch = useDispatch();
   const { isAdmin, isLoggedIn } = useSelector(authSelector);
   const { lng } = useSelector(lngSelector);
   let history = useHistory();
 
-  const { t } = useTranslation('navbar');
+  const { t, i18n } = useTranslation('navbar');
 
   useEffect(() => {
-    if (i18next.language !== lng) {
-      i18next.changeLanguage(lng);
+    if (i18n.language !== lng) {
+      i18n.changeLanguage(lng);
     }
     // console.log('Component, NavBar, useEffect, lng ->', lng )
     // console.log('Component, NavBar, useEffect, i18next.language ->', i18next.language )
-  }, [lng]);
+  }, [lng, i18n]);
   // const [showRemark, setShowRemark] = useState(false);
   // console.log('Component, NavBar, t ->', t )
 
@@ -78,9 +76,7 @@ export const NavBar = ({
       setActiveItem,
       openModal,
       isLoggedIn,
-      // isAuthenticated,
       logOut
-      // l_ogOutAction
     );
     history.push('/');
   };

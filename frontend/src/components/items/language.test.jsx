@@ -42,40 +42,73 @@ describe('Language switcher testing', () => {
           <Language {...mockProps} />
         </Provider>
       );
-      store.dispatch(initLoadingSuccess())
+      store.dispatch(initLoadingSuccess());
       rerender(
         <Provider store={store}>
           <Language {...mockProps} />
         </Provider>
-      )
+      );
       expect(container).toMatchSnapshot();
       // screen.debug();
     });
 
     describe('user action', () => {
-      test.only('click', async () => {
-        store.dispatch(initLoadingSuccess())
+      test('FAILED click, I am unable to simulate click', async () => {
+        /**
+         * It looks semantic react limitation:
+         * https://stackoverflow.com/questions/52813527/cannot-check-expectelm-not-tobevisible-for-semantic-ui-react-component
+         * Not sure about
+         */
+        store.dispatch(initLoadingSuccess());
         render(
+          // const {rerender} = render(
           <Provider store={store}>
             <Language {...mockProps} />
           </Provider>
         );
-        const button = screen.getByRole('listbox')
-        expect(button).toBeVisible()
-        const dropDown = screen.getAllByRole('option')
-        expect(dropDown.length).toBe(2)
-        // expect(dropDown[0]).toBeChecked()
-        // expect(dropDown[1]).not.toBeChecked()
-        // userEvent.click(dropDown[1])
-        // await waitFor(() => {
-        //   expect(dropDown[0]).toBeChecked()
-        // })
-        screen.debug();
+        /**
+         * Structure
+         */
+        const dropdown = screen.getByTestId('dropdown');
+        expect(dropdown).toBeVisible();
+        expect(dropdown.children.length).toBe(3);
 
+        const display = dropdown.children[0];
+        expect(display).toHaveClass('divider text', { exact: true });
+        const icon = dropdown.children[1];
+        expect(icon).toHaveClass('dropdown icon', { exact: true });
 
-        // expect(container).toMatchSnapshot()
-        // console.log('language.test, user action, click, item ->', item)
+        const options = dropdown.children[2];
+        // expect(options).toHaveClass('menu transition', { exact: true });
+        expect(options).toBeVisible()
+        expect(options.children.length).toBe(2);
+        const option0 = options.children[0];
+        expect(option0).toHaveClass('active selected item', { exact: true });
+        const option1 = options.children[1];
+        expect(option1).toHaveClass('item', { exact: true });
+
+        /**
+         * Actions
+         */
+        userEvent.click(dropdown);
+
+        const clickedOptions = screen.getAllByRole('option')  //
+        expect(clickedOptions.length).toBe(2);
+        expect(clickedOptions[1]).toHaveClass('item', { exact: true })
+        await waitFor(() => {
+          userEvent.click(clickedOptions[1])
+          const clickedOption = clickedOptions[1]
+          expect(clickedOption).toHaveClass('item', { exact: true })
+        })
+
+        // rerender(
+        //   <Provider store={store}>
+        //     <Language {...mockProps} />
+        //   </Provider>
+        // )
+        // screen.debug();
+
       });
-    })
+    });
   });
 });
