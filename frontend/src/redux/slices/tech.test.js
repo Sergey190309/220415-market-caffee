@@ -1,24 +1,24 @@
-// import { techAxiosClient as mockAxios } from '../../api/apiClient';
-// import store from '../store';
-// import { initialState, startInitLoading } from './tech';
+import { techAxiosClient as mockAxios } from '../../api/apiClient';
+import { mockResolveData } from '../../testAxiosConstants'
+import { initialState, startInitLoading } from './tech'
+import store from '../store'
+
+jest.mock('../../api/apiClient');
+
 describe('Tech slice testing', () => {
-  // const mockPayload = {};
-  // const mockTechInResolve = 'mockTechToken';
-  // beforeEach(() => {
-  //   jest.resetAllMocks();
-  // });
-  test('dummy, startInitLoading', async () => {
-    /**
-     * I'm unable to test this slice. I guess it resulted from running components out of store scope.
-     * I do not know so far how to fix that.
-     */
-    // mockAxios.get.mockImplementation(() =>
-    //   Promise.resolve({ data: mockTechInResolve })
-    // );
-    // let state = store.getState().tech;
-    // store.dispatch(startInitLoading());
-    // state = store.getState().tech;
-    // expect(state.loading).toBeTruthy();
-    // console.log('startInitLoading, state ->', state);
+  beforeAll(() => {
+    jest.resetAllMocks();
+  });
+  test('state testing', async () => {
+    mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    let state = store.getState().tech
+    let expState = {...initialState}
+    expect(state).toEqual(expState);
+
+    store.dispatch(startInitLoading())
+    expState = { ...expState, loading: true, loaded: false }
+    expect(state).toEqual(expState);
+
+    console.log('tech slice testing, state ->', state)
   });
 });
