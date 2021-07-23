@@ -1,7 +1,7 @@
-import { techAxiosClient as mockAxios } from '../../api/apiClient';
+import { techAxiosClient } from '../../api/apiClient';
 import {
   // logInData as mockLogInData,
-  resolveData as mockResolveData,
+  // resolveData as mockResolveData,
   logInSuccessArgs as mockLogInSuccessArgs,
   // rejectData as mockRejectData,
 } from '../../testAxiosConstants';
@@ -32,7 +32,7 @@ describe('Auth slicer testing', () => {
   });
 
   test('state testing, signUp', () => {
-    mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    // mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
 
     let state = store.getState().auth;
     let expState = { ...initialState };
@@ -73,7 +73,7 @@ describe('Auth slicer testing', () => {
   });
 
   test('state testing, logIn', () => {
-    mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+    // mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
     // console.log('authSlice testing, logIn state ->', initialState);
 
     let state = store.getState().auth;
