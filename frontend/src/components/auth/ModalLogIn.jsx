@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal } from 'semantic-ui-react';
 import LogIn from './LogIn';
 import SignUp from './SignUp';
 import Loader from '../items/Loader';
-import { closeModal } from '../../redux/slices';
+import { closeModal, deviceSelector } from '../../redux/slices';
 // import { closeModal } from '../../redux/actions';
 
 export const onCloseHandle = (dispatch, closeModal, setOpen) => {
@@ -13,13 +13,14 @@ export const onCloseHandle = (dispatch, closeModal, setOpen) => {
   setOpen(false);
 };
 
-export const ModalLogIn = ({ kindOfModal, closeModal, onCloseHandle }) => {
+export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
   // console.log('ModalLogIn, kindOfModal ->', kindOfModal)
-  const [open, setOpen] = useState(kindOfModal === '' ? false : true);
-  const dispatch = useDispatch()
+  const [open, setOpen] = useState(false);
+  const { kindOfModal } = useSelector(deviceSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-  // console.log('ModalLogIn, useEffect, kindOfModal ->', kindOfModal)
+    // console.log('ModalLogIn, useEffect, kindOfModal ->', kindOfModal);
     setOpen(kindOfModal === '' ? false : true);
   }, [kindOfModal]);
 
@@ -33,7 +34,7 @@ export const ModalLogIn = ({ kindOfModal, closeModal, onCloseHandle }) => {
       content = <LogIn onCancelClick={_onCloseHandle} />;
       break;
     case 'signUp':
-      content = <SignUp onCancelClick={_onCloseHandle}/>;
+      content = <SignUp onCancelClick={_onCloseHandle} />;
       break;
     case 'loader':
       content = <Loader />;
@@ -59,18 +60,17 @@ export const ModalLogIn = ({ kindOfModal, closeModal, onCloseHandle }) => {
 };
 
 ModalLogIn.defaultProps = {
-  kindOfModal: '',
-  closeModal: () => {},
+  // kindOfModal: '',
+  closeModal: closeModal,
   onCloseHandle: onCloseHandle,
 };
 
 ModalLogIn.propTypes = {
-  kindOfModal: PropTypes.string.isRequired,
+  // kindOfModal: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired,
   onCloseHandle: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({ kindOfModal: state.device.kindOfModal });
-// const mapStateToProps = state => ({ kindOfModal: state.layout.kindOfModal });
 
-export default connect(mapStateToProps, { closeModal })(ModalLogIn);
+export default ModalLogIn;
+// export default connect(mapStateToProps, { closeModal })(ModalLogIn);

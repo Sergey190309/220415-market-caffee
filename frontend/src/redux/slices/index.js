@@ -34,15 +34,16 @@ export {
   logInModalClosed,
   authSelector,
 } from './auth';
-export { setDeviceSize, openModal, closeModal } from './device';
+export { deviceSelector, setDeviceSize, openModal, closeModal } from './device';
 export { lngSwitch, lngSelector } from './lng';
 export {
+  structureSelector,
   structureStart,
   structureSuccess,
   structureFail,
-  structureSelector,
 } from './structure';
 export {
+  techSelector,
   startInitLoading,
   initLoadingSuccess,
   startTechIn,
@@ -55,7 +56,5 @@ export {
   i18nInitiated,
   i18nSuccess,
   i18nFail,
-  techSelector,
 } from './tech';
-
 export default rootReducer;
