@@ -21,12 +21,8 @@ jest.mock('../../api/apiClient', () => ({
   __esModule: true,
   axiosCommonToken: jest.fn(),
   techAxiosClient: {
-    post: () => {
-      Promise.resolve(mockResolveDataPost);
-    },
-    get: () => {
-      Promise.resolve(mockResolveDataGet);
-    },
+    post: () => Promise.resolve(mockResolveDataPost),
+    get: () => Promise.resolve(mockResolveDataGet),
   },
 }));
 jest.mock('../../l10n/i18n');
@@ -64,6 +60,6 @@ describe('Tech slice testing', () => {
 
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state ->', state);
+    console.log('tech slice testing, state  ->', state);
   });
 });
