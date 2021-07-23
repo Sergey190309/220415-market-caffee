@@ -1,8 +1,6 @@
 // import i18next from 'i18next';
 
-import {
-  axiosCommonToken as mockAxiosCommonToken,
-} from '../../api/apiClient';
+import { axiosCommonToken as mockAxiosCommonToken } from '../../api/apiClient';
 import {
   resolveDataTechInPost as mockResolveDataPost,
   resolveDataTechInGet as mockResolveDataGet,
@@ -23,8 +21,14 @@ jest.mock('../../api/apiClient', () => ({
   techAxiosClient: {
     post: () => Promise.resolve(mockResolveDataPost),
     get: () => Promise.resolve(mockResolveDataGet),
+    defaults: {
+      headers: {
+        common: ['Authorization']
+      },
+    },
   },
 }));
+
 jest.mock('../../l10n/i18n');
 
 describe('Tech slice testing', () => {
@@ -32,8 +36,6 @@ describe('Tech slice testing', () => {
     jest.resetAllMocks();
   });
   test('state testing', () => {
-    // mockAxios.post.mockImplementation(() => Promise.resolve(mockResolveDataPost));
-    // mockAxios.get.mockImplementation(() => Promise.resolve(mockResolveDataGet));
     let state = store.getState().tech;
     let expState = { ...initialState };
     expect(state).toEqual(expState);
@@ -50,16 +52,17 @@ describe('Tech slice testing', () => {
 
     const mockPayload = 'mockPayload';
     store.dispatch(techInSuccess(mockPayload));
-    state = store.getState().tech;
     expect(mockAxiosCommonToken).toHaveBeenCalledTimes(1);
     expect(mockAxiosCommonToken).toHaveBeenCalledWith(mockPayload);
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
     expect(localStorage.setItem).toHaveBeenCalledWith(TECH_TOKEN, mockPayload);
-
-    expState = { ...initialState, techToken: mockPayload, teckLoaded: true };
-
+    state = store.getState().tech;
+    expState = {
+      ...initialState, techToken: mockPayload, techLoaded: true, loading: true
+    };
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state  ->', state);
+    // console.log('tech slice testing, state  ->', state);
+    // console.log('tech slice testing, expState  ->', expState);
   });
 });
