@@ -2,6 +2,9 @@
 
 import { axiosCommonToken } from '../../api/apiClient';
 import {
+  i18nFail,
+  i18nInitiated,
+  i18nSuccess,
   initialState,
   lngsFail,
   lngsSuccess,
@@ -92,7 +95,7 @@ describe('Tech slice testing', () => {
   });
 
   test('lngsSuccess reducer', () => {
-    const expState = { ...initialState,lngsLoaded: true };
+    const expState = { ...initialState, lngsLoaded: true };
     // store.dispatch(
     //   setTestState({
     //     lngsLoaded: true,
@@ -104,7 +107,7 @@ describe('Tech slice testing', () => {
   });
 
   test('lngsFail reducer', () => {
-    const expState = { ...initialState};
+    const expState = { ...initialState };
     store.dispatch(
       setTestState({
         lngsLoaded: true,
@@ -117,18 +120,65 @@ describe('Tech slice testing', () => {
   });
 
   test('startI18n reducer', () => {
-    const expState = { ...initialState, loading: true};
+    const expState = { ...initialState, loading: true };
+    state = store.getState().tech;
+    // console.log('tech slice testing, state before before ->', state);
     store.dispatch(
       setTestState({
         i18nLoaded: true,
       })
     );
     state = store.getState().tech;
-    console.log('tech slice testing, state before  ->', state);
+    // console.log('tech slice testing, state before ->', state);
     store.dispatch(startI18n());
     state = store.getState().tech;
     // expect(state).toEqual(expState);
-    console.log('tech slice testing, state ->', state);
+    // console.log('tech slice testing, expState ->', expState);
+    // console.log('tech slice testing, state ->', state);
+  });
+  test('i18nInitiated reducer', () => {
+    const expState = { ...initialState, i18nInitiated: true };
+    state = store.getState().tech;
+    // store.dispatch(
+    //   setTestState({
+    //     i18nLoaded: true,
+    //   })
+    // );
+    // state = store.getState().tech;
+    // console.log('tech slice testing, state before ->', state);
+    store.dispatch(i18nInitiated());
+    state = store.getState().tech;
+    expect(state).toEqual(expState);
+  });
+  test('i18nSuccess reducer', () => {
+    const expState = { ...initialState, i18nLoaded: true };
+    state = store.getState().tech;
+    // store.dispatch(
+    //   setTestState({
+    //     i18nLoaded: true,
+    //   })
+    // );
+    // state = store.getState().tech;
+    // console.log('tech slice testing, state before ->', state);
+    store.dispatch(i18nSuccess());
+    state = store.getState().tech;
+    expect(state).toEqual(expState);
+  });
+  test('i18nFail reducer', () => {
+    const expState = { ...initialState };
+    // state = store.getState().tech;
+    store.dispatch(
+      setTestState({
+        i18nLoaded: true,
+        loading: true,
+      })
+    );
+    // state = store.getState().tech;
+    // console.log('tech slice testing, state before ->', state);
+    store.dispatch(i18nFail());
+    state = store.getState().tech;
+    expect(state).toEqual(expState);
     console.log('tech slice testing, expState ->', expState);
+    console.log('tech slice testing, state ->', state);
   });
 });

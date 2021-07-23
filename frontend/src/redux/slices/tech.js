@@ -67,18 +67,18 @@ const techSlice = createSlice({
       state.lngsLoaded = false
       state.loading = false
     },
-    startI18n: state => {
+    startI18n: state => {  // somthing went wrong
       // console.log('techSlice, startI18n, state before ->', state)
       state.i18nLoaded = false
       state.loading = true
     },
-    i18nInitiated: state => {
+    i18nInitiated: state => {  // tested
       state.i18nInitiated = true
     },
-    i18nSuccess: state => {
+    i18nSuccess: state => {  // tested
       state.i18nLoaded =true
     },
-    i18nFail: state => {
+    i18nFail: state => {  // tested
       state.i18nLoaded = false
       state.loading = false
     },
