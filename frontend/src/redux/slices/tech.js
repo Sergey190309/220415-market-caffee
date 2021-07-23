@@ -30,7 +30,7 @@ const techSlice = createSlice({
   initialState,
   reducers: {
     startInitLoading: state => {
-      // console.log('techSlice, startInitLoading');
+      console.log('techSlice, startInitLoading');
       state.loading = true;
       state.loaded = false;
     },
