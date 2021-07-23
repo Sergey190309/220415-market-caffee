@@ -178,7 +178,7 @@ describe('Tech slice testing', () => {
     store.dispatch(i18nFail());
     state = store.getState().tech;
     expect(state).toEqual(expState);
-    console.log('tech slice testing, expState ->', expState);
-    console.log('tech slice testing, state ->', state);
+    // console.log('tech slice testing, expState ->', expState);
+    // console.log('tech slice testing, state ->', state);
   });
 });

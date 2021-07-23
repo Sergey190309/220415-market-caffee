@@ -28,7 +28,7 @@ describe('Tech sagas tesing', () => {
       config: { config: 'Some config' },
     };
 
-    beforeAll(() => {
+    beforeEach(() => {
       jest.resetAllMocks();
     });
 
