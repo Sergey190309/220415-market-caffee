@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '../../../testUtils';
 import ElementSwitcher from './ElementSwitcher';
-import { landingPageStructure } from '../../../testContants'
+import { landingPageStructure } from '../../../testConstants'
 import ViewHeader from './ViewHeader';
 import ViewFooter from './ViewFooter';
 import ViewVBlock from './ViewVBlock';

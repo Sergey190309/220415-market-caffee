@@ -40,6 +40,7 @@ export const Landing = ({ getLoadedStructure }) => {
   return (
     <Container data-testid='LandingContainer'>
       <Segment color={viewSegmentColor} data-testid='LandingSegment'>
+        {/* {_output(structure)} */}
         {isEmpty(structure) ? null : _output(structure)}
       </Segment>
     </Container>

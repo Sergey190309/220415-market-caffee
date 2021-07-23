@@ -3,51 +3,55 @@ import React from 'react';
 import { render, screen } from '../../../testUtils';
 // import '@testing-library/jest-dom';
 // import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 
+import store from '../../../redux/store'
 import { Landing } from './Landing';
-import { landingPageStructure } from '../../../testContants';
-import ElementSwitcher from '../view_elements/ElementSwitcher';
+// import { landingPageStructure } from '../../../testConstants';
+// import ElementSwitcher from '../view_elements/ElementSwitcher';
 
-const mockElementSwitcher = ({ structure, viewName, lng }) => {
-  return <div data-testid='ElementSwitcher' />;
-};
-
-jest.mock('../view_elements/ElementSwitcher', () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+jest.mock('../view_elements/ElementSwitcher')
+  // jest.mock('../view_elements/ElementSwitcher', () => ({
+  // __esModule: true,
+//   default: jest.fn(),
+// }));
 
 describe('Landing page testing', () => {
   beforeEach(() => {
-    ElementSwitcher.mockImplementation(mockElementSwitcher);
+    jest.resetAllMocks()
   });
 
-  const testProps = {
-    structureLoaded: true,
-    loadedStructure: landingPageStructure,
-    lng: 'en',
-  };
+  // const testProps = {
+  //   getLoadedStructure: (pageName, structures) => ('getLoadedStructure')
+  // };
 
-  test.only('it should exist and rendered (snapshot)', () => {
-    const result = render(<Landing {...testProps} />);
+  test('it should exist and rendered (snapshot)', () => {
+    const result = render(
+      <Provider store={store}>
+        <Landing  />
+      </Provider>
+    );
     expect(result).toMatchSnapshot();
   });
   describe('appearance, rendering child with proper props', () => {
     // const keys = Object.keys(testProps['loadedStructure']);
 
-    test('rendering with props (structure)', () => {
-      const { loadedStructure, lng } = testProps
-      const expArgs = {structure: loadedStructure, lng, viewName: 'landing'}
-      render(<Landing {...testProps} />);
-      expect(ElementSwitcher).toHaveBeenCalledTimes(1);
+    test.only('rendering with props (structure)', () => {
+      // const expArgs = {structure: loadedStructure, lng, viewName: 'landing'}
+      render(
+        <Provider store={store}>
+          <Landing />
+        </Provider>
+      );
+      // expect(ElementSwitcher).toHaveBeenCalledTimes(1);
       // console.log('Landing page testing, testProps ->', testProps);
-      expect(ElementSwitcher.mock.calls[0][0]).toEqual(expArgs);
+      // expect(ElementSwitcher.mock.calls[0][0]).toEqual(expArgs);
 
-      const LandingSegment = screen.getByTestId('LandingSegment');
-      expect(LandingSegment).not.toBeEmptyDOMElement()
-      expect(LandingSegment).toHaveClass('segment');
+      // const LandingSegment = screen.getByTestId('LandingSegment');
+      // expect(LandingSegment).not.toBeEmptyDOMElement()
+      // expect(LandingSegment).toHaveClass('segment');
 
-      // screen.debug();
+      screen.debug();
     });
 
     test('rendering witout props (structure)', () => {
