@@ -1,27 +1,21 @@
 // import i18next from 'i18next';
 
-import { techAxiosClient as mockAxios } from '../../api/apiClient';
+import {
+  techAxiosClient as mockAxios,
+  axiosCommonToken as mockAxiosCommonToken
+} from '../../api/apiClient';
 import {
   resolveDataTechInPost as mockResolveDataPost,
   resolveDataTechInGet as mockResolveDataGet
 } from '../../testAxiosConstants'
-import { initialState, setTestState, startInitLoading, startTechIn } from './tech'
+import { initialState, setTestState, startInitLoading, startTechIn, techInSuccess } from './tech'
 import store from '../store'
 
-// import { setI18next } from '../../l10n/i18n'
-jest.mock('../../api/apiClient');
-
+jest.mock('../../api/apiClient', () => ({
+  __esModule: true,
+  axiosCommonToken: jest.fn()
+}));
 jest.mock('../../l10n/i18n')
-
-// jest.mock('react-i18next', () => ({
-//   useTranslation: () => ({
-//     t: key => key,
-//     i18n: {
-//       changeLanguage: jest.fn(),
-//     },
-//   }),
-// }));
-
 
 describe('Tech slice testing', () => {
   afterAll(() => {
@@ -42,11 +36,20 @@ describe('Tech slice testing', () => {
     expect(state).toEqual(expState);
 
     store.dispatch(setTestState({techLoaded: true}))
-    // store.dispatch(startTechIn('mockV4'))
+    store.dispatch(startTechIn('mockV4'))
     state = store.getState().tech
-    expState = { ...expState, loading: true, loaded: false }
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state ->', state)
+    const mockPayload='mockPayload'
+    store.dispatch(techInSuccess(mockPayload))
+    state = store.getState().tech
+    expect(mockAxiosCommonToken).toHaveBeenCalledTimes(1);
+    expect(mockAxiosCommonToken).toHaveBeenCalledWith(mockPayload);
+    expState = { ...expState }
+
+    expect(state).toEqual(expState);
+
+
+    console.log('tech slice testing, state  ->', state)
   });
 });
