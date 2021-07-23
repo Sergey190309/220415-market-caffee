@@ -5,7 +5,7 @@ import {
   resolveDataTechInPost as mockResolveDataPost,
   resolveDataTechInGet as mockResolveDataGet
 } from '../../testAxiosConstants'
-import { initialState, startInitLoading } from './tech'
+import { initialState, setTestState, startInitLoading, startTechIn } from './tech'
 import store from '../store'
 
 // import { setI18next } from '../../l10n/i18n'
@@ -37,9 +37,16 @@ describe('Tech slice testing', () => {
     expect(state).toEqual(expState);
 
     store.dispatch(startInitLoading())
-    // expState = { ...expState, loading: true, loaded: false }
-    // expect(state).toEqual(expState);
     state = store.getState().tech
+    expState = { ...expState, loading: true, loaded: false }
+    expect(state).toEqual(expState);
+
+    store.dispatch(setTestState({techLoaded: true}))
+    // store.dispatch(startTechIn('mockV4'))
+    state = store.getState().tech
+    expState = { ...expState, loading: true, loaded: false }
+    expect(state).toEqual(expState);
+
     console.log('tech slice testing, state ->', state)
   });
 });

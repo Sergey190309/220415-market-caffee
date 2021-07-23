@@ -30,7 +30,8 @@ const techSlice = createSlice({
   initialState,
   reducers: {
     setTestState: (state, { payload }) => {
-      state = {...state, ...payload}
+      // state = {...state, ...payload}
+      Object.assign(state, payload)
     },
     startInitLoading: state => {
       // console.log('techSlice, startInitLoading');
