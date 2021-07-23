@@ -1,13 +1,5 @@
 import { v4 } from 'uuid';
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
-// import {
-  // LNGS_FAIL,
-  // START_LNGS,
-  // STRUCTURE_START,
-  // START_TECH_IN,
-  // TECH_IN_FAIL,
-  // TECH_IN_SUCCESS,
-// } from '../constants/type_s';
 import { i18nSuccess, initLoadingSuccess, lngsFail, lngsSuccess, startI18n, startLngs, techInFail, techInSuccess, structureStart } from '../slices';
 import { recordSaga } from '../../testUtils';
 import {
@@ -17,9 +9,6 @@ import {
   i18nWorker,
 } from './tech';
 import * as i18n from '../../l10n/i18n';
-// import { techAxiosClient } from '../../api/apiClient';
-
-// jest.mock('../../api/apiClient', () => ({ axiosCommonToken: jest.fn() }));
 
 describe('Tech sagas tesing', () => {
   describe('Tech in testing', () => {
@@ -46,7 +35,6 @@ describe('Tech sagas tesing', () => {
     test('tech in success', async () => {
       mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
       const initialAction = {
-        // type: LOG_IN_START,
         payload: mockTechInData,
       };
       const expDispatch00 = {
@@ -54,7 +42,7 @@ describe('Tech sagas tesing', () => {
         payload: mockResolveData.payload,
       };
       const expDispatch01 = {
-        type: structureStart.Type,
+        type: structureStart.type,
       };
       const expDispatch02 = {
         type: startLngs.type,
@@ -74,13 +62,8 @@ describe('Tech sagas tesing', () => {
     test('tech in fail', async () => {
       mockAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }));
       const initialAction = {
-        // type: LOG_IN_START,
         payload: mockTechInData,
       };
-      // const expDispatch = {
-      //   type: TECH_IN_SUCCESS,
-      //   payload: mockResolveData.payload
-      // }
       const dispatched = await recordSaga(techInFetch, initialAction);
       expect(mockAxios.post).toHaveBeenCalledTimes(1);
       expect(mockAxios.post.mock.calls[0][0]).toBe('/home/tech/auth');
@@ -90,9 +73,6 @@ describe('Tech sagas tesing', () => {
       expect(type).toBe(techInFail.type);
       expect(payload).toBeObject();
       expect(payload).toContainKeys(['data']);
-
-      // expect(dispatched[0]).toEqual(expDispatch);
-
       // console.log('tech in fail, dispatched ->', dispatched)
     });
   });
