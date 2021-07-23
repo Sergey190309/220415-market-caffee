@@ -15,19 +15,20 @@ import {
 import store from '../store';
 import { TECH_TOKEN } from '../constants/localStorageVariables';
 
-jest.mock('../../api/apiClient', () => ({
-  __esModule: true,
-  axiosCommonToken: jest.fn(),
-  techAxiosClient: {
-    post: () => Promise.resolve(mockResolveDataPost),
-    get: () => Promise.resolve(mockResolveDataGet),
-    defaults: {
-      headers: {
-        common: ['Authorization']
-      },
-    },
-  },
-}));
+jest.mock('../../api/apiClient')
+// jest.mock('../../api/apiClient', () => ({
+//   __esModule: true,
+//   axiosCommonToken: jest.fn(),
+//   techAxiosClient: {
+//     post: () => Promise.resolve(mockResolveDataPost),
+//     get: () => Promise.resolve(mockResolveDataGet),
+//     defaults: {
+//       headers: {
+//         common: ['Authorization']
+//       },
+//     },
+//   },
+// }));
 
 jest.mock('../../l10n/i18n');
 
