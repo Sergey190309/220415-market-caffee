@@ -8,11 +8,12 @@ import {
 import { initialState, startInitLoading } from './tech'
 import store from '../store'
 
+// import { setI18next } from '../../l10n/i18n'
 jest.mock('../../api/apiClient');
 
+jest.mock('../../l10n/i18n')
+
 // jest.mock('react-i18next', () => ({
-//   use: jest.fn(),
-//   languages: ['en', 'ru'],
 //   useTranslation: () => ({
 //     t: key => key,
 //     i18n: {
