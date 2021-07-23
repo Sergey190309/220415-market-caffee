@@ -32,7 +32,7 @@ const techSlice = createSlice({
     setTestState: (state, { payload }) => {
       Object.assign(state, payload)
     },
-    startInitLoading: state => {
+    startInitLoading: state => {  // tested
       // console.log('techSlice, startInitLoading');
       state.loading = true;
       state.loaded = false;
