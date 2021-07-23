@@ -1,44 +1,42 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
+import store from '../../redux/store'
 import { ModalLogIn, onCloseHandle } from './ModalLogIn';
+import { openModal } from '../../redux/slices';
 
 describe('ModalLogIn testing', () => {
   describe('Not react components', () => {
     test('onCloseHandle function testing', () => {
-      const setModalClosed = jest.fn()
-      const setOpen = jest.fn()
-      onCloseHandle(setModalClosed, setOpen)
-      expect(setModalClosed).toHaveBeenCalledTimes(1);
+      const dispatch = jest.fn();
+      const closeModal = jest.fn(() => 'closeModal');
+      const setOpen = jest.fn();
+      onCloseHandle(dispatch, closeModal, setOpen);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith('closeModal');
+      expect(closeModal).toHaveBeenCalledTimes(1);
       expect(setOpen).toHaveBeenCalledWith(false);
-    })
-
-  })
+    });
+  });
 
   describe('Appiance', () => {
-    test('ModalLogIn exists and has some attributes', () => {
+    test('ModalLogIn exists (snapshot)', () => {
       const testProps = {
-        kindOfModal: 'Loading',
         setModalClosed: jest.fn(),
-        onCloseHandle: jest.fn()
-      }
+        onCloseHandle: jest.fn(),
+      };
+      store.dispatch(openModal('somthing'))
       render(
-        <BrowserRouter>
+        <Provider store={store}>
           <ModalLogIn {...testProps} />
-        </BrowserRouter>
+        </Provider>
       );
       // screen.debug()
-      const modalItem = screen.getByTestId('modal')
-      // // console.log(modalItem.className)
-      expect(modalItem.className).toContain('ui');
-      expect(modalItem.className).toContain('small');
-      expect(modalItem.className).toContain('basic');
-      expect(modalItem.className).toContain('modal');
-      expect(modalItem.className).toContain('transition');
-      expect(modalItem.className).toContain('visible');
-      expect(modalItem.className).toContain('active');
-
+      const modalItem = screen.getByTestId('modal');
+      expect(modalItem).toMatchSnapshot();
+      // screen.debug()
     });
   });
 });

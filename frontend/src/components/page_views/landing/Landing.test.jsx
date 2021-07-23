@@ -28,7 +28,7 @@ describe('Landing page testing', () => {
     lng: 'en',
   };
 
-  test('it should exist and rendered (snapshot)', () => {
+  test.only('it should exist and rendered (snapshot)', () => {
     const result = render(<Landing {...testProps} />);
     expect(result).toMatchSnapshot();
   });
