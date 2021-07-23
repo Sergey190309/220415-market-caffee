@@ -51,6 +51,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
 
 export const setI18next = lngs => {
   const lngsToAdd = [];
+  console.log('setI18next, i18next.languages ->', i18next.lngs);
   lngs.forEach(value => {
     if (!i18next.languages.includes(value)) {
       // if (!i18next.options.supportedLngs.includes(value)) {
@@ -61,7 +62,6 @@ export const setI18next = lngs => {
     i18next.languages.push(value);
   });
 
-  // console.log('setI18next, i18next.languages ->', i18next.languages);
   // console.log(
   //   'setI18next, i18next.options.supportedLngs, before ->',
   //   i18next.options.supportedLngs
