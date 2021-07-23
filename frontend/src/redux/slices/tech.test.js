@@ -124,7 +124,7 @@ describe('Tech slice testing', () => {
       })
     );
     state = store.getState().tech;
-    console.log('tech slice testing, state before ->', state);
+    console.log('tech slice testing, state before  ->', state);
     store.dispatch(startI18n());
     state = store.getState().tech;
     // expect(state).toEqual(expState);

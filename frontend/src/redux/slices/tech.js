@@ -68,7 +68,7 @@ const techSlice = createSlice({
       state.loading = false
     },
     startI18n: state => {
-      console.log('techSlice, startI18n, state before ->', state)
+      // console.log('techSlice, startI18n, state before ->', state)
       state.i18nLoaded = false
       state.loading = true
     },
