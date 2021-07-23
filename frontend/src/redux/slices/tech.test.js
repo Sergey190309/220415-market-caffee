@@ -64,6 +64,6 @@ describe('Tech slice testing', () => {
 
     expect(state).toEqual(expState);
 
-    console.log('tech slice testing, state  ->', state);
+    console.log('tech slice testing, state ->', state);
   });
 });
