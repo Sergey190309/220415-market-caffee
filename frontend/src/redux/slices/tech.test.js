@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+// import i18next from 'i18next';
 
 import { techAxiosClient as mockAxios } from '../../api/apiClient';
 import {
@@ -29,7 +29,7 @@ describe('Tech slice testing', () => {
 
 
   });
-  test('state testing', async () => {
+  test('state testing', () => {
     mockAxios.post.mockImplementation(() => Promise.resolve( mockResolveDataPost ));
     mockAxios.get.mockImplementation(() => Promise.resolve( mockResolveDataGet ));
     let state = store.getState().tech
@@ -39,7 +39,7 @@ describe('Tech slice testing', () => {
     store.dispatch(startInitLoading())
     // expState = { ...expState, loading: true, loaded: false }
     // expect(state).toEqual(expState);
-
-    console.log('tech slice testing, state  ->', state)
+    state = store.getState().tech
+    console.log('tech slice testing, state ->', state)
   });
 });
