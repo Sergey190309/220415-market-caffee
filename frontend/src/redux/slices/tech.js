@@ -41,29 +41,29 @@ const techSlice = createSlice({
       state.loading = false;
       state.loaded = true;
     },
-    startTechIn: state => {
+    startTechIn: state => {  // tested
       state.techLoaded = false;
     },
-    techInSuccess: (state, { payload }) => {
+    techInSuccess: (state, { payload }) => {  // tested
       // console.log('tech slicer, techInSuccess, payload ->', payload);
       axiosCommonToken(payload);
       localStorage.setItem(TECH_TOKEN, payload);
       state.techLoaded = true
       state.techToken= payload
     },
-    techInFail: state => {
+    techInFail: state => {  // tested
       localStorage.removeItem(TECH_TOKEN);
       state.techLoaded = false
       state.techToken = null
       state.loading = false
     },
-    startLngs: state => {
+    startLngs: state => {  // tested
       state.lngsLoaded = false
     },
-    lngsSuccess: state => {
+    lngsSuccess: state => {  // tested
       state.lngsLoaded = true
     },
-    lngsFail: state => {
+    lngsFail: state => {  // tested
       state.lngsLoaded = false
       state.loading = false
     },
