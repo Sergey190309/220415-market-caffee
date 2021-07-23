@@ -10,16 +10,16 @@ import store from '../store'
 
 jest.mock('../../api/apiClient');
 
-jest.mock('react-i18next', () => ({
-  use: jest.fn(),
-  languages: ['en', 'ru'],
-  useTranslation: () => ({
-    t: key => key,
-    i18n: {
-      changeLanguage: jest.fn(),
-    },
-  }),
-}));
+// jest.mock('react-i18next', () => ({
+//   use: jest.fn(),
+//   languages: ['en', 'ru'],
+//   useTranslation: () => ({
+//     t: key => key,
+//     i18n: {
+//       changeLanguage: jest.fn(),
+//     },
+//   }),
+// }));
 
 
 describe('Tech slice testing', () => {
@@ -39,7 +39,7 @@ describe('Tech slice testing', () => {
     // console.log('tech slice testing, i18next ->', i18next)
   });
   test('state testing', async () => {
-    console.log('tech slice testing, i18next.use ->', i18next)
+    // console.log('tech slice testing, i18next.use ->', i18next)
     // console.log('tech slice testing, i18next.use ->', i18next.use())
     mockAxios.post.mockImplementation(() => Promise.resolve( mockResolveDataPost ));
     mockAxios.get.mockImplementation(() => Promise.resolve( mockResolveDataGet ));

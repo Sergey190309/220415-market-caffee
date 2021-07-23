@@ -18,7 +18,7 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-describe('NavBar testing', () => {
+describe.only('NavBar testing', () => {
   describe('non react elements', () => {
     describe('clickHandling function testing', () => {
       const activateItems = ['logo', 'priceList', 'pictures', 'private', 'admin'];
