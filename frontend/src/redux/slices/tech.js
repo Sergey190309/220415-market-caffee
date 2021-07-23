@@ -29,6 +29,9 @@ const techSlice = createSlice({
   name: 'tech',
   initialState,
   reducers: {
+    setTestState: (state, { payload }) => {
+      state = {...state, ...payload}
+    },
     startInitLoading: state => {
       // console.log('techSlice, startInitLoading');
       state.loading = true;
@@ -82,6 +85,7 @@ const techSlice = createSlice({
 });
 
 export const {
+  setTestState,
   startInitLoading,
   initLoadingSuccess,
   startTechIn,
