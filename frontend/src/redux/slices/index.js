@@ -37,6 +37,7 @@ export {
 export { deviceSelector, setDeviceSize, openModal, closeModal } from './device';
 export { lngSwitch, lngSelector } from './lng';
 export {
+  setState,
   structureSelector,
   structureStart,
   structureSuccess,
