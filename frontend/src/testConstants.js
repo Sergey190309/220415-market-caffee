@@ -47,7 +47,8 @@ const pictures = {
 
 const admin = {};
 
-export const structures = [{ landing }, { pictures }, { admin }];
+export const structuresArr = [{ landing }, { pictures }, { admin }];
+export const structuresObj = { landing, pictures, admin };
 
 // ==================================================================================
 export const regularUserPayload = {

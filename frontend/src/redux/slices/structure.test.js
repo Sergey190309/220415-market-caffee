@@ -6,7 +6,7 @@ import {
   structureFail,
 } from './structure';
 
-import { structures } from '../../testConstants';
+import { structuresArr } from '../../testConstants';
 
 describe('structure testing', () => {
   test('state testing', () => {
@@ -17,10 +17,10 @@ describe('structure testing', () => {
     state = store.getState().structure;
     expect(state).toEqual({ ...initialState, loading: true });
 
-    store.dispatch(structureSuccess(structures));
+    store.dispatch(structureSuccess(structuresArr));
     state = store.getState().structure;
     let expState = { loading: false, loaded: true };
-    structures.forEach(structure => Object.assign(expState, structure));
+    structuresArr.forEach(structure => Object.assign(expState, structure));
     expect(state).toEqual(expState);
 
     store.dispatch(structureFail());

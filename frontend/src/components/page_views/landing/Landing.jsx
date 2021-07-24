@@ -12,11 +12,10 @@ import { viewSegmentColor } from '../../../utils/colors';
 export const getLoadedStructure = (pageName, structures) => {
   /**
    * The function created for testing.
-   * Reciev all structures, return one that corresspong to component name
+   * Recieve all structures, return one that correspond to the component name
    */
   const { [pageName]: value } = structures;
-  console.log('Landing, getLoadedStructure, pageName ->', pageName)
-  console.log('Landing, getLoadedStructure, value ->', value)
+  // console.log('Landing, getLoadedStructure, value ->', value)
   return value;
 };
 

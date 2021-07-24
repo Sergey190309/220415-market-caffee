@@ -31,11 +31,12 @@ describe('Landing page testing', () => {
 
   describe('Pure function testing', () => {
     test.only('getLoadedStructure testing, page view name is correct', () => {
-      const pageViewNames = structures.map(item=>Object.keys(item)[0])
-      pageViewNames.forEach(item => {
-        // const result = getLoadedStructure(item, structures)
-        console.log('Landing getLoadedStructure testing, result ->', result)
-      })
+      const result = getLoadedStructure('admin', structures)
+      console.log('Landing getLoadedStructure testing, result ->', result)
+      const pageViewNames = structures.map(item => Object.keys(item)[0])
+      // pageViewNames.forEach(item => {
+      //   const result = getLoadedStructure(item, structures)
+      // })
     })
 
   });
