@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import store from '../../../redux/store';
 import Landing, { getLoadedStructure } from './Landing';
-import { lngSwitch, setState, structureSuccess } from '../../../redux/slices';
+import { lngSwitch, structureSetState, structureSuccess } from '../../../redux/slices';
 import { structuresArr, structuresObj } from '../../../testConstants';
 // import { landingPageStructure } from '../../../testConstants';
 // import { ElementSwitcher } from '../view_elements/ElementSwitcher';
@@ -80,7 +80,7 @@ describe('Landing page testing', () => {
     });
 
     test('rendering witout props (structure)', () => {
-      store.dispatch(setState());
+      store.dispatch(structureSetState());
       render(
         <Provider store={store}>
           <Landing />

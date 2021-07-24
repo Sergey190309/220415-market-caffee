@@ -7,7 +7,7 @@ import {
   setState,
 } from './structure';
 
-import { structuresArr, structuresObj } from '../../testConstants';
+import { structuresArr } from '../../testConstants';
 
 describe('structure state testing', () => {
   let state = store.getState().structure;
@@ -35,6 +35,6 @@ describe('structure state testing', () => {
     store.dispatch(structureFail());
     state = store.getState().structure;
     // expect(state).toEqual(initialState);
-    console.log('state testing, state ->', state);
+    // console.log('state testing, state ->', state);
   });
 });
