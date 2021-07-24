@@ -80,6 +80,7 @@ describe('Landing page testing', () => {
     });
 
     test('rendering witout props (structure)', () => {
+      store.dispatch(structure);
       render(
         <Provider store={store}>
           <Landing />

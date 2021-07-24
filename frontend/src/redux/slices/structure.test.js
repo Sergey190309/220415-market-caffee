@@ -6,7 +6,7 @@ import {
   structureFail,
 } from './structure';
 
-import { structuresArr } from '../../testConstants';
+import { structuresArr, structuresObj } from '../../testConstants';
 
 describe('structure testing', () => {
   test('state testing', () => {
