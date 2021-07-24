@@ -22,13 +22,13 @@ const structureSlice = createSlice({
     },
     structureSuccess: (state, { payload }) => {
       let structures = {};
-      // console.log('structureSlice, structureSuccess, payload ->', payload)
       payload.forEach(structure => {
         structures = { ...structures, ...structure };
       });
       Object.assign(state, structures, { loaded: true, loading: false });
     },
     structureFail: state => {
+      console.log('structureSlice, structureFail, state ->', state)
       Object.keys(state).forEach(key => {
         if (!['loading', 'loaded'].includes(key)) {
           delete state[key];
