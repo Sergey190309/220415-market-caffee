@@ -14,7 +14,9 @@ const structureSlice = createSlice({
       /**
        * for testing
        */
-      Object.assign(state, {});
+      Object.keys(state).forEach(key => {
+        delete state[key]
+      })
       Object.assign(state, payload);
     },
     structureStart: state => {
@@ -29,14 +31,11 @@ const structureSlice = createSlice({
       Object.assign(state, structures, { loaded: true, loading: false });
     },
     structureFail: state => {
-      console.log('structureSlice, structureFail, state ->', state)
       Object.keys(state).forEach(key => {
-        if (!['loading', 'loaded'].includes(key)) {
-          delete state[key];
-        }
-      });
+        delete state[key]
+      })
       Object.assign(state, initialState);
-      console.log('structureSlice, structureFail, state ->', state)
+      // console.log('structureSlice, structureFail, state ->', state)
     },
   },
 });
