@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 import store from '../../../redux/store';
 import Landing, { getLoadedStructure } from './Landing';
-import { lngSwitch, structureSuccess } from '../../../redux/slices';
+import { lngSwitch, setState, structureSuccess } from '../../../redux/slices';
 import { structuresArr, structuresObj } from '../../../testConstants';
 // import { landingPageStructure } from '../../../testConstants';
 // import { ElementSwitcher } from '../view_elements/ElementSwitcher';
@@ -46,7 +46,7 @@ describe('Landing page testing', () => {
       pageViewNames.forEach(item => {
         const result = getLoadedStructure(item, structuresObj)
         expect(result).toEqual(structuresObj[item]);
-        console.log('Landing getLoadedStructure testing, item ->', item)
+        // console.log('Landing getLoadedStructure testing, item ->', item)
       })
     })
     test('getLoadedStructure testing, page view name is NOT correct', () => {
@@ -80,7 +80,7 @@ describe('Landing page testing', () => {
     });
 
     test('rendering witout props (structure)', () => {
-      store.dispatch(structure);
+      store.dispatch(setState());
       render(
         <Provider store={store}>
           <Landing />
@@ -93,6 +93,6 @@ describe('Landing page testing', () => {
       expect(LandingSegment).toBeEmptyDOMElement();
       expect(LandingSegment).toHaveClass('segment');
       // screen.debug();
-});
+    });
   });
 });
