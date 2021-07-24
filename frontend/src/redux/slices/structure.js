@@ -9,6 +9,9 @@ const structureSlice = createSlice({
   name: 'structure',
   initialState,
   reducers: {
+    structureStateReset: state => {
+      Object.assign(state, {loading: false,loaded: false,})
+    },
     structureStart: state => {
       state.loading = true;
       state.loaded = false;

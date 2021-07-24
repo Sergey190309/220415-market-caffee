@@ -7,8 +7,8 @@ import { Provider } from 'react-redux';
 
 import store from '../../../redux/store';
 import Landing, { getLoadedStructure } from './Landing';
-import { structureSuccess } from '../../../redux/slices';
-import { structures } from '../../../testConstants';
+import { lngSwitch, structureSuccess } from '../../../redux/slices';
+import { structuresArr, structuresObj } from '../../../testConstants';
 // import { landingPageStructure } from '../../../testConstants';
 // import { ElementSwitcher } from '../view_elements/ElementSwitcher';
 
@@ -29,19 +29,8 @@ describe('Landing page testing', () => {
   //   getLoadedStructure: (pageName, structures) => ('getLoadedStructure')
   // };
 
-  describe('Pure function testing', () => {
-    test.only('getLoadedStructure testing, page view name is correct', () => {
-      const result = getLoadedStructure('admin', structures)
-      console.log('Landing getLoadedStructure testing, result ->', result)
-      const pageViewNames = structures.map(item => Object.keys(item)[0])
-      // pageViewNames.forEach(item => {
-      //   const result = getLoadedStructure(item, structures)
-      // })
-    })
-
-  });
   test('it should exist and rendered (snapshot)', () => {
-    store.dispatch(structureSuccess(structures));
+    store.dispatch(structureSuccess(structuresArr));
     const {container} = render(
       <Provider store={store}>
         <Landing />
@@ -49,27 +38,45 @@ describe('Landing page testing', () => {
     );
     expect(container).toMatchSnapshot();
   });
+
+  describe('Pure function testing', () => {
+    test('getLoadedStructure testing, page view name is correct', () => {
+      // const result = getLoadedStructure('admin', structuresObj)
+      const pageViewNames = Object.keys(structuresObj)
+      pageViewNames.forEach(item => {
+        const result = getLoadedStructure(item, structuresObj)
+        expect(result).toEqual(structuresObj[item]);
+        console.log('Landing getLoadedStructure testing, item ->', item)
+      })
+    })
+    test('getLoadedStructure testing, page view name is NOT correct', () => {
+      // const result = getLoadedStructure('admin', structuresObj)
+      const result = getLoadedStructure('wrongPageName', structuresObj)
+      expect(result).toEqual({});
+    })
+
+  });
   describe('appearance, rendering child with proper props', () => {
     // const keys = Object.keys(testProps['loadedStructure']);
 
     test('rendering with props (structure)', () => {
       // const expArgs = {structure: loadedStructure, lng, viewName: 'landing'}
-      store.dispatch(structureSuccess(structures));
+      const lng = 'llll'
+      store.dispatch(structureSuccess(structuresArr));
+      store.dispatch(lngSwitch(lng));
 
       render(
         <Provider store={store}>
           <Landing />
         </Provider>
       );
-      // expect(ElementSwitcher).toHaveBeenCalledTimes(1);
-      // console.log('Landing page testing, ElementSwitcher ->', ElementSwitcher.mock.calls[0][0]);
-      // expect(ElementSwitcher.mock.calls[0][0]).toEqual(expArgs);
-
-      // const LandingSegment = screen.getByTestId('LandingSegment');
-      // expect(LandingSegment).not.toBeEmptyDOMElement()
-      // expect(LandingSegment).toHaveClass('segment');
-
-      // screen.debug();
+      const LandingSegment = screen.getByTestId('LandingSegment')
+      const ElementSwitcher = screen.getByTestId('ElementSwitcher')
+      expect(LandingSegment).not.toBeEmptyDOMElement()
+      expect(ElementSwitcher).toHaveTextContent('ElementSwitcher')
+      expect(ElementSwitcher).toHaveTextContent(JSON.stringify(structuresObj.landing))
+      expect(ElementSwitcher).toHaveTextContent('landing')
+      expect(ElementSwitcher).toHaveTextContent(lng)
     });
 
     test('rendering witout props (structure)', () => {
@@ -82,9 +89,9 @@ describe('Landing page testing', () => {
       expect(landingContainer).toHaveClass('container');
 
       const LandingSegment = screen.getByTestId('LandingSegment');
-      // expect(LandingSegment).toBeEmptyDOMElement();
+      expect(LandingSegment).toBeEmptyDOMElement();
       expect(LandingSegment).toHaveClass('segment');
-      // console.log('landing page testing, LandingSegment ->', LandingSegment)
-    });
+      // screen.debug();
+});
   });
 });

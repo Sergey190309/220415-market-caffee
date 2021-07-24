@@ -16,7 +16,7 @@ export const getLoadedStructure = (pageName, structures) => {
    */
   const { [pageName]: value } = structures;
   // console.log('Landing, getLoadedStructure, value ->', value)
-  return value;
+  return value? value: {};
 };
 
 export const Landing = ({ getLoadedStructure }) => {
