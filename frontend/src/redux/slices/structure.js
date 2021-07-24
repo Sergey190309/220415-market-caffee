@@ -35,6 +35,7 @@ const structureSlice = createSlice({
         }
       });
       Object.assign(state, initialState);
+      console.log('structureSlice, structureFail, state ->', state)
     },
   },
 });
