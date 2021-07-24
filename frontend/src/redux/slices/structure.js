@@ -6,14 +6,13 @@ export const initialState = {
 };
 
 const structureSlice = createSlice({
+  /**
+   * All reducers are propely tested.
+   */
   name: 'structure',
   initialState,
   reducers: {
     setState: (state, { payload }) => {
-      // tested
-      /**
-       * for testing
-       */
       Object.keys(state).forEach(key => {
         delete state[key]
       })
