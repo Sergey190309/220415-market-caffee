@@ -15,7 +15,8 @@ export const getLoadedStructure = (pageName, structures) => {
    * Reciev all structures, return one that corresspong to component name
    */
   const { [pageName]: value } = structures;
-  // console.log('Landing, getLoadedStructure, value ->', value)
+  console.log('Landing, getLoadedStructure, pageName ->', pageName)
+  console.log('Landing, getLoadedStructure, value ->', value)
   return value;
 };
 
