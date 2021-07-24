@@ -9,7 +9,7 @@ const structureSlice = createSlice({
   name: 'structure',
   initialState,
   reducers: {
-    structureSetState: (state, { payload }) => {
+    setState: (state, { payload }) => {
       // for testing
       Object.assign(state, payload);
     },
