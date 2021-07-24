@@ -5,20 +5,24 @@ import { render, screen } from '../../../testUtils';
 // import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 
-import store from '../../../redux/store'
+import store from '../../../redux/store';
 import { Landing } from './Landing';
+import { structureSuccess } from '../../../redux/slices';
+import { structures } from '../../../testConstants';
 // import { landingPageStructure } from '../../../testConstants';
-// import ElementSwitcher from '../view_elements/ElementSwitcher';
+import { ElementSwitcher } from '../view_elements/ElementSwitcher';
 
-jest.mock('../view_elements/ElementSwitcher')
-  // jest.mock('../view_elements/ElementSwitcher', () => ({
-  // __esModule: true,
+jest.mock('../view_elements/ElementSwitcher');
+// jest.mock('../view_elements/ElementSwitcher', () => ({
+// __esModule: true,
 //   default: jest.fn(),
 // }));
 
 describe('Landing page testing', () => {
+  // let ElementSwitcherSpy;
   beforeEach(() => {
-    jest.resetAllMocks()
+    jest.resetAllMocks();
+    // ElementSwitcherSpy = jest.spyOn(ElementSwitcher, 'ElementSwitcher');
   });
 
   // const testProps = {
@@ -28,7 +32,7 @@ describe('Landing page testing', () => {
   test('it should exist and rendered (snapshot)', () => {
     const result = render(
       <Provider store={store}>
-        <Landing  />
+        <Landing />
       </Provider>
     );
     expect(result).toMatchSnapshot();
@@ -38,13 +42,15 @@ describe('Landing page testing', () => {
 
     test.only('rendering with props (structure)', () => {
       // const expArgs = {structure: loadedStructure, lng, viewName: 'landing'}
+      store.dispatch(structureSuccess(structures));
+
       render(
         <Provider store={store}>
           <Landing />
         </Provider>
       );
       // expect(ElementSwitcher).toHaveBeenCalledTimes(1);
-      // console.log('Landing page testing, testProps ->', testProps);
+      console.log('Landing page testing, ElementSwitcher ->', ElementSwitcher.mock.calls[0][0]);
       // expect(ElementSwitcher.mock.calls[0][0]).toEqual(expArgs);
 
       // const LandingSegment = screen.getByTestId('LandingSegment');

@@ -1,9 +1,8 @@
-const ElementSwitcher = ({ structure, viewName, lng }) => {
+const ElementSwitcher = ({ viewName, structure, lng }) => {
+  // console.log('mockElementSwitcher, viewName ->', viewName)
   return (
-
     <div data-testid='ElementSwitcher'>
       ElementSwitcher
-      {structure}
       {viewName}
       {lng}
     </div>

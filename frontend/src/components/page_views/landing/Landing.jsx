@@ -15,6 +15,7 @@ export const getLoadedStructure = (pageName, structures) => {
    * Reciev all structures, return one that corresspong to component name
    */
   const { [pageName]: value } = structures;
+  // console.log('Landing, getLoadedStructure, value ->', value)
   return value;
 };
 
@@ -32,15 +33,14 @@ export const Landing = ({ getLoadedStructure }) => {
     }
   }, [loaded, getLoadedStructure, componentName, loadedStructures]);
 
+  // console.log('Landing, structure->', structure)
   const _output = structure => {
     return <ElementSwitcher viewName={componentName} structure={structure} lng={lng} />;
   };
-  // console.log('Landing, loadedStructure ->', loadedStructure)
 
   return (
     <Container data-testid='LandingContainer'>
       <Segment color={viewSegmentColor} data-testid='LandingSegment'>
-        {/* {_output(structure)} */}
         {isEmpty(structure) ? null : _output(structure)}
       </Segment>
     </Container>
