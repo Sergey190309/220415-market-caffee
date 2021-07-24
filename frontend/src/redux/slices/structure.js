@@ -10,7 +10,10 @@ const structureSlice = createSlice({
   initialState,
   reducers: {
     setState: (state, { payload }) => {
-      // for testing
+      // tested
+      /**
+       * for testing
+       */
       Object.assign(state, payload);
     },
     structureStart: state => {
@@ -31,12 +34,12 @@ const structureSlice = createSlice({
           delete state[key];
         }
       });
-      state.loading = false;
-      state.loaded = false;
+      Object.assign(state, initialState);
     },
   },
 });
 
-export const {setState, structureStart, structureSuccess, structureFail } = structureSlice.actions;
+export const { setState, structureStart, structureSuccess, structureFail } =
+  structureSlice.actions;
 export const structureSelector = state => state.structure;
 export default structureSlice.reducer;
