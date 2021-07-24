@@ -14,6 +14,7 @@ const structureSlice = createSlice({
       /**
        * for testing
        */
+      Object.assign(state, {});
       Object.assign(state, payload);
     },
     structureStart: state => {
