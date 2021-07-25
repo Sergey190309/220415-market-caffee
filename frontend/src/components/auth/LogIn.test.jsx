@@ -123,6 +123,7 @@ describe('LogIn component testing', () => {
 
     describe('buttons behavior', () => {
       test.only('login', async () => {
+        // const dispatch = jest.fn()
         render(
           <Provider store={store}>
             <LogIn {...testProps} />
@@ -131,9 +132,10 @@ describe('LogIn component testing', () => {
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
-          expect(testProps.logInStart).toHaveBeenCalledTimes(0);
+          // expect(dispatch).toHaveBeenCalledTimes(1);
+          expect(testProps.logInStart).toHaveBeenCalledTimes(1);
           // console.log(testProps.logInStart.mock.calls[0][0]);
-          expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
+          // expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
