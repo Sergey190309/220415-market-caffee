@@ -27,13 +27,49 @@ jest.mock('../../api/apiClient');
 // }));
 
 describe('Auth slicer testing', () => {
+  const emptyState = {
+    ...notLoggedInfo,
+    isLoggedIn: false,
+    loading: false,
+    isSignedUp: false,
+  };
+  const logInState = {
+    user_name: 'useName',
+    email: 'eMail',
+    isAdmin: false,
+    access_token: 'mockAccessToken',
+    refresh_token: 'mockRefreshToken',
+    isLoggedIn: true,
+    loading: false,
+    isSignedUp: false,
+  };
   beforeAll(() => {
+    localStorage.clear();
     jest.resetAllMocks();
   });
 
-  describe('signUp groupe', () => {
-    test('generation initialState without localStorage', () => {
-      console.log('auth slice, local storage')
+  describe('logIn group', () => {
+    // let state;
+    beforeEach(() => {});
+    test('generation initialState without info in localStorage', () => {
+      const state = store.getState().auth;
+      const expState = { ...emptyState };
+      expect(state).toEqual(expState);
+      // console.log('auth slice, state ->', state);
+    });
+    test('generation initialState with info in localStorage', () => {
+      // localStorage.__STORE__ = { ...logInState };
+      Object.keys(logInState).forEach(key => {
+        localStorage.__STORE__[key] = logInState[key];
+      });
+      // localStorage.__STORE__['test'] = 'test'
+      // const state = store.getState().auth;
+      const state = {...initialState()}
+      // const expState = { ...emptyState };
+      // expect(state).toEqual(expState);
+      console.log('auth slice, state ->', state);
+      console.log('auth slice, localStorage ->', localStorage.__STORE__);
+      // localStorage.getItem()
     });
   });
   test.skip('state testing, signUp', () => {
@@ -112,17 +148,17 @@ describe('Auth slicer testing', () => {
       JSON.stringify(localStored)
     );
 
-    store.dispatch(logInFail())
+    store.dispatch(logInFail());
     expState = {
       ...notLoggedInfo,
       loading: false,
       isSignedUp: false,
       isLoggedIn: false,
-    }
+    };
     state = store.getState().auth;
     expect(state).toEqual(expState);
 
-    store.dispatch(logInSuccess(mockLogInSuccessArgs))  // emulate logged condition
+    store.dispatch(logInSuccess(mockLogInSuccessArgs)); // emulate logged condition
     expState = {
       ...mockLogInSuccessArgs,
       loading: false,
@@ -130,14 +166,14 @@ describe('Auth slicer testing', () => {
       isLoggedIn: true,
     };
     state = store.getState().auth;
-    expect(state).toEqual(expState);  // Check logged condition
-    store.dispatch(logOut())
+    expect(state).toEqual(expState); // Check logged condition
+    store.dispatch(logOut());
     expState = {
       ...notLoggedInfo,
       loading: false,
       isSignedUp: false,
       isLoggedIn: false,
-    }
+    };
     state = store.getState().auth;
     expect(state).toEqual(expState);
 

@@ -26,11 +26,11 @@ export const logInInfo = () => {
   return _localStorage;
 };
 
-export const initialState = {
+export const initialState = () => ({
   ...logInInfo(),
   loading: false,
   isSignedUp: false,
-};
+});
 
 const authSlice = createSlice({
   name: 'auth',
@@ -42,18 +42,18 @@ const authSlice = createSlice({
       })
       Object.assign(state, payload)
     },
-    signUpStart: state => {  // tested
+    signUpStart: state => {
       state.loading = true;
       state.isSignedUp = false;
       state.isLoggedIn = false;
     },
-    signUpSuccess: state => {  // tested
+    signUpSuccess: state => {
       localStorage.removeItem(LOG_IN_INFO);
       state.loading = false;
       state.isSignedUp = true;
       state.isLoggedIn = false;
     },
-    signUpFail: state => {  // tested
+    signUpFail: state => {
       localStorage.removeItem(LOG_IN_INFO);
       Object.assign(state, notLoggedInfo, {
         isSignedUp: false,
@@ -61,26 +61,26 @@ const authSlice = createSlice({
         loading: false,
       });
     },
-    logInStart: state => {  // tested
+    logInStart: state => {
       state.loading = true;
       state.isSignedUp = false;
       state.isLoggedIn = false;
     },
-    logInSuccess: (state, { payload }) => {  // tested
+    logInSuccess: (state, { payload }) => {
       // payload.isAuthenticated = true;
       // console.log('authSlice, logInSuccess, payload ->', payload);
       axiosCommonToken(payload.access_token, authAxiosClient);
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload));
       Object.assign(state, payload, { loading: false, isLoggedIn: true });
     },
-    logInFail: state => {  // tested
+    logInFail: state => {
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: false,
         isLoggedIn: false,
       });
     },
-    logOut: state => {  // tested
+    logOut: state => {
       // console.log('authSlice, logOut')
       localStorage.removeItem(LOG_IN_INFO);
       Object.assign(state, notLoggedInfo, {
