@@ -132,7 +132,7 @@ describe('LogIn component testing', () => {
           closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' })
         }
       })
-      test.only('login', async () => {
+      test('login', async () => {
         // const dispatch = jest.fn()
         render(
           <Provider store={store}>
@@ -144,12 +144,12 @@ describe('LogIn component testing', () => {
         await waitFor(() => {
           // expect(dispatch).toHaveBeenCalledTimes(1);
           expect(actualProps.logInStart).toHaveBeenCalledTimes(1);
-          // console.log(actualProps.logInStart.mock.calls[0][0]);
+          console.log(actualProps.logInStart.mock.calls[0][0]);
           expect(actualProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
-      test('cancel', async () => {
+      test.skip('cancel', async () => {
         // const actualProps = {...testProps, closeModal: jest.fn().mockReturnValue({type: 'device/closeModal'})}
         render(
           <Provider store={store}>
@@ -164,7 +164,7 @@ describe('LogIn component testing', () => {
         // screen.debug()
       });
 
-      test('sign up', async () => {
+      test.skip('sign up', async () => {
         render(
           <Provider store={store}>
             <LogIn {...testProps} />
