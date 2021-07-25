@@ -67,7 +67,7 @@ describe('Auth slicer testing', () => {
       const state = {...initialState()}
       // const expState = { ...emptyState };
       // expect(state).toEqual(expState);
-      console.log('auth slice, state ->', state);
+      console.log('auth slice, state - >', state);
       console.log('auth slice, localStorage ->', localStorage.__STORE__);
       // localStorage.getItem()
     });

@@ -49,7 +49,7 @@ export const LogIn = ({
 
   useEffect(() => {
     if (isLoggedIn) {
-      console.log('useEffect for logout');
+      // console.log('useEffect for logout');
       dispatch(closeModal());
       logInModalClosed();
     }
@@ -127,7 +127,7 @@ export const LogIn = ({
                       content={t('buttons.cancel')}
                       type='button'
                       onClick={() => {
-                        console.log('onClick, closeMocal')
+                        // console.log('onClick, closeMocal')
                         dispatch(closeModal());
                       }}
                     />

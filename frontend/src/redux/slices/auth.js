@@ -34,7 +34,7 @@ export const initialState = () => ({
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: initialState(),
   reducers: {
     setState: (state, { payload }) => {
       Object.keys(state).forEach(key => {
