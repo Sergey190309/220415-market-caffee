@@ -33,11 +33,6 @@ export const logInSchema = t =>
       .required(t('errors.required')),
   });
 
-// export const onSubmit = (formData, logInStart, setSubmitting, dispatch) => {
-//   dispatch(logInStart(formData))
-//   setSubmitting(false)
-// }
-
 export const LogIn = ({
   initValues,
   logInSchema,
@@ -50,12 +45,11 @@ export const LogIn = ({
 }) => {
   // console.log('components, logIn closeModal ->', closeModal())
   const dispatch = useDispatch();
-  // const dispatchCloseModal = useDispatch(closeModal);
   const { isLoggedIn } = useSelector(authSelector);
 
   useEffect(() => {
     if (isLoggedIn) {
-      // console.log('useEffect for logout');
+      console.log('useEffect for logout');
       dispatch(closeModal());
       logInModalClosed();
     }
@@ -63,7 +57,7 @@ export const LogIn = ({
 
   const { t } = useTranslation('login');
 
-  const _onSubmit = (formData, { setSubmitting }) => {
+  const onSubmit = (formData, { setSubmitting }) => {
     // onSubmit(formData, logInStart, setSubmitting, dispatch)
     dispatch(logInStart(formData));
     setSubmitting(false);
@@ -84,7 +78,7 @@ export const LogIn = ({
           <Formik
             initialValues={initValues}
             validationSchema={logInSchema(t)}
-            onSubmit={_onSubmit}>
+            onSubmit={onSubmit}>
             {({ isSubmitting }) => (
               <Form size='large'>
                 <Segment color={positiveColor} stacked>
@@ -132,9 +126,8 @@ export const LogIn = ({
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
-                      // onClick={()=>{dispatchCloseModal()}}
                       onClick={() => {
-                        // dispatchCloseModal();
+                        console.log('onClick, closeMocal')
                         dispatch(closeModal());
                       }}
                     />
