@@ -1,5 +1,6 @@
 import React from 'react';
 // import { BrowserRouter } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   screen,
   connectedLinkedRender,
@@ -8,7 +9,13 @@ import {
 import userEvent from '@testing-library/user-event';
 
 import { LogIn, logInSchema, formStructure } from './LogIn';
-import { useTranslation } from '../../../__mock__/react-i18next';
+// import { useTranslation } from '../../../__mock__/react-i18next';
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: key => key,
+    // i18n: { changeLanguage: jest.fn() },
+  }),
+}));
 
 describe('LogIn component testing', () => {
   const initValues = {
@@ -18,9 +25,10 @@ describe('LogIn component testing', () => {
   const testProps = {
     initValues: initValues,
     logInSchema: jest.fn(),
-    setModalOpened: jest.fn(),
-    setModalClosed: jest.fn(),
-    logInAction: jest.fn(),
+    openModal: jest.fn(),
+    closeModal: jest.fn(),
+    logInStart: jest.fn(),
+    setLoggedInFalse: jest.fn()
   };
   describe('Non react compinent', () => {
     test('form structure', () => {
@@ -91,14 +99,14 @@ describe('LogIn component testing', () => {
     });
 
     describe('buttons behavior', () => {
-      test('login', async () => {
+      test.only('login', async () => {
         connectedLinkedRender(<LogIn {...testProps} />);
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
-          expect(testProps.logInAction).toHaveBeenCalledTimes(1);
-          // console.log(testProps.logInAction.mock.calls[0][0])
-          expect(testProps.logInAction.mock.calls[0][0]).toEqual(initValues);
+          expect(testProps.logInStart).toHaveBeenCalledTimes(1);
+          console.log(testProps.logInAction.mock.calls[0][0])
+          expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
@@ -116,7 +124,7 @@ describe('LogIn component testing', () => {
         const sighUpButton = screen.getByRole('button', { name: 'buttons.signUp' });
         userEvent.click(sighUpButton);
         await waitFor(() => {
-          expect(testProps.setModalOpened).toHaveBeenCalledTimes(1);
+          expect(testProps.openModal).toHaveBeenCalledTimes(1);
           expect(testProps.setModalOpened.mock.calls[0][0]).toEqual('signUp');
         });
       });

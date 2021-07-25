@@ -1,21 +1,20 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
-// import {LOG_IN_START} from '../../redux/actions/types'
 
 import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
-// import {
-  // openModal,
-  // closeModal,
-  // logInAction,
-  // setLoggedInFalse,
-// } from '../../redux/actions';
-import { openModal, closeModal, logInStart, logInModalClosed } from '../../redux/slices';
+import {
+  openModal,
+  closeModal,
+  logInStart,
+  logInModalClosed,
+  authSelector,
+} from '../../redux/slices';
 import Alert from '../layout/Alert';
 
 export const formStructure = {
@@ -40,10 +39,11 @@ export const LogIn = ({
   openModal,
   closeModal,
   logInStart,
-  isLoggedIn,
+  // isLoggedIn,
   setLoggedInFalse,
 }) => {
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector(authSelector);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -180,22 +180,4 @@ LogIn.propTypes = {
   setLoggedInFalse: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
-
-const mapDispatchToProps = dispatch => ({
-  // openModal: kindOfModal => dispatch(openModal(kindOfModal)),
-  // closeModal: () => dispatch(closeModal()),
-  // logInStart: (email, password) => dispatch(logInStart(email, password)),
-  // setLoggedInFalse: () => dispatch(setLoggedInFalse()),
-});
-
-// export default LogIn;
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
-// export default connect(mapStateToProps, {
-//   openModal,
-//   closeModal,
-//   logInAction,
-//   setLoggedInFalse,
-// })(LogIn);
+export default LogIn;
