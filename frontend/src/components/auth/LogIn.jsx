@@ -45,20 +45,21 @@ export const LogIn = ({
   closeModal,
   logInStart,
   // isLoggedIn,
-  setLoggedInFalse,
-  // onSubmit
+  logInModalClosed,
+  // dispatch
 }) => {
+  // console.log('components, logIn closeModal ->', closeModal())
   const dispatch = useDispatch();
   // const dispatchCloseModal = useDispatch(closeModal);
   const { isLoggedIn } = useSelector(authSelector);
 
   useEffect(() => {
     if (isLoggedIn) {
-      // console.log('useEffect for logout')
+      // console.log('useEffect for logout');
       dispatch(closeModal());
-      setLoggedInFalse();
+      logInModalClosed();
     }
-  }, [isLoggedIn, closeModal, setLoggedInFalse, dispatch]);
+  }, [isLoggedIn, closeModal, logInModalClosed, dispatch]);
 
   const { t } = useTranslation('login');
 
@@ -176,7 +177,7 @@ LogIn.defaultProps = {
   openModal: openModal,
   closeModal: closeModal,
   logInStart: logInStart,
-  setLoggedInFalse: logInModalClosed,
+  logInModalClosed: logInModalClosed,
   // onSubmit: onSubmit
 };
 
@@ -186,7 +187,7 @@ LogIn.propTypes = {
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   logInStart: PropTypes.func.isRequired,
-  setLoggedInFalse: PropTypes.func.isRequired,
+  logInModalClosed: PropTypes.func.isRequired,
   // onSubmit: PropTypes.func.isRequired,
 };
 

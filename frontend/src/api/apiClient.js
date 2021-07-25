@@ -22,6 +22,7 @@ export const authAxiosClient = axios.create({
 });
 
 export const axiosCommonLng = lng => {
+  // console.log('apiClient, axiosCommonLng, lng ->', lng)
   techAxiosClient.defaults.headers.common['Accept-Language'] = lng;
   authAxiosClient.defaults.headers.common['Accept-Language'] = lng;
 };

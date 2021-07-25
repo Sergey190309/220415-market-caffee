@@ -29,9 +29,10 @@ describe('LogIn component testing', () => {
     logInSchema: jest.fn(),
     openModal: jest.fn(),
     closeModal: jest.fn(),
+    // closeModal: jest.fn(() => ({ kindOfModal: ''})),
     logInStart: jest.fn(),
-    setLoggedInFalse: jest.fn(),
-    onSubmit: jest.fn()
+    logInModalClosed: jest.fn(),
+    // onSubmit: jest.fn()
   };
   describe('Non react compinent', () => {
     test('form structure', () => {
@@ -123,33 +124,42 @@ describe('LogIn component testing', () => {
     });
 
     describe('buttons behavior', () => {
-      test('login', async () => {
+      let actualProps
+      beforeEach(() => {
+        actualProps = {
+          ...testProps,
+          logInStart: jest.fn().mockReturnValue({ type: 'auth/logInStart' }),
+          closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' })
+        }
+      })
+      test.only('login', async () => {
         // const dispatch = jest.fn()
         render(
           <Provider store={store}>
-            <LogIn {...testProps} />
+            <LogIn {...actualProps} />
           </Provider>
         );
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
           // expect(dispatch).toHaveBeenCalledTimes(1);
-          expect(testProps.logInStart).toHaveBeenCalledTimes(1);
-          // console.log(testProps.logInStart.mock.calls[0][0]);
-          expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
+          expect(actualProps.logInStart).toHaveBeenCalledTimes(1);
+          console.log(actualProps.logInStart.mock.calls[0][0]);
+          expect(actualProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
-      test.only('cancel', async () => {
+      test('cancel', async () => {
+        // const actualProps = {...testProps, closeModal: jest.fn().mockReturnValue({type: 'device/closeModal'})}
         render(
           <Provider store={store}>
-            <LogIn {...testProps} />
+            <LogIn {...actualProps} />
           </Provider>
         );
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
         userEvent.click(cancelButton);
         await waitFor(() => {
-          expect(testProps.closeModal).toHaveBeenCalledTimes(1);
+          expect(actualProps.closeModal).toHaveBeenCalledTimes(1);
         });
         // screen.debug()
       });

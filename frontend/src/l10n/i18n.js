@@ -8,15 +8,14 @@ import { i18nInitiated } from '../redux/slices/tech';
 import { axiosCommonLng } from '../api/apiClient';
 
 export const initI18next = (supportedLngs = ['en', 'ru']) => {
-  // export const initI18next = (supportedLngs = ['en', 'ru']) => {
-  // -------------------------------------------------------------------------
-  // This i18n instance is just 'empty' one for correct component rendering.
-  // This instance should take all values upon loading appropriate values
-  // from back - end.
-  // -------------------------------------------------------------------------
+  /**
+   * This i18n instance is just 'empty' one for correct component rendering.
+   * This instance should take all values upon loading appropriate values
+   * from back - end.
+   */
+
   const nameSpaces = ['navbar', 'login', 'signup', 'general'];
   // console.log('initI18n,  supportedLngs->', supportedLngs);
-  // const lng = 'cimode';
   const lng = supportedLngs[0];
   i18next
     .use(initReactI18next)
@@ -47,8 +46,6 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
     });
 };
 
-// initI18next()
-
 export const setI18next = lngs => {
   const lngsToAdd = [];
   // console.log('setI18next, i18next.languages ->', i18next.lngs);
@@ -61,33 +58,8 @@ export const setI18next = lngs => {
   lngsToAdd.forEach(value => {
     i18next.languages.push(value);
   });
-
-  // console.log(
-  //   'setI18next, i18next.options.supportedLngs, before ->',
-  //   i18next.options.supportedLngs
-  // );
-// i18next
-//     .loadLanguages(lngsToAdd)
-//     .then(result => {
-//     console.log(
-//       'setI18next, i18next.options.supportedLngs, after ->',
-//       i18next.options.supportedLngs
-//     );
-//     console.log('then', result);
-//     })
-//     .catch(error => {
-//       console.log(error)
-//     });
-
-  axiosCommonLng(i18next.language); // Set axios header for backend calls.
+  // console.log('i18n, i18next.language ->', i18next.language)
+  axiosCommonLng(store.getState().lng.lng); // Set axios header for backend calls.
 };
-
-// ==================================================================================
-// The function set list of supported languages from back-end.
-// ==================================================================================
-// export const setSupportedLngs = async () => {
-//   const result = await getLngList();
-//   i18next.options.supportedLngs = [...result, 'cimode'];
-// };
 
 export default i18next;
