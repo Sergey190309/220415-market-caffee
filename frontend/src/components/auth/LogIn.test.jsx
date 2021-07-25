@@ -31,6 +31,7 @@ describe('LogIn component testing', () => {
     closeModal: jest.fn(),
     logInStart: jest.fn(),
     setLoggedInFalse: jest.fn(),
+    onSubmit: jest.fn()
   };
   describe('Non react compinent', () => {
     test('form structure', () => {
@@ -122,7 +123,7 @@ describe('LogIn component testing', () => {
     });
 
     describe('buttons behavior', () => {
-      test.only('login', async () => {
+      test('login', async () => {
         // const dispatch = jest.fn()
         render(
           <Provider store={store}>
@@ -135,11 +136,11 @@ describe('LogIn component testing', () => {
           // expect(dispatch).toHaveBeenCalledTimes(1);
           expect(testProps.logInStart).toHaveBeenCalledTimes(1);
           // console.log(testProps.logInStart.mock.calls[0][0]);
-          // expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
+          expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
-      test('cancel', async () => {
+      test.only('cancel', async () => {
         render(
           <Provider store={store}>
             <LogIn {...testProps} />
@@ -148,8 +149,9 @@ describe('LogIn component testing', () => {
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
         userEvent.click(cancelButton);
         await waitFor(() => {
-          expect(testProps.closeModal).toHaveBeenCalledTimes(1);
+          // expect(testProps.closeModal).toHaveBeenCalledTimes(1);
         });
+        screen.debug()
       });
 
       test('sign up', async () => {

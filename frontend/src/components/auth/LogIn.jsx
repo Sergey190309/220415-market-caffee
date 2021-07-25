@@ -33,6 +33,12 @@ export const logInSchema = t =>
       .required(t('errors.required')),
   });
 
+// export const onSubmit = (formData, logInStart, setSubmitting, dispatch) => {
+//   dispatch(logInStart(formData))
+//   setSubmitting(false)
+// }
+
+
 export const LogIn = ({
   initValues,
   logInSchema,
@@ -41,6 +47,7 @@ export const LogIn = ({
   logInStart,
   // isLoggedIn,
   setLoggedInFalse,
+  // onSubmit
 }) => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector(authSelector);
@@ -55,7 +62,8 @@ export const LogIn = ({
 
   const { t } = useTranslation('login');
 
-  const onSubmit = (formData, { setSubmitting }) => {
+  const _onSubmit = (formData, { setSubmitting }) => {
+    // onSubmit(formData, logInStart, setSubmitting, dispatch)
     dispatch(logInStart(formData));
     setSubmitting(false);
   };
@@ -75,7 +83,7 @@ export const LogIn = ({
           <Formik
             initialValues={initValues}
             validationSchema={logInSchema(t)}
-            onSubmit={onSubmit}>
+            onSubmit={_onSubmit}>
             {({ isSubmitting }) => (
               <Form size='large'>
                 <Segment color={positiveColor} stacked>
@@ -123,6 +131,7 @@ export const LogIn = ({
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
+                      // onClick={dispatch(closeModal())}
                       onClick={() => {
                         dispatch(closeModal());
                       }}
@@ -167,6 +176,7 @@ LogIn.defaultProps = {
   closeModal: closeModal,
   logInStart: logInStart,
   setLoggedInFalse: logInModalClosed,
+  // onSubmit: onSubmit
 };
 
 LogIn.propTypes = {
@@ -176,6 +186,7 @@ LogIn.propTypes = {
   closeModal: PropTypes.func.isRequired,
   logInStart: PropTypes.func.isRequired,
   setLoggedInFalse: PropTypes.func.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
 };
 
 export default LogIn;
