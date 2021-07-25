@@ -144,7 +144,7 @@ describe('LogIn component testing', () => {
         await waitFor(() => {
           // expect(dispatch).toHaveBeenCalledTimes(1);
           expect(actualProps.logInStart).toHaveBeenCalledTimes(1);
-          console.log(actualProps.logInStart.mock.calls[0][0]);
+          // console.log(actualProps.logInStart.mock.calls[0][0]);
           expect(actualProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });

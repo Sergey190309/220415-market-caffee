@@ -16,6 +16,7 @@ export const techInCall = techInData => {
 
 export const logInCall = logInData => {
   const resp = authAxiosClient.post('/users/login', logInData);
+  console.log('logInCall, resp ->', resp)
   return resp;
 };
 
