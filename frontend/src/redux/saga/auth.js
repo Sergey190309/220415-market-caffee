@@ -35,7 +35,7 @@ export function* logInSaga() {
 export function* logInFetch(action) {
   try {
     const userData = yield call(logInCall, action.payload);
-    console.log('saga, logInFetch, try, userData ->', userData);
+    // console.log('saga, logInFetch, try, userData ->', userData);
     yield put(logInSuccess(userData.data.payload));
     // yield put({ type: logInSuccess, payload: userData.data.payload });
     yield put(
