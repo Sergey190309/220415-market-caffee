@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 // import {
 //   Icon,
 // } from 'semantic-ui-react';
@@ -10,9 +11,13 @@ import {
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { SignUp, formStructure, signUpSchema } from './SignUp';
-import { useTranslation } from '../../../__mock__/react-i18next';
-// import { string } from 'yup/lib/locale';
-// import { exact } from 'prop-types';
+
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: key => key,
+    // i18n: { changeLanguage: jest.fn() },
+  }),
+}));
 
 describe('SignUp form testing', () => {
   const initValues = {
@@ -30,8 +35,8 @@ describe('SignUp form testing', () => {
   const testProps = {
     initValues: initValues,
     signUpSchema: jest.fn(),
-    setModalClosed: jest.fn(),
-    signUpAction:jest.fn()
+    // setModalClosed: jest.fn(),
+    // signUpAction:jest.fn()
   };
   const activeProps = {
     ...testProps,
@@ -55,13 +60,14 @@ describe('SignUp form testing', () => {
 
   describe('component testing', () => {
     describe('appearance', () => {
-      test('it exists and has all elements', () => {
+      test.only('it exists and has all elements', () => {
         connectedLinkedRender(<SignUp {...testProps} />);
         expect(screen.getAllByRole('heading').length).toBe(1);
         expect(screen.getAllByRole('textbox').length).toBe(2);
         expect(screen.getAllByRole('button').length).toBe(3);
         expect(screen.getByPlaceholderText('placeHolders.password')).toBeVisible();
         expect(screen.getByPlaceholderText('placeHolders.password2')).toBeVisible();
+        // screen.debug()
       });
 
       test('input elements have values according props', () => {
