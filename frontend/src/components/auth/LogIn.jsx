@@ -38,7 +38,6 @@ export const logInSchema = t =>
 //   setSubmitting(false)
 // }
 
-
 export const LogIn = ({
   initValues,
   logInSchema,
@@ -50,6 +49,7 @@ export const LogIn = ({
   // onSubmit
 }) => {
   const dispatch = useDispatch();
+  // const dispatchCloseModal = useDispatch(closeModal);
   const { isLoggedIn } = useSelector(authSelector);
 
   useEffect(() => {
@@ -131,8 +131,9 @@ export const LogIn = ({
                       size='large'
                       content={t('buttons.cancel')}
                       type='button'
-                      // onClick={dispatch(closeModal())}
+                      // onClick={()=>{dispatchCloseModal()}}
                       onClick={() => {
+                        // dispatchCloseModal();
                         dispatch(closeModal());
                       }}
                     />

@@ -149,9 +149,9 @@ describe('LogIn component testing', () => {
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
         userEvent.click(cancelButton);
         await waitFor(() => {
-          // expect(testProps.closeModal).toHaveBeenCalledTimes(1);
+          expect(testProps.closeModal).toHaveBeenCalledTimes(1);
         });
-        screen.debug()
+        // screen.debug()
       });
 
       test('sign up', async () => {
