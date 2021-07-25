@@ -1,13 +1,15 @@
 import React from 'react';
-// import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
   screen,
-  connectedLinkedRender,
+  // connectedLinkedRender,
+  render,
   waitFor,
-} from '../../testUtils'
+} from '../../testUtils';
 import userEvent from '@testing-library/user-event';
 
+import store from '../../redux/store';
 import { LogIn, logInSchema, formStructure } from './LogIn';
 // import { useTranslation } from '../../../__mock__/react-i18next';
 jest.mock('react-i18next', () => ({
@@ -28,7 +30,7 @@ describe('LogIn component testing', () => {
     openModal: jest.fn(),
     closeModal: jest.fn(),
     logInStart: jest.fn(),
-    setLoggedInFalse: jest.fn()
+    setLoggedInFalse: jest.fn(),
   };
   describe('Non react compinent', () => {
     test('form structure', () => {
@@ -46,7 +48,11 @@ describe('LogIn component testing', () => {
   describe('component testing', () => {
     describe('appearance', () => {
       test('it exists and has all elements', () => {
-        connectedLinkedRender(<LogIn {...testProps} />);
+        render(
+          <Provider store={store}>
+            <LogIn {...testProps} />
+          </Provider>
+        );
         expect(screen.getAllByRole('heading').length).toBe(2);
         expect(screen.getAllByRole('textbox').length).toBe(1);
         expect(screen.getAllByRole('button').length).toBe(4);
@@ -63,17 +69,26 @@ describe('LogIn component testing', () => {
             password: 'password',
           },
         };
-        connectedLinkedRender(<LogIn {...activeProps} />);
+        render(
+          <Provider store={store}>
+            <LogIn {...activeProps} />
+          </Provider>
+        );
         expect(screen.getByRole('textbox')).toHaveValue('test@mail.test');
         expect(screen.getByPlaceholderText('placeHolders.password')).toHaveValue(
           'password'
         );
       });
       test('Header and footer have appropriate classes', () => {
-        connectedLinkedRender(<LogIn {...testProps} />);
-        expect(
-          screen.getByRole('heading', { name: 'header' })
-        ).toHaveClass('ui teal center aligned header', { exact: true });
+        render(
+          <Provider store={store}>
+            <LogIn {...testProps} />
+          </Provider>
+        );
+        expect(screen.getByRole('heading', { name: 'header' })).toHaveClass(
+          'ui teal center aligned header',
+          { exact: true }
+        );
         expect(screen.getByRole('heading', { name: 'message' })).toHaveClass(
           'ui header',
           { exact: true }
@@ -82,45 +97,65 @@ describe('LogIn component testing', () => {
       });
 
       test('buttons have appropriate classes', () => {
-        connectedLinkedRender(<LogIn {...testProps} />);
-        expect(
-          screen.getByRole('button', { name: 'buttons.logIn' })
-        ).toHaveClass('ui teal large basic button', { exact: true });
-        expect(
-          screen.getByRole('button', { name: 'buttons.reset' })
-        ).toHaveClass('ui olive large basic button', { exact: true });
-        expect(
-          screen.getByRole('button', { name: 'buttons.cancel' })
-        ).toHaveClass('ui orange large basic button', { exact: true });
-        expect(
-          screen.getByRole('button', { name: 'buttons.signUp' })
-        ).toHaveClass('ui teal large basic left floated button', { exact: true });
+        render(
+          <Provider store={store}>
+            <LogIn {...testProps} />
+          </Provider>
+        );
+        expect(screen.getByRole('button', { name: 'buttons.logIn' })).toHaveClass(
+          'ui teal large basic button',
+          { exact: true }
+        );
+        expect(screen.getByRole('button', { name: 'buttons.reset' })).toHaveClass(
+          'ui olive large basic button',
+          { exact: true }
+        );
+        expect(screen.getByRole('button', { name: 'buttons.cancel' })).toHaveClass(
+          'ui orange large basic button',
+          { exact: true }
+        );
+        expect(screen.getByRole('button', { name: 'buttons.signUp' })).toHaveClass(
+          'ui teal large basic left floated button',
+          { exact: true }
+        );
       });
     });
 
     describe('buttons behavior', () => {
       test.only('login', async () => {
-        connectedLinkedRender(<LogIn {...testProps} />);
+        render(
+          <Provider store={store}>
+            <LogIn {...testProps} />
+          </Provider>
+        );
         const logInButton = screen.getByRole('button', { name: 'buttons.logIn' });
         userEvent.click(logInButton);
         await waitFor(() => {
-          expect(testProps.logInStart).toHaveBeenCalledTimes(1);
-          console.log(testProps.logInAction.mock.calls[0][0])
+          expect(testProps.logInStart).toHaveBeenCalledTimes(0);
+          // console.log(testProps.logInStart.mock.calls[0][0]);
           expect(testProps.logInStart.mock.calls[0][0]).toEqual(initValues);
         });
       });
 
       test('cancel', async () => {
-        connectedLinkedRender(<LogIn {...testProps} />);
+        render(
+          <Provider store={store}>
+            <LogIn {...testProps} />
+          </Provider>
+        );
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
         userEvent.click(cancelButton);
         await waitFor(() => {
-          expect(testProps.setModalClosed).toHaveBeenCalledTimes(1);
+          expect(testProps.closeModal).toHaveBeenCalledTimes(1);
         });
       });
 
       test('sign up', async () => {
-        connectedLinkedRender(<LogIn {...testProps} />);
+        render(
+          <Provider store={store}>
+            <LogIn {...testProps} />
+          </Provider>
+        );
         const sighUpButton = screen.getByRole('button', { name: 'buttons.signUp' });
         userEvent.click(sighUpButton);
         await waitFor(() => {

@@ -56,8 +56,6 @@ export const LogIn = ({
   const { t } = useTranslation('login');
 
   const onSubmit = (formData, { setSubmitting }) => {
-    // const { email, password } = formData;
-    // console.log('components, auth, logIn, fromData ->', formData);
     dispatch(logInStart(formData));
     setSubmitting(false);
   };
