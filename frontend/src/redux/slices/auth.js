@@ -36,12 +36,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    resetState: state => {
-      Object.assign(state, notLoggedInfo, {
-        loading: false,
-        isSignedUp: false,
-        isLoggedIn: false,
+    setState: (state, { payload }) => {
+      Object.keys(state).forEach(key => {
+        delete state[key]
       })
+      Object.assign(state, payload)
     },
     signUpStart: state => {  // tested
       state.loading = true;
@@ -101,7 +100,7 @@ const authSlice = createSlice({
 });
 
 export const {
-  resetState,
+  setState,
   signUpStart,
   signUpSuccess,
   signUpFail,

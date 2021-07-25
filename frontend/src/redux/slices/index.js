@@ -23,6 +23,7 @@ export const rootReducer = combineReducers({
 
 export { startAlert, removeAlert } from './alerts';
 export {
+  setState as authSetState,
   signUpStart,
   signUpSuccess,
   signUpFail,
