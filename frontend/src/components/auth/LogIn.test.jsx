@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event';
 
 import store from '../../redux/store';
 import { LogIn, logInSchema, formStructure } from './LogIn';
+// import { logInCall } from '../../api/calls/getAuthTechInfo';
 // import { useTranslation } from '../../../__mock__/react-i18next';
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -18,6 +19,7 @@ jest.mock('react-i18next', () => ({
     // i18n: { changeLanguage: jest.fn() },
   }),
 }));
+jest.mock('../../api/calls/getAuthTechInfo');
 
 describe('LogIn component testing', () => {
   const initValues = {
@@ -124,14 +126,14 @@ describe('LogIn component testing', () => {
     });
 
     describe('buttons behavior', () => {
-      let actualProps
+      let actualProps;
       beforeEach(() => {
         actualProps = {
           ...testProps,
           logInStart: jest.fn().mockReturnValue({ type: 'auth/logInStart' }),
-          closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' })
-        }
-      })
+          closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' }),
+        };
+      });
       test('login', async () => {
         // const dispatch = jest.fn()
         render(
