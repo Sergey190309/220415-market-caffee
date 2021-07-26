@@ -1,4 +1,4 @@
-// import { techAxiosClient } from '../../api/apiClient';
+// import { logInCall } from '../../api/calls/getAuthTechInfo'
 import {
   // logInData as mockLogInData,
   // resolveData as mockResolveData,
@@ -22,6 +22,7 @@ import {
 } from './auth';
 
 jest.mock('../../api/apiClient');
+jest.mock('../../api/calls/getAuthTechInfo');
 // jest.mock('../../api/apiClient', () => ({
 //   axiosCommonToken: () => 'axiosCommonToken',
 // }));
@@ -50,26 +51,39 @@ describe('Auth slicer testing', () => {
 
   describe('logIn group', () => {
     // let state;
-    beforeEach(() => {});
-    test('generation initialState without info in localStorage', () => {
+    // beforeEach(() => {});
+    test('generation initialState', () => {
       const state = store.getState().auth;
       const expState = { ...emptyState };
       expect(state).toEqual(expState);
       // console.log('auth slice, state ->', state);
     });
-    test('generation initialState with info in localStorage', () => {
-      // localStorage.__STORE__ = { ...logInState };
-      Object.keys(logInState).forEach(key => {
-        localStorage.__STORE__[key] = logInState[key];
-      });
-      // localStorage.__STORE__['test'] = 'test'
-      // const state = store.getState().auth;
-      const state = {...initialState()}
-      // const expState = { ...emptyState };
-      // expect(state).toEqual(expState);
-      console.log('auth slice, state - >', state);
-      console.log('auth slice, localStorage ->', localStorage.__STORE__);
-      // localStorage.getItem()
+    test('creating logged in state', () => {
+      store.dispatch(setState(logInState));
+      const state = store.getState().auth;
+      const expState = { ...logInState };
+      expect(state).toEqual(expState);
+      // console.log('auth slice, state ->', state);
+    });
+    test('logInStart', () => {
+      store.dispatch(
+        setState({
+          ...emptyState,
+          loading: false,
+          isSignedUp: true,
+          isLoggedIn: true,
+        })
+      );
+      store.dispatch(logInStart());
+      const state = store.getState().auth;
+      const expState = {
+        ...emptyState,
+        loading: true,
+        isSignedUp: false,
+        isLoggedIn: false,
+      };
+      expect(state).toEqual(expState);
+      console.log('auth slice, state  ->', state);
     });
   });
   test.skip('state testing, signUp', () => {

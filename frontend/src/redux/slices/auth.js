@@ -37,9 +37,9 @@ const authSlice = createSlice({
   initialState: initialState(),
   reducers: {
     setState: (state, { payload }) => {
-      Object.keys(state).forEach(key => {
-        delete state[key]
-      })
+      // Object.keys(state).forEach(key => {
+      //   delete state[key]
+      // })
       Object.assign(state, payload)
     },
     signUpStart: state => {
