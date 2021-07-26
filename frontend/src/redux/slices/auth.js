@@ -33,6 +33,9 @@ export const initialState = () => ({
 });
 
 const authSlice = createSlice({
+  /**
+   * I tested all reducers but signUpModalClosed and logInModalClosed.
+   */
   name: 'auth',
   initialState: initialState(),
   reducers: {
@@ -95,7 +98,6 @@ const authSlice = createSlice({
     signUpModalClosed: state => {
       state.isSignedUp = false;
     },
-
     logInModalClosed: state => {
       state.isLoggedIn = false;
     },

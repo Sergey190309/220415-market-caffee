@@ -141,7 +141,7 @@ describe('LogIn component testing', () => {
       // afterEach(() => {
       //   jest.resetAllMocks()
       // })
-      test.only('login', async () => {
+      test('login', async () => {
         // const dispatch = jest.fn()
         render(
           <Provider store={store}>

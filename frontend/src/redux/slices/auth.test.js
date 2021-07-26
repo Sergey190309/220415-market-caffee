@@ -157,7 +157,7 @@ describe('Auth slicer testing', () => {
     });
     test('signUpSuccess', () => {
       store.dispatch(setState(logInState));
-      store.dispatch(signUpStart())
+      store.dispatch(signUpSuccess())
       const state = store.getState().auth;
       const expState = {
         ...emptyState,
@@ -166,47 +166,24 @@ describe('Auth slicer testing', () => {
         isLoggedIn: false,
       };
       expect(state).toEqual(expState);
-      console.log('auth slice, state ->', state);
+      expect(localStorage.removeItem).toHaveBeenCalledTimes(1);
+      expect(localStorage.removeItem).toHaveBeenCalledWith(LOG_IN_INFO);
+      // console.log('auth slice, state ->', state);
     });
-  });
-  test.skip('state testing, signUp', () => {
-    // mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
-
-    let state = store.getState().auth;
-    let expState = { ...initialState };
-    expect(state).toEqual(expState);
-
-    store.dispatch(signUpStart());
-    expState = {
-      ...expState,
-      loading: true,
-      isSignedUp: false,
-      isLoggedIn: false,
-    };
-    state = store.getState().auth;
-    expect(state).toEqual(expState);
-
-    store.dispatch(signUpSuccess());
-    expState = {
-      ...expState,
-      loading: false,
-      isSignedUp: true,
-      isLoggedIn: false,
-    };
-    state = store.getState().auth;
-    expect(state).toEqual(expState);
-    expect(localStorage.removeItem).toHaveBeenLastCalledWith(LOG_IN_INFO);
-
-    store.dispatch(signUpFail());
-    expState = {
-      ...expState,
-      loading: false,
-      isSignedUp: false,
-      isLoggedIn: false,
-    };
-    state = store.getState().auth;
-    expect(state).toEqual(expState);
-    expect(localStorage.removeItem).toHaveBeenLastCalledWith(LOG_IN_INFO);
-    // console.log('authSlice testing, signUp state ->', state);
+    test('signUpFail', () => {
+      store.dispatch(setState(logInState));
+      store.dispatch(signUpFail())
+      const state = store.getState().auth;
+      const expState = {
+        ...emptyState,
+        loading: false,
+        isSignedUp: false,
+        isLoggedIn: false,
+      };
+      expect(state).toEqual(expState);
+      expect(localStorage.removeItem).toHaveBeenCalledTimes(1);
+      expect(localStorage.removeItem).toHaveBeenCalledWith(LOG_IN_INFO);
+      // console.log('auth slice, state ->', state);
+    });
   });
 });
