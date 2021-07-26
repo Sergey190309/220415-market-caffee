@@ -58,7 +58,7 @@ export const SignUp = ({
   // isSignedUp,
   signUpModalClosed,
 }) => {
-  console.log('components, SignUp, signUpStart ->', signUpStart())
+  // console.log('components, SignUp, signUpStart ->', signUpStart())
   const dispatch = useDispatch();
   const { isSignedUp } = useSelector(authSelector);
   useEffect(() => {

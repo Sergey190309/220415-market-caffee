@@ -6,7 +6,7 @@ import { screen, render, waitFor } from '@testing-library/react';
 // import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 
-import store from '../../redux/store'
+import store from '../../redux/store';
 import { SignUp, formStructure, signUpSchema } from './SignUp';
 import { closeModal } from '../../redux/slices';
 
@@ -35,7 +35,7 @@ describe('SignUp form testing', () => {
     initValues: initValues,
     signUpSchema: jest.fn(),
     // setModalClosed: jest.fn(),
-    signUpStart: jest.fn()
+    signUpStart: jest.fn(),
   };
   const activeProps = {
     ...testProps,
@@ -64,7 +64,7 @@ describe('SignUp form testing', () => {
           <Provider store={store}>
             <SignUp {...testProps} />
           </Provider>
-        )
+        );
         expect(screen.getAllByRole('heading').length).toBe(1);
         expect(screen.getAllByRole('textbox').length).toBe(2);
         expect(screen.getAllByRole('button').length).toBe(3);
@@ -78,7 +78,7 @@ describe('SignUp form testing', () => {
           <Provider store={store}>
             <SignUp {...activeProps} />
           </Provider>
-        )
+        );
         expect(screen.getByRole('textbox', { name: 'labels.userName' })).toHaveValue(
           activeValues.userName
         );
@@ -98,7 +98,7 @@ describe('SignUp form testing', () => {
           <Provider store={store}>
             <SignUp {...testProps} />
           </Provider>
-        )
+        );
         expect(screen.getByRole('heading')).toHaveClass('ui teal center aligned header', {
           exact: true,
         });
@@ -109,43 +109,48 @@ describe('SignUp form testing', () => {
           <Provider store={store}>
             <SignUp {...testProps} />
           </Provider>
-        )
-        expect(
-          screen.getByRole('button', { name: 'buttons.signUp' })
-        ).toHaveClass('ui teal large basic button', { exact: true });
-        expect(
-          screen.getByRole('button', { name: 'buttons.reset' })
-        ).toHaveClass('ui olive large basic button', { exact: true });
-        expect(
-          screen.getByRole('button', { name: 'buttons.cancel' })
-        ).toHaveClass('ui orange large basic button', { exact: true });
+        );
+        expect(screen.getByRole('button', { name: 'buttons.signUp' })).toHaveClass(
+          'ui teal large basic button',
+          { exact: true }
+        );
+        expect(screen.getByRole('button', { name: 'buttons.reset' })).toHaveClass(
+          'ui olive large basic button',
+          { exact: true }
+        );
+        expect(screen.getByRole('button', { name: 'buttons.cancel' })).toHaveClass(
+          'ui orange large basic button',
+          { exact: true }
+        );
       });
     });
     describe('buttons behavior', () => {
-      let actualProps
+      let actualProps;
       beforeEach(() => {
-        jest.resetAllMocks()
+        jest.resetAllMocks();
         actualProps = {
           ...testProps,
-          signUpStart: jest.fn().mockReturnValue({ type: 'auth/signUpStart' }),
-          closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' })
-        }
-      })
-      test.only('signUp', async () => {
+          signUpStart: jest.fn(() => ({ type: 'auth/signUpStart' })),
+          // signUpStart: jest.fn().mockReturnValue({ type: 'auth/signUpStart' }),
+          closeModal: jest.fn(() => ({ type: 'device/closeModal' })),
+          // closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' })
+        };
+      });
+      test('signUp', async () => {
         render(
           <Provider store={store}>
             <SignUp {...actualProps} />
           </Provider>
-        )
+        );
         const signUpButton = screen.getByRole('button', { name: 'buttons.signUp' });
 
         userEvent.click(signUpButton);
         await waitFor(() => {
           expect(actualProps.signUpStart).toHaveBeenCalledTimes(1);
-          const {userName, password2, ...otherProps} = initValues
-          const sentValues = { ...otherProps, user_name: userName }
+          const { userName, password2, ...otherProps } = initValues;
+          const sentValues = { ...otherProps, user_name: userName };
           expect(actualProps.signUpStart).toHaveBeenCalledWith(sentValues);
-          // console.log('buttong sign up, activeValues ->', sentValues)
+          console.log('buttong sign up, activeValues ->', sentValues);
           // expect(activeProps.signUpStart.mock.calls[0][0]).toEqual(sentValues);
         });
       });
@@ -155,7 +160,7 @@ describe('SignUp form testing', () => {
           <Provider store={store}>
             <SignUp {...actualProps} />
           </Provider>
-        )
+        );
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
 
         userEvent.click(cancelButton);
