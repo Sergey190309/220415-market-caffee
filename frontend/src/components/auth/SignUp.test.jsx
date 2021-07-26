@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 
 import store from '../../redux/store';
 import { SignUp, formStructure, signUpSchema } from './SignUp';
-import { closeModal } from '../../redux/slices';
+// import { closeModal } from '../../redux/slices';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
