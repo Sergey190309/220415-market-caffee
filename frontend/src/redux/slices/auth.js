@@ -49,9 +49,11 @@ const authSlice = createSlice({
     },
     signUpSuccess: state => {
       localStorage.removeItem(LOG_IN_INFO);
-      state.loading = false;
-      state.isSignedUp = true;
-      state.isLoggedIn = false;
+      Object.assign(state, notLoggedInfo, {
+        loading: false,
+        isSignedUp: true,
+        isLoggedIn: false,
+      })
     },
     signUpFail: state => {
       localStorage.removeItem(LOG_IN_INFO);

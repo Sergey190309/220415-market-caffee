@@ -153,6 +153,19 @@ describe('Auth slicer testing', () => {
         isLoggedIn: false,
       };
       expect(state).toEqual(expState);
+      // console.log('auth slice, state ->', state);
+    });
+    test('signUpSuccess', () => {
+      store.dispatch(setState(logInState));
+      store.dispatch(signUpStart())
+      const state = store.getState().auth;
+      const expState = {
+        ...emptyState,
+        loading: false,
+        isSignedUp: true,
+        isLoggedIn: false,
+      };
+      expect(state).toEqual(expState);
       console.log('auth slice, state ->', state);
     });
   });
