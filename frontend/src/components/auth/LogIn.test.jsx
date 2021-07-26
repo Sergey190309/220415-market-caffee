@@ -141,9 +141,6 @@ describe('LogIn component testing', () => {
           closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' }),
         };
       });
-      // afterEach(() => {
-      //   jest.resetAllMocks()
-      // })
       test('login', async () => {
         // const dispatch = jest.fn()
         render(

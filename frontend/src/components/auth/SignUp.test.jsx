@@ -1,15 +1,12 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-// import {
-//   Icon,
-// } from 'semantic-ui-react';
-import {
-  screen,
-  connectedLinkedRender,
-  waitFor,
-} from '../../testUtils'
-import '@testing-library/jest-dom/extend-expect';
+
+import { screen, render, waitFor } from '@testing-library/react';
+// import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
+
+import store from '../../redux/store'
 import { SignUp, formStructure, signUpSchema } from './SignUp';
 
 jest.mock('react-i18next', () => ({
@@ -36,7 +33,7 @@ describe('SignUp form testing', () => {
     initValues: initValues,
     signUpSchema: jest.fn(),
     // setModalClosed: jest.fn(),
-    // signUpAction:jest.fn()
+    signUpStart: jest.fn()
   };
   const activeProps = {
     ...testProps,
@@ -61,7 +58,11 @@ describe('SignUp form testing', () => {
   describe('component testing', () => {
     describe('appearance', () => {
       test('it exists and has all elements', () => {
-        connectedLinkedRender(<SignUp {...testProps} />);
+        render(
+          <Provider store={store}>
+            <SignUp {...testProps} />
+          </Provider>
+        )
         expect(screen.getAllByRole('heading').length).toBe(1);
         expect(screen.getAllByRole('textbox').length).toBe(2);
         expect(screen.getAllByRole('button').length).toBe(3);
@@ -71,7 +72,11 @@ describe('SignUp form testing', () => {
       });
 
       test('input elements have values according props', () => {
-        connectedLinkedRender(<SignUp {...activeProps} />);
+        render(
+          <Provider store={store}>
+            <SignUp {...activeProps} />
+          </Provider>
+        )
         expect(screen.getByRole('textbox', { name: 'labels.userName' })).toHaveValue(
           activeValues.userName
         );
@@ -87,14 +92,22 @@ describe('SignUp form testing', () => {
       });
 
       test('header has appropriate classes', () => {
-        connectedLinkedRender(<SignUp {...testProps} />);
+        render(
+          <Provider store={store}>
+            <SignUp {...testProps} />
+          </Provider>
+        )
         expect(screen.getByRole('heading')).toHaveClass('ui teal center aligned header', {
           exact: true,
         });
       });
 
       test('buttons have appropriate classes', () => {
-        connectedLinkedRender(<SignUp {...testProps} />);
+        render(
+          <Provider store={store}>
+            <SignUp {...testProps} />
+          </Provider>
+        )
         expect(
           screen.getByRole('button', { name: 'buttons.signUp' })
         ).toHaveClass('ui teal large basic button', { exact: true });
@@ -107,8 +120,21 @@ describe('SignUp form testing', () => {
       });
     });
     describe('buttons behavior', () => {
-      test('signUp', async () => {
-        connectedLinkedRender(<SignUp {...activeProps} />);
+      let actualProps
+      beforeEach(() => {
+        jest.resetAllMocks()
+        actualProps = {
+          ...testProps,
+          signUpStart: jest.fn()
+
+        }
+      })
+      test.only('signUp', async () => {
+        render(
+          <Provider store={store}>
+            <SignUp {...actualProps} />
+          </Provider>
+        )
         const signUpButton = screen.getByRole('button', { name: 'buttons.signUp' });
 
         userEvent.click(signUpButton);
@@ -122,7 +148,11 @@ describe('SignUp form testing', () => {
       });
 
       test('cancel', async () => {
-        connectedLinkedRender(<SignUp {...activeProps} />);
+        render(
+          <Provider store={store}>
+            <SignUp {...actualProps} />
+          </Provider>
+        )
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
 
         userEvent.click(cancelButton);

@@ -54,7 +54,7 @@ export const SignUp = ({
   initValues,
   signUpSchema,
   // closeModal,
-  // signUpStart,
+  signUpStart,
   // isSignedUp,
   // signUpModalClosed,
 }) => {
@@ -179,9 +179,7 @@ SignUp.defaultProps = {
   // closeModal: () => {
   //   console.log('Modal close called');
   // },
-  // signUpStart: () => {
-  //   console.log('Axios action called');
-  // },
+  signUpStart: signUpStart,
   // isSignedUp: false,
   // signUpModalClosed: () => {
   //   console.log('signUpModalClosed action called');
@@ -192,7 +190,7 @@ SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
   // closeModal: PropTypes.func.isRequired,
-  // signUpStart: PropTypes.func.isRequired,
+  signUpStart: PropTypes.func.isRequired,
   // isSignedUp: PropTypes.bool.isRequired,
   // signUpModalClosed: PropTypes.func.isRequired,
 };
