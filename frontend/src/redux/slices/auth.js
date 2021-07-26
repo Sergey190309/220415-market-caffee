@@ -74,6 +74,7 @@ const authSlice = createSlice({
       Object.assign(state, payload, { loading: false, isLoggedIn: true });
     },
     logInFail: state => {
+      localStorage.removeItem(LOG_IN_INFO);
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: false,

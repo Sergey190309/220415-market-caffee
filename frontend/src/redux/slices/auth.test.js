@@ -34,12 +34,15 @@ describe('Auth slicer testing', () => {
     loading: false,
     isSignedUp: false,
   };
-  const logInState = {
+  const logInPayload = {
     user_name: 'useName',
     email: 'eMail',
     isAdmin: false,
     access_token: 'mockAccessToken',
     refresh_token: 'mockRefreshToken',
+  };
+  const logInState = {
+    ...logInPayload,
     isLoggedIn: true,
     loading: false,
     isSignedUp: false,
@@ -83,7 +86,42 @@ describe('Auth slicer testing', () => {
         isLoggedIn: false,
       };
       expect(state).toEqual(expState);
-      console.log('auth slice, state  ->', state);
+      // console.log('auth slice, state ->', state);
+    });
+    test('logInSuccess', () => {
+      store.dispatch(
+        setState({
+          ...emptyState,
+          loading: true,
+          isSignedUp: false,
+          isLoggedIn: false,
+        })
+      );
+      store.dispatch(logInSuccess(logInPayload));
+      const state = store.getState().auth;
+      const expState = { ...logInState };
+      expect(state).toEqual(expState);
+      const { loading, isSignedUp, isLoggedIn, ...localyStored } = state;
+      expect(localStorage.setItem).toHaveBeenLastCalledWith(
+        LOG_IN_INFO,
+        JSON.stringify(localyStored)
+      );
+        // console.log('auth slice, state ->', state);
+    });
+    test('logInFail', () => {
+      store.dispatch(
+        setState({
+          ...emptyState,
+          loading: true,
+          isSignedUp: false,
+          isLoggedIn: false,
+        })
+      );
+      store.dispatch(logInFail());
+      const state = store.getState().auth;
+      const expState = { ...emptyState };
+      expect(state).toEqual(expState);
+      console.log('auth slice, state ->', state);
     });
   });
   test.skip('state testing, signUp', () => {
@@ -156,11 +194,6 @@ describe('Auth slicer testing', () => {
     };
     state = store.getState().auth;
     expect(state).toEqual(expState);
-    const { loading, isSignedUp, isLoggedIn, ...localStored } = state;
-    expect(localStorage.setItem).toHaveBeenLastCalledWith(
-      LOG_IN_INFO,
-      JSON.stringify(localStored)
-    );
 
     store.dispatch(logInFail());
     expState = {
