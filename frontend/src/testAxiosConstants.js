@@ -1,6 +1,22 @@
 /**
  * Auth contants
  */
+export const resolveDataSignIn = {
+  payload: {
+    email: 'mockEmail',
+    user_name: 'mockUserName'
+  },
+  message: 'mockMessage'
+}
+export const rejectDataSignIn = {
+  response: {
+    status: 400,
+    data: {
+      message: 'mock error message'
+    }
+  }
+}
+
 export const logInData = {
   email: 'mock@email.test',
   password: 'mockPassword',

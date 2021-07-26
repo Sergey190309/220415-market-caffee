@@ -21,12 +21,7 @@ export const logInCall = logInData => {
 };
 
 export const signUpCall = signUpData => {
-  try {
     // console.log('saga signUpCall ->', signUpData);
-    const resp = authAxiosClient.post('/users', signUpData);
-    return resp;
-  } catch (error) {
-    // console.log('signUpCall error\n', error);
-    throw error;
-  }
+  const resp = authAxiosClient.post('/users', signUpData);
+  return resp;
 };

@@ -75,7 +75,6 @@ export function* signUpFetch(action) {
   // console.log('authSaga, signUpFetch, payload ->', action.payload)
   try {
     const userData = yield call(signUpCall, action.payload);
-    // console.log('logInFetch userData ->', userData.data.payload);
     yield put(signUpSuccess(userData.data.payload));
     // yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
     yield put(
@@ -89,7 +88,7 @@ export function* signUpFetch(action) {
     );
   } catch (error) {
     yield put(signUpFail(error));
-    // yield put({ type: SIGN_UP_FAIL, payload: error });
+    // console.log('signUpCall error ->', error.response.data.message);
     const errorMessage = actRespErrorMessage(error);
     yield put(
       startAlert(
