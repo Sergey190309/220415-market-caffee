@@ -15,6 +15,7 @@ jest.mock('react-i18next', () => ({
     // i18n: { changeLanguage: jest.fn() },
   }),
 }));
+jest.mock('../../api/calls/getAuthTechInfo');
 
 describe('SignUp form testing', () => {
   const initValues = {
@@ -125,8 +126,7 @@ describe('SignUp form testing', () => {
         jest.resetAllMocks()
         actualProps = {
           ...testProps,
-          signUpStart: jest.fn()
-
+          signUpStart: jest.fn().mockReturnValue({ type: 'auth/signUpStart' })
         }
       })
       test.only('signUp', async () => {
@@ -139,11 +139,11 @@ describe('SignUp form testing', () => {
 
         userEvent.click(signUpButton);
         await waitFor(() => {
-          expect(activeProps.signUpAction).toHaveBeenCalledTimes(1);
+          expect(actualProps.signUpStart).toHaveBeenCalledTimes(1);
           const {userName, password2, ...otherProps} = activeValues
           const sentValues = {...otherProps, user_name: userName}
-          // console.log('buttong sign up, activeValues ->', sentValues)
-          expect(activeProps.signUpAction.mock.calls[0][0]).toEqual(sentValues);
+          console.log('buttong sign up, activeValues ->', sentValues)
+          expect(activeProps.signUpStart.mock.calls[0][0]).toEqual(sentValues);
         });
       });
 

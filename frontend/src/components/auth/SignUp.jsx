@@ -58,6 +58,7 @@ export const SignUp = ({
   // isSignedUp,
   // signUpModalClosed,
 }) => {
+  // console.log('components, SignUp, signUpStart ->', signUpStart())
   const dispatch = useDispatch();
   const { isSignedUp } = useSelector(authSelector);
   useEffect(() => {
@@ -73,7 +74,7 @@ export const SignUp = ({
     const { userName, password2, ...otherProps } = formData;
     const signUpData = { user_name: userName, ...otherProps };
     // const { userName, email, password } = formData;
-    // console.log('SignUp, signUpData ->', signUpData);
+    console.log('SignUp, signUpData ->', signUpData);
     dispatch(signUpStart(signUpData));
     setSubmitting(false);
   };
