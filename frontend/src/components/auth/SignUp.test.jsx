@@ -60,7 +60,7 @@ describe('SignUp form testing', () => {
 
   describe('component testing', () => {
     describe('appearance', () => {
-      test.only('it exists and has all elements', () => {
+      test('it exists and has all elements', () => {
         connectedLinkedRender(<SignUp {...testProps} />);
         expect(screen.getAllByRole('heading').length).toBe(1);
         expect(screen.getAllByRole('textbox').length).toBe(2);

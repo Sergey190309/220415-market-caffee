@@ -11,6 +11,7 @@ import userEvent from '@testing-library/user-event';
 
 import store from '../../redux/store';
 import { LogIn, logInSchema, formStructure } from './LogIn';
+import { authSetState } from '../../redux/slices';
 // import { logInCall } from '../../api/calls/getAuthTechInfo';
 // import { useTranslation } from '../../../__mock__/react-i18next';
 jest.mock('react-i18next', () => ({
@@ -128,13 +129,15 @@ describe('LogIn component testing', () => {
     describe('buttons behavior', () => {
       let actualProps;
       beforeEach(() => {
-        jest.resetAllMocks()
+        jest.resetAllMocks();
         // jest.resetModules()
-        console.log('beforeEach')
+        // console.log('beforeEach');
         actualProps = {
           ...testProps,
           logInStart: jest.fn().mockReturnValue({ type: 'auth/logInStart' }),
-          openModal: jest.fn().mockReturnValue({ type: 'device/openModal', payload: 'signUp' }),
+          openModal: jest
+            .fn()
+            .mockReturnValue({ type: 'device/openModal', payload: 'signUp' }),
           closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' }),
         };
       });
@@ -159,9 +162,16 @@ describe('LogIn component testing', () => {
         });
       });
 
-      test.only('cancel', async () => {
-        actualProps.closeModal.mockReset()
-        actualProps = {...testProps, closeModal: jest.fn().mockReturnValue({type: 'device/closeModal'})}
+      test('cancel', async () => {
+        store.dispatch(authSetState({ isLoggedIn: false }));
+        /**
+         * Above is for cleaning up the state took place in previous test.
+         */
+        actualProps.closeModal.mockReset();
+        actualProps = {
+          ...testProps,
+          closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' }),
+        };
         render(
           <Provider store={store}>
             <LogIn {...actualProps} />
@@ -171,7 +181,7 @@ describe('LogIn component testing', () => {
         const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' });
         userEvent.click(cancelButton);
         await waitFor(() => {
-          expect(actualProps.closeModal).toHaveBeenCalledTimes(2);
+          expect(actualProps.closeModal).toHaveBeenCalledTimes(1);
           /**
            * I'm unable to understatnd why there are 2 closeModal calls.
            * First call from useEffect hook. Second from onClick.
@@ -181,7 +191,7 @@ describe('LogIn component testing', () => {
         // screen.debug()
       });
 
-      test.only('sign up', async () => {
+      test('sign up', async () => {
         render(
           <Provider store={store}>
             <LogIn {...actualProps} />

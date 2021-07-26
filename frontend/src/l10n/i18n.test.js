@@ -21,7 +21,7 @@ beforeEach(() => {
   // i18next.mockImplementation(mockI18next);
 });
 
-describe('setI18next testing', () => {
+describe.skip('setI18next testing', () => {
   const supportedLngs = ['cimode', 'en'];
   const fmBackEnd = ['en', 'ru', 'cn'];
   test('dummy, initI18next testing', () => {
@@ -34,7 +34,7 @@ describe('setI18next testing', () => {
     // console.log('initI18next testing, result ->', result);
   });
 
-  test.skip('setI18next success', () => {
+  test('setI18next success', () => {
     const expResult = ['cimode', 'en', 'ru', 'cn'];
 
     setI18next(fmBackEnd, supportedLngs);

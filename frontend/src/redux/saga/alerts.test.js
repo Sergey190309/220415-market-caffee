@@ -5,9 +5,10 @@
 // import alertWorker from './alert';
 import { alertWorker } from './alerts';
 import { recordSaga } from '../../testUtils';
-import { delaySomthing } from './sagasUtils';
+import { delaySomthing } from '../../utils/utils';
+import { removeAlert } from '../slices';
 
-jest.mock('./sagasUtils', () => ({ delaySomthing: jest.fn() }));
+jest.mock('../../utils/utils', () => ({ delaySomthing: jest.fn() }));
 
 describe('Whole Saga testing', () => {
   beforeAll(() => {
@@ -25,7 +26,7 @@ describe('Whole Saga testing', () => {
     expect(delaySomthing).toHaveBeenCalledTimes(1);
     expect(dispatched.length).toBe(1);
     expect(dispatched[0]).toEqual({
-      type: 'REMOVE_ALERT',
+      type: removeAlert.type,
       payload: initialAction.payload.id,
     });
     // console.log('alertActions testing, dispatched ->', dispatched);
