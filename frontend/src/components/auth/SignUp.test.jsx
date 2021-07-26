@@ -8,6 +8,7 @@ import userEvent from '@testing-library/user-event';
 
 import store from '../../redux/store'
 import { SignUp, formStructure, signUpSchema } from './SignUp';
+import { closeModal } from '../../redux/slices';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -126,7 +127,8 @@ describe('SignUp form testing', () => {
         jest.resetAllMocks()
         actualProps = {
           ...testProps,
-          signUpStart: jest.fn().mockReturnValue({ type: 'auth/signUpStart' })
+          signUpStart: jest.fn().mockReturnValue({ type: 'auth/signUpStart' }),
+          closeModal: jest.fn().mockReturnValue({ type: 'device/closeModal' })
         }
       })
       test.only('signUp', async () => {
@@ -140,10 +142,11 @@ describe('SignUp form testing', () => {
         userEvent.click(signUpButton);
         await waitFor(() => {
           expect(actualProps.signUpStart).toHaveBeenCalledTimes(1);
-          const {userName, password2, ...otherProps} = activeValues
-          const sentValues = {...otherProps, user_name: userName}
-          console.log('buttong sign up, activeValues ->', sentValues)
-          expect(activeProps.signUpStart.mock.calls[0][0]).toEqual(sentValues);
+          const {userName, password2, ...otherProps} = initValues
+          const sentValues = { ...otherProps, user_name: userName }
+          expect(actualProps.signUpStart).toHaveBeenCalledWith(sentValues);
+          // console.log('buttong sign up, activeValues ->', sentValues)
+          // expect(activeProps.signUpStart.mock.calls[0][0]).toEqual(sentValues);
         });
       });
 
@@ -157,7 +160,7 @@ describe('SignUp form testing', () => {
 
         userEvent.click(cancelButton);
         await waitFor(() => {
-          expect(activeProps.setModalClosed).toHaveBeenCalledTimes(1);
+          expect(actualProps.closeModal).toHaveBeenCalledTimes(1);
         });
       });
     });

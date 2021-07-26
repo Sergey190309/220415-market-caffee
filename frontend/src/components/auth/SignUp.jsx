@@ -53,12 +53,12 @@ export const signUpSchema = t =>
 export const SignUp = ({
   initValues,
   signUpSchema,
-  // closeModal,
+  closeModal,
   signUpStart,
   // isSignedUp,
-  // signUpModalClosed,
+  signUpModalClosed,
 }) => {
-  // console.log('components, SignUp, signUpStart ->', signUpStart())
+  console.log('components, SignUp, signUpStart ->', signUpStart())
   const dispatch = useDispatch();
   const { isSignedUp } = useSelector(authSelector);
   useEffect(() => {
@@ -66,7 +66,7 @@ export const SignUp = ({
       dispatch(closeModal());
       dispatch(signUpModalClosed());
     }
-  }, [dispatch, isSignedUp]);
+  }, [dispatch, isSignedUp, closeModal, signUpModalClosed]);
 
   const { t } = useTranslation('signup');
 
@@ -74,7 +74,7 @@ export const SignUp = ({
     const { userName, password2, ...otherProps } = formData;
     const signUpData = { user_name: userName, ...otherProps };
     // const { userName, email, password } = formData;
-    console.log('SignUp, signUpData ->', signUpData);
+    // console.log('SignUp, signUpData ->', signUpData);
     dispatch(signUpStart(signUpData));
     setSubmitting(false);
   };
@@ -177,23 +177,17 @@ export const SignUp = ({
 SignUp.defaultProps = {
   initValues: formStructure,
   signUpSchema: signUpSchema,
-  // closeModal: () => {
-  //   console.log('Modal close called');
-  // },
+  closeModal: closeModal,
   signUpStart: signUpStart,
-  // isSignedUp: false,
-  // signUpModalClosed: () => {
-  //   console.log('signUpModalClosed action called');
-  // },
+  signUpModalClosed: signUpModalClosed
 };
 
 SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
-  // closeModal: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
   signUpStart: PropTypes.func.isRequired,
-  // isSignedUp: PropTypes.bool.isRequired,
-  // signUpModalClosed: PropTypes.func.isRequired,
+  signUpModalClosed: PropTypes.func.isRequired,
 };
 
 export default SignUp;
