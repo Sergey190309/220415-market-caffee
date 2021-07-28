@@ -10,6 +10,7 @@ class FileStorageField(fields.Field):
 
     def _deserialize(self, value, attr, data, **kwargs) -> FileStorage:
         super()._deserialize(value, attr, data, **kwargs)
+        # print('images, schemas, image')
         if value is None:
             return None
         if not isinstance(value, FileStorage):
@@ -19,7 +20,7 @@ class FileStorageField(fields.Field):
 
 class ImageSchema(Schema):
     """
-    It's gonna to be user for deserialisation only. In - FileStorage, analizing wether it's
-    valid then proceed.
+    It's gonna to be user for deserialisation only. In - FileStorage,
+    analizing wether it's valid then proceed.
     """
     image = FileStorageField(required=True)

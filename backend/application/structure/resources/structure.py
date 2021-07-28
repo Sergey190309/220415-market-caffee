@@ -64,6 +64,9 @@ class Structure(Resource):
 
     @classmethod
     def no_access(cls) -> Dict:
+        """
+        The method inform user on lack of previlages.
+        """
         return {
             'message': str(_(
                 "Sorry, access to structure information is allowed to admin only."

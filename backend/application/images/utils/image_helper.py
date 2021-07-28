@@ -12,7 +12,8 @@ def save_image(image: FileStorage, folder: str = None, name: str = None) -> str:
     """
     Take fileStorage and save it into folder.
     """
-    return IMAGE_SET.save(image, folder, name)
+    _folder = f'images/{folder}'
+    return IMAGE_SET.save(image, _folder, name)
 
 
 def get_path(filename: str = None, folder: str = None) -> str:
@@ -30,9 +31,10 @@ def find_image_any_format(filename: str = None, folder: str = None) -> Union[str
     :param folder: the relative folder in which to search
     :return: the path of the image if exists, otherwise None
     """
+    _folder = f'images/{folder}'
     for _format in IMAGES:
         image = f'{filename}.{_format}'
-        image_path = IMAGE_SET.path(filename=image, folder=folder)
+        image_path = IMAGE_SET.path(filename=image, folder=_folder)
         if os.path.isfile(image_path):
             return image_path
     return None
@@ -40,8 +42,8 @@ def find_image_any_format(filename: str = None, folder: str = None) -> Union[str
 
 def _retrieve_filename(file: Union[str, FileStorage]) -> str:
     """
-    Make our filename related functions generic, able to deal with FileStorage object as
-    well as filename str.
+    Make our filename related functions generic, able to deal with
+        FileStorage object as well as filename str.
     """
     if isinstance(file, FileStorage):
         return file.filename
@@ -58,6 +60,18 @@ def is_filename_safe(file: Union[str, FileStorage]) -> bool:
     filename = _retrieve_filename(file)
     allowed_format = '|'.join(IMAGES)
     redex = f'^[a-zA-Z0-9][a-zA-Z0-9_()-\.]*\.({allowed_format})$'
+    return re.match(redex, filename) is not None
+
+
+def is_filename_safe_no_ext(file: Union[str, FileStorage]) -> bool:
+    """
+    Check if a filename is secure according to our definition
+    - starts with a-z A-Z 0-9 at least one time
+    - only contains a-z A-Z 0-9 and _().-
+    """
+    filename = _retrieve_filename(file)
+    # allowed_format = '|'.join(IMAGES)
+    redex = '^[a-zA-Z0-9][a-zA-Z0-9_()-]*$'
     return re.match(redex, filename) is not None
 
 

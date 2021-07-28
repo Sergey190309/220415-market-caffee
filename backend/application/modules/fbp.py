@@ -33,11 +33,11 @@ class BabelBackend(Babel):
         set_selectors(self)
 
     def set_locales(self, payload: Dict) -> Dict:
-        # print('application.modules.fbp.set_selectors -', payload)
         self.global_variables.set_globals(payload)
         return self.global_variables.get_globals()
 
     def set_lng(self, lng: str) -> None:
+        # print('application.modules.fbp.set_lng, lng ->', lng)
         if lng not in global_constants.get_PKS:
             lng = global_constants.get_LOCALES[0].get('id')
         if lng != self.global_variables.app_globals['locale']:

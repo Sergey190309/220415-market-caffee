@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-06-02 09:45+0000\n"
-"PO-Revision-Date: 2021-06-02 09:46+0000\n"
+"POT-Creation-Date: 2021-07-28 07:27+0000\n"
+"PO-Revision-Date: 2021-07-28 07:29+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -127,21 +127,21 @@ msgstr ""
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:101 resources/locale_global.py:37
+#: contents/resources/contents.py:104 resources/locale_global.py:37
 #: structure/resources/structure.py:27
 msgid "Something went wrong. Check tech_token and sessions set up."
 msgstr "Что-то пошло не так, проверь технический жетон и организацию сессий."
 
-#: contents/resources/contents.py:116
+#: contents/resources/contents.py:117
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:143
+#: contents/resources/contents.py:144
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:176
+#: contents/resources/contents.py:177
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -197,15 +197,63 @@ msgstr "Что-то пошло не так, в  JSON нет правильног
 msgid "TechAuth reporing! Tech token is in payload."
 msgstr "ТехРег докладывает! Тех жетон в сообщении."
 
-#: images/resources/images.py:32
+#: images/resources/images.py:41
 #, python-format
-msgid "Image '%(basename)s' uploaded"
-msgstr "Изображение '%(basename)s' загружено"
+msgid "A picture with identity '%(picture_id)s' have not been found."
+msgstr "Картинка с идентификатором '%(picture_id)s' не обнаружена."
 
-#: images/resources/images.py:36
+#: images/resources/images.py:54
+#, python-format
+msgid ""
+"A picture with identity '%(picture_id)s' already exist, you should either "
+"kill it if uploading or download one."
+msgstr ""
+"Картинка с идентификатором '%(picture_id)s' уже существует, вы должны "
+"пристрелить ее перед закачкой новой или можете ее скачать ."
+
+#: images/resources/images.py:66
+msgid "Sorry, images uploading is allowed to admin only."
+msgstr "Извиняйте, загрузка картинок доступна только администратору."
+
+#: images/resources/images.py:109
+#, python-format
+msgid "Image for view '%(view_id)s' with identity '%(image_id)s' uploaded."
+msgstr ""
+"Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' "
+"загружена."
+
+#: images/resources/images.py:117
 #, python-format
 msgid "Extentions '%(extention)s' are not allowed"
 msgstr "Расширения '%(extention)s' не разрешены"
+
+#: images/resources/images.py:131 structure/resources/structure.py:112
+msgid "Something went wrong. Sorry we'll reverting."
+msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
+
+#: images/resources/images.py:143
+#, python-format
+msgid "File name '%(file_name)s' contains illigal simbols"
+msgstr "Идентификатор картинки '%(file_name)s' содержит нелегальные символы."
+
+#: images/resources/images.py:172
+#, python-format
+msgid ""
+"A picture with identity '%(picture_id)s' have not been found, your are "
+"welcome to upload one."
+msgstr ""
+"Картинка с идентификатором '%(picture_id)s' не обнаружена, вы можете "
+"закачать такую."
+
+#: images/resources/images.py:192
+#, python-format
+msgid "Picture identity '%(file_name)s' contains illigal simbols"
+msgstr "Идентификатор картинки '%(file_name)s' содержит нелегальные символы."
+
+#: images/resources/images.py:203
+#, python-format
+msgid "Image with identity '%(file_name)s' successfully deleted."
+msgstr "Картинка с идентификатором '%(file_name)s' успешно удалена."
 
 #: images/schemas/image.py:8
 msgid "Not a valid image!"
@@ -298,18 +346,14 @@ msgstr "Структура с идентификатором '%(view_id)s' уж�
 msgid "A structure with identity '%(view_id)s' not found."
 msgstr "Структура с идентификатором '%(view_id)s' не обнаружена."
 
-#: structure/resources/structure.py:69
+#: structure/resources/structure.py:72
 msgid "Sorry, access to structure information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации о структуре разрешен только администратору."
 
-#: structure/resources/structure.py:93
+#: structure/resources/structure.py:96
 msgid "The structure has been saved successfully. Details are in payload."
 msgstr "Структура успешно сохранена. Детали в сообщении."
-
-#: structure/resources/structure.py:112
-msgid "Something went wrong. Sorry we'll reverting."
-msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
 
 #: structure/resources/structure.py:125
 msgid "The structure has been found. Details are in payload."
@@ -336,8 +380,8 @@ msgid "Signature verification failed."
 msgstr "Подпись проверить не получилось."
 
 #: users/errors/register_errors_users.py:36
-msgid "Request does not contain an access token."
-msgstr "Запрос не содержит жетона доступа."
+msgid "Request does not contain an access token!"
+msgstr "Запрос не содержит жетона доступа!"
 
 #: users/errors/register_errors_users.py:43
 msgid "The token is not fresh."
@@ -450,7 +494,7 @@ msgstr ""
 #: users/resources/userlist.py:37
 msgid "Sorry, access to user's information is allowed to admin only."
 msgstr ""
-"Извиняйте, доступ с информации пользователей разрешен только администратору."
+"Извиняйте, доступ к информации пользователей разрешен только администратору."
 
 #: users/resources/userlogin.py:35
 #, python-format
@@ -525,6 +569,9 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid "Image '%(basename)s' uploaded"
+#~ msgstr "Изображение '%(basename)s' загружено"
 
 #~ msgid ""
 #~ "Non admin users are allowed to change their own accounts but not allowed "

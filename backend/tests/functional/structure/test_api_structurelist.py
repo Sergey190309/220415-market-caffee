@@ -10,7 +10,7 @@ from application.structure.models.structure import StructureModel
 from application.structure.modules.dbs_init_structure import dbs_init_structure
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_structure_list_no_token(
     client,
 ):
