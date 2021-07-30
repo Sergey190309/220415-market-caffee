@@ -9,20 +9,20 @@ import ViewPicture from './ViewPicture';
 import ViewNothing from './ViewNothing';
 import { Container, List } from 'semantic-ui-react';
 
-const ViewHBlock = ({ recordId, viewName, lng }) => {
+const ViewHBlock = ({ recordsId, viewName, lng }) => {
   const [recordIdList, setRecordIdList] = useState([])
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordId));
+    setRecordIdList(makeRecordIdList(recordsId));
     // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
-  }, [recordId]);
+  }, [recordsId]);
 
   const output = () => {
     const props = {
       viewName: viewName,
       lng: lng
     }
-    if (recordId.includes('txt')) {
+    if (recordsId.includes('txt')) {
       return recordIdList.map(txtRecordId => {
         return (
           <List.Item key={txtRecordId}>
@@ -31,7 +31,7 @@ const ViewHBlock = ({ recordId, viewName, lng }) => {
         );
       });
     }
-    if (recordId.includes('pix')) {
+    if (recordsId.includes('pix')) {
       // console.log('ViewHBlock, props ->', props)
       return recordIdList.map(pixRecordId => {
         return (
@@ -40,9 +40,6 @@ const ViewHBlock = ({ recordId, viewName, lng }) => {
               <ViewPicture {...props} recordId={pixRecordId} />
             </Container>
           </List.Item>
-        // <Fragment key={pixRecordId} >
-        //   <ViewPicture {...props} recordId={pixRecordId} />
-        // </Fragment>
         )
       })
     }
@@ -60,13 +57,13 @@ const ViewHBlock = ({ recordId, viewName, lng }) => {
 }
 
 ViewHBlock.defaultProps = {
-  recordId: '',
+  recordsId: '',
   viewName: '',
   lng: '',
 };
 
 ViewHBlock.propTypes = {
-  recordId: PropTypes.string.isRequired,
+  recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
 };

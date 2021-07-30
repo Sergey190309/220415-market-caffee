@@ -6,20 +6,20 @@ import { CONTENT_REQUESTED } from '../../../redux/constants/types';
 import { useSaga } from '../../../redux/saga/contentLoading/createIO';
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
 
-const ViewFooter = ({ recordId, viewName, lng, initState }) => {
+const ViewFooter = ({ recordsId, viewName, lng, initState }) => {
   const [state, sagaDispatch] = useSaga(contentSaga, initState);
 
   useEffect(() => {
-    // console.log('ViewFooter, useEffect ->', recordId, viewName, lng)
+    // console.log('ViewFooter, useEffect ->', recordsId, viewName, lng)
     sagaDispatch({
       type: CONTENT_REQUESTED,
       payload: {
-        identity: recordId,
+        identity: recordsId,
         view_id: viewName,
         locale_id: lng,
       },
     });
-  }, [recordId, viewName, lng, sagaDispatch]);
+  }, [recordsId, viewName, lng, sagaDispatch]);
 
   return (
     <div>
@@ -30,7 +30,7 @@ const ViewFooter = ({ recordId, viewName, lng, initState }) => {
 };
 
 ViewFooter.defaultProps = {
-  recordId: '',
+  recordsId: '',
   viewName: '',
   lng: '',
   initState: {
@@ -40,7 +40,7 @@ ViewFooter.defaultProps = {
 };
 
 ViewFooter.propTypes = {
-  recordId: PropTypes.string.isRequired,
+  recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
   initState: PropTypes.object.isRequired,

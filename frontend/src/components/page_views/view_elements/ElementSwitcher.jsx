@@ -15,13 +15,13 @@ const ElementSwitcher = ({ structure, viewName, lng }) => {
     const componentType = structure[key]['type'];
     const componentSubType = structure[key]['subtype'] ? structure[key]['subtype'] : null;
     const subComponentQnt = structure[key]['qnt'] ? structure[key]['qnt'] : null;
-    const recordId =
+    const recordsId =
       `${key}_${componentType}` +
       (componentSubType ? `_${componentSubType}` : '') +
       (subComponentQnt ? `_${subComponentQnt}` : '');
-    // console.log(recordId)
+    // console.log(recordsId)
     let component;
-    const props = { recordId: recordId, viewName: viewName, lng: lng };
+    const props = { recordsId: recordsId, viewName: viewName, lng: lng };
     switch (componentType) {
       case 'header':
         component = <ViewHeader {...props} />;

@@ -32,7 +32,7 @@ describe('ViewVBlock testing', () => {
     ViewNothing.mockImplementation(mockViewNothing);
   });
 
-  test('output calling ViewParagraph', () => {
+  test.only('output calling ViewParagraph', () => {
     const testProps = {
       recordId: '01_vblock_txt_3',
       viewName: 'mockViewName',

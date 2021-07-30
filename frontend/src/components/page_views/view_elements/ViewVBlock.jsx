@@ -9,21 +9,30 @@ import ViewPicture from './ViewPicture';
 import ViewNothing from './ViewNothing';
 
 
-const ViewVBlock = ({ recordId, viewName, lng }) => {
-  // recordId -> 01_vblock_txt_3
-  // console.log('ViewVBlock, recordId ->', recordId)
+const ViewVBlock = ({ recordsId, viewName, lng }) => {
+  /**
+   * recordsId structure - 01_vblock_txt_3
+   * 01 - serial number
+   * vblock - kind of structure
+   * txt - kind of structure elements
+   * 3 - element qnt
+   */
   const [recordIdList, setRecordIdList] = useState([])
+  /**
+   * recordIdList - list of identities in content table.
+   */
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordId));
-    // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
-  }, [recordId]);
+    setRecordIdList(makeRecordIdList(recordsId));
+  }, [recordsId]);
 
   const props = {
     viewName: viewName,
     lng: lng
   }
-  if (recordId.includes('txt')) {
+  // console.log('ViewVBlock, recordIdList ->', recordIdList);
+
+  if (recordsId.includes('txt')) {
     return recordIdList.map(txtRecordId => {
       // console.log('ViewVBlock output, recordId ->', recordId)
       return (
@@ -33,7 +42,7 @@ const ViewVBlock = ({ recordId, viewName, lng }) => {
       );
     });
   }
-  if (recordId.includes('pix')) {
+  if (recordsId.includes('pix')) {
     // console.log('ViewHBlock, props ->', props)
     return recordIdList.map(pixRecordId => {
       return (
@@ -47,13 +56,13 @@ const ViewVBlock = ({ recordId, viewName, lng }) => {
 };
 
 ViewVBlock.defaultProps = {
-  recordId: '',
+  recordsId: '',
   viewName: '',
   lng: '',
 };
 
 ViewVBlock.propTypes = {
-  recordId: PropTypes.string.isRequired,
+  recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
 };
