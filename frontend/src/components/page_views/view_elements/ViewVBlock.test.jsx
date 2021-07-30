@@ -32,13 +32,13 @@ describe('ViewVBlock testing', () => {
     ViewNothing.mockImplementation(mockViewNothing);
   });
 
-  test.only('output calling ViewParagraph', () => {
+  test('output calling ViewParagraph', () => {
     const testProps = {
-      recordId: '01_vblock_txt_3',
+      recordsId: '01_vblock_txt_3',
       viewName: 'mockViewName',
       lng: 'mockLng',
     };
-    const mockRecordIdList = makeRecordIdList(testProps['recordId']);
+    const mockRecordIdList = makeRecordIdList(testProps['recordsId']);
       const viewParagraphPropsList = mockRecordIdList.map(item => ({
       viewName: testProps['viewName'],
       lng: testProps['lng'],
@@ -55,11 +55,11 @@ describe('ViewVBlock testing', () => {
   });
   test('output calling ViewPicture', () => {
     const testProps = {
-      recordId: '01_vblock_pix_4',
+      recordsId: '01_vblock_pix_4',
       viewName: 'mockViewName',
       lng: 'mockLng',
     };
-    const mockRecordIdList = makeRecordIdList(testProps['recordId']);
+    const mockRecordIdList = makeRecordIdList(testProps['recordsId']);
       const viewParagraphPropsList = mockRecordIdList.map(item => ({
       viewName: testProps['viewName'],
       lng: testProps['lng'],

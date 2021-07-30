@@ -8,11 +8,11 @@ import ViewVBlock from './ViewVBlock';
 import ViewHBlock from './ViewHBlock';
 import ViewNothing from './ViewNothing';
 
-const MockViewHeader = ({ recordId, viewName, lng }) => <div data-testid='ViewHeader' />;
-const MockViewFooter = ({ recordId, viewName, lng }) => <div data-testid='ViewFooter' />;
-const MockViewVBlock = ({ recordId, viewName, lng }) => <div data-testid='ViewVBlock' />;
-const MockViewHBlock = ({ recordId, viewName, lng }) => <div data-testid='ViewHBlock' />;
-const MockViewNothing = ({ recordId, viewName, lng }) => (
+const MockViewHeader = ({ recordsId, viewName, lng }) => <div data-testid='ViewHeader' />;
+const MockViewFooter = ({ recordsId, viewName, lng }) => <div data-testid='ViewFooter' />;
+const MockViewVBlock = ({ recordsId, viewName, lng }) => <div data-testid='ViewVBlock' />;
+const MockViewHBlock = ({ recordsId, viewName, lng }) => <div data-testid='ViewHBlock' />;
+const MockViewNothing = ({ recordsId, viewName, lng }) => (
   <div data-testid='ViewNothing' />
 );
 
@@ -57,32 +57,32 @@ describe('ElementSwitcher testing', () => {
     // recordId serialNumber_type_subType_subComponentQnt
     // ----------------------------------------------------------------------------------
     expect(ViewHeader.mock.calls[0][0]).toEqual({
-      recordId: '00_header',
+      recordsId: '00_header',
       viewName: testProps['viewName'],
       lng: testProps.lng,
     });
     expect(ViewVBlock.mock.calls[0][0]).toEqual({
-      recordId: '01_vblock_txt_3',
+      recordsId: '01_vblock_txt_3',
       viewName: testProps['viewName'],
       lng: testProps.lng,
     });
     expect(ViewHBlock.mock.calls[0][0]).toEqual({
-      recordId: '02_hblock_pix_2',
+      recordsId: '02_hblock_pix_2',
       viewName: testProps['viewName'],
       lng: testProps.lng,
     });
     expect(ViewVBlock.mock.calls[1][0]).toEqual({
-      recordId: '03_vblock_pix_2',
+      recordsId: '03_vblock_pix_2',
       viewName: testProps['viewName'],
       lng: testProps.lng,
     });
     expect(ViewFooter.mock.calls[0][0]).toEqual({
-      recordId: '04_footer',
+      recordsId: '04_footer',
       viewName: testProps['viewName'],
       lng: testProps.lng,
     });
     expect(ViewNothing.mock.calls[0][0]).toEqual({
-      recordId: '05_wrongType',
+      recordsId: '05_wrongType',
       viewName: testProps['viewName'],
       lng: testProps.lng,
     });
