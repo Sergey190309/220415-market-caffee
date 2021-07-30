@@ -66,7 +66,7 @@ def test_structure_post(structure_api_resp, client, structure_get_schema,
     _resp = client.post(url_for('structure_bp.structure'), json=_json, headers=_headers)
     assert _resp.status_code == 400
     assert 'message' in _resp.json.keys()
-    assert 'paiload' not in _resp.json.keys()
+    assert 'payload' not in _resp.json.keys()
     assert _resp.json.get('message').find(test_word) != -1
 
     # wrong fk
@@ -76,10 +76,10 @@ def test_structure_post(structure_api_resp, client, structure_get_schema,
     _resp = client.post(url_for('structure_bp.structure'), json=_json, headers=_headers)
     assert _resp.status_code == 500
     assert 'message' in _resp.json.keys()
-    assert 'paiload' not in _resp.json.keys()
+    assert 'payload' in _resp.json.keys()
     assert _resp.json.get('message').find(test_word_01) != -1
-    # print('\nfunc, structure, test_post, rest ->', resp.status_code)
-    # print('func, structure, test_post, rest ->', resp.json)
+    # print('\nfunc, structure, test_post, rest ->', _resp.status_code)
+    # print('func, structure, test_post, rest ->', _resp.json)
 
     # Non admin user.
     _user = user_instance(values={'role_id': 'user'})  # just user

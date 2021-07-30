@@ -79,9 +79,9 @@ class Structure(Resource):
         '''
         Create structure instance and save to db.
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
-        fbp.set_lng(request.headers.get('Accept-Language'))
         _request_json = request.get_json()
         # _structure = structure_schema.load(_request_json)
         _structure = structure_schema.load(_request_json, session=dbs_global.session)

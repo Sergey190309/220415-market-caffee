@@ -31,6 +31,8 @@ def find_image_any_format(filename: str = None, folder: str = None) -> Union[str
     :param folder: the relative folder in which to search
     :return: the path of the image if exists, otherwise None
     """
+    # print('find_image_any_format, filename ->', filename)
+    # print('find_image_any_format, folder ->', folder)
     _folder = f'images/{folder}'
     for _format in IMAGES:
         image = f'{filename}.{_format}'
@@ -63,11 +65,11 @@ def is_filename_safe(file: Union[str, FileStorage]) -> bool:
     return re.match(redex, filename) is not None
 
 
-def is_filename_safe_no_ext(file: Union[str, FileStorage]) -> bool:
+def is_value_safe(file: Union[str, FileStorage]) -> bool:
     """
     Check if a filename is secure according to our definition
     - starts with a-z A-Z 0-9 at least one time
-    - only contains a-z A-Z 0-9 and _().-
+    - only contains a-z A-Z 0-9 and _()-
     """
     filename = _retrieve_filename(file)
     # allowed_format = '|'.join(IMAGES)

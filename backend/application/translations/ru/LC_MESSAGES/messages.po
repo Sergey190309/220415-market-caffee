@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-28 07:27+0000\n"
-"PO-Revision-Date: 2021-07-28 07:29+0000\n"
+"POT-Creation-Date: 2021-07-30 05:15+0000\n"
+"PO-Revision-Date: 2021-07-30 05:15+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -199,61 +199,56 @@ msgstr "ТехРег докладывает! Тех жетон в сообщен
 
 #: images/resources/images.py:41
 #, python-format
-msgid "A picture with identity '%(picture_id)s' have not been found."
-msgstr "Картинка с идентификатором '%(picture_id)s' не обнаружена."
+msgid ""
+"A picture for page '%(view_id)s' with identity '%(image_id)s' have not been "
+"found."
+msgstr ""
+"Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' не "
+"обнаружена."
 
-#: images/resources/images.py:54
+#: images/resources/images.py:56
 #, python-format
 msgid ""
-"A picture with identity '%(picture_id)s' already exist, you should either "
-"kill it if uploading or download one."
+"A picture for view '%(view_id)s' with identity '%(image_id)s' already exist, "
+"you should either kill it if uploading or download one."
 msgstr ""
-"Картинка с идентификатором '%(picture_id)s' уже существует, вы должны "
-"пристрелить ее перед закачкой новой или можете ее скачать ."
+"Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' уже "
+"существует, вы должны пристрелить ее перед закачкой новой или можете ее "
+"скачать ."
 
-#: images/resources/images.py:66
+#: images/resources/images.py:69
 msgid "Sorry, images uploading is allowed to admin only."
 msgstr "Извиняйте, загрузка картинок доступна только администратору."
 
-#: images/resources/images.py:109
+#: images/resources/images.py:80
+#, python-format
+msgid "Sorry but '%(value)s' contains illigal simbols."
+msgstr "Извиняйте, но  '%(value)s' содержит нелегальные символы."
+
+#: images/resources/images.py:126
 #, python-format
 msgid "Image for view '%(view_id)s' with identity '%(image_id)s' uploaded."
 msgstr ""
 "Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' "
 "загружена."
 
-#: images/resources/images.py:117
+#: images/resources/images.py:134
 #, python-format
 msgid "Extentions '%(extention)s' are not allowed"
 msgstr "Расширения '%(extention)s' не разрешены"
 
-#: images/resources/images.py:131 structure/resources/structure.py:112
+#: images/resources/images.py:149 structure/resources/structure.py:112
 msgid "Something went wrong. Sorry we'll reverting."
 msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
 
-#: images/resources/images.py:143
-#, python-format
-msgid "File name '%(file_name)s' contains illigal simbols"
-msgstr "Идентификатор картинки '%(file_name)s' содержит нелегальные символы."
-
-#: images/resources/images.py:172
+#: images/resources/images.py:217
 #, python-format
 msgid ""
-"A picture with identity '%(picture_id)s' have not been found, your are "
-"welcome to upload one."
+"An image for view '%(view_id)s' with identity '%(image_id)s' successfully "
+"deleted."
 msgstr ""
-"Картинка с идентификатором '%(picture_id)s' не обнаружена, вы можете "
-"закачать такую."
-
-#: images/resources/images.py:192
-#, python-format
-msgid "Picture identity '%(file_name)s' contains illigal simbols"
-msgstr "Идентификатор картинки '%(file_name)s' содержит нелегальные символы."
-
-#: images/resources/images.py:203
-#, python-format
-msgid "Image with identity '%(file_name)s' successfully deleted."
-msgstr "Картинка с идентификатором '%(file_name)s' успешно удалена."
+"Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' "
+"благополучно убита."
 
 #: images/schemas/image.py:8
 msgid "Not a valid image!"
@@ -519,17 +514,17 @@ msgstr ""
 msgid "Hi '%(user_name)s'! You are welcome."
 msgstr "'Привет '%(user_name)s'! Добро пожаловать."
 
-#: users/resources/userlogin.py:73
+#: users/resources/userlogin.py:74
 msgid "Successfully logged out."
 msgstr "Пользователь успешно прекратил регистрацию."
 
-#: users/resources/userlogin.py:86
+#: users/resources/userlogin.py:88
 msgid "Something wrong with token refreshing. Try to log in again."
 msgstr ""
 "Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
 "раз."
 
-#: users/resources/userlogin.py:89
+#: users/resources/userlogin.py:91
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
@@ -569,6 +564,19 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid "Picture identity '%(file_name)s' contains illigal simbols"
+#~ msgstr "Идентификатор картинки '%(file_name)s' содержит нелегальные символы"
+
+#~ msgid "Image with identity '%(file_name)s' successfully deleted."
+#~ msgstr "Картинка с идентификатором '%(file_name)s' успешно удалена."
+
+#~ msgid ""
+#~ "A picture for view '%()s' with identity '%(picture_id)s' have not been "
+#~ "found, your are welcome to upload one."
+#~ msgstr ""
+#~ "Картинка для странички  с идентификатором '%(picture_id)s' не обнаружена, "
+#~ "вы можете закачать такую."
 
 #~ msgid "Image '%(basename)s' uploaded"
 #~ msgstr "Изображение '%(basename)s' загружено"
