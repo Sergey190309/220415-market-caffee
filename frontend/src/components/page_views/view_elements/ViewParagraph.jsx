@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CONTENT_REQUESTED } from '../../../redux/constants/types';
 import { useSaga } from '../../../redux/saga/contentLoading/createIO';
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
+
 const ViewParagraph = ({ recordId, viewName, lng }) => {
   const [state, sagaDispatch] = useSaga(contentSaga, {
     title: '',

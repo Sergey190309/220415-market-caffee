@@ -13,3 +13,7 @@ identity,view_id,locale_id,created,updated,user_id,title,content
 04_footer,landing,ru,2021-04-04 00:00:00,NULL,1,NULL,Мы будем рады обслужить вас ежедневно с 1000 до 2200 (воск до 2100).
 00_header,landing,en,2021-04-04 00:00:00,NULL,1,Welcome to our nice caffee!,That’s english title’s content
 00_header,landing,ru,2021-04-04 00:00:00,NULL,1,Добро пожаловать в наше доброе кафе!,Это содержание для русского заголовка
+03_vblock_pix_000,landing,en,2021-07-30 00:00:00,NULL,1,Some picture,picture
+03_vblock_pix_000,landing,ru,2021-07-30 00:00:00,NULL,1,Просто картинка,picture
+03_vblock_pix_001,landing,en,2021-07-30 00:00:00,NULL,1,Other picture,picture
+03_vblock_pix_001,landing,ru,2021-07-30 00:00:00,NULL,1,Другая картинка,picture

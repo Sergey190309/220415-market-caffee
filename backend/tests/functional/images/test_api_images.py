@@ -74,7 +74,7 @@ def test_images_post_success(
     lng, test_word
 ):
     image_id = '01_vblock_pix_001'
-    view_id = 'test'
+    view_id = 'testing'
     path_name = (f'./application/images/static/images/for_{view_id}/'
                  f'{image_id}.jpg')
     if os.path.exists(path_name):

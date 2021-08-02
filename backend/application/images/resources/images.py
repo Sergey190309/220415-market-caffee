@@ -165,6 +165,7 @@ class ImagesHandling(Resource):
                 _image_id, f'for_{_requested_dict.get("view_id")}')
             if not _found_image:
                 return cls.not_found(_view_id, _image_id)
+            # print('images, resource, _found_image ->', _found_image)
             return send_file(_found_image)
         except FileNotFoundError:
             return cls.not_found(_image_id)

@@ -12,11 +12,28 @@ const headers = {
 }
 
 export const techAxiosClient = axios.create({
+  /**
+   * used for tech initial update - tech token, sessions, etc.
+   */
   baseURL: baseURL,
   headers: headers,
 });
 
+export const pixAxiosClient = axios.create({
+  /**
+   * user for operations with pictures
+   */
+  baseURL: baseURL,
+  headers: {
+    ...headers,
+    'Content-Type': 'multipart/form-data',
+  }
+})
+
 export const authAxiosClient = axios.create({
+  /**
+   * used for authorisation
+   */
   baseURL: baseURL,
   headers: headers,
 });
@@ -24,12 +41,14 @@ export const authAxiosClient = axios.create({
 export const axiosCommonLng = lng => {
   // console.log('apiClient, axiosCommonLng, lng ->', lng)
   techAxiosClient.defaults.headers.common['Accept-Language'] = lng;
+  pixAxiosClient.defaults.headers.common['Accept-Language'] = lng;
   authAxiosClient.defaults.headers.common['Accept-Language'] = lng;
 };
 
 export const axiosCommonToken = (token, axiosInstance = techAxiosClient) => {
   // console.log('axiosCommonToken, headers ->', axiosInstance.defaults.headers.common['Authorization'])
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  pixAxiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
 // export default axiosClient;
