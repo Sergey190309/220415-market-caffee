@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 // import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Container, Divider } from 'semantic-ui-react';
 
 import { makeRecordIdList } from '../../../utils/utils';
 
@@ -44,11 +45,16 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
   }
   if (recordsId.includes('pix')) {
     // console.log('ViewHBlock, props ->', props)
-    return recordIdList.map(pixRecordId => {
+    return recordIdList.map((pixRecordId, index) => {
       return (
-        <Fragment key={pixRecordId} >
-          <ViewPicture {...props} recordId={pixRecordId} />
-        </Fragment>
+        <Container textAlign='center' key={pixRecordId} >
+          <ViewPicture
+            {...props}
+            recordId={pixRecordId}
+            dimension={{direction: 'horizontal', size: 250}}
+          />
+          {index < recordIdList.length - 1? <Divider />: null}
+        </Container>
       )
     })
   }

@@ -27,7 +27,13 @@ export const pixAxiosClient = axios.create({
   headers: {
     ...headers,
     'Content-Type': 'multipart/form-data',
-  }
+
+    // 'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+    // 'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization, X- Request-With'
+  },
+  responseType: 'arraybuffer',
+  responseEncoding: 'binary',
 })
 
 export const authAxiosClient = axios.create({

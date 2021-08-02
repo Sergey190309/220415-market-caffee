@@ -9,7 +9,7 @@ export const lngsCall = () => {
 export const techInCall = techInData => {
   // techInData = '';
   // const resp = techAxiosClient.post('/home/tech/auth');
-  console.log('techInCall, techInData ->', techInData);
+  // console.log('techInCall, techInData ->', techInData);
   const resp = techAxiosClient.post('/home/tech/auth', techInData);
   return resp;
 };

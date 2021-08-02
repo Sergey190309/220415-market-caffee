@@ -12,8 +12,8 @@ export const getViewContent = params => {
 
 export const getViewPicture = params => {
   try {
-    console.log('getViewContent, params ->', params);
-    const resp = pixAxiosClient.get('/content', { params: params });
+    // console.log('getViewPicture, params ->', params);
+    const resp = pixAxiosClient.get('/images/', { params: params });
     return resp;
   } catch (error) {
     console.error('logInCall error');

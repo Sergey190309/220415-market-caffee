@@ -29,17 +29,15 @@ export const contentSaga = function* (setter) {
   }
 };
 
-export const picturetSaga = function* (setter) {
+export const picSaga = function* (setter) {
   while (true) {
     const { payload } = yield take(PICTURE_REQUESTED);
-    // console.log('contentSaga, params ->', payload);
+    // console.log('contentSaga, payload ->', payload);
     try {
-      // const result = yield call(getViewPicture, payload);
-      const texts = yield call(getViewContent, payload);
-      const { title, content } = texts.data.payload;
+      const pixResp = yield call(getViewPicture, payload)
+      // console.log('picSaga, pixResp ->', pixResp.data)
       yield call(setter, {
-        title: title,
-        content: content,
+        pic: Buffer.from(pixResp.data, 'binary').toString('base64') ,
       });
     } catch (error) {
       if (error.response) {

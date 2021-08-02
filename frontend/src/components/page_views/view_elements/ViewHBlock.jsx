@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 // import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Container, List, Divider } from 'semantic-ui-react';
 
 import { makeRecordIdList } from '../../../utils/utils';
 
 import ViewParagraph from './ViewParagraph';
 import ViewPicture from './ViewPicture';
 import ViewNothing from './ViewNothing';
-import { Container, List } from 'semantic-ui-react';
 
 const ViewHBlock = ({ recordsId, viewName, lng }) => {
   const [recordIdList, setRecordIdList] = useState([])
@@ -36,9 +36,17 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
       return recordIdList.map(pixRecordId => {
         return (
           <List.Item key={pixRecordId} >
-            <Container fluid textAlign='center'>
-              <ViewPicture {...props} recordId={pixRecordId} />
+            <Container
+              textAlign='center'
+              fluid
+            >
+              <ViewPicture
+                {...props}
+                recordId={pixRecordId}
+                dimension={{direction: 'vertical', size: 250}}
+              />
             </Container>
+            {/* <Divider /> */}
           </List.Item>
         )
       })
@@ -67,13 +75,5 @@ ViewHBlock.propTypes = {
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
 };
-
-// const mapStateToProps = state => ({
-//   lng: state.lng,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-// structureStart: viewName => dispatch(structureStart(viewName)),
-// });
 
 export default ViewHBlock;

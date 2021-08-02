@@ -103,7 +103,7 @@ class ImagesHandling(Resource):
         # print('image, resource, lng ->', request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args.get('view_id'),
-            'image_id': request.args.get('image_id')
+            'image_id': request.args.get('identity')
         }
         for key in _requested_dict.keys():
             if not is_value_safe(_requested_dict.get(key)):
@@ -150,7 +150,7 @@ class ImagesHandling(Resource):
             }, 500
         _requested_dict = {
             'view_id': request.args.get('view_id'),
-            'image_id': request.args.get('image_id')
+            'image_id': request.args.get('identity')
         }
         for key in _requested_dict.keys():
             if not is_value_safe(_requested_dict.get(key)):
@@ -182,7 +182,7 @@ class ImagesHandling(Resource):
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()  # reject not admin to upload images
         _view_id = request.get_json().get('view_id')
-        _image_id = request.get_json().get('image_id')
+        _image_id = request.get_json().get('identity')
         # print('images resources, _image_id ->', _view_id)
         # print('images resources, _image_id ->', _image_id)
         if find_image_any_format(_image_id, f'for_{request.get_json().get("view_id")}'):
@@ -197,7 +197,7 @@ class ImagesHandling(Resource):
             return cls.no_access()  # reject not admin to upload images
         _requested_dict = {
             'view_id': request.args.get('view_id'),
-            'image_id': request.args.get('image_id')
+            'image_id': request.args.get('identity')
         }
         # print('\n_requested_dict ->', _requested_dict)
         for key in _requested_dict.keys():
