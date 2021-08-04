@@ -84,7 +84,9 @@ export const NavBar = ({
   // console.log('NavBar -', isAuthenticated);
   return (
     <Container>
-      <Menu color={color} secondary size='small'>
+      <Menu color={color} secondary size='small'
+        // fixed='top'
+      >
         <Menu.Item
           as={Link}
           to='/'

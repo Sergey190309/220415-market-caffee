@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, List, Divider } from 'semantic-ui-react';
+import { Container, List } from 'semantic-ui-react';
 
 import { makeRecordIdList } from '../../../utils/utils';
 
@@ -46,7 +46,6 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
                 dimension={{direction: 'vertical', size: 250}}
               />
             </Container>
-            {/* <Divider /> */}
           </List.Item>
         )
       })

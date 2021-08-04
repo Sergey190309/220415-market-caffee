@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Message } from 'semantic-ui-react';
 
 import { CONTENT_REQUESTED } from '../../../redux/constants/types';
 import { useSaga } from '../../../redux/saga/contentLoading/createIO';
@@ -25,10 +26,15 @@ export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
   }, [recordsId, viewName, lng, sagaDispatch]);
 
   return (
-    <div>
-      <h1>{state.title}</h1>
-      <p>{state.content}</p>
-    </div>
+    <Message
+      header={state.title}
+      content={state.content}
+      size='big'
+    />
+    // <div>
+    //   <h1>{state.title}</h1>
+    //   <p>{state.content}</p>
+    // </div>
   );
 };
 

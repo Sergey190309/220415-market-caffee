@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Message, Divider } from 'semantic-ui-react';
 
 import { CONTENT_REQUESTED } from '../../../redux/constants/types';
 import { useSaga } from '../../../redux/saga/contentLoading/createIO';
@@ -8,7 +9,7 @@ import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
 const ViewParagraph = ({ recordId, viewName, lng }) => {
   const [state, sagaDispatch] = useSaga(contentSaga, {
     title: '',
-    content: '',
+    content: [''],
   });
   useEffect(() => {
     sagaDispatch({
@@ -22,10 +23,16 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   }, [recordId, viewName, lng, sagaDispatch]);
 
   return (
-    <Fragment>
-      <h2>{state.title}</h2>
-      <p>{state.content}</p>
-    </Fragment>
+    <Message>
+      <Message.Header content={state.title} />
+      <Divider />
+      {state.content.map((item, index) => (
+        <Message.Item as='p' key={index}>
+          {item}
+        </Message.Item>
+      ))}
+    </Message>
+      // content={state.content}
   );
 };
 ViewParagraph.defaultProps = {

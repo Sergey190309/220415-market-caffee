@@ -6,13 +6,14 @@ import {CONTENT_REQUESTED, PICTURE_REQUESTED} from '../../constants/types'
 export const contentSaga = function* (setter) {
   while (true) {
     const { payload } = yield take(CONTENT_REQUESTED);
-    // console.log('contentSaga, params ->', payload);
     try {
       const result = yield call(getViewContent, payload);
       const { title, content } = result.data.payload;
+      const contentArr = content.split('<br>')
+      // console.log('contentSaga, contentArr ->', contentArr);
       yield call(setter, {
         title: title,
-        content: content,
+        content: contentArr,
       });
     } catch (error) {
       if (error.response) {
