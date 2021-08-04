@@ -6,6 +6,7 @@ import { CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/contentLoading/createIO'
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 import ParagraphContextMenu from './editors/ParagraphContextMenu'
+import ElementEditor from './editors/ElementEditor'
 import { createContextFromEvent } from './editors/createContextFromEvent'
 
 const ViewParagraph = ({ recordId, viewName, lng }) => {
@@ -15,10 +16,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   })
 
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
-  const [
-    // elementEditted,
-    setElementEditted
-  ] = useState(false)
+  const [elementEditted, setElementEditted] = useState(false)
 
   const contextRef = useRef(null)
 
@@ -34,6 +32,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   }, [recordId, viewName, lng, sagaDispatch])
 
   const onContextMenuHendler = event => {
+    console.log('ViewParagraph, onContextMenuHendler')
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setContextMenuOpened(true)
@@ -47,15 +46,18 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
         setContextMenuOpened={setContextMenuOpened}
         setElementEditted={setElementEditted}
       />
-      <Message onContextMenu={onContextMenuHendler}>
-        <Message.Header content={state.title} />
-        <Divider />
-        {state.content.map((item, index) => (
-          <Message.Item as='p' key={index}>
-            {item}
-          </Message.Item>
-        ))}
-      </Message>
+      {elementEditted
+        ? <ElementEditor />
+        : <Message onContextMenu={onContextMenuHendler}>
+          <Message.Header content={state.title} />
+          <Divider />
+          {state.content.map((item, index) => (
+            <Message.Item as='p' key={index}>
+              {item}
+            </Message.Item>
+          ))}
+        </Message>
+      }
     </Fragment>
   // content={state.content}
   )

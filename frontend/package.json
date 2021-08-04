@@ -35,12 +35,7 @@
     "test:wc": "jest --watch --coverage",
     "eject": "craco eject"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
+  "eslintIgnore": ["*.test.ts"],
   "browserslist": {
     "production": [
       ">0.2%",
