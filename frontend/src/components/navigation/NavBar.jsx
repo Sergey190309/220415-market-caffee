@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Menu, Container, Popup } from 'semantic-ui-react';
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Menu, Container, Popup } from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
 // import i18next from 'i18next';
 
-import Logo from '../page_views/various/Logo';
-import NavItem from './nav_item/NavItem';
-import SignInOut from '../items/LogInOut';
-import Language from '../items/Language';
+import Logo from '../page_views/various/Logo'
+import NavItem from './nav_item/NavItem'
+import SignInOut from '../items/LogInOut'
+import Language from '../items/Language'
 
-import { positiveColor } from '../../utils/colors';
+import { positiveColor } from '../../utils/colors'
 // import { swapiGetter } from '../../api/calls/study';
 
-import { logOut, openModal, authSelector, lngSelector } from '../../redux/slices';
+import { logOut, openModal, authSelector, lngSelector } from '../../redux/slices'
 // import { l_ogOutAction } from '../../redux/actions';
 
 export const clickHandler = (
@@ -28,45 +28,45 @@ export const clickHandler = (
 ) => {
   if (!(name === 'signInOut' || name === 'language')) {
     // to avoid making above fitures active after click on
-    setActiveItem(name);
+    setActiveItem(name)
   }
   if (name === 'signInOut') {
     if (isLoggedIn) {
-      dispatch(logOut());
+      dispatch(logOut())
       // l_ogOutAction();
     } else {
       // console.log('NavBar, clickHandler, setModal')
-      dispatch(openModal('logIn'));
+      dispatch(openModal('logIn'))
     }
   }
-};
+}
 
 export const NavBar = ({
   initActive,
   openModal,
   clickHandler,
-  logOut,
+  logOut
 }) => {
-  const [activeItem, setActiveItem] = useState(initActive);
+  const [activeItem, setActiveItem] = useState(initActive)
 
-  const dispatch = useDispatch();
-  const { isAdmin, isLoggedIn } = useSelector(authSelector);
-  const { lng } = useSelector(lngSelector);
-  let history = useHistory();
+  const dispatch = useDispatch()
+  const { isAdmin, isLoggedIn } = useSelector(authSelector)
+  const { lng } = useSelector(lngSelector)
+  const history = useHistory()
 
-  const { t, i18n } = useTranslation('navbar');
+  const { t, i18n } = useTranslation('navbar')
 
   useEffect(() => {
     if (i18n.language !== lng) {
-      i18n.changeLanguage(lng);
+      i18n.changeLanguage(lng)
     }
     // console.log('Component, NavBar, useEffect, lng ->', lng )
     // console.log('Component, NavBar, useEffect, i18next.language ->', i18next.language )
-  }, [lng, i18n]);
+  }, [lng, i18n])
   // const [showRemark, setShowRemark] = useState(false);
   // console.log('Component, NavBar, t ->', t )
 
-  const color = positiveColor;
+  const color = positiveColor
 
   const _ClickHandler = (e, { name }) => {
     // console.log('NavBar _ClickHandler, name ->', name);
@@ -77,9 +77,9 @@ export const NavBar = ({
       openModal,
       isLoggedIn,
       logOut
-    );
-    history.push('/');
-  };
+    )
+    history.push('/')
+  }
 
   // console.log('NavBar -', isAuthenticated);
   return (
@@ -156,8 +156,8 @@ export const NavBar = ({
         </Menu.Menu>
       </Menu>
     </Container>
-  );
-};
+  )
+}
 
 NavBar.defaultProps = {
   initActive: '',
@@ -165,10 +165,10 @@ NavBar.defaultProps = {
   clickHandler: clickHandler,
   // isLoggedIn: false,
   // isAdmin: false,
-  logOut: logOut,
+  logOut: logOut
   // l_ogOutAction: l_ogOutAction,
   // alertActions: alertActions,
-};
+}
 
 NavBar.propTypes = {
   initActive: PropTypes.string.isRequired,
@@ -176,9 +176,9 @@ NavBar.propTypes = {
   clickHandler: PropTypes.func.isRequired,
   // isAuthenticated: PropTypes.bool.isRequired,
   // isAdmin: PropTypes.bool.isRequired,
-  logOut: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired
   // l_ogOutAction: PropTypes.func.isRequired,
   // alertActions: PropTypes.func.isRequired,
-};
+}
 
-export default NavBar;
+export default NavBar

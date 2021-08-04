@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Modal } from 'semantic-ui-react';
-import LogIn from './LogIn';
-import SignUp from './SignUp';
-import Loader from '../items/Loader';
-import { closeModal, deviceSelector } from '../../redux/slices';
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Modal } from 'semantic-ui-react'
+import LogIn from './LogIn'
+import SignUp from './SignUp'
+import Loader from '../items/Loader'
+import { closeModal, deviceSelector } from '../../redux/slices'
 
 export const onCloseHandle = (dispatch, closeModal, setOpen) => {
-  dispatch(closeModal());
-  setOpen(false);
-};
+  dispatch(closeModal())
+  setOpen(false)
+}
 
 export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
-  const [open, setOpen] = useState(false);
-  const { kindOfModal } = useSelector(deviceSelector);
-  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false)
+  const { kindOfModal } = useSelector(deviceSelector)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // console.log('ModalLogIn, useEffect, kindOfModal ->', kindOfModal);
-    setOpen(kindOfModal === '' ? false : true);
-  }, [kindOfModal]);
+    setOpen(kindOfModal !== '')
+  }, [kindOfModal])
 
   const _onCloseHandle = () => {
-    onCloseHandle(dispatch, closeModal, setOpen);
-  };
+    onCloseHandle(dispatch, closeModal, setOpen)
+  }
 
-  let content = '';
+  let content = ''
   switch (kindOfModal) {
     case 'logIn':
-      content = <LogIn onCancelClick={_onCloseHandle} />;
-      break;
+      content = <LogIn onCancelClick={_onCloseHandle} />
+      break
     case 'signUp':
-      content = <SignUp onCancelClick={_onCloseHandle} />;
-      break;
+      content = <SignUp onCancelClick={_onCloseHandle} />
+      break
     case 'loader':
-      content = <Loader />;
-      break;
+      content = <Loader />
+      break
     default:
-      content = 'Nothing to display';
+      content = 'Nothing to display'
   }
 
   return (
@@ -53,18 +53,17 @@ export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
       dimmer='blurring'
       content={content}
     />
-  );
-};
+  )
+}
 
 ModalLogIn.defaultProps = {
   closeModal: closeModal,
-  onCloseHandle: onCloseHandle,
-};
+  onCloseHandle: onCloseHandle
+}
 
 ModalLogIn.propTypes = {
   closeModal: PropTypes.func.isRequired,
-  onCloseHandle: PropTypes.func.isRequired,
-};
+  onCloseHandle: PropTypes.func.isRequired
+}
 
-
-export default ModalLogIn;
+export default ModalLogIn

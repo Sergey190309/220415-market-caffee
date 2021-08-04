@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Message } from 'semantic-ui-react';
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { Message } from 'semantic-ui-react'
 
-import { CONTENT_REQUESTED } from '../../../redux/constants/types';
-import { useSaga } from '../../../redux/saga/contentLoading/createIO';
-import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
+import { CONTENT_REQUESTED } from '../../../redux/constants/types'
+import { useSaga } from '../../../redux/saga/contentLoading/createIO'
+import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 
 export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
   /**
@@ -12,7 +12,7 @@ export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
    * 00 - serial number
    * header - kind of element
    */
-  const [state, sagaDispatch] = useSaga(contentSaga, initState);
+  const [state, sagaDispatch] = useSaga(contentSaga, initState)
   useEffect(() => {
     // console.log('ViewHeader, useEffect, recordsId ->', recordsId)
     sagaDispatch({
@@ -20,10 +20,10 @@ export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
       payload: {
         identity: recordsId,
         view_id: viewName,
-        locale_id: lng,
-      },
-    });
-  }, [recordsId, viewName, lng, sagaDispatch]);
+        locale_id: lng
+      }
+    })
+  }, [recordsId, viewName, lng, sagaDispatch])
 
   return (
     <Message
@@ -35,8 +35,8 @@ export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
     //   <h1>{state.title}</h1>
     //   <p>{state.content}</p>
     // </div>
-  );
-};
+  )
+}
 
 ViewHeader.defaultProps = {
   recordsId: '',
@@ -44,15 +44,15 @@ ViewHeader.defaultProps = {
   lng: '',
   initState: {
     title: '',
-    content: '',
+    content: ''
   }
-};
+}
 
 ViewHeader.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-  initState: PropTypes.object.isRequired,
-};
+  initState: PropTypes.object.isRequired
+}
 
-export default ViewHeader;
+export default ViewHeader

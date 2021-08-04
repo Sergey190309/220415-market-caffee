@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { TECH_TOKEN } from '../constants/localStorageVariables';
+import { createSlice } from '@reduxjs/toolkit'
+import { TECH_TOKEN } from '../constants/localStorageVariables'
 
-import { axiosCommonToken } from '../../api/apiClient';
+import { axiosCommonToken } from '../../api/apiClient'
 
 /**
  * loading: bool
@@ -22,8 +22,8 @@ export const initialState = {
   lngsLoaded: false,
   i18nInitiated: false,
   i18nLoaded: false,
-  techToken: null,
-};
+  techToken: null
+}
 
 const techSlice = createSlice({
   name: 'tech',
@@ -32,58 +32,58 @@ const techSlice = createSlice({
     setTestState: (state, { payload }) => {
       Object.assign(state, payload)
     },
-    startInitLoading: state => {  // tested
+    startInitLoading: state => { // tested
       // console.log('techSlice, startInitLoading');
-      state.loading = true;
-      state.loaded = false;
+      state.loading = true
+      state.loaded = false
     },
     initLoadingSuccess: state => {
-      state.loading = false;
-      state.loaded = true;
+      state.loading = false
+      state.loaded = true
     },
-    startTechIn: state => {  // tested
-      state.techLoaded = false;
+    startTechIn: state => { // tested
+      state.techLoaded = false
     },
-    techInSuccess: (state, { payload }) => {  // tested
+    techInSuccess: (state, { payload }) => { // tested
       // console.log('tech slicer, techInSuccess, payload ->', payload);
-      axiosCommonToken(payload);
-      localStorage.setItem(TECH_TOKEN, payload);
+      axiosCommonToken(payload)
+      localStorage.setItem(TECH_TOKEN, payload)
       state.techLoaded = true
-      state.techToken= payload
+      state.techToken = payload
     },
-    techInFail: state => {  // tested
-      localStorage.removeItem(TECH_TOKEN);
+    techInFail: state => { // tested
+      localStorage.removeItem(TECH_TOKEN)
       state.techLoaded = false
       state.techToken = null
       state.loading = false
     },
-    startLngs: state => {  // tested
+    startLngs: state => { // tested
       state.lngsLoaded = false
     },
-    lngsSuccess: state => {  // tested
+    lngsSuccess: state => { // tested
       state.lngsLoaded = true
     },
-    lngsFail: state => {  // tested
+    lngsFail: state => { // tested
       state.lngsLoaded = false
       state.loading = false
     },
-    startI18n: state => {  // somthing went wrong
+    startI18n: state => { // somthing went wrong
       // console.log('techSlice, startI18n, state before ->', state)
       state.i18nLoaded = false
       state.loading = true
     },
-    i18nInitiated: state => {  // tested
+    i18nInitiated: state => { // tested
       state.i18nInitiated = true
     },
-    i18nSuccess: state => {  // tested
-      state.i18nLoaded =true
+    i18nSuccess: state => { // tested
+      state.i18nLoaded = true
     },
-    i18nFail: state => {  // tested
+    i18nFail: state => { // tested
       state.i18nLoaded = false
       state.loading = false
-    },
-  },
-});
+    }
+  }
+})
 
 export const {
   setTestState,
@@ -98,7 +98,7 @@ export const {
   startI18n,
   i18nInitiated,
   i18nSuccess,
-  i18nFail,
-} = techSlice.actions;
-export const techSelector = state => state.tech;
-export default techSlice.reducer;
+  i18nFail
+} = techSlice.actions
+export const techSelector = state => state.tech
+export default techSlice.reducer

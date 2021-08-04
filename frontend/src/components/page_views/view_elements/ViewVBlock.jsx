@@ -1,14 +1,13 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react'
 // import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Container, Divider } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
+import { Container, Divider } from 'semantic-ui-react'
 
-import { makeRecordIdList } from '../../../utils/utils';
+import { makeRecordIdList } from '../../../utils/utils'
 
-import ViewParagraph from './ViewParagraph';
-import ViewPicture from './ViewPicture';
-import ViewNothing from './ViewNothing';
-
+import ViewParagraph from './ViewParagraph'
+import ViewPicture from './ViewPicture'
+import ViewNothing from './ViewNothing'
 
 const ViewVBlock = ({ recordsId, viewName, lng }) => {
   /**
@@ -24,8 +23,8 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
    */
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordsId));
-  }, [recordsId]);
+    setRecordIdList(makeRecordIdList(recordsId))
+  }, [recordsId])
 
   const props = {
     viewName: viewName,
@@ -40,8 +39,8 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
         <Fragment key={txtRecordId}>
           <ViewParagraph {...props} recordId={txtRecordId} />
         </Fragment>
-      );
-    });
+      )
+    })
   }
   if (recordsId.includes('pix')) {
     // console.log('ViewHBlock, props ->', props)
@@ -51,27 +50,27 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
           <ViewPicture
             {...props}
             recordId={pixRecordId}
-            dimension={{direction: 'horizontal', size: 250}}
+            dimension={{ direction: 'horizontal', size: 250 }}
           />
-          {index < recordIdList.length - 1? <Divider />: null}
+          {index < recordIdList.length - 1 ? <Divider /> : null}
         </Container>
       )
     })
   }
-  return <ViewNothing />;
-};
+  return <ViewNothing />
+}
 
 ViewVBlock.defaultProps = {
   recordsId: '',
   viewName: '',
-  lng: '',
-};
+  lng: ''
+}
 
 ViewVBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
-};
+  lng: PropTypes.string.isRequired
+}
 
 // const mapStateToProps = state => ({
 //   lng: state.lng,
@@ -81,5 +80,5 @@ ViewVBlock.propTypes = {
 // structureStart: viewName => dispatch(structureStart(viewName)),
 // });
 
-export default ViewVBlock;
+export default ViewVBlock
 // export default connect(mapStateToProps)(ViewVBlock);

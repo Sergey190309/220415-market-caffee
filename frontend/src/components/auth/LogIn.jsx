@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
-import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react'
+import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
 
-import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors'
 import {
   openModal,
   closeModal,
   logInStart,
   logInModalClosed,
-  authSelector,
-} from '../../redux/slices';
-import Alert from '../layout/Alert';
+  authSelector
+} from '../../redux/slices'
+import Alert from '../layout/Alert'
 
 export const formStructure = {
   email: 'a@agatha-ng.com',
-  password: 'qwerty',
-};
+  password: 'qwerty'
+}
 
 export const logInSchema = t =>
   Yup.object().shape({
@@ -30,8 +30,8 @@ export const logInSchema = t =>
     [Object.keys(formStructure)[1]]: Yup.string()
       // eslint-disable-next-line no-template-curly-in-string
       .min(6, t('errors.password.min', { min: '${min}' }))
-      .required(t('errors.required')),
-  });
+      .required(t('errors.required'))
+  })
 
 export const LogIn = ({
   initValues,
@@ -40,28 +40,28 @@ export const LogIn = ({
   closeModal,
   logInStart,
   // isLoggedIn,
-  logInModalClosed,
+  logInModalClosed
   // dispatch
 }) => {
   // console.log('components, logIn closeModal ->', closeModal())
-  const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector(authSelector);
+  const dispatch = useDispatch()
+  const { isLoggedIn } = useSelector(authSelector)
 
   useEffect(() => {
     if (isLoggedIn) {
       // console.log('useEffect for logout');
-      dispatch(closeModal());
-      logInModalClosed();
+      dispatch(closeModal())
+      logInModalClosed()
     }
-  }, [isLoggedIn, closeModal, logInModalClosed, dispatch]);
+  }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
 
-  const { t } = useTranslation('login');
+  const { t } = useTranslation('login')
 
   const onSubmit = (formData, { setSubmitting }) => {
     // onSubmit(formData, logInStart, setSubmitting, dispatch)
-    dispatch(logInStart(formData));
-    setSubmitting(false);
-  };
+    dispatch(logInStart(formData))
+    setSubmitting(false)
+  }
 
   return (
     <Container fluid textAlign='center'>
@@ -128,7 +128,7 @@ export const LogIn = ({
                       type='button'
                       onClick={() => {
                         // console.log('onClick, closeMocal')
-                        dispatch(closeModal());
+                        dispatch(closeModal())
                       }}
                     />
                   </Button.Group>
@@ -151,7 +151,7 @@ export const LogIn = ({
                     size='large'
                     content={t('buttons.signUp')}
                     onClick={() => {
-                      dispatch(openModal('signUp'));
+                      dispatch(openModal('signUp'))
                     }}
                   />
                 </Grid.Column>
@@ -161,8 +161,8 @@ export const LogIn = ({
         </Grid.Column>
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
 LogIn.defaultProps = {
   initValues: formStructure,
@@ -170,9 +170,9 @@ LogIn.defaultProps = {
   openModal: openModal,
   closeModal: closeModal,
   logInStart: logInStart,
-  logInModalClosed: logInModalClosed,
+  logInModalClosed: logInModalClosed
   // onSubmit: onSubmit
-};
+}
 
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
@@ -180,8 +180,8 @@ LogIn.propTypes = {
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   logInStart: PropTypes.func.isRequired,
-  logInModalClosed: PropTypes.func.isRequired,
+  logInModalClosed: PropTypes.func.isRequired
   // onSubmit: PropTypes.func.isRequired,
-};
+}
 
-export default LogIn;
+export default LogIn

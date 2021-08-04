@@ -1,29 +1,29 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
 // import PropTypes, { oneOf } from 'prop-types';
-import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react';
-import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
+import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react'
+import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
+import { useTranslation } from 'react-i18next'
 // import { closeModal, signUpStart, signUpModalClosed } from '../../redux/actions';
 import {
   signUpStart,
   authSelector,
   closeModal,
-  signUpModalClosed,
-} from '../../redux/slices';
-import { positiveColor, neutralColor, warningColor } from '../../utils/colors';
+  signUpModalClosed
+} from '../../redux/slices'
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors'
 
-import Alert from '../layout/Alert';
+import Alert from '../layout/Alert'
 
 export const formStructure = {
   userName: 'sa',
   email: 'sa6702@gmail.com',
   password: 'qwerty',
-  password2: 'qwerty',
-};
+  password2: 'qwerty'
+}
 
 export const signUpSchema = t =>
   Yup.object().shape({
@@ -42,8 +42,8 @@ export const signUpSchema = t =>
     [Object.keys(formStructure)[3]]: Yup.string().oneOf(
       [Yup.ref(Object.keys(formStructure)[2]), null],
       'Passwords must match!'
-    ),
-  });
+    )
+  })
 
 // export const onSubmit = formData => {
 //   // const { email, password } = formData;
@@ -56,28 +56,28 @@ export const SignUp = ({
   closeModal,
   signUpStart,
   // isSignedUp,
-  signUpModalClosed,
+  signUpModalClosed
 }) => {
   // console.log('components, SignUp, signUpStart ->', signUpStart())
-  const dispatch = useDispatch();
-  const { isSignedUp } = useSelector(authSelector);
+  const dispatch = useDispatch()
+  const { isSignedUp } = useSelector(authSelector)
   useEffect(() => {
     if (isSignedUp) {
-      dispatch(closeModal());
-      dispatch(signUpModalClosed());
+      dispatch(closeModal())
+      dispatch(signUpModalClosed())
     }
-  }, [dispatch, isSignedUp, closeModal, signUpModalClosed]);
+  }, [dispatch, isSignedUp, closeModal, signUpModalClosed])
 
-  const { t } = useTranslation('signup');
+  const { t } = useTranslation('signup')
 
   const onSubmit = (formData, { setSubmitting }) => {
-    const { userName, password2, ...otherProps } = formData;
-    const signUpData = { user_name: userName, ...otherProps };
+    const { userName, password2, ...otherProps } = formData
+    const signUpData = { user_name: userName, ...otherProps }
     // const { userName, email, password } = formData;
     // console.log('SignUp, signUpData ->', signUpData);
-    dispatch(signUpStart(signUpData));
-    setSubmitting(false);
-  };
+    dispatch(signUpStart(signUpData))
+    setSubmitting(false)
+  }
 
   // const color = 'teal';
   // const resColor = 'olive';
@@ -161,7 +161,7 @@ export const SignUp = ({
                     content={t('buttons.cancel')}
                     type='button'
                     onClick={() => {
-                      dispatch(closeModal());
+                      dispatch(closeModal())
                     }}
                   />
                 </Button.Group>
@@ -171,8 +171,8 @@ export const SignUp = ({
         </Grid.Column>
       </Grid>
     </Container>
-  );
-};
+  )
+}
 
 SignUp.defaultProps = {
   initValues: formStructure,
@@ -180,14 +180,14 @@ SignUp.defaultProps = {
   closeModal: closeModal,
   signUpStart: signUpStart,
   signUpModalClosed: signUpModalClosed
-};
+}
 
 SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   signUpStart: PropTypes.func.isRequired,
-  signUpModalClosed: PropTypes.func.isRequired,
-};
+  signUpModalClosed: PropTypes.func.isRequired
+}
 
-export default SignUp;
+export default SignUp

@@ -8,14 +8,14 @@ module.exports = {
   keySeparator: '.',
   lexers: {
     jsx: ['JsxLexer'], // we're writing jsx inside .js files
-    default: ['JavascriptLexer'],
+    default: ['JavascriptLexer']
   },
   lineEnding: 'auto',
   locales: ['en', 'ru', 'cn'],
   namespaceSeparator: ':',
   output: './public/locales/$LOCALE/$NAMESPACE.json',
   input: [
-      'src/**/*.{js,jsx}',
+    'src/**/*.{js,jsx}'
   ],
   sort: true,
   skipDefaultValues: false,

@@ -1,12 +1,12 @@
-import React from 'react';
-import { Header, Segment } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
-import { alertsSelector } from '../../redux/slices/alerts';
-import { positiveColor, warningColor } from '../../utils/colors';
+import React from 'react'
+import { Header, Segment } from 'semantic-ui-react'
+import { useSelector } from 'react-redux'
+import { alertsSelector } from '../../redux/slices/alerts'
+import { positiveColor, warningColor } from '../../utils/colors'
 
 export const Alert = () => {
-  const { alerts } = useSelector(alertsSelector);
-  let color;
+  const { alerts } = useSelector(alertsSelector)
+  let color
   return (
     alerts !== null &&
     alerts.length > 0 &&
@@ -14,13 +14,13 @@ export const Alert = () => {
       // console.log('Alert components, alert ->', alert);
       switch (alert.alertType) {
         case 'error':
-          color = warningColor;
-          break;
+          color = warningColor
+          break
         case 'info':
-          color = positiveColor;
-          break;
+          color = positiveColor
+          break
         default:
-          break;
+          break
       }
       return (
         <Segment color={color} key={alert.id}>
@@ -31,9 +31,9 @@ export const Alert = () => {
             icon='hand point right outline'
           />
         </Segment>
-      );
+      )
     })
-  );
-};
+  )
+}
 
-export default Alert;
+export default Alert

@@ -1,28 +1,27 @@
-import { stdChannel, runSaga } from 'redux-saga';
-import { useState, useEffect, useRef } from 'react';
+import { stdChannel, runSaga } from 'redux-saga'
+import { useState, useEffect, useRef } from 'react'
 // import {contentSaga} from './contentLoading'
 
-
 export const createIO = () => {
-  const channel = stdChannel();
+  const channel = stdChannel()
   return {
     channel,
     dispatch: action => {
       setImmediate(() => {
-        channel.put(action);
-      });
-    },
-  };
-};
+        channel.put(action)
+      })
+    }
+  }
+}
 
 export const useSaga = (saga, initState) => {
 // ----------------------------------------------------------------------------------
-  const [state, setState] = useState(initState);
-  const IO = useRef(createIO());
+  const [state, setState] = useState(initState)
+  const IO = useRef(createIO())
   useEffect(() => {
     const task = runSaga(IO.current, saga, setState)
     return () => task.cancel()
   }, [saga])
 
   return [state, IO.current.dispatch]
-};
+}

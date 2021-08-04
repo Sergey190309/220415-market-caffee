@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from 'react';
-import { Image } from 'semantic-ui-react';
-import PropTypes from 'prop-types';
+import React, { Fragment, useEffect } from 'react'
+import { Image } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 
 import { PICTURE_REQUESTED, CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/contentLoading/createIO'
@@ -17,19 +17,19 @@ const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
     title: '',
     content: ''
   })
-  const [picState, picSagaDispatch] = useSaga(picSaga, {pic: ''})
+  const [picState, picSagaDispatch] = useSaga(picSaga, { pic: '' })
 
   useEffect(() => {
     const payload = {
       identity: recordId,
-      view_id: viewName,
+      view_id: viewName
       // locale_id: lng,
     }
     picSagaDispatch({
       type: PICTURE_REQUESTED,
       payload
     })
-    payload['locale_id'] = lng
+    payload.locale_id = lng
     textSagaDispatch({
       type: CONTENT_REQUESTED,
       payload
@@ -52,8 +52,8 @@ const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
         />
         <p>{textState.content}</p>
     </Fragment>
-  );
-};
+  )
+}
 
 ViewPicture.defaultProps = {
   recordId: '',
@@ -66,7 +66,7 @@ ViewPicture.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-  dimension: PropTypes.object.isRequired,
+  dimension: PropTypes.object.isRequired
 }
 
-export default ViewPicture;
+export default ViewPicture

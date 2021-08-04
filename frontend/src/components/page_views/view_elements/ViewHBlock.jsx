@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 // import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Container, List } from 'semantic-ui-react';
+import PropTypes from 'prop-types'
+import { Container, List } from 'semantic-ui-react'
 
-import { makeRecordIdList } from '../../../utils/utils';
+import { makeRecordIdList } from '../../../utils/utils'
 
-import ViewParagraph from './ViewParagraph';
-import ViewPicture from './ViewPicture';
-import ViewNothing from './ViewNothing';
+import ViewParagraph from './ViewParagraph'
+import ViewPicture from './ViewPicture'
+import ViewNothing from './ViewNothing'
 
 const ViewHBlock = ({ recordsId, viewName, lng }) => {
   const [recordIdList, setRecordIdList] = useState([])
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordsId));
+    setRecordIdList(makeRecordIdList(recordsId))
     // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
-  }, [recordsId]);
+  }, [recordsId])
 
   const output = () => {
     const props = {
@@ -28,8 +28,8 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
           <List.Item key={txtRecordId}>
             <ViewParagraph {...props} recordId={txtRecordId} />
           </List.Item>
-        );
-      });
+        )
+      })
     }
     if (recordsId.includes('pix')) {
       // console.log('ViewHBlock, props ->', props)
@@ -43,16 +43,15 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
               <ViewPicture
                 {...props}
                 recordId={pixRecordId}
-                dimension={{direction: 'vertical', size: 250}}
+                dimension={{ direction: 'vertical', size: 250 }}
               />
             </Container>
           </List.Item>
         )
       })
     }
-    return <ViewNothing />;
-  };
-
+    return <ViewNothing />
+  }
 
   return (
     <Container fluid textAlign='center'>
@@ -66,13 +65,13 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
 ViewHBlock.defaultProps = {
   recordsId: '',
   viewName: '',
-  lng: '',
-};
+  lng: ''
+}
 
 ViewHBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
-};
+  lng: PropTypes.string.isRequired
+}
 
-export default ViewHBlock;
+export default ViewHBlock

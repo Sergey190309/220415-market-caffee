@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 export const initialState = {
   /**
@@ -13,26 +13,26 @@ export const initialState = {
    * ]
    */
   alerts: []
-};
+}
 
 const alertsSlice = createSlice({
   name: 'alerts',
   initialState,
   reducers: {
     startAlert: (state, { payload }) => {
-      state.alerts.push(payload);
+      state.alerts.push(payload)
     },
     removeAlert: (state, { payload }) => {
       // console.log('alertsSlicer, removeAlert, payload ->', payload);
       state.alerts.forEach((alert, index) => {
         if (alert.id === payload) {
-          state.alerts.splice(index, 1);
+          state.alerts.splice(index, 1)
         }
-      });
-    },
-  },
-});
+      })
+    }
+  }
+})
 
-export const { startAlert, removeAlert } = alertsSlice.actions;
-export const alertsSelector = state => state.alerts;
-export default alertsSlice.reducer;
+export const { startAlert, removeAlert } = alertsSlice.actions
+export const alertsSelector = state => state.alerts
+export default alertsSlice.reducer
