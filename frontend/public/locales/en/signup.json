@@ -29,5 +29,8 @@
     "password": "Password",
     "password2": "Please type password again",
     "userName": "Choose user name (not compulsory)"
+  },
+  "warnings": {
+    "pwdMustMatch!": "Passwords must match!"
   }
 }

@@ -7,7 +7,8 @@ export const initialState = {
   // Device sizes could be small (width less then 780) - phone; medium (1080) - tablet; big - normal PC
   deviceSize: 'small',
   // Modal opened state which form opened on modal. It could be 'LogIn', 'SignUp' or 'Loader'. Empty string means no modal
-  kindOfModal: ''
+  kindOfModal: '',
+  editable: false
 }
 
 const deviceSlice = createSlice({
@@ -30,11 +31,14 @@ const deviceSlice = createSlice({
     },
     closeModal: state => { // tested
       state.kindOfModal = ''
+    },
+    setEditable: (state, { payload }) => {
+      state.editable = payload
     }
   }
 })
 
-export const { setDeviceSize, openModal, closeModal } = deviceSlice.actions
+export const { setDeviceSize, openModal, closeModal, setEditable } = deviceSlice.actions
 export const deviceSelector = state => state.device
 
 export default deviceSlice.reducer

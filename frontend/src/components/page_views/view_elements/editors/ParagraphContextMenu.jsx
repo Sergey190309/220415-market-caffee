@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Popup } from 'semantic-ui-react'
+import {
+  Popup,
+  Button
+} from 'semantic-ui-react'
+import { useTranslation } from 'react-i18next'
+
+import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
 
 const ParagraphContextMenu = ({
   isOpened, context,
-  setContextMenuOpened, setElementEditted
+  setContextMenuOpened, setParagraphEditted
 }) => {
   const [opened, setOpened] = useState(false)
+  const { t } = useTranslation('context')
+
   useEffect(() => {
     setOpened(isOpened)
   }, [isOpened])
 
-  const onItemClickHandling = (event, { name }) => {
+  const onClickHandling = (event, { name }) => {
+    console.log('ParagraphContentMenu, onClickHandling, name ->', name)
     event.preventDefault()
     if (name === 'edit') {
-      setElementEditted(true)
+      setParagraphEditted(true)
     }
     setOpened(false)
     setContextMenuOpened(false)
@@ -22,7 +31,7 @@ const ParagraphContextMenu = ({
 
   return (
     <Popup
-      basic
+      // basic
       context={context}
       open={opened}
       onClose={() => {
@@ -30,15 +39,49 @@ const ParagraphContextMenu = ({
         setContextMenuOpened(false)
       }}
     >
-      <Menu
-        items={[
-          { name: 'edit', key: 'edit', content: 'Edit element', icon: 'edit' },
-          { name: 'delete', key: 'code', content: 'Delete element', icon: 'trash' }
-        ]}
-        onItemClick={onItemClickHandling}
-        secondary
+      <Button.Group
         vertical
-      />
+        // compact
+        style={{
+          width: '300px'
+        }}
+      >
+        <Button
+          name='edit'
+          icon={{ name: 'edit', color: positiveColor }}
+          onClick={onClickHandling}
+          content={t('1stLevel.editElement')}
+          style={{ textAlign: 'left' }}
+        />
+        <Button
+          name='save'
+          icon={{ name: 'save', color: warningColor }}
+          onClick={onClickHandling}
+          content={t('1stLevel.saveElement')}
+          style={{ textAlign: 'left' }}
+        />
+        <Button
+          name='above'
+          icon={{ name: 'angle double up', color: neutralColor }}
+          content={t('1stLevel.addAbove')}
+          style={{ textAlign: 'left' }}
+          onClick={onClickHandling}
+        />
+        <Button
+          name='below'
+          icon={{ name: 'angle double down', color: neutralColor }}
+          content={t('1stLevel.addBelow')}
+          style={{ textAlign: 'left' }}
+          onClick={onClickHandling}
+        />
+        <Button
+          name='delete'
+          icon={{ name: 'delete', color: warningColor }}
+          content={t('1stLevel.deleteElement')}
+          style={{ textAlign: 'left' }}
+          onClick={onClickHandling}
+          />
+      </Button.Group>
     </Popup>
   )
 }
@@ -47,14 +90,14 @@ ParagraphContextMenu.defaultProps = {
   isOpened: false,
   context: false,
   setContextMenuOpened: () => { },
-  setElementEditted: () => { }
+  setParagraphEditted: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
   isOpened: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setContextMenuOpened: PropTypes.func.isRequired,
-  setElementEditted: PropTypes.func.isRequired
+  setParagraphEditted: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

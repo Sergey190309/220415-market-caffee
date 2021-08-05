@@ -35,7 +35,7 @@ export {
   logInModalClosed,
   authSelector
 } from './auth'
-export { deviceSelector, setDeviceSize, openModal, closeModal } from './device'
+export { deviceSelector, setDeviceSize, openModal, closeModal, setEditable } from './device'
 export { lngSwitch, lngSelector } from './lng'
 export {
   setState as structureSetState,

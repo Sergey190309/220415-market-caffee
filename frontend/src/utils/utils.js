@@ -43,14 +43,14 @@ export const makeRecordIdList = recordId => {
 /**
  * The function pouse something for given time. To be used in sagas.
  */
-export const delaySomthing = ms => new Promise(function (resolve, reject) {
-  resolve(res => setTimeout(res, ms))
-  reject(new Error('something bad happened'))
-})
-// export const delaySomthing = ms => new Promise(res => {
-//   reject()
-//   return setTimeout(res, ms)
+// export const delaySomthing = ms => new Promise(function (resolve, reject) {
+//   resolve(res => setTimeout(res, ms))
+//   reject(new Error('something bad happened'))
 // })
+export const delaySomthing = ms => new Promise((resolve, reject) => {
+  // reject(new Error('something went wrong'))
+  setTimeout(resolve, ms)
+})
 
 /**
  * Add uuid into Alert data

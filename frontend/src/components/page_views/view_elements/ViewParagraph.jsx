@@ -6,7 +6,7 @@ import { CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/contentLoading/createIO'
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 import ParagraphContextMenu from './editors/ParagraphContextMenu'
-import ElementEditor from './editors/ElementEditor'
+import ParagraphEditor from './editors/ParagraphEditor'
 import { createContextFromEvent } from './editors/createContextFromEvent'
 
 const ViewParagraph = ({ recordId, viewName, lng }) => {
@@ -15,8 +15,12 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
     content: ['']
   })
 
+  const [content, setContent] = useState({
+    title: '',
+    content: ['']
+  })
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
-  const [elementEditted, setElementEditted] = useState(false)
+  const [paragraphEditted, setParagraphEditted] = useState(false)
 
   const contextRef = useRef(null)
 
@@ -31,12 +35,21 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
     })
   }, [recordId, viewName, lng, sagaDispatch])
 
+  useEffect(() => {
+    // console.log('ViewParagraph, useEffect, state ->', state)
+    setContent(state)
+  }, [state])
+
   const onContextMenuHendler = event => {
-    console.log('ViewParagraph, onContextMenuHendler')
+    // console.log('ViewParagraph, onContextMenuHendler')
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setContextMenuOpened(true)
   }
+
+  // const spy = something => {
+  //   console.log('spy, something ->', something)
+  // }
 
   return (
     <Fragment>
@@ -44,14 +57,19 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
         isOpened={contextMenuOpened}
         context={contextRef}
         setContextMenuOpened={setContextMenuOpened}
-        setElementEditted={setElementEditted}
+        setParagraphEditted={setParagraphEditted}
       />
-      {elementEditted
-        ? <ElementEditor />
+      {paragraphEditted
+        ? <ParagraphEditor
+          shit='shit'
+          setParagraphEditted={setParagraphEditted}
+          comingContent={content}
+          setComimgContent={setContent}
+          />
         : <Message onContextMenu={onContextMenuHendler}>
-          <Message.Header content={state.title} />
+          <Message.Header content={content.title} />
           <Divider />
-          {state.content.map((item, index) => (
+          {content.content.map((item, index) => (
             <Message.Item as='p' key={index}>
               {item}
             </Message.Item>

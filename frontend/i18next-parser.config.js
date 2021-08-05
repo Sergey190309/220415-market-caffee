@@ -11,7 +11,7 @@ module.exports = {
     default: ['JavascriptLexer']
   },
   lineEnding: 'auto',
-  locales: ['en', 'ru', 'cn'],
+  locales: ['en', 'ru'],
   namespaceSeparator: ':',
   output: './public/locales/$LOCALE/$NAMESPACE.json',
   input: [

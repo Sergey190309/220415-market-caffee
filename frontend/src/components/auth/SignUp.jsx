@@ -41,7 +41,8 @@ export const signUpSchema = t =>
       .required(t('errors.required')),
     [Object.keys(formStructure)[3]]: Yup.string().oneOf(
       [Yup.ref(Object.keys(formStructure)[2]), null],
-      'Passwords must match!'
+      t('warnings.pwdMustMatch!')
+      // t('Passwords must match!')
     )
   })
 
