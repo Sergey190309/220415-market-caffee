@@ -35,7 +35,10 @@
     "test:wc": "jest --watch --coverage",
     "eject": "craco eject"
   },
-  "eslintIgnore": ["*.test.js", "*.test.jsx"],
+  "eslintIgnore": [
+    "*.test.js",
+    "*.test.jsx"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
