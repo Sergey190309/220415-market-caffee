@@ -1736,10 +1736,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@semantic-ui-react/craco-less@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@semantic-ui-react/craco-less/-/craco-less-1.2.1.tgz#8267e5d252a1a3551fc9c2f531c4cd09c162bf96"
-  integrity sha512-GfAwiyTOS19AWccxg5HOhOfmT6b0Q9bbTs4rRXgKURIpJvAnYdA2zdpbhQD6CeAj5CQukHAn/26fvk+ZuyNE7g==
+"@semantic-ui-react/craco-less@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@semantic-ui-react/craco-less/-/craco-less-1.2.3.tgz#ef2a1b56038618f2d6ff3972e98d786adaeffbc8"
+  integrity sha512-EPE2YA0pTcObuGO3cRYXMybTUJ27tamEQrHk6BC8cAkP6CTuuYZiw6hFNjEIOQodOnIXhy/cJ5dVeyKNnliL0g==
   dependencies:
     craco-less "^1.15.0"
 
