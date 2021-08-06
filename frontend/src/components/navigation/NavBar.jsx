@@ -14,7 +14,7 @@ import Language from '../items/Language'
 import { positiveColor } from '../../utils/colors'
 // import { swapiGetter } from '../../api/calls/study';
 
-import { logOut, openModal, authSelector, lngSelector } from '../../redux/slices'
+import { logOut, openModal, authSelector, lngSelector, setEditable } from '../../redux/slices'
 // import { l_ogOutAction } from '../../redux/actions';
 
 export const clickHandler = (
@@ -33,6 +33,7 @@ export const clickHandler = (
   if (name === 'signInOut') {
     if (isLoggedIn) {
       dispatch(logOut())
+      dispatch(setEditable(false))
       // l_ogOutAction();
     } else {
       // console.log('NavBar, clickHandler, setModal')

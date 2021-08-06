@@ -19,5 +19,9 @@
         "react"
     ],
     "rules": {
+        "quotes": [
+            "error",
+            "single"
+          ]
     }
 }

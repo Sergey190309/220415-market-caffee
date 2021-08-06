@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Message, Divider } from 'semantic-ui-react'
 
 import { CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/contentLoading/createIO'
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
+import { deviceSelector } from '../../../redux/slices'
 import ParagraphContextMenu from './editors/ParagraphContextMenu'
 import ParagraphEditor from './editors/ParagraphEditor'
 import { createContextFromEvent } from './editors/createContextFromEvent'
@@ -21,6 +23,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   })
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
+  const { editable } = useSelector(deviceSelector)
 
   const contextRef = useRef(null)
 
@@ -36,7 +39,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   }, [recordId, viewName, lng, sagaDispatch])
 
   useEffect(() => {
-    // console.log('ViewParagraph, useEffect, state ->', state)
+    console.log('ViewParagraph, useEffect, state ->', state)
     setContent(state)
   }, [state])
 
@@ -53,12 +56,15 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
 
   return (
     <Fragment>
-      <ParagraphContextMenu
-        isOpened={contextMenuOpened}
-        context={contextRef}
-        setContextMenuOpened={setContextMenuOpened}
-        setParagraphEditted={setParagraphEditted}
-      />
+      {editable
+        ? <ParagraphContextMenu
+            isOpened={contextMenuOpened}
+            context={contextRef}
+            setContextMenuOpened={setContextMenuOpened}
+            setParagraphEditted={setParagraphEditted}
+          />
+        : null
+      }
       {paragraphEditted
         ? <ParagraphEditor
           shit='shit'
@@ -66,9 +72,14 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
           comingContent={content}
           setComimgContent={setContent}
           />
-        : <Message onContextMenu={onContextMenuHendler}>
+        : <Message onContextMenu={editable
+          ? onContextMenuHendler
+          : null
+          }>
           <Message.Header content={content.title} />
-          <Divider />
+          {content.title && content.content
+            ? <Divider />
+            : null}
           {content.content.map((item, index) => (
             <Message.Item as='p' key={index}>
               {item}
