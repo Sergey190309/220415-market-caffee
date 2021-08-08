@@ -53,7 +53,11 @@ describe('ViewVBlock testing', () => {
     });
     // console.log('output calling ViewParagraph ->', ViewParagraph.mock.calls);
   });
-  test.only('output calling ViewPicture', () => {
+  test('output calling ViewPicture', () => {
+    /**
+     * last failed:
+     * I've chanched arguments.
+     */
     const testProps = {
       recordsId: '01_vblock_pix_4',
       viewName: 'mockViewName',
@@ -61,17 +65,18 @@ describe('ViewVBlock testing', () => {
     };
     const mockRecordIdList = makeRecordIdList(testProps['recordsId']);
       const viewParagraphPropsList = mockRecordIdList.map(item => ({
-      viewName: testProps['viewName'],
-      lng: testProps['lng'],
-      recordId: item,
-    }));
+        viewName: testProps['viewName'],
+        lng: testProps['lng'],
+        recordId: item,
+        dimension: { direction: 'horizontal', size: 250 }
+      }));
     render(<ViewVBlock {...testProps} />);
     expect(ViewParagraph).toHaveBeenCalledTimes(0);
     expect(ViewPicture).toHaveBeenCalledTimes(4);
     expect(ViewNothing).toHaveBeenCalledTimes(0);
     viewParagraphPropsList.forEach((item, index) => {
-      // expect(ViewPicture.mock.calls[index][0]).toEqual(item);
-      console.log('output calling ViewPicture ->', ViewPicture.mock.calls[index][0]);
+      expect(ViewPicture.mock.calls[index][0]).toEqual(item);
+      // console.log('output calling ViewPicture  ->', ViewPicture.mock.calls[index][0]);
     });
   });
   test('output calling ViewNothing', () => {
