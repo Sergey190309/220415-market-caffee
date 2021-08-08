@@ -29,6 +29,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   const contextRef = useRef(null)
 
   useEffect(() => {
+    // console.log('ViewParagraph, useEffect(sagaDispatch), recordId ->', recordId)
     sagaDispatch({
       type: CONTENT_REQUESTED,
       payload: {
@@ -40,7 +41,6 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   }, [recordId, viewName, lng, sagaDispatch])
 
   useEffect(() => {
-    // console.log('ViewParagraph, useEffect, state ->', state)
     setContent(state)
   }, [state])
 
