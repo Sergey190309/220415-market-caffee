@@ -15,7 +15,8 @@ from ..utils.image_helper import (
     get_extention,
     # get_basename,
     save_image,
-    find_image_any_format, is_value_safe)
+    find_image_any_format,
+    is_value_safe)
 from ..schemas.image import ImageSchema
 
 image_schema = ImageSchema()

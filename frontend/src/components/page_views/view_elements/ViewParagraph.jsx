@@ -13,14 +13,15 @@ import { createContextFromEvent } from './editors/createContextFromEvent'
 
 const ViewParagraph = ({ recordId, viewName, lng }) => {
   const [state, sagaDispatch] = useSaga(contentSaga, {
-    title: '',
+    title: '', // info from back end
     content: ['']
   })
-
   const [content, setContent] = useState({
     title: '',
     content: ['']
   })
+  const [changed, setChanged] = useState(false)
+
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
   const { editable } = useSelector(deviceSelector)
@@ -39,9 +40,15 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   }, [recordId, viewName, lng, sagaDispatch])
 
   useEffect(() => {
-    console.log('ViewParagraph, useEffect, state ->', state)
+    // console.log('ViewParagraph, useEffect, state ->', state)
     setContent(state)
   }, [state])
+
+  useEffect(() => {
+    if (JSON.stringify(state) !== JSON.stringify(content)) {
+      setChanged(true)
+    }
+  }, [content])
 
   const onContextMenuHendler = event => {
     // console.log('ViewParagraph, onContextMenuHendler')
@@ -50,6 +57,9 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
     setContextMenuOpened(true)
   }
 
+  const saveToBackend = () => {
+    console.log('ViewParagraph, saveToBackend')
+  }
   // const spy = something => {
   //   console.log('spy, something ->', something)
   // }
@@ -58,11 +68,13 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
     <Fragment>
       {editable
         ? <ParagraphContextMenu
-            isOpened={contextMenuOpened}
-            context={contextRef}
-            setContextMenuOpened={setContextMenuOpened}
-            setParagraphEditted={setParagraphEditted}
-          />
+          isOpened={contextMenuOpened}
+          saveDisabled={!changed}
+          context={contextRef}
+          setContextMenuOpened={setContextMenuOpened}
+          setParagraphEditted={setParagraphEditted}
+          saveToBackend={saveToBackend}
+        />
         : null
       }
       {paragraphEditted

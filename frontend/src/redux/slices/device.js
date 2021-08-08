@@ -8,7 +8,7 @@ export const initialState = {
   deviceSize: 'small',
   // Modal opened state which form opened on modal. It could be 'LogIn', 'SignUp' or 'Loader'. Empty string means no modal
   kindOfModal: '',
-  editable: false
+  editable: true
 }
 
 const deviceSlice = createSlice({

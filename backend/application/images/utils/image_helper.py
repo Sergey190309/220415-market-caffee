@@ -71,8 +71,8 @@ def is_value_safe(file: Union[str, FileStorage]) -> bool:
     - starts with a-z A-Z 0-9 at least one time
     - only contains a-z A-Z 0-9 and _()-
     """
+    # print('is_value_safe, file ->', file)
     filename = _retrieve_filename(file)
-    # allowed_format = '|'.join(IMAGES)
     redex = '^[a-zA-Z0-9][a-zA-Z0-9_()-]*$'
     return re.match(redex, filename) is not None
 

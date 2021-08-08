@@ -48,7 +48,7 @@ const ParagraphEditor = ({
 
   const onChangeHandling = event => {
     // const onChangeHandling = (event, { name }) => {
-    console.log('ParagraphEditor, onChangeHandling, event.target ->', event.target.name)
+    // console.log('ParagraphEditor, onChangeHandling, event.target ->', event.target.name)
     event.preventDefault()
     const _content = { ...content, [event.target.name]: event.target.value }
     setContent(_content)

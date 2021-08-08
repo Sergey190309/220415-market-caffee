@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
 
 const ParagraphContextMenu = ({
-  isOpened, context,
-  setContextMenuOpened, setParagraphEditted
+  isOpened, context, saveDisabled,
+  setContextMenuOpened, setParagraphEditted, saveToBackend
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation('context')
@@ -56,6 +56,7 @@ const ParagraphContextMenu = ({
         <Button
           name='save'
           icon={{ name: 'save', color: warningColor }}
+          disabled={saveDisabled}
           onClick={onClickHandling}
           content={t('1stLevel.saveElement')}
           style={{ textAlign: 'left' }}
@@ -88,16 +89,20 @@ const ParagraphContextMenu = ({
 
 ParagraphContextMenu.defaultProps = {
   isOpened: false,
+  saveDisabled: false,
   context: false,
   setContextMenuOpened: () => { },
-  setParagraphEditted: () => { }
+  setParagraphEditted: () => { },
+  saveToBackend: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
   isOpened: PropTypes.bool.isRequired,
+  saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setContextMenuOpened: PropTypes.func.isRequired,
-  setParagraphEditted: PropTypes.func.isRequired
+  setParagraphEditted: PropTypes.func.isRequired,
+  saveToBackend: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

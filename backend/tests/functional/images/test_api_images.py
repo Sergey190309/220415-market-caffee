@@ -63,7 +63,7 @@ def test_images_post_no_auth_or_user(
     'lng, test_word',
     [
         ('en', 'Image for view'),
-        ('ru', 'Картинка для странички')
+        # ('ru', 'Картинка для странички')
     ]
 )
 # @pytest.mark.active
@@ -83,7 +83,7 @@ def test_images_post_success(
     _headers = {'Content-Type': 'multipart/form-data',
                 'Authorization': f'Bearer {access_token("admin")}',
                 'Accept-Language': lng}
-    _params = {'view_id': view_id, 'image_id': image_id}
+    _params = {'view_id': view_id, 'identity': image_id}
 
     resp = images_api_resp(params=_params, headers=_headers, data=_data)
     assert resp.status_code == 201
@@ -124,7 +124,7 @@ def test_images_post_already_exists(
     _headers = {'Content-Type': 'multipart/form-data',
                 'Authorization': f'Bearer {access_token("admin")}',
                 'Accept-Language': lng}
-    _params = {'view_id': view_id, 'image_id': image_id}
+    _params = {'view_id': view_id, 'identity': image_id}
 
     resp = images_api_resp(params=_params, headers=_headers, data=_data)
     assert resp.status_code == 400
@@ -167,34 +167,34 @@ def test_image_get(
     _headers = {'Authorization': f'Bearer {_tech_token}',
                 'Content-Type': 'application/json',
                 'Accept-Language': lng}
-    _params = {'view_id': view_id, 'image_id': image_id}
+    _params = {'view_id': view_id, 'identity': image_id}
     resp = client.get(url_for('images_bp.imageshandling', **_params), headers=_headers)
     assert resp.status_code == 200
 
     '''illigal chracters'''
-    _params = {'view_id': '_illigal_view_id', 'image_id': image_id}
+    _params = {'view_id': '_illigal_view_id', 'identity': image_id}
     resp = client.get(url_for('images_bp.imageshandling', **_params), headers=_headers)
     assert resp.status_code == 400
     assert resp.json.get('message').find(test_word) != -1
 
-    _params = {'view_id': view_id, 'image_id': '_illigal_image_id'}
+    _params = {'view_id': view_id, 'identity': '_illigal_image_id'}
     resp = client.get(url_for('images_bp.imageshandling', **_params), headers=_headers)
     assert resp.status_code == 400
     assert resp.json.get('message').find(test_word) != -1
 
     '''not found'''
-    _params = {'view_id': 'wrong_view_id', 'image_id': image_id}
+    _params = {'view_id': 'wrong_view_id', 'identity': image_id}
     resp = client.get(url_for('images_bp.imageshandling', **_params), headers=_headers)
     assert resp.status_code == 404
     assert resp.json.get('message').find(test_word_01) != -1
 
-    _params = {'view_id': view_id, 'image_id': 'wrong_image_id'}
+    _params = {'view_id': view_id, 'identity': 'wrong_image_id'}
     resp = client.get(url_for('images_bp.imageshandling', **_params), headers=_headers)
     assert resp.status_code == 404
     assert resp.json.get('message').find(test_word_01) != -1
 
     '''no token'''
-    _params = {'view_id': view_id, 'image_id': image_id}
+    _params = {'view_id': view_id, 'identity': image_id}
     _headers.pop('Authorization')
     resp = client.get(url_for('images_bp.imageshandling', **_params), headers=_headers)
     assert resp.status_code == 401
@@ -225,7 +225,7 @@ def test_images_put(
     _headers = {'Content-Type': 'application/json',
                 'Authorization': f'Bearer {access_token("admin")}',
                 'Accept-Language': lng}
-    _json = {'view_id': view_id, 'image_id': image_id}
+    _json = {'view_id': view_id, 'identity': image_id}
 
     '''does not exists, actually success couse it's possible to post other image'''
     if not os.path.exists(os.path.dirname(path_name)):
@@ -272,7 +272,7 @@ def test_images_put(
          'Картинка для странички', 'Запрос не содержит')
     ]
 )
-@pytest.mark.active
+# @pytest.mark.active
 def test_images_delete(
     client,
     access_token,
@@ -285,7 +285,7 @@ def test_images_delete(
     _headers = {'Content-Type': 'application/json',
                 'Authorization': f'Bearer {access_token("admin")}',
                 'Accept-Language': lng}
-    _params = {'view_id': view_id, 'image_id': image_id}
+    _params = {'view_id': view_id, 'identity': image_id}
 
     if not os.path.exists(path_name):
         if not os.path.exists(os.path.dirname(path_name)):
@@ -302,20 +302,20 @@ def test_images_delete(
     assert resp.json.get('message').find(test_word) != -1
 
     '''illigal chracters'''
-    _params = {'view_id': '_illigal_view_id', 'image_id': image_id}
+    _params = {'view_id': '_illigal_view_id', 'identity': image_id}
     resp = client.delete(url_for('images_bp.imageshandling', **_params),
                          headers=_headers)
     assert resp.status_code == 400
     assert resp.json.get('message').find(test_word_01) != -1
 
-    _params = {'view_id': view_id, 'image_id': '_illigal_image_id'}
+    _params = {'view_id': view_id, 'identity': '_illigal_image_id'}
     resp = client.delete(url_for('images_bp.imageshandling', **_params),
                          headers=_headers)
     assert resp.status_code == 400
     assert resp.json.get('message').find(test_word_01) != -1
 
     '''not found'''
-    _params = {'view_id': view_id, 'image_id': image_id}
+    _params = {'view_id': view_id, 'identity': image_id}
     resp = client.delete(url_for('images_bp.imageshandling', **_params),
                          headers=_headers)
     assert resp.status_code == 404
