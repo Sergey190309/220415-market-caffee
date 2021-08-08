@@ -30,6 +30,10 @@ const techSlice = createSlice({
   initialState,
   reducers: {
     setTestState: (state, { payload }) => {
+      /**
+       * That's for testing only.
+       * It rewrites all state.
+       */
       Object.assign(state, payload)
     },
     startInitLoading: state => { // tested

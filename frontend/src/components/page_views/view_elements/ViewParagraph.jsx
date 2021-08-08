@@ -9,7 +9,7 @@ import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 import { deviceSelector } from '../../../redux/slices'
 import ParagraphContextMenu from './editors/ParagraphContextMenu'
 import ParagraphEditor from './editors/ParagraphEditor'
-import { createContextFromEvent } from './editors/createContextFromEvent'
+import { createContextFromEvent } from './editors/createContextFromEvent' // tested
 
 const ViewParagraph = ({ recordId, viewName, lng }) => {
   const [state, sagaDispatch] = useSaga(contentSaga, {

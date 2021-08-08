@@ -1,29 +1,38 @@
+import { initial } from 'lodash';
 import store from '../store';
-import { initialState, setDeviceSize, openModal, closeModal } from './device';
+import { initialState, setTestState, setDeviceSize, openModal, closeModal, setEditable } from './device';
 
-describe('device testing', () => {
+describe('device slice testing', () => {
   const mockDeviceSize = 'big'
   const mockKindOfModal = 'kindOfModal'
-  test('state testing', () => {
-    let state = store.getState().device;
-    let expState = {...initialState}
-    expect(state).toEqual(expState);
+  let state
+  beforeEach(() => {
+    jest.resetAllMocks()
+    store.dispatch(setTestState(initialState))
+    state = store.getState().device
+    expect(state).toEqual(initialState);
+  })
 
-    store.dispatch(setDeviceSize(mockDeviceSize));
-    state = store.getState().device;
-    expState = {...expState, deviceSize: mockDeviceSize};
-    expect(state).toEqual(expState);
+  test('setDeviceSize', () => {
+    store.dispatch(setDeviceSize(780))
+    state = store.getState().device
+    expect(state).toBe('medium');
+  });
 
-    store.dispatch(openModal(mockKindOfModal));
-    state = store.getState().device;
-    expState = {...expState, kindOfModal: mockKindOfModal}
-    expect(state).toEqual(expState);
+    // store.dispatch(setDeviceSize(mockDeviceSize));
+    // state = store.getState().device;
+    // expState = {...expState, deviceSize: mockDeviceSize};
+    // expect(state).toEqual(expState);
 
-    store.dispatch(closeModal());
-    state = store.getState().device;
-    expState = {...expState, kindOfModal: ''}
-    expect(state).toEqual(expState);
+    // store.dispatch(openModal(mockKindOfModal));
+    // state = store.getState().device;
+    // expState = {...expState, kindOfModal: mockKindOfModal}
+    // expect(state).toEqual(expState);
+
+    // store.dispatch(closeModal());
+    // state = store.getState().device;
+    // expState = {...expState, kindOfModal: ''}
+    // expect(state).toEqual(expState);
 
     // console.log('device, state ->', state);
-  });
 });
