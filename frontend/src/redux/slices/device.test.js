@@ -16,23 +16,35 @@ describe('device slice testing', () => {
   test('setDeviceSize', () => {
     store.dispatch(setDeviceSize(780))
     state = store.getState().device
-    expect(state).toBe('medium');
+    expect(state.deviceSize).toBe('medium');
+
+    store.dispatch(setDeviceSize(1080))
+    state = store.getState().device
+    expect(state.deviceSize).toBe('big');
+
+    store.dispatch(setDeviceSize(779))
+    state = store.getState().device
+    expect(state.deviceSize).toBe('small');
   });
 
-    // store.dispatch(setDeviceSize(mockDeviceSize));
-    // state = store.getState().device;
-    // expState = {...expState, deviceSize: mockDeviceSize};
-    // expect(state).toEqual(expState);
+  test('openModal, closeModal', () => {
+    const mockKindOfModal='somthing'
+    store.dispatch(openModal(mockKindOfModal))
+    state = store.getState().device
+    expect(state.kindOfModal).toBe(mockKindOfModal);
 
-    // store.dispatch(openModal(mockKindOfModal));
-    // state = store.getState().device;
-    // expState = {...expState, kindOfModal: mockKindOfModal}
-    // expect(state).toEqual(expState);
+    store.dispatch(closeModal())
+    state = store.getState().device
+    expect(state.kindOfModal).toBe('');
+  });
 
-    // store.dispatch(closeModal());
-    // state = store.getState().device;
-    // expState = {...expState, kindOfModal: ''}
-    // expect(state).toEqual(expState);
+  test('setEditable', () => {
+    store.dispatch(setEditable(true))
+    state = store.getState().device
+    expect(state.editable).toBe(true);
 
-    // console.log('device, state ->', state);
+    store.dispatch(setEditable(false))
+    state = store.getState().device
+    expect(state.editable).toBe(false);
+  });
 });

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Popup,
-  Button
-} from 'semantic-ui-react'
+import { Popup, Button } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'

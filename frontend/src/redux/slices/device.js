@@ -39,7 +39,7 @@ const deviceSlice = createSlice({
     closeModal: state => { // tested
       state.kindOfModal = ''
     },
-    setEditable: (state, { payload }) => {
+    setEditable: (state, { payload }) => { // tested
       state.editable = payload
     }
   }
