@@ -10,7 +10,7 @@ export const contentSaga = function * (setter) {
       const result = yield call(getViewContent, payload)
       const { title, content } = result.data.payload
       const contentArr = (content ? content.split('<br>') : [])
-      console.log('contentSaga, contentArr ->', contentArr)
+      // console.log('contentSaga, contentArr ->', contentArr)
       yield call(setter, {
         title: title,
         content: contentArr

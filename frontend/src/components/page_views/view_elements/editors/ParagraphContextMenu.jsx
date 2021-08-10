@@ -7,12 +7,13 @@ import { positiveColor, neutralColor, warningColor } from '../../../../utils/col
 
 const ParagraphContextMenu = ({
   isOpened, context, saveDisabled,
-  setContextMenuOpened, setParagraphEditted, saveToBackend
+  setContextMenuOpened, setParagraphEditted
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation('context')
 
   useEffect(() => {
+    // console.log('ParagraphContentMenu, useEffect isOpened->', isOpened)
     setOpened(isOpened)
   }, [isOpened])
 
@@ -26,15 +27,19 @@ const ParagraphContextMenu = ({
     setContextMenuOpened(false)
   }
 
+  // console.log('ParagraphContextMenu, context ->', context)
   return (
     <Popup
       // basic
+      data-textid='Popup'
       context={context}
+      // open={true}
       open={opened}
       onClose={() => {
         setOpened(false)
         setContextMenuOpened(false)
       }}
+      // data-testid='Popup'
     >
       <Button.Group
         vertical
@@ -89,8 +94,8 @@ ParagraphContextMenu.defaultProps = {
   saveDisabled: false,
   context: false,
   setContextMenuOpened: () => { },
-  setParagraphEditted: () => { },
-  saveToBackend: () => { }
+  setParagraphEditted: () => { }
+  // saveToBackend: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
@@ -98,8 +103,8 @@ ParagraphContextMenu.propTypes = {
   saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setContextMenuOpened: PropTypes.func.isRequired,
-  setParagraphEditted: PropTypes.func.isRequired,
-  saveToBackend: PropTypes.func.isRequired
+  setParagraphEditted: PropTypes.func.isRequired
+  // saveToBackend: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu
