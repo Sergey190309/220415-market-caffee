@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 Werkzeug==2.0.1
+=======
+Werkzeug
+# Werkzeug==0.16.1
+>>>>>>> dev
 
 python-dotenv
 Flask

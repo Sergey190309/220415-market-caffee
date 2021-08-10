@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
-import { axiosCommonToken, authAxiosClient } from '../../api/apiClient';
-import { LOG_IN_INFO } from '../constants/localStorageVariables';
+import { axiosCommonToken, authAxiosClient } from '../../api/apiClient'
+import { LOG_IN_INFO } from '../constants/localStorageVariables'
 
 export const notLoggedInfo = {
   /**
@@ -11,8 +11,8 @@ export const notLoggedInfo = {
   email: '',
   isAdmin: false,
   access_token: '',
-  refresh_token: '',
-};
+  refresh_token: ''
+}
 
 export const logInInfo = () => {
   /**
@@ -21,16 +21,16 @@ export const logInInfo = () => {
    */
   const _localStorage = localStorage.getItem(LOG_IN_INFO)
     ? { ...JSON.parse(localStorage.getItem(LOG_IN_INFO)), isLoggedIn: true }
-    : { ...notLoggedInfo, isLoggedIn: false };
+    : { ...notLoggedInfo, isLoggedIn: false }
   // console.log('auth slice, logInInfo, _localStorage ->', _localStorage);
-  return _localStorage;
-};
+  return _localStorage
+}
 
 export const initialState = () => ({
   ...logInInfo(),
   loading: false,
-  isSignedUp: false,
-});
+  isSignedUp: false
+})
 
 const authSlice = createSlice({
   /**
@@ -46,63 +46,63 @@ const authSlice = createSlice({
       Object.assign(state, payload)
     },
     signUpStart: state => {
-      state.loading = true;
-      state.isSignedUp = false;
-      state.isLoggedIn = false;
+      state.loading = true
+      state.isSignedUp = false
+      state.isLoggedIn = false
     },
     signUpSuccess: state => {
-      localStorage.removeItem(LOG_IN_INFO);
+      localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: true,
-        isLoggedIn: false,
+        isLoggedIn: false
       })
     },
     signUpFail: state => {
-      localStorage.removeItem(LOG_IN_INFO);
+      localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         isSignedUp: false,
         isLoggedIn: false,
-        loading: false,
-      });
+        loading: false
+      })
     },
     logInStart: state => {
-      state.loading = true;
-      state.isSignedUp = false;
-      state.isLoggedIn = false;
+      state.loading = true
+      state.isSignedUp = false
+      state.isLoggedIn = false
     },
     logInSuccess: (state, { payload }) => {
       // payload.isAuthenticated = true;
       // console.log('authSlice, logInSuccess, payload ->', payload);
-      axiosCommonToken(payload.access_token, authAxiosClient);
-      localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload));
-      Object.assign(state, payload, { loading: false, isLoggedIn: true });
+      axiosCommonToken(payload.access_token, authAxiosClient)
+      localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload))
+      Object.assign(state, payload, { loading: false, isLoggedIn: true })
     },
     logInFail: state => {
-      localStorage.removeItem(LOG_IN_INFO);
+      localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: false,
-        isLoggedIn: false,
-      });
+        isLoggedIn: false
+      })
     },
     logOut: state => {
       // console.log('authSlice, logOut')
-      localStorage.removeItem(LOG_IN_INFO);
+      localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         loading: false,
         isSignedUp: false,
-        isLoggedIn: false,
-      });
+        isLoggedIn: false
+      })
     },
     signUpModalClosed: state => {
-      state.isSignedUp = false;
+      state.isSignedUp = false
     },
     logInModalClosed: state => {
-      state.isLoggedIn = false;
-    },
-  },
-});
+      state.isLoggedIn = false
+    }
+  }
+})
 
 export const {
   setState,
@@ -114,9 +114,9 @@ export const {
   logInFail,
   logOut,
   signUpModalClosed,
-  logInModalClosed,
-} = authSlice.actions;
+  logInModalClosed
+} = authSlice.actions
 
-export const authSelector = state => state.auth;
+export const authSelector = state => state.auth
 
-export default authSlice.reducer;
+export default authSlice.reducer

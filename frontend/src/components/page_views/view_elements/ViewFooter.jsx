@@ -1,50 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 // import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { Message } from 'semantic-ui-react'
 
-import { CONTENT_REQUESTED } from '../../../redux/constants/types';
-import { useSaga } from '../../../redux/saga/contentLoading/createIO';
-import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading';
+import { CONTENT_REQUESTED } from '../../../redux/constants/types'
+import { useSaga } from '../../../redux/saga/contentLoading/createIO'
+import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 
-const ViewFooter = ({ recordId, viewName, lng, initState }) => {
-  const [state, sagaDispatch] = useSaga(contentSaga, initState);
+const ViewFooter = ({ recordsId, viewName, lng, initState }) => {
+  const [state, sagaDispatch] = useSaga(contentSaga, initState)
 
   useEffect(() => {
-    // console.log('ViewFooter, useEffect ->', recordId, viewName, lng)
+    // console.log('ViewFooter, useEffect ->', recordsId, viewName, lng)
     sagaDispatch({
       type: CONTENT_REQUESTED,
       payload: {
-        identity: recordId,
+        identity: recordsId,
         view_id: viewName,
-        locale_id: lng,
-      },
-    });
-  }, [recordId, viewName, lng, sagaDispatch]);
+        locale_id: lng
+      }
+    })
+  }, [recordsId, viewName, lng, sagaDispatch])
 
   return (
-    <div>
-      <h1>{state.title}</h1>
-      <p>{state.content}</p>
-    </div>
-  );
-};
+    <Message
+      header={state.title}
+      content={state.content}
+    />
+  )
+}
 
 ViewFooter.defaultProps = {
-  recordId: '',
+  recordsId: '',
   viewName: '',
   lng: '',
   initState: {
     title: '',
-    content: '',
+    content: ''
   }
-};
+}
 
 ViewFooter.propTypes = {
-  recordId: PropTypes.string.isRequired,
+  recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-  initState: PropTypes.object.isRequired,
-};
+  initState: PropTypes.object.isRequired
+}
 
 // const mapStateToProps = state => ({
 //   lng: state.lng,
@@ -54,5 +55,5 @@ ViewFooter.propTypes = {
 // structureStart: viewName => dispatch(structureStart(viewName)),
 // });
 
-export default ViewFooter;
+export default ViewFooter
 // export default connect(mapStateToProps)(ViewFooter);

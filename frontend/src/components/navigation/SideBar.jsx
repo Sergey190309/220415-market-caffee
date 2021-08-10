@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import {
   Icon,
@@ -7,15 +7,15 @@ import {
   Sidebar,
   Segment,
   Menu,
-  Button,
-} from 'semantic-ui-react';
+  Button
+} from 'semantic-ui-react'
 
-import Content from '../layout/Content';
-import Logo from '../page_views/various/Logo';
-import NavItem from './nav_item/NavItem';
+import Content from '../layout/Content'
+import Logo from '../page_views/various/Logo'
+import NavItem from './nav_item/NavItem'
 
 const SideBar = () => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(false)
 
   return (
     <Grid celled='internally'>
@@ -96,7 +96,7 @@ const SideBar = () => {
         </Grid.Column>
       </Grid.Row>
     </Grid>
-  );
-};
+  )
+}
 
-export default SideBar;
+export default SideBar

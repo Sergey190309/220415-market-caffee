@@ -1,5 +1,13 @@
+import React from 'react';
+import { render } from '@testing-library/react'
+
 describe('ViewParagraph testing', () => {
-  test('should dummy', () => {
+  const mockProps = {
+    recordId: 'mockRecordId',
+    viewNameL: 'mockViewName',
+    lng: 'mockLng'
+  }
+  test('dummy', () => {
 
   })
 

@@ -67,6 +67,7 @@ class UserLogin(Resource):
         '''
         LogOut
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
         jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
         # get_raw_jwt()['jti']
         BLACKLIST.add(jti)
@@ -79,6 +80,7 @@ class UserLogin(Resource):
         '''
         Token refresh
         '''
+        fbp.set_lng(request.headers.get('Accept-Language'))
         _user = UserModel.find_by_id(get_jwt_identity())
         if not _user:
             return {

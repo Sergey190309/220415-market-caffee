@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { linkedRender, connectedLinkedRender, screen, waitFor } from '../../testUtils';
 import store from '../../redux/store';
 import NavBar, { clickHandler } from './NavBar';
-import { logInSuccess } from '../../redux/slices';
+import { logInSuccess, setEditable } from '../../redux/slices';
 import { regularUserPayload, adminUserPayload } from '../../testConstants';
 
 jest.mock('react-i18next', () => ({
@@ -18,7 +18,7 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-describe.only('NavBar testing', () => {
+describe('NavBar testing', () => {
   describe('non react elements', () => {
     describe('clickHandling function testing', () => {
       const activateItems = ['logo', 'priceList', 'pictures', 'private', 'admin'];
@@ -47,13 +47,16 @@ describe.only('NavBar testing', () => {
 
       test('only one item activate dispatch with logOut if logged', () => {
         logOut.mockReturnValue('logOut');
+        // setEditable.mockReturnValue('setEditable');
         [...activateItems, ...notActivateItems].forEach(item => {
           clickHandler(item, dispatch, setActiveItem, openModal, isLoggedIn, logOut);
         });
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenCalledWith('logOut');
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        // expect(dispatch).toHaveBeenCalledWith();
+        expect(dispatch.mock.calls[0][0]).toEqual('logOut');
+        expect(dispatch.mock.calls[1][0]).toEqual(setEditable(false));
 
-        // console.log('NavBar testing, dispatch call ->', dispatch.mock.calls[0][0]);
+        // console.log('NavBar testing, dispatch call  ->', dispatch.mock.calls[1][0]);
       });
 
       test('only one item activate dispatch with openModal if logged out', () => {

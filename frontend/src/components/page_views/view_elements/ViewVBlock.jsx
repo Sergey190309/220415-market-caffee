@@ -1,62 +1,76 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react'
 // import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { Container, Divider } from 'semantic-ui-react'
 
-import { makeRecordIdList } from '../../../utils/utils';
+import { makeRecordIdList } from '../../../utils/utils'
 
-import ViewParagraph from './ViewParagraph';
-import ViewPicture from './ViewPicture';
-import ViewNothing from './ViewNothing';
+import ViewParagraph from './ViewParagraph'
+import ViewPicture from './ViewPicture'
+import ViewNothing from './ViewNothing'
 
-
-const ViewVBlock = ({ recordId, viewName, lng }) => {
-  // recordId -> 01_vblock_txt_3
-  // console.log('ViewVBlock, recordId ->', recordId)
+const ViewVBlock = ({ recordsId, viewName, lng }) => {
+  /**
+   * recordsId structure - 01_vblock_txt_3
+   * 01 - serial number
+   * vblock - kind of structure
+   * txt - kind of structure elements
+   * 3 - element qnt
+   */
   const [recordIdList, setRecordIdList] = useState([])
+  /**
+   * recordIdList - list of identities in content table.
+   */
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordId));
-    // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
-  }, [recordId]);
+    setRecordIdList(makeRecordIdList(recordsId))
+  }, [recordsId])
 
   const props = {
     viewName: viewName,
     lng: lng
   }
-  if (recordId.includes('txt')) {
+  // console.log('ViewVBlock, recordIdList ->', recordIdList);
+
+  if (recordsId.includes('txt')) {
     return recordIdList.map(txtRecordId => {
       // console.log('ViewVBlock output, recordId ->', recordId)
       return (
         <Fragment key={txtRecordId}>
           <ViewParagraph {...props} recordId={txtRecordId} />
         </Fragment>
-      );
-    });
-  }
-  if (recordId.includes('pix')) {
-    // console.log('ViewHBlock, props ->', props)
-    return recordIdList.map(pixRecordId => {
-      return (
-        <Fragment key={pixRecordId} >
-          <ViewPicture {...props} recordId={pixRecordId} />
-        </Fragment>
       )
     })
   }
-  return <ViewNothing />;
-};
+  if (recordsId.includes('pix')) {
+    // console.log('ViewHBlock, props ->', props)
+    return recordIdList.map((pixRecordId, index) => {
+      return (
+        <Container textAlign='center' key={pixRecordId} >
+          <ViewPicture
+            {...props}
+            recordId={pixRecordId}
+            dimension={{ direction: 'horizontal', size: 250 }}
+          />
+          {index < recordIdList.length - 1 ? <Divider /> : null}
+        </Container>
+      )
+    })
+  }
+  return <ViewNothing />
+}
 
 ViewVBlock.defaultProps = {
-  recordId: '',
+  recordsId: '',
   viewName: '',
-  lng: '',
-};
+  lng: ''
+}
 
 ViewVBlock.propTypes = {
-  recordId: PropTypes.string.isRequired,
+  recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
-};
+  lng: PropTypes.string.isRequired
+}
 
 // const mapStateToProps = state => ({
 //   lng: state.lng,
@@ -66,5 +80,5 @@ ViewVBlock.propTypes = {
 // structureStart: viewName => dispatch(structureStart(viewName)),
 // });
 
-export default ViewVBlock;
+export default ViewVBlock
 // export default connect(mapStateToProps)(ViewVBlock);

@@ -33,7 +33,7 @@ def set_jwt_error_handlers(jwt):
     @jwt.unauthorized_loader
     def missing_token_callback(error):
         return jsonify({
-            'description': str(_('Request does not contain an access token.')),
+            'description': str(_('Request does not contain an access token!')),
             'error': 'authorization_required'
         }), 401
 

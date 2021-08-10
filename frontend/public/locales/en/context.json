@@ -1,0 +1,14 @@
+{
+  "1stLevel": {
+    "addAbove": "Add element above (left of) this one",
+    "addBelow": "Add element below (right of) this one",
+    "deleteElement": "Delete this element",
+    "editElement": "Edit this element",
+    "saveElement": "Save to back-end"
+  },
+  "2ndLavel": {
+    "back": "Back to edit",
+    "cancel": "Cancel editing",
+    "save": "Save edited text"
+  }
+}

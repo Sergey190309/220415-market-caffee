@@ -36,5 +36,6 @@
   "python.defaultInterpreterPath": "/home/sa/code/201201-market-caffee/backend/venv/bin/python3.9",
   "python.autoComplete.extraPaths": [
 
-  ]
+  ],
+  "editor.unusualLineTerminators": "auto"
 }

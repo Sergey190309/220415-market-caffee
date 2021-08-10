@@ -1,54 +1,57 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 // import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { Container, List } from 'semantic-ui-react'
 
-import { makeRecordIdList } from '../../../utils/utils';
+import { makeRecordIdList } from '../../../utils/utils'
 
-import ViewParagraph from './ViewParagraph';
-import ViewPicture from './ViewPicture';
-import ViewNothing from './ViewNothing';
-import { Container, List } from 'semantic-ui-react';
+import ViewParagraph from './ViewParagraph'
+import ViewPicture from './ViewPicture'
+import ViewNothing from './ViewNothing'
 
-const ViewHBlock = ({ recordId, viewName, lng }) => {
+const ViewHBlock = ({ recordsId, viewName, lng }) => {
   const [recordIdList, setRecordIdList] = useState([])
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordId));
+    setRecordIdList(makeRecordIdList(recordsId))
     // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
-  }, [recordId]);
+  }, [recordsId])
 
   const output = () => {
     const props = {
       viewName: viewName,
       lng: lng
     }
-    if (recordId.includes('txt')) {
+    if (recordsId.includes('txt')) {
       return recordIdList.map(txtRecordId => {
         return (
           <List.Item key={txtRecordId}>
             <ViewParagraph {...props} recordId={txtRecordId} />
           </List.Item>
-        );
-      });
+        )
+      })
     }
-    if (recordId.includes('pix')) {
+    if (recordsId.includes('pix')) {
       // console.log('ViewHBlock, props ->', props)
       return recordIdList.map(pixRecordId => {
         return (
           <List.Item key={pixRecordId} >
-            <Container fluid textAlign='center'>
-              <ViewPicture {...props} recordId={pixRecordId} />
+            <Container
+              textAlign='center'
+              fluid
+            >
+              <ViewPicture
+                {...props}
+                recordId={pixRecordId}
+                dimension={{ direction: 'vertical', size: 250 }}
+              />
             </Container>
           </List.Item>
-        // <Fragment key={pixRecordId} >
-        //   <ViewPicture {...props} recordId={pixRecordId} />
-        // </Fragment>
         )
       })
     }
-    return <ViewNothing />;
-  };
-
+    return <ViewNothing />
+  }
 
   return (
     <Container fluid textAlign='center'>
@@ -60,23 +63,15 @@ const ViewHBlock = ({ recordId, viewName, lng }) => {
 }
 
 ViewHBlock.defaultProps = {
-  recordId: '',
+  recordsId: '',
   viewName: '',
-  lng: '',
-};
+  lng: ''
+}
 
 ViewHBlock.propTypes = {
-  recordId: PropTypes.string.isRequired,
+  recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
-};
+  lng: PropTypes.string.isRequired
+}
 
-// const mapStateToProps = state => ({
-//   lng: state.lng,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-// structureStart: viewName => dispatch(structureStart(viewName)),
-// });
-
-export default ViewHBlock;
+export default ViewHBlock

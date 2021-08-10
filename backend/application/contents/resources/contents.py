@@ -65,10 +65,13 @@ class Content(Resource):
         '''
         Create content instance and save to db.
         '''
-        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+        _lng = request.headers.get('Accept-Language')
+        _user_id = get_jwt_identity()
+        # print('\ncontents, resources, post, lng ->', _lng)
+        fbp.set_lng(_lng)
+        if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
-        fbp.set_lng(request.headers.get('Accept-Language'))
-        _request_json = request.get_json()
+        _request_json = {**request.get_json(), 'locale_id': _lng, 'user_id': _user_id}
         _content = content_schema.load(_request_json, session=dbs_global.session)
         _content_fm_db = ContentModel.find_by_identity_view_locale(
             identity=_content.identity,
@@ -86,7 +89,8 @@ class Content(Resource):
             'message': str(_(
                 "The content has been saved successfully. "
                 "Details are in payload.")),
-            'payload': content_schema.dump(_content)
+            'payload': content_get_schema.dump(_content)
+            # 'payload': content_schema.dump(_content)
         }, 201
 
     @classmethod
@@ -97,7 +101,8 @@ class Content(Resource):
         '''
 
         # print('cls, resources, _requested_dict ->', _requested_dict)
-        fbp.set_lng(request.headers.get('Accept-Language'))
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
@@ -106,7 +111,7 @@ class Content(Resource):
         _requested_dict = {
             'view_id': request.args.get('view_id'),
             'identity': request.args.get('identity'),
-            'locale_id': request.args.get('locale_id'),
+            'locale_id': _lng,
         }
         _search_json = content_get_schema.load(_requested_dict)
         _content = ContentModel.find_by_identity_view_locale(**_search_json)
@@ -125,9 +130,10 @@ class Content(Resource):
         '''
         Update instance and save to db.
         '''
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
-        fbp.set_lng(request.headers.get('Accept-Language'))
         _update_json = content_get_schema.load(request.get_json())
         _content = ContentModel.find_by_identity_view_locale(
             identity=_update_json.get('identity'),
@@ -153,13 +159,14 @@ class Content(Resource):
         Delete instance from db.
         '''
         # print('cls, resources, view_id ->', request.args['view_id'])
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
-        fbp.set_lng(request.headers.get('Accept-Language'))
         _requested_dict = {
             'view_id': request.args.get('view_id'),
             'identity': request.args.get('identity'),
-            'locale_id': request.args.get('locale_id'),
+            'locale_id': _lng,
             # 'locale_id': request.headers.get('Accept-Language')
         }
         # testing fields

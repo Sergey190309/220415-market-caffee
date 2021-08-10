@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects'
 // import {
 //   // START_ALERT,
 //   // LOG_IN_START,
@@ -15,42 +15,42 @@ import {
   signUpFail,
   logInStart,
   logInSuccess,
-  logInFail,
-} from '../slices';
+  logInFail
+} from '../slices'
 // import { setAlertData } from '../actions/alert';
 // import axiosClient from '../../api/apiClient';
-import { logInCall, signUpCall } from '../../api/calls/getAuthTechInfo';
-import { actRespErrorMessage } from '../../utils/errorHandler';
+import { logInCall, signUpCall } from '../../api/calls/getAuthTechInfo'
+import { actRespErrorMessage } from '../../utils/errorHandler'
 // import { alertActions } from '../actions/alert';
 // import { startAlert } from '../slices';
-import { setAlertData } from '../../utils/utils';
+import { setAlertData } from '../../utils/utils'
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
-export function* logInSaga() {
+export function * logInSaga () {
   // console.log('logInSaga wathcher ->')
-  yield takeEvery(logInStart.type, logInFetch);
+  yield takeEvery(logInStart.type, logInFetch)
 }
 
 // worker saga: makes the api call when watcher saga sees the action
-export function* logInFetch(action) {
+export function * logInFetch (action) {
   try {
-    const userData = yield call(logInCall, action.payload);
+    const userData = yield call(logInCall, action.payload)
     // console.log('saga, logInFetch, try, userData ->', userData);
-    yield put(logInSuccess(userData.data.payload));
+    yield put(logInSuccess(userData.data.payload))
     // yield put({ type: logInSuccess, payload: userData.data.payload });
     yield put(
       startAlert(
         setAlertData({
           message: userData.data.message,
           alertType: 'info',
-          timeout: 3000,
+          timeout: 3000
         })
       )
-    );
+    )
   } catch (error) {
-    yield put(logInFail(error));
+    yield put(logInFail(error))
     // yield put({ type: LOG_IN_FAIL, payload: error });
-    const errorMessage = actRespErrorMessage(error);
+    const errorMessage = actRespErrorMessage(error)
     // console.log('logIn saga, error ->', error.response.data.message)
     // console.log('logIn saga, error ->', error.response.status)
     yield put(
@@ -58,47 +58,47 @@ export function* logInFetch(action) {
         setAlertData({
           message: errorMessage,
           alertType: 'error',
-          timeout: 5000,
+          timeout: 5000
         })
       )
-    );
+    )
   }
 }
 
 // watcher saga: watches for actions dispatched to the store, starts worker saga
-export function* signUpSaga() {
-  yield takeEvery(signUpStart.type, signUpFetch);
+export function * signUpSaga () {
+  yield takeEvery(signUpStart.type, signUpFetch)
 }
 
 // worker saga: makes the api call when watcher saga sees the action
-export function* signUpFetch(action) {
+export function * signUpFetch (action) {
   // console.log('authSaga, signUpFetch, payload ->', action.payload)
   try {
-    const userData = yield call(signUpCall, action.payload);
-    yield put(signUpSuccess(userData.data.payload));
+    const userData = yield call(signUpCall, action.payload)
+    yield put(signUpSuccess(userData.data.payload))
     // yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
     yield put(
       startAlert(
         setAlertData({
           message: userData.data.message,
           alertType: 'info',
-          timeout: 3000,
+          timeout: 3000
         })
       )
-    );
+    )
   } catch (error) {
-    yield put(signUpFail(error));
+    yield put(signUpFail(error))
     // console.log('signUpCall error ->', error.response.data.message);
-    const errorMessage = actRespErrorMessage(error);
+    const errorMessage = actRespErrorMessage(error)
     yield put(
       startAlert(
         setAlertData({
           message: errorMessage,
           alertType: 'error',
-          timeout: 5000,
+          timeout: 5000
         })
       )
-    );
+    )
   }
 }
 

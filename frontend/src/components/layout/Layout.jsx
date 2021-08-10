@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Segment} from "semantic-ui-react";
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { Segment } from 'semantic-ui-react'
 
-import Aux from "../HOC/auxiliary/auxiliary";
-import NavBar from "../navigation/NavBar";
-import SideBar from "../navigation/SideBar";
-import Content from "./Content";
+import Aux from '../HOC/auxiliary/auxiliary'
+import NavBar from '../navigation/NavBar'
+import SideBar from '../navigation/SideBar'
+import Content from './Content'
 import ModalLogIn from '../auth/ModalLogIn'
 
-export const Layout = ( {layout} ) => {
-  const [deviceSize, setDeviceSize] = useState("");
+export const Layout = ({ layout }) => {
+  const [deviceSize, setDeviceSize] = useState('')
   useEffect(() => {
     setDeviceSize(layout.deviceSize)
   }, [layout.deviceSize])
@@ -19,7 +19,7 @@ export const Layout = ( {layout} ) => {
   switch (deviceSize) {
     case 'small':
       output = (<SideBar />)
-      break;
+      break
     default:
 
       output = (
@@ -29,7 +29,7 @@ export const Layout = ( {layout} ) => {
           <Content />
         </Segment>
       )
-      break;
+      break
   }
 
   return (
@@ -37,15 +37,15 @@ export const Layout = ( {layout} ) => {
       {output}
     </Aux>
   )
-};
+}
 
 Layout.propTypes = {
-  layout: PropTypes.object.isRequired,
-};
+  layout: PropTypes.object.isRequired
+}
 
 const mapStateToProps = (state) => ({
-  layout: state.device,
+  layout: state.device
   // layout: state.layout,
-});
+})
 
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps)(Layout)

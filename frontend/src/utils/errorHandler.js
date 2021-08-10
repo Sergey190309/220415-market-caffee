@@ -1,29 +1,28 @@
 import { startAlert } from '../redux/slices'
-import { put } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects'
 
 export const apiCallsErrorHandler = error => {
   if (error.response) {
-    console.log('sagaErrorHandler, error.response ->');
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
+    console.log('sagaErrorHandler, error.response ->')
+    console.log(error.response.data)
+    console.log(error.response.status)
+    console.log(error.response.headers)
   } else if (error.request) {
-    console.log('sagaErrorHandler, error.request ->', error.request);
+    console.log('sagaErrorHandler, error.request ->', error.request)
   } else {
-    console.log('Error ->', error.message);
+    console.log('Error ->', error.message)
   }
 }
 
 export const actRespErrorMessage = (error) => {
-
   if (error.response) {
     return `${error.response.data.message} ${error.response.status}`
   } else {
     return error.message
   }
-};
+}
 
-export function* sagaErrorHandler(error) {
+export function * sagaErrorHandler (error) {
   if (error.response) {
     yield put(
       startAlert({
@@ -48,5 +47,4 @@ export function* sagaErrorHandler(error) {
   } else {
     // console.log('Error ->', error.message);
   }
-
 }

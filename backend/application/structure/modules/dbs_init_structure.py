@@ -17,7 +17,6 @@ def dbs_init_structure():
 
 
 def fill_structure():
-    # pass
     for _view in global_constants.get_VIEWS:
         _existing_structure = StructureModel.find_by_id(_view.get('view_id'))
         # _existing_view = ViewModel.find_by_id(_view['view_id'])
@@ -31,4 +30,4 @@ def fill_structure():
                     'application.contents.modules.dbs_init_contents on '
                     'fill_views.\nSome error:\n', err)
 
-    print('dbs_init_structure')
+    # print('dbs_init_structure')

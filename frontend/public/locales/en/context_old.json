@@ -1,0 +1,8 @@
+{
+  "1st": {
+    "addAbove": "Add element above (left of) this one",
+    "addBelow": "Add element below (right of) this one",
+    "deleteElement": "Delete this element",
+    "editElement": "Edit this element"
+  }
+}

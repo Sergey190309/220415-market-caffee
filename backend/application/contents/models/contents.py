@@ -57,7 +57,8 @@ class ContentModel(dbs_global.Model):
 
     @classmethod
     def find_by_identity_view_locale(
-            cls, identity: str = '',
+            cls,
+            identity: str = '',
             view_id: str = '',
             locale_id: str = '') -> 'ContentModel':
         return cls.query.filter_by(
