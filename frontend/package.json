@@ -67,7 +67,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.24.0",
-    "i18next-parser": "^3.7.0",
+    "i18next-parser": "^4.4.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "26.6.0",
     "babel-jest": "26.6.0",
