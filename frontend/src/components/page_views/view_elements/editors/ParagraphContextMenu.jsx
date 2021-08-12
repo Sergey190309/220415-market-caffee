@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
 
 const ParagraphContextMenu = ({
-  isOpened, context, saveDisabled,
-  setContextMenuOpened, setParagraphEditted
+  isOpened, context, saveDisabled, setContextMenuOpened,
+  setParagraphEditted
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation('context')
@@ -18,7 +18,7 @@ const ParagraphContextMenu = ({
   }, [isOpened])
 
   const onClickHandling = (event, { name }) => {
-    console.log('ParagraphContentMenu, onClickHandling, name ->', name)
+    // console.log('ParagraphContentMenu, onClickHandling, name ->', name)
     event.preventDefault()
     if (name === 'edit') {
       setParagraphEditted(true)
@@ -31,7 +31,7 @@ const ParagraphContextMenu = ({
   return (
     <Popup
       // basic
-      data-textid='Popup'
+      data-testid='Popup'
       context={context}
       // open={true}
       open={opened}

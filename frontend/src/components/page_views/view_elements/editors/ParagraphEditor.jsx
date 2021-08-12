@@ -9,27 +9,28 @@ import { Form, Segment } from 'semantic-ui-react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import EditorContextMenu from './EditorContextMenu'
-// import { contentSaga } from '../../../../redux/saga/contentLoading/contentLoading'
 import { createContextFromEvent } from './createContextFromEvent'
 import { warningColor } from '../../../../utils/colors'
 
 const ParagraphEditor = ({
-  setParagraphEditted,
   comingContent,
+  setParagraphEditted,
   setComimgContent
 }) => {
   const [content, setContent] = useState({
     title: '',
-    content: '' // conferted from [''] that on site
+    content: '', // conferted from [''] that on site
+    rows: 1 // row quontity in content
   })
   const [editorContextMenuOpened, setEditorContextMenuOpened] = useState(false)
   // const [contextMenuOpened, setContextMenuOpened] = useState(false)
 
   const contextRef = useRef(null)
+
   useEffect(() => {
     // console.log('ParagraphEditor, useEffect, comingContent ->', comingContent)
     const _text = comingContent.content.join('\n')
-    const _content = { ...comingContent, content: _text }
+    const _content = { ...comingContent, content: _text, rows: comingContent.content.length }
     setContent(_content)
   }, [comingContent])
 
@@ -71,6 +72,7 @@ const ParagraphEditor = ({
       <Segment
         style={{ backgroundColor: warningColor }}
         onContextMenu={onContextMenuHendler}
+        data-testid='Segment'
       >
         <Form>
           <TextareaAutosize
@@ -87,9 +89,7 @@ const ParagraphEditor = ({
           <TextareaAutosize
             name='content'
             value={content.content}
-            rows={
-              content.content ? content.content.length : 1
-            }
+            rows={content.rows}
             onChange={onChangeHandling}
           />
         </Form>
@@ -100,17 +100,17 @@ const ParagraphEditor = ({
 }
 
 ParagraphEditor.defaultProps = {
-  setParagraphEditted: () => { },
   comingContent: {
     title: '',
     content: ['']
   },
+  setParagraphEditted: () => { },
   setComimgContent: () => {}
 }
 
 ParagraphEditor.propTypes = {
-  setParagraphEditted: PropTypes.func.isRequired,
   comingContent: PropTypes.object.isRequired,
+  setParagraphEditted: PropTypes.func.isRequired,
   setComimgContent: PropTypes.func.isRequired
 }
 

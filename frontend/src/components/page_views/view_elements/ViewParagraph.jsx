@@ -7,9 +7,9 @@ import { CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/contentLoading/createIO'
 import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 import { deviceSelector } from '../../../redux/slices'
-import ParagraphContextMenu from './editors/ParagraphContextMenu'
-import ParagraphEditor from './editors/ParagraphEditor'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
+import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
+import ParagraphEditor from './editors/ParagraphEditor'
 
 const ViewParagraph = ({ recordId, viewName, lng }) => {
   const [state, sagaDispatch] = useSaga(contentSaga, {
@@ -63,6 +63,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   // const spy = something => {
   //   console.log('spy, something ->', something)
   // }
+  // console.log('ViewParagraph, content ->', content)
 
   return (
     <Fragment>
@@ -79,7 +80,6 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
       }
       {paragraphEditted
         ? <ParagraphEditor
-          shit='shit'
           setParagraphEditted={setParagraphEditted}
           comingContent={content}
           setComimgContent={setContent}
@@ -89,7 +89,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
           : null
           }>
           <Message.Header content={content.title} />
-          {content.title && content.content
+          {content.title && content.content.length > 0
             ? <Divider />
             : null}
           {content.content.map((item, index) => (

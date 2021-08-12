@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { render } from '@testing-library/react'
 
 describe('ViewParagraph testing', () => {
@@ -10,5 +10,4 @@ describe('ViewParagraph testing', () => {
   test('dummy', () => {
 
   })
-
 })
