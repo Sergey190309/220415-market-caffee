@@ -15,10 +15,10 @@ export const createIO = () => {
 }
 
 export const useSaga = (saga, initState) => {
-// ----------------------------------------------------------------------------------
   const [state, setState] = useState(initState)
   const IO = useRef(createIO())
   useEffect(() => {
+    // console.log('useSaga, useEffect, saga  ->', saga)
     const task = runSaga(IO.current, saga, setState)
     return () => task.cancel()
   }, [saga])

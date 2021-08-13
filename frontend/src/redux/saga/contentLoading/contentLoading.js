@@ -7,10 +7,10 @@ export const contentSaga = function * (setter) {
   while (true) {
     const { payload } = yield take(CONTENT_REQUESTED)
     try {
+      // console.log('contentSaga,  payload ->', payload)
       const result = yield call(getViewContent, payload)
       const { title, content } = result.data.payload
       const contentArr = (content ? content.split('<br>') : [])
-      // console.log('contentSaga, contentArr ->', contentArr)
       yield call(setter, {
         title: title,
         content: contentArr
@@ -33,8 +33,8 @@ export const contentSaga = function * (setter) {
 export const picSaga = function * (setter) {
   while (true) {
     const { payload } = yield take(PICTURE_REQUESTED)
-    // console.log('contentSaga, payload ->', payload);
     try {
+      // console.log('picSaga, payload ->', payload)
       const pixResp = yield call(getViewPicture, payload)
       // console.log('picSaga, pixResp ->', pixResp.data)
       yield call(setter, {

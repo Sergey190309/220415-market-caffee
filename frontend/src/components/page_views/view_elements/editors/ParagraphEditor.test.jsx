@@ -1,36 +1,25 @@
+/* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import React from 'react'
 import { Provider } from 'react-redux'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import store from '../../../../redux/store'
 
 import ParagraphEditor from './ParagraphEditor'
-import EditorContextMenu from './EditorContextMenu'
-// import testUtils from 'react-dom/test-utils'
+// import EditorContextMenu from './EditorContextMenu'
 
-const MockEditorContextMenu = ({
-  isOpened,
-  context,
-  setContextMenuOpened,
-  contextMenuAction
-}) => (
-  <div data-testid='EditorContextMenu'>
-    EditorContextMenu
-    {JSON.stringify(isOpened)}
-    {JSON.stringify(context)}
-    {JSON.stringify(setContextMenuOpened)}
-    {JSON.stringify(contextMenuAction)}
-  </div>
-)
-jest.mock('./EditorContextMenu', () => ({
-  __esModule: true,
-  default: jest.fn()
-}))
+const mockEditorContextMenu = jest.fn()
+
+jest.mock('./EditorContextMenu', () => props => {
+  mockEditorContextMenu(props)
+  return <mock-editorContextMenu />
+})
 
 describe('ParagraphEditor', () => {
   beforeEach(() => {
-    EditorContextMenu.mockImplementation(MockEditorContextMenu)
+    // EditorContextMenu.mockImplementation(MockEditorContextMenu)
   })
   const testProps = {
     comingContent: {
@@ -66,7 +55,40 @@ describe('ParagraphEditor', () => {
       expect(textAreas[0]).toHaveValue(testProps.comingContent.title)
       expect(textAreas[1]).toHaveValue(testProps.comingContent.content.join('\n'))
 
-      screen.debug()
+      // screen.debug()
+    })
+    it('text areas user input', () => {
+      render(
+        <Provider store={store}>
+          <ParagraphEditor {...testProps} />
+        </Provider>
+      )
+      const titleInput = 'Test value'
+      const titleTextArea = screen.getAllByRole('textbox')[0]
+      userEvent.clear(titleTextArea)
+      userEvent.type(titleTextArea, titleInput)
+      expect(titleTextArea).toHaveValue(titleInput)
+
+      const contentInput = 'first{enter}second{enter}third'
+      const expContentInput = contentInput.split('{enter}').join('\n')
+      const contentTextArea = screen.getAllByRole('textbox')[1]
+      userEvent.clear(contentTextArea)
+      userEvent.type(contentTextArea, contentInput)
+      expect(contentTextArea).toHaveValue(expContentInput)
+    })
+    it('right click -> context menu', async () => {
+      render(
+        <Provider store={store}>
+          <ParagraphEditor {...testProps} />
+        </Provider>
+      )
+      const element = screen.getByTestId('Segment')
+      // expect(EditorContextMenu.isOpened).toBeTruthy()
+      userEvent.click(element, { button: 2 })
+      // console.log('EditorContextMenu, args ->', mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0].isOpened)
+      expect(mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0].isOpened).toBeTruthy()
+      // expect(EditorContextMenu.isOpened).toBeFalsy()
+      // screen.debug()
     })
   })
 })

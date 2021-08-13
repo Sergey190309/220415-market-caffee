@@ -2,7 +2,7 @@ import { techAxiosClient, pixAxiosClient } from '../apiClient'
 
 export const getViewContent = params => {
   try {
-    // console.log('getViewContent, params ->', params);
+    // console.log('getViewContent, params ->', params)
     const resp = techAxiosClient.get('/content', { params: params })
     return resp
   } catch (error) {

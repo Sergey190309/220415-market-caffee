@@ -16,8 +16,8 @@ describe('ParagraphContextMenu testing', () => {
     setParagraphEditted: jest.fn()
   }
 
-  describe('component activity', () => {
-    test('save button anabled', async () => {
+  describe('component actions', () => {
+    test('save button enabled', async () => {
     // test.only('enable save button', async () => {
       const actualProps = {
         ...testProps,

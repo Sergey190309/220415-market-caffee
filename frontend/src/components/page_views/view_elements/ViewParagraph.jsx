@@ -9,13 +9,10 @@ import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
 import { deviceSelector } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
 import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
-import ParagraphEditor from './editors/ParagraphEditor'
+import ParagraphEditor from './editors/ParagraphEditor' // tested
 
-const ViewParagraph = ({ recordId, viewName, lng }) => {
-  const [state, sagaDispatch] = useSaga(contentSaga, {
-    title: '', // info from back end
-    content: ['']
-  })
+const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
+  const [state, sagaDispatch] = useSaga(contentSaga, initialState)
   const [content, setContent] = useState({
     title: '',
     content: ['']
@@ -28,7 +25,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
 
   const contextRef = useRef(null)
 
-  useEffect(() => {
+  useEffect(() => { // Saga
     // console.log('ViewParagraph, useEffect(sagaDispatch), recordId ->', recordId)
     sagaDispatch({
       type: CONTENT_REQUESTED,
@@ -41,6 +38,7 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   }, [recordId, viewName, lng, sagaDispatch])
 
   useEffect(() => {
+    // console.log('ViewParagraph, useEffect (state to content), state ->', state)
     setContent(state)
   }, [state])
 
@@ -60,10 +58,6 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   const saveToBackend = () => {
     console.log('ViewParagraph, saveToBackend')
   }
-  // const spy = something => {
-  //   console.log('spy, something ->', something)
-  // }
-  // console.log('ViewParagraph, content ->', content)
 
   return (
     <Fragment>
@@ -84,10 +78,13 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
           comingContent={content}
           setComimgContent={setContent}
           />
-        : <Message onContextMenu={editable
-          ? onContextMenuHendler
-          : null
-          }>
+        : <Message
+            data-testid='Message'
+            onContextMenu={editable
+              ? onContextMenuHendler
+              : null
+            }
+          >
           <Message.Header content={content.title} />
           {content.title && content.content.length > 0
             ? <Divider />
@@ -104,12 +101,17 @@ const ViewParagraph = ({ recordId, viewName, lng }) => {
   )
 }
 ViewParagraph.defaultProps = {
+  initialState: {
+    title: '', // info from back end
+    content: ['']
+  },
   recordId: '',
   viewName: '',
   lng: ''
 }
 
 ViewParagraph.propTypes = {
+  initialState: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired

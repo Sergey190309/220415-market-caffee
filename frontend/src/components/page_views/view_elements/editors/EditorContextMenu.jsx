@@ -7,6 +7,7 @@ import { positiveColor, neutralColor, warningColor } from '../../../../utils/col
 
 const EditorContextMenu = ({
   isOpened,
+  saveDisabled,
   context,
   setContextMenuOpened,
   contextMenuAction
@@ -27,6 +28,7 @@ const EditorContextMenu = ({
 
   return (
     <Popup
+      data-testid='Popup'
       basic context={context} open={opened}
       onClose={() => {
         setOpened(false)
@@ -42,6 +44,7 @@ const EditorContextMenu = ({
         <Button
           name='save'
           icon={{ name: 'save', color: positiveColor }}
+          disabled={saveDisabled}
           content={t('2ndLavel.save')}
           style={{ textAlign: 'left' }}
           onClick={onButtonClickHandle}
@@ -49,7 +52,6 @@ const EditorContextMenu = ({
         <Button
           name='back' // to editting
           icon={{ name: 'angle left', color: neutralColor }}
-
           content={t('2ndLavel.back')}
           style={{ textAlign: 'left' }}
           onClick={onButtonClickHandle}
@@ -68,6 +70,7 @@ const EditorContextMenu = ({
 
 EditorContextMenu.defaultProps = {
   isOpened: false,
+  saveDisabled: true,
   context: {},
   setContextMenuOpened: () => {},
   contextMenuAction: () => {}
@@ -76,6 +79,7 @@ EditorContextMenu.defaultProps = {
 
 EditorContextMenu.propTypes = {
   isOpened: PropTypes.bool.isRequired,
+  saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setContextMenuOpened: PropTypes.func.isRequired,
   contextMenuAction: PropTypes.func.isRequired

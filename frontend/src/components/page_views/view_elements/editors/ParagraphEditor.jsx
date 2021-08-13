@@ -19,25 +19,27 @@ const ParagraphEditor = ({
 }) => {
   const [content, setContent] = useState({
     title: '',
-    content: '', // conferted from [''] that on site
-    rows: 1 // row quontity in content
+    content: '' // conferted from [''] that on site
   })
   const [editorContextMenuOpened, setEditorContextMenuOpened] = useState(false)
+  const [changed, setChanged] = useState(false)
   // const [contextMenuOpened, setContextMenuOpened] = useState(false)
 
   const contextRef = useRef(null)
 
   useEffect(() => {
-    // console.log('ParagraphEditor, useEffect, comingContent ->', comingContent)
-    const _text = comingContent.content.join('\n')
-    const _content = { ...comingContent, content: _text, rows: comingContent.content.length }
-    setContent(_content)
+    // console.log('ParagraphEditor, useEffect, comingContent ->', comingContent.content)
+    const title = comingContent.title ? comingContent.title : ''
+    const content = comingContent.content.join('\n')
+    setContent({ title, content })
   }, [comingContent])
 
   const contextMenuAction = (action) => {
-    // console.log('ParagraphEditor, contextMenuAction, action ->', action)
     if (action === 'save') {
-      const _text = content.content.split('\n')
+      // console.log('ParagraphEditor, contextMenuAction, content.content ->', typeof (content.content))
+      const _text = content.content === ''
+        ? []
+        : content.content.split('\n')
       const _content = { ...content, content: _text }
       setComimgContent(_content)
       setParagraphEditted(false)
@@ -49,13 +51,14 @@ const ParagraphEditor = ({
 
   const onChangeHandling = event => {
     // const onChangeHandling = (event, { name }) => {
-    // console.log('ParagraphEditor, onChangeHandling, event.target ->', event.target.name)
     event.preventDefault()
     const _content = { ...content, [event.target.name]: event.target.value }
+    setChanged(true)
     setContent(_content)
   }
 
   const onContextMenuHendler = event => {
+    console.log('ParagraphEditor, onContextMenuHendler')
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setEditorContextMenuOpened(true)
@@ -65,6 +68,7 @@ const ParagraphEditor = ({
     <Fragment>
       <EditorContextMenu
         isOpened={editorContextMenuOpened}
+        saveDisabled={!changed}
         context={contextRef}
         setContextMenuOpened={setEditorContextMenuOpened}
         contextMenuAction={contextMenuAction}
@@ -79,7 +83,7 @@ const ParagraphEditor = ({
             name='title'
             value={content.title}
             autoFocus
-            rows='1'
+            rows={1}
             onChange={onChangeHandling}
             style={{
               fontSize: '1.15em',
@@ -89,7 +93,7 @@ const ParagraphEditor = ({
           <TextareaAutosize
             name='content'
             value={content.content}
-            rows={content.rows}
+            rows={1}
             onChange={onChangeHandling}
           />
         </Form>

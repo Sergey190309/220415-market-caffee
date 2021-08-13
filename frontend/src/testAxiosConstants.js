@@ -1,4 +1,14 @@
 /**
+ * Constant for getting content
+ */
+export const resolveDataContent = {
+  payload: {
+    title: 'mockTitle',
+    content: 'mock content first line<br>mock content second line<br>mock content third line'
+  }
+}
+
+/**
  * Auth contants
  */
 export const resolveDataSignIn = {
@@ -19,7 +29,7 @@ export const rejectDataSignIn = {
 
 export const logInData = {
   email: 'mock@email.test',
-  password: 'mockPassword',
+  password: 'mockPassword'
 }
 
 export const resolveData = {
@@ -29,19 +39,19 @@ export const resolveData = {
     email: 'a@agatha-ng.com',
     isAdmin: true,
     access_token: 'mock-access-token',
-    refresh_token: 'mock-refresh-token',
-  },
+    refresh_token: 'mock-refresh-token'
+  }
 }
 
 export const rejectData = {
   response: {
     data: {
-      message: 'Error message',
+      message: 'Error message'
     },
     status: 404,
-    headers: { header: 'Some header' },
+    headers: { header: 'Some header' }
   },
-  config: { config: 'Some config' },
+  config: { config: 'Some config' }
 
 }
 
@@ -50,7 +60,7 @@ export const logInSuccessArgs = {
   email: 'mockEmail',
   isAdmin: true,
   access_token: 'mockAccessToken',
-  refresh_token: 'mockRefreshToken',
+  refresh_token: 'mockRefreshToken'
 }
 // ==================================================================================
 /**
@@ -67,14 +77,14 @@ export const resolveDataTechInGet = {
   data: {
     message: 'There are 2 locales in our database as follows:',
     payload: [
-        {
-            'remarks': 'General english.',
-            'id': 'en'
-        },
-        {
-            'remarks': 'Общий русский.',
-            'id': 'ru'
-        }
+      {
+        remarks: 'General english.',
+        id: 'en'
+      },
+      {
+        remarks: 'Общий русский.',
+        id: 'ru'
+      }
     ]
   }
 }

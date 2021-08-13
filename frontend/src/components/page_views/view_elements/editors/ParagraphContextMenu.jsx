@@ -6,7 +6,10 @@ import { useTranslation } from 'react-i18next'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
 
 const ParagraphContextMenu = ({
-  isOpened, context, saveDisabled, setContextMenuOpened,
+  isOpened,
+  saveDisabled,
+  context,
+  setContextMenuOpened,
   setParagraphEditted
 }) => {
   const [opened, setOpened] = useState(false)
