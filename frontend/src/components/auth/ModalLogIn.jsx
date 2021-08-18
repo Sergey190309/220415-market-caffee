@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { Modal } from 'semantic-ui-react'
 import LogIn from './LogIn'
 import SignUp from './SignUp'
+import ConfirmPassword from './ConfirmPassword'
 import Loader from '../items/Loader'
 import { closeModal, deviceSelector } from '../../redux/slices'
 
@@ -33,6 +34,9 @@ export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
       break
     case 'signUp':
       content = <SignUp onCancelClick={_onCloseHandle} />
+      break
+    case 'confirmPassword':
+      content = <ConfirmPassword onCancelClick={_onCloseHandle} />
       break
     case 'loader':
       content = <Loader />

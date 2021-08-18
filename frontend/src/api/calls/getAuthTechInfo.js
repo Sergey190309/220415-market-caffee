@@ -13,7 +13,7 @@ export const techInCall = techInData => {
 }
 
 export const logInCall = logInData => {
-  console.log('logInCall, logInData ->', logInData)
+  // console.log('logInCall, logInData ->', logInData)
   const resp = authTextAxiosClient.post('/users/login', logInData)
   // console.log('logInCall, resp ->', resp)
   return resp

@@ -50,7 +50,7 @@ describe('Tech slice testing', () => {
     const mockPayload = 'mockPayload'
     const expState = { ...initialState, techLoaded: true, techToken: mockPayload }
     store.dispatch(setTestState({ techLoaded: false }))
-    console.log('tech slice testing, mockPayload ->', mockPayload)
+    // console.log('tech slice testing, mockPayload ->', mockPayload)
     store.dispatch(techInSuccess(mockPayload))
     expect(setAxiosTechToken).toHaveBeenCalledTimes(1)
     expect(setAxiosTechToken).toHaveBeenCalledWith(mockPayload)
