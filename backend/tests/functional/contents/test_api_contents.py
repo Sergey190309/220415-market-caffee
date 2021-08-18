@@ -369,7 +369,7 @@ def test_content_put(client, content_api_resp,
     _headers = {'Authorization': f'Bearer {_access_token}',
                 'Content-Type': 'application/json',
                 'Accept-Language': lng}
-    # Create data with normal set of keys:
+    '''Create data with normal set of keys:'''
     _lng_key = {'locale_id': lng}
     resp = content_api_resp(values=_lng_key, headers=_headers)
     _search_json = {k: v for (k, v) in resp.json.get('payload').items()
@@ -377,23 +377,24 @@ def test_content_put(client, content_api_resp,
     _original_json = {k: v for(k, v) in resp.json.get('payload').items() if k not in [
         'locale', 'created', 'updated', 'view']}
     _key_json = {key: value for (key, value) in _original_json.items() if key in [
-        'identity', 'view_id', 'locale_id']}
+        'identity', 'view_id']}
     _value_json = {key: value for (key, value) in _original_json.items() if key not in [
-        'identity', 'view_id', 'locale_id']}
+        'identity', 'view_id', 'locale_id', 'user_id']}
     assert resp.status_code == 201
     assert 'message' in resp.json.keys()
     assert 'payload' in resp.json.keys()
     assert resp.json.get('message').find(test_word) != -1
     assert resp.json.get('payload').get('locale_id') == lng
 
-    # Find and update data with normal set of keys:
+    '''Find and update data with normal set of keys:'''
     for key in _value_json.keys():
         # print(key)
         _corrected_data = _original_json.copy()
-        if isinstance(_corrected_data.get(key), int):
-            _corrected_data[key] = 0
-        elif isinstance(_corrected_data.get(key), str):
-            _corrected_data[key] += ' - corrected'
+        # if isinstance(_corrected_data.get(key), int):
+        #     print('\nfunctional, contents, put key ->', key)
+        #     _corrected_data[key] = 0
+        # elif isinstance(_corrected_data.get(key), str):
+        _corrected_data[key] += ' - corrected'
         resp = client.put(url_for('contents_bp.content'),
                           json=_corrected_data, headers=_headers)
         assert resp.status_code == 200
@@ -401,10 +402,12 @@ def test_content_put(client, content_api_resp,
         assert resp.json['payload'][key] == _corrected_data[key]
         assert resp.json.get('message').find(test_word) != -1
         assert resp.json.get('payload').get('locale_id') == lng
+        # print('\nfunctional, contents, put code ->', resp.status_code)
+        # print('functional, contents, put json ->', resp.json.get('payload').get(key))
 
-    # Try to find view with wrong value (404):
+    '''Try to find view with wrong value (404):'''
     for key in _key_json.keys():
-        _wrong_key_value = _original_json.copy()
+        _wrong_key_value = _key_json.copy()
         _wrong_key_value[key] += '_wrong'
         resp = client.put(url_for('contents_bp.content'),
                           json=_wrong_key_value, headers=_headers)
@@ -413,8 +416,16 @@ def test_content_put(client, content_api_resp,
         assert isinstance(resp.json, Dict)
         assert resp.json.get('message').find(test_word) != -1
         assert resp.json.get('message').find(lng) != -1
-        # print('\nfunctional, contents, put code ->', resp.status_code)
-        # print('functional, contents, put json ->', resp.json)
+    resp = client.put(url_for('contents_bp.content'),
+                      json=_key_json,
+                      headers=({**_headers, 'Accept-Language': 'wrong'}))
+    assert resp.status_code == 404
+    assert 'payload' not in resp.json.keys()
+    assert isinstance(resp.json, Dict)
+    # assert resp.json.get('message').find(test_word) != -1
+    # assert resp.json.get('message').find(lng) != -1
+    # print('\nfunctional, contents, put code ->', resp.status_code)
+    # print('functional, contents, put json ->', resp.json)
 
     '''Clean up user table'''
     _admin.delete_fm_db()
@@ -431,7 +442,7 @@ def test_content_put(client, content_api_resp,
         ('ru', 'одержание'),
     ]
 )
-@pytest.mark.active
+# @pytest.mark.active
 def test_content_delete(client, content_api_resp,
                         sessions, user_instance,
                         lng, test_word,

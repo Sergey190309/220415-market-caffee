@@ -1,10 +1,10 @@
-import { techAxiosClient } from '../apiClient'
+import { techTextAxiosClient } from '../apiClient'
 // import { respErrorHandler } from '../../utils/respErrorHandler';
 // import { v4 } from 'uuid';
 
 export const getViewStructure = () => {
   try {
-    const resp = techAxiosClient.get('/structure/list')
+    const resp = techTextAxiosClient.get('/structure/list')
     // console.log('getViewStructure, resp ->', resp)
     return resp
   } catch (error) {

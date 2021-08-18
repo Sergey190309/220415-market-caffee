@@ -10,7 +10,11 @@ const ParagraphContextMenu = ({
   saveDisabled,
   context,
   setContextMenuOpened,
-  setParagraphEditted
+  setParagraphEditted,
+  saveToBackend,
+  deleteFmBackend,
+  addAboveToBacken,
+  addBelowToBacken
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation('context')
@@ -23,8 +27,24 @@ const ParagraphContextMenu = ({
   const onClickHandling = (event, { name }) => {
     // console.log('ParagraphContentMenu, onClickHandling, name ->', name)
     event.preventDefault()
-    if (name === 'edit') {
-      setParagraphEditted(true)
+    switch (name) {
+      case 'edit':
+        setParagraphEditted(true)
+        break
+      case 'save':
+        saveToBackend()
+        break
+      case 'delete':
+        deleteFmBackend()
+        break
+      case 'above':
+        addAboveToBacken()
+        break
+      case 'below':
+        addBelowToBacken()
+        break
+      default:
+        break
     }
     setOpened(false)
     setContextMenuOpened(false)
@@ -97,8 +117,11 @@ ParagraphContextMenu.defaultProps = {
   saveDisabled: false,
   context: false,
   setContextMenuOpened: () => { },
-  setParagraphEditted: () => { }
-  // saveToBackend: () => { }
+  setParagraphEditted: () => { },
+  saveToBackend: () => { },
+  deleteFmBackend: () => { },
+  addAboveToBacken: () => { },
+  addBelowToBacken: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
@@ -106,8 +129,11 @@ ParagraphContextMenu.propTypes = {
   saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setContextMenuOpened: PropTypes.func.isRequired,
-  setParagraphEditted: PropTypes.func.isRequired
-  // saveToBackend: PropTypes.func.isRequired
+  setParagraphEditted: PropTypes.func.isRequired,
+  saveToBackend: PropTypes.func.isRequired,
+  deleteFmBackend: PropTypes.func.isRequired,
+  addAboveToBacken: PropTypes.func.isRequired,
+  addBelowToBacken: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

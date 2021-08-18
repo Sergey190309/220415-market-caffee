@@ -132,9 +132,13 @@ class Content(Resource):
         '''
         _lng = request.headers.get('Accept-Language')
         fbp.set_lng(_lng)
-        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+        _user_id = get_jwt_identity()
+        # print('content, resources, put, user id ->', _user_id)
+        if not UserModel.find_by_id(_user_id).is_admin:
+            # if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
-        _update_json = content_get_schema.load(request.get_json())
+        _request_json = {**request.get_json(), 'locale_id': _lng, 'user_id': _user_id}
+        _update_json = content_get_schema.load(_request_json)
         _content = ContentModel.find_by_identity_view_locale(
             identity=_update_json.get('identity'),
             view_id=_update_json.get('view_id'),

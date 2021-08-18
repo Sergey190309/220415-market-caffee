@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { TECH_TOKEN } from '../constants/localStorageVariables'
 
-import { axiosCommonToken } from '../../api/apiClient'
+import { setAxiosTechToken } from '../../api/apiClient'
 
 /**
  * loading: bool
@@ -49,8 +49,8 @@ const techSlice = createSlice({
       state.techLoaded = false
     },
     techInSuccess: (state, { payload }) => { // tested
-      // console.log('tech slicer, techInSuccess, payload ->', payload);
-      axiosCommonToken(payload)
+      // console.log('tech slicer, techInSuccess, payload ->', payload)
+      setAxiosTechToken(payload)
       localStorage.setItem(TECH_TOKEN, payload)
       state.techLoaded = true
       state.techToken = payload

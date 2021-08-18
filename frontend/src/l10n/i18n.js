@@ -5,7 +5,7 @@ import HttpApi from 'i18next-http-backend'
 import store from '../redux/store'
 import { i18nInitiated } from '../redux/slices/tech'
 // import { i18nInitiated } from '../redux/actions/tech';
-import { axiosCommonLng } from '../api/apiClient'
+import { setAxiosCommonLng } from '../api/apiClient'
 
 export const initI18next = (supportedLngs = ['en', 'ru']) => {
   /**
@@ -59,7 +59,7 @@ export const setI18next = lngs => {
     i18next.languages.push(value)
   })
   // console.log('i18n, i18next.language ->', i18next.language)
-  axiosCommonLng(store.getState().lng.lng) // Set axios header for backend calls.
+  setAxiosCommonLng(store.getState().lng.lng) // Set axios header for backend calls.
 }
 
 export default i18next

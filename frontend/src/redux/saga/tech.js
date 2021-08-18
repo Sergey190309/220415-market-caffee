@@ -32,11 +32,10 @@ export function * startInitSaga () {
 
 export function * startInitWorker () {
   yield put(startTechIn(v4()))
-  // ==================================================================================
-  // It should start i18n initiation using direct call to i18n API.
-  // When i18n has finished it should set I18N_INITIATED it true
-  // ==================================================================================
-  // const lngs = ['en'];
+  /**
+   * It should start i18n initiation using direct call to i18n API.
+   * When i18n has finished it should set I18N_INITIATED it true
+   */
   yield call(initI18next)
   // yield call(initI18next, lngs);
 }
@@ -48,7 +47,9 @@ export function * techInSaga () {
 
 // Worker
 export function * techInFetch (action) {
-  // export function* techInFetch(action, setToken = axiosCommonToken) {
+  /**
+   * The saga fetch tech token. If success fire sagas to fetch structure and lngs.
+   */
   try {
     // console.log('techInFetch, techInCall args ->', action.payload)
     const techInResp = yield call(techInCall, { tech_id: action.payload })
