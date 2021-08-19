@@ -38,7 +38,7 @@ class TechAuth(Resource):
 
         _id_json = {'tech_id': request.args.get('tech_id')}
         # _id_json = request.get_json(silent=True)
-        print('\ntech_auth get, request _id_json ->', _id_json)
+        # print('\ntech_auth get, request _id_json ->', _id_json)
         if _id_json.get('tech_id') is None:
             return {
                 'message': str(_(

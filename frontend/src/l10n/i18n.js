@@ -14,7 +14,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
    * from back - end.
    */
 
-  const nameSpaces = ['navbar', 'login', 'signup', 'general', 'context']
+  const nameSpaces = ['navbar', 'auth', 'general', 'context']
   // console.log('initI18n,  supportedLngs->', supportedLngs);
   const lng = supportedLngs[0]
   i18next

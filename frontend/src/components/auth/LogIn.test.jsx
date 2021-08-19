@@ -61,7 +61,7 @@ describe('LogIn component testing', () => {
         expect(screen.getAllByRole('heading')).toHaveLength(2)
         expect(screen.getAllByRole('textbox')).toHaveLength(1)
         expect(screen.getAllByRole('button')).toHaveLength(4)
-        expect(screen.getByPlaceholderText('placeHolders.password')).toBeVisible()
+        expect(screen.getByPlaceholderText('login.placeHolders.password')).toBeVisible()
         // console.log(screen.getByPlaceholderText('placeHolders.password').value)
         // console.log(screen.ByPlaceholderText(''));
       })
@@ -80,7 +80,7 @@ describe('LogIn component testing', () => {
           </Provider>
         )
         expect(screen.getByRole('textbox')).toHaveValue('test@mail.test')
-        expect(screen.getByPlaceholderText('placeHolders.password')).toHaveValue(
+        expect(screen.getByPlaceholderText('login.placeHolders.password')).toHaveValue(
           'password'
         )
       })

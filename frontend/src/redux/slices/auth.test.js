@@ -29,7 +29,8 @@ describe('Auth slicer testing', () => {
     ...notLoggedInfo,
     isLoggedIn: false,
     loading: false,
-    isSignedUp: false
+    isSignedUp: false,
+    isConfirmedPassword: false
   }
   const logInPayload = {
     user_name: 'useName',
@@ -42,7 +43,8 @@ describe('Auth slicer testing', () => {
     ...logInPayload,
     isLoggedIn: true,
     loading: false,
-    isSignedUp: false
+    isSignedUp: false,
+    isConfirmedPassword: false
   }
   beforeAll(() => {
     localStorage.clear()
@@ -98,7 +100,7 @@ describe('Auth slicer testing', () => {
       const state = store.getState().auth
       const expState = { ...logInState }
       expect(state).toEqual(expState)
-      const { loading, isSignedUp, isLoggedIn, ...localyStored } = state
+      const { loading, isSignedUp, isLoggedIn, isConfirmedPassword, ...localyStored } = state
       expect(localStorage.setItem).toHaveBeenLastCalledWith(
         LOG_IN_INFO,
         JSON.stringify(localyStored)

@@ -1,5 +1,5 @@
 {
-    "admin": {
-        "editable": "Allow admin change site content and save it to back-end"
-    }
+  "admin": {
+    "editable": "Allow admin change site content and save it to back-end"
+  }
 }

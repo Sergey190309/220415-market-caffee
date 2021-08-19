@@ -30,19 +30,19 @@ export const signUpSchema = t =>
     [Object.keys(formStructure)[0]]: Yup.string().max(
       15,
       // eslint-disable-next-line no-template-curly-in-string
-      t('errors.userName.max', { max: '${max}' })
+      t('signup.errors.userName.max', { max: '${max}' })
     ),
     [Object.keys(formStructure)[1]]: Yup.string()
-      .email(t('errors.email.invalidEmail'))
-      .required(t('errors.required')),
+      .email(t('signup.errors.email.invalidEmail'))
+      .required(t('signup.errors.required')),
     [Object.keys(formStructure)[2]]: Yup.string()
       // eslint-disable-next-line no-template-curly-in-string
-      .min(6, t('errors.password.min', { min: '${min}' }))
-      .required(t('errors.required')),
+      .min(6, t('signup.errors.password.min', { min: '${min}' }))
+      .required(t('signup.errors.required')),
     [Object.keys(formStructure)[3]]: Yup.string().oneOf(
       [Yup.ref(Object.keys(formStructure)[2]), null],
-      t('warnings.pwdMustMatch!')
-      // t('Passwords must match!')
+      t('signup.warnings.pwdMustMatch!')
+      // t('signup.Passwords must match!')
     )
   })
 
@@ -69,7 +69,7 @@ export const SignUp = ({
     }
   }, [dispatch, isSignedUp, closeModal, signUpModalClosed])
 
-  const { t } = useTranslation('signup')
+  const { t } = useTranslation('auth')
 
   const onSubmit = (formData, { setSubmitting }) => {
     const { userName, password2, ...otherProps } = formData
@@ -92,7 +92,7 @@ export const SignUp = ({
           <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
-              {t('header')}
+              {t('signup.header')}
             </Segment.Inline>
           </Header>
 
@@ -105,17 +105,17 @@ export const SignUp = ({
                 <Input
                   id='input-userName'
                   name='userName'
-                  inputLabel={t('labels.userName')}
+                  inputLabel={t('signup.labels.userName')}
                   icon='user'
-                  placeholder={t('placeHolders.userName')}
+                  placeholder={t('signup.placeHolders.userName')}
                   errorPrompt
                 />
                 <Input
                   id='input-email'
                   name='email'
-                  inputLabel={t('labels.email')}
+                  inputLabel={t('signup.labels.email')}
                   icon='at'
-                  placeholder={t('placeHolders.email')}
+                  placeholder={t('signup.placeHolders.email')}
                   errorPrompt
                 />
                 <Input
@@ -123,9 +123,9 @@ export const SignUp = ({
                   data-testid='input-password'
                   name='password'
                   type='password'
-                  inputLabel={t('labels.password')}
+                  inputLabel={t('signup.labels.password')}
                   icon='key'
-                  placeholder={t('placeHolders.password')}
+                  placeholder={t('signup.placeHolders.password')}
                   autoComplete='on'
                   errorPrompt
                 />
@@ -134,9 +134,9 @@ export const SignUp = ({
                   data-testid='input-password2'
                   name='password2'
                   type='password'
-                  inputLabel={t('labels.password2')}
+                  inputLabel={t('signup.labels.password2')}
                   icon='key'
-                  placeholder={t('placeHolders.password2')}
+                  placeholder={t('signup.placeHolders.password2')}
                   autoComplete='on'
                   errorPrompt
                 />
@@ -145,21 +145,21 @@ export const SignUp = ({
                     basic
                     color={positiveColor}
                     size='large'
-                    content={t('buttons.signUp')}
+                    content={t('signup.buttons.signUp')}
                   />
-                  <Button.Or text={t('buttons.or')} />
+                  <Button.Or text={t('signup.buttons.or')} />
                   <ResetButton
                     basic
                     color={neutralColor}
                     size='large'
-                    content={t('buttons.reset')}
+                    content={t('signup.buttons.reset')}
                   />
-                  <Button.Or text={t('buttons.or')} />
+                  <Button.Or text={t('signup.buttons.or')} />
                   <Button
                     basic
                     color={warningColor}
                     size='large'
-                    content={t('buttons.cancel')}
+                    content={t('signup.buttons.cancel')}
                     type='button'
                     onClick={() => {
                       dispatch(closeModal())
