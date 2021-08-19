@@ -68,8 +68,8 @@ describe('SignUp form testing', () => {
         expect(screen.getAllByRole('heading')).toHaveLength(1)
         expect(screen.getAllByRole('textbox')).toHaveLength(2)
         expect(screen.getAllByRole('button')).toHaveLength(3)
-        expect(screen.getByPlaceholderText('placeHolders.password')).toBeVisible()
-        expect(screen.getByPlaceholderText('placeHolders.password2')).toBeVisible()
+        expect(screen.getByPlaceholderText('signup.placeHolders.password')).toBeVisible()
+        expect(screen.getByPlaceholderText('signup.placeHolders.password2')).toBeVisible()
         // screen.debug()
       })
 
@@ -79,16 +79,16 @@ describe('SignUp form testing', () => {
             <SignUp {...activeProps} />
           </Provider>
         )
-        expect(screen.getByRole('textbox', { name: 'labels.userName' })).toHaveValue(
+        expect(screen.getByRole('textbox', { name: 'signup.labels.userName' })).toHaveValue(
           activeValues.userName
         )
-        expect(screen.getByRole('textbox', { name: 'labels.email' })).toHaveValue(
+        expect(screen.getByRole('textbox', { name: 'signup.labels.email' })).toHaveValue(
           activeValues.email
         )
-        expect(screen.getByPlaceholderText('placeHolders.password')).toHaveValue(
+        expect(screen.getByPlaceholderText('signup.placeHolders.password')).toHaveValue(
           activeValues.password
         )
-        expect(screen.getByPlaceholderText('placeHolders.password2')).toHaveValue(
+        expect(screen.getByPlaceholderText('signup.placeHolders.password2')).toHaveValue(
           activeValues.password2
         )
       })
@@ -110,15 +110,15 @@ describe('SignUp form testing', () => {
             <SignUp {...testProps} />
           </Provider>
         )
-        expect(screen.getByRole('button', { name: 'buttons.signUp' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'signup.buttons.signUp' })).toHaveClass(
           'ui teal large basic button',
           { exact: true }
         )
-        expect(screen.getByRole('button', { name: 'buttons.reset' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'signup.buttons.reset' })).toHaveClass(
           'ui olive large basic button',
           { exact: true }
         )
-        expect(screen.getByRole('button', { name: 'buttons.cancel' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'signup.buttons.cancel' })).toHaveClass(
           'ui orange large basic button',
           { exact: true }
         )
@@ -142,7 +142,7 @@ describe('SignUp form testing', () => {
             <SignUp {...actualProps} />
           </Provider>
         )
-        const signUpButton = screen.getByRole('button', { name: 'buttons.signUp' })
+        const signUpButton = screen.getByRole('button', { name: 'signup.buttons.signUp' })
 
         userEvent.click(signUpButton)
         await waitFor(() => {
@@ -161,7 +161,7 @@ describe('SignUp form testing', () => {
             <SignUp {...actualProps} />
           </Provider>
         )
-        const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' })
+        const cancelButton = screen.getByRole('button', { name: 'signup.buttons.cancel' })
 
         userEvent.click(cancelButton)
         await waitFor(() => {

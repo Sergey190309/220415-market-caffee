@@ -90,11 +90,11 @@ describe('LogIn component testing', () => {
             <LogIn {...testProps} />
           </Provider>
         )
-        expect(screen.getByRole('heading', { name: 'header' })).toHaveClass(
+        expect(screen.getByRole('heading', { name: 'login.header' })).toHaveClass(
           'ui teal center aligned header',
           { exact: true }
         )
-        expect(screen.getByRole('heading', { name: 'message' })).toHaveClass(
+        expect(screen.getByRole('heading', { name: 'login.message' })).toHaveClass(
           'ui header',
           { exact: true }
         )
@@ -107,19 +107,19 @@ describe('LogIn component testing', () => {
             <LogIn {...testProps} />
           </Provider>
         )
-        expect(screen.getByRole('button', { name: 'buttons.logIn' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'login.buttons.logIn' })).toHaveClass(
           'ui teal large basic button',
           { exact: true }
         )
-        expect(screen.getByRole('button', { name: 'buttons.reset' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'login.buttons.reset' })).toHaveClass(
           'ui olive large basic button',
           { exact: true }
         )
-        expect(screen.getByRole('button', { name: 'buttons.cancel' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'login.buttons.cancel' })).toHaveClass(
           'ui orange large basic button',
           { exact: true }
         )
-        expect(screen.getByRole('button', { name: 'buttons.signUp' })).toHaveClass(
+        expect(screen.getByRole('button', { name: 'login.buttons.signUp' })).toHaveClass(
           'ui teal large basic left floated button',
           { exact: true }
         )
@@ -148,7 +148,7 @@ describe('LogIn component testing', () => {
             <LogIn {...actualProps} />
           </Provider>
         )
-        const logInButton = screen.getByRole('button', { name: 'buttons.logIn' })
+        const logInButton = screen.getByRole('button', { name: 'login.buttons.logIn' })
         userEvent.click(logInButton)
         await waitFor(() => {
           // expect(dispatch).toHaveBeenCalledTimes(1);
@@ -175,7 +175,7 @@ describe('LogIn component testing', () => {
           </Provider>
         )
         // expect(actualProps.closeModal).toHaveBeenCalledTimes(1);
-        const cancelButton = screen.getByRole('button', { name: 'buttons.cancel' })
+        const cancelButton = screen.getByRole('button', { name: 'login.buttons.cancel' })
         userEvent.click(cancelButton)
         await waitFor(() => {
           expect(actualProps.closeModal).toHaveBeenCalledTimes(1)
@@ -194,7 +194,7 @@ describe('LogIn component testing', () => {
             <LogIn {...actualProps} />
           </Provider>
         )
-        const sighUpButton = screen.getByRole('button', { name: 'buttons.signUp' })
+        const sighUpButton = screen.getByRole('button', { name: 'login.buttons.signUp' })
         userEvent.click(sighUpButton)
         await waitFor(() => {
           expect(actualProps.openModal).toHaveBeenCalledTimes(1)
