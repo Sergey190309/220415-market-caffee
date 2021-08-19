@@ -36,7 +36,7 @@ class UserLogin(Resource):
                     email=_json['email'])),
             }, 404
         else:
-            if not _user.check_password(_json['password']):
+            if not _user.check_password(_json.get('password')):
                 return {
                     'message': str(_(
                         "Wrong password for user with email '%(email)s'.",
@@ -74,7 +74,6 @@ class UserLogin(Resource):
         return {"message": str(_("Successfully logged out."))}, 200
 
     @classmethod
-    # @jwt_refresh_token_required
     @jwt_required(refresh=True)
     def put(cls):
         '''
@@ -82,11 +81,16 @@ class UserLogin(Resource):
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
         _user = UserModel.find_by_id(get_jwt_identity())
-        if not _user:
+        _json = request.get_json()
+        if _user is None:
             return {
                 'message': str(_(
                     'Something wrong with token refreshing. Try to log in again.')),
             }, 500
+        if not _user.check_password(_json.get('password')):
+            return {
+                'message': str(_('Wrong password.')),
+            }, 401
         return {
             'message': str(_('Token successfully refreshed.')),
             'payload': {

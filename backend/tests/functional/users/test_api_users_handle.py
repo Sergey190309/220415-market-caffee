@@ -16,8 +16,7 @@ def test_userhandle_post_user_own(  # Normal user can update own info but role_i
         created_user,
         lng, test_word, test_word01,
         access_token):
-    _user = created_user('user')
-
+    _user = created_user({'role_id': 'user'})
     access_token_passive = access_token(_user)
     headers = {
         'Authorization': f"Bearer {access_token_passive}",
@@ -61,7 +60,7 @@ def test_userhandle_post_user_own(  # Normal user can update own info but role_i
     assert resp.json.get('message').find(test_word01) != -1
 
     # User can NOT update any details of other user:
-    _other_user = created_user('power_user')
+    _other_user = created_user({'role_id': 'power_user'})
     other_user_headers = {**headers,
                           'Authorization': f"Bearer {access_token(_other_user)}"}
     resp = client.post(
@@ -89,8 +88,8 @@ def test_userhandle_post_admin_role_user_other(  # Normal user cannot update oth
         created_user,
         lng, test_word,
         access_token):
-    _user = created_user(role_id='user')
-    _admin = created_user(role_id='admin')
+    _user = created_user({'role_id': 'user'})
+    _admin = created_user({'role_id': 'admin'})
 
     # Admin can change other roles.
     headers = {
@@ -142,8 +141,8 @@ def test_userhandle_get(  # Normal user cannot update other
         created_user,
         lng, test_word, test_word01,
         access_token):
-    _user = created_user('user')
-    _admin = created_user(role_id='admin')
+    _user = created_user({'role_id': 'user'})
+    _admin = created_user({'role_id': 'admin'})
     headers = {'Authorization': f"Bearer {access_token(_user)}", 'Accept-Language': lng}
 
     # Access to other user. Normal user:
@@ -196,8 +195,8 @@ def test_userhandle_delete(  # Normal user cannot update other
         lng, test_word, test_word01,
         access_token):
 
-    _user = created_user(role_id='user')
-    _admin = created_user(role_id='admin')
+    _user = created_user({'role_id': 'user'})
+    _admin = created_user({'role_id': 'admin'})
 
     headers = {'Authorization': f"Bearer {access_token(_user)}", 'Accept-Language': lng}
     admin_headers = {

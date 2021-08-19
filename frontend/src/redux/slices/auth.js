@@ -108,15 +108,16 @@ const authSlice = createSlice({
     },
     confirmPasswordStart: state => {
       state.loading = true
-      state.isLoggedIn = true
+      // state.isLoggedIn = true
       state.isConfirmedPassword = false
     },
-    confirmPasswordSuccess: state => {
+    confirmPasswordSuccess: (state, { payload }) => {
       state.loading = false
       state.isConfirmedPassword = true
     },
     confirmPasswordFail: state => {
       state.loading = false
+      state.isConfirmedPassword = true
     },
     confirmPasswordModalClosed: state => {
       state.isConfirmedPassword = false
