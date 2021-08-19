@@ -89,7 +89,7 @@ def test_post_no_params(client, lng, test_world):
         ('ru', 'Что-то пошло не так')
     ]
 )
-@pytest.mark.active
+# @pytest.mark.active
 def test_post_no_wrong_key(client, lng, test_world):
     # lng = 'en'
     _params = {

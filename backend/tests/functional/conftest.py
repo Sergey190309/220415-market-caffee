@@ -10,11 +10,11 @@ from application.global_init_data import global_constants
 
 @pytest.fixture(scope='module')
 def user_create_json(random_email):
-    def _method(arg=None):
+    def _method(args: dict = {}):
         return {
-            # 'user_name': 'user_name',
-            'email': random_email(),
-            'password': 'qwer'
+            'role_id': args.get('role_id', None),
+            'email': args.get('email', random_email()),
+            'password': args.get('password', 'qwerty' )
         }
     return _method
 
@@ -23,7 +23,15 @@ def user_create_json(random_email):
 def access_token():
     def _method(user):
         # print('\n\naccess_token fixture')
-        return user.get_tokens()['access_token']
+        return user.get_tokens().get('access_token')
+    return _method
+
+
+@pytest.fixture
+def refresh_token():
+    def _method(user):
+        # print('\n\nrefresh_token fixture')
+        return user.get_tokens().get('access_token')
     return _method
 
 

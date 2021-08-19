@@ -18,7 +18,11 @@ import {
   signUpFail,
   signUpStart,
   signUpSuccess,
-  logOut
+  logOut,
+  confirmPasswordStart,
+  confirmPasswordSuccess,
+  confirmPasswordFail,
+  confirmPasswordModalClosed
 } from './auth'
 
 jest.mock('../../api/apiClient')
@@ -183,6 +187,68 @@ describe('Auth slicer testing', () => {
       expect(localStorage.removeItem).toHaveBeenCalledTimes(1)
       expect(localStorage.removeItem).toHaveBeenCalledWith(LOG_IN_INFO)
       // console.log('auth slice, state ->', state);
+    })
+  })
+  describe('confirmPassword group', () => {
+    test('confirmPasswordStart', () => {
+      store.dispatch(setState({
+        ...logInState,
+        loading: false,
+        isConfirmedPassword: true
+      }))
+      store.dispatch(confirmPasswordStart())
+      const state = store.getState().auth
+      const expState = {
+        ...logInState,
+        loading: true,
+        isConfirmedPassword: false
+      }
+      expect(state).toEqual(expState)
+    })
+    test('confirmPasswordSuccess', () => {
+      store.dispatch(setState({
+        ...logInState,
+        loading: true,
+        isConfirmedPassword: false
+      }))
+      store.dispatch(confirmPasswordSuccess())
+      const state = store.getState().auth
+      const expState = {
+        ...logInState,
+        loading: false,
+        isConfirmedPassword: true
+      }
+      expect(state).toEqual(expState)
+    })
+    test('confirmPasswordFail', () => {
+      store.dispatch(setState({
+        ...logInState,
+        loading: true,
+        isConfirmedPassword: false
+      }))
+      store.dispatch(confirmPasswordFail())
+      const state = store.getState().auth
+      const expState = {
+        ...logInState,
+        loading: false,
+        isConfirmedPassword: true
+      }
+      expect(state).toEqual(expState)
+    })
+    test('confirmPasswordModalClosed', () => {
+      store.dispatch(setState({
+        ...logInState,
+        // loading: true,
+        isConfirmedPassword: true
+      }))
+      store.dispatch(confirmPasswordModalClosed())
+      const state = store.getState().auth
+      const expState = {
+        ...logInState,
+        // loading: false,
+        isConfirmedPassword: false
+      }
+      expect(state).toEqual(expState)
     })
   })
 })

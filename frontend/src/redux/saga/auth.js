@@ -15,7 +15,10 @@ import {
   signUpFail,
   logInStart,
   logInSuccess,
-  logInFail
+  logInFail,
+  confirmPasswordStart,
+  confirmPasswordSuccess,
+  confirmPasswordFail
 } from '../slices'
 // import { setAlertData } from '../actions/alert';
 // import axiosClient from '../../api/apiClient';
@@ -25,6 +28,28 @@ import { actRespErrorMessage } from '../../utils/errorHandler'
 // import { startAlert } from '../slices';
 import { setAlertData } from '../../utils/utils'
 
+export function * confirmPasswordSaga () {
+  yield takeEvery(confirmPasswordStart.type, confirmPasswordFetch)
+}
+
+export function * confirmPasswordFetch (action) {
+  try {
+    // const accessToken = yield call(confirmPasswordCall, action.payload)
+    // yield put(confirmPasswordSuccess(accessToken))
+  } catch (error) {
+    yield put(confirmPasswordFail(error))
+    const errorMessage = actRespErrorMessage(error)
+    yield put(
+      startAlert(
+        setAlertData({
+          message: errorMessage,
+          alertType: 'error',
+          timeout: 5000
+        })
+      )
+    )
+  }
+}
 // watcher saga: watches for actions dispatched to the store, starts worker saga
 export function * logInSaga () {
   // console.log('logInSaga wathcher ->')
