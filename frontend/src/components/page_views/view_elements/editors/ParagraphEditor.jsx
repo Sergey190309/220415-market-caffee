@@ -58,7 +58,7 @@ const ParagraphEditor = ({
   }
 
   const onContextMenuHendler = event => {
-    console.log('ParagraphEditor, onContextMenuHendler')
+    // console.log('ParagraphEditor, onContextMenuHendler')
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setEditorContextMenuOpened(true)
