@@ -34,7 +34,8 @@ export const logInInfo = () => {
 export const initialState = () => ({
   ...logInInfo(),
   loading: false,
-  isSignedUp: false
+  isSignedUp: false,
+  isConfirmedPassword: false
 })
 
 const authSlice = createSlice({
@@ -63,6 +64,9 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
+    signUpModalClosed: state => {
+      state.isSignedUp = false
+    },
     signUpFail: state => {
       localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
@@ -90,6 +94,9 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
+    logInModalClosed: state => {
+      state.isLoggedIn = false
+    },
     logOut: state => {
       // console.log('authSlice, logOut')
       localStorage.removeItem(LOG_IN_INFO)
@@ -99,11 +106,20 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
-    signUpModalClosed: state => {
-      state.isSignedUp = false
+    confirmPasswordStart: state => {
+      state.loading = true
+      state.isLoggedIn = true
+      state.isConfirmedPassword = false
     },
-    logInModalClosed: state => {
-      state.isLoggedIn = false
+    confirmPasswordSuccess: state => {
+      state.loading = false
+      state.isConfirmedPassword = true
+    },
+    confirmPasswordFail: state => {
+      state.loading = false
+    },
+    confirmPasswordModalClosed: state => {
+      state.isConfirmedPassword = false
     }
   }
 })
@@ -113,12 +129,16 @@ export const {
   signUpStart,
   signUpSuccess,
   signUpFail,
+  signUpModalClosed,
   logInStart,
   logInSuccess,
   logInFail,
+  logInModalClosed,
   logOut,
-  signUpModalClosed,
-  logInModalClosed
+  confirmPasswordStart,
+  confirmPasswordSuccess,
+  confirmPasswordFail,
+  confirmPasswordModalClosed
 } = authSlice.actions
 
 export const authSelector = state => state.auth

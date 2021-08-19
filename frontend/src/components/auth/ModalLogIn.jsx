@@ -28,15 +28,19 @@ export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
   }
 
   let content = ''
+  // useEffect(() => {
   switch (kindOfModal) {
     case 'logIn':
+      console.log('components, auth, ModalLogIn, kindOfModal ->', kindOfModal)
       content = <LogIn onCancelClick={_onCloseHandle} />
       break
     case 'signUp':
       content = <SignUp onCancelClick={_onCloseHandle} />
       break
     case 'confirmPassword':
+      console.log('components, auth, ModalLogIn, kindOfModal ->', kindOfModal)
       content = <ConfirmPassword onCancelClick={_onCloseHandle} />
+      // content = <ConfirmPassword onCancelClick={_onCloseHandle} />
       break
     case 'loader':
       content = <Loader />
@@ -44,6 +48,7 @@ export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
     default:
       content = 'Nothing to display'
   }
+  // }, [kindOfModal])
 
   return (
     <Modal

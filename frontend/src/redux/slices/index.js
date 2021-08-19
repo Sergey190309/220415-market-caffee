@@ -27,12 +27,16 @@ export {
   signUpStart,
   signUpSuccess,
   signUpFail,
+  signUpModalClosed,
   logInStart,
   logInSuccess,
   logInFail,
-  logOut,
-  signUpModalClosed,
   logInModalClosed,
+  logOut,
+  confirmPasswordStart,
+  confirmPasswordSuccess,
+  confirmPasswordFail,
+  confirmPasswordModalClosed,
   authSelector
 } from './auth'
 export { deviceSelector, setDeviceSize, openModal, closeModal, setEditable } from './device'
