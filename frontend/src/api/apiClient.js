@@ -11,17 +11,21 @@ const headers = {
   }
 }
 
-export const techAxiosClient = axios.create({
+export const techTextAxiosClient = axios.create({
+  // export const techAxiosClient = axios.create({
   /**
-   * used for tech initial update - tech token, sessions, etc.
+   * configurated on initial update using tech token
+   * used for get requests for textual information.
    */
   baseURL: baseURL,
   headers: headers
 })
 
-export const pixAxiosClient = axios.create({
+export const techPixAxiosClient = axios.create({
+  // export const pixAxiosClient = axios.create({
   /**
-   * user for operations with pictures
+   * configurated on initial update using tech token
+   * used for get requests for pictures.
    */
   baseURL: baseURL,
   headers: {
@@ -36,25 +40,50 @@ export const pixAxiosClient = axios.create({
   responseEncoding: 'binary'
 })
 
-export const authAxiosClient = axios.create({
+export const authTextAxiosClient = axios.create({
   /**
-   * used for authorisation
+   * configurated on log in / out
+   * used for all other then get requests for textual information.
    */
   baseURL: baseURL,
   headers: headers
 })
 
-export const axiosCommonLng = lng => {
+export const authPixAxiosClient = axios.create({
+  // export const pixAxiosClient = axios.create({
+  /**
+   * configurated on log in / out
+   * used for all other then get requests for pictures.
+   */
+  baseURL: baseURL,
+  headers: {
+    ...headers,
+    'Content-Type': 'multipart/form-data'
+
+    // 'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+    // 'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization, X- Request-With'
+  },
+  responseType: 'arraybuffer',
+  responseEncoding: 'binary'
+})
+
+export const setAxiosCommonLng = lng => {
   // console.log('apiClient, axiosCommonLng, lng ->', lng)
-  techAxiosClient.defaults.headers.common['Accept-Language'] = lng
-  pixAxiosClient.defaults.headers.common['Accept-Language'] = lng
-  authAxiosClient.defaults.headers.common['Accept-Language'] = lng
+  techTextAxiosClient.defaults.headers.common['Accept-Language'] = lng
+  techPixAxiosClient.defaults.headers.common['Accept-Language'] = lng
+  authTextAxiosClient.defaults.headers.common['Accept-Language'] = lng
+  authPixAxiosClient.defaults.headers.common['Accept-Language'] = lng
 }
 
-export const axiosCommonToken = (token, axiosInstance = techAxiosClient) => {
-  // console.log('axiosCommonToken, headers ->', axiosInstance.defaults.headers.common['Authorization'])
-  axiosInstance.defaults.headers.common.Authorization = `Bearer ${token}`
-  pixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+export const setAxiosTechToken = (token) => {
+  // console.log('axiosCommonToken, token ->', token)
+  techTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+  techPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
-// export default axiosClient;
+export const setAxiosAuthToken = (token) => {
+  // console.log('axiosCommonToken, token ->', token)
+  authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+  authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+}

@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import { Message } from 'semantic-ui-react'
 
 import { CONTENT_REQUESTED } from '../../../redux/constants/types'
-import { useSaga } from '../../../redux/saga/contentLoading/createIO'
-import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
+import { useSaga } from '../../../redux/saga/content/createIO'
+import { getContentSaga } from '../../../redux/saga/content/content'
 
 const ViewFooter = ({ recordsId, viewName, lng, initState }) => {
-  const [state, sagaDispatch] = useSaga(contentSaga, initState)
+  const [state, sagaDispatch] = useSaga(getContentSaga, initState)
 
   useEffect(() => {
     // console.log('ViewFooter, useEffect ->', recordsId, viewName, lng)

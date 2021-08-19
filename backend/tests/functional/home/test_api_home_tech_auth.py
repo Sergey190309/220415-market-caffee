@@ -18,12 +18,9 @@ from flask_jwt_extended import (
     ]
 )
 # @pytest.mark.active
-def test_post_create_sessions_localization(client, sessions, lng, test_world):
+def test_get_create_sessions_localization(client, sessions, lng, test_world):
     # lng = 'ru'
-    _json00 = {
-        'tech_id': str(uuid4())
-    }
-    _json01 = {
+    _params00 = {
         'tech_id': str(uuid4())
     }
     _headers = {
@@ -31,39 +28,36 @@ def test_post_create_sessions_localization(client, sessions, lng, test_world):
         'Accept-Language': lng
     }
 
-    resp = client.post(url_for('home_bp.techauth'), json=_json00, headers=_headers)
-    print('\ntest, home, techauth code ->', resp.status_code)
-    print('test, home, techauth json ->', resp.json.get('message'))
-    resp = client.post(url_for('home_bp.techauth'), json=_json01, headers=_headers)
+    resp = client.get(url_for('home_bp.techauth', **_params00), headers=_headers)
 
-    # assert resp.status_code == 200
-    # # check localisation
-    # assert 'message' in resp.json
-    # assert isinstance('message', str)
-    # assert resp.json.get('message').find(test_world) != -1
-    # assert 'payload' in resp.json
-    # assert isinstance('payload', str)
+    assert resp.status_code == 200
+    '''check localisation'''
+    assert 'message' in resp.json
+    assert isinstance('message', str)
+    assert resp.json.get('message').find(test_world) != -1
+    assert 'payload' in resp.json
+    assert isinstance('payload', str)
 
-    # # check sessions
-    # assert len(sessions.getter()) == 2
+    # print('\ntest, home, techauth code ->', resp.status_code)
+    # print('test, home, techauth json ->', resp.json.get('message'))
 
 
 # @pytest.mark.active
-def test_post_tech_token_extraction(client):
+def test_get_tech_token_extraction(client):
     lng = 'en'
     _tech_id = str(uuid4())
-    _json = {
+    _params = {
         'tech_id': _tech_id
     }
     _headers = {
         'Content-Type': 'application/json',
         'Accept-Language': lng
     }
-    # print('\ntest, home, techauth teck_id ->', _tech_id)
-    resp = client.post(url_for('home_bp.techauth'), json=_json, headers=_headers)
+    resp = client.get(url_for('home_bp.techauth', **_params), headers=_headers)
     _tech_token = resp.json.get('payload')
     assert resp.status_code == 200
     assert decode_token(_tech_token).get('id') == _tech_id
+    # print('\ntest, home, techauth _params ->', _params)
 
 
 @pytest.mark.parametrize(
@@ -74,24 +68,18 @@ def test_post_tech_token_extraction(client):
     ]
 )
 # @pytest.mark.active
-def test_post_no_bad_json(client, lng, test_world):
-    # no JSON
+def test_post_no_params(client, lng, test_world):
+    '''no JSON'''
     _headers = {
         'Content-Type': 'application/json',
         'Accept-Language': lng
     }
-    resp = client.post(url_for('home_bp.techauth'), headers=_headers)
+    resp = client.get(url_for('home_bp.techauth'), headers=_headers)
     assert resp.status_code == 400
     assert resp.json.get('message').find(test_world) != -1
 
-    # bad JSON
-    _json = 'bad_JSON'
-    resp = client.post(url_for('home_bp.techauth'), json=_json, headers=_headers)
-    resp = client.post(url_for('home_bp.techauth'), headers=_headers)
-    assert resp.status_code == 400
-    assert resp.json.get('message').find(test_world) != -1
     # print('\ntest, home, techauth code ->', resp.status_code)
-    # print('test, home, techauth json ->', resp.json.get('message'))
+    # print('test, home, techauth json ->', resp.json)
 
 
 @pytest.mark.parametrize(
@@ -101,20 +89,19 @@ def test_post_no_bad_json(client, lng, test_world):
         ('ru', 'Что-то пошло не так')
     ]
 )
-# @pytest.mark.active
+@pytest.mark.active
 def test_post_no_wrong_key(client, lng, test_world):
     # lng = 'en'
-    _json = {
+    _params = {
         'whong_key': str(uuid4())
     }
     _headers = {
         'Content-Type': 'application/json',
         'Accept-Language': lng
     }
-    resp = client.post(url_for('home_bp.techauth'), json=_json, headers=_headers)
+    resp = client.get(url_for('home_bp.techauth', **_params), headers=_headers)
     assert resp.status_code == 400
     assert resp.json.get('message').find(test_world) != -1
 
     # print('\ntest, home, techauth code ->', resp.status_code)
     # print('test, home, techauth json ->', resp.json.get('message'))
-    # print('test, home, techauth json ->', resp.json.get('payload'))

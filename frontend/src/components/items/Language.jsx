@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import i18next from 'i18next'
 
 import { Dropdown } from 'semantic-ui-react'
-import { axiosCommonLng } from '../../api/apiClient'
+import { setAxiosCommonLng } from '../../api/apiClient'
 
 import { techSelector, lngSelector, lngSwitch } from '../../redux/slices'
 // import { setLngAction } from '../../redux/actions/lng';
@@ -12,7 +12,7 @@ import { techSelector, lngSelector, lngSwitch } from '../../redux/slices'
 export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   // console.log('Lanaguage component, onChange, value ->', value);
   _i18next.changeLanguage(value) // Set language in i18next.
-  axiosCommonLng(value) // Set language for API calls in request header.
+  setAxiosCommonLng(value) // Set language for API calls in request header.
   setActiveLng(value) // Set this component's state.
   dispatch(lngSwitch(value)) // Change language in application state state.
 }

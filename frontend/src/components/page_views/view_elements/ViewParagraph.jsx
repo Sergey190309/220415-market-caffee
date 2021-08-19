@@ -3,16 +3,20 @@ import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Message, Divider } from 'semantic-ui-react'
 
-import { CONTENT_REQUESTED } from '../../../redux/constants/types'
-import { useSaga } from '../../../redux/saga/contentLoading/createIO'
-import { contentSaga } from '../../../redux/saga/contentLoading/contentLoading'
+import { CONTENT_REQUESTED, CONTENT_PUT } from '../../../redux/constants/types'
+import { useSaga } from '../../../redux/saga/content/createIO'
+import { getContentSaga, putContentSaga } from '../../../redux/saga/content/content'
 import { deviceSelector } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
 import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 
 const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
-  const [state, sagaDispatch] = useSaga(contentSaga, initialState)
+  const [state, getSagaDispatch] = useSaga(getContentSaga, initialState)
+  const [
+    // eslint-disable-next-line no-unused-vars
+    result,
+    putSagaDispatch] = useSaga(putContentSaga, '')
   const [content, setContent] = useState({
     title: '',
     content: ['']
@@ -26,19 +30,18 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
   const contextRef = useRef(null)
 
   useEffect(() => { // Saga
-    // console.log('ViewParagraph, useEffect(sagaDispatch), recordId ->', recordId)
-    sagaDispatch({
+    // console.log('ViewParagraph, useEffect(getSagaDispatch), recordId ->', recordId)
+    getSagaDispatch({
       type: CONTENT_REQUESTED,
       payload: {
         identity: recordId,
-        view_id: viewName,
-        locale_id: lng
+        view_id: viewName
       }
     })
-  }, [recordId, viewName, lng, sagaDispatch])
+  }, [recordId, viewName, lng, getSagaDispatch])
 
   useEffect(() => {
-    // console.log('ViewParagraph, useEffect (state to content), state ->', state)
+    // console.log('ViewParagraph, useEffect (state to content), editable ->', editable)
     setContent(state)
   }, [state])
 
@@ -56,7 +59,35 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
   }
 
   const saveToBackend = () => {
-    console.log('ViewParagraph, saveToBackend')
+    // console.log('ViewParagraph, saveToBackend, content ->', content)
+    putSagaDispatch({
+      type: CONTENT_PUT,
+      payload: {
+        identity: recordId,
+        view_id: viewName,
+        // locale_id: lng,
+        content: content
+      }
+    })
+  }
+
+  const deleteFmBackend = () => {
+    /**
+     * To send signal one block above to change structure
+     */
+    console.log('ViewParagraph, deleteFmBackend')
+  }
+  const addAboveToBacken = () => {
+    /**
+     * To send signal one block above to change structure
+     */
+    console.log('ViewParagraph, addAboveToBacken')
+  }
+  const addBelowToBacken = () => {
+    /**
+     * To send signal one block above to change structure
+     */
+    console.log('ViewParagraph, addBelowToBacken')
   }
 
   return (
@@ -69,6 +100,9 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
           setContextMenuOpened={setContextMenuOpened}
           setParagraphEditted={setParagraphEditted}
           saveToBackend={saveToBackend}
+          deleteFmBackend={deleteFmBackend}
+          addAboveToBacken={addAboveToBacken}
+          addBelowToBacken={addBelowToBacken}
         />
         : null
       }

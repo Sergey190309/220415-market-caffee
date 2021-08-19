@@ -1,30 +1,33 @@
-import { techAxiosClient } from '../../api/apiClient';
-import { recordSaga } from '../../testUtils';
-import { mockResolveData, mockRejectData } from '../../api/calls/getViewsStructure.test';
-import { structureWorker } from './structure';
+import { techTextAxiosClient as mockTechAxios } from '../../api/apiClient'
+import { recordSaga } from '../../testUtils'
+import {
+  mockResolveData
+  // mockRejectData
+} from '../../api/calls/getViewsStructure.test'
+import { structureWorker } from './structure'
 
 describe('Structure saga testing', () => {
   beforeAll(() => {
-    jest.resetAllMocks();
-  });
+    jest.resetAllMocks()
+  })
 
   test('Structure saga worker success', async () => {
-    techAxiosClient.get.mockImplementation(() =>
+    mockTechAxios.get.mockImplementation(() =>
       Promise.resolve({ data: mockResolveData })
-    );
+    )
 
     // const initialAction = {
     //   payload: 'payload'
     // }
-    techAxiosClient.defaults.headers.common['Authorization'] = 'something';
-    const dispatched = await recordSaga(structureWorker);
-    expect(dispatched.length).toBe(1);
-    expect(techAxiosClient.get).toHaveBeenCalledTimes(1);
-    expect(techAxiosClient.get).toHaveBeenCalledWith('/structure/list');
+    mockTechAxios.defaults.headers.common.Authorization = 'something'
+    const dispatched = await recordSaga(structureWorker)
+    expect(dispatched).toHaveLength(1)
+    expect(mockTechAxios.get).toHaveBeenCalledTimes(1)
+    expect(mockTechAxios.get).toHaveBeenCalledWith('/structure/list')
     expect(dispatched[0].payload).toEqual(
       mockResolveData.payload.map(sturcture => {
-        return { [sturcture['view_id']]: sturcture['attributes'] };
+        return { [sturcture.view_id]: sturcture.attributes }
       })
-    );
-  });
-});
+    )
+  })
+})

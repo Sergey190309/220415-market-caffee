@@ -1,0 +1,182 @@
+[
+	{
+		"identity" : "00_header",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Welcome to our nice caffee!",
+		"content" : "That’s English title’s content"
+	},
+	{
+		"identity" : "00_header",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Добро пожаловать в наше доброе кафе!",
+		"content" : "Это содержание для русского заголовка"
+	},
+	{
+		"identity" : "01_vblock_txt_000",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Couple of words about us.",
+		"content" : "We are cosy, lovely place offering good food and drinks on reasonable prices.<br>We are in Kuznechniy market building from Kuznechniy lane. Proceeding from Vladimirskaya square to Dostoevskogo street it is worth to visit us to have a snack and / or drink."
+	},
+	{
+		"identity" : "01_vblock_txt_000",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Пару слов о нас.",
+		"content" : "Мы предлагаем выпить и закусить по разумным ценам в уютном и милом месте.<br>Мы расположены в здании Кузнечного рынка со стороны Кузнечного переулка. <br>Проходя от Владимирской площади к улице Достоевского имеет смысл заглянуть к нам чтобы перекусить или промочить горло."
+	},
+	{
+		"identity" : "01_vblock_txt_001",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : null,
+		"content" : "We are in Kuznechniy market building from Kuznechniy lane. Proceeding from Vladimirskaya square to Dostoevskogo street it is worth to visit us to have a snack and / or drink."
+	},
+	{
+		"identity" : "01_vblock_txt_001",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : null,
+		"content" : "Мы расположены в здании Кузнечного рынка со стороны Кузнечного переулка. <br>Проходя от Владимирской площади к улице Достоевского имеет смысл заглянуть к нам чтобы перекусить или промочить горло."
+	},
+	{
+		"identity" : "01_vblock_txt_002",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : null,
+		"content" : "Pay your attention we always cook our dishes using fresh and healthy foodstuffs from market where we are placed. You should be sure about dishes quality and taste. Our regular customers never allow us make something wrong."
+	},
+	{
+		"identity" : "01_vblock_txt_002",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : null,
+		"content" : "Обращаем ваше внимание, мы всегда готовим наши блюда используя свежие и здоровые продукты с рынка, на котором мы расположены. Вы можете быть уверены в качестве и вкусе наших блюд. Наши завсегдатаи не позволят нам сделать что-либо не так."
+	},
+	{
+		"identity" : "02_hblock_pix_000",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Please take time to look to our interior:",
+		"content" : "That’s entrance"
+	},
+	{
+		"identity" : "02_hblock_pix_000",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Посмотрите пожалуйста на наше кафе:",
+		"content" : "Это вход."
+	},
+	{
+		"identity" : "02_hblock_pix_001",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "We are ready to offer you:",
+		"content" : "There are a lot of more interesting items there."
+	},
+	{
+		"identity" : "02_hblock_pix_001",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Мы готовы вам предложить:",
+		"content" : "Есть еще гораздо более интересные позиции."
+	},
+	{
+		"identity" : "03_vblock_pix_000",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-07-30 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Some picture",
+		"content" : "Not clear what to write here."
+	},
+	{
+		"identity" : "03_vblock_pix_000",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-07-30 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Просто картинка",
+		"content" : "Не знаю что здесь писать."
+	},
+	{
+		"identity" : "03_vblock_pix_001",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-07-30 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Other picture",
+		"content" : "As well as here."
+	},
+	{
+		"identity" : "03_vblock_pix_001",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-07-30 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : "Другая картинка",
+		"content" : "Так же как и здесь."
+	},
+	{
+		"identity" : "04_footer",
+		"view_id" : "landing",
+		"locale_id" : "en",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : null,
+		"content" : "We would be glad to serve you daily since 10am till 10pm (Sun till 2100)."
+	},
+	{
+		"identity" : "04_footer",
+		"view_id" : "landing",
+		"locale_id" : "ru",
+		"created" : "2021-04-04 00:00:00",
+		"updated" : null,
+		"user_id" : 1,
+		"title" : null,
+		"content" : "Мы будем рады обслужить вас ежедневно с 1000 до 2200 (воск до 2100)."
+	}
+]

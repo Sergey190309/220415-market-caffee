@@ -1,90 +1,89 @@
-import { techAxiosClient as mockAxios } from '../../api/apiClient';
+import { techTextAxiosClient as mockTechAxios, authTextAxiosClient as mockAuthAxios } from '../../api/apiClient'
 
 import {
   logInData as mockLogInData,
   resolveData as mockResolveData,
-  rejectData as mockRejectData,
+  rejectData as mockRejectData
 } from '../../testAxiosConstants'
 
 // import { runSaga } from 'redux-saga';
-import { logInFail, logInSuccess, signUpSuccess, startAlert } from '../slices'
-import { logInFetch, signUpFetch } from './auth';
-import { recordSaga } from '../../testUtils';
+import { logInFail, logInSuccess, signUpFail, signUpSuccess, startAlert } from '../slices'
+import { logInFetch, signUpFetch } from './auth'
+import { recordSaga } from '../../testUtils'
 import { actRespErrorMessage } from '../../utils/errorHandler'
 
-jest.mock('../../utils/errorHandler', () => ({ actRespErrorMessage: jest.fn() }));
+jest.mock('../../utils/errorHandler', () => ({ actRespErrorMessage: jest.fn() }))
 
 describe('auth testing', () => {
-  describe('log In whole saga testing', () => {
-
+  describe('logIn whole saga testing', () => {
     beforeAll(() => {
-      jest.resetAllMocks();
-    });
+      jest.resetAllMocks()
+    })
     test('success logIn', async () => {
-      mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }));
+      mockTechAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }))
       const initialAction = {
         // type: LOG_IN_START,
-        payload: mockLogInData,
-      };
+        payload: mockLogInData
+      }
       // console.log('success logIn, logInFetch ->', logInFetch)
-      const dispatched = await recordSaga(logInFetch, initialAction);
-      expect(mockAxios.post).toHaveBeenCalledTimes(1);
-      expect(mockAxios.post.mock.calls[0][0]).toBe('/users/login');
-      expect(mockAxios.post.mock.calls[0][1]).toEqual(mockLogInData);
+      const dispatched = await recordSaga(logInFetch, initialAction)
+      expect(mockTechAxios.post).toHaveBeenCalledTimes(1)
+      expect(mockTechAxios.post.mock.calls[0][0]).toBe('/users/login')
+      expect(mockTechAxios.post.mock.calls[0][1]).toEqual(mockLogInData)
       // console.log(mockAxios.post.mock.calls[0][0])
-      expect(dispatched.length).toBe(2);
+      expect(dispatched).toHaveLength(2)
       expect(dispatched[0]).toEqual({
         type: logInSuccess.type,
         // type: LOG_IN_SUCCESS,
-        payload: mockResolveData.payload,
-      });
-      const { type, payload } = dispatched[1];
-      expect(type).toBe(startAlert.type);
-      const { id, ...otherProps } = payload;
-      expect(id).toBeString();
+        payload: mockResolveData.payload
+      })
+      const { type, payload } = dispatched[1]
+      expect(type).toBe(startAlert.type)
+      const { id, ...otherProps } = payload
+      expect(id).toBeString()
       expect(otherProps).toEqual({
         message: mockResolveData.message,
         alertType: 'info',
-        timeout: 3000,
-      });
+        timeout: 3000
+      })
       // console.log(dispatched)
-    });
+    })
 
     test('fail logIn, not found', async () => {
-      mockAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      mockAuthAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }))
       const initialAction = {
         // type: LOG_IN_START,
-        payload: mockLogInData,
-      };
+        payload: mockLogInData
+      }
       actRespErrorMessage.mockImplementation(
         () => `${mockRejectData.response.data.message} ${mockRejectData.response.status}`
-      );
-      const dispatched = await recordSaga(logInFetch, initialAction);
-      expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
-      expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
+      )
+      const dispatched = await recordSaga(logInFetch, initialAction)
+      expect(actRespErrorMessage).toHaveBeenCalledTimes(1)
+      expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData)
       expect(dispatched[0]).toEqual({
         type: logInFail.type,
-        payload: { data: mockRejectData },
-      });
+        payload: { data: mockRejectData }
+      })
       const { type, payload } = dispatched[1]
-      expect(type).toBe(startAlert.type);
+      expect(type).toBe(startAlert.type)
       const { id, ...otherProps } = payload
       expect(otherProps).toEqual({
-          message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
-          alertType: 'error',
-          timeout: 5000,
-        });
-        // console.log('dispatched ->', dispatched[1]);
-    });
-  });
+        message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
+        alertType: 'error',
+        timeout: 5000
+      })
+      // console.log('dispatched ->', dispatched[1]);
+    })
+  })
 
   describe('Sign up whole saga testign', () => {
-
     const mockSignUpData = {
       user_name: 'mockUserName',
       email: 'mock@email.test',
-      password: 'mockPassword',
-    };
+      password: 'mockPassword'
+    }
     const mockResolveData = {
       message: 'Test message.',
       payload: {
@@ -103,72 +102,74 @@ describe('auth testing', () => {
         created: '2021-05-20T08:23:59',
         updated: null,
         accessed: null
-        },
-    };
+      }
+    }
     const mockRejectData = {
       response: {
         data: {
-          message: 'Пользователь с email sa6702@gmail.com уже существует.',
+          message: 'Пользователь с email sa6702@gmail.com уже существует.'
         },
         status: 400,
-        headers: { header: 'Some header' },
+        headers: { header: 'Some header' }
       },
-      config: { config: 'Some config' },
-    };
+      config: { config: 'Some config' }
+    }
     beforeAll(() => {
-      jest.resetAllMocks();
-    });
+      jest.resetAllMocks()
+    })
 
     test('success signUp', async () => {
-      mockAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }))
+      mockAuthAxios.post.mockImplementation(() => Promise.resolve({ data: mockResolveData }))
       const initialAction = {
         payload: mockSignUpData
       }
       const dispatched = await recordSaga(signUpFetch, initialAction)
-      expect(mockAxios.post).toHaveBeenCalledTimes(1);
-      expect(mockAxios.post.mock.calls[0][0]).toBe('/users');
-      expect(mockAxios.post.mock.calls[0][1]).toEqual(mockSignUpData);
+      expect(mockAuthAxios.post).toHaveBeenCalledTimes(1)
+      expect(mockAuthAxios.post.mock.calls[0][0]).toBe('/users')
+      expect(mockAuthAxios.post.mock.calls[0][1]).toEqual(mockSignUpData)
       // console.log(mockAxios.post.mock.calls[0][0])
       expect(dispatched[0]).toEqual({
         type: signUpSuccess.type,
-        payload: mockResolveData.payload,
-      });
-      const { type, payload } = dispatched[1];
+        payload: mockResolveData.payload
+      })
+      const { payload } = dispatched[1]
+      // const { type, payload } = dispatched[1]
       // expect(type).toBe(START_ALERT);
-      const { id, ...otherProps } = payload;
-      expect(id).toBeString();
+      const { id, ...otherProps } = payload
+      expect(id).toBeString()
       expect(otherProps).toEqual({
         message: mockResolveData.message,
         alertType: 'info',
-        timeout: 3000,
-      });
-    });
+        timeout: 3000
+      })
+    })
 
     test('fail signUp, already exists', async () => {
-      mockAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }));
+      // eslint-disable-next-line prefer-promise-reject-errors
+      mockAuthAxios.post.mockImplementation(() => Promise.reject({ data: mockRejectData }))
       const initialAction = {
         // type: LOG_IN_START,
-        payload: mockSignUpData,
-      };
+        payload: mockSignUpData
+      }
       actRespErrorMessage.mockImplementation(
         () => `${mockRejectData.response.data.message} ${mockRejectData.response.status}`
-      );
-      const dispatched = await recordSaga(logInFetch, initialAction);
+      )
+      const dispatched = await recordSaga(signUpFetch, initialAction)
       // console.log('dispatched ->', dispatched);
-      expect(actRespErrorMessage).toHaveBeenCalledTimes(1);
-      expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData);
+      expect(actRespErrorMessage).toHaveBeenCalledTimes(1)
+      expect(actRespErrorMessage.mock.calls[0][0].data).toEqual(mockRejectData)
       expect(dispatched[0]).toEqual({
-        type: logInFail.type,
-        payload: { data: mockRejectData },
-      });
+        type: signUpFail.type,
+        payload: { data: mockRejectData }
+      })
       const { type, payload } = dispatched[1]
-      expect(type).toBe(startAlert.type);
+      expect(type).toBe(startAlert.type)
       const { id, ...otherProps } = payload
       expect(otherProps).toEqual({
         message: `${mockRejectData.response.data.message} ${mockRejectData.response.status}`,
         alertType: 'error',
-        timeout: 5000,
-      });
-    });
-  });
-});
+        timeout: 5000
+      })
+    })
+  })
+})

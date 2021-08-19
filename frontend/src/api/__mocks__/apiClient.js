@@ -1,13 +1,15 @@
-import { resolveDataTechInPost, resolveDataTechInGet } from '../../testAxiosConstants';
+import { resolveDataTechInPost, resolveDataTechInGet } from '../../testAxiosConstants'
 
-export const techAxiosClient = {
-  post:()=>Promise.resolve(resolveDataTechInPost),
+export const techTextAxiosClient = {
+  // post: () => Promise.resolve(resolveDataTechInPost),
   get: () => Promise.resolve(resolveDataTechInGet),
   defaults: {
     headers: {
       common: ['Authorization']
-    },
+    }
   }
 }
 
-export const axiosCommonToken = jest.fn();
+export const setAxiosCommonLng = jest.fn()
+export const setAxiosTechToken = jest.fn()
+export const setAxiosAuthToken = jest.fn()

@@ -3,8 +3,8 @@ import { Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 import { PICTURE_REQUESTED, CONTENT_REQUESTED } from '../../../redux/constants/types'
-import { useSaga } from '../../../redux/saga/contentLoading/createIO'
-import { contentSaga, picSaga } from '../../../redux/saga/contentLoading/contentLoading'
+import { useSaga } from '../../../redux/saga/content/createIO'
+import { getContentSaga, getPicSaga } from '../../../redux/saga/content/content'
 
 const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
   /**
@@ -13,11 +13,11 @@ const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
    *  suze: in pixels
    * }
    */
-  const [textState, textSagaDispatch] = useSaga(contentSaga, {
+  const [textState, getContentSagaDispatch] = useSaga(getContentSaga, {
     title: '',
     content: ''
   })
-  const [picState, picSagaDispatch] = useSaga(picSaga, { pic: '' })
+  const [picState, getPicSagaDispatch] = useSaga(getPicSaga, { pic: '' })
 
   useEffect(() => {
     const payload = {
@@ -25,16 +25,16 @@ const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
       view_id: viewName
       // locale_id: lng,
     }
-    picSagaDispatch({
+    getPicSagaDispatch({
       type: PICTURE_REQUESTED,
       payload
     })
     payload.locale_id = lng
-    textSagaDispatch({
+    getContentSagaDispatch({
       type: CONTENT_REQUESTED,
       payload
     })
-  }, [recordId, viewName, lng, textSagaDispatch, picSagaDispatch])
+  }, [recordId, viewName, lng, getContentSagaDispatch, getPicSagaDispatch])
   // console.log('ViewPictures, picState ->', picState)
   return (
     <Fragment>

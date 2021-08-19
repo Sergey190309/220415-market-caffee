@@ -14,7 +14,8 @@ const mockEditorContextMenu = jest.fn()
 
 jest.mock('./EditorContextMenu', () => props => {
   mockEditorContextMenu(props)
-  return <mock-editorContextMenu />
+  return <div data-testid='mockEditorContextMenu' />
+  // return <mock-editorContextMenu />
 })
 
 describe('ParagraphEditor', () => {
@@ -76,7 +77,7 @@ describe('ParagraphEditor', () => {
       userEvent.type(contentTextArea, contentInput)
       expect(contentTextArea).toHaveValue(expContentInput)
     })
-    it('right click -> context menu', async () => {
+    it('right click -> context menu with appropriate args', () => {
       render(
         <Provider store={store}>
           <ParagraphEditor {...testProps} />
@@ -85,8 +86,13 @@ describe('ParagraphEditor', () => {
       const element = screen.getByTestId('Segment')
       // expect(EditorContextMenu.isOpened).toBeTruthy()
       userEvent.click(element, { button: 2 })
-      // console.log('EditorContextMenu, args ->', mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0].isOpened)
-      expect(mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0].isOpened).toBeTruthy()
+      const args = mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0]
+      expect(args.isOpened).toBeTruthy()
+      expect(args.saveDisabled).toBeTruthy()
+      expect(args.context).toBeObject()
+      expect(args.setContextMenuOpened).toBeFunction()
+      expect(args.contextMenuAction).toBeFunction()
+      // console.log('EditorContextMenu, args ->', args)
       // expect(EditorContextMenu.isOpened).toBeFalsy()
       // screen.debug()
     })

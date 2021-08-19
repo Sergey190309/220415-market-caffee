@@ -22,9 +22,11 @@
     ],
     "rules": {
         "quotes": [
-            "error",
+            "warn",
             "single"
         ],
+        "no-unused-vars": "warn",
+        "camelcase": "off",
         "jest/no-disabled-tests": "warn",
         "jest/no-focused-tests": "warn",
         "jest/no-identical-title": "error",

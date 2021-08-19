@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { axiosCommonToken, authAxiosClient } from '../../api/apiClient'
+import { setAxiosAuthToken } from '../../api/apiClient'
 import { LOG_IN_INFO } from '../constants/localStorageVariables'
 
 export const notLoggedInfo = {
@@ -16,13 +16,18 @@ export const notLoggedInfo = {
 
 export const logInInfo = () => {
   /**
-   * Used to avoin undefined value if local ctorage does not contain
+   * Used to avoid undefined value if local ctorage does not contain
    * needed variables.
+   * If localStorage contains appropriate personal tokens set axios
+   * instances with authorisation.
    */
   const _localStorage = localStorage.getItem(LOG_IN_INFO)
     ? { ...JSON.parse(localStorage.getItem(LOG_IN_INFO)), isLoggedIn: true }
     : { ...notLoggedInfo, isLoggedIn: false }
-  // console.log('auth slice, logInInfo, _localStorage ->', _localStorage);
+  if (_localStorage.access_token.length > 0) {
+    // console.log('auth slice, logInInfo, _localStorage.access_token ->', _localStorage.access_token)
+    setAxiosAuthToken(_localStorage.access_token)
+  }
   return _localStorage
 }
 
@@ -72,9 +77,8 @@ const authSlice = createSlice({
       state.isLoggedIn = false
     },
     logInSuccess: (state, { payload }) => {
-      // payload.isAuthenticated = true;
-      // console.log('authSlice, logInSuccess, payload ->', payload);
-      axiosCommonToken(payload.access_token, authAxiosClient)
+      // console.log('authSlice, logInSuccess, payload ->', payload)
+      setAxiosAuthToken(payload.access_token)
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload))
       Object.assign(state, payload, { loading: false, isLoggedIn: true })
     },
