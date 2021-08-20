@@ -79,6 +79,7 @@ class UserLogin(Resource):
         '''
         Token refresh
         '''
+        # print('users, resources, userlogin, put')
         fbp.set_lng(request.headers.get('Accept-Language'))
         _user = UserModel.find_by_id(get_jwt_identity())
         _json = request.get_json()

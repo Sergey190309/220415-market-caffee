@@ -54,7 +54,8 @@ export const LogIn = ({
       dispatch(closeModal())
       logInModalClosed()
     }
-  }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
+  }, [isLoggedIn])
+  // }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
 
   const onSubmit = (formData, { setSubmitting }) => {
     // onSubmit(formData, logInStart, setSubmitting, dispatch)

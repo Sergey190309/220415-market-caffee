@@ -25,8 +25,11 @@ export const logInInfo = () => {
     ? { ...JSON.parse(localStorage.getItem(LOG_IN_INFO)), isLoggedIn: true }
     : { ...notLoggedInfo, isLoggedIn: false }
   if (_localStorage.access_token.length > 0) {
-    // console.log('auth slice, logInInfo, _localStorage.access_token ->', _localStorage.access_token)
-    setAxiosAuthToken(_localStorage.access_token)
+    // console.log('auth slice, logInInfo, _localStorage.access_tokSen ->', _localStorage.access_token)
+    setAxiosAuthToken({
+      access_token: _localStorage.access_token,
+      refresh_token: _localStorage.refresh_token
+    })
   }
   return _localStorage
 }
@@ -81,8 +84,8 @@ const authSlice = createSlice({
       state.isLoggedIn = false
     },
     logInSuccess: (state, { payload }) => {
-      // console.log('authSlice, logInSuccess, payload ->', payload)
-      setAxiosAuthToken(payload.access_token)
+      console.log('authSlice, logInSuccess, payload ->', payload)
+      setAxiosAuthToken({ access_token: payload.access_token, refresh_token: payload.refresh_token })
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload))
       Object.assign(state, payload, { loading: false, isLoggedIn: true })
     },
@@ -99,6 +102,7 @@ const authSlice = createSlice({
     },
     logOut: state => {
       // console.log('authSlice, logOut')
+      setAxiosAuthToken({ access_token: '', refresh_token: '' })
       localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         loading: false,
@@ -112,6 +116,12 @@ const authSlice = createSlice({
       state.isConfirmedPassword = false
     },
     confirmPasswordSuccess: (state, { payload }) => {
+      // setAxiosAuthToken({ access_token: payload })
+      const localStorageInfo = JSON.parse(localStorage.getItem(LOG_IN_INFO))
+      localStorageInfo.access_token = payload
+      // console.log('slice, auth, confirmPasswordSuccess, localStorageInfo ->', localStorageInfo)
+      localStorage.setItem(LOG_IN_INFO, JSON.stringify(localStorageInfo))
+      state.access_token = payload
       state.loading = false
       state.isConfirmedPassword = true
     },

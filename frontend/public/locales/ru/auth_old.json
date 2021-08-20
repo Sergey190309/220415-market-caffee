@@ -4,5 +4,10 @@
     "signup": {
       "header": "signup.signup.header"
     }
+  },
+  "confirmpassword": {
+    "buttons": {
+      "logIn": "confirmpassword.buttons.logIn"
+    }
   }
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react'
@@ -7,7 +7,14 @@ import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 
-import { openModal, closeModal, confirmPasswordStart, confirmPasswordModalClosed } from '../../redux/slices'
+import {
+  closeModal,
+  confirmPasswordStart,
+  confirmPasswordModalClosed,
+  setMessage,
+  deviceSelector,
+  authSelector
+} from '../../redux/slices'
 import Alert from '../layout/Alert'
 
 import { positiveColor, warningColor } from '../../utils/colors'
@@ -25,15 +32,23 @@ export const confirmPasswordSchema = t =>
 const ConfirmPassword = ({
   initValues,
   confirmPasswordSchema,
-  openModal,
   closeModal,
   confirmPasswordStart,
-  confirmPasswordModalClosed
+  confirmPasswordModalClosed,
+  setMessage
 }) => {
   const dispatch = useDispatch()
+  const { isConfirmedPassword } = useSelector(authSelector)
+  const { message } = useSelector(deviceSelector)
   const { t } = useTranslation('auth')
-
+  useEffect(() => {
+    if (isConfirmedPassword) {
+      dispatch(closeModal())
+      confirmPasswordModalClosed()
+    }
+  }, [isConfirmedPassword])
   const onSubmit = (formData, { setSubmitting }) => {
+    // console.log('component, auth, ConfirmPassword, formData ->', formData)
     dispatch(confirmPasswordStart(formData))
     setSubmitting(false)
   }
@@ -56,12 +71,13 @@ const ConfirmPassword = ({
 
           <Formik
             initialValues={initValues}
-            validationSchema={confirmPasswordSchema}
+            validationSchema={confirmPasswordSchema(t)}
             onSubmit={onSubmit}
           >
             {({ isSubmitting }) => (
               <Form size='large'>
                 <Segment color={positiveColor} stacked>
+                  <Header content={message} />
                   <Input
                     id='input-password'
                     data-testid='input-password'
@@ -79,18 +95,19 @@ const ConfirmPassword = ({
                       basic
                       color={positiveColor}
                       size='large'
-                      content={t('login.buttons.logIn')}
+                      content={t('confirmpassword.buttons.confirm')}
                       // disabled={isSubmitting}
                     />
-                    <Button.Or text={t('login.buttons.or')} />
+                    <Button.Or text={t('confirmpassword.buttons.or')} />
                     <Button
                       basic
                       color={warningColor}
                       size='large'
-                      content={t('login.buttons.cancel')}
+                      content={t('confirmpassword.buttons.cancel')}
                       type='button'
                       onClick={() => {
                         // console.log('onClick, closeMocal')
+                        dispatch(setMessage(''))
                         dispatch(closeModal())
                       }}
                     />
@@ -108,19 +125,19 @@ const ConfirmPassword = ({
 ConfirmPassword.defaultProps = {
   initValues: formStructure,
   confirmPasswordSchema,
-  openModal,
   closeModal,
   confirmPasswordStart,
-  confirmPasswordModalClosed
+  confirmPasswordModalClosed,
+  setMessage
 }
 
 ConfirmPassword.propTypes = {
   initValues: PropTypes.object.isRequired,
   confirmPasswordSchema: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
   confirmPasswordStart: PropTypes.func.isRequired,
-  confirmPasswordModalClosed: PropTypes.func.isRequired
+  confirmPasswordModalClosed: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired
 }
 
 export default ConfirmPassword

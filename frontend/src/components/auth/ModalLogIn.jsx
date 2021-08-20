@@ -31,14 +31,14 @@ export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
   // useEffect(() => {
   switch (kindOfModal) {
     case 'logIn':
-      console.log('components, auth, ModalLogIn, kindOfModal ->', kindOfModal)
+      // console.log('components, auth, ModalLogIn, kindOfModal ->', kindOfModal)
       content = <LogIn onCancelClick={_onCloseHandle} />
       break
     case 'signUp':
       content = <SignUp onCancelClick={_onCloseHandle} />
       break
     case 'confirmPassword':
-      console.log('components, auth, ModalLogIn, kindOfModal ->', kindOfModal)
+      // console.log('components, auth, ModalLogIn, kindOfModal ->', kindOfModal)
       content = <ConfirmPassword onCancelClick={_onCloseHandle} />
       // content = <ConfirmPassword onCancelClick={_onCloseHandle} />
       break
