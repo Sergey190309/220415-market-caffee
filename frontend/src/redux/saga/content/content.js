@@ -20,7 +20,7 @@ export const putContentSaga = function * (setter) {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401 && error.response.data.error === 'token_expired') {
-          console.log(error.response.data.description)
+          // console.log(error.response.data.description)
           confirmPasswordHelper(error.response.data.description)
           return
         }

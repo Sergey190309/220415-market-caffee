@@ -46,6 +46,7 @@ export const LogIn = ({
   // console.log('components, logIn closeModal ->', closeModal())
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(authSelector)
+  const { t } = useTranslation('auth')
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -54,8 +55,6 @@ export const LogIn = ({
       logInModalClosed()
     }
   }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
-
-  const { t } = useTranslation('auth')
 
   const onSubmit = (formData, { setSubmitting }) => {
     // onSubmit(formData, logInStart, setSubmitting, dispatch)
