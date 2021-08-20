@@ -24,7 +24,7 @@ export const confirmPasswordHelper = payload => {
   /**
    * See notes on startAlertHelper.
    */
-  console.log('confirmPasswordHelper, payload ->', payload)
+  // console.log('confirmPasswordHelper, payload ->', payload)
   store.dispatch(setMessage(payload))
   store.dispatch(openModal('confirmPassword'))
 }

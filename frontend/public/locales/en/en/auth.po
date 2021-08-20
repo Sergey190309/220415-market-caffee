@@ -5,16 +5,34 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"POT-Creation-Date: 2021-08-19T10:07:51.639Z\n"
-"PO-Revision-Date: 2021-08-19 10:13+0000\n"
+"POT-Creation-Date: 2021-08-20T06:57:14.547Z\n"
+"PO-Revision-Date: 2021-08-20 06:58+0000\n"
 "Language: en\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "X-Generator: Poedit 2.2.1\n"
 
+msgid "confirmpassword##buttons##cancel"
+msgstr "Cancel"
+
+msgid "confirmpassword##buttons##confirm"
+msgstr "Confirm"
+
+msgid "confirmpassword##buttons##or"
+msgstr "or"
+
+msgid "confirmpassword##errors##required"
+msgstr "Required"
+
 msgid "confirmpassword##header"
 msgstr "Confirm your password"
+
+msgid "confirmpassword##labels##password"
+msgstr "Password"
+
+msgid "confirmpassword##placeHolders##password"
+msgstr "Password"
 
 msgid "login##buttons##cancel"
 msgstr "Cancel"

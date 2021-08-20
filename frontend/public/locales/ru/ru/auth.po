@@ -6,16 +6,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"POT-Creation-Date: 2021-08-19T10:15:32.424Z\n"
-"PO-Revision-Date: 2021-08-19 10:24+0000\n"
+"POT-Creation-Date: 2021-08-20T07:15:14.729Z\n"
+"PO-Revision-Date: 2021-08-20 07:16+0000\n"
 "Language: ru\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "X-Generator: Poedit 2.2.1\n"
 
+msgid "confirmpassword##buttons##cancel"
+msgstr "Отменить"
+
+msgid "confirmpassword##buttons##confirm"
+msgstr "Подтвердить"
+
+msgid "confirmpassword##buttons##or"
+msgstr "или"
+
+msgid "confirmpassword##errors##required"
+msgstr "Поле обязательно"
+
 msgid "confirmpassword##header"
 msgstr "Подтвердите свой пароль пожалуйста"
+
+msgid "confirmpassword##labels##password"
+msgstr "Пароль"
+
+msgid "confirmpassword##placeHolders##password"
+msgstr "Пароль"
 
 msgid "login##buttons##cancel"
 msgstr "Отмена"
