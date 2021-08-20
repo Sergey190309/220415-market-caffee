@@ -21,7 +21,10 @@ export const rootReducer = combineReducers({
   tech
 })
 
-export { startAlert, removeAlert } from './alerts'
+export {
+  startAlert,
+  removeAlert
+} from './alerts'
 export {
   setState as authSetState,
   signUpStart,
@@ -39,8 +42,18 @@ export {
   confirmPasswordModalClosed,
   authSelector
 } from './auth'
-export { deviceSelector, setDeviceSize, openModal, closeModal, setEditable } from './device'
-export { lngSwitch, lngSelector } from './lng'
+export {
+  deviceSelector,
+  setDeviceSize,
+  openModal,
+  closeModal,
+  setMessage,
+  setEditable
+} from './device'
+export {
+  lngSwitch,
+  lngSelector
+} from './lng'
 export {
   setState as structureSetState,
   structureSelector,

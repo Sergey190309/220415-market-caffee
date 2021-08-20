@@ -1,6 +1,12 @@
 import { authTextAxiosClient, techTextAxiosClient } from '../apiClient'
 // import { apiCallsErrorHandler } from '../../utils/errorHandler';
 
+export const confirmPasswordCall = passwordData => {
+  console.log('confirmPasswordCall, passwordData ->', passwordData)
+  const resp = authTextAxiosClient.put('/users/login')
+  return resp
+}
+
 export const lngsCall = () => {
   const resp = techTextAxiosClient.get('/global/locales')
   return resp

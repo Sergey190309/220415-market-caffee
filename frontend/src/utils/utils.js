@@ -1,7 +1,7 @@
 // import { reject } from 'lodash'
 import { v4 } from 'uuid'
 import store from '../redux/store'
-import { startAlert, openModal } from '../redux/slices'
+import { startAlert, openModal, setMessage } from '../redux/slices'
 
 export const startAlertHelper = payload => {
   /**
@@ -25,6 +25,7 @@ export const confirmPasswordHelper = payload => {
    * See notes on startAlertHelper.
    */
   console.log('confirmPasswordHelper, payload ->', payload)
+  store.dispatch(setMessage(payload))
   store.dispatch(openModal('confirmPassword'))
 }
 

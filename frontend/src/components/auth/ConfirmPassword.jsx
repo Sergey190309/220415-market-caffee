@@ -1,15 +1,16 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react'
 import { Formik } from 'formik'
-import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react'
+import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 
 import { openModal, closeModal, confirmPasswordStart, confirmPasswordModalClosed } from '../../redux/slices'
 import Alert from '../layout/Alert'
 
-import { positiveColor } from '../../utils/colors'
+import { positiveColor, warningColor } from '../../utils/colors'
 
 export const formStructure = {
   password: 'qwerty'
@@ -29,7 +30,13 @@ const ConfirmPassword = ({
   confirmPasswordStart,
   confirmPasswordModalClosed
 }) => {
+  const dispatch = useDispatch()
   const { t } = useTranslation('auth')
+
+  const onSubmit = (formData, { setSubmitting }) => {
+    dispatch(confirmPasswordStart(formData))
+    setSubmitting(false)
+  }
 
   return (
     <Container fluid textAlign='center'>
@@ -48,9 +55,49 @@ const ConfirmPassword = ({
           </Header>
 
           <Formik
-
+            initialValues={initValues}
+            validationSchema={confirmPasswordSchema}
+            onSubmit={onSubmit}
           >
-
+            {({ isSubmitting }) => (
+              <Form size='large'>
+                <Segment color={positiveColor} stacked>
+                  <Input
+                    id='input-password'
+                    data-testid='input-password'
+                    name='password'
+                    type='password'
+                    inputLabel={t('confirmpassword.labels.password')}
+                    // inputLabel={{ color: color, content: 'Password' }}
+                    icon='key'
+                    placeholder={t('confirmpassword.placeHolders.password')}
+                    autoComplete='on'
+                    errorPrompt
+                  />
+                  <Button.Group widths='1'>
+                    <SubmitButton
+                      basic
+                      color={positiveColor}
+                      size='large'
+                      content={t('login.buttons.logIn')}
+                      // disabled={isSubmitting}
+                    />
+                    <Button.Or text={t('login.buttons.or')} />
+                    <Button
+                      basic
+                      color={warningColor}
+                      size='large'
+                      content={t('login.buttons.cancel')}
+                      type='button'
+                      onClick={() => {
+                        // console.log('onClick, closeMocal')
+                        dispatch(closeModal())
+                      }}
+                    />
+                  </Button.Group>
+                </Segment>
+              </Form>
+            )}
           </Formik>
         </Grid.Column>
       </Grid>
