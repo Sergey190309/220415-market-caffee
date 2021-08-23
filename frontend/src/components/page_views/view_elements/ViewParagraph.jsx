@@ -95,7 +95,8 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
       {editable
         ? <ParagraphContextMenu
           isOpened={contextMenuOpened}
-          saveDisabled={!changed}
+          saveDisabled={changed}
+          // saveDisabled={!changed}
           context={contextRef}
           setContextMenuOpened={setContextMenuOpened}
           setParagraphEditted={setParagraphEditted}

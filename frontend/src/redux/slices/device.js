@@ -4,10 +4,24 @@ export const smallDeviceLimit = 780 // That's limit where device deemed small (s
 export const mediumDeviceLimit = 1080 // That's limit where device deemed small (side bar)
 
 export const initialState = {
-  // Device sizes could be small (width less then 780) - phone; medium (1080) - tablet; big - normal PC
+  /**
+   * Device sizes could be small (width less then 780) - phone;
+   * medium (1080) - tablet; big - normal PC
+   */
   deviceSize: 'small',
-  // Modal opened state which form opened on modal. It could be 'LogIn', 'SignUp' or 'Loader'. Empty string means no modal
+  /**
+   * Modal opened state which form opened on modal. It could be
+   * 'LogIn', 'SignUp', 'confirmPassword' or 'Loader'.
+   * Empty string means no modal
+   */
   kindOfModal: '',
+  /**
+   * This is a message that in some cased shown on modal.
+   */
+  message: '',
+  /**
+   * That's indicate possibiblity to edit views content by user.
+   */
   editable: true
 }
 
@@ -39,13 +53,20 @@ const deviceSlice = createSlice({
     closeModal: state => { // tested
       state.kindOfModal = ''
     },
+    setMessage: (state, { payload }) => {
+      state.message = payload
+    },
     setEditable: (state, { payload }) => { // tested
       state.editable = payload
     }
   }
 })
 
-export const { setTestState, setDeviceSize, openModal, closeModal, setEditable } = deviceSlice.actions
+export const {
+  setTestState, setDeviceSize,
+  openModal, closeModal,
+  setMessage, setEditable
+} = deviceSlice.actions
 export const deviceSelector = state => state.device
 
 export default deviceSlice.reducer

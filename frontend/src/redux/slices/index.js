@@ -4,6 +4,7 @@ import { combineReducers } from '@reduxjs/toolkit'
 import alerts from './alerts'
 // import logIn from '../reducers/auth';
 import auth from './auth'
+import aux from './aux'
 import device from './device'
 // import device from '../reducers/device';
 import lng from './lng'
@@ -14,29 +15,50 @@ import tech from './tech'
 export const rootReducer = combineReducers({
   alerts,
   auth,
-  // logIn,
+  aux,
   device,
   lng,
   structure,
   tech
 })
 
-export { startAlert, removeAlert } from './alerts'
+export {
+  startAlert,
+  removeAlert
+} from './alerts'
 export {
   setState as authSetState,
   signUpStart,
   signUpSuccess,
   signUpFail,
+  signUpModalClosed,
   logInStart,
   logInSuccess,
   logInFail,
-  logOut,
-  signUpModalClosed,
   logInModalClosed,
+  logOut,
+  confirmPasswordStart,
+  confirmPasswordSuccess,
+  confirmPasswordFail,
+  confirmPasswordModalClosed,
   authSelector
 } from './auth'
-export { deviceSelector, setDeviceSize, openModal, closeModal, setEditable } from './device'
-export { lngSwitch, lngSelector } from './lng'
+export {
+  setTestState as auxSetState
+}
+  from './aux'
+export {
+  deviceSelector,
+  setDeviceSize,
+  openModal,
+  closeModal,
+  setMessage,
+  setEditable
+} from './device'
+export {
+  lngSwitch,
+  lngSelector
+} from './lng'
 export {
   setState as structureSetState,
   structureSelector,

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-07-30 05:15+0000\n"
-"PO-Revision-Date: 2021-07-30 05:15+0000\n"
+"POT-Creation-Date: 2021-08-19 13:58+0000\n"
+"PO-Revision-Date: 2021-08-19 13:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -123,25 +123,25 @@ msgid "Sorry, access to views' information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ к информации о страницах разрешен только администратору."
 
-#: contents/resources/contents.py:87
+#: contents/resources/contents.py:90
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:104 resources/locale_global.py:37
+#: contents/resources/contents.py:109 resources/locale_global.py:37
 #: structure/resources/structure.py:27
 msgid "Something went wrong. Check tech_token and sessions set up."
 msgstr "Что-то пошло не так, проверь технический жетон и организацию сессий."
 
-#: contents/resources/contents.py:117
+#: contents/resources/contents.py:122
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:144
+#: contents/resources/contents.py:154
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:177
+#: contents/resources/contents.py:188
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -185,19 +185,19 @@ msgstr "Привет всем тут!"
 msgid "I plan to do something from this project."
 msgstr "Я что-то планирую сделать из этого проекта."
 
-#: home/resources/tec_auth.py:20
+#: home/resources/tech_auth.py:45
 msgid "Something went wrong, there is not valid JSON in the request."
 msgstr "Что-то пошло не так, в запросе отсутствует правильный JSON."
 
-#: home/resources/tec_auth.py:25
+#: home/resources/tech_auth.py:50
 msgid "Something went wrong, there is not proper key in the JSON."
 msgstr "Что-то пошло не так, в  JSON нет правильного ключа."
 
-#: home/resources/tec_auth.py:30
+#: home/resources/tech_auth.py:55
 msgid "TechAuth reporing! Tech token is in payload."
 msgstr "ТехРег докладывает! Тех жетон в сообщении."
 
-#: images/resources/images.py:41
+#: images/resources/images.py:42
 #, python-format
 msgid ""
 "A picture for page '%(view_id)s' with identity '%(image_id)s' have not been "
@@ -206,7 +206,7 @@ msgstr ""
 "Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' не "
 "обнаружена."
 
-#: images/resources/images.py:56
+#: images/resources/images.py:57
 #, python-format
 msgid ""
 "A picture for view '%(view_id)s' with identity '%(image_id)s' already exist, "
@@ -216,28 +216,28 @@ msgstr ""
 "существует, вы должны пристрелить ее перед закачкой новой или можете ее "
 "скачать ."
 
-#: images/resources/images.py:69
+#: images/resources/images.py:70
 msgid "Sorry, images uploading is allowed to admin only."
 msgstr "Извиняйте, загрузка картинок доступна только администратору."
 
-#: images/resources/images.py:80
+#: images/resources/images.py:81
 #, python-format
 msgid "Sorry but '%(value)s' contains illigal simbols."
 msgstr "Извиняйте, но  '%(value)s' содержит нелегальные символы."
 
-#: images/resources/images.py:126
+#: images/resources/images.py:127
 #, python-format
 msgid "Image for view '%(view_id)s' with identity '%(image_id)s' uploaded."
 msgstr ""
 "Картинка для странички '%(view_id)s' с идентификатором '%(image_id)s' "
 "загружена."
 
-#: images/resources/images.py:134
+#: images/resources/images.py:135
 #, python-format
 msgid "Extentions '%(extention)s' are not allowed"
 msgstr "Расширения '%(extention)s' не разрешены"
 
-#: images/resources/images.py:149 structure/resources/structure.py:112
+#: images/resources/images.py:150 structure/resources/structure.py:112
 msgid "Something went wrong. Sorry we'll reverting."
 msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
 
@@ -524,7 +524,11 @@ msgstr ""
 "Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
 "раз."
 
-#: users/resources/userlogin.py:91
+#: users/resources/userlogin.py:92
+msgid "Wrong password."
+msgstr "Неверный пароль."
+
+#: users/resources/userlogin.py:95
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 

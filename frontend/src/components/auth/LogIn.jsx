@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react'
 import { Container, Segment, Icon, Header, Grid, Button } from 'semantic-ui-react'
 import { Formik } from 'formik'
+import { Form, Input, SubmitButton, ResetButton } from 'formik-semantic-ui-react'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 
-import { positiveColor, neutralColor, warningColor } from '../../utils/colors'
 import {
   openModal,
   closeModal,
@@ -16,6 +15,7 @@ import {
   authSelector
 } from '../../redux/slices'
 import Alert from '../layout/Alert'
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors'
 
 export const formStructure = {
   email: 'a@agatha-ng.com',
@@ -25,12 +25,12 @@ export const formStructure = {
 export const logInSchema = t =>
   Yup.object().shape({
     [Object.keys(formStructure)[0]]: Yup.string()
-      .email(t('errors.email.invalidEmail'))
-      .required(t('errors.required')),
+      .email(t('login.errors.email.invalidEmail'))
+      .required(t('login.errors.required')),
     [Object.keys(formStructure)[1]]: Yup.string()
       // eslint-disable-next-line no-template-curly-in-string
-      .min(6, t('errors.password.min', { min: '${min}' }))
-      .required(t('errors.required'))
+      .min(6, t('login.errors.password.min', { min: '${min}' }))
+      .required(t('login.errors.required'))
   })
 
 export const LogIn = ({
@@ -46,6 +46,7 @@ export const LogIn = ({
   // console.log('components, logIn closeModal ->', closeModal())
   const dispatch = useDispatch()
   const { isLoggedIn } = useSelector(authSelector)
+  const { t } = useTranslation('auth')
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -53,9 +54,8 @@ export const LogIn = ({
       dispatch(closeModal())
       logInModalClosed()
     }
-  }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
-
-  const { t } = useTranslation('login')
+  }, [isLoggedIn])
+  // }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
 
   const onSubmit = (formData, { setSubmitting }) => {
     // onSubmit(formData, logInStart, setSubmitting, dispatch)
@@ -66,12 +66,16 @@ export const LogIn = ({
   return (
     <Container fluid textAlign='center'>
       <Alert />
-      <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
+      <Grid
+        textAlign='center'
+        style={{ height: '50vh' }}
+        verticalAlign='middle'
+      >
         <Grid.Column style={{ maxWidth: 500 }}>
           <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
-              {t('header')}
+              {t('login.header')}
             </Segment.Inline>
           </Header>
 
@@ -85,11 +89,11 @@ export const LogIn = ({
                   <Input
                     id='input-email'
                     name='email'
-                    inputLabel={t('labels.email')}
+                    inputLabel={t('login.labels.email')}
                     // inputLabel={{ color: color, content: 'Email' }}
                     icon='at'
                     // iconPosition='right'
-                    placeholder={t('placeHolders.email')}
+                    placeholder={t('login.placeHolders.email')}
                     errorPrompt
                   />
                   <Input
@@ -97,10 +101,10 @@ export const LogIn = ({
                     data-testid='input-password'
                     name='password'
                     type='password'
-                    inputLabel={t('labels.password')}
+                    inputLabel={t('login.labels.password')}
                     // inputLabel={{ color: color, content: 'Password' }}
                     icon='key'
-                    placeholder={t('placeHolders.password')}
+                    placeholder={t('login.placeHolders.password')}
                     autoComplete='on'
                     errorPrompt
                   />
@@ -109,22 +113,22 @@ export const LogIn = ({
                       basic
                       color={positiveColor}
                       size='large'
-                      content={t('buttons.logIn')}
+                      content={t('login.buttons.logIn')}
                       // disabled={isSubmitting}
                     />
-                    <Button.Or text={t('buttons.or')} />
+                    <Button.Or text={t('login.buttons.or')} />
                     <ResetButton
                       basic
                       color={neutralColor}
                       size='large'
-                      content={t('buttons.reset')}
+                      content={t('login.buttons.reset')}
                     />
-                    <Button.Or text={t('buttons.or')} />
+                    <Button.Or text={t('login.buttons.or')} />
                     <Button
                       basic
                       color={warningColor}
                       size='large'
-                      content={t('buttons.cancel')}
+                      content={t('login.buttons.cancel')}
                       type='button'
                       onClick={() => {
                         // console.log('onClick, closeMocal')
@@ -140,7 +144,7 @@ export const LogIn = ({
             <Grid columns={2}>
               <Grid.Row verticalAlign='middle'>
                 <Grid.Column width='9' textAlign='right'>
-                  <Header as='h4' content={t('message')} />
+                  <Header as='h4' content={t('login.message')} />
                 </Grid.Column>
                 <Grid.Column width='7' textAlign='left'>
                   <Button
@@ -149,7 +153,7 @@ export const LogIn = ({
                     color={positiveColor}
                     floated='left'
                     size='large'
-                    content={t('buttons.signUp')}
+                    content={t('login.buttons.signUp')}
                     onClick={() => {
                       dispatch(openModal('signUp'))
                     }}

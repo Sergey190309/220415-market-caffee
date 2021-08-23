@@ -23,7 +23,7 @@ def test_users_confirm_get(  # Normal user cannot update other
     # print('\ntest_users_confirm_get, url_for ->',
     #       url_for('users_bp.userconfirm', user_id=1))
     _user = created_user()
-    _power_user = created_user(role_id='power_user')
+    _power_user = created_user({'role_id': 'power_user'})
     headers = {'Authorization': f"Bearer {access_token(_power_user)}"}
 
     # User confirmaion. Update role_id from None to user:
@@ -34,7 +34,8 @@ def test_users_confirm_get(  # Normal user cannot update other
     assert resp.status_code == 200
 
     # Attempt to update (confirm) already confirmed user:
-    resp = client.get(url_for('users_bp.userconfirm', user_id=_user.id), headers=headers)
+    resp = client.get(
+        url_for('users_bp.userconfirm', user_id=_user.id), headers=headers)
     assert resp.status_code == 400
     assert isinstance(resp.json['message'], str)
     assert not ('payload' in resp.json.keys())
@@ -46,20 +47,20 @@ def test_users_confirmation_get(
     # print('\ntest_users_confirmation_get, url_for ->',
     #       url_for('users_bp.confirmation', confirmation_id='Fuck!'))
 
-    # Non existing confirmations.
+    '''Non existing confirmations.'''
     resp = client.get(url_for('users_bp.confirmation',
                       confirmation_id='Fucking confirmation!'))
     assert resp.status_code == 404
     assert isinstance(resp.json['message'], str)
 
-    # Normal update:
+    '''Normal update:'''
     _user = created_user()
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
     resp = client.get(url_for('users_bp.confirmation', confirmation_id=_confirmation.id))
     assert resp.status_code == 200
 
-    # Update already confirmed user:
-    _user = created_user(role_id='power_user')
+    '''Update already confirmed user:'''
+    _user = created_user({'role_id': 'power_user'})
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
     resp = client.get(url_for('users_bp.confirmation', confirmation_id=_confirmation.id))
     assert resp.status_code == 400
@@ -77,7 +78,7 @@ def test_users_confirmation_get(
 # @pytest.mark.active
 def test_users_confirmationbyuser_post(
         client, created_user):
-    _user = created_user('power_user')
+    _user = created_user({'role_id': 'power_user'})
     resp = client.post(url_for('users_bp.confirmationbyuser', user_id=_user.id + 1))
     assert resp.status_code == 404
     assert isinstance(resp.json, Dict)

@@ -11,8 +11,16 @@ const headers = {
   }
 }
 
+export const refreshTokenAxiosClient = axios.create({
+  /**
+   * Used to configurate instance to confirm password with
+   * refresh token
+   */
+  baseURL: baseURL,
+  headers: headers
+})
+
 export const techTextAxiosClient = axios.create({
-  // export const techAxiosClient = axios.create({
   /**
    * configurated on initial update using tech token
    * used for get requests for textual information.
@@ -74,6 +82,7 @@ export const setAxiosCommonLng = lng => {
   techPixAxiosClient.defaults.headers.common['Accept-Language'] = lng
   authTextAxiosClient.defaults.headers.common['Accept-Language'] = lng
   authPixAxiosClient.defaults.headers.common['Accept-Language'] = lng
+  refreshTokenAxiosClient.defaults.headers.common['Accept-Language'] = lng
 }
 
 export const setAxiosTechToken = (token) => {
@@ -82,8 +91,9 @@ export const setAxiosTechToken = (token) => {
   techPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
-export const setAxiosAuthToken = (token) => {
-  // console.log('axiosCommonToken, token ->', token)
-  authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
-  authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+export const setAxiosAuthToken = (tokens) => {
+  // console.log('axiosCommonToken, tokens ->', tokens)
+  authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.access_token}`
+  authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.access_token}`
+  refreshTokenAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.refresh_token}`
 }

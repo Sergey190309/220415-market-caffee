@@ -25,8 +25,11 @@ export const logInInfo = () => {
     ? { ...JSON.parse(localStorage.getItem(LOG_IN_INFO)), isLoggedIn: true }
     : { ...notLoggedInfo, isLoggedIn: false }
   if (_localStorage.access_token.length > 0) {
-    // console.log('auth slice, logInInfo, _localStorage.access_token ->', _localStorage.access_token)
-    setAxiosAuthToken(_localStorage.access_token)
+    // console.log('auth slice, logInInfo, _localStorage.access_tokSen ->', _localStorage.access_token)
+    setAxiosAuthToken({
+      access_token: _localStorage.access_token,
+      refresh_token: _localStorage.refresh_token
+    })
   }
   return _localStorage
 }
@@ -34,7 +37,8 @@ export const logInInfo = () => {
 export const initialState = () => ({
   ...logInInfo(),
   loading: false,
-  isSignedUp: false
+  isSignedUp: false,
+  isConfirmedPassword: false
 })
 
 const authSlice = createSlice({
@@ -63,6 +67,9 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
+    signUpModalClosed: state => {
+      state.isSignedUp = false
+    },
     signUpFail: state => {
       localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
@@ -78,7 +85,7 @@ const authSlice = createSlice({
     },
     logInSuccess: (state, { payload }) => {
       // console.log('authSlice, logInSuccess, payload ->', payload)
-      setAxiosAuthToken(payload.access_token)
+      setAxiosAuthToken({ access_token: payload.access_token, refresh_token: payload.refresh_token })
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload))
       Object.assign(state, payload, { loading: false, isLoggedIn: true })
     },
@@ -90,8 +97,12 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
+    logInModalClosed: state => {
+      state.isLoggedIn = false
+    },
     logOut: state => {
       // console.log('authSlice, logOut')
+      setAxiosAuthToken({ access_token: '', refresh_token: '' })
       localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         loading: false,
@@ -99,11 +110,28 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
-    signUpModalClosed: state => {
-      state.isSignedUp = false
+    confirmPasswordStart: state => {
+      state.loading = true
+      // state.isLoggedIn = true
+      state.isConfirmedPassword = false
     },
-    logInModalClosed: state => {
-      state.isLoggedIn = false
+    confirmPasswordSuccess: (state, { payload }) => {
+      // console.log('slice, auth, confirmPasswordSuccess, payload ->', payload)
+      const localStorageInfo = localStorage.getItem(LOG_IN_INFO)
+        ? JSON.parse(localStorage.getItem(LOG_IN_INFO))
+        : {}
+      localStorageInfo.access_token = payload
+      localStorage.setItem(LOG_IN_INFO, JSON.stringify(localStorageInfo))
+      state.access_token = payload
+      state.loading = false
+      state.isConfirmedPassword = true
+    },
+    confirmPasswordFail: state => {
+      state.loading = false
+      state.isConfirmedPassword = false
+    },
+    confirmPasswordModalClosed: state => {
+      state.isConfirmedPassword = false
     }
   }
 })
@@ -113,12 +141,16 @@ export const {
   signUpStart,
   signUpSuccess,
   signUpFail,
+  signUpModalClosed,
   logInStart,
   logInSuccess,
   logInFail,
+  logInModalClosed,
   logOut,
-  signUpModalClosed,
-  logInModalClosed
+  confirmPasswordStart,
+  confirmPasswordSuccess,
+  confirmPasswordFail,
+  confirmPasswordModalClosed
 } = authSlice.actions
 
 export const authSelector = state => state.auth
