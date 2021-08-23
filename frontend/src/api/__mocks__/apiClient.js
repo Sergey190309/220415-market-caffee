@@ -1,5 +1,9 @@
 import { resolveDataTechInPost, resolveDataTechInGet } from '../../testAxiosConstants'
 
+// export const refreshTokenAxiosClient = {
+//   put: ()=> Promise.resolve()
+// }
+
 export const techTextAxiosClient = {
   // post: () => Promise.resolve(resolveDataTechInPost),
   get: () => Promise.resolve(resolveDataTechInGet),

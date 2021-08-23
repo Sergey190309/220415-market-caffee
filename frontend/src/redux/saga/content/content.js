@@ -7,21 +7,21 @@ import { startAlertHelper, confirmPasswordHelper } from '../../../utils/utils'
 export const putContentSaga = function * (setter) {
   while (true) {
     const { payload } = yield take(CONTENT_PUT)
+    // console.log('saga, content, putContentSaga, payload ->', payload)
+    const { content, ...otherProps } = payload
+    const json = { ...otherProps, title: content.title, content: content.content.join('<br>') }
     try {
-      const { content, ...otherProps } = payload
-      const json = { ...otherProps, title: content.title, content: content.content.join('<br>') }
-      // console.log('saga, content, putContentSaga, json ->', json)
       const result = yield call(putViewContent, json)
       /**
        * I use startAlertHelper below cause was unable to use
-       * put out of scope.
+       * redux-saga put out of scope.
        */
       yield call(startAlertHelper, result.data.message)
     } catch (error) {
       if (error.response) {
         if (error.response.status === 401 && error.response.data.error === 'token_expired') {
           // console.log(error.response.data.description)
-          confirmPasswordHelper(error.response.data.description)
+          confirmPasswordHelper(error.response.data.description, payload)
           return
         }
         console.log('contentSaga, error.response! ->')

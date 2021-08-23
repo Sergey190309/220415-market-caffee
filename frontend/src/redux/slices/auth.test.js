@@ -196,8 +196,11 @@ describe('Auth slicer testing', () => {
         loading: false,
         isConfirmedPassword: true
       }))
-      store.dispatch(confirmPasswordStart())
+
+      store.dispatch(confirmPasswordStart({ password: 'mockPassword' }))
+
       const state = store.getState().auth
+      // console.log('slice, auth, test, state after ->', state)
       const expState = {
         ...logInState,
         loading: true,
@@ -206,19 +209,25 @@ describe('Auth slicer testing', () => {
       expect(state).toEqual(expState)
     })
     test('confirmPasswordSuccess', () => {
+      const mockAccessToken = 'mockNewAccessToken'
       store.dispatch(setState({
         ...logInState,
         loading: true,
         isConfirmedPassword: false
       }))
-      store.dispatch(confirmPasswordSuccess())
+      store.dispatch(confirmPasswordSuccess(mockAccessToken))
       const state = store.getState().auth
       const expState = {
         ...logInState,
+        access_token: mockAccessToken,
         loading: false,
         isConfirmedPassword: true
       }
       expect(state).toEqual(expState)
+      expect(localStorage.getItem).toHaveBeenCalledTimes(1)
+      expect(localStorage.getItem).toHaveBeenCalledWith(LOG_IN_INFO)
+      expect(localStorage.setItem).toHaveBeenCalledTimes(1)
+      expect(localStorage.setItem).toHaveBeenCalledWith(LOG_IN_INFO, JSON.stringify({ access_token: mockAccessToken }))
     })
     test('confirmPasswordFail', () => {
       store.dispatch(setState({
@@ -231,7 +240,7 @@ describe('Auth slicer testing', () => {
       const expState = {
         ...logInState,
         loading: false,
-        isConfirmedPassword: true
+        isConfirmedPassword: false
       }
       expect(state).toEqual(expState)
     })

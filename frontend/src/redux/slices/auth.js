@@ -84,7 +84,7 @@ const authSlice = createSlice({
       state.isLoggedIn = false
     },
     logInSuccess: (state, { payload }) => {
-      console.log('authSlice, logInSuccess, payload ->', payload)
+      // console.log('authSlice, logInSuccess, payload ->', payload)
       setAxiosAuthToken({ access_token: payload.access_token, refresh_token: payload.refresh_token })
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload))
       Object.assign(state, payload, { loading: false, isLoggedIn: true })
@@ -116,10 +116,11 @@ const authSlice = createSlice({
       state.isConfirmedPassword = false
     },
     confirmPasswordSuccess: (state, { payload }) => {
-      // setAxiosAuthToken({ access_token: payload })
-      const localStorageInfo = JSON.parse(localStorage.getItem(LOG_IN_INFO))
+      // console.log('slice, auth, confirmPasswordSuccess, payload ->', payload)
+      const localStorageInfo = localStorage.getItem(LOG_IN_INFO)
+        ? JSON.parse(localStorage.getItem(LOG_IN_INFO))
+        : {}
       localStorageInfo.access_token = payload
-      // console.log('slice, auth, confirmPasswordSuccess, localStorageInfo ->', localStorageInfo)
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(localStorageInfo))
       state.access_token = payload
       state.loading = false
@@ -127,7 +128,7 @@ const authSlice = createSlice({
     },
     confirmPasswordFail: state => {
       state.loading = false
-      state.isConfirmedPassword = true
+      state.isConfirmedPassword = false
     },
     confirmPasswordModalClosed: state => {
       state.isConfirmedPassword = false

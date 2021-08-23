@@ -23,8 +23,8 @@ export function * confirmPasswordSaga () {
 
 export function * confirmPasswordFetch (action) {
   try {
+    // console.log('confirmPasswordFetch, action ->', action.payload)
     const resp = yield call(confirmPasswordCall, action.payload)
-    // console.log('confirmPasswordFetch, resp ->', resp.data.message)
     setAxiosAuthToken({ access_token: resp.data.payload.access_token })
     yield put(confirmPasswordSuccess(resp.data.payload.access_token))
     yield put(
@@ -37,7 +37,8 @@ export function * confirmPasswordFetch (action) {
       )
     )
   } catch (error) {
-    yield put(confirmPasswordFail(error))
+    console.log('confirmPasswordFetch, error ->', error)
+    yield put(confirmPasswordFail())
     const errorMessage = actRespErrorMessage(error)
     yield put(
       startAlert(

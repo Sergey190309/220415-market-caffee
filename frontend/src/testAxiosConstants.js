@@ -1,4 +1,15 @@
 /**
+ * confirm password
+ */
+export const resolveDataConfirmPassword = {
+  payload: {
+    message: 'mock data confirm password message',
+    access_token: 'mockAccessToken'
+  }
+}
+
+
+/**
  * Constant for getting content
  */
 export const resolveDataContent = {
@@ -70,6 +81,15 @@ export const resolveDataTechInPost = {
   data: {
     message: 'TechAuth reporing! Tech token is in payload.',
     payload: 'mock tech token'
+  }
+}
+
+export const resolveDataRefreshPassword = {
+  data: {
+    message: 'mock refresh token message',
+    payload: {
+      access_token: 'mock access token'
+    }
   }
 }
 

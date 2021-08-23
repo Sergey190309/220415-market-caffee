@@ -20,7 +20,7 @@ import Alert from '../layout/Alert'
 import { positiveColor, warningColor } from '../../utils/colors'
 
 export const formStructure = {
-  password: 'qwerty'
+  password: 'qwertys'
 }
 
 export const confirmPasswordSchema = t =>
