@@ -1,5 +1,5 @@
 describe('aux slice tesing', () => {
-  test('dummy', () => {
+  test('tested element does not in use now', () => {
 
   })
 })

@@ -10,7 +10,7 @@ import ParagraphContextMenu from './ParagraphContextMenu'
 describe('ParagraphContextMenu testing', () => {
   const testProps = {
     isOpened: false,
-    saveDisabled: false,
+    saveDisabled: true,
     context: {},
     setContextMenuOpened: jest.fn(),
     setParagraphEditted: jest.fn()
@@ -18,10 +18,10 @@ describe('ParagraphContextMenu testing', () => {
 
   describe('component actions', () => {
     test('save button enabled', async () => {
-    // test.only('enable save button', async () => {
       const actualProps = {
         ...testProps,
-        isOpened: true
+        isOpened: true,
+        saveDisabled: false
       }
       await waitFor(() => {
         render(
@@ -60,7 +60,8 @@ describe('ParagraphContextMenu testing', () => {
     test('save button clicked actions', async () => {
       const actualProps = {
         ...testProps,
-        isOpened: true
+        isOpened: true,
+        saveDisabled: false
       }
       await waitFor(() => {
         render(
@@ -159,7 +160,10 @@ describe('ParagraphContextMenu testing', () => {
     })
 
     test('it should exist and has all buttons and icons', async () => {
-      const actualProps = { ...testProps, isOpened: true, saveDisabled: true }
+      const actualProps = {
+        ...testProps,
+        isOpened: true
+      }
       await waitFor(() => {
         // state = store.getState()
         // console.log('second test, state ->', state)

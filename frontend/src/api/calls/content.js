@@ -3,7 +3,7 @@ import { authTextAxiosClient, techTextAxiosClient, techPixAxiosClient } from '..
 const contentURL = '/content'
 const imageURL = '/images/'
 
-export const putViewContent = (json) => {
+export const putTextContent = json => {
   // console.log('api, calls, content, putViewContent, json ->', json)
   const resp = authTextAxiosClient.put(contentURL, { ...json })
   // console.log('api, calls, content, putViewContent, resp ->', resp)

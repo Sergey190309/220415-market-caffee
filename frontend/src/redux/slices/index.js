@@ -4,7 +4,8 @@ import { combineReducers } from '@reduxjs/toolkit'
 import alerts from './alerts'
 // import logIn from '../reducers/auth';
 import auth from './auth'
-import aux from './aux'
+import backendUpdate from './backendUpdate'
+// import aux from './aux'
 import device from './device'
 // import device from '../reducers/device';
 import lng from './lng'
@@ -15,7 +16,7 @@ import tech from './tech'
 export const rootReducer = combineReducers({
   alerts,
   auth,
-  aux,
+  backendUpdate,
   device,
   lng,
   structure,
@@ -44,9 +45,13 @@ export {
   authSelector
 } from './auth'
 export {
-  setTestState as auxSetState
+  setTestState as auxSetState,
+  backendUpdateStart,
+  backendUpdateSuccess,
+  backendUpdateFail,
+  backendUpdateSelector
 }
-  from './aux'
+  from './backendUpdate'
 export {
   deviceSelector,
   setDeviceSize,

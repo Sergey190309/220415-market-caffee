@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { setAxiosAuthToken } from '../../api/apiClient'
+import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../api/apiClient'
 import { LOG_IN_INFO } from '../constants/localStorageVariables'
 
 export const notLoggedInfo = {
@@ -26,10 +26,8 @@ export const logInInfo = () => {
     : { ...notLoggedInfo, isLoggedIn: false }
   if (_localStorage.access_token.length > 0) {
     // console.log('auth slice, logInInfo, _localStorage.access_tokSen ->', _localStorage.access_token)
-    setAxiosAuthToken({
-      access_token: _localStorage.access_token,
-      refresh_token: _localStorage.refresh_token
-    })
+    setAxiosAuthAccessToken(_localStorage.access_token)
+    setAxiosAuthRefreshToken(_localStorage.refresh_token)
   }
   return _localStorage
 }
@@ -85,7 +83,9 @@ const authSlice = createSlice({
     },
     logInSuccess: (state, { payload }) => {
       // console.log('authSlice, logInSuccess, payload ->', payload)
-      setAxiosAuthToken({ access_token: payload.access_token, refresh_token: payload.refresh_token })
+      setAxiosAuthAccessToken(payload.access_token)
+      setAxiosAuthRefreshToken(payload.refresh_token)
+      // setAxiosAuthToken({ access_token: payload.access_token, refresh_token: payload.refresh_token })
       localStorage.setItem(LOG_IN_INFO, JSON.stringify(payload))
       Object.assign(state, payload, { loading: false, isLoggedIn: true })
     },
@@ -102,7 +102,8 @@ const authSlice = createSlice({
     },
     logOut: state => {
       // console.log('authSlice, logOut')
-      setAxiosAuthToken({ access_token: '', refresh_token: '' })
+      setAxiosAuthAccessToken('')
+      setAxiosAuthRefreshToken('')
       localStorage.removeItem(LOG_IN_INFO)
       Object.assign(state, notLoggedInfo, {
         loading: false,

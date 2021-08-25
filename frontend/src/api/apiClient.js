@@ -91,9 +91,20 @@ export const setAxiosTechToken = (token) => {
   techPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
 }
 
-export const setAxiosAuthToken = (tokens) => {
-  // console.log('axiosCommonToken, tokens ->', tokens)
-  authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.access_token}`
-  authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.access_token}`
-  refreshTokenAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.refresh_token}`
+// export const setAxiosAuthToken = (tokens) => {
+//   // console.log('api, setAxiosAuthToken, access_token ->', tokens.access_token)
+//   authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.access_token}`
+//   authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.access_token}`
+//   refreshTokenAxiosClient.defaults.headers.common.Authorization = `Bearer ${tokens.refresh_token}`
+// }
+
+export const setAxiosAuthAccessToken = token => {
+  // console.log('api,  setAxiosAuthAccessToken, access_token ->', tokens.access_token)
+  authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+  authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+}
+
+export const setAxiosAuthRefreshToken = token => {
+  // console.log('api,  setAxiosAuthRefreshToken, access_token ->', tokens.access_token)
+  refreshTokenAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
 }

@@ -20,7 +20,7 @@ import Alert from '../layout/Alert'
 import { positiveColor, warningColor } from '../../utils/colors'
 
 export const formStructure = {
-  password: 'qwertys'
+  password: 'qwerty'
 }
 
 export const confirmPasswordSchema = t =>
@@ -41,12 +41,14 @@ const ConfirmPassword = ({
   const { isConfirmedPassword } = useSelector(authSelector)
   const { message } = useSelector(deviceSelector)
   const { t } = useTranslation('auth')
+
   useEffect(() => {
     if (isConfirmedPassword) {
       dispatch(closeModal())
-      confirmPasswordModalClosed()
+      dispatch(confirmPasswordModalClosed())
     }
   }, [isConfirmedPassword])
+
   const onSubmit = (formData, { setSubmitting }) => {
     // console.log('component, auth, ConfirmPassword, formData ->', formData)
     dispatch(confirmPasswordStart(formData))

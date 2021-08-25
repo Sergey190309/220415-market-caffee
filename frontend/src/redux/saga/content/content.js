@@ -1,6 +1,6 @@
 import { take, call } from 'redux-saga/effects'
 // import { useSaga } from './createIO';
-import { getViewContent, putViewContent, getViewPicture } from '../../../api/calls/content'
+import { getViewContent, putTextContent, getViewPicture } from '../../../api/calls/content'
 import { CONTENT_REQUESTED, CONTENT_PUT, PICTURE_REQUESTED } from '../../constants/types'
 import { startAlertHelper, confirmPasswordHelper } from '../../../utils/utils'
 
@@ -11,7 +11,7 @@ export const putContentSaga = function * (setter) {
     const { content, ...otherProps } = payload
     const json = { ...otherProps, title: content.title, content: content.content.join('<br>') }
     try {
-      const result = yield call(putViewContent, json)
+      const result = yield call(putTextContent, json)
       /**
        * I use startAlertHelper below cause was unable to use
        * redux-saga put out of scope.
@@ -21,6 +21,7 @@ export const putContentSaga = function * (setter) {
       if (error.response) {
         if (error.response.status === 401 && error.response.data.error === 'token_expired') {
           // console.log(error.response.data.description)
+
           confirmPasswordHelper(error.response.data.description, payload)
           return
         }

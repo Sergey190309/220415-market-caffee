@@ -1,4 +1,9 @@
-import { resolveDataContent } from '../../../testAxiosConstants'
+import { resolveDataContent, resolveDataPutTextContent } from '../../../testAxiosConstants'
+
+export const putTextContent = json => {
+  // console.log('putTextContent, json ->', json)
+  return Promise.resolve({ data: resolveDataPutTextContent })
+}
 
 export const getViewContent = params => {
   // console.log('mockGetViewContent, params ->', params)

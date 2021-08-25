@@ -1,6 +1,10 @@
 import { v4 } from 'uuid'
 import { techTextAxiosClient as mockAxios } from '../../api/apiClient'
-import { i18nSuccess, initLoadingSuccess, lngsFail, lngsSuccess, startI18n, startLngs, techInFail, techInSuccess, structureStart } from '../slices'
+import {
+  i18nSuccess, initLoadingSuccess, lngsFail,
+  lngsSuccess, startI18n, startLngs,
+  techInFail, techInSuccess, structureStart
+} from '../slices'
 import { recordSaga } from '../../testUtils'
 import {
   // startInitWorker,

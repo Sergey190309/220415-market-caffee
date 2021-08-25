@@ -81,6 +81,7 @@ const ParagraphContextMenu = ({
         <Button
           name='save'
           icon={{ name: 'save', color: warningColor }}
+          // disabled={false}
           disabled={saveDisabled}
           onClick={onClickHandling}
           content={t('1stLevel.saveElement')}

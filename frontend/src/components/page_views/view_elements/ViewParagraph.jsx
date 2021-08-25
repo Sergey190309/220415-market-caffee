@@ -1,30 +1,37 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Message, Divider } from 'semantic-ui-react'
 
-import { CONTENT_REQUESTED, CONTENT_PUT } from '../../../redux/constants/types'
+import {
+  CONTENT_REQUESTED
+  // CONTENT_PUT
+} from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/content/createIO'
-import { getContentSaga, putContentSaga } from '../../../redux/saga/content/content'
-import { deviceSelector } from '../../../redux/slices'
+import {
+  getContentSaga
+  // putContentSaga
+} from '../../../redux/saga/content/content'
+import { deviceSelector, backendUpdateStart } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
 import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 
 const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
   const [state, getSagaDispatch] = useSaga(getContentSaga, initialState)
-  const [
-    // eslint-disable-next-line no-unused-vars
-    result,
-    putSagaDispatch] = useSaga(putContentSaga, '')
+  // const [
+  //   // eslint-disable-next-line no-unused-vars
+  //   result,
+  //   putSagaDispatch] = useSaga(putContentSaga, '')
   const [content, setContent] = useState({
     title: '',
     content: ['']
   })
-  const [changed, setChanged] = useState(false)
 
+  const [changed, setChanged] = useState(false)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
+  const dispatch = useDispatch()
   const { editable } = useSelector(deviceSelector)
 
   const contextRef = useRef(null)
@@ -60,15 +67,21 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
 
   const saveToBackend = () => {
     // console.log('ViewParagraph, saveToBackend, content ->', content)
-    putSagaDispatch({
-      type: CONTENT_PUT,
-      payload: {
-        identity: recordId,
-        view_id: viewName,
-        // locale_id: lng,
-        content: content
-      }
-    })
+    dispatch(backendUpdateStart({
+      identity: recordId,
+      view_id: viewName,
+      // locale_id: lng,
+      content: content
+    }))
+    // putSagaDispatch({
+    //   type: CONTENT_PUT,
+    //   payload: {
+    //     identity: recordId,
+    //     view_id: viewName,
+    //     // locale_id: lng,
+    //     content: content
+    //   }
+    // })
   }
 
   const deleteFmBackend = () => {
@@ -95,8 +108,8 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
       {editable
         ? <ParagraphContextMenu
           isOpened={contextMenuOpened}
-          saveDisabled={changed}
-          // saveDisabled={!changed}
+          // saveDisabled={false}
+          saveDisabled={!changed}
           context={contextRef}
           setContextMenuOpened={setContextMenuOpened}
           setParagraphEditted={setParagraphEditted}
