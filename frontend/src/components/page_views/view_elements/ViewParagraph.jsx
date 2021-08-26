@@ -5,35 +5,37 @@ import { Message, Divider } from 'semantic-ui-react'
 
 import {
   CONTENT_REQUESTED
-  // CONTENT_PUT
 } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/content/createIO'
 import {
   getContentSaga
   // putContentSaga
 } from '../../../redux/saga/content/content'
-import { deviceSelector, backendUpdateStart, resetBackendUpdate, backendUpdateSelector } from '../../../redux/slices'
+import {
+  deviceSelector, backendUpdateStart,
+  resetBackendUpdate, backendUpdateSelector
+} from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
-import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
+import ParagraphContextMenu
+  from './editors/ParagraphContextMenu' // tested
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 
 const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
-  const [state, getSagaDispatch] = useSaga(getContentSaga, initialState)
-  // const [
-  //   // eslint-disable-next-line no-unused-vars
-  //   result,
-  //   putSagaDispatch] = useSaga(putContentSaga, '')
+  /**
+   *
+   */
+  const [state, getSagaDispatch] = useSaga(
+    getContentSaga, initialState)
   const [content, setContent] = useState({
     title: '',
     content: ['']
   })
-
   const [changed, setChanged] = useState(false)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
-  const dispatch = useDispatch()
   const { editable } = useSelector(deviceSelector)
   const { loaded } = useSelector(backendUpdateSelector)
+  const dispatch = useDispatch()
 
   const contextRef = useRef(null)
 
@@ -46,7 +48,7 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
         view_id: viewName
       }
     })
-  }, [recordId, viewName, lng, getSagaDispatch])
+  }, [recordId, viewName])
 
   useEffect(() => {
     // console.log('ViewParagraph, useEffect (state to content), editable ->', editable)
