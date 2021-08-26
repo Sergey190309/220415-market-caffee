@@ -56,7 +56,10 @@ const ConfirmPassword = ({
   }
 
   return (
-    <Container fluid textAlign='center'>
+    <Container
+      data-testid='whole-component'
+      fluid textAlign='center'
+    >
       <Alert />
       <Grid
         textAlign='center'

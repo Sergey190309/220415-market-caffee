@@ -1,5 +1,9 @@
 import store from '../store'
-import { backendUpdateFail, backendUpdateStart, backendUpdateSuccess, initialState, setTestState } from './backendUpdate'
+import {
+  backendUpdateFail, backendUpdateStart,
+  backendUpdateSuccess, initialState,
+  resetBackendUpdate, setTestState
+} from './backendUpdate'
 // import { putTextContent } from '../../api/calls/content'
 
 jest.mock('../../api/calls/content')
@@ -25,7 +29,8 @@ describe('backendUpdate slice testing', () => {
     state = store.getState().backendUpdate
     const expState = {
       ...mockPayload,
-      loading: true
+      loading: true,
+      loaded: false
     }
     expect(state).toEqual(expState)
   })
@@ -34,7 +39,10 @@ describe('backendUpdate slice testing', () => {
     store.dispatch(setTestState({ ...mockPayload, loading: true }))
     store.dispatch(backendUpdateSuccess())
     state = store.getState().backendUpdate
-    const expState = { ...initialState }
+    const expState = {
+      ...initialState,
+      loaded: true
+    }
     expect(state).toEqual(expState)
   })
 
@@ -44,7 +52,20 @@ describe('backendUpdate slice testing', () => {
     state = store.getState().backendUpdate
     const expState = {
       ...mockPayload,
-      loading: false
+      loading: false,
+      loaded: false
+    }
+    expect(state).toEqual(expState)
+    // console.log('slices, backendUpdate.test, state ->', state)
+  })
+  test('setLoadedFalse testing', () => {
+    store.dispatch(setTestState({ ...mockPayload, loading: true }))
+    store.dispatch(setTestState({ loaded: true }))
+    store.dispatch(resetBackendUpdate())
+    state = store.getState().backendUpdate
+    const expState = {
+      ...initialState,
+      loaded: false
     }
     expect(state).toEqual(expState)
     // console.log('slices, backendUpdate.test, state ->', state)

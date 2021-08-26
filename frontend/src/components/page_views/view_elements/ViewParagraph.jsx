@@ -12,7 +12,7 @@ import {
   getContentSaga
   // putContentSaga
 } from '../../../redux/saga/content/content'
-import { deviceSelector, backendUpdateStart } from '../../../redux/slices'
+import { deviceSelector, backendUpdateStart, resetBackendUpdate, backendUpdateSelector } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
 import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
 import ParagraphEditor from './editors/ParagraphEditor' // tested
@@ -33,6 +33,7 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
   const [paragraphEditted, setParagraphEditted] = useState(false)
   const dispatch = useDispatch()
   const { editable } = useSelector(deviceSelector)
+  const { loaded } = useSelector(backendUpdateSelector)
 
   const contextRef = useRef(null)
 
@@ -57,6 +58,11 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
       setChanged(true)
     }
   }, [content])
+
+  useEffect(() => {
+    setChanged(false)
+    dispatch(resetBackendUpdate())
+  }, [loaded])
 
   const onContextMenuHendler = event => {
     // console.log('ViewParagraph, onContextMenuHendler')

@@ -25,8 +25,8 @@ export function * confirmPasswordSaga () {
 
 export function * confirmPasswordFetch (action) {
   try {
-    // console.log('saga, auth, confirmPasswordFetch, action ->', action.payload)
     const resp = yield call(confirmPasswordCall, action.payload)
+    // console.log('saga, auth, confirmPasswordFetch, resp ->', resp)
     setAxiosAuthAccessToken(resp.data.payload.access_token)
     yield put(confirmPasswordSuccess(resp.data.payload.access_token))
     yield put(

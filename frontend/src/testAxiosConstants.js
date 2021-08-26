@@ -21,7 +21,6 @@ export const resolveDataConfirmPassword = {
   }
 }
 
-
 /**
  * Constant for getting content
  */

@@ -24,6 +24,7 @@ export const rootReducer = combineReducers({
 })
 
 export {
+  clearAlerts,
   startAlert,
   removeAlert
 } from './alerts'
@@ -45,10 +46,11 @@ export {
   authSelector
 } from './auth'
 export {
-  setTestState as auxSetState,
+  setTestState as backendUpdateSetState,
   backendUpdateStart,
   backendUpdateSuccess,
   backendUpdateFail,
+  resetBackendUpdate,
   backendUpdateSelector
 }
   from './backendUpdate'

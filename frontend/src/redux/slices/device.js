@@ -16,7 +16,7 @@ export const initialState = {
    */
   kindOfModal: '',
   /**
-   * This is a message that in some cased shown on modal.
+   * This is a message that in some cases shown on modal.
    */
   message: '',
   /**
