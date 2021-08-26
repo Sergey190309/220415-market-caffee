@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { Container } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 
 import Alert from './Alert'
 import Landing from '../page_views/landing/Landing'
@@ -14,7 +14,12 @@ import Admin from '../page_views/admin/Admin'
 const Content = () => {
   return (
     <Fragment>
-      <Container><Alert /></Container>
+      {/* <Segment><Alert /></Segment> */}
+      <Container>
+        {/* <Segment> */}
+          <Alert />
+        {/* </Segment> */}
+      </Container>
       <Switch>
         <Route path='/' exact component={Landing} />
         <Route path='/pricelist' exact component={PriceList} />

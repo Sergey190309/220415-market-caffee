@@ -43,7 +43,7 @@ export function * backendTextUpdate (action) {
     // console.log('saga, backendUpdate, error ->', error)
     if (error.response) {
       if (error.response.status === 401 && error.response.data.error === 'token_expired') {
-        // console.log(error.response.data.description)
+        // console.log('saga, backendUpdate.error, description ->', error.response.data.description)
         yield put(openModal('confirmPassword'))
         yield put(
           startAlert(

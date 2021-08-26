@@ -13,8 +13,8 @@ const ParagraphContextMenu = ({
   setParagraphEditted,
   saveToBackend,
   deleteFmBackend,
-  addAboveToBacken,
-  addBelowToBacken
+  addAbove,
+  addBelow
 }) => {
   const [opened, setOpened] = useState(false)
   const { t } = useTranslation('context')
@@ -38,10 +38,10 @@ const ParagraphContextMenu = ({
         deleteFmBackend()
         break
       case 'above':
-        addAboveToBacken()
+        addAbove()
         break
       case 'below':
-        addBelowToBacken()
+        addBelow()
         break
       default:
         break
@@ -116,13 +116,13 @@ const ParagraphContextMenu = ({
 ParagraphContextMenu.defaultProps = {
   isOpened: false,
   saveDisabled: false,
-  context: false,
+  context: {},
   setContextMenuOpened: () => { },
   setParagraphEditted: () => { },
   saveToBackend: () => { },
   deleteFmBackend: () => { },
-  addAboveToBacken: () => { },
-  addBelowToBacken: () => { }
+  addAbove: () => { },
+  addBelow: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
@@ -133,8 +133,8 @@ ParagraphContextMenu.propTypes = {
   setParagraphEditted: PropTypes.func.isRequired,
   saveToBackend: PropTypes.func.isRequired,
   deleteFmBackend: PropTypes.func.isRequired,
-  addAboveToBacken: PropTypes.func.isRequired,
-  addBelowToBacken: PropTypes.func.isRequired
+  addAbove: PropTypes.func.isRequired,
+  addBelow: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

@@ -29,6 +29,10 @@ export function * confirmPasswordFetch (action) {
     // console.log('saga, auth, confirmPasswordFetch, resp ->', resp)
     setAxiosAuthAccessToken(resp.data.payload.access_token)
     yield put(confirmPasswordSuccess(resp.data.payload.access_token))
+    const stateContent = yield select(backendUpdateSelector)
+    // console.log('saga, auth, confirmPasswordFetch, stateContent ->', stateContent)
+    const { loading, loaded, ...others } = stateContent
+    yield put(backendUpdateStart(others))
     yield put(
       startAlert(
         setAlertData({
@@ -38,11 +42,6 @@ export function * confirmPasswordFetch (action) {
         })
       )
     )
-    const stateContent = yield select(backendUpdateSelector)
-    // console.log('saga, auth, stateContent ->', stateContent)
-    const { loading, ...others } = stateContent
-
-    yield put(backendUpdateStart(others))
   } catch (error) {
     console.log('confirmPasswordFetch, error ->', error)
     yield put(confirmPasswordFail())

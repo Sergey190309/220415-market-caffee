@@ -19,10 +19,22 @@ import { createContextFromEvent } from './editors/createContextFromEvent' // tes
 import ParagraphContextMenu
   from './editors/ParagraphContextMenu' // tested
 import ParagraphEditor from './editors/ParagraphEditor' // tested
+import Indicator from './indicator/Indicator'
 
-const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
+const ViewParagraph = ({ initialState, recordId, viewName }) => {
   /**
-   *
+   * States:
+   * state: object - Paragraph content loaded from back-end using getContentSaga.
+   * content: object - Content itself shown on the component. Updated with useEffect.
+   * changed: boolean - Indication content was changed from last download or upload.
+   *    Updated with useEffect.
+   * contextMenuOpened: boolean - Self explain. Open with right button.
+   * paragraphEditted: boolean - Set close showing, open textboxes for edition.
+   * indicatorOpened: boolean - Set component indicator on and off respectevily.
+   * Store state variables.
+   * editable: boolean - Admin only can set this variable on admin page.
+   * loaded: boolean - Indication whether changed content successfully uploaded to back-end.
+   *    Used to set save to back-end context menu disabled.
    */
   const [state, getSagaDispatch] = useSaga(
     getContentSaga, initialState)
@@ -33,11 +45,13 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
   const [changed, setChanged] = useState(false)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
+  const [indicatorOpened, setIndicatorOpened] = useState(false)
   const { editable } = useSelector(deviceSelector)
   const { loaded } = useSelector(backendUpdateSelector)
   const dispatch = useDispatch()
 
   const contextRef = useRef(null)
+  const indicatorRef = useRef(null)
 
   useEffect(() => { // Saga
     // console.log('ViewParagraph, useEffect(getSagaDispatch), recordId ->', recordId)
@@ -66,94 +80,110 @@ const ViewParagraph = ({ initialState, recordId, viewName, lng }) => {
     dispatch(resetBackendUpdate())
   }, [loaded])
 
+  const onClickHandler = event => {
+    // console.log('components, page_view, view_elements, ViewParagraph, identities ->', identities)
+    event.preventDefault()
+    if (editable) {
+      setIndicatorOpened(editable && !indicatorOpened)
+      indicatorRef.current = createContextFromEvent(event)
+    }
+  }
+
   const onContextMenuHendler = event => {
     // console.log('ViewParagraph, onContextMenuHendler')
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
+    setIndicatorOpened(false)
     setContextMenuOpened(true)
   }
+
+  const NormalOutput = () => (<Message
+    onClick={onClickHandler}
+    onMouseLeave={() => {
+      setIndicatorOpened(false)
+      setContextMenuOpened(false)
+    }}
+    data-testid='Message'
+    onContextMenu={editable
+      ? onContextMenuHendler
+      : null
+    }
+  >
+    <Message.Header content={content.title} />
+    {content.title && content.content.length > 0
+      ? <Divider />
+      : null}
+    {content.content.map((item, index) => (
+      <Message.Item as='p' key={index}>
+        {item}
+      </Message.Item>
+    ))}
+  </Message>)
 
   const saveToBackend = () => {
     // console.log('ViewParagraph, saveToBackend, content ->', content)
     dispatch(backendUpdateStart({
       identity: recordId,
       view_id: viewName,
-      // locale_id: lng,
       content: content
     }))
-    // putSagaDispatch({
-    //   type: CONTENT_PUT,
-    //   payload: {
-    //     identity: recordId,
-    //     view_id: viewName,
-    //     // locale_id: lng,
-    //     content: content
-    //   }
-    // })
   }
-
   const deleteFmBackend = () => {
     /**
      * To send signal one block above to change structure
      */
     console.log('ViewParagraph, deleteFmBackend')
   }
-  const addAboveToBacken = () => {
+  const addAbove = () => {
     /**
      * To send signal one block above to change structure
      */
-    console.log('ViewParagraph, addAboveToBacken')
+    console.log('ViewParagraph, addAbove')
   }
-  const addBelowToBacken = () => {
+  const addBelow = () => {
     /**
      * To send signal one block above to change structure
      */
-    console.log('ViewParagraph, addBelowToBacken')
+    console.log('ViewParagraph, addBelow')
   }
 
   return (
     <Fragment>
       {editable
-        ? <ParagraphContextMenu
-          isOpened={contextMenuOpened}
-          // saveDisabled={false}
-          saveDisabled={!changed}
-          context={contextRef}
-          setContextMenuOpened={setContextMenuOpened}
-          setParagraphEditted={setParagraphEditted}
-          saveToBackend={saveToBackend}
-          deleteFmBackend={deleteFmBackend}
-          addAboveToBacken={addAboveToBacken}
-          addBelowToBacken={addBelowToBacken}
-        />
+        ? paragraphEditted
+          ? <ParagraphEditor
+            setParagraphEditted={setParagraphEditted}
+            comingContent={content}
+            setComimgContent={setContent}
+          />
+          : <ParagraphContextMenu
+              isOpened={contextMenuOpened}
+              // saveDisabled={false}
+              saveDisabled={!changed}
+              context={contextRef}
+              setContextMenuOpened={setContextMenuOpened}
+              setParagraphEditted={setParagraphEditted}
+              saveToBackend={saveToBackend}
+              deleteFmBackend={deleteFmBackend}
+              addAbove={addAbove}
+              addBelow={addBelow}
+            />
         : null
       }
-      {paragraphEditted
-        ? <ParagraphEditor
-          setParagraphEditted={setParagraphEditted}
-          comingContent={content}
-          setComimgContent={setContent}
+      <NormalOutput />
+      {indicatorOpened
+        ? <Indicator
+            isOpened={indicatorOpened}
+            context={indicatorRef}
+            header={viewName}
+            // header={identities.recordId}
+            content={recordId}
+            setIndicatorOpened={setIndicatorOpened}
+            // content={identities.viewName}
           />
-        : <Message
-            data-testid='Message'
-            onContextMenu={editable
-              ? onContextMenuHendler
-              : null
-            }
-          >
-          <Message.Header content={content.title} />
-          {content.title && content.content.length > 0
-            ? <Divider />
-            : null}
-          {content.content.map((item, index) => (
-            <Message.Item as='p' key={index}>
-              {item}
-            </Message.Item>
-          ))}
-        </Message>
+        : null
       }
     </Fragment>
-  // content={state.content}
   )
 }
 ViewParagraph.defaultProps = {
@@ -162,15 +192,15 @@ ViewParagraph.defaultProps = {
     content: ['']
   },
   recordId: '',
-  viewName: '',
-  lng: ''
+  viewName: ''
+  // lng: ''
 }
 
 ViewParagraph.propTypes = {
   initialState: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
-  viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired
+  viewName: PropTypes.string.isRequired
+  // lng: PropTypes.string.isRequired
 }
 
 export default ViewParagraph
