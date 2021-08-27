@@ -9,6 +9,17 @@ import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
+export const addAbove = recordId => {
+  console.log('components, page_view, view_element, ViewVBlock, addAbove, recordId ->', recordId)
+}
+
+export const addBelow = recordId => {
+  console.log('components, page_view, view_element, ViewVBlock, addBelow, recordId ->', recordId)
+}
+export const deleteElement = recordId => {
+  console.log('components, page_view, view_element, ViewVBlock, deleteElement, recordId ->', recordId)
+}
+
 const ViewVBlock = ({ recordsId, viewName, lng }) => {
   /**
    * recordsId structure - 01_vblock_txt_3
@@ -27,8 +38,11 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
   }, [recordsId])
 
   const props = {
-    viewName: viewName,
-    lng: lng
+    viewName,
+    lng,
+    addAboveProp: addAbove,
+    addBelowProp: addBelow,
+    deleteElementProp: deleteElement
   }
   // console.log('ViewVBlock, recordIdList ->', recordIdList);
 

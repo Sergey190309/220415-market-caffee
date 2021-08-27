@@ -1,33 +1,40 @@
-import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Segment } from 'semantic-ui-react'
+import React, { useState, useEffect, createRef } from 'react'
+import { useSelector } from 'react-redux'
+// import PropTypes from 'prop-types'
+import { Segment, Ref } from 'semantic-ui-react'
 
+import { deviceSelector } from '../../redux/slices'
 import Aux from '../HOC/auxiliary/auxiliary'
 import NavBar from '../navigation/NavBar'
 import SideBar from '../navigation/SideBar'
 import Content from './Content'
 import ModalLogIn from '../auth/ModalLogIn'
 
-export const Layout = ({ layout }) => {
-  const [deviceSize, setDeviceSize] = useState('')
+export const Layout = () => {
+  const [deviceWidth, setDeviceWidth] = useState('')
+  const { deviceSize } = useSelector(deviceSelector)
+
+  // const contextRef = useRef(null)
+  const contextRef = createRef()
+
   useEffect(() => {
-    setDeviceSize(layout.deviceSize)
-  }, [layout.deviceSize])
+    setDeviceWidth(deviceSize)
+  }, [deviceSize])
 
   let output
-  switch (deviceSize) {
+  switch (deviceWidth) {
     case 'small':
       output = (<SideBar />)
       break
     default:
-
       output = (
-        <Segment>
-          <ModalLogIn />
-          <NavBar />
-          <Content />
-        </Segment>
+        <Ref innerRef={contextRef}>
+          <Segment>
+            <ModalLogIn />
+            <NavBar context={contextRef} />
+            <Content context={contextRef} />
+          </Segment>
+        </Ref>
       )
       break
   }
@@ -39,13 +46,14 @@ export const Layout = ({ layout }) => {
   )
 }
 
-Layout.propTypes = {
-  layout: PropTypes.object.isRequired
-}
+// Layout.propTypes = {
+//   layout: PropTypes.object.isRequired
+// }
 
-const mapStateToProps = (state) => ({
-  layout: state.device
-  // layout: state.layout,
-})
+// const mapStateToProps = (state) => ({
+//   layout: state.device
+//   // layout: state.layout,
+// })
 
-export default connect(mapStateToProps)(Layout)
+export default Layout
+// export default connect(mapStateToProps)(Layout)

@@ -1,4 +1,16 @@
-import { resolveDataTechInPost, resolveDataTechInGet } from '../../testAxiosConstants'
+import {
+  // resolveDataTechInPost,
+  resolveDataTechInGet,
+  // resolveDataPutTextContent
+} from '../../testAxiosConstants'
+
+// export const refreshTokenAxiosClient = {
+//   put: ()=> Promise.resolve()
+// }
+
+export const authTextAxiosClient = {
+  put: jest.fn(() => Promise.resolve({ data: {} }))
+}
 
 // export const refreshTokenAxiosClient = {
 //   put: ()=> Promise.resolve()
@@ -16,4 +28,5 @@ export const techTextAxiosClient = {
 
 export const setAxiosCommonLng = jest.fn()
 export const setAxiosTechToken = jest.fn()
-export const setAxiosAuthToken = jest.fn()
+export const setAxiosAuthAccessToken = jest.fn()
+export const setAxiosAuthRefreshToken = jest.fn()

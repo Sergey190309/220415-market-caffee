@@ -37,7 +37,11 @@ describe('ViewParagraph testing', () => {
       const result = mockParagraphContextMenu.mock.calls[mockParagraphContextMenu.mock.calls.length - 1][0]
       // console.log('ViewParagraph test, right click, calls ->', result)
       expect(result.isOpened).toBe(true)
+<<<<<<< HEAD
       expect(result.saveDisabled).toBe(false)
+=======
+      expect(result.saveDisabled).toBe(true)
+>>>>>>> dev210823
       // expect(result.saveDisabled).toBe(true)
       expect(result.context).toBeObject()
       expect(result.setContextMenuOpened).toBeFunction()

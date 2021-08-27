@@ -14,7 +14,13 @@ export const apiCallsErrorHandler = error => {
   }
 }
 
-export const actRespErrorMessage = (error) => {
+// export const functionName = (params) => {
+
+// }
+
+export const actRespErrorMessage = error => {
+  console.log('utils errorHandler, actRespErrorMessage, error ->', error)
+  console.log('utils errorHandler, actRespErrorMessage, error.response ->', error.response)
   if (error.response) {
     return `${error.response.data.message} ${error.response.status}`
   } else {

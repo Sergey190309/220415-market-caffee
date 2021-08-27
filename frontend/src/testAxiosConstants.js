@@ -1,3 +1,26 @@
+export const rejectPutTextContentExpired = {
+  response: {
+    status: 401,
+    data: {
+      error: 'token_expired',
+      description: 'token expired'
+    }
+  }
+}
+export const resolveDataPutTextContent = {
+  message: 'mockMessage from resolveDataPutTextContent'
+}
+
+/**
+ * confirm password
+ */
+export const resolveDataConfirmPassword = {
+  payload: {
+    message: 'mock data confirm password message',
+    access_token: 'mockAccessToken'
+  }
+}
+
 /**
  * confirm password
  */

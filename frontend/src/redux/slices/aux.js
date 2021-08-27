@@ -4,6 +4,11 @@ import { createSlice } from '@reduxjs/toolkit'
  * Slice contains info for intern auxiliary actions
  * such as:
  * 1. Saving something to back end after password confirmation.
+<<<<<<< HEAD
+=======
+ * I've postponed this course I decided to create other slice
+ * to update back end witn new infor for admin.
+>>>>>>> dev210823
  */
 
 export const initialState = {

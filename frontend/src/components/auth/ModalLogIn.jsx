@@ -19,7 +19,7 @@ export const ModalLogIn = ({ closeModal, onCloseHandle }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    // console.log('ModalLogIn, useEffect, kindOfModal ->', kindOfModal);
+    // console.log('ModalLogIn, useEffect, kindOfModal ->', kindOfModal)
     setOpen(kindOfModal !== '')
   }, [kindOfModal])
 

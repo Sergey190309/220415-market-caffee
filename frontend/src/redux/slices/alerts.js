@@ -13,12 +13,21 @@ export const initialState = {
    * ]
    */
   alerts: []
+  // alerts: [{
+  //   message: 'mockMessage',
+  //   alertType: 'info',
+  //   timeout: 3000,
+  //   id: 'mockId'
+  // }]
 }
 
 const alertsSlice = createSlice({
   name: 'alerts',
   initialState,
   reducers: {
+    clearAlerts: state => {
+      state.alerts = []
+    },
     startAlert: (state, { payload }) => {
       // console.log('alertsSlice, startAlert, payload ->', payload)
       state.alerts.push(payload)
@@ -34,6 +43,6 @@ const alertsSlice = createSlice({
   }
 })
 
-export const { startAlert, removeAlert } = alertsSlice.actions
+export const { clearAlerts, startAlert, removeAlert } = alertsSlice.actions
 export const alertsSelector = state => state.alerts
 export default alertsSlice.reducer

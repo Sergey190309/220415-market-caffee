@@ -131,6 +131,7 @@ class Content(Resource):
         Update instance and save to db.
         '''
         _lng = request.headers.get('Accept-Language')
+        # print('content, resources, put, lng ->', _lng)
         fbp.set_lng(_lng)
         _user_id = get_jwt_identity()
         # print('content, resources, put, user id ->', _user_id)

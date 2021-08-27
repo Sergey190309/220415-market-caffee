@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { Container } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import { Container, Sticky } from 'semantic-ui-react'
 
 import Alert from './Alert'
 import Landing from '../page_views/landing/Landing'
@@ -11,10 +12,14 @@ import Admin from '../page_views/admin/Admin'
 
 // import ModalLogIn from '../auth/ModalLogIn'
 
-const Content = () => {
+const Content = ({ context }) => {
   return (
     <Fragment>
-      <Container><Alert /></Container>
+      <Container>
+        <Sticky context={context}>
+          <Alert />
+        </Sticky>
+      </Container>
       <Switch>
         <Route path='/' exact component={Landing} />
         <Route path='/pricelist' exact component={PriceList} />
@@ -24,6 +29,14 @@ const Content = () => {
       </Switch>
     </Fragment>
   )
+}
+
+Content.defaultProps = {
+  context: {}
+}
+
+Content.propTypes = {
+  context: PropTypes.object.isRequired
 }
 
 export default Content

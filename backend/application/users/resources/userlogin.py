@@ -83,6 +83,11 @@ class UserLogin(Resource):
         fbp.set_lng(request.headers.get('Accept-Language'))
         _user = UserModel.find_by_id(get_jwt_identity())
         _json = request.get_json()
+<<<<<<< HEAD
+=======
+        # print('users, resources, userlogin, put, _user ->', _user)
+        # print('users, resources, userlogin, put, _json ->', _json)
+>>>>>>> dev210823
         if _user is None:
             return {
                 'message': str(_(

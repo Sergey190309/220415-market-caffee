@@ -20,7 +20,11 @@ import Alert from '../layout/Alert'
 import { positiveColor, warningColor } from '../../utils/colors'
 
 export const formStructure = {
+<<<<<<< HEAD
   password: 'qwertys'
+=======
+  password: 'qwerty'
+>>>>>>> dev210823
 }
 
 export const confirmPasswordSchema = t =>
@@ -41,12 +45,23 @@ const ConfirmPassword = ({
   const { isConfirmedPassword } = useSelector(authSelector)
   const { message } = useSelector(deviceSelector)
   const { t } = useTranslation('auth')
+<<<<<<< HEAD
   useEffect(() => {
     if (isConfirmedPassword) {
       dispatch(closeModal())
       confirmPasswordModalClosed()
     }
   }, [isConfirmedPassword])
+=======
+
+  useEffect(() => {
+    if (isConfirmedPassword) {
+      dispatch(closeModal())
+      dispatch(confirmPasswordModalClosed())
+    }
+  }, [isConfirmedPassword])
+
+>>>>>>> dev210823
   const onSubmit = (formData, { setSubmitting }) => {
     // console.log('component, auth, ConfirmPassword, formData ->', formData)
     dispatch(confirmPasswordStart(formData))
@@ -54,7 +69,14 @@ const ConfirmPassword = ({
   }
 
   return (
+<<<<<<< HEAD
     <Container fluid textAlign='center'>
+=======
+    <Container
+      data-testid='whole-component'
+      fluid textAlign='center'
+    >
+>>>>>>> dev210823
       <Alert />
       <Grid
         textAlign='center'

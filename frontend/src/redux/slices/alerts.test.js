@@ -1,5 +1,5 @@
 import store from '../store'
-import { startAlert, removeAlert, initialState } from './alerts'
+import { startAlert, removeAlert, initialState, clearAlerts } from './alerts'
 describe('alertsSlice testing', () => {
   const mockAlertInfo = {
     message: 'mockMessage',
@@ -7,10 +7,13 @@ describe('alertsSlice testing', () => {
     timeout: 3000,
     id: 'mockId'
   }
-  test('state testing', () => {
-    let state = store.getState().alerts
+  let state
+  beforeEach(() => {
+    state = store.getState().alerts
     expect(state).toEqual(initialState)
-    // console.log('state testing, state ->', state)
+  })
+
+  test('startAlert, removeAlert', () => {
     store.dispatch(startAlert(mockAlertInfo))
     state = store.getState().alerts
     expect(state).toEqual({ alerts: [mockAlertInfo] })
@@ -19,4 +22,13 @@ describe('alertsSlice testing', () => {
     expect(state).toEqual(initialState)
     // console.log('state testing, state ->', state);
   })
+
+  test('startAlert, clearAlerts', () => {
+    store.dispatch(startAlert(mockAlertInfo))
+    state = store.getState().alerts
+    expect(state).toEqual({ alerts: [mockAlertInfo] })
+    store.dispatch(clearAlerts())
+    state = store.getState().alerts
+    expect(state).toEqual(initialState)
+  });
 })

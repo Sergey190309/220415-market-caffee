@@ -64,14 +64,23 @@ export const LogIn = ({
   }
 
   return (
-    <Container fluid textAlign='center'>
+    <Container
+      // as='p'
+      // data-testid="containerMark"
+      fluid
+      textAlign='center'>
       <Alert />
       <Grid
         textAlign='center'
         style={{ height: '50vh' }}
         verticalAlign='middle'
       >
+<<<<<<< HEAD
         <Grid.Column style={{ maxWidth: 500 }}>
+=======
+        <Grid.Column
+          style={{ maxWidth: 500 }}>
+>>>>>>> dev210823
           <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />
@@ -110,6 +119,7 @@ export const LogIn = ({
                   />
                   <Button.Group widths='1'>
                     <SubmitButton
+                      // data-testid='SubmitButton'
                       basic
                       color={positiveColor}
                       size='large'

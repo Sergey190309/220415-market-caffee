@@ -14,7 +14,7 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
 
   useEffect(() => {
     setRecordIdList(makeRecordIdList(recordsId))
-    // console.log('ViewVBlock, recordIdList ->', _recordIdList.current);
+    // console.log('ViewVBlock, lng ->', lng)
   }, [recordsId])
 
   const output = () => {
