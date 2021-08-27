@@ -13,6 +13,12 @@ export const initialState = {
    * ]
    */
   alerts: []
+  // alerts: [{
+  //   message: 'mockMessage',
+  //   alertType: 'info',
+  //   timeout: 3000,
+  //   id: 'mockId'
+  // }]
 }
 
 const alertsSlice = createSlice({

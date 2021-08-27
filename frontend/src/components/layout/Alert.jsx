@@ -23,17 +23,18 @@ export const Alert = () => {
           break
       }
       return (
-        <Segment
+      <Segment
+        color={color}
+        key={alert.id}
+      >
+        <Header
+          // key={alert.id}
+          as='h5'
           color={color}
-          key={alert.id}
-        >
-          <Header
-            as='h5'
-            color={color}
-            content={alert.message}
-            icon='hand point right outline'
-          />
-        </Segment>
+          content={alert.message}
+          icon='hand point right outline'
+        />
+      </Segment>
       )
     })
   )

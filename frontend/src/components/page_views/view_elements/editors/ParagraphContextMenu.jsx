@@ -12,7 +12,7 @@ const ParagraphContextMenu = ({
   setContextMenuOpened,
   setParagraphEditted,
   saveToBackend,
-  deleteFmBackend,
+  deleteElement,
   addAbove,
   addBelow
 }) => {
@@ -35,7 +35,7 @@ const ParagraphContextMenu = ({
         saveToBackend()
         break
       case 'delete':
-        deleteFmBackend()
+        deleteElement()
         break
       case 'above':
         addAbove()
@@ -120,7 +120,7 @@ ParagraphContextMenu.defaultProps = {
   setContextMenuOpened: () => { },
   setParagraphEditted: () => { },
   saveToBackend: () => { },
-  deleteFmBackend: () => { },
+  deleteElement: () => { },
   addAbove: () => { },
   addBelow: () => { }
 }
@@ -132,7 +132,7 @@ ParagraphContextMenu.propTypes = {
   setContextMenuOpened: PropTypes.func.isRequired,
   setParagraphEditted: PropTypes.func.isRequired,
   saveToBackend: PropTypes.func.isRequired,
-  deleteFmBackend: PropTypes.func.isRequired,
+  deleteElement: PropTypes.func.isRequired,
   addAbove: PropTypes.func.isRequired,
   addBelow: PropTypes.func.isRequired
 }

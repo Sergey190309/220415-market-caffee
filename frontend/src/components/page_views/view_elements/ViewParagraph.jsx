@@ -21,7 +21,12 @@ import ParagraphContextMenu
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 import Indicator from './indicator/Indicator'
 
-const ViewParagraph = ({ initialState, recordId, viewName }) => {
+const ViewParagraph = ({
+  initialState, recordId, viewName, lng,
+  addAboveProp,
+  addBelowProp,
+  deleteElementProp
+}) => {
   /**
    * States:
    * state: object - Paragraph content loaded from back-end using getContentSaga.
@@ -62,7 +67,7 @@ const ViewParagraph = ({ initialState, recordId, viewName }) => {
         view_id: viewName
       }
     })
-  }, [recordId, viewName])
+  }, [recordId, viewName, lng])
 
   useEffect(() => {
     // console.log('ViewParagraph, useEffect (state to content), editable ->', editable)
@@ -128,23 +133,26 @@ const ViewParagraph = ({ initialState, recordId, viewName }) => {
       content: content
     }))
   }
-  const deleteFmBackend = () => {
-    /**
-     * To send signal one block above to change structure
-     */
-    console.log('ViewParagraph, deleteFmBackend')
-  }
   const addAbove = () => {
     /**
      * To send signal one block above to change structure
      */
-    console.log('ViewParagraph, addAbove')
+    addAboveProp(recordId)
+    // console.log('ViewParagraph, addAbove')
   }
   const addBelow = () => {
     /**
      * To send signal one block above to change structure
      */
-    console.log('ViewParagraph, addBelow')
+    addBelowProp(recordId)
+    // console.log('ViewParagraph, addBelow')
+  }
+  const deleteElement = () => {
+    /**
+     * To send signal one block above to change structure
+     */
+    deleteElementProp(recordId)
+    // console.log('ViewParagraph, deleteFmBackend')
   }
 
   return (
@@ -164,7 +172,7 @@ const ViewParagraph = ({ initialState, recordId, viewName }) => {
               setContextMenuOpened={setContextMenuOpened}
               setParagraphEditted={setParagraphEditted}
               saveToBackend={saveToBackend}
-              deleteFmBackend={deleteFmBackend}
+              deleteElement={deleteElement}
               addAbove={addAbove}
               addBelow={addBelow}
             />
@@ -192,15 +200,21 @@ ViewParagraph.defaultProps = {
     content: ['']
   },
   recordId: '',
-  viewName: ''
-  // lng: ''
+  viewName: '',
+  lng: '',
+  addAboveProp: () => {},
+  addBelowProp: () => {},
+  deleteElementProp: () => {}
 }
 
 ViewParagraph.propTypes = {
   initialState: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
-  viewName: PropTypes.string.isRequired
-  // lng: PropTypes.string.isRequired
+  viewName: PropTypes.string.isRequired,
+  lng: PropTypes.string.isRequired,
+  addAboveProp: PropTypes.func.isRequired,
+  addBelowProp: PropTypes.func.isRequired,
+  deleteElementProp: PropTypes.func.isRequired
 }
 
 export default ViewParagraph

@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, {
+  useState, useEffect
+  // forwardRef
+} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Menu, Container, Popup } from 'semantic-ui-react'
+import { Menu, Container, Popup, Sticky } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 // import i18next from 'i18next';
 
@@ -44,6 +47,7 @@ export const clickHandler = (
 
 export const NavBar = ({
   initActive,
+  context,
   openModal,
   clickHandler,
   logOut
@@ -53,6 +57,7 @@ export const NavBar = ({
   const dispatch = useDispatch()
   const { isAdmin, isLoggedIn } = useSelector(authSelector)
   const { lng } = useSelector(lngSelector)
+  // const contextRef = useRef()
   const history = useHistory()
 
   const { t, i18n } = useTranslation('navbar')
@@ -62,7 +67,6 @@ export const NavBar = ({
       i18n.changeLanguage(lng)
     }
     // console.log('Component, NavBar, useEffect, lng ->', lng )
-    // console.log('Component, NavBar, useEffect, i18next.language ->', i18next.language )
   }, [lng, i18n])
   // const [showRemark, setShowRemark] = useState(false);
   // console.log('Component, NavBar, t ->', t )
@@ -82,86 +86,97 @@ export const NavBar = ({
     history.push('/')
   }
 
-  // console.log('NavBar -', isAuthenticated);
+  // console.log('NavBar, context ->', context)
+
   return (
     <Container>
-      <Menu color={color} secondary size='small'
-        // fixed='top'
+      <Sticky
+        context={context}
       >
-        <Menu.Item
-          as={Link}
-          to='/'
-          name='logo'
-          active={activeItem === 'logo'}
-          onClick={_ClickHandler}>
-          <Logo color={color} />
-        </Menu.Item>
-        <Menu.Menu position='left'>
-          <Menu.Item
-            // disabled
-            as={Link}
-            to='/pricelist'
-            name='priceList'
-            active={activeItem === 'priceList'}
-            onClick={_ClickHandler}>
-            <NavItem name='priceList' title={t('menu')} />
-          </Menu.Item>
+        <Menu
+          // inverted
+          color={color}
+          secondary
+          size='small'
+          style={{ backgroundColor: '#fff' }}
+          // fixed='top'
+        >
           <Menu.Item
             as={Link}
-            to='/pictures'
-            name='pictures'
-            active={activeItem === 'pictures'}
+            to='/'
+            name='logo'
+            active={activeItem === 'logo'}
             onClick={_ClickHandler}>
-            <NavItem name='pictures' title={t('gallery')} />
+            <Logo color={color} />
           </Menu.Item>
-          <Popup
-            trigger={
-              <Menu.Item
-                as={isLoggedIn ? Link : null}
-                to='/private'
-                name='private'
-                active={activeItem === 'private'}
-                onClick={_ClickHandler}>
-                <NavItem name='private' title={t('forFriends')} disabled={!isLoggedIn} />
-              </Menu.Item>
-            }
-            on='hover'
-            position='top center'
-            disabled={isLoggedIn === undefined ? false : isLoggedIn}
-            content={t('plsLogIn')}
-          />
-          <Menu.Item
-            as={isAdmin ? Link : null}
-            to='/admin'
-            name='admin'
-            active={activeItem === 'admin'}
-            onClick={_ClickHandler}>
-            <NavItem
-              name='admin'
-              title={t('forAdmins')}
-              visible={isAdmin === undefined ? false : isAdmin}
+          <Menu.Menu position='left'>
+            <Menu.Item
+              // disabled
+              as={Link}
+              to='/pricelist'
+              name='priceList'
+              active={activeItem === 'priceList'}
+              onClick={_ClickHandler}>
+              <NavItem name='priceList' title={t('menu')} />
+            </Menu.Item>
+            <Menu.Item
+              as={Link}
+              to='/pictures'
+              name='pictures'
+              active={activeItem === 'pictures'}
+              onClick={_ClickHandler}>
+              <NavItem name='pictures' title={t('gallery')} />
+            </Menu.Item>
+            <Popup
+              trigger={
+                <Menu.Item
+                  as={isLoggedIn ? Link : null}
+                  to='/private'
+                  name='private'
+                  active={activeItem === 'private'}
+                  onClick={_ClickHandler}>
+                  <NavItem name='private' title={t('forFriends')} disabled={!isLoggedIn} />
+                </Menu.Item>
+              }
+              on='hover'
+              position='top center'
+              disabled={isLoggedIn === undefined ? false : isLoggedIn}
+              content={t('plsLogIn')}
             />
-          </Menu.Item>
-        </Menu.Menu>
-        <Menu.Menu position='right'>
-          <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
-            <SignInOut title={isLoggedIn ? t('logOut') : t('logIn')} />
-          </Menu.Item>
-          <Menu.Item
-            data-testid='lngSwitcher'
-            name='language'
-            active={false}
-            onClick={_ClickHandler}>
-            <Language />
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
+            <Menu.Item
+              as={isAdmin ? Link : null}
+              to='/admin'
+              name='admin'
+              active={activeItem === 'admin'}
+              onClick={_ClickHandler}>
+              <NavItem
+                name='admin'
+                title={t('forAdmins')}
+                visible={isAdmin === undefined ? false : isAdmin}
+              />
+            </Menu.Item>
+          </Menu.Menu>
+          <Menu.Menu position='right'>
+            <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
+              <SignInOut title={isLoggedIn ? t('logOut') : t('logIn')} />
+            </Menu.Item>
+            <Menu.Item
+              data-testid='lngSwitcher'
+              name='language'
+              active={false}
+              onClick={_ClickHandler}>
+              <Language />
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
+      </Sticky>
     </Container>
   )
 }
 
 NavBar.defaultProps = {
   initActive: '',
+  context: {},
   openModal: openModal,
   clickHandler: clickHandler,
   // isLoggedIn: false,
@@ -173,6 +188,7 @@ NavBar.defaultProps = {
 
 NavBar.propTypes = {
   initActive: PropTypes.string.isRequired,
+  context: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
   clickHandler: PropTypes.func.isRequired,
   // isAuthenticated: PropTypes.bool.isRequired,

@@ -55,12 +55,12 @@ export {
 }
   from './backendUpdate'
 export {
-  deviceSelector,
   setDeviceSize,
   openModal,
   closeModal,
   setMessage,
-  setEditable
+  setEditable,
+  deviceSelector
 } from './device'
 export {
   lngSwitch,
