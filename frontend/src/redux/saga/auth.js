@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { call, put, takeEvery } from 'redux-saga/effects'
-=======
 import { call, put, takeEvery, select } from 'redux-saga/effects'
->>>>>>> dev210823
 import {
   startAlert,
   signUpStart,
@@ -13,19 +9,12 @@ import {
   logInFail,
   confirmPasswordStart,
   confirmPasswordSuccess,
-<<<<<<< HEAD
-  confirmPasswordFail
-} from '../slices'
-
-import { setAxiosAuthToken } from '../../api/apiClient'
-=======
   confirmPasswordFail,
   backendUpdateStart,
   backendUpdateSelector
 } from '../slices'
 
 import { setAxiosAuthAccessToken } from '../../api/apiClient'
->>>>>>> dev210823
 import { logInCall, signUpCall, confirmPasswordCall } from '../../api/calls/getAuthTechInfo'
 import { actRespErrorMessage } from '../../utils/errorHandler'
 import { setAlertData } from '../../utils/utils'
@@ -36,12 +25,6 @@ export function * confirmPasswordSaga () {
 
 export function * confirmPasswordFetch (action) {
   try {
-<<<<<<< HEAD
-    // console.log('confirmPasswordFetch, action ->', action.payload)
-    const resp = yield call(confirmPasswordCall, action.payload)
-    setAxiosAuthToken({ access_token: resp.data.payload.access_token })
-    yield put(confirmPasswordSuccess(resp.data.payload.access_token))
-=======
     const resp = yield call(confirmPasswordCall, action.payload)
     // console.log('saga, auth, confirmPasswordFetch, resp ->', resp)
     setAxiosAuthAccessToken(resp.data.payload.access_token)
@@ -50,17 +33,12 @@ export function * confirmPasswordFetch (action) {
     // console.log('saga, auth, confirmPasswordFetch, stateContent ->', stateContent)
     const { loading, loaded, ...others } = stateContent
     yield put(backendUpdateStart(others))
->>>>>>> dev210823
     yield put(
       startAlert(
         setAlertData({
           message: resp.data.message,
           alertType: 'info',
-<<<<<<< HEAD
-          timeout: 5000
-=======
           timeout: 3000
->>>>>>> dev210823
         })
       )
     )

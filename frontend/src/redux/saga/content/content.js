@@ -11,11 +11,7 @@ export const putContentSaga = function * (setter) {
     const { content, ...otherProps } = payload
     const json = { ...otherProps, title: content.title, content: content.content.join('<br>') }
     try {
-<<<<<<< HEAD
-      const result = yield call(putViewContent, json)
-=======
       const result = yield call(putTextContent, json)
->>>>>>> dev210823
       /**
        * I use startAlertHelper below cause was unable to use
        * redux-saga put out of scope.
@@ -25,10 +21,6 @@ export const putContentSaga = function * (setter) {
       if (error.response) {
         if (error.response.status === 401 && error.response.data.error === 'token_expired') {
           // console.log(error.response.data.description)
-<<<<<<< HEAD
-=======
-
->>>>>>> dev210823
           confirmPasswordHelper(error.response.data.description, payload)
           return
         }

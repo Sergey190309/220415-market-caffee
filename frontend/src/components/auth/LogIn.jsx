@@ -75,12 +75,8 @@ export const LogIn = ({
         style={{ height: '50vh' }}
         verticalAlign='middle'
       >
-<<<<<<< HEAD
-        <Grid.Column style={{ maxWidth: 500 }}>
-=======
         <Grid.Column
           style={{ maxWidth: 500 }}>
->>>>>>> dev210823
           <Header as='h2' textAlign='center' color={positiveColor}>
             <Segment.Inline>
               <Icon name='utensils' size='large' />

@@ -158,20 +158,6 @@ const ViewParagraph = ({
   return (
     <Fragment>
       {editable
-<<<<<<< HEAD
-        ? <ParagraphContextMenu
-          isOpened={contextMenuOpened}
-          saveDisabled={changed}
-          // saveDisabled={!changed}
-          context={contextRef}
-          setContextMenuOpened={setContextMenuOpened}
-          setParagraphEditted={setParagraphEditted}
-          saveToBackend={saveToBackend}
-          deleteFmBackend={deleteFmBackend}
-          addAboveToBacken={addAboveToBacken}
-          addBelowToBacken={addBelowToBacken}
-        />
-=======
         ? paragraphEditted
           ? <ParagraphEditor
             setParagraphEditted={setParagraphEditted}
@@ -190,7 +176,6 @@ const ViewParagraph = ({
               addAbove={addAbove}
               addBelow={addBelow}
             />
->>>>>>> dev210823
         : null
       }
       <NormalOutput />
