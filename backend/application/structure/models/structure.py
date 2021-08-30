@@ -1,10 +1,7 @@
 from typing import Dict, Union, List
 from datetime import datetime
-# import json
 from sqlalchemy.dialects import mysql
 from sqlalchemy.ext.mutable import MutableDict
-# from sqlalchemy.ext.declarative import declarative_base
-# from sqlalchemy.ext.hybrid import hybrid_property
 
 from application.modules.dbs_global import dbs_global
 from application.models.views_global import ViewGlobalModel  # noqa: 401
