@@ -77,8 +77,8 @@ class GlobalVariables():
         self.app_globals = values
 
     def set_globals(self, set_values: Dict) -> None:
+        # print('global_init_data, set_dlovals, set_values ->', set_values)
         for item in set_values:
-            # print(item)
             self.app_globals[item] = set_values[item]
 
     def get_global_by_name(self, get_what: str) -> Union[str, None]:

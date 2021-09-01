@@ -1,13 +1,15 @@
 import pytest
+# import random
 from typing import Dict, List
 from uuid import uuid4
 from flask import url_for
 from flask_jwt_extended import create_access_token
 
-
+# from application.global_init_data import global_constants
 from application.home.local_init_data_home import sessions
 from application.structure.models.structure import StructureModel
-from application.structure.modules.dbs_init_structure import dbs_init_structure
+# from application.structure.modules.dbs_init_structure import dbs_init_structure
+from application.structure.modules.dbs_init_structure import fill_structure
 
 
 # @pytest.mark.active
@@ -27,6 +29,7 @@ def test_structure_list_no_token(
     assert _resp.json.get('error').find('authorization_required') != -1
 
 
+# @pytest.mark.active
 @pytest.mark.parametrize(
     'lng, test_word', [
         ('en', 'Something went wrong'),
@@ -34,7 +37,6 @@ def test_structure_list_no_token(
         ('sljsdjaglsj', 'Something went wrong'),
     ]
 )
-# @pytest.mark.active
 def test_structure_list_wrong_token(
     client,
     # access_token,
@@ -55,6 +57,7 @@ def test_structure_list_wrong_token(
     # assert isinstance(_resp.json['payload'], List)
 
 
+@pytest.mark.active
 @pytest.mark.parametrize(
     'lng, test_word', [
         ('en', 'database'),
@@ -62,37 +65,41 @@ def test_structure_list_wrong_token(
         ('sljsdjaglsj', 'database'),
     ]
 )
-# @pytest.mark.active
 def test_structure_list_success(
         client,
-        # access_token,
+        user_instance, access_token,
         lng, test_word):
     '''
     Right
     '''
-    # Insure there are appropriate structure in the db
-    # Clean up the table
-    StructureModel.query.delete()
-    # Create structure set
-    dbs_init_structure()
+    '''Fill structure table'''
+    fill_structure()
+    '''Admin in db'''
+    # _admin = user_instance(values={'role_id': 'admin'})
+    # _admin.save_to_db()
+    # _access_token = access_token(_admin)
 
     _uuid = uuid4()
     sessions.setter(str(_uuid))
     _tech_token = create_access_token(_uuid, expires_delta=False)
-    headers = {'Authorization': f"Bearer {_tech_token}",
-               'Content-Type': 'application/json',
-               'Accept-Language': lng}
-    _resp = client.get(url_for('structure_bp.structurelist'), headers=headers)
+    _headers = {'Authorization': f"Bearer {_tech_token}",
+                'Content-Type': 'application/json',
+                'Accept-Language': lng}
+    _resp = client.get(url_for('structure_bp.structurelist'), headers=_headers)
+
+    assert _resp.status_code == 200
+    assert isinstance(_resp.json, Dict)
+    assert isinstance(_resp.json.get('payload'), List)
+    assert len(_resp.json.get('payload')) == 10
+    assert _resp.json.get('message').find(test_word) != -1
 
     # print('\ntest_structure_list_success, _resp ->', _resp.status_code)
     # print('test_structure_list_success, _resp ->', _resp.json.get('message'))
     # print('test_structure_list_success, _resp ->')
     # [print(structure) for structure in _resp.json.get('payload')]
-    assert _resp.status_code == 200
-    assert isinstance(_resp.json, Dict)
-    assert isinstance(_resp.json.get('payload'), List)
-    assert len(_resp.json.get('payload')) == 5
-    assert _resp.json.get('message').find(test_word) != -1
 
-    # Clean up the table
-    StructureModel.query.delete()
+    '''clean up users tables'''
+    # if _admin is not None:
+    #     _admin.delete_fm_db()
+    '''clean up structure tables'''
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]

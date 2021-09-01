@@ -1,5 +1,6 @@
 import pytest
 from typing import Dict  # , List
+import random
 
 from application.structure.models.structure import StructureModel
 from application.global_init_data import global_constants
@@ -20,122 +21,192 @@ def saved_structure_instance(client, structure_instance):
 
 # @pytest.mark.active
 def test_find(saved_structure_instance, structure_get_schema):
-    # Clean up the structure table
+    '''Clean up the structure table'''
     StructureModel.query.delete()
 
-    # Create structures
-    _global_keys = global_constants.get_VIEWS_PKS
-    _structure_gens = [saved_structure_instance({'view_id': key})
-                       for key in _global_keys]
+    '''Create structures, it should be 10 of them.'''
+    _global_view_keys = global_constants.get_VIEWS_PKS
+    _global_locales_keys = global_constants.get_PKS
+    _origin_keys = [
+        {'view_id': _view_key, 'locale_id': _locale_key}
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys
+    ]
+    _structure_gens = [saved_structure_instance(
+        {'view_id': _view_key, 'locale_id': _locale_key})
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys]
     [next(_structure_gen) for _structure_gen in _structure_gens]
+    # [print(gen) for gen in _structure_gens]
 
-    # Find all available structures
+    '''Find all available structures'''
     _result = StructureModel.find()
     _json_result = [structure_get_schema.dump(structure) for structure in _result]
-    # [print(item) for item in _json_result]
-    assert len(_result) == 5
-    _keys = [item.get('view_id') for item in _json_result]
-    _keys.sort()
-    _global_keys.sort()
-    assert _keys == _global_keys
+    _found_keys = [{
+        'view_id': item.get('view_id'),
+        'locale_id': item.get('locale_id'),
+    } for item in _json_result]
+    # print()
+    # [print(key) for key in _origin_keys]
+    # print()
+    # [print(key) for key in _found_keys]
+    assert len(_result) == 10
+    # print()
+    [_found_keys.pop(_found_keys.index(item)) for item in _origin_keys]
+    assert len(_found_keys) == 0
 
-    # Find specific user_id and view_id
-    qnt = 3  # elements for update and further search
-    _user_id = 10  # user_id for update
-    _searching_keys = _global_keys[0: qnt]
-    _structures = [StructureModel.find_by_id(key) for key in _searching_keys]
-    [structure.update({'user_id': _user_id}) for structure in _structures]
-    _list_by_user_id = StructureModel.find({'user_id': _user_id})
-    assert len(_list_by_user_id) == qnt
+    '''Find specific user_id and view_id'''
+    '''Get 5 random from all structures available.'''
+    qnt = 5  # elements for update and further search
+    _changed_user_list = []
+    for index in range(0, qnt):
+        _random_structure = random.choice(_result)
+        _random_structure.update({'user_id': 0})
+        _changed_user_list.append(_random_structure)
+        _result.remove(_random_structure)
+    _updated_structures = StructureModel.find({'user_id': 0})
+    assert len(_updated_structures) == qnt
 
-    # Find nothing, using woring keys
+    '''Find nothing, using wrong keys'''
     _list_by_user_id = StructureModel.find({'user_id': 256})
     # print('\n', _list_by_user_id)
     assert len(_list_by_user_id) == 0
+    # [print(structure_get_schema.dump(_updated_structure))
+    #  for _updated_structure in _updated_structures]
 
-    # clean up the table
+    '''clean up the table'''
     [next(_structure_gen) for _structure_gen in _structure_gens]
 
 
 # @pytest.mark.active
-def test_find_by_id(saved_structure_instance, structure_get_schema, attributes):
-    # found
-    _view_id = global_constants.get_VIEWS_PKS[0]
-    # clean up
-    _structure_fm_db = StructureModel.find_by_id(_view_id)
-    if _structure_fm_db is not None:
-        _structure_fm_db.delete_fm_db()
-    # print('\ntest model structure, test_find_by_id, _view_id ->', _view_id)
-    # print('test model structure, test_find_by_id, attributes ->', attributes)
-    _values = {
-        'view_id': _view_id,
-        'attributes': attributes}
-    _structure_gen = saved_structure_instance(_values)
-    next(_structure_gen)
-    _structure_fm_db = StructureModel.find_by_id(_view_id)
-    # print('test model structure, test_find_by_id, _structure_fm_db ->',
-    #       structure_get_schema.dump(_structure_fm_db))
-    assert structure_get_schema.dump(_structure_fm_db).get('attributes') == attributes
+def test_find_by_ids(saved_structure_instance, structure_get_schema, attributes):
+    '''Clean up'''
+    StructureModel.query.delete()
+    '''Create structures, it should be 10 of them.'''
+    _global_view_keys = global_constants.get_VIEWS_PKS
+    _global_locales_keys = global_constants.get_PKS
+    [
+        {'view_id': _view_key, 'locale_id': _locale_key}
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys
+    ]
+    _structure_gens = [saved_structure_instance(
+        {
+            'view_id': _view_key, 'locale_id': _locale_key,
+            'attributes':
+            {
+                'view_id': _view_key, 'locale_id': _locale_key
+            }
+        })
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys]
+    [next(_structure_gen) for _structure_gen in _structure_gens]
 
-    # not found, wrong key
-    _structure_fm_db = StructureModel.find_by_id('wrong_key')
-    assert _structure_fm_db is None
+    '''Get criterion and find appropriate instance'''
+    _criterions = {
+        'view_id': random.choice(_global_view_keys),
+        'locale_id': random.choice(_global_locales_keys)
+    }
+    _found_structure = StructureModel.find_by_ids(_criterions)
+    _found_attributes = structure_get_schema.dump(_found_structure).get('attributes')
 
-    # Clean up omitted due to nessicity to have full set structures.
-    # next(_structure_gen)
+    '''Asset I've found approapriate instance'''
+    assert _found_attributes.get('view_id') == _criterions.get('view_id')
+    assert _found_attributes.get('locale_id') == _criterions.get('locale_id')
+
+    '''Try to find something with wrong criterions'''
+    _wrong_criterions = _criterions.copy()
+    _wrong_criterions['view_id'] = '_wrong_view_id'
+    _found_structure = StructureModel.find_by_ids(_wrong_criterions)
+    assert _found_structure is None
+    _wrong_criterions = _criterions.copy()
+    _wrong_criterions['locale_id'] = '_wrong_locale_id'
+    _found_structure = StructureModel.find_by_ids(_wrong_criterions)
+    assert _found_structure is None
+
+    '''Clean up'''
+    [next(_structure_gen) for _structure_gen in _structure_gens]
 
 
 # @pytest.mark.active
 def test_update(saved_structure_instance, structure_get_schema,
                 attributes):
-    _view_id = global_constants.get_VIEWS_PKS[0]
-    structure_fm_db = StructureModel.find_by_id(_view_id)
+    '''Clean up the structure table'''
+    StructureModel.query.delete()
 
-    # Clean up the table
-    if structure_fm_db is not None:
-        structure_fm_db.delete_fm_db()
+    '''Create structures, it should be 10 of them.'''
+    _global_view_keys = global_constants.get_VIEWS_PKS
+    _global_locales_keys = global_constants.get_PKS
+    [
+        {'view_id': _view_key, 'locale_id': _locale_key}
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys
+    ]
+    _structure_gens = [saved_structure_instance(
+        {'view_id': _view_key, 'locale_id': _locale_key})
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys]
+    [next(_structure_gen) for _structure_gen in _structure_gens]
 
-    _values = {
-        'view_id': _view_id,
-        'attributes': attributes}
-    _structure_gen = saved_structure_instance(_values)
-    next(_structure_gen)
-    _structure_fm_db = StructureModel.find_by_id(_view_id)
-
-    _attributes = {**attributes, **{'05': {'test_key': 'test_value'}}}
-    _structure_fm_db.update({'attributes': _attributes})
-
-    _corrected_fm_db = StructureModel.find_by_id(_view_id)
-
-    assert structure_get_schema.dump(_corrected_fm_db).get('attributes') == _attributes
-    assert isinstance(structure_get_schema.dump(_corrected_fm_db).get('updated'), str)
-    # assert structure_get_schema.dump(_corrected_fm_db).get('attributes') == attributes
-    next(_structure_gen)
+    '''Choose random keys to update structure'''
+    _criterions = {
+        'view_id': random.choice(_global_view_keys),
+        'locale_id': random.choice(_global_locales_keys)
+    }
+    _structure_for_update = StructureModel.find_by_ids(_criterions)
+    assert structure_get_schema.dump(_structure_for_update).get('updated') is None
+    _attributes = {
+        'key1': 'test_key1',
+        'key2': 'test_key2',
+        'key3': 'test_key3',
+    }
+    _structure_for_update.update({'attributes': _attributes})
+    _updated_schema = StructureModel.find_by_ids(_criterions)
+    assert structure_get_schema.dump(_structure_for_update).get('updated') is not None
+    assert structure_get_schema.dump(_updated_schema).get('attributes') == _attributes
+    '''Clean up'''
+    [next(_structure_gen) for _structure_gen in _structure_gens]
 
 
 # @pytest.mark.active
 def test_delete(saved_structure_instance, structure_get_schema,
                 view_id, attributes):
-    structure_fm_db = StructureModel.find_by_id(view_id)
 
-    # Clean up the table
-    if structure_fm_db is not None:
-        structure_fm_db.delete_fm_db()
+    '''Clean up'''
+    StructureModel.query.delete()
+    '''Create structures, it should be 10 of them.'''
+    _global_view_keys = global_constants.get_VIEWS_PKS
+    _global_locales_keys = global_constants.get_PKS
+    [
+        {'view_id': _view_key, 'locale_id': _locale_key}
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys
+    ]
+    _structure_gens = [saved_structure_instance(
+        {
+            'view_id': _view_key, 'locale_id': _locale_key,
+            'attributes':
+            {
+                'view_id': _view_key, 'locale_id': _locale_key
+            }
+        })
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys]
+    [next(_structure_gen) for _structure_gen in _structure_gens]
 
-    _values = {
-        'view_id': view_id,
-        'attributes': attributes}
+    '''Choose random keys to update structure'''
+    _criterions = {
+        'view_id': random.choice(_global_view_keys),
+        'locale_id': random.choice(_global_locales_keys)
+    }
+    _structure_to_delete = StructureModel.find_by_ids(_criterions)
 
-    _structure_gen = saved_structure_instance(_values)
-    next(_structure_gen)
-    # check instance exists
-    _structure_fm_db = StructureModel.find_by_id(view_id)
-    assert structure_get_schema.dump(_structure_fm_db).get('attributes') == attributes
+    _structure_to_delete.delete_fm_db()
 
-    # delete instace and insure it has desappeared
-    _structure_fm_db.delete_fm_db()
-    _structure_fm_db = StructureModel.find_by_id(view_id)
-    assert structure_get_schema.dump(_structure_fm_db) == {}
-    # print('\nunit, test, structure _corrected_fm_db ->',
-    #       structure_get_schema.dump(_structure_fm_db))
-    next(_structure_gen)
+    _deleted_structure = StructureModel.find_by_ids(_criterions)
+    _left_stractures = StructureModel.find()
+    assert _deleted_structure is None
+    assert len(_left_stractures) == 9
+
+    '''Clean up'''
+    [next(_structure_gen) for _structure_gen in _structure_gens]

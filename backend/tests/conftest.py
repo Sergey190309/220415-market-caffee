@@ -317,8 +317,10 @@ def structure_instance(random_text):
         #     print('conftest, structure_instance, value ->', values.get(value))
 
         _values = {
-            'view_id':
-                values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'view_id': values.get(
+                'view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'locale_id': values.get(
+                'locale_id', global_constants.get_LOCALES[0].get('id')),
             'created': values.get('created', datetime.now()),
             'user_id': values.get('user_id', randint(1, 128)),
             'attributes': values.get('attributes', {})

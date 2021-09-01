@@ -39,19 +39,21 @@ class StructureList(Resource):
 
 class Structure(Resource):
     @classmethod
-    def already_exists(cls, view_id: str = '') -> Dict:
+    def already_exists(cls, view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
-                "A structure with identity '%(view_id)s' already exists.",
-                view_id=view_id)),
+                "A structure with identity '%(view_id)s' "
+                "and locale '%(locale_id)s' already exists.",
+                view_id=view_id, locale_id=locale_id)),
         }, 400
 
     @classmethod
-    def not_found(cls, view_id: str = '') -> Dict:
+    def not_found(cls, view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
-                "A structure with identity '%(view_id)s' not found.",
-                view_id=view_id)),
+                "A structure with identity '%(view_id)s' "
+                "and locale '%(locale_id)s' not found.",
+                view_id=view_id, locale_id=locale_id)),
         }, 404
 
     @classmethod
@@ -79,15 +81,21 @@ class Structure(Resource):
         '''
         Create structure instance and save to db.
         '''
-        fbp.set_lng(request.headers.get('Accept-Language'))
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
         _request_json = request.get_json()
-        # _structure = structure_schema.load(_request_json)
-        _structure = structure_schema.load(_request_json, session=dbs_global.session)
-        _structure_fm_db = StructureModel.find_by_id(view_id=_structure.view_id)
+        # print('\nstructure resources, post, _lng ->', _lng)
+        _search_json = {
+            'view_id': _request_json.get('view_id'),
+            'locale_id': _lng
+        }
+        _structure = structure_schema.load(
+            {**_request_json, 'locale_id': _lng}, session=dbs_global.session)
+        _structure_fm_db = StructureModel.find_by_ids(_search_json)
         if _structure_fm_db is not None:
-            return cls.already_exists(view_id=_structure.view_id)
+            return cls.already_exists(**_search_json)
         error_info = _structure.save_to_db()
         if error_info is not None:
             return cls.error_message(error_info)
@@ -105,7 +113,8 @@ class Structure(Resource):
         '''
         Get instance from db.
         '''
-        fbp.set_lng(request.headers.get('Accept-Language'))
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
@@ -114,10 +123,11 @@ class Structure(Resource):
 
         _requested_dict = {
             'view_id': request.args.get('view_id'),
+            'locale_id': _lng
         }
-        # print('cls, resources, _requested_dict ->', _requested_dict)
         _search_json = structure_get_schema.load(_requested_dict)
-        _structure = StructureModel.find_by_id(**_search_json)
+        # print('\ncls, resources, _search_json ->', _search_json)
+        _structure = StructureModel.find_by_ids(_search_json)
         if _structure is None:
             return cls.not_found(**_search_json)
         return {
@@ -133,12 +143,20 @@ class Structure(Resource):
         '''
         Update instance and save to db.
         '''
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
-        _update_json = structure_get_schema.load(request.get_json())
-        _structure = StructureModel.find_by_id(view_id=_update_json.get('view_id'))
+        _update_json = structure_get_schema.load(
+            {**request.get_json(), 'locale_id': _lng})
+        _search_json = {
+            'view_id': _update_json.pop('view_id'),
+            'locale_id': _update_json.pop('locale_id')
+        }
+        _structure = StructureModel.find_by_ids(_search_json)
+        # print('\nstructure, resources, put, _update_json ->', _update_json)
         if _structure is None:
-            return cls.not_found(view_id=_update_json.get('view_id'))
+            return cls.not_found(**_search_json)
         _structure.update(_update_json)
         return {
             'message': str(_(
@@ -153,19 +171,26 @@ class Structure(Resource):
         '''
         Delete instance from db.
         '''
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         # print('cls, resources, view_id ->', request.args['view_id'])
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return cls.no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
-        _requested_dict = {'view_id': request.args.get('view_id')}
+        _requested_dict = {
+            'view_id': request.args.get('view_id'),
+            'locale_id': _lng
+        }
         # testing fields
         _delete_json = structure_get_schema.load(_requested_dict)
-        _structure = StructureModel.find_by_id(**_delete_json)
+        _structure = StructureModel.find_by_ids(_delete_json)
         if _structure is None:
-            return cls.not_found(view_id=_delete_json.get('view_id'))
+            return cls.not_found(**_delete_json)
         _structure.delete_fm_db()
         return {
             'message': str(_(
-                "The structure for view '%(view_id)s' has been found and "
+                "The structure for view '%(view_id)s' locale "
+                "'%(locale_id)s' has been found and "
                 "successfully deleted.",
-                view_id=_delete_json['view_id']))}, 200
+                view_id=_delete_json.get('view_id'),
+                locale_id=_delete_json.get('locale_id')))}, 200
