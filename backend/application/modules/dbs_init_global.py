@@ -63,8 +63,7 @@ def fill_locales():
 def create_dbs():
     try:
         dbs_global.create_all()
-        # print('\ncreate_dbs, SQLALCHEMY_DATABASE_URI ->',
-        # current_app.config['SQLALCHEMY_DATABASE_URI'])
+        # print('\ncreate_dbs, SQLALCHEMY_DATABASE_URI ->')
     except Exception as err:
         print(
             'modules.dbs.SQLAlchemyBackend.init_app on '

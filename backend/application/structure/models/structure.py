@@ -4,6 +4,7 @@ from sqlalchemy.dialects import mysql
 from sqlalchemy.ext.mutable import MutableDict
 
 from application.modules.dbs_global import dbs_global
+from application.models.locales_global import LocaleGlobalModel  # noqa: 401
 from application.models.views_global import ViewGlobalModel  # noqa: 401
 
 
@@ -12,10 +13,17 @@ class StructureModel(dbs_global.Model):
     The model for front end structure
     '''
     __tablename__ = 'structure'
-
-    view_id = dbs_global.Column(dbs_global.String(64),
-                                dbs_global.ForeignKey('views_global.view_id'),
-                                primary_key=True)
+    __table_args__ = (
+        dbs_global.PrimaryKeyConstraint('view_id', 'locale_id'), {},)
+    view_id = dbs_global.Column(
+        dbs_global.String(64),
+        dbs_global.ForeignKey('views_global.view_id'),
+        nullable=False)
+    locale_id = dbs_global.Column(
+        dbs_global.String(16),
+        dbs_global.ForeignKey('locales_global.id'),
+        nullable=False)
+    # default='en')
     created = dbs_global.Column(
         dbs_global.DateTime, nullable=False, default=datetime.now())
     updated = dbs_global.Column(dbs_global.DateTime)
@@ -23,6 +31,7 @@ class StructureModel(dbs_global.Model):
     attributes = dbs_global.Column(MutableDict.as_mutable(
         mysql.JSON), nullable=False, default={})
 
+    locale = dbs_global.relationship('LocaleGlobalModel', backref='structuremodel')
     view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
 
     # 'attributes', mysql.MEDIUMTEXT)
@@ -51,14 +60,17 @@ class StructureModel(dbs_global.Model):
         return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
-    def find_by_id(cls, view_id: str = '') -> Union['StructureModel', None]:
+    def find_by_ids(cls, ids: Dict = {}) -> Union['StructureModel', None]:
         # _result = cls.query.filter_by(view_id=view_id).first()
-        return cls.query.filter_by(view_id=view_id).first()
+        return cls.query.filter_by(**ids).first()
         # return _result
 
     @property
     def is_exist(self):
-        return StructureModel.find_by_id(self.view_id) is not None
+        return StructureModel.find_by_ids({
+            'view_id': self.view_id,
+            'locale_id': self.locale_id
+        }) is not None
 
     def update(self, update_values: Dict = None) -> Union[None, str]:
         # print(update_values)
