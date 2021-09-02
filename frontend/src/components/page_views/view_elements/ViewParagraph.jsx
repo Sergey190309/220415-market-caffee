@@ -29,16 +29,23 @@ const ViewParagraph = ({
 }) => {
   /**
    * States:
-   * state: object - Paragraph content loaded from back-end using getContentSaga.
-   * content: object - Content itself shown on the component. Updated with useEffect.
-   * changed: boolean - Indication content was changed from last download or upload.
+   * state: object - Paragraph content loaded from back-end
+   * using getContentSaga. content: object - Content itself
+   * shown on the component. Updated with useEffect.
+   * changed: boolean - Indication content was changed from last
+   * download or upload.
    *    Updated with useEffect.
-   * contextMenuOpened: boolean - Self explain. Open with right button.
-   * paragraphEditted: boolean - Set close showing, open textboxes for edition.
-   * indicatorOpened: boolean - Set component indicator on and off respectevily.
+   * contextMenuOpened: boolean - Self explain. Open with right
+   * button.
+   * paragraphEditted: boolean - Set close showing, open
+   * textboxes for edition.
+   * indicatorOpened: boolean - Set component indicator on and
+   * off respectevily.
    * Store state variables.
-   * editable: boolean - Admin only can set this variable on admin page.
-   * loaded: boolean - Indication whether changed content successfully uploaded to back-end.
+   * editable: boolean - Admin only can set this variable on
+   * admin page.
+   * loaded: boolean - Indication whether changed content
+   * successfully uploaded to back-end.
    *    Used to set save to back-end context menu disabled.
    */
   const [state, getSagaDispatch] = useSaga(
@@ -178,7 +185,10 @@ const ViewParagraph = ({
             />
         : null
       }
-      <NormalOutput />
+      {paragraphEditted
+        ? null
+        : <NormalOutput />
+      }
       {indicatorOpened
         ? <Indicator
             isOpened={indicatorOpened}

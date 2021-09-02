@@ -53,11 +53,8 @@ export function * techInFetch (action) {
   try {
     // console.log('techInFetch, techInCall args ->', action.payload)
     const techInResp = yield call(techInCall, { tech_id: action.payload })
-    console.log('techInFetch, techInResp ->', techInResp)
+    // console.log('techInFetch, techInResp ->', techInResp)
     yield put(techInSuccess(techInResp.data.payload))
-    // ----------------------------------------------------------------------------------
-    // initate structure loading here
-    yield put(structureStart())
     yield put(startLngs())
   } catch (error) {
     yield sagaErrorHandler(error)
@@ -76,7 +73,7 @@ export function * lngsWorker (action) {
     const resp = yield call(lngsCall)
     // console.log('lngsWorker, resp ->', resp)
     const lngs = resp.data.payload.map(item => item.id)
-    // console.log('lngs worker, lngs ->', lngs)
+    console.log('lngs worker, lngs ->', lngs)
     yield put(lngsSuccess())
     yield put(startI18n(lngs))
   } catch (error) {
@@ -95,13 +92,19 @@ export function * i18nWorker (
   // setCommonLng = axiosCommonLng
 ) {
   try {
-    yield call(setI18next, action.payload) // Set lng switcher and current language
-    // according locales awailable on back end.
-
+    /**
+     * Set lng switcher and current language according locales
+     * awailable on back end.
+     */
+    yield call(setI18next, action.payload)
     // console.log('i18n worker, i18next.languages ->', i18next.languages)
     // call(axiosCommonLng, i18next.language); // Set axios header for backend calls.
     yield put(i18nSuccess())
     // console.log('i18nWorker, i18next.language ->', i18next.language)
+    /**
+     * initate structure loading here
+     */
+    yield put(structureStart())
     yield put(initLoadingSuccess())
   } catch (error) {
     yield put(i18nFail(error))

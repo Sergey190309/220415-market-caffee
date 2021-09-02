@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-describe('ConfirmPassword testing', () => {
-  test('dummy', () => {
-=======
 import React from 'react'
 import { Provider } from 'react-redux'
 import { useTranslation } from 'react-i18next'
->>>>>>> dev210823
 
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'

@@ -18,7 +18,10 @@ export function * structureWorker (action) {
     if (techTextAxiosClient.defaults.headers.common.Authorization === undefined) {
       return
     }
+    // console.log('structureWorker, techTextAxiosClient.defaults.headers.common.Authorization ->', techTextAxiosClient.defaults.headers.common.Authorization)
+
     const result = yield call(getViewStructure)
+    // console.log('structureWorker, result ->', result)
     const viewStructures = result.data.payload.map(sturcture => ({
       [sturcture.view_id]: sturcture.attributes
     }))

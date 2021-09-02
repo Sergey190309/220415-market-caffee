@@ -59,16 +59,16 @@ def test_structure_list_wrong_token(
 
 @pytest.mark.active
 @pytest.mark.parametrize(
-    'lng, test_word', [
-        ('en', 'database'),
-        ('ru', 'нашей базе'),
-        ('sljsdjaglsj', 'database'),
+    'lng, qnt, test_word', [
+        ('en', 5, 'database'),
+        ('ru', 5, 'нашей базе'),
+        ('sljsdjaglsj', 0, 'database'),
     ]
 )
 def test_structure_list_success(
         client,
         user_instance, access_token,
-        lng, test_word):
+        lng, qnt, test_word):
     '''
     Right
     '''
@@ -90,11 +90,13 @@ def test_structure_list_success(
     assert _resp.status_code == 200
     assert isinstance(_resp.json, Dict)
     assert isinstance(_resp.json.get('payload'), List)
-    assert len(_resp.json.get('payload')) == 10
+    assert len(_resp.json.get('payload')) == qnt
     assert _resp.json.get('message').find(test_word) != -1
-
-    # print('\ntest_structure_list_success, _resp ->', _resp.status_code)
-    # print('test_structure_list_success, _resp ->', _resp.json.get('message'))
+    if len(_resp.json.get('payload')) > 0:
+        assert [structure.get('locale_id') == lng
+                for structure in _resp.json.get('payload')]
+    print('\ntest_structure_list_success, _resp ->', _resp.status_code)
+    # print('test_structure_list_success, _resp ->', _resp.json.get('payload')[0])
     # print('test_structure_list_success, _resp ->')
     # [print(structure) for structure in _resp.json.get('payload')]
 
