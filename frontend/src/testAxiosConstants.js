@@ -22,17 +22,6 @@ export const resolveDataConfirmPassword = {
 }
 
 /**
- * confirm password
- */
-export const resolveDataConfirmPassword = {
-  payload: {
-    message: 'mock data confirm password message',
-    access_token: 'mockAccessToken'
-  }
-}
-
-
-/**
  * Constant for getting content
  */
 export const resolveDataContent = {

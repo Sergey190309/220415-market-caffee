@@ -20,14 +20,15 @@ class StructureList(Resource):
         '''
         List of structure loaded once upon inititaion. tech_token is reauired.
         '''
-        fbp.set_lng(request.headers.get('Accept-Language'))
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
                     "Something went wrong. Check tech_token and sessions set up."))
             }, 500
         payload = [structure_schema.dump(_structure)
-                   for _structure in StructureModel.find()]
+                   for _structure in StructureModel.find({'locale_id': _lng})]
         count = len(payload)
         return {
             'message': str(_(
