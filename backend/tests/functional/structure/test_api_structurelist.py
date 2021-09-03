@@ -57,7 +57,7 @@ def test_structure_list_wrong_token(
     # assert isinstance(_resp.json['payload'], List)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.parametrize(
     'lng, qnt, test_word', [
         ('en', 5, 'database'),

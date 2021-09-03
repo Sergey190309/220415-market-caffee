@@ -36,7 +36,8 @@ def structure_api_resp(structure_instance, client, structure_get_schema):
         ('ru', 'труктур', 'Что-то пошло не так.')
     ]
 )
-def test_structure_post(structure_api_resp, client, structure_get_schema,
+def test_structure_post(structure_api_resp, client,
+                        structure_get_schema,
                         user_instance, access_token,
                         lng, test_word, test_word_01,
                         attributes):
@@ -71,7 +72,7 @@ def test_structure_post(structure_api_resp, client, structure_get_schema,
     assert isinstance(_resp.json.get('payload'), Dict)
     assert _resp.json.get('message').find(test_word) != -1
 
-    '''Failure'''
+    '''Failures:'''
     '''Already exists'''
     _resp = client.post(url_for('structure_bp.structure'), json=_json, headers=_headers)
     assert _resp.status_code == 400

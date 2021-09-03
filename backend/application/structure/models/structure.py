@@ -1,3 +1,4 @@
+# import json
 from typing import Dict, Union, List
 from datetime import datetime
 from sqlalchemy.dialects import mysql
@@ -34,27 +35,6 @@ class StructureModel(dbs_global.Model):
     locale = dbs_global.relationship('LocaleGlobalModel', backref='structuremodel')
     view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
 
-    # 'attributes', mysql.MEDIUMTEXT)
-
-    # view = dbs_global.relationship(
-    #     'ViewGlobalModel', backref='structuremodel')
-
-    # @hybrid_property
-    # def attributes(self) -> Dict:
-    #     '''
-    #     Hybrid property for reading view attributes JSON dict.
-    #     It always returns a dict
-    #     '''
-    #     if self._attributes is None:
-    #         # null value from db side, return an empty dict
-    #         return {}
-
-    #     try:
-    #         return json.load(self._attributes)
-    #     except Exception:
-    #         # parse failed, return an empty dict
-    #         return {}
-
     @classmethod
     def find(cls, searching_criterions: Dict = {}) -> List['StructureModel']:
         return cls.query.filter_by(**searching_criterions).all()
@@ -72,7 +52,29 @@ class StructureModel(dbs_global.Model):
             'locale_id': self.locale_id
         }) is not None
 
-    def update(self, update_values: Dict = None) -> Union[None, str]:
+    def change_element_qnt(
+        self,
+        direction: str = '',  # inc or dec
+        block_index: str = '', user_id: int = 0
+    ) -> Union[str, None]:
+        _source_attributes = dict(self.attributes)
+        if direction == 'inc':
+            _new_qnt = _source_attributes.get(block_index).get('qnt') + 1
+        elif direction == 'dec':
+            _new_qnt = _source_attributes.get(block_index).get('qnt') - 1
+        else:
+            _new_qnt = _source_attributes.get(block_index).get('qnt')
+        _target_attributes = {
+            **_source_attributes,
+            block_index: {
+                **_source_attributes.get(block_index), 'qnt': _new_qnt
+            }
+        }
+        # print('\nstructure, model, add_element, attributes ->',
+        #       _target_attributes)
+        return self.update({'attributes': _target_attributes, 'user_id': user_id})
+
+    def update(self, update_values: Dict = {}) -> Union[None, str]:
         # print(update_values)
         if update_values is None:
             return None

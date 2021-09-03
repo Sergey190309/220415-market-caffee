@@ -8,7 +8,7 @@ from application.modules.dbs_global import dbs_global
 from application.modules.fbp import fbp
 from application.home.local_init_data_home import sessions
 from application.users.models import UserModel
-from ..shemas.structure import structure_schema, structure_get_schema
+from ..schemas.structure import structure_schema, structure_get_schema
 from ..models.structure import StructureModel
 
 

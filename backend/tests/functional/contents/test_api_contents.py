@@ -39,6 +39,7 @@ def creating_values_json():
     return _method
 
 
+# @pytest.mark.active
 @pytest.mark.parametrize(
     'lng, test_word, test_word_01',
     [
@@ -46,7 +47,6 @@ def creating_values_json():
         ('ru', 'одержание', 'не обнаружено'),
     ]
 )
-# @pytest.mark.active
 def test_contents_post_success(
     client, content_api_resp,
     user_instance, access_token,

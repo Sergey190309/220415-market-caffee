@@ -37,5 +37,6 @@
   "python.autoComplete.extraPaths": [
 
   ],
-  "editor.unusualLineTerminators": "auto"
+  "editor.unusualLineTerminators": "auto",
+  "python.linting.pylintEnabled": false
 }
