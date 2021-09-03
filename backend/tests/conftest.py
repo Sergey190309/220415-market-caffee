@@ -21,7 +21,7 @@ from application.schemas.locales_global import LocaleGlobalSchema, LocaleGlobalG
 from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
 from application.structure.models.structure import StructureModel
-from application.structure.shemas.structure import StructureSchema, StructureGetSchema
+from application.structure.schemas.structure import StructureSchema, StructureGetSchema
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema, UserGetSchema
 
