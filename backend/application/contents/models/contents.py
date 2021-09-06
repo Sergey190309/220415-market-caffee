@@ -59,6 +59,7 @@ class ContentModel(dbs_global.Model):
         element's quontity by 1.
         '''
         _qnt = int(block_id.split('_')[-1])
+
         if direction == 'inc':
             _qnt += 1
         elif direction == 'dec':
@@ -85,17 +86,24 @@ class ContentModel(dbs_global.Model):
     @classmethod
     def add_element_to_block(
             cls,
-            block_id: str = '',
-            block_index: int = 0,
-            view_id: str = '',
-            locale_id: str = '',
+            block_id: str = '',  # 01_vblock_txt_4
+            item_index: int = 0,
+            view_id: str = '',  # landing
+            locale_id: str = '',  # en
             user_id: int = 0) -> Union[None, str]:
         '''
         Generate list of ids, check they exists,
         change list according arrived info, check last element
         is not exists
-        move element after block_index by one
+        move element after item_index by one
         '''
+        # print('\nContents, model, add_element_to_block, '
+        #       '\nblock_id ->', block_id,
+        #       '\nitem_index ->', item_index,
+        #       '\nview_id ->', view_id,
+        #       '\nlocale_id ->', locale_id,
+        #       '\nuser_id ->', user_id,
+        #       )
         _updated_record_ids = cls.elem_ids('inc', block_id)
         '''If record with added record id exitst, delete it.'''
         _criterian = {
@@ -111,10 +119,15 @@ class ContentModel(dbs_global.Model):
                     "Redundant record has been found and deleted, try "
                     "to insert element once more."))
             }
-        # print()
+        '''Normal record insertion.'''
         _active_index = len(_updated_record_ids) - 1
+        print('\nContents, model, add_element_to_block, '
+              '\n_updated_record_ids ->', _updated_record_ids)
         _criterian = {**_criterian, 'identity': _updated_record_ids[_active_index - 1]}
         _record_s = cls.find_by_identity_view_locale(**_criterian)
+        '''Creation new record above existing ones.'''
+        '''_record_s - source record; _record_t - target record'''
+
         _record_t = cls(
             identity=_updated_record_ids[_active_index],
             view_id=_record_s.view_id,
@@ -125,7 +138,8 @@ class ContentModel(dbs_global.Model):
         )
         _record_t.save_to_db()
         _active_index -= 1
-        while _active_index > block_index:
+        '''Move title and content to records with next identity.'''
+        while _active_index > item_index:
             _criterian = {**_criterian,
                           'identity': _updated_record_ids[_active_index - 1]}
             _record_s = cls.find_by_identity_view_locale(**_criterian)
@@ -137,10 +151,10 @@ class ContentModel(dbs_global.Model):
                 'title': _record_s.title,
                 'content': _record_s.content
             })
-            # print('Contents, model, add_element_to_block. _criterian ->', _criterian)
             _active_index -= 1
+        '''Clear title and content in inserted record.'''
         _criterian = {**_criterian,
-                      'identity': _updated_record_ids[block_index]}
+                      'identity': _updated_record_ids[item_index]}
         _active_record = cls.find_by_identity_view_locale(**_criterian)
         update_result = _active_record.update({
             'user_id': user_id,
@@ -148,6 +162,61 @@ class ContentModel(dbs_global.Model):
             'content': ''
         })
         return update_result
+
+    @classmethod
+    def remove_element_fm_block(
+            cls,
+            block_id: str = '',  # 01_vblock_txt_4
+            item_index: int = 0,
+            view_id: str = '',  # landing
+            locale_id: str = '',  # en
+            user_id: int = 0) -> Union[None, str]:
+        '''
+        Generate list of ids, check they exists,
+        change list according arrived info, check last element
+        is not exists
+        move element after item_index by one
+        '''
+        # print('\nContents, model, remove_element_fm_block, '
+        #       '\nblock_id ->', block_id,
+        #       '\nitem_index ->', item_index,
+        #       '\nview_id ->', view_id,
+        #       '\nlocale_id ->', locale_id,
+        #       '\nuser_id ->', user_id,
+        #       )
+        _updated_record_ids = cls.elem_ids('dec', block_id)
+        _last_record_id = cls.elem_ids('', block_id)[-1]
+        '''Normal record insertion.'''
+        _active_index = item_index
+        _criterian = {
+            'view_id': view_id,
+            'locale_id': locale_id
+        }
+        while _active_index < len(_updated_record_ids):
+            _criterian = {**_criterian,
+                          'identity': _updated_record_ids[_active_index]}
+            _record_t = cls.find_by_identity_view_locale(**_criterian)
+            if _active_index < len(_updated_record_ids) - 1:
+                _criterian = {**_criterian,
+                              'identity': _updated_record_ids[_active_index + 1]}
+            else:
+                _criterian = {**_criterian,
+                              'identity': _last_record_id}
+            _record_s = cls.find_by_identity_view_locale(**_criterian)
+            result = _record_t.update({
+                'user_id': user_id,
+                'title': _record_s.title,
+                'content': _record_s.content
+            })
+            # print('\nContents, model, remove_element_fm_block, '
+            #       '\n _record_t ->', _record_t
+            #       )
+            _active_index += 1
+            _criterian = {**_criterian,
+                          'identity': _last_record_id}
+        _record_s = cls.find_by_identity_view_locale(**_criterian)
+        result = _record_s.delete_fm_db()
+        return result
 
     @classmethod
     def is_exist_cls(cls, ids: dict = {}) -> bool:
