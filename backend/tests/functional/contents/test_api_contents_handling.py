@@ -283,8 +283,8 @@ def test_contents_handling_delete(
                        json=_json_wrong_index, headers=_admin_headers)
     assert _resp.status_code == 400
     assert _resp.json.get('message').find(test_word_02) != -1
-    print('\ntest, api, contents_handling, status ->', _resp.status_code)
-    print('test, api, contents_handling, json ->', _resp.json)
+    # print('\ntest, api, contents_handling, status ->', _resp.status_code)
+    # print('test, api, contents_handling, json ->', _resp.json)
 
     '''clean up users tables'''
     if _user is not None:
