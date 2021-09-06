@@ -42,7 +42,61 @@ def test_elem_ids():
     # print('\ntest_model_contents, _record_ids ->', _record_ids)
 
 
-@pytest.mark.active
+# @pytest.mark.active
+def test_remove_element_fm_block(client):
+    '''clean up contents table'''
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+    '''Create test constants'''
+    _content = ContentModel()
+    _locale_id = random.choice(global_constants.get_PKS)
+    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _record_id_body = '01_vblock_txt'
+    _qnt = 5
+    _block_id = '_'.join([_record_id_body, str(_qnt)])
+    _item_index = 1
+    _record_ids = _content.elem_ids('', _block_id)
+    _user_id = random.randrange(128)
+    '''Fill contents table'''
+    def create_save(record_id: str = ''):
+        record = content_schema.load({
+            'identity': record_id, 'view_id': _view_id,
+            'locale_id': _locale_id, 'title': f'Title {record_id}',
+            'content': f'Content {record_id}'
+        }, session=dbs_global.session)
+        record.save_to_db()
+        return record
+    [create_save(_record_id) for _record_id in _record_ids]
+    '''Testing remove element'''
+    '''Success insertion'''
+    result = ContentModel.remove_element_fm_block(
+        _block_id, _item_index, _view_id, _locale_id, _user_id)
+
+    '''Check what's happened'''
+    assert result is None
+    _records_from_db = ContentModel.find({'view_id': _view_id, 'locale_id': _locale_id})
+    assert len(_records_from_db) == _qnt - 1
+    for (index, _record_from_db) in enumerate(_records_from_db):
+        _json_from_db = content_schema.dump(_record_from_db)
+        if index < _item_index:
+            # print(
+            #     'test_model_contents, _record_from_db ->',
+            #     _json_from_db.get('identity'), '\t',
+            #     _json_from_db.get('title')
+            # )
+            assert _json_from_db.get('identity').split(
+                '_')[-1] == _json_from_db.get('title').split('_')[-1]
+            assert _json_from_db.get('identity').split(
+                '_')[-1] == _json_from_db.get('content').split('_')[-1]
+        else:
+            assert _json_from_db.get('identity').split(
+                '_')[-1] == str(int(
+                    _json_from_db.get('title').split('_')[-1]) - 1).zfill(3)
+            assert _json_from_db.get('identity').split(
+                '_')[-1] == str(int(
+                    _json_from_db.get('content').split('_')[-1]) - 1).zfill(3)
+
+
+# @pytest.mark.active
 def test_add_element_to_block(client):
     '''clean up contents table'''
     [_content.delete_fm_db() for _content in ContentModel.find()]
@@ -53,7 +107,7 @@ def test_add_element_to_block(client):
     _record_id_body = '01_vblock_txt'
     _qnt = 4
     _block_id = '_'.join([_record_id_body, str(_qnt)])
-    _block_index = 1
+    _item_index = 1
     _record_ids = _content.elem_ids('', _block_id)
     _user_id = random.randrange(128)
     '''Fill contents table'''
@@ -82,7 +136,7 @@ def test_add_element_to_block(client):
         {'view_id': _view_id, 'locale_id': _locale_id})) == _qnt + 1
 
     result = ContentModel.add_element_to_block(
-        _block_id, _block_index, _view_id, _locale_id, _user_id)
+        _block_id, _item_index, _view_id, _locale_id, _user_id)
     '''Check what's happened'''
     _records_from_db = ContentModel.find({'view_id': _view_id, 'locale_id': _locale_id})
     assert len(_records_from_db) == _qnt
@@ -90,39 +144,39 @@ def test_add_element_to_block(client):
 
     '''Success insertion'''
     result = ContentModel.add_element_to_block(
-        _block_id, _block_index, _view_id, _locale_id, _user_id)
+        _block_id, _item_index, _view_id, _locale_id, _user_id)
 
     '''Check what's happened'''
     _records_from_db = ContentModel.find({'view_id': _view_id, 'locale_id': _locale_id})
     assert len(_records_from_db) == _qnt + 1
     for (index, _record_from_db) in enumerate(_records_from_db):
-        print('test_model_contents, index ->', index)
+        # print('test_model_contents, index ->', index)
         _json_from_db = content_schema.dump(_record_from_db)
-        if index < _block_index:
-            print(
-                'test_model_contents, _record_from_db ->',
-                _json_from_db.get('identity'), '\t',
-                _json_from_db.get('title')
-            )
+        if index < _item_index:
+            # print(
+            #     'test_model_contents, _record_from_db ->',
+            #     _json_from_db.get('identity'), '\t',
+            #     _json_from_db.get('title')
+            # )
             assert _json_from_db.get('identity').split(
                 '_')[-1] == _json_from_db.get('title').split('_')[-1]
             assert _json_from_db.get('identity').split(
                 '_')[-1] == _json_from_db.get('content').split('_')[-1]
-        if index == _block_index:
+        if index == _item_index:
             assert _json_from_db.get('title') == ''
             assert _json_from_db.get('content') == ''
-        if index > _block_index:
-            print(
-                'test_model_contents, _record_from_db ->',
-                _json_from_db.get('identity'), '\t',
-                _json_from_db.get('title')
-            )
+        if index > _item_index:
+            # print(
+            #     'test_model_contents, _record_from_db ->',
+            #     _json_from_db.get('identity'), '\t',
+            #     _json_from_db.get('title')
+            # )
             assert _json_from_db.get('identity').split(
                 '_')[-1] == str(int(
                     _json_from_db.get('title').split('_')[-1]) + 1).zfill(3)
-            # assert _json_from_db.get('identity').split(
-            #     '_')[-1] == str(int(
-            #         _json_from_db.get('identity').split('_')[-1]) + 1).zfill(3)
+            assert _json_from_db.get('identity').split(
+                '_')[-1] == str(int(
+                    _json_from_db.get('content').split('_')[-1]) + 1).zfill(3)
 
     # print('\ntest_model_contents, result ->', result)
 

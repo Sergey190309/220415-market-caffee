@@ -282,7 +282,7 @@ def attributes():
                 'type': 'vblock',
                 'name': 'vblock00',
                 'subtype': 'txt',
-                "qnt": 3,
+                "qnt": 5,
             },
         '02':
             {

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-03 08:59+0000\n"
-"PO-Revision-Date: 2021-09-03 09:00+0000\n"
+"POT-Creation-Date: 2021-09-06 04:44+0000\n"
+"PO-Revision-Date: 2021-09-06 04:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -22,6 +22,12 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
+
+#: contents/models/contents.py:119
+msgid ""
+"Redundant record has been found and deleted, try to insert element once more."
+msgstr ""
+"Избыточная запись обнаружена и убита, попытайтесь вставить элемент еще раз."
 
 #: contents/resources/contents.py:26
 #, python-format
@@ -41,12 +47,12 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:50 contents/resources/contents_handling.py:41
+#: contents/resources/contents.py:50 contents/resources/contents_handling.py:44
 #: structure/resources/structure.py:64
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:58 contents/resources/contents_handling.py:32
+#: contents/resources/contents.py:58 contents/resources/contents_handling.py:35
 #: resources/views_global.py:20
 msgid "Sorry, access to views' information is allowed to admin only."
 msgstr ""
@@ -79,7 +85,8 @@ msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
 
-#: contents/resources/contents_handling.py:56
+#: contents/resources/contents_handling.py:58
+#: contents/resources/contents_handling.py:67
 #, python-format
 msgid ""
 "Request does not containts required '%(argument)s', something wrong on front-"
@@ -88,7 +95,7 @@ msgstr ""
 "Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
 "фронт-енде."
 
-#: contents/resources/contents_handling.py:69
+#: contents/resources/contents_handling.py:82
 #, python-format
 msgid ""
 "Request does not containts required '%(argument)s', something wrong on front-"
@@ -97,7 +104,7 @@ msgstr ""
 "Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
 "фронт-енде. "
 
-#: contents/resources/contents_handling.py:75
+#: contents/resources/contents_handling.py:88
 msgid ""
 "Block index is out of range, either below 0 or above block items quontity. "
 "Something wrong on front-end."
@@ -105,7 +112,19 @@ msgstr ""
 "Индекс элемента в блоке вне возможных значений, или меньше нуля, или больше "
 "количества элементов в блоке. Что-то не так на фронт-энде."
 
-#: contents/resources/contents_handling.py:108
+#: contents/resources/contents_handling.py:129
+#, python-format
+msgid ""
+"While trying to add element into block with index '%(block_index)s' on view "
+"'%(view_id)s' with locale '%(locale_id)s' the folliwng message has come: "
+"'%(result)s'. That's not good, check it out."
+msgstr ""
+"При попытке добавить элемент в блок с индексом '%(block_index)s' на "
+"страничку '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
+"сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
+
+#: contents/resources/contents_handling.py:141
+#: contents/resources/contents_handling.py:199
 #, python-format
 msgid ""
 "The content quontity and db structure for view '%(view_id)s' in block "
@@ -113,6 +132,17 @@ msgid ""
 msgstr ""
 "Количество содержимого и структура ДБ для странички '%(view_id)s', в блоке "
 "'%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
+
+#: contents/resources/contents_handling.py:186
+#, python-format
+msgid ""
+"While trying to remove element from block with index '%(block_index)s' on "
+"view '%(view_id)s' with locale '%(locale_id)s' the folliwng message has "
+"come: '%(result)s'. That's not good, check it out."
+msgstr ""
+"При попытке удалить элемент из блока с индексом '%(block_index)s' на "
+"страничке '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
+"сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
 
 #: home/resources/index.py:26
 msgid "Global variables are as in payload."

@@ -35,6 +35,7 @@ def test_change_element_qnt(
         'locale_id': random.choice(global_constants.get_PKS)
     }
     _block_index = '01'
+    _qnt = attributes.get(_block_index).get('qnt')
     _first_user_id = random.randrange(128)
     '''Update structure'''
     _updating_structure = StructureModel.find_by_ids(_criterions)
@@ -43,7 +44,7 @@ def test_change_element_qnt(
     _element_qnt = _us_dumped.get('attributes').get(_block_index).get('qnt')
     _user_id = _us_dumped.get('user_id')
     '''Expect it's updated as per available constants'''
-    assert _element_qnt == 3
+    assert _element_qnt == _qnt
     assert _user_id == 0
 
     '''add element'''
@@ -56,7 +57,7 @@ def test_change_element_qnt(
     _element_qnt = _us_dumped.get('attributes').get(_block_index).get('qnt')
     _user_id = _us_dumped.get('user_id')
     '''Expect it's updated as per available constants'''
-    assert _element_qnt == 4
+    assert _element_qnt == _qnt + 1
     assert _first_user_id == _user_id
 
     '''remove element'''
@@ -70,11 +71,11 @@ def test_change_element_qnt(
     _element_qnt = _us_dumped.get('attributes').get(_block_index).get('qnt')
     _user_id = _us_dumped.get('user_id')
     '''Expect it's updated as per available constants'''
-    assert _element_qnt == 3
+    assert _element_qnt == _qnt
     assert _second_user_id == _user_id
 
-    # print('\nunits, structure, test_model_structure, test_add_element, some ->',
-    #       _block_index)
+    # print('\nunits, structure, test_model_structure, test_add_element, attributes ->',
+    #       attributes)
 
 
 # @pytest.mark.active
