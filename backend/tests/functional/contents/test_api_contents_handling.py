@@ -151,7 +151,7 @@ def test_contents_handling_put(
     # [_structure.delete_fm_db() for _structure in StructureModel.find()]
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.parametrize(
     'lng, test_word, test_word_01, test_word_02, test_word_03',
     [

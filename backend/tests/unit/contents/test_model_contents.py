@@ -96,8 +96,85 @@ def test_remove_element_fm_block(client):
                     _json_from_db.get('content').split('_')[-1]) - 1).zfill(3)
 
 
+@pytest.mark.active
+def test_remove_element_fm_block_DB_mistake(client):
+    '''clean up contents table'''
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+    '''Create test constants'''
+    _content = ContentModel()
+    _locale_id = random.choice(global_constants.get_PKS)
+    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _record_id_body = '01_vblock_txt'
+    _qnt = 5
+    _block_id = '_'.join([_record_id_body, str(_qnt)])
+    _item_index = 2
+    _record_ids = _content.elem_ids('', _block_id)
+    _user_id = random.randrange(128)
+    '''Fill contents table'''
+    def create_save(record_id: str = ''):
+        record = content_schema.load({
+            'identity': record_id, 'view_id': _view_id,
+            'locale_id': _locale_id, 'title': f'Title {record_id}',
+            'content': f'Content {record_id}'
+        }, session=dbs_global.session)
+        record.save_to_db()
+        return record
+    [create_save(_record_id) for _record_id in _record_ids]
+    '''remove one of the record'''
+    _remove_record_index = 3
+    # _remove_record_index = random.randrange(_qnt)
+    _criterian = {
+        'identity': '_'.join([_record_id_body, str(_remove_record_index).zfill(3)]),
+        'view_id': _view_id,
+        'locale_id': _locale_id
+    }
+    print('\ntest_model_contents, '
+          '\n_remove_record_index ->', _remove_record_index)
+    _record_to_remove = ContentModel.find_by_identity_view_locale(**_criterian)
+    _record_to_remove.delete_fm_db()
+
+    '''Testing remove element'''
+    '''Success removal'''
+    result = ContentModel.remove_element_fm_block(
+        _block_id, _item_index, _view_id, _locale_id, _user_id)
+
+    '''Check what's happened'''
+    assert result is None
+    _records_from_db = ContentModel.find({'view_id': _view_id, 'locale_id': _locale_id})
+    assert len(_records_from_db) == _qnt - 1
+    for (index, _record_from_db) in enumerate(_records_from_db):
+        _json_from_db = content_schema.dump(_record_from_db)
+        if index < _item_index:
+            if index == _remove_record_index:
+                assert _json_from_db.get('title') == 'dummy'
+                assert _json_from_db.get('content') == 'dummy'
+            else:
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == _json_from_db.get('title').split('_')[-1]
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == _json_from_db.get('content').split('_')[-1]
+        else:
+            if index == _remove_record_index - 1:
+                assert _json_from_db.get('title') == 'dummy'
+                assert _json_from_db.get('content') == 'dummy'
+            else:
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == str(int(
+                        _json_from_db.get('title').split(
+                            '_')[-1]) - 1).zfill(3)
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == str(int(
+                        _json_from_db.get('content').split(
+                            '_')[-1]) - 1).zfill(3)
+
+
 # @pytest.mark.active
 def test_add_element_to_block(client):
+    '''
+    The following tests here:
+    Update db intact - successfull update.
+    Deleting redundant record.
+    '''
     '''clean up contents table'''
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''Create test constants'''
@@ -150,14 +227,8 @@ def test_add_element_to_block(client):
     _records_from_db = ContentModel.find({'view_id': _view_id, 'locale_id': _locale_id})
     assert len(_records_from_db) == _qnt + 1
     for (index, _record_from_db) in enumerate(_records_from_db):
-        # print('test_model_contents, index ->', index)
         _json_from_db = content_schema.dump(_record_from_db)
         if index < _item_index:
-            # print(
-            #     'test_model_contents, _record_from_db ->',
-            #     _json_from_db.get('identity'), '\t',
-            #     _json_from_db.get('title')
-            # )
             assert _json_from_db.get('identity').split(
                 '_')[-1] == _json_from_db.get('title').split('_')[-1]
             assert _json_from_db.get('identity').split(
@@ -166,19 +237,87 @@ def test_add_element_to_block(client):
             assert _json_from_db.get('title') == ''
             assert _json_from_db.get('content') == ''
         if index > _item_index:
-            # print(
-            #     'test_model_contents, _record_from_db ->',
-            #     _json_from_db.get('identity'), '\t',
-            #     _json_from_db.get('title')
-            # )
             assert _json_from_db.get('identity').split(
                 '_')[-1] == str(int(
                     _json_from_db.get('title').split('_')[-1]) + 1).zfill(3)
             assert _json_from_db.get('identity').split(
                 '_')[-1] == str(int(
                     _json_from_db.get('content').split('_')[-1]) + 1).zfill(3)
-
     # print('\ntest_model_contents, result ->', result)
+
+
+# @pytest.mark.active
+def test_add_element_to_block_DB_mistakes(client):
+    '''clean up contents table'''
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+    '''Create test constants'''
+    _content = ContentModel()
+    _locale_id = random.choice(global_constants.get_PKS)
+    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _record_id_body = '01_vblock_txt'
+    _qnt = 6
+    _block_id = '_'.join([_record_id_body, str(_qnt)])
+    _item_index = 3
+    _record_ids = _content.elem_ids('', _block_id)
+    _user_id = random.randrange(128)
+    '''Fill contents table'''
+    def create_save(record_id: str = ''):
+        record = content_schema.load({
+            'identity': record_id, 'view_id': _view_id,
+            'locale_id': _locale_id, 'title': f'Title {record_id}',
+            'content': f'Content {record_id}'
+        }, session=dbs_global.session)
+        record.save_to_db()
+        return record
+    [create_save(_record_id) for _record_id in _record_ids]
+    '''Testing add element'''
+    '''remove one of the record'''
+    # _remove_record_index = 4
+    _remove_record_index = random.randrange(_qnt)
+    _criterian = {
+        'identity': '_'.join([_record_id_body, str(_remove_record_index).zfill(3)]),
+        'view_id': _view_id,
+        'locale_id': _locale_id
+    }
+    # print('\ntest_model_contents, '
+    #       '\n_remove_record_index ->', _remove_record_index)
+    _record_to_remove = ContentModel.find_by_identity_view_locale(**_criterian)
+    _record_to_remove.delete_fm_db()
+
+    '''Update'''
+    result = ContentModel.add_element_to_block(
+        _block_id, _item_index, _view_id, _locale_id, _user_id)
+
+    '''Check what's happened'''
+    assert result is None
+    _records_from_db = ContentModel.find({
+        'view_id': _view_id, 'locale_id': _locale_id})
+    assert len(_records_from_db) == _qnt + 1
+    for (index, _record_from_db) in enumerate(_records_from_db):
+        _json_from_db = content_schema.dump(_record_from_db)
+        if index < _item_index:
+            if index == _remove_record_index:
+                assert _json_from_db.get('title') == 'dummy'
+                assert _json_from_db.get('content') == 'dummy'
+            else:
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == _json_from_db.get('title').split('_')[-1]
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == _json_from_db.get('content').split('_')[-1]
+        if index == _item_index:
+            assert _json_from_db.get('title') == 'dummy'
+            assert _json_from_db.get('content') == 'dummy'
+        if index > _item_index:
+            if index == _remove_record_index + 1:
+                assert _json_from_db.get('title') == 'dummy'
+                assert _json_from_db.get('content') == 'dummy'
+            else:
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == str(int(
+                        _json_from_db.get('title').split('_')[-1]) + 1).zfill(3)
+                assert _json_from_db.get('identity').split(
+                    '_')[-1] == str(int(
+                        _json_from_db.get('content').split('_')[-1]) + 1).zfill(3)
 
 
 # @pytest.mark.active

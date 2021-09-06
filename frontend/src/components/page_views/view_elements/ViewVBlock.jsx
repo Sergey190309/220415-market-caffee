@@ -9,18 +9,19 @@ import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
-export const addAbove = recordId => {
-  console.log('components, page_view, view_element, ViewVBlock, addAbove, recordId ->', recordId)
+export const addAbove = (recordId, recordsId) => {
+  console.log('components, page_view, view_element, ViewVBlock, addAbove, \nrecordId ->', recordId, ' of ', recordsId)
 }
 
 export const addBelow = recordId => {
   console.log('components, page_view, view_element, ViewVBlock, addBelow, recordId ->', recordId)
 }
+
 export const deleteElement = recordId => {
   console.log('components, page_view, view_element, ViewVBlock, deleteElement, recordId ->', recordId)
 }
 
-const ViewVBlock = ({ recordsId, viewName, lng }) => {
+const ViewVBlock = ({ recordsId, viewName, lng, addAbove, addBelow, deleteElement }) => {
   /**
    * recordsId structure - 01_vblock_txt_3
    * 01 - serial number
@@ -36,11 +37,15 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
   useEffect(() => {
     setRecordIdList(makeRecordIdList(recordsId))
   }, [recordsId])
+  const addAboveProp = recordId => {
+    addAbove(recordId, recordsId)
+  }
 
   const props = {
     viewName,
     lng,
-    addAboveProp: addAbove,
+    addAboveProp,
+    // addAboveProp: addAbove,
     addBelowProp: addBelow,
     deleteElementProp: deleteElement
   }
@@ -77,13 +82,19 @@ const ViewVBlock = ({ recordsId, viewName, lng }) => {
 ViewVBlock.defaultProps = {
   recordsId: '',
   viewName: '',
-  lng: ''
+  lng: '',
+  addAbove,
+  addBelow,
+  deleteElement
 }
 
 ViewVBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired
+  lng: PropTypes.string.isRequired,
+  addAbove: PropTypes.func.isRequired,
+  addBelow: PropTypes.func.isRequired,
+  deleteElement: PropTypes.func.isRequired
 }
 
 // const mapStateToProps = state => ({
