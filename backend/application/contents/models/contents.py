@@ -40,10 +40,10 @@ class ContentModel(dbs_global.Model):
         nullable=False,
         default=0)
     title = dbs_global.Column(
-        dbs_global.String(64), default="That's title")
+        dbs_global.String(64), default='dummy')
     # dbs_global.String(64), nullable=False, default="That's title")
     # content on site:
-    content = dbs_global.Column(dbs_global.UnicodeText, default="That's title")
+    content = dbs_global.Column(dbs_global.UnicodeText, default='dummy')
 
     locale = dbs_global.relationship(
         'LocaleGlobalModel', backref='contentmodel')
@@ -121,11 +121,20 @@ class ContentModel(dbs_global.Model):
             }
         '''Normal record insertion.'''
         _active_index = len(_updated_record_ids) - 1
-        print('\nContents, model, add_element_to_block, '
-              '\n_updated_record_ids ->', _updated_record_ids)
+        # print('\nContents, model, add_element_to_block, '
+        #       '\n_updated_record_ids ->', _updated_record_ids)
         _criterian = {**_criterian, 'identity': _updated_record_ids[_active_index - 1]}
         _record_s = cls.find_by_identity_view_locale(**_criterian)
-        '''Creation new record above existing ones.'''
+        if _record_s is None:
+            _record_s = ContentModel(
+                identity=_criterian.get('identity'),
+                view_id=_criterian.get('view_id'),
+                locale_id=_criterian.get('locale_id'),
+                user_id=_criterian.get('user_id'),
+            )
+            _record_s.save_to_db()
+
+        '''Creation new record next to  existing ones.'''
         '''_record_s - source record; _record_t - target record'''
 
         _record_t = cls(
@@ -139,18 +148,27 @@ class ContentModel(dbs_global.Model):
         _record_t.save_to_db()
         _active_index -= 1
         '''Move title and content to records with next identity.'''
-        while _active_index > item_index:
+        while _active_index >= 0:
             _criterian = {**_criterian,
                           'identity': _updated_record_ids[_active_index - 1]}
             _record_s = cls.find_by_identity_view_locale(**_criterian)
-            _criterian = {**_criterian,
-                          'identity': _updated_record_ids[_active_index]}
-            _active_record = cls.find_by_identity_view_locale(**_criterian)
-            update_result = _active_record.update({
-                'user_id': user_id,
-                'title': _record_s.title,
-                'content': _record_s.content
-            })
+            if _record_s is None:
+                _record_s = ContentModel(
+                    identity=_criterian.get('identity'),
+                    view_id=_criterian.get('view_id'),
+                    locale_id=_criterian.get('locale_id'),
+                    user_id=_criterian.get('user_id'),
+                )
+                _record_s.save_to_db()
+            if _active_index > item_index:
+                _criterian = {**_criterian,
+                              'identity': _updated_record_ids[_active_index]}
+                _active_record = cls.find_by_identity_view_locale(**_criterian)
+                update_result = _active_record.update({
+                    'user_id': user_id,
+                    'title': _record_s.title,
+                    'content': _record_s.content
+                })
             _active_index -= 1
         '''Clear title and content in inserted record.'''
         _criterian = {**_criterian,
@@ -158,8 +176,8 @@ class ContentModel(dbs_global.Model):
         _active_record = cls.find_by_identity_view_locale(**_criterian)
         update_result = _active_record.update({
             'user_id': user_id,
-            'title': '',
-            'content': ''
+            'title': 'dummy',
+            'content': 'dummy'
         })
         return update_result
 
@@ -187,7 +205,8 @@ class ContentModel(dbs_global.Model):
         _updated_record_ids = cls.elem_ids('dec', block_id)
         _last_record_id = cls.elem_ids('', block_id)[-1]
         '''Normal record insertion.'''
-        _active_index = item_index
+        _active_index = 0
+        # _active_index = item_index
         _criterian = {
             'view_id': view_id,
             'locale_id': locale_id
@@ -203,17 +222,25 @@ class ContentModel(dbs_global.Model):
                 _criterian = {**_criterian,
                               'identity': _last_record_id}
             _record_s = cls.find_by_identity_view_locale(**_criterian)
-            result = _record_t.update({
-                'user_id': user_id,
-                'title': _record_s.title,
-                'content': _record_s.content
-            })
+            if _record_s is None:
+                _record_s = ContentModel(
+                    identity=_criterian.get('identity'),
+                    view_id=_criterian.get('view_id'),
+                    locale_id=_criterian.get('locale_id'),
+                    user_id=_criterian.get('user_id'),
+                )
+                _record_s.save_to_db()
+            if _active_index >= item_index:
+                result = _record_t.update({
+                    'user_id': user_id,
+                    'title': _record_s.title,
+                    'content': _record_s.content
+                })
             # print('\nContents, model, remove_element_fm_block, '
             #       '\n _record_t ->', _record_t
             #       )
             _active_index += 1
-            _criterian = {**_criterian,
-                          'identity': _last_record_id}
+        _criterian = {**_criterian, 'identity': _last_record_id}
         _record_s = cls.find_by_identity_view_locale(**_criterian)
         result = _record_s.delete_fm_db()
         return result
