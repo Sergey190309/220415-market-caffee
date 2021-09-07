@@ -282,14 +282,14 @@ def attributes():
                 'type': 'vblock',
                 'name': 'vblock00',
                 'subtype': 'txt',
-                "qnt": 5,
+                "qnt": 4,
             },
         '02':
             {
                 'type': 'hblock',
                 'name': 'hblock00',
                 'subtype': 'pix',
-                "qnt": 2
+                "qnt": 3
             },
         '03':
             {

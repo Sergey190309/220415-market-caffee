@@ -43,17 +43,32 @@ def test_elem_ids():
 
 
 # @pytest.mark.active
-def test_remove_element_fm_block(client):
+@pytest.mark.parametrize(
+    'lng, test_word, test_word_01, test_word_02, test_word_03',
+    [
+        ('en',
+            'Request does not contain', 'Sorry, access',
+            'Something wrong', 'structure'),
+        ('ru',
+            'Запрос не содержит', 'Извиняйте, доступ',
+            'Что-то не так', 'структура'),
+    ]
+)
+def test_remove_element_fm_block(
+    client,
+    lng, test_word, test_word_01, test_word_02, test_word_03
+):
     '''clean up contents table'''
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''Create test constants'''
     _content = ContentModel()
-    _locale_id = random.choice(global_constants.get_PKS)
+    _locale_id = lng
+    # _locale_id = random.choice(global_constants.get_PKS)
     _view_id = random.choice(global_constants.get_VIEWS_PKS)
     _record_id_body = '01_vblock_txt'
-    _qnt = 5
+    _qnt = 4
     _block_id = '_'.join([_record_id_body, str(_qnt)])
-    _item_index = 1
+    _item_index = 2
     _record_ids = _content.elem_ids('', _block_id)
     _user_id = random.randrange(128)
     '''Fill contents table'''
@@ -96,8 +111,19 @@ def test_remove_element_fm_block(client):
                     _json_from_db.get('content').split('_')[-1]) - 1).zfill(3)
 
 
-@pytest.mark.active
-def test_remove_element_fm_block_DB_mistake(client):
+# @pytest.mark.active
+@pytest.mark.parametrize(
+    'remove_record_index',
+    [
+        (1),
+        (2),
+        (3)
+    ]
+)
+def test_remove_element_fm_block_DB_mistake(
+    client,
+    remove_record_index
+):
     '''clean up contents table'''
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''Create test constants'''
@@ -105,7 +131,7 @@ def test_remove_element_fm_block_DB_mistake(client):
     _locale_id = random.choice(global_constants.get_PKS)
     _view_id = random.choice(global_constants.get_VIEWS_PKS)
     _record_id_body = '01_vblock_txt'
-    _qnt = 5
+    _qnt = 4
     _block_id = '_'.join([_record_id_body, str(_qnt)])
     _item_index = 2
     _record_ids = _content.elem_ids('', _block_id)
@@ -121,15 +147,15 @@ def test_remove_element_fm_block_DB_mistake(client):
         return record
     [create_save(_record_id) for _record_id in _record_ids]
     '''remove one of the record'''
-    _remove_record_index = 3
+    # _remove_record_index = 2
     # _remove_record_index = random.randrange(_qnt)
     _criterian = {
-        'identity': '_'.join([_record_id_body, str(_remove_record_index).zfill(3)]),
+        'identity': '_'.join([_record_id_body, str(remove_record_index).zfill(3)]),
         'view_id': _view_id,
         'locale_id': _locale_id
     }
-    print('\ntest_model_contents, '
-          '\n_remove_record_index ->', _remove_record_index)
+    # print('\ntest_model_contents, '
+    #       '\n_remove_record_index ->', _remove_record_index)
     _record_to_remove = ContentModel.find_by_identity_view_locale(**_criterian)
     _record_to_remove.delete_fm_db()
 
@@ -145,7 +171,7 @@ def test_remove_element_fm_block_DB_mistake(client):
     for (index, _record_from_db) in enumerate(_records_from_db):
         _json_from_db = content_schema.dump(_record_from_db)
         if index < _item_index:
-            if index == _remove_record_index:
+            if index == remove_record_index:
                 assert _json_from_db.get('title') == 'dummy'
                 assert _json_from_db.get('content') == 'dummy'
             else:
@@ -154,7 +180,7 @@ def test_remove_element_fm_block_DB_mistake(client):
                 assert _json_from_db.get('identity').split(
                     '_')[-1] == _json_from_db.get('content').split('_')[-1]
         else:
-            if index == _remove_record_index - 1:
+            if index == remove_record_index - 1:
                 assert _json_from_db.get('title') == 'dummy'
                 assert _json_from_db.get('content') == 'dummy'
             else:
@@ -234,8 +260,8 @@ def test_add_element_to_block(client):
             assert _json_from_db.get('identity').split(
                 '_')[-1] == _json_from_db.get('content').split('_')[-1]
         if index == _item_index:
-            assert _json_from_db.get('title') == ''
-            assert _json_from_db.get('content') == ''
+            assert _json_from_db.get('title') == 'dummy'
+            assert _json_from_db.get('content') == 'dummy'
         if index > _item_index:
             assert _json_from_db.get('identity').split(
                 '_')[-1] == str(int(

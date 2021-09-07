@@ -1,20 +1,21 @@
 import store from '../store'
 import {
-  backendUpdateFail, backendUpdateStart,
+  backendUpdateFail, backendTxtUpdateStart,
   backendUpdateSuccess, initialState,
   resetBackendUpdate, setTestState
 } from './backendUpdate'
 // import { putTextContent } from '../../api/calls/content'
 
 jest.mock('../../api/calls/content')
-describe('backendUpdate slice testing', () => {
+describe('backendTxtUpdate slice testing', () => {
   const mockPayload = {
     identity: 'mockIdentity',
     view_id: 'mockViewId',
     content: {
       title: 'mockTitnle',
       content: ['mockContent']
-    }
+    },
+    index: -1
   }
   let state
   beforeEach(() => {
@@ -24,8 +25,8 @@ describe('backendUpdate slice testing', () => {
     expect(state).toEqual(initialState)
   })
 
-  test('backendUpdateStart testing', () => {
-    store.dispatch(backendUpdateStart(mockPayload))
+  test('backendTxtUpdateStart testing', () => {
+    store.dispatch(backendTxtUpdateStart(mockPayload))
     state = store.getState().backendUpdate
     const expState = {
       ...mockPayload,

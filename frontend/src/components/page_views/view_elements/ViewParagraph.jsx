@@ -12,7 +12,7 @@ import {
   // putContentSaga
 } from '../../../redux/saga/content/content'
 import {
-  deviceSelector, backendUpdateStart,
+  deviceSelector, backendTxtUpdateStart,
   resetBackendUpdate, backendUpdateSelector
 } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
@@ -23,8 +23,7 @@ import Indicator from './indicator/Indicator'
 
 const ViewParagraph = ({
   initialState, recordId, viewName, lng,
-  addAboveProp,
-  addBelowProp,
+  addElementProp,
   deleteElementProp
 }) => {
   /**
@@ -88,8 +87,11 @@ const ViewParagraph = ({
   }, [content])
 
   useEffect(() => {
-    setChanged(false)
-    dispatch(resetBackendUpdate())
+    if (changed) {
+      console.log('componetns, ViewParagraph, useEffect ->')
+      setChanged(false)
+      dispatch(resetBackendUpdate())
+    }
   }, [loaded])
 
   const onClickHandler = event => {
@@ -134,7 +136,7 @@ const ViewParagraph = ({
 
   const saveToBackend = () => {
     // console.log('ViewParagraph, saveToBackend, content ->', content)
-    dispatch(backendUpdateStart({
+    dispatch(backendTxtUpdateStart({
       identity: recordId,
       view_id: viewName,
       content: content
@@ -144,21 +146,36 @@ const ViewParagraph = ({
     /**
      * To send signal one block above to change structure
      */
-    addAboveProp(recordId)
+    const recordIndex = parseInt(recordId.split('_').pop())
+    if (isNaN(recordIndex)) {
+      console.log('Unable to parse recordId for index')
+    } else {
+      addElementProp(recordIndex)
+    }
     // console.log('ViewParagraph, addAbove')
   }
   const addBelow = () => {
     /**
      * To send signal one block above to change structure
      */
-    addBelowProp(recordId)
-    // console.log('ViewParagraph, addBelow')
+    const recordIndex = parseInt(recordId.split('_').pop())
+    if (isNaN(recordIndex)) {
+      console.log('Unable to parse recordId for index')
+    } else {
+      addElementProp(recordIndex + 1)
+    }
+    //  console.log('ViewParagraph, addBelow')
   }
   const deleteElement = () => {
     /**
      * To send signal one block above to change structure
      */
-    deleteElementProp(recordId)
+    const recordIndex = parseInt(recordId.split('_').pop())
+    if (isNaN(recordIndex)) {
+      console.log('Unable to parse recordId for index')
+    } else {
+      deleteElementProp(recordIndex)
+    }
     // console.log('ViewParagraph, deleteFmBackend')
   }
 
@@ -212,8 +229,7 @@ ViewParagraph.defaultProps = {
   recordId: '',
   viewName: '',
   lng: '',
-  addAboveProp: () => {},
-  addBelowProp: () => {},
+  addElementProp: () => {},
   deleteElementProp: () => {}
 }
 
@@ -222,8 +238,7 @@ ViewParagraph.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-  addAboveProp: PropTypes.func.isRequired,
-  addBelowProp: PropTypes.func.isRequired,
+  addElementProp: PropTypes.func.isRequired,
   deleteElementProp: PropTypes.func.isRequired
 }
 

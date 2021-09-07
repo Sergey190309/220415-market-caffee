@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 
 import {
-  backendUpdateStart,
+  backendTxtUpdateStart,
   backendUpdateSuccess,
   // backendUpdateFail,
   // backendUpdateSelector,
@@ -14,7 +14,7 @@ import { setAlertData } from '../../utils/utils'
 // import { actRespErrorMessage } from '../../utils/errorHandler'
 
 export function * putTextSaga () {
-  yield takeEvery(backendUpdateStart.type, backendTextUpdate)
+  yield takeEvery(backendTxtUpdateStart.type, backendTextUpdate)
 }
 
 export function * backendTextUpdate (action) {

@@ -9,19 +9,15 @@ import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
-export const addAbove = (recordId, recordsId) => {
-  console.log('components, page_view, view_element, ViewVBlock, addAbove, \nrecordId ->', recordId, ' of ', recordsId)
+export const addElement = (recordIndex, recordsId) => {
+  console.log('components, page_view, view_element, ViewVBlock, add element, \nrecordIndex ->', recordIndex, ' of ', recordsId)
 }
 
-export const addBelow = recordId => {
-  console.log('components, page_view, view_element, ViewVBlock, addBelow, recordId ->', recordId)
+export const deleteElement = (recordIndex, recordsId) => {
+  console.log('components, page_view, view_element, ViewVBlock, delete element, \nrecordIndex ->', recordIndex, ' of ', recordsId)
 }
 
-export const deleteElement = recordId => {
-  console.log('components, page_view, view_element, ViewVBlock, deleteElement, recordId ->', recordId)
-}
-
-const ViewVBlock = ({ recordsId, viewName, lng, addAbove, addBelow, deleteElement }) => {
+const ViewVBlock = ({ recordsId, viewName, lng, addElement, deleteElement }) => {
   /**
    * recordsId structure - 01_vblock_txt_3
    * 01 - serial number
@@ -37,17 +33,20 @@ const ViewVBlock = ({ recordsId, viewName, lng, addAbove, addBelow, deleteElemen
   useEffect(() => {
     setRecordIdList(makeRecordIdList(recordsId))
   }, [recordsId])
-  const addAboveProp = recordId => {
-    addAbove(recordId, recordsId)
+
+  const addElementProp = recordIndex => {
+    addElement(recordIndex, recordsId)
+  }
+
+  const deleteElementProp = recordIndex => {
+    deleteElement(recordIndex, recordsId)
   }
 
   const props = {
     viewName,
     lng,
-    addAboveProp,
-    // addAboveProp: addAbove,
-    addBelowProp: addBelow,
-    deleteElementProp: deleteElement
+    addElementProp,
+    deleteElementProp
   }
   // console.log('ViewVBlock, recordIdList ->', recordIdList);
 
@@ -83,8 +82,7 @@ ViewVBlock.defaultProps = {
   recordsId: '',
   viewName: '',
   lng: '',
-  addAbove,
-  addBelow,
+  addElement,
   deleteElement
 }
 
@@ -92,8 +90,7 @@ ViewVBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-  addAbove: PropTypes.func.isRequired,
-  addBelow: PropTypes.func.isRequired,
+  addElement: PropTypes.func.isRequired,
   deleteElement: PropTypes.func.isRequired
 }
 

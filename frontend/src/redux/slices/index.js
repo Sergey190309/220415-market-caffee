@@ -47,7 +47,7 @@ export {
 } from './auth'
 export {
   setTestState as backendUpdateSetState,
-  backendUpdateStart,
+  backendTxtUpdateStart,
   backendUpdateSuccess,
   backendUpdateFail,
   resetBackendUpdate,

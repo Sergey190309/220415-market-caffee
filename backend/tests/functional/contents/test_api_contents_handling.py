@@ -42,6 +42,7 @@ def test_contents_handling_put(
         attributes.get(_block_id).get('subtype')
     ])
     _qnt = attributes.get(_block_id).get('qnt')
+    # print('\ntest_contents_handling_put:\n_qnt ->', _qnt)
     _block_id = '_'.join([_record_id_body, str(_qnt)])
     _item_index = 2
     _record_ids = _content.elem_ids('', _block_id)
@@ -151,7 +152,7 @@ def test_contents_handling_put(
     # [_structure.delete_fm_db() for _structure in StructureModel.find()]
 
 
-# @pytest.mark.active
+@pytest.mark.active
 @pytest.mark.parametrize(
     'lng, test_word, test_word_01, test_word_02, test_word_03',
     [
@@ -236,60 +237,62 @@ def test_contents_handling_delete(
     # #       '\nlocale_id ->\t', lng)
     _resp = client.patch(url_for('contents_bp.contentshandling'),
                          json=_json, headers=_admin_headers)
-    assert _resp.status_code == 200
-    assert _resp.json.get('message').find(test_word_03) != -1
+    # assert _resp.status_code == 200
+    # assert _resp.json.get('message').find(test_word_03) != -1
+    print('\ntest, api, contents_handling,\n'
+          '_resp.status_code ->', _resp.status_code)
+    print('test, api, contents_handling,\n'
+          '_resp.json ->', _resp.json)
 
-    '''Failures'''
-    '''No tokens'''
-    _no_token_header = {
-        k: v for (k, v) in _admin_headers.items() if k != 'Authorization'}
-    _resp = client.patch(url_for('contents_bp.contentshandling'),
-                         json=_json, headers=_no_token_header)
-    assert _resp.status_code == 401
-    assert _resp.json.get('error') == 'authorization_required'
-    assert _resp.json.get('description').find(test_word) != -1
+    # '''Failures'''
+    # '''No tokens'''
+    # _no_token_header = {
+    #     k: v for (k, v) in _admin_headers.items() if k != 'Authorization'}
+    # _resp = client.patch(url_for('contents_bp.contentshandling'),
+    #                      json=_json, headers=_no_token_header)
+    # assert _resp.status_code == 401
+    # assert _resp.json.get('error') == 'authorization_required'
+    # assert _resp.json.get('description').find(test_word) != -1
 
-    '''Non admin'''
-    _resp = client.patch(url_for('contents_bp.contentshandling'),
-                         json=_json, headers=_user_headers)
-    assert _resp.status_code == 401
-    assert _resp.json.get('message').find(test_word_01) != -1
+    # '''Non admin'''
+    # _resp = client.patch(url_for('contents_bp.contentshandling'),
+    #                      json=_json, headers=_user_headers)
+    # assert _resp.status_code == 401
+    # assert _resp.json.get('message').find(test_word_01) != -1
 
-    '''No block identity'''
-    _json_no_id = {k: v for (k, v) in _json.items() if k != 'block_id'}
-    _resp = client.put(url_for('contents_bp.contentshandling'),
-                       json=_json_no_id, headers=_admin_headers)
-    assert _resp.status_code == 400
-    assert _resp.json.get('message').find(test_word) != -1
+    # '''No block identity'''
+    # _json_no_id = {k: v for (k, v) in _json.items() if k != 'block_id'}
+    # _resp = client.put(url_for('contents_bp.contentshandling'),
+    #                    json=_json_no_id, headers=_admin_headers)
+    # assert _resp.status_code == 400
+    # assert _resp.json.get('message').find(test_word) != -1
 
-    '''wrong item index'''
-    '''no item index'''
-    _json_wrong_index = {k: v for (k, v) in _json.items() if k != 'item_index'}
-    _resp = client.put(url_for('contents_bp.contentshandling'),
-                       json=_json_wrong_index, headers=_admin_headers)
-    assert _resp.status_code == 400
-    assert _resp.json.get('message').find(test_word) != -1
+    # '''wrong item index'''
+    # '''no item index'''
+    # _json_wrong_index = {k: v for (k, v) in _json.items() if k != 'item_index'}
+    # _resp = client.put(url_for('contents_bp.contentshandling'),
+    #                    json=_json_wrong_index, headers=_admin_headers)
+    # assert _resp.status_code == 400
+    # assert _resp.json.get('message').find(test_word) != -1
 
-    '''Negative item index'''
-    _json_wrong_index = {**_json, 'item_index': -1}
-    _resp = client.put(url_for('contents_bp.contentshandling'),
-                       json=_json_wrong_index, headers=_admin_headers)
-    assert _resp.status_code == 400
-    assert _resp.json.get('message').find(test_word_02) != -1
+    # '''Negative item index'''
+    # _json_wrong_index = {**_json, 'item_index': -1}
+    # _resp = client.put(url_for('contents_bp.contentshandling'),
+    #                    json=_json_wrong_index, headers=_admin_headers)
+    # assert _resp.status_code == 400
+    # assert _resp.json.get('message').find(test_word_02) != -1
 
-    '''Block index above item element quontity'''
-    _json_wrong_index = {**_json, 'item_index': _qnt + 1}
-    _resp = client.put(url_for('contents_bp.contentshandling'),
-                       json=_json_wrong_index, headers=_admin_headers)
-    assert _resp.status_code == 400
-    assert _resp.json.get('message').find(test_word_02) != -1
-    # print('\ntest, api, contents_handling, status ->', _resp.status_code)
-    # print('test, api, contents_handling, json ->', _resp.json)
+    # '''Block index above item element quontity'''
+    # _json_wrong_index = {**_json, 'item_index': _qnt + 1}
+    # _resp = client.put(url_for('contents_bp.contentshandling'),
+    #                    json=_json_wrong_index, headers=_admin_headers)
+    # assert _resp.status_code == 400
+    # assert _resp.json.get('message').find(test_word_02) != -1
 
-    '''clean up users tables'''
-    if _user is not None:
-        _user.delete_fm_db()
-    if _admin is not None:
-        _admin.delete_fm_db()
+    # '''clean up users tables'''
+    # if _user is not None:
+    #     _user.delete_fm_db()
+    # if _admin is not None:
+    #     _admin.delete_fm_db()
     # '''clean up structure tables'''
     # [_structure.delete_fm_db() for _structure in StructureModel.find()]

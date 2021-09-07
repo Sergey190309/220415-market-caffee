@@ -10,7 +10,7 @@ import {
   confirmPasswordStart,
   confirmPasswordSuccess,
   confirmPasswordFail,
-  backendUpdateStart,
+  backendTxtUpdateStart,
   backendUpdateSelector
 } from '../slices'
 
@@ -32,7 +32,7 @@ export function * confirmPasswordFetch (action) {
     const stateContent = yield select(backendUpdateSelector)
     // console.log('saga, auth, confirmPasswordFetch, stateContent ->', stateContent)
     const { loading, loaded, ...others } = stateContent
-    yield put(backendUpdateStart(others))
+    yield put(backendTxtUpdateStart(others))
     yield put(
       startAlert(
         setAlertData({
