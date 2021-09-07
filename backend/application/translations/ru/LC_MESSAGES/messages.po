@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-09-06 04:44+0000\n"
-"PO-Revision-Date: 2021-09-06 04:45+0000\n"
+"POT-Creation-Date: 2021-09-06 13:06+0000\n"
+"PO-Revision-Date: 2021-09-06 13:07+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -112,7 +112,17 @@ msgstr ""
 "Индекс элемента в блоке вне возможных значений, или меньше нуля, или больше "
 "количества элементов в блоке. Что-то не так на фронт-энде."
 
-#: contents/resources/contents_handling.py:129
+#: contents/resources/contents_handling.py:121
+#, python-format
+msgid ""
+"While trying update view structure '%(view_id)s', locale '%(locale_id)s' the "
+"following message has come: '%(result)s'. That's not good, check it out."
+msgstr ""
+"При попытке обновить структуру картинки '%(view_id)s', локализация "
+"'%(locale_id)s' получено следующее сообщение: '%(result)s'. Это не хорошо, "
+"проверьте пожалуйста."
+
+#: contents/resources/contents_handling.py:140
 #, python-format
 msgid ""
 "While trying to add element into block with index '%(block_index)s' on view "
@@ -123,8 +133,8 @@ msgstr ""
 "страничку '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
 "сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
 
-#: contents/resources/contents_handling.py:141
-#: contents/resources/contents_handling.py:199
+#: contents/resources/contents_handling.py:152
+#: contents/resources/contents_handling.py:210
 #, python-format
 msgid ""
 "The content quontity and db structure for view '%(view_id)s' in block "
@@ -133,7 +143,7 @@ msgstr ""
 "Количество содержимого и структура ДБ для странички '%(view_id)s', в блоке "
 "'%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
 
-#: contents/resources/contents_handling.py:186
+#: contents/resources/contents_handling.py:197
 #, python-format
 msgid ""
 "While trying to remove element from block with index '%(block_index)s' on "

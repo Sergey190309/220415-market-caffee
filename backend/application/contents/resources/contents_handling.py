@@ -113,8 +113,27 @@ class ContentsHandling(Resource):
                       'locale_id': _lng}
         _tested_criterion = structure_get_schema.load(_criterion)
         _structure = StructureModel.find_by_ids(_tested_criterion)
-        _structure.change_element_qnt('inc', cls.block_index, _user_id)
+        _change_element_qnt_result = _structure.change_element_qnt(
+            'inc', cls.block_index, _user_id)
+        if not isinstance(_change_element_qnt_result, int):
+            return {
+                'message': str(_(
+                    "While trying update view structure '%(view_id)s', "
+                    "locale '%(locale_id)s' the following message has "
+                    "come: '%(result)s'. That's not good, check it out.",
+                    view_id=_criterion.get('view_id'),
+                    locale_id=_criterion.get('locale_id'),
+                    result=_change_element_qnt_result))
+            }, 500
         '''Add one record to db contents with approapriate locale.'''
+        cls.block_id = '_'.join(
+            [cls.block_index,
+             cls.block_type,
+             cls.block_subtype,
+             str(_change_element_qnt_result).zfill(3)])
+        # print('resources, content_handling, '
+        #       '\n_cls.block_id ->',
+        #       cls.block_id)
         result = ContentModel.add_element_to_block(
             block_id=cls.block_id,
             item_index=cls.item_index,
@@ -127,9 +146,9 @@ class ContentsHandling(Resource):
             return {
                 'message': str(_(
                     "While trying to add element into block with index "
-                    "'%(block_index)s' on view '%(view_id)s' with locale "
-                    "'%(locale_id)s' the folliwng message has come: '%(result)s'. "
-                    "That's not good, check it out.",
+                    "'%(block_index)s' on view '%(view_id)s' with "
+                    "locale '%(locale_id)s' the folliwng message has "
+                    "come: '%(result)s'. That's not good, check it out.",
                     view_id=_view_id,
                     block_index=cls.block_index,
                     locale_id=_lng,

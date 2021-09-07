@@ -10,6 +10,7 @@ export const initialState = {
   identity: '',
   view_id: '',
   content: {},
+  index: -1,
   loading: false,
   loaded: false // used to set save to backend inactive
 }
@@ -25,11 +26,12 @@ const backendUpdateSlice = createSlice({
      */
       Object.assign(state, payload)
     },
-    backendUpdateStart: (state, { payload }) => {
+    backendTxtUpdateStart: (state, { payload }) => {
       // console.log('slice, backendUpdate, start, payload ->', payload)
       state.identity = payload.identity
       state.view_id = payload.view_id
       state.content = { ...payload.content }
+      state.index = payload.index
       state.loading = true
       state.loaded = false
     },
@@ -38,6 +40,7 @@ const backendUpdateSlice = createSlice({
       state.identity = ''
       state.view_id = ''
       state.content = {}
+      state.index = -1
       state.loading = false
       state.loaded = true
     },
@@ -54,7 +57,7 @@ const backendUpdateSlice = createSlice({
 
 export const {
   setTestState,
-  backendUpdateStart,
+  backendTxtUpdateStart,
   backendUpdateSuccess,
   backendUpdateFail,
   resetBackendUpdate

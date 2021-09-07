@@ -121,8 +121,8 @@ class ContentModel(dbs_global.Model):
             }
         '''Normal record insertion.'''
         _active_index = len(_updated_record_ids) - 1
-        # print('\nContents, model, add_element_to_block, '
-        #       '\n_updated_record_ids ->', _updated_record_ids)
+        print('\nContents, model, add_element_to_block, '
+              '\n_updated_record_ids ->', _updated_record_ids)
         _criterian = {**_criterian, 'identity': _updated_record_ids[_active_index - 1]}
         _record_s = cls.find_by_identity_view_locale(**_criterian)
         if _record_s is None:
@@ -150,7 +150,8 @@ class ContentModel(dbs_global.Model):
         '''Move title and content to records with next identity.'''
         while _active_index >= 0:
             _criterian = {**_criterian,
-                          'identity': _updated_record_ids[_active_index - 1]}
+                          'identity':
+                          _updated_record_ids[_active_index - 1]}
             _record_s = cls.find_by_identity_view_locale(**_criterian)
             if _record_s is None:
                 _record_s = ContentModel(
@@ -162,7 +163,8 @@ class ContentModel(dbs_global.Model):
                 _record_s.save_to_db()
             if _active_index > item_index:
                 _criterian = {**_criterian,
-                              'identity': _updated_record_ids[_active_index]}
+                              'identity':
+                              _updated_record_ids[_active_index]}
                 _active_record = cls.find_by_identity_view_locale(**_criterian)
                 update_result = _active_record.update({
                     'user_id': user_id,
@@ -204,6 +206,9 @@ class ContentModel(dbs_global.Model):
         #       )
         _updated_record_ids = cls.elem_ids('dec', block_id)
         _last_record_id = cls.elem_ids('', block_id)[-1]
+        # print('\ncontents, models\n'
+        #       '_updated_record_ids ->', _updated_record_ids,
+        #       '\n_last_record_id ->', _last_record_id,)
         '''Normal record insertion.'''
         _active_index = 0
         # _active_index = item_index

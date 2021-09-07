@@ -39,7 +39,6 @@ describe('ViewVBlock testing', () => {
     test('addAbove', () => {
 
     })
-
   })
 
   describe('rendering children with proper props', () => {
@@ -61,16 +60,16 @@ describe('ViewVBlock testing', () => {
         viewName: testProps.viewName,
         lng: testProps.lng,
         recordId: item,
-        addAboveProp: addAbove,
-        addBelowProp: addBelow,
-        deleteElementProp: deleteElement
+        // addAboveProp: addAbove,
+        // addBelowProp: addBelow,
+        // deleteElementProp: deleteElement
       }))
       render(<ViewVBlock {...testProps} />)
       expect(ViewParagraph).toHaveBeenCalledTimes(3)
       expect(ViewPicture).toHaveBeenCalledTimes(0)
       expect(ViewNothing).toHaveBeenCalledTimes(0)
       viewParagraphPropsList.forEach((item, index) => {
-        expect(ViewParagraph.mock.calls[index][0]).toEqual(item)
+        expect(ViewParagraph.mock.calls[index][0]).toEqual(expect.objectContaining(item))
       })
       // expect(mockViewParagraph.mock.calls[0][0]).toEqual({
       //   viewName: 'mockViewName',
@@ -96,19 +95,22 @@ describe('ViewVBlock testing', () => {
         viewName: testProps.viewName,
         lng: testProps.lng,
         recordId: item,
-        dimension: { direction: 'horizontal', size: 250 },
-        addAboveProp: addAbove,
-        addBelowProp: addBelow,
-        deleteElementProp: deleteElement
+        dimension: { direction: 'horizontal', size: 250 }
+        // addAboveProp: jest.fn().mockName('addAboveProp'),
+        // addBelowProp: addBelow,
+        // deleteElementProp: deleteElement
       }))
       render(<ViewVBlock {...testProps} />)
       expect(ViewParagraph).toHaveBeenCalledTimes(0)
       expect(ViewPicture).toHaveBeenCalledTimes(4)
       expect(ViewNothing).toHaveBeenCalledTimes(0)
       viewParagraphPropsList.forEach((item, index) => {
-        expect(ViewPicture.mock.calls[index][0]).toEqual(item)
-        // console.log('output calling ViewPicture  ->', ViewPicture.mock.calls[index][0]);
+        // expect(ViewPicture).toHaveBeenCalledWith(expect.objectContaining(item))
+        expect(ViewPicture.mock.calls[index][0]).toEqual(expect.objectContaining(item))
+        // console.log('output calling ViewPicture  ->', ViewPicture.mock.calls[index][0])
       })
+      // console.log('ViewVBlock.test, output calling ViewPicture\nviewParagraphPropsList ->', viewParagraphPropsList)
+      // screen.debug()
     })
     test('output calling ViewNothing', () => {
       const testProps = {

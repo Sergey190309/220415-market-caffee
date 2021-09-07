@@ -56,7 +56,7 @@ class StructureModel(dbs_global.Model):
         self,
         direction: str = '',  # inc or dec
         block_index: str = '', user_id: int = 0
-    ) -> Union[str, None]:
+    ) -> Union[int, str]:
         _source_attributes = dict(self.attributes)
         if direction == 'inc':
             _new_qnt = _source_attributes.get(block_index).get('qnt') + 1
@@ -70,9 +70,12 @@ class StructureModel(dbs_global.Model):
                 **_source_attributes.get(block_index), 'qnt': _new_qnt
             }
         }
-        # print('\nstructure, model, add_element, attributes ->',
-        #       _target_attributes)
-        return self.update({'attributes': _target_attributes, 'user_id': user_id})
+        update_result = self.update(
+            {'attributes': _target_attributes, 'user_id': user_id})
+        if update_result is None:
+            return _new_qnt
+        else:
+            return self.update({'attributes': _target_attributes, 'user_id': user_id})
 
     def update(self, update_values: Dict = {}) -> Union[None, str]:
         # print(update_values)
