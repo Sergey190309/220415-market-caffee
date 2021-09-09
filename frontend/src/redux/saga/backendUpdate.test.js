@@ -1,5 +1,5 @@
 import { recordSaga } from '../../testUtils'
-import { backendUpdateSuccess, openModal, startAlert } from '../slices'
+import { backendTxtUpdateSuccess, openModal, startAlert } from '../slices'
 import { backendTextUpdate } from './backendUpdate'
 import { rejectPutTextContentExpired, resolveDataPutTextContent } from '../../testAxiosConstants'
 import { authTextAxiosClient as mockAxiosClient } from '../../api/apiClient'
@@ -23,7 +23,7 @@ describe('content to backend', () => {
       mockAxiosClient.put.mockImplementationOnce(() => Promise.resolve({ data: resolveDataPutTextContent }))
       const dispatched = await recordSaga(backendTextUpdate, initialAction)
       expect(dispatched).toHaveLength(2)
-      expect(dispatched[0].type).toBe(backendUpdateSuccess.type)
+      expect(dispatched[0].type).toBe(backendTxtUpdateSuccess.type)
       expect(dispatched[0].payload).toBe(undefined)
 
       expect(dispatched[1].type).toBe(startAlert.type)

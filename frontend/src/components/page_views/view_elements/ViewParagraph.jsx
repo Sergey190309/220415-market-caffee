@@ -88,7 +88,7 @@ const ViewParagraph = ({
 
   useEffect(() => {
     if (changed) {
-      console.log('componetns, ViewParagraph, useEffect ->')
+      // console.log('componetns, ViewParagraph, useEffect ->')
       setChanged(false)
       dispatch(resetBackendUpdate())
     }
@@ -110,29 +110,6 @@ const ViewParagraph = ({
     setIndicatorOpened(false)
     setContextMenuOpened(true)
   }
-
-  const NormalOutput = () => (<Message
-    onClick={onClickHandler}
-    onMouseLeave={() => {
-      setIndicatorOpened(false)
-      setContextMenuOpened(false)
-    }}
-    data-testid='Message'
-    onContextMenu={editable
-      ? onContextMenuHendler
-      : null
-    }
-  >
-    <Message.Header content={content.title} />
-    {content.title && content.content.length > 0
-      ? <Divider />
-      : null}
-    {content.content.map((item, index) => (
-      <Message.Item as='p' key={index}>
-        {item}
-      </Message.Item>
-    ))}
-  </Message>)
 
   const saveToBackend = () => {
     // console.log('ViewParagraph, saveToBackend, content ->', content)
@@ -178,6 +155,29 @@ const ViewParagraph = ({
     }
     // console.log('ViewParagraph, deleteFmBackend')
   }
+
+  const NormalOutput = () => (<Message
+    onClick={onClickHandler}
+    onMouseLeave={() => {
+      setIndicatorOpened(false)
+      setContextMenuOpened(false)
+    }}
+    data-testid='Message'
+    onContextMenu={editable
+      ? onContextMenuHendler
+      : null
+    }
+  >
+    <Message.Header content={content.title} />
+    {content.title && content.content.length > 0
+      ? <Divider />
+      : null}
+    {content.content.map((item, index) => (
+      <Message.Item as='p' key={index}>
+        {item}
+      </Message.Item>
+    ))}
+  </Message>)
 
   return (
     <Fragment>

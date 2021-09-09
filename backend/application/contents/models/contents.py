@@ -86,7 +86,9 @@ class ContentModel(dbs_global.Model):
     @classmethod
     def add_element_to_block(
             cls,
-            block_id: str = '',  # 01_vblock_txt_4
+            block_id: str = '',  # 01_vblock_txt_5
+            # block_id already increased by 1 while updating structure
+            # table
             item_index: int = 0,
             view_id: str = '',  # landing
             locale_id: str = '',  # en
@@ -98,14 +100,17 @@ class ContentModel(dbs_global.Model):
         move element after item_index by one
         '''
         # print('\nContents, model, add_element_to_block, '
-        #       '\nblock_id ->', block_id,
-        #       '\nitem_index ->', item_index,
-        #       '\nview_id ->', view_id,
-        #       '\nlocale_id ->', locale_id,
-        #       '\nuser_id ->', user_id,
+        #       '\n block_id ->', block_id,
+        #       '\n item_index ->', item_index,
+        #       '\n view_id ->', view_id,
+        #       '\n locale_id ->', locale_id,
+        #       '\n user_id ->', user_id,
         #       )
-        _updated_record_ids = cls.elem_ids('inc', block_id)
-        '''If record with added record id exitst, delete it.'''
+        _updated_record_ids = cls.elem_ids('', block_id)  # Do not
+        # increase the value couse incoming block_id already increased
+        # in structure model update.
+        # print(' _updated_record_ids ->', _updated_record_ids)
+        # '''If record with added record id exitst, delete it.'''
         _criterian = {
             'identity': _updated_record_ids[-1],
             'view_id': view_id,
@@ -119,10 +124,11 @@ class ContentModel(dbs_global.Model):
                     "Redundant record has been found and deleted, try "
                     "to insert element once more."))
             }
+
         '''Normal record insertion.'''
+        '''Creation new exeeding record'''
+        '''_record_s - source record; _record_t - target record'''
         _active_index = len(_updated_record_ids) - 1
-        print('\nContents, model, add_element_to_block, '
-              '\n_updated_record_ids ->', _updated_record_ids)
         _criterian = {**_criterian, 'identity': _updated_record_ids[_active_index - 1]}
         _record_s = cls.find_by_identity_view_locale(**_criterian)
         if _record_s is None:
@@ -132,11 +138,6 @@ class ContentModel(dbs_global.Model):
                 locale_id=_criterian.get('locale_id'),
                 user_id=_criterian.get('user_id'),
             )
-            _record_s.save_to_db()
-
-        '''Creation new record next to  existing ones.'''
-        '''_record_s - source record; _record_t - target record'''
-
         _record_t = cls(
             identity=_updated_record_ids[_active_index],
             view_id=_record_s.view_id,
@@ -147,7 +148,11 @@ class ContentModel(dbs_global.Model):
         )
         _record_t.save_to_db()
         _active_index -= 1
-        '''Move title and content to records with next identity.'''
+        # print('\nContents, model, add_element_to_block:\n'
+        #       '_record_s ->', _record_t)
+
+        '''Coping (shifting) old values to new records next to
+        old ones.'''
         while _active_index >= 0:
             _criterian = {**_criterian,
                           'identity':

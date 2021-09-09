@@ -26,30 +26,61 @@ const backendUpdateSlice = createSlice({
      */
       Object.assign(state, payload)
     },
-    backendTxtUpdateStart: (state, { payload }) => {
-      // console.log('slice, backendUpdate, start, payload ->', payload)
-      state.identity = payload.identity
-      state.view_id = payload.view_id
-      state.content = { ...payload.content }
-      state.index = payload.index
-      state.loading = true
+    resetBackendUpdate: state => {
+      Object.assign(state, initialState)
       state.loaded = false
-    },
-    backendUpdateSuccess: state => {
-      // console.log('slice, backendUpdate, success, payload ->', payload)
-      state.identity = ''
-      state.view_id = ''
-      state.content = {}
-      state.index = -1
-      state.loading = false
-      state.loaded = true
     },
     backendUpdateFail: state => {
       state.loading = false
       state.loaded = false
     },
-    resetBackendUpdate: state => {
-      Object.assign(state, initialState)
+    backendAddElementStart: (state, { payload }) => {
+      // console.log('slice, backendUpdate, start, payload ->', payload)
+      state.identity = payload.identity
+      state.view_id = payload.view_id
+      // state.content = { ...payload.content }
+      state.index = payload.index
+      state.loading = true
+      state.loaded = false
+    },
+    backendAddElementSuccess: state => {
+      Object.assign(state, { ...initialState, loaded: true })
+    },
+    backendAddElementFail: state => {
+      state.loading = false
+      state.loaded = false
+    },
+    backendRemoveElementStart: (state, { payload }) => {
+      // console.log('slice, backendUpdate, start, payload ->', payload)
+      state.identity = payload.identity
+      state.view_id = payload.view_id
+      // state.content = { ...payload.content }
+      state.index = payload.index
+      state.loading = true
+      state.loaded = false
+    },
+    backendRemoveElementSuccess: state => {
+      Object.assign(state, { ...initialState, loaded: true })
+    },
+    backendRemoveElementFail: state => {
+      state.loading = false
+      state.loaded = false
+    },
+    backendTxtUpdateStart: (state, { payload }) => {
+      // console.log('slice, backendUpdate, start, payload ->', payload)
+      state.identity = payload.identity
+      state.view_id = payload.view_id
+      state.content = { ...payload.content }
+      // state.index = payload.index
+      state.loading = true
+      state.loaded = false
+    },
+    backendTxtUpdateSuccess: state => {
+      // console.log('slice, backendUpdate, success, payload ->', payload)
+      Object.assign(state, { ...initialState, loaded: true })
+    },
+    backendTxtUpdateFail: state => {
+      state.loading = false
       state.loaded = false
     }
   }
@@ -57,8 +88,9 @@ const backendUpdateSlice = createSlice({
 
 export const {
   setTestState,
-  backendTxtUpdateStart,
-  backendUpdateSuccess,
+  backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
+  backendRemoveElementStart, backendRemoveElementSuccess, backendRemoveElementFail,
+  backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
   backendUpdateFail,
   resetBackendUpdate
 } = backendUpdateSlice.actions

@@ -1,7 +1,17 @@
 import { authTextAxiosClient, techTextAxiosClient, techPixAxiosClient } from '../apiClient'
 
 const contentURL = '/content'
+const elementURL = '/content/handling'
 const imageURL = '/images/'
+
+export const putAddElement = json => {
+  // console.log('api, calls, content, putAddElement:\njson ->',
+  //   json)
+  // console.log('api, calls, content, putAddElement:\n authTextAxiosClient ->',
+  // authTextAxiosClient.defaults.headers)
+  const resp = authTextAxiosClient.put(elementURL, { ...json })
+  return resp
+}
 
 export const putTextContent = json => {
   // console.log('api, calls, content, putViewContent, json ->', json)

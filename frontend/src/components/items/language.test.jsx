@@ -21,7 +21,7 @@ describe('Language switcher testing', () => {
       expect(mockSetActiveLng).toHaveBeenCalledTimes(1)
       expect(mockSetActiveLng).toHaveBeenCalledWith(mockValue)
 
-      expect(mockDispatch).toHaveBeenCalledTimes(2)
+      expect(mockDispatch).toHaveBeenCalledTimes(1)
 
       expect(mockI18next.changeLanguage).toHaveBeenCalledTimes(1)
       expect(mockI18next.changeLanguage).toHaveBeenCalledWith(mockValue)
