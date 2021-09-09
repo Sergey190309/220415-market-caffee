@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
     "i18next": "^20.6.1",
@@ -49,7 +49,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.15.0",
+    "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.0",
     "@craco/craco": "^6.1.1",
     "@semantic-ui-react/craco-less": "^1.2.3",
