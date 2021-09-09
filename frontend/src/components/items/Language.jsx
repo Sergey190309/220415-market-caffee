@@ -6,7 +6,10 @@ import i18next from 'i18next'
 import { Dropdown } from 'semantic-ui-react'
 import { setAxiosCommonLng } from '../../api/apiClient'
 
-import { techSelector, lngSelector, lngSwitch, structureStart } from '../../redux/slices'
+import {
+  techSelector, lngSelector, lngSwitch
+  // structureStart
+} from '../../redux/slices'
 // import { setLngAction } from '../../redux/actions/lng';
 
 export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
@@ -15,7 +18,7 @@ export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   setAxiosCommonLng(value) // Set language for API calls in request header.
   setActiveLng(value) // Set this component's state.
   dispatch(lngSwitch(value)) // Change language in application state state.
-  dispatch(structureStart()) // load application structure for different language.
+  // dispatch(structureStart()) // load application structure for different language.
 }
 
 export const Language = ({ onChange, i18next }) => {

@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Segment, Container } from 'semantic-ui-react'
@@ -19,9 +19,13 @@ export const getLoadedStructure = (pageName, structures) => {
   return value || {}
 }
 
+const MemoElementSwitcher = memo(ElementSwitcher)
+
 export const Landing = ({ getLoadedStructure }) => {
   const [structure, setStructure] = useState({})
+  // const [rerender, setRerender] = useState(false)
   const [componentName] = useState('landing')
+
   const { lng } = useSelector(lngSelector)
   const { loaded } = useSelector(structureSelector)
 
@@ -29,19 +33,36 @@ export const Landing = ({ getLoadedStructure }) => {
 
   useEffect(() => {
     if (loaded) {
-      setStructure(getLoadedStructure(componentName, loadedStructures))
+      const newStructure = getLoadedStructure(componentName, loadedStructures)
+      console.log('components, Landing:',
+        '\n new structure[01] ->', newStructure['01']
+      )
+      setStructure(newStructure)
+      // setStructure({ ...newStructure })
+      // setStructure(getLoadedStructure(componentName, loadedStructures))
     }
-  }, [loaded, getLoadedStructure, componentName, loadedStructures])
+  }, [loaded, componentName, loadedStructures])
+
+  // useEffect(() => {
+  //   if (rerender) {
+  //     setRerender(false)
+  //   }
+  // }, [rerender])
+  // }, [loaded, getLoadedStructure, componentName, loadedStructures])
 
   // console.log('Landing, structure->', structure)
-  const _output = structure => {
-    return <ElementSwitcher viewName={componentName} structure={structure} lng={lng} />
-  }
+  // const _output = structure => {
+  //   return <ElementSwitcher viewName={componentName} structure={structure} lng={lng} />
+  // }
 
   return (
     <Container data-testid='LandingContainer'>
       <Segment color={viewSegmentColor} data-testid='LandingSegment'>
-        {isEmpty(structure) ? null : _output(structure)}
+        {isEmpty(structure)
+          ? null
+          : <MemoElementSwitcher viewName={componentName} structureProp={structure} lng={lng} />}
+          {/* : <ElementSwitcher viewName={componentName} structureProp={structure} lng={lng} />} */}
+          {/* : _output(structure)} */}
       </Segment>
     </Container>
   )

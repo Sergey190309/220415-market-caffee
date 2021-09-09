@@ -30,34 +30,24 @@ export {
 } from './alerts'
 export {
   setState as authSetState,
-  signUpStart,
-  signUpSuccess,
-  signUpFail,
-  signUpModalClosed,
-  logInStart,
-  logInSuccess,
-  logInFail,
-  logInModalClosed,
+  signUpStart, signUpSuccess, signUpFail, signUpModalClosed,
+  logInStart, logInSuccess, logInFail, logInModalClosed,
   logOut,
-  confirmPasswordStart,
-  confirmPasswordSuccess,
-  confirmPasswordFail,
-  confirmPasswordModalClosed,
+  confirmPasswordStart, confirmPasswordSuccess, confirmPasswordFail, confirmPasswordModalClosed,
   authSelector
 } from './auth'
 export {
   setTestState as backendUpdateSetState,
-  backendTxtUpdateStart,
-  backendUpdateSuccess,
-  backendUpdateFail,
+  backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
+  backendRemoveElementStart, backendRemoveElementSuccess, backendRemoveElementFail,
+  backendTxtUpdateStart, backendTxtUpdateSuccess, backendUpdateFail,
   resetBackendUpdate,
   backendUpdateSelector
 }
   from './backendUpdate'
 export {
   setDeviceSize,
-  openModal,
-  closeModal,
+  openModal, closeModal,
   setMessage,
   setEditable,
   deviceSelector
@@ -68,24 +58,16 @@ export {
 } from './lng'
 export {
   setState as structureSetState,
-  structureSelector,
-  structureStart,
-  structureSuccess,
-  structureFail
+  structureStart, structureSuccess,
+  structureFail, structureResetChanged,
+  structureSelector
 } from './structure'
 export {
   techSelector,
-  startInitLoading,
-  initLoadingSuccess,
-  startTechIn,
-  techInSuccess,
-  techInFail,
-  startLngs,
-  lngsSuccess,
-  lngsFail,
-  startI18n,
-  i18nInitiated,
-  i18nSuccess,
-  i18nFail
+  startInitLoading, initLoadingSuccess,
+  startTechIn, techInSuccess, techInFail,
+  startLngs, lngsSuccess, lngsFail,
+  startI18n, i18nSuccess, i18nFail,
+  i18nInitiated
 } from './tech'
 export default rootReducer

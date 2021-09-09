@@ -7,9 +7,11 @@ import ViewVBlock, { addAbove, addBelow, deleteElement } from './ViewVBlock'
 
 // import { output } from './ViewVBlock';
 
+import store from '../../../redux/store'
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
+import { Provider } from 'react-redux'
 
 const mockViewParagraph = ({ recordId, viewName, lng }) => {
   return <div data-testid='ViewParagraph' />
@@ -64,7 +66,10 @@ describe('ViewVBlock testing', () => {
         // addBelowProp: addBelow,
         // deleteElementProp: deleteElement
       }))
-      render(<ViewVBlock {...testProps} />)
+      render(
+        <Provider store={store}>
+          <ViewVBlock {...testProps} />
+        </Provider>)
       expect(ViewParagraph).toHaveBeenCalledTimes(3)
       expect(ViewPicture).toHaveBeenCalledTimes(0)
       expect(ViewNothing).toHaveBeenCalledTimes(0)
@@ -100,7 +105,10 @@ describe('ViewVBlock testing', () => {
         // addBelowProp: addBelow,
         // deleteElementProp: deleteElement
       }))
-      render(<ViewVBlock {...testProps} />)
+      render(
+        <Provider store={store}>
+          <ViewVBlock {...testProps} />
+        </Provider>)
       expect(ViewParagraph).toHaveBeenCalledTimes(0)
       expect(ViewPicture).toHaveBeenCalledTimes(4)
       expect(ViewNothing).toHaveBeenCalledTimes(0)
@@ -118,7 +126,10 @@ describe('ViewVBlock testing', () => {
         viewName: 'mockViewName',
         lng: 'mockLng'
       }
-      render(<ViewVBlock {...testProps} />)
+      render(
+        <Provider store={store}>
+          <ViewVBlock {...testProps} />
+        </Provider>)
       expect(ViewParagraph).toHaveBeenCalledTimes(0)
       expect(ViewPicture).toHaveBeenCalledTimes(0)
       expect(ViewNothing).toHaveBeenCalledTimes(2)

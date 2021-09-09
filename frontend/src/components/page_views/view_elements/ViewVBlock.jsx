@@ -1,23 +1,37 @@
 import React, { useState, useEffect, Fragment } from 'react'
 // import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Container, Divider } from 'semantic-ui-react'
 
 import { makeRecordIdList } from '../../../utils/utils'
+import { backendAddElementStart, backendRemoveElementStart } from '../../../redux/slices'
 
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
-export const addElement = (recordIndex, recordsId) => {
-  console.log('components, page_view, view_element, ViewVBlock, add element, \nrecordIndex ->', recordIndex, ' of ', recordsId)
+export const addElement = (viewName, recordsId, recordIndex, dispatch) => {
+  // console.log('components, page_view, view_element, ViewVBlock, add element, \nrecordIndex ->',
+  //   recordIndex, ' of ', recordsId)
+  dispatch(backendAddElementStart({
+    view_id: viewName,
+    identity: recordsId,
+    index: recordIndex
+  }))
 }
 
-export const deleteElement = (recordIndex, recordsId) => {
-  console.log('components, page_view, view_element, ViewVBlock, delete element, \nrecordIndex ->', recordIndex, ' of ', recordsId)
+export const deleteElement = (viewName, recordsId, recordIndex, dispatch) => {
+  // console.log('components, page_view, view_element, ViewVBlock, delete element, \nrecordIndex ->',
+  //   recordIndex, ' of ', recordsId)
+  dispatch(backendRemoveElementStart({
+    view_id: viewName,
+    identity: recordsId,
+    index: recordIndex
+  }))
 }
 
-const ViewVBlock = ({ recordsId, viewName, lng, addElement, deleteElement }) => {
+const ViewVBlock = ({ recordsId, viewName, lng, addElementProp, deleteElementProp }) => {
   /**
    * recordsId structure - 01_vblock_txt_3
    * 01 - serial number
@@ -29,30 +43,37 @@ const ViewVBlock = ({ recordsId, viewName, lng, addElement, deleteElement }) => 
   /**
    * recordIdList - list of identities in content table.
    */
+  // const [structureChanged, setStructureChanged] = useState(false)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    setRecordIdList(makeRecordIdList(recordsId))
+    const newRecordIdList = makeRecordIdList(recordsId)
+    // console.log('ViewVBlock, useEffect:',
+    //   '\n recordsId ->', recordsId,
+    //   '\n newRecordIdList ->', newRecordIdList)
+    setRecordIdList(newRecordIdList)
   }, [recordsId])
 
-  const addElementProp = recordIndex => {
-    addElement(recordIndex, recordsId)
+  const addElement = recordIndex => {
+    addElementProp(viewName, recordsId, recordIndex, dispatch)
   }
 
-  const deleteElementProp = recordIndex => {
-    deleteElement(recordIndex, recordsId)
+  const deleteElement = recordIndex => {
+    deleteElementProp(viewName, recordsId, recordIndex, dispatch)
   }
 
   const props = {
     viewName,
     lng,
-    addElementProp,
-    deleteElementProp
+    addElementProp: addElement,
+    deleteElementProp: deleteElement
   }
-  // console.log('ViewVBlock, recordIdList ->', recordIdList);
+  // console.log('ViewVBlock:\n recordIdList ->', recordIdList)
 
   if (recordsId.includes('txt')) {
+    // console.log('ViewVBlock output:',
+    //   '\n length ->', recordIdList.length)
     return recordIdList.map(txtRecordId => {
-      // console.log('ViewVBlock output, recordId ->', recordId)
       return (
         <Fragment key={txtRecordId}>
           <ViewParagraph {...props} recordId={txtRecordId} />
@@ -82,16 +103,16 @@ ViewVBlock.defaultProps = {
   recordsId: '',
   viewName: '',
   lng: '',
-  addElement,
-  deleteElement
+  addElementProp: addElement,
+  deleteElementProp: deleteElement
 }
 
 ViewVBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   lng: PropTypes.string.isRequired,
-  addElement: PropTypes.func.isRequired,
-  deleteElement: PropTypes.func.isRequired
+  addElementProp: PropTypes.func.isRequired,
+  deleteElementProp: PropTypes.func.isRequired
 }
 
 // const mapStateToProps = state => ({
