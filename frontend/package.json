@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
-    "@babel/preset-env": "^7.15.4",
+    "@babel/preset-env": "^7.15.6",
     "@craco/craco": "^6.1.1",
     "@semantic-ui-react/craco-less": "^1.2.3",
     "@testing-library/dom": "^8.3.0",
