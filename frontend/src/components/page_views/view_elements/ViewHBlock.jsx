@@ -9,7 +9,7 @@ import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
-const ViewHBlock = ({ recordsId, viewName, lng }) => {
+const ViewHBlock = ({ recordsId, viewName }) => {
   const [recordIdList, setRecordIdList] = useState([])
 
   useEffect(() => {
@@ -19,8 +19,7 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
 
   const output = () => {
     const props = {
-      viewName: viewName,
-      lng: lng
+      viewName: viewName
     }
     if (recordsId.includes('txt')) {
       return recordIdList.map(txtRecordId => {
@@ -64,14 +63,12 @@ const ViewHBlock = ({ recordsId, viewName, lng }) => {
 
 ViewHBlock.defaultProps = {
   recordsId: '',
-  viewName: '',
-  lng: ''
+  viewName: ''
 }
 
 ViewHBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
-  viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired
+  viewName: PropTypes.string.isRequired
 }
 
 export default ViewHBlock

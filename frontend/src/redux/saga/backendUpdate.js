@@ -14,7 +14,10 @@ import {
   structureStart
 } from '../slices'
 
-import { putTextContent, putAddElement } from '../../api/calls/content'
+import {
+  putTextContent, putAddElement,
+  patchRemoveElement
+} from '../../api/calls/content'
 import { setAlertData } from '../../utils/utils'
 // import { actRespErrorMessage } from '../../utils/errorHandler'
 
@@ -28,8 +31,7 @@ export function * backendAddElement (action) {
   // console.log('saga, backendUpdate, backendAddElement\n json ->', json)
   try {
     const resp = yield call(putAddElement, json)
-    console.log('saga, backendUpdate, backendAddElement\n',
-      ' resp ->', resp)
+    console.log('saga, backendUpdate:\n backendAddElement\n  resp ->', resp)
     yield put(structureStart())
     yield put(backendAddElementSuccess())
     yield put(
@@ -53,10 +55,12 @@ export function * removeElementSaga () {
 export function * backendRemoveElement (action) {
   const { identity, index, ...others } = action.payload
   const json = { ...others, block_id: identity, item_index: index }
-  // console.log('saga, backendUpdate, backendAddElement\n json ->', json)
+  console.log('saga, backendUpdate:\n backendRemoveElement\n  json ->', json)
   try {
-    const resp = yield call(putAddElement, json)
-    console.log('saga, backendUpdate, backendRemoveElement\n resp ->', resp)
+    const resp = yield call(patchRemoveElement, json)
+    console.log('saga, backendUpdate:\n backendRemoveElement\n  resp ->', resp)
+    yield put(structureStart())
+    yield put(backendRemoveElementSuccess())
   } catch (error) {
 
   }
@@ -67,9 +71,8 @@ export function * putTextSaga () {
 }
 
 export function * backendTextUpdate (action) {
-  // console.log('saga, backendUpdate, action ->', action.payload)
+  // console.log('saga, backendUpdate, content ->', action.payload)
   const { content, ...others } = action.payload
-  // console.log('saga, backendUpdate, content ->', content)
   const json = {
     ...others,
     title: content.title,

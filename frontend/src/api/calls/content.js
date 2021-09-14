@@ -13,6 +13,15 @@ export const putAddElement = json => {
   return resp
 }
 
+export const patchRemoveElement = json => {
+  // console.log('api, calls, content, putAddElement:\njson ->',
+  //   json)
+  // console.log('api, calls, content, putAddElement:\n authTextAxiosClient ->',
+  // authTextAxiosClient.defaults.headers)
+  const resp = authTextAxiosClient.patch(elementURL, { ...json })
+  return resp
+}
+
 export const putTextContent = json => {
   // console.log('api, calls, content, putViewContent, json ->', json)
   const resp = authTextAxiosClient.put(contentURL, { ...json })

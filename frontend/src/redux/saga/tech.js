@@ -18,15 +18,14 @@ import {
 } from '../slices/tech'
 
 import { structureStart } from '../slices/structure'
-// import { structureStart } from '../actions/structure';
 
 import { techInCall, lngsCall } from '../../api/calls/getAuthTechInfo'
 import { initI18next, setI18next } from '../../l10n/i18n'
 
-// watcher saga: watches for actions dispatched to the store, starts worker saga
 export function * startInitSaga () {
-  // the sa
-  // console.log('logInSaga wathcher ->')
+  /**
+   * Starting whole initial process
+   */
   yield takeEvery(startInitLoading.type, startInitWorker)
 }
 

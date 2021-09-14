@@ -1,11 +1,18 @@
 import React, { useState, useEffect, Fragment } from 'react'
 // import { connect } from 'react-redux';
-import { useDispatch } from 'react-redux'
+import {
+  useDispatch
+  // useSelector
+} from 'react-redux'
 import PropTypes from 'prop-types'
 import { Container, Divider } from 'semantic-ui-react'
 
 import { makeRecordIdList } from '../../../utils/utils'
-import { backendAddElementStart, backendRemoveElementStart } from '../../../redux/slices'
+import {
+  backendAddElementStart,
+  backendRemoveElementStart
+  // lngSelector
+} from '../../../redux/slices'
 
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
@@ -22,8 +29,8 @@ export const addElement = (viewName, recordsId, recordIndex, dispatch) => {
 }
 
 export const deleteElement = (viewName, recordsId, recordIndex, dispatch) => {
-  // console.log('components, page_view, view_element, ViewVBlock, delete element, \nrecordIndex ->',
-  //   recordIndex, ' of ', recordsId)
+  console.log('components, page_view, view_element, ViewVBlock:\n delete element:\n  recordIndex ->',
+    recordIndex, ' of ', recordsId)
   dispatch(backendRemoveElementStart({
     view_id: viewName,
     identity: recordsId,
@@ -31,7 +38,7 @@ export const deleteElement = (viewName, recordsId, recordIndex, dispatch) => {
   }))
 }
 
-const ViewVBlock = ({ recordsId, viewName, lng, addElementProp, deleteElementProp }) => {
+const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) => {
   /**
    * recordsId structure - 01_vblock_txt_3
    * 01 - serial number
@@ -44,12 +51,17 @@ const ViewVBlock = ({ recordsId, viewName, lng, addElementProp, deleteElementPro
    * recordIdList - list of identities in content table.
    */
   // const [structureChanged, setStructureChanged] = useState(false)
+  // const [language, setLanguage] = useState('')
+  // const lng = useSelector(lngSelector)
+
   const dispatch = useDispatch()
 
+  // useEffect(() => {
+  //   setLanguage(lng.lng)
+  // }, [lng])
   useEffect(() => {
     const newRecordIdList = makeRecordIdList(recordsId)
-    // console.log('ViewVBlock, useEffect:',
-    //   '\n recordsId ->', recordsId,
+    // console.log('ViewVBlock, useEffect[recordsId]:',
     //   '\n newRecordIdList ->', newRecordIdList)
     setRecordIdList(newRecordIdList)
   }, [recordsId])
@@ -64,11 +76,13 @@ const ViewVBlock = ({ recordsId, viewName, lng, addElementProp, deleteElementPro
 
   const props = {
     viewName,
-    lng,
+    // lng: language,
     addElementProp: addElement,
     deleteElementProp: deleteElement
   }
-  // console.log('ViewVBlock:\n recordIdList ->', recordIdList)
+  // console.log('ViewVBlock:',
+  //   '\n language ->', language,
+  //   '\n recordIdList ->', recordIdList)
 
   if (recordsId.includes('txt')) {
     // console.log('ViewVBlock output:',
@@ -102,7 +116,6 @@ const ViewVBlock = ({ recordsId, viewName, lng, addElementProp, deleteElementPro
 ViewVBlock.defaultProps = {
   recordsId: '',
   viewName: '',
-  lng: '',
   addElementProp: addElement,
   deleteElementProp: deleteElement
 }
@@ -110,7 +123,6 @@ ViewVBlock.defaultProps = {
 ViewVBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
   addElementProp: PropTypes.func.isRequired,
   deleteElementProp: PropTypes.func.isRequired
 }

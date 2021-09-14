@@ -21,11 +21,12 @@ export function * structureWorker (action) {
     // console.log('structureWorker, techTextAxiosClient.defaults.headers.common.Authorization ->', techTextAxiosClient.defaults.headers.common.Authorization)
 
     const result = yield call(getViewStructure)
-    // console.log('structureWorker, result ->', result)
+    // console.log('structureWorker:', '\n result ->', result)
     const viewStructures = result.data.payload.map(sturcture => ({
       [sturcture.view_id]: sturcture.attributes
     }))
-    // console.log('structureWorker, viewStructures ->', viewStructures);
+    // console.log('structureWorker:',
+    //   '\n viewStructures ->', viewStructures)
     yield put(structureSuccess(viewStructures))
   } catch (error) {
     console.log('content worker, error', error)

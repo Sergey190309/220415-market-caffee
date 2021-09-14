@@ -22,7 +22,7 @@ import ParagraphEditor from './editors/ParagraphEditor' // tested
 import Indicator from './indicator/Indicator'
 
 const ViewParagraph = ({
-  initialState, recordId, viewName, lng,
+  initialState, recordId, viewName,
   addElementProp,
   deleteElementProp
 }) => {
@@ -73,7 +73,7 @@ const ViewParagraph = ({
         view_id: viewName
       }
     })
-  }, [recordId, viewName, lng])
+  }, [recordId, viewName])
 
   useEffect(() => {
     // console.log('ViewParagraph, useEffect (state to content), editable ->', editable)
@@ -148,12 +148,12 @@ const ViewParagraph = ({
      * To send signal one block above to change structure
      */
     const recordIndex = parseInt(recordId.split('_').pop())
+    // console.log('ViewParagraph, deleteFmBackend')
     if (isNaN(recordIndex)) {
       console.log('Unable to parse recordId for index')
     } else {
       deleteElementProp(recordIndex)
     }
-    // console.log('ViewParagraph, deleteFmBackend')
   }
 
   const NormalOutput = () => (<Message
@@ -228,7 +228,6 @@ ViewParagraph.defaultProps = {
   },
   recordId: '',
   viewName: '',
-  lng: '',
   addElementProp: () => {},
   deleteElementProp: () => {}
 }
@@ -237,7 +236,6 @@ ViewParagraph.propTypes = {
   initialState: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
   addElementProp: PropTypes.func.isRequired,
   deleteElementProp: PropTypes.func.isRequired
 }
