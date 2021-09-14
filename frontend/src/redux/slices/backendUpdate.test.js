@@ -1,4 +1,5 @@
 import store from '../store'
+import { STRUCTURE_ADD, STRUCTURE_REMOVE, CONTENT_UPDATE } from '../constants/types'
 import {
   backendUpdateFail,
   backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
@@ -12,12 +13,15 @@ import {
 jest.mock('../../api/calls/content')
 describe('backendTxtUpdate slice testing', () => {
   const mockContentsPayload = {
-    identity: 'mockIdentity',
-    view_id: 'mockViewId',
-    content: {
-      title: 'mockTitnle',
-      content: ['mockContent']
-    }
+    values: {
+      identity: 'mockIdentity',
+      view_id: 'mockViewId',
+      content: {
+        title: 'mockTitle',
+        content: ['mockContent']
+      }
+    },
+    kind: 'content'
   }
   let state
   beforeEach(() => {
@@ -32,7 +36,7 @@ describe('backendTxtUpdate slice testing', () => {
     state = store.getState().backendUpdate
     const expState = {
       ...mockContentsPayload,
-      index: -1,
+      kind: '',
       loading: false,
       loaded: false
     }
@@ -53,24 +57,30 @@ describe('backendTxtUpdate slice testing', () => {
   })
   describe('backendAddElement', () => {
     const mockElementPayload = {
-      identity: 'mockIdentity',
-      view_id: 'mockViewId',
-      index: 12
+      values: {
+        identity: 'mockIdentity',
+        view_id: 'mockViewId',
+        index: Math.floor(Math.random() * 10)
+      }
     }
     test('backendAddElementStart testing', () => {
-      const mockIndex = Math.floor(Math.random() * 10)
-      const activeMockPayload = { ...mockElementPayload, content: {}, index: mockIndex }
+      const activeMockPayload = { ...mockElementPayload }
       store.dispatch(backendAddElementStart(activeMockPayload))
       state = store.getState().backendUpdate
       const expState = {
         ...activeMockPayload,
+        kind: STRUCTURE_ADD,
         loading: true,
         loaded: false
       }
       expect(state).toEqual(expState)
     })
     test('backendAddElementSuccess testing', () => {
-      store.dispatch(setTestState({ ...mockElementPayload, loading: true }))
+      store.dispatch(setTestState({
+        ...mockElementPayload,
+        kind: STRUCTURE_ADD,
+        loading: true
+      }))
       store.dispatch(backendAddElementSuccess())
       state = store.getState().backendUpdate
       const expState = {
@@ -78,34 +88,45 @@ describe('backendTxtUpdate slice testing', () => {
         loaded: true
       }
       expect(state).toEqual(expState)
+      // console.log('slices, backendUpdate.test:',
+      //   '\n state ->', state)
     })
     test('backendAddElementFail testing', () => {
-      store.dispatch(setTestState({ ...mockElementPayload, loading: true }))
+      store.dispatch(setTestState({
+        ...mockElementPayload,
+        kind: STRUCTURE_ADD,
+        loading: true
+      }))
       store.dispatch(backendAddElementFail())
-      state = store.getState().backendUpdate
+      // state = 'store.getState().backendUpdate'
+      const state = store.getState().backendUpdate
+      // state = store.getState().backendUpdate
       const expState = {
         ...mockElementPayload,
-        content: {},
+        kind: STRUCTURE_ADD,
         loading: false,
         loaded: false
       }
       expect(state).toEqual(expState)
-      // console.log('slices, backendUpdate.test, state ->', state)
+      // console.log('slices, backendUpdate.test:',
+      //   '\n state ->', state)
     })
   })
   describe('backendRemoveElement', () => {
     const mockElementPayload = {
-      identity: 'mockIdentity',
-      view_id: 'mockViewId',
-      index: 12
+      values: {
+        identity: 'mockIdentity',
+        view_id: 'mockViewId',
+        index: Math.floor(Math.random() * 10)
+      }
     }
     test('backendRemoveElementStart testing', () => {
-      const mockIndex = Math.floor(Math.random() * 10)
-      const activeMockPayload = { ...mockElementPayload, content: {}, index: mockIndex }
+      const activeMockPayload = { ...mockElementPayload }
       store.dispatch(backendRemoveElementStart(activeMockPayload))
       state = store.getState().backendUpdate
       const expState = {
         ...activeMockPayload,
+        kind: STRUCTURE_REMOVE,
         loading: true,
         loaded: false
       }
@@ -122,26 +143,31 @@ describe('backendTxtUpdate slice testing', () => {
       expect(state).toEqual(expState)
     })
     test('backendRemoveElementFail testing', () => {
-      store.dispatch(setTestState({ ...mockElementPayload, loading: true }))
+      store.dispatch(setTestState({
+        ...mockElementPayload,
+        kind: STRUCTURE_REMOVE,
+        loading: true
+      }))
       store.dispatch(backendRemoveElementFail())
       state = store.getState().backendUpdate
       const expState = {
         ...mockElementPayload,
-        content: {},
+        kind: STRUCTURE_REMOVE,
         loading: false,
         loaded: false
       }
       expect(state).toEqual(expState)
-      // console.log('slices, backendUpdate.test, state ->', state)
     })
   })
   describe('backendTxtUpdate', () => {
     const mockTxtContentsPayload = {
-      identity: 'mockIdentity',
-      view_id: 'mockViewId',
-      content: {
-        title: 'mockTitnle',
-        content: ['mockContent']
+      values: {
+        identity: 'mockIdentity',
+        view_id: 'mockViewId',
+        content: {
+          title: 'mockTitnle',
+          content: ['mockContent']
+        }
       }
     }
     test('backendTxtUpdateStart testing', () => {
@@ -149,11 +175,12 @@ describe('backendTxtUpdate slice testing', () => {
       state = store.getState().backendUpdate
       const expState = {
         ...mockTxtContentsPayload,
-        index: -1,
         loading: true,
         loaded: false
       }
       expect(state).toEqual(expState)
+      // console.log('slices, backendUpdate.test:',
+      //   '\n state ->', state)
     })
 
     test('backendTxtUpdateSuccess testing', () => {
@@ -168,12 +195,16 @@ describe('backendTxtUpdate slice testing', () => {
     })
 
     test('backendTxtUpdateFail testing', () => {
-      store.dispatch(setTestState({ ...mockTxtContentsPayload, loading: true }))
+      store.dispatch(setTestState({
+        ...mockTxtContentsPayload,
+        kind: CONTENT_UPDATE,
+        loading: true
+      }))
       store.dispatch(backendTxtUpdateFail())
       state = store.getState().backendUpdate
       const expState = {
         ...mockTxtContentsPayload,
-        index: -1,
+        kind: CONTENT_UPDATE,
         loading: false,
         loaded: false
       }

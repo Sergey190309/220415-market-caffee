@@ -6,7 +6,7 @@ import { CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/content/createIO'
 import { getContentSaga } from '../../../redux/saga/content/content'
 
-export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
+export const ViewHeader = ({ recordsId, viewName, initState }) => {
   /**
    * recordsId 00_header
    * 00 - serial number
@@ -19,11 +19,11 @@ export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
       type: CONTENT_REQUESTED,
       payload: {
         identity: recordsId,
-        view_id: viewName,
-        locale_id: lng
+        view_id: viewName
+        // locale_id: lng
       }
     })
-  }, [recordsId, viewName, lng, sagaDispatch])
+  }, [recordsId, viewName, sagaDispatch])
 
   return (
     <Message
@@ -41,7 +41,7 @@ export const ViewHeader = ({ recordsId, viewName, lng, initState }) => {
 ViewHeader.defaultProps = {
   recordsId: '',
   viewName: '',
-  lng: '',
+  // lng: '',
   initState: {
     title: '',
     content: ''
@@ -51,7 +51,7 @@ ViewHeader.defaultProps = {
 ViewHeader.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
+  // lng: PropTypes.string.isRequired,
   initState: PropTypes.object.isRequired
 }
 

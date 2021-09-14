@@ -116,6 +116,7 @@ class Structure(Resource):
         '''
         _lng = request.headers.get('Accept-Language')
         fbp.set_lng(_lng)
+        print('structure, resources, get:\n _lng ->', _lng)
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
@@ -146,10 +147,11 @@ class Structure(Resource):
         '''
         _lng = request.headers.get('Accept-Language')
         fbp.set_lng(_lng)
-        if not UserModel.find_by_id(get_jwt_identity()).is_admin:
+        _user_id = get_jwt_identity()
+        if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
         _update_json = structure_get_schema.load(
-            {**request.get_json(), 'locale_id': _lng})
+            {**request.get_json(), 'locale_id': _lng, 'user_id': _user_id})
         _search_json = {
             'view_id': _update_json.pop('view_id'),
             'locale_id': _update_json.pop('locale_id')

@@ -15,7 +15,7 @@ describe('content to backend', () => {
         view_id: 'mockViewId',
         content: {
           title: 'mockTitle',
-          content: ['mockContent']
+          content: ['mockContent, line 0', 'mockContent, line 1']
         }
       }
     }

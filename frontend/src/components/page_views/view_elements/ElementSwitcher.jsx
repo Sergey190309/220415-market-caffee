@@ -1,9 +1,12 @@
 import React, { Fragment, useState, useEffect, memo } from 'react'
-// import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Divider } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 // import { structureSelector, structureResetChanged } from '../../../redux/slices'
+import { structureSelector } from '../../../redux/slices'
+
+// import { HEADER, FOOTER, H_BLOCK, V_BLOCK } from '../../../redux/constants/types'
 
 import ViewHeader from './ViewHeader'
 import ViewFooter from './ViewFooter'
@@ -13,36 +16,40 @@ import ViewNothing from './ViewNothing'
 
 const MemoViewVBlock = memo(ViewVBlock)
 
-const ElementSwitcher = ({ structureProp, viewName, lng }) => {
-  const [structure, setStructure] = useState(structureProp)
+export const getLoadedStructure = (viewName, structures) => {
+  /**
+   * Recieve all structures, return one that correspond
+   * to the component name (ViewName)
+   */
+  const { [viewName]: value } = structures
+  // console.log('Landing, getLoadedStructure, value ->', value)
+  return value || {}
+}
+
+export const ElementSwitcher = ({ viewName, getStructure }) => {
+  // const [language, setLanguage] = useState('')
+  const [structure, setStructure] = useState({})
+  // const lng = useSelector(lngSelector)
+  const loadedStructures = useSelector(structureSelector)
+
+  // useEffect(() => {
+  //   // console.log('ElementSwitcher, useEffect[lng]:',
+  //   //   '\n lng ->', lng)
+  //   setLanguage(lng.lng)
+  // }, [lng])
   useEffect(() => {
-    console.log('ElementSwitcher, useEffect:',
-      '\n structureProp ->', structureProp)
-    setStructure(structureProp)
-    // setStructure({ ...structureProp })
-  }, [structureProp])
-  // const [structureChanged, setStructureChanged] = useState(false)
-  // const dispatch = useDispatch()
-  // const { changed } = useSelector(structureSelector)
+    const newStructure = getStructure(
+      viewName, loadedStructures)
+    // console.log('ElementSwitcher, useEffect[loadedStructures]:',
+    //   '\n structureProp[01] ->', newStructure['01'])
+    setStructure(newStructure)
+    // setStructure(getLoadedStructure(viewName, loadedStructures))
+  }, [loadedStructures])
 
-  // useEffect(() => {
-  //   if (changed) {
-  //     setStructureChanged(true)
-  //     console.log('ElementSwitcher, useEffect:\n changed ->',
-  //       changed)
-  //   }
-  // }, [changed])
-
-  // useEffect(() => {
-  //   if (structureChanged) {
-  //     setStructureChanged(false)
-  //     dispatch(structureResetChanged())
-  //   }
-  // }, [structureChanged])
-
-  console.log('ElementSwitcher:',
-    '\n structure[01] ->', structure['01'],
-    '\n structureProp ->', structureProp)
+  // console.log('ElementSwitcher:',
+  //   '\n structure ->', structure)
+  // '\n language ->', language,
+  // '\n (language) ->', typeof language)
   const keys = Object.keys(structure)
   const output = keys.map((key, index) => {
     // console.log('ElementSwitcher: \n keys ->', keys)
@@ -56,7 +63,9 @@ const ElementSwitcher = ({ structureProp, viewName, lng }) => {
     // console.log(recordsId)
     let component
     const props = {
-      recordsId: recordsId, viewName: viewName, lng: lng
+      recordsId: recordsId,
+      viewName: viewName
+      // lng: language
     }
     switch (componentType) {
       case 'header':
@@ -86,15 +95,17 @@ const ElementSwitcher = ({ structureProp, viewName, lng }) => {
 }
 
 ElementSwitcher.defaultProps = {
-  structureProp: {},
+  // structureProp: {},
   viewName: '',
-  lng: ''
+  getStructure: getLoadedStructure
+  // lng: ''
 }
 
 ElementSwitcher.propTypes = {
-  structureProp: PropTypes.object.isRequired,
+  // structureProp: PropTypes.object.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired
+  getStructure: PropTypes.func.isRequired
+  // lng: PropTypes.string.isRequired
 }
 
 export default ElementSwitcher

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { STRUCTURE_ADD, STRUCTURE_REMOVE, CONTENT_UPDATE } from '../constants/types'
 
 /**
  * Slice for back end updating.
@@ -7,10 +8,18 @@ import { createSlice } from '@reduxjs/toolkit'
  */
 
 export const initialState = {
-  identity: '',
-  view_id: '',
-  content: {},
-  index: -1,
+  values: {
+    identity: '',
+    view_id: '',
+    content: {},
+    index: -1
+  },
+  kind: '',
+  /**
+   * Above used to configure values for specific update.
+   * See constants/tytpes.js
+   * 210909: STRUCTURE_ADD, STRUCTURE_REMOVE, CONTENT_UPDATE
+   */
   loading: false,
   loaded: false // used to set save to backend inactive
 }
@@ -31,15 +40,14 @@ const backendUpdateSlice = createSlice({
       state.loaded = false
     },
     backendUpdateFail: state => {
+      state.kind = ''
       state.loading = false
       state.loaded = false
     },
     backendAddElementStart: (state, { payload }) => {
       // console.log('slice, backendUpdate, start, payload ->', payload)
-      state.identity = payload.identity
-      state.view_id = payload.view_id
-      // state.content = { ...payload.content }
-      state.index = payload.index
+      state.values = payload.values
+      state.kind = STRUCTURE_ADD
       state.loading = true
       state.loaded = false
     },
@@ -51,11 +59,8 @@ const backendUpdateSlice = createSlice({
       state.loaded = false
     },
     backendRemoveElementStart: (state, { payload }) => {
-      // console.log('slice, backendUpdate, start, payload ->', payload)
-      state.identity = payload.identity
-      state.view_id = payload.view_id
-      // state.content = { ...payload.content }
-      state.index = payload.index
+      state.values = payload.values
+      state.kind = STRUCTURE_REMOVE
       state.loading = true
       state.loaded = false
     },
@@ -68,10 +73,8 @@ const backendUpdateSlice = createSlice({
     },
     backendTxtUpdateStart: (state, { payload }) => {
       // console.log('slice, backendUpdate, start, payload ->', payload)
-      state.identity = payload.identity
-      state.view_id = payload.view_id
-      state.content = { ...payload.content }
-      // state.index = payload.index
+      state.values = payload.values
+      state.kind = payload.kind
       state.loading = true
       state.loaded = false
     },
