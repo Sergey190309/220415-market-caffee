@@ -54,13 +54,12 @@ describe('ViewVBlock testing', () => {
     test('output calling ViewParagraph', () => {
       const testProps = {
         recordsId: '01_vblock_txt_3',
-        viewName: 'mockViewName',
-        lng: 'en' // default value
+        viewName: 'mockViewName'
       }
       const mockRecordIdList = makeRecordIdList(testProps.recordsId)
       const viewParagraphPropsList = mockRecordIdList.map(item => ({
         viewName: testProps.viewName,
-        lng: testProps.lng,
+        // lng: testProps.lng,
         recordId: item
         // addAboveProp: addAbove,
         // addBelowProp: addBelow,
@@ -93,12 +92,10 @@ describe('ViewVBlock testing', () => {
       const testProps = {
         recordsId: '01_vblock_pix_4',
         viewName: 'mockViewName',
-        lng: 'en' // default value
       }
       const mockRecordIdList = makeRecordIdList(testProps.recordsId)
       const viewParagraphPropsList = mockRecordIdList.map(item => ({
         viewName: testProps.viewName,
-        lng: testProps.lng,
         recordId: item,
         dimension: { direction: 'horizontal', size: 250 }
         // addAboveProp: jest.fn().mockName('addAboveProp'),

@@ -45,8 +45,11 @@ const backendUpdateSlice = createSlice({
       state.loaded = false
     },
     backendAddElementStart: (state, { payload }) => {
-      // console.log('slice, backendUpdate, start, payload ->', payload)
-      state.values = payload.values
+      if (typeof payload !== 'undefined') {
+        // console.log('slice, backendUpdate:\n',
+        //   ' backendAddElementStart\n  payload ->', payload)
+        state.values = payload
+      }
       state.kind = STRUCTURE_ADD
       state.loading = true
       state.loaded = false
@@ -59,7 +62,11 @@ const backendUpdateSlice = createSlice({
       state.loaded = false
     },
     backendRemoveElementStart: (state, { payload }) => {
-      state.values = payload.values
+      if (typeof payload !== 'undefined') {
+        // console.log('slice, backendUpdate:\n',
+        //   ' backendRemoveElementStart\n  payload ->', payload)
+        state.values = payload
+      }
       state.kind = STRUCTURE_REMOVE
       state.loading = true
       state.loaded = false
@@ -72,14 +79,22 @@ const backendUpdateSlice = createSlice({
       state.loaded = false
     },
     backendTxtUpdateStart: (state, { payload }) => {
-      // console.log('slice, backendUpdate, start, payload ->', payload)
-      state.values = payload.values
-      state.kind = payload.kind
+      // console.log('slice, backendUpdate:\n',
+      //   ' backendTxtUpdateStart\n',
+      //   '  payload ->', payload)
+      if (typeof payload !== 'undefined') {
+        state.values.identity = payload.identity
+        state.values.view_id = payload.view_id
+        state.values.content = payload.content
+        state.kind = CONTENT_UPDATE
+      }
       state.loading = true
       state.loaded = false
     },
     backendTxtUpdateSuccess: state => {
-      // console.log('slice, backendUpdate, success, payload ->', payload)
+      // console.log('slice, backendUpdate:',
+      //   '\n backendTxtUpdateSuccess',
+      //   '\n  initialState ->', initialState)
       Object.assign(state, { ...initialState, loaded: true })
     },
     backendTxtUpdateFail: state => {

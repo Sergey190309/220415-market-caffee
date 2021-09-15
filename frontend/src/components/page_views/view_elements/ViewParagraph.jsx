@@ -121,7 +121,7 @@ const ViewParagraph = ({
   }
   const addAbove = () => {
     /**
-     * To send signal one block above to change structure
+     * To send signal one module above to change structure
      */
     const recordIndex = parseInt(recordId.split('_').pop())
     if (isNaN(recordIndex)) {
@@ -133,7 +133,7 @@ const ViewParagraph = ({
   }
   const addBelow = () => {
     /**
-     * To send signal one block above to change structure
+     * To send signal one module above to change structure
      */
     const recordIndex = parseInt(recordId.split('_').pop())
     if (isNaN(recordIndex)) {
@@ -145,7 +145,7 @@ const ViewParagraph = ({
   }
   const deleteElement = () => {
     /**
-     * To send signal one block above to change structure
+     * To send signal one module above to change structure
      */
     const recordIndex = parseInt(recordId.split('_').pop())
     // console.log('ViewParagraph, deleteFmBackend')

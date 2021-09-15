@@ -1,4 +1,12 @@
-import { call, put, takeEvery, select } from 'redux-saga/effects'
+import {
+  call, put, takeEvery,
+  select
+} from 'redux-saga/effects'
+import {
+  CONTENT_UPDATE,
+  STRUCTURE_ADD,
+  STRUCTURE_REMOVE
+} from '../../redux/constants/types'
 import {
   startAlert,
   signUpStart,
@@ -11,6 +19,8 @@ import {
   confirmPasswordSuccess,
   confirmPasswordFail,
   backendTxtUpdateStart,
+  backendAddElementStart,
+  backendRemoveElementStart,
   backendUpdateSelector
 } from '../slices'
 
@@ -20,20 +30,31 @@ import { actRespErrorMessage } from '../../utils/errorHandler'
 import { setAlertData } from '../../utils/utils'
 
 export function * confirmPasswordSaga () {
-  yield takeEvery(confirmPasswordStart.type, confirmPasswordFetch)
+  yield takeEvery(confirmPasswordStart.type,
+    confirmPasswordFetch)
 }
 
 export function * confirmPasswordFetch (action) {
+  const { kind } = yield select(backendUpdateSelector)
+  // console.log('saga, auth:\n confirmPasswordFetch',
+  //   '\n  kind ->', kind)
   try {
     const resp = yield call(confirmPasswordCall, action.payload)
-    // console.log('saga, auth, confirmPasswordFetch, resp ->', resp)
     setAxiosAuthAccessToken(resp.data.payload.access_token)
     yield put(confirmPasswordSuccess(resp.data.payload.access_token))
-    const stateContent = yield select(backendUpdateSelector)
-    const { loading, loaded, ...others } = stateContent
-    console.log('saga, auth, confirmPasswordFetch:',
-      '\n others ->', others)
-    yield put(backendTxtUpdateStart(others))
+    switch (kind) {
+      case CONTENT_UPDATE:
+        yield put(backendTxtUpdateStart())
+        break
+      case STRUCTURE_ADD:
+        yield put(backendAddElementStart())
+        break
+      case STRUCTURE_REMOVE:
+        yield put(backendRemoveElementStart())
+        break
+      default:
+        break
+    }
     yield put(
       startAlert(
         setAlertData({
@@ -58,17 +79,13 @@ export function * confirmPasswordFetch (action) {
     )
   }
 }
-// watcher saga: watches for actions dispatched to the store, starts worker saga
 export function * logInSaga () {
-  // console.log('logInSaga wathcher ->')
   yield takeEvery(logInStart.type, logInFetch)
 }
 
-// worker saga: makes the api call when watcher saga sees the action
 export function * logInFetch (action) {
   try {
     const userData = yield call(logInCall, action.payload)
-    // console.log('saga, logInFetch, try, userData ->', userData)
     yield put(logInSuccess(userData.data.payload))
     yield put(
       startAlert(
@@ -81,10 +98,7 @@ export function * logInFetch (action) {
     )
   } catch (error) {
     yield put(logInFail(error))
-    // yield put({ type: LOG_IN_FAIL, payload: error });
     const errorMessage = actRespErrorMessage(error)
-    // console.log('logIn saga, error ->', error.response.data.message)
-    // console.log('logIn saga, error ->', error.response.status)
     yield put(
       startAlert(
         setAlertData({
@@ -97,18 +111,14 @@ export function * logInFetch (action) {
   }
 }
 
-// watcher saga: watches for actions dispatched to the store, starts worker saga
 export function * signUpSaga () {
   yield takeEvery(signUpStart.type, signUpFetch)
 }
 
-// worker saga: makes the api call when watcher saga sees the action
 export function * signUpFetch (action) {
-  // console.log('authSaga, signUpFetch, payload ->', action.payload)
   try {
     const userData = yield call(signUpCall, action.payload)
     yield put(signUpSuccess(userData.data.payload))
-    // yield put({ type: SIGN_UP_SUCCESS, payload: userData.data.payload });
     yield put(
       startAlert(
         setAlertData({
@@ -120,7 +130,6 @@ export function * signUpFetch (action) {
     )
   } catch (error) {
     yield put(signUpFail(error))
-    // console.log('signUpCall error ->', error.response.data.message);
     const errorMessage = actRespErrorMessage(error)
     yield put(
       startAlert(
@@ -133,5 +142,3 @@ export function * signUpFetch (action) {
     )
   }
 }
-
-// export default logInSaga;
