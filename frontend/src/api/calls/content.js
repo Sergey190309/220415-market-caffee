@@ -5,20 +5,16 @@ const elementURL = '/content/handling'
 const imageURL = '/images/'
 
 export const putAddElement = json => {
-  // console.log('api, calls, content, putAddElement:\njson ->',
-  //   json)
-  // console.log('api, calls, content, putAddElement:\n authTextAxiosClient ->',
-  // authTextAxiosClient.defaults.headers)
+  // console.log('api, calls, content:\n putAddElement',
+  //   '\n  json ->', json)
   const resp = authTextAxiosClient.put(elementURL, { ...json })
   return resp
 }
 
 export const patchRemoveElement = json => {
-  // console.log('api, calls, content, putAddElement:\njson ->',
-  //   json)
-  // console.log('api, calls, content, putAddElement:\n authTextAxiosClient ->',
-  // authTextAxiosClient.defaults.headers)
   const resp = authTextAxiosClient.patch(elementURL, { ...json })
+  // console.log('api, calls, content:\n putAddElement:',
+  //   '\n  resp ->', resp)
   return resp
 }
 

@@ -32,24 +32,14 @@ export const ElementSwitcher = ({ viewName, getStructure }) => {
   // const lng = useSelector(lngSelector)
   const loadedStructures = useSelector(structureSelector)
 
-  // useEffect(() => {
-  //   // console.log('ElementSwitcher, useEffect[lng]:',
-  //   //   '\n lng ->', lng)
-  //   setLanguage(lng.lng)
-  // }, [lng])
   useEffect(() => {
     const newStructure = getStructure(
       viewName, loadedStructures)
     // console.log('ElementSwitcher, useEffect[loadedStructures]:',
     //   '\n structureProp[01] ->', newStructure['01'])
     setStructure(newStructure)
-    // setStructure(getLoadedStructure(viewName, loadedStructures))
   }, [loadedStructures])
 
-  // console.log('ElementSwitcher:',
-  //   '\n structure ->', structure)
-  // '\n language ->', language,
-  // '\n (language) ->', typeof language)
   const keys = Object.keys(structure)
   const output = keys.map((key, index) => {
     // console.log('ElementSwitcher: \n keys ->', keys)

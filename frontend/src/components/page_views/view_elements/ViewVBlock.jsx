@@ -29,8 +29,9 @@ export const addElement = (viewName, recordsId, recordIndex, dispatch) => {
 }
 
 export const deleteElement = (viewName, recordsId, recordIndex, dispatch) => {
-  console.log('components, page_view, view_element, ViewVBlock:\n delete element:\n  recordIndex ->',
-    recordIndex, ' of ', recordsId)
+  // console.log('components, page_view, view_element, ViewVBlock:',
+  //   '\n delete element:\n  recordIndex ->',
+  //   recordIndex, ' of ', recordsId)
   dispatch(backendRemoveElementStart({
     view_id: viewName,
     identity: recordsId,
@@ -50,15 +51,9 @@ const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) 
   /**
    * recordIdList - list of identities in content table.
    */
-  // const [structureChanged, setStructureChanged] = useState(false)
-  // const [language, setLanguage] = useState('')
-  // const lng = useSelector(lngSelector)
 
   const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   setLanguage(lng.lng)
-  // }, [lng])
   useEffect(() => {
     const newRecordIdList = makeRecordIdList(recordsId)
     // console.log('ViewVBlock, useEffect[recordsId]:',
@@ -76,13 +71,9 @@ const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) 
 
   const props = {
     viewName,
-    // lng: language,
     addElementProp: addElement,
     deleteElementProp: deleteElement
   }
-  // console.log('ViewVBlock:',
-  //   '\n language ->', language,
-  //   '\n recordIdList ->', recordIdList)
 
   if (recordsId.includes('txt')) {
     // console.log('ViewVBlock output:',
@@ -127,13 +118,4 @@ ViewVBlock.propTypes = {
   deleteElementProp: PropTypes.func.isRequired
 }
 
-// const mapStateToProps = state => ({
-//   lng: state.lng,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-// structureStart: viewName => dispatch(structureStart(viewName)),
-// });
-
 export default ViewVBlock
-// export default connect(mapStateToProps)(ViewVBlock);
