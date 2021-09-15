@@ -1,9 +1,15 @@
-import os
+from pprint import pprint as pp
+_admin_headers = {
+    'Authorization': 'Bearer _admin_access_token',
+    'Content-Type': 'application/json',
+    'Accept-Language': 'ru'}
 
-file_name = './application/images/static/images/for_test_landing/01_vblock_pix_001.jpg'
+result = {**_admin_headers}
 
-if os.path.exists(file_name):
-    os.remove(file_name)
-result = os.path.exists(file_name)
+result.pop('Authorization')
 
-print('result ->', result)
+result2 = {k: v for (k, v) in _admin_headers.items() if k != 'Authorization'}
+
+pp(_admin_headers, width=75)
+pp(result, width=50)
+pp(result2, width=50)

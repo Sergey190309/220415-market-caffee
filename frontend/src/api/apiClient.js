@@ -78,11 +78,16 @@ export const authPixAxiosClient = axios.create({
 
 export const setAxiosCommonLng = lng => {
   // console.log('apiClient, axiosCommonLng, lng ->', lng)
-  techTextAxiosClient.defaults.headers.common['Accept-Language'] = lng
-  techPixAxiosClient.defaults.headers.common['Accept-Language'] = lng
-  authTextAxiosClient.defaults.headers.common['Accept-Language'] = lng
-  authPixAxiosClient.defaults.headers.common['Accept-Language'] = lng
-  refreshTokenAxiosClient.defaults.headers.common['Accept-Language'] = lng
+  techTextAxiosClient.defaults.headers.common[
+    'Accept-Language'] = lng
+  techPixAxiosClient.defaults.headers.common[
+    'Accept-Language'] = lng
+  authTextAxiosClient.defaults.headers.common[
+    'Accept-Language'] = lng
+  authPixAxiosClient.defaults.headers.common[
+    'Accept-Language'] = lng
+  refreshTokenAxiosClient.defaults.headers.common[
+    'Accept-Language'] = lng
 }
 
 export const setAxiosTechToken = (token) => {

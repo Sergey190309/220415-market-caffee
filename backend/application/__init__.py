@@ -69,7 +69,7 @@ def create_app(config='default_config.py'):
 
         @current_app.before_first_request
         def init_dbs():
-            # print('\nbefore first request')
+            # print('\napplication, __init__.py, before first request')
             from .modules.dbs_init_global import dbs_init_global
             dbs_init_global()
 

@@ -46,9 +46,6 @@ describe('Tech sagas tesing', () => {
         payload: mockResolveData.payload
       }
       const expDispatch01 = {
-        type: structureStart.type
-      }
-      const expDispatch02 = {
         type: startLngs.type
       }
       const dispatched = await recordSaga(techInFetch, initialAction)
@@ -56,10 +53,9 @@ describe('Tech sagas tesing', () => {
       expect(mockAxios.get.mock.calls[0][0]).toBe('/home/tech/auth')
       expect(mockAxios.get.mock.calls[0][1]).toEqual({ params: { tech_id: mockTechInData } })
 
-      expect(dispatched).toHaveLength(3)
+      expect(dispatched).toHaveLength(2)
       expect(dispatched[0]).toEqual(expDispatch00)
       expect(dispatched[1]).toEqual(expDispatch01)
-      expect(dispatched[2]).toEqual(expDispatch02)
       // console.log('tech in success, mockAxios.get.mock.calls[0][0] ->', mockAxios.get.mock.calls[0][1])
     })
 
@@ -168,6 +164,9 @@ describe('Tech sagas tesing', () => {
         type: i18nSuccess.type
       }
       const expDispatch01 = {
+        type: structureStart.type
+      }
+      const expDispatch02 = {
         type: initLoadingSuccess.type
       }
       // const args = [mockSetI18n, mockSetCommonLng];
@@ -177,9 +176,10 @@ describe('Tech sagas tesing', () => {
 
       // console.log('i18n success tesing, setI18n, calls ->', mockSetI18n.mock.calls[0][0]);
 
-      expect(dispatched).toHaveLength(2)
+      expect(dispatched).toHaveLength(3)
       expect(dispatched[0]).toEqual(expDispatch00)
       expect(dispatched[1]).toEqual(expDispatch01)
+      expect(dispatched[2]).toEqual(expDispatch02)
 
       // console.log('i18n success tesing, daispatched ->', dispatched);
     })

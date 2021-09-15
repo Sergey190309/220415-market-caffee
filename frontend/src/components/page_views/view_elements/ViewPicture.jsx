@@ -6,7 +6,7 @@ import { PICTURE_REQUESTED, CONTENT_REQUESTED } from '../../../redux/constants/t
 import { useSaga } from '../../../redux/saga/content/createIO'
 import { getContentSaga, getPicSaga } from '../../../redux/saga/content/content'
 
-const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
+const ViewPicture = ({ recordId, viewName, dimension }) => {
   /**
    * dimention {
    *  direction: [vertical | horizontal]
@@ -29,12 +29,13 @@ const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
       type: PICTURE_REQUESTED,
       payload
     })
-    payload.locale_id = lng
+    // payload.locale_id = lng
     getContentSagaDispatch({
       type: CONTENT_REQUESTED,
       payload
     })
-  }, [recordId, viewName, lng, getContentSagaDispatch, getPicSagaDispatch])
+  }, [recordId, viewName])
+  // }, [recordId, viewName, getContentSagaDispatch, getPicSagaDispatch])
   // console.log('ViewPictures, picState ->', picState)
   return (
     <Fragment>
@@ -58,14 +59,12 @@ const ViewPicture = ({ recordId, viewName, lng, dimension }) => {
 ViewPicture.defaultProps = {
   recordId: '',
   viewName: '',
-  lng: '',
   dimension: {}
 }
 
 ViewPicture.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
   dimension: PropTypes.object.isRequired
 }
 

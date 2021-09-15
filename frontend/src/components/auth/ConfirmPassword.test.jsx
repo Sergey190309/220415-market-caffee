@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-describe('ConfirmPassword testing', () => {
-  test('dummy', () => {
-=======
 import React from 'react'
 import { Provider } from 'react-redux'
 import { useTranslation } from 'react-i18next'
->>>>>>> dev210823
 
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -162,7 +157,8 @@ describe('ConfirmPassword component testing', () => {
           expect(actualProps.closeModal).toHaveBeenCalledTimes(1)
           expect(actualProps.confirmPasswordModalClosed).toHaveBeenCalledTimes(1)
         })
-        // console.log('auth, confirmPassword.test, element ->', confirmButton.value)
+        console.log('auth, confirmPassword.test:\n confirm button',
+          '\n  confirmButton.value ->', confirmButton.value)
         // screen.debug(confirmButton)
       })
       test('cancel button', async () => {

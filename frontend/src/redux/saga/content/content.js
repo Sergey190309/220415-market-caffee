@@ -41,7 +41,7 @@ export const getContentSaga = function * (setter) {
   while (true) {
     const { payload } = yield take(CONTENT_REQUESTED)
     try {
-      // console.log('contentSaga,  payload ->', payload)
+      // console.log('contentSaga:\n payload ->', payload)
       const result = yield call(getViewContent, payload)
       const { title, content } = result.data.payload
       const contentArr = (content ? content.split('<br>') : [])

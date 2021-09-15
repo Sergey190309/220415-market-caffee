@@ -1,5 +1,14 @@
 import { resolveDataContent, resolveDataPutTextContent } from '../../../testAxiosConstants'
 
+export const putAddElement = json => {
+  // console.log('api, calls, content:\n putAddElement',
+  //   '\n  json ->', json)
+  return Promise.resolve({ data: {} })
+}
+export const patchRemoveElement = json => {
+  return Promise.resolve({ data: {} })
+}
+
 export const putTextContent = json => {
   // console.log('putTextContent, json ->', json)
   return Promise.resolve({ data: resolveDataPutTextContent })

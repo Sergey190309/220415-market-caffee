@@ -4,51 +4,52 @@ export const landingPageStructure = {
   '02': { qnt: 2, type: 'hblock', subtype: 'pix' },
   '03': { qnt: 2, type: 'vblock', subtype: 'pix' },
   '04': { type: 'footer' },
-};
+  '05': { type: 'unknown' }
+}
 
 // ==================================================================================
 const landing = {
   '00': {
-    type: 'header',
+    type: 'header'
   },
   '01': {
     qnt: 3,
     type: 'vblock',
-    subtype: 'txt',
+    subtype: 'txt'
   },
   '02': {
     qnt: 2,
     type: 'hblock',
-    subtype: 'pix',
+    subtype: 'pix'
   },
   '03': {
     qnt: 2,
     type: 'vblock',
-    subtype: 'pix',
+    subtype: 'pix'
   },
   '04': {
-    type: 'footer',
-  },
-};
+    type: 'footer'
+  }
+}
 
 const pictures = {
   '00': {
-    type: 'header',
+    type: 'header'
   },
   '01': {
     qnt: 2,
     type: 'hblock',
-    subtype: 'pix',
+    subtype: 'pix'
   },
   '02': {
-    type: 'footer',
-  },
-};
+    type: 'footer'
+  }
+}
 
-const admin = {};
+const admin = {}
 
-export const structuresArr = [{ landing }, { pictures }, { admin }];
-export const structuresObj = { landing, pictures, admin };
+export const structuresArr = [{ landing }, { pictures }, { admin }]
+export const structuresObj = { landing, pictures, admin }
 
 // ==================================================================================
 export const regularUserPayload = {
@@ -56,10 +57,10 @@ export const regularUserPayload = {
   email: 'mockEmail',
   isAdmin: false,
   access_token: 'mockAccessToken',
-  refresh_token: 'mockRefreshToken',
-};
+  refresh_token: 'mockRefreshToken'
+}
 // ==================================================================================
 export const adminUserPayload = {
   ...regularUserPayload,
-  isAdmin: true,
-};
+  isAdmin: true
+}

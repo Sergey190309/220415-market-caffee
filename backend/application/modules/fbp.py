@@ -38,6 +38,8 @@ class BabelBackend(Babel):
 
     def set_lng(self, lng: str) -> None:
         # print('application.modules.fbp.set_lng, lng ->', lng)
+        # print('application.modules.fbp.set_lng, self.global_variables.app_globals ->',
+        #   self.global_variables.app_globals['locale'])
         if lng not in global_constants.get_PKS:
             lng = global_constants.get_LOCALES[0].get('id')
         if lng != self.global_variables.app_globals['locale']:

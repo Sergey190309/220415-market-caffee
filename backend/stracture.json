@@ -1,6 +1,0 @@
-view_id,created,updated,user_id,attributes
-admin,"2021-08-13 10:45:41",NULL,0,{}
-landing,"2021-08-13 10:45:41",NULL,0,"{"00": {"name": "header", "type": "header"}, "01": {"qnt": 3, "name": "vblock00", "type": "vblock", "subtype": "txt"}, "02": {"qnt": 2, "name": "hblock00", "type": "hblock", "subtype": "pix"}, "03": {"qnt": 2, "name": "vblock01", "type": "vblock", "subtype": "pix"}, "04": {"name": "footer", "type": "footer"}}"
-pictures,"2021-08-13 10:45:41",NULL,0,{}
-price_list,"2021-08-13 10:45:41",NULL,0,{}
-private,"2021-08-13 10:45:41",NULL,0,{}

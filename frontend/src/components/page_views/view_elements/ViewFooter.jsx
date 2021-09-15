@@ -7,7 +7,7 @@ import { CONTENT_REQUESTED } from '../../../redux/constants/types'
 import { useSaga } from '../../../redux/saga/content/createIO'
 import { getContentSaga } from '../../../redux/saga/content/content'
 
-const ViewFooter = ({ recordsId, viewName, lng, initState }) => {
+const ViewFooter = ({ recordsId, viewName, initState }) => {
   const [state, sagaDispatch] = useSaga(getContentSaga, initState)
 
   useEffect(() => {
@@ -16,11 +16,10 @@ const ViewFooter = ({ recordsId, viewName, lng, initState }) => {
       type: CONTENT_REQUESTED,
       payload: {
         identity: recordsId,
-        view_id: viewName,
-        locale_id: lng
+        view_id: viewName
       }
     })
-  }, [recordsId, viewName, lng, sagaDispatch])
+  }, [recordsId, viewName, sagaDispatch])
 
   return (
     <Message
@@ -33,7 +32,6 @@ const ViewFooter = ({ recordsId, viewName, lng, initState }) => {
 ViewFooter.defaultProps = {
   recordsId: '',
   viewName: '',
-  lng: '',
   initState: {
     title: '',
     content: ''
@@ -43,7 +41,6 @@ ViewFooter.defaultProps = {
 ViewFooter.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
   initState: PropTypes.object.isRequired
 }
 

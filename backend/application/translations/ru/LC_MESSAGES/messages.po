@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-08-19 13:58+0000\n"
-"PO-Revision-Date: 2021-08-19 13:59+0000\n"
+"POT-Creation-Date: 2021-09-06 13:06+0000\n"
+"PO-Revision-Date: 2021-09-06 13:07+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -23,78 +23,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
 
-#: _components/resources/component_kinds.py:19
-#, python-format
-msgid "The component kind with id_kind '%(id_kind)s' already exists."
-msgstr "Тип компонента с идентификатором '%(id_kind)s' уже существует."
-
-#: _components/resources/component_kinds.py:27
-#, python-format
-msgid "The component kind with identity '%(id_kind)s' has not been found."
-msgstr "Тип компонента с идентификатором '%(id_kind)s' не обнаружен."
-
-#: _components/resources/component_kinds.py:48
-msgid "The component kind has been saved successfully. Details are in payload."
-msgstr "Тип компонента успешно сохранен. Детали в сообщении."
-
-#: _components/resources/component_kinds.py:65
-#: _components/resources/components.py:72 resources/views_global.py:107
-msgid "Found, see payload."
-msgstr "Нашел, смотри детали."
-
-#: _components/resources/component_kinds.py:86
-#, python-format
+#: contents/models/contents.py:119
 msgid ""
-"The component kind with id '%(id_kind)s' has been updated successfully. "
-"Details are in payload."
+"Redundant record has been found and deleted, try to insert element once more."
 msgstr ""
-"Тип компонента с идентификатором '%(id_kind)s' успешно обновлен. Детали в "
-"сообщении."
-
-#: _components/resources/component_kinds.py:107
-#, python-format
-msgid "The component kind with id '%(id_kind)s' has been deleted."
-msgstr "Тип компонента с идентификатором '%(id_kind)s' убит на смерть."
-
-#: _components/resources/components.py:20
-#, python-format
-msgid ""
-"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
-"'%(locale_id)s' already exists."
-msgstr ""
-"Компонента с типом '%(kind_id)s', идентификатором '%(identity)s' и "
-"локализацией '%(locale_id)s' уже существует."
-
-#: _components/resources/components.py:32
-#, python-format
-msgid ""
-"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
-"'%(locale_id)s' not found."
-msgstr ""
-"Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
-"локализацией '%(locale_id)s' не обнаружен."
-
-#: _components/resources/components.py:58
-msgid "The component has been saved successfully. Details are in payload."
-msgstr "Компонент успешно сохранен. Детали в сообщении."
-
-#: _components/resources/components.py:90
-#, python-format
-msgid ""
-"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
-"'%(locale_id)s' updated successfully. Details are in payload."
-msgstr ""
-"Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
-"локализацией '%(locale_id)s' успешно обновлен. Детали в сообщении."
-
-#: _components/resources/components.py:115
-#, python-format
-msgid ""
-"The component kind of '%(kind_id)s' with identity '%(identity)s' and locale "
-"'%(locale_id)s' deleted successfully."
-msgstr ""
-"Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
-"локализацией '%(locale_id)s' успешно убит."
+"Избыточная запись обнаружена и убита, попытайтесь вставить элемент еще раз."
 
 #: contents/resources/contents.py:26
 #, python-format
@@ -114,11 +47,13 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:50 structure/resources/structure.py:61
+#: contents/resources/contents.py:50 contents/resources/contents_handling.py:44
+#: structure/resources/structure.py:64
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:58 resources/views_global.py:20
+#: contents/resources/contents.py:58 contents/resources/contents_handling.py:35
+#: resources/views_global.py:20
 msgid "Sorry, access to views' information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ к информации о страницах разрешен только администратору."
@@ -128,7 +63,7 @@ msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
 #: contents/resources/contents.py:109 resources/locale_global.py:37
-#: structure/resources/structure.py:27
+#: structure/resources/structure.py:28
 msgid "Something went wrong. Check tech_token and sessions set up."
 msgstr "Что-то пошло не так, проверь технический жетон и организацию сессий."
 
@@ -136,12 +71,12 @@ msgstr "Что-то пошло не так, проверь технически�
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:154
+#: contents/resources/contents.py:155
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:188
+#: contents/resources/contents.py:189
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -149,6 +84,75 @@ msgid ""
 msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
+
+#: contents/resources/contents_handling.py:58
+#: contents/resources/contents_handling.py:67
+#, python-format
+msgid ""
+"Request does not containts required '%(argument)s', something wrong on front-"
+"end."
+msgstr ""
+"Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
+"фронт-енде."
+
+#: contents/resources/contents_handling.py:82
+#, python-format
+msgid ""
+"Request does not containts required '%(argument)s', something wrong on front-"
+"end. "
+msgstr ""
+"Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
+"фронт-енде. "
+
+#: contents/resources/contents_handling.py:88
+msgid ""
+"Block index is out of range, either below 0 or above block items quontity. "
+"Something wrong on front-end."
+msgstr ""
+"Индекс элемента в блоке вне возможных значений, или меньше нуля, или больше "
+"количества элементов в блоке. Что-то не так на фронт-энде."
+
+#: contents/resources/contents_handling.py:121
+#, python-format
+msgid ""
+"While trying update view structure '%(view_id)s', locale '%(locale_id)s' the "
+"following message has come: '%(result)s'. That's not good, check it out."
+msgstr ""
+"При попытке обновить структуру картинки '%(view_id)s', локализация "
+"'%(locale_id)s' получено следующее сообщение: '%(result)s'. Это не хорошо, "
+"проверьте пожалуйста."
+
+#: contents/resources/contents_handling.py:140
+#, python-format
+msgid ""
+"While trying to add element into block with index '%(block_index)s' on view "
+"'%(view_id)s' with locale '%(locale_id)s' the folliwng message has come: "
+"'%(result)s'. That's not good, check it out."
+msgstr ""
+"При попытке добавить элемент в блок с индексом '%(block_index)s' на "
+"страничку '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
+"сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
+
+#: contents/resources/contents_handling.py:152
+#: contents/resources/contents_handling.py:210
+#, python-format
+msgid ""
+"The content quontity and db structure for view '%(view_id)s' in block "
+"'%(block_index)s' and locale '%(locale_id)s' has been successfully updated."
+msgstr ""
+"Количество содержимого и структура ДБ для странички '%(view_id)s', в блоке "
+"'%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
+
+#: contents/resources/contents_handling.py:197
+#, python-format
+msgid ""
+"While trying to remove element from block with index '%(block_index)s' on "
+"view '%(view_id)s' with locale '%(locale_id)s' the folliwng message has "
+"come: '%(result)s'. That's not good, check it out."
+msgstr ""
+"При попытке удалить элемент из блока с индексом '%(block_index)s' на "
+"страничке '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
+"сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
 
 #: home/resources/index.py:26
 msgid "Global variables are as in payload."
@@ -237,7 +241,7 @@ msgstr ""
 msgid "Extentions '%(extention)s' are not allowed"
 msgstr "Расширения '%(extention)s' не разрешены"
 
-#: images/resources/images.py:150 structure/resources/structure.py:112
+#: images/resources/images.py:150 structure/resources/structure.py:122
 msgid "Something went wrong. Sorry we'll reverting."
 msgstr "Что-то пошло не так. Извините, мы к вам вернемся."
 
@@ -304,6 +308,10 @@ msgstr "Страничка с идентификатором '%(view_id)s' не 
 msgid "The view has been saved successfully. Details are in payload."
 msgstr "Страничка успешно сохранена. Детали в сообщении."
 
+#: resources/views_global.py:107
+msgid "Found, see payload."
+msgstr "Нашел, смотри детали."
+
 #: resources/views_global.py:128
 #, python-format
 msgid ""
@@ -326,45 +334,55 @@ msgstr "Не действительный регион."
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: structure/resources/structure.py:34
+#: structure/resources/structure.py:35
 #, python-format
 msgid "There are %(count)s structures in our database as follows:"
 msgstr "В нашей базе числятся %(count)s структуры как указанно ниже:"
 
-#: structure/resources/structure.py:45
+#: structure/resources/structure.py:46
 #, python-format
-msgid "A structure with identity '%(view_id)s' already exists."
-msgstr "Структура с идентификатором '%(view_id)s' уже существует."
+msgid ""
+"A structure with identity '%(view_id)s' and locale '%(locale_id)s' already "
+"exists."
+msgstr ""
+"Структура с идентификатором '%(view_id)s' и локализацией '%(locale_id)s' уже "
+"существует."
 
-#: structure/resources/structure.py:53
+#: structure/resources/structure.py:55
 #, python-format
-msgid "A structure with identity '%(view_id)s' not found."
-msgstr "Структура с идентификатором '%(view_id)s' не обнаружена."
+msgid ""
+"A structure with identity '%(view_id)s' and locale '%(locale_id)s' not found."
+msgstr ""
+"Структура с идентификатором '%(view_id)s' и локализацией '%(locale_id)s' не "
+"обнаруженa."
 
-#: structure/resources/structure.py:72
+#: structure/resources/structure.py:75
 msgid "Sorry, access to structure information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ с информации о структуре разрешен только администратору."
 
-#: structure/resources/structure.py:96
+#: structure/resources/structure.py:105
 msgid "The structure has been saved successfully. Details are in payload."
 msgstr "Структура успешно сохранена. Детали в сообщении."
 
-#: structure/resources/structure.py:125
+#: structure/resources/structure.py:136
 msgid "The structure has been found. Details are in payload."
 msgstr "Структура обнаружена. Детали в сообщении."
 
-#: structure/resources/structure.py:145
+#: structure/resources/structure.py:164
 msgid ""
 "The structure has been found and successfully updated. Details are in "
 "payload."
 msgstr "Структура обнаружена и успешно обновлена. Детали в сообщении."
 
-#: structure/resources/structure.py:169
+#: structure/resources/structure.py:193
 #, python-format
 msgid ""
-"The structure for view '%(view_id)s' has been found and successfully deleted."
-msgstr "Структура с идентификатором '%(view_id)s' найдена и убита на смерть."
+"The structure for view '%(view_id)s' locale '%(locale_id)s' has been found "
+"and successfully deleted."
+msgstr ""
+"Структура с идентификатором '%(view_id)s' и локализацией '%(locale_id)s' "
+"найдена и убита на смерть."
 
 #: users/errors/register_errors_users.py:21
 msgid "The token has expired."
@@ -518,17 +536,17 @@ msgstr "'Привет '%(user_name)s'! Добро пожаловать."
 msgid "Successfully logged out."
 msgstr "Пользователь успешно прекратил регистрацию."
 
-#: users/resources/userlogin.py:88
+#: users/resources/userlogin.py:91
 msgid "Something wrong with token refreshing. Try to log in again."
 msgstr ""
 "Что-то пошло не так с обновлением жетона. Попробуйте зарегистрироваться еще "
 "раз."
 
-#: users/resources/userlogin.py:92
+#: users/resources/userlogin.py:95
 msgid "Wrong password."
 msgstr "Неверный пароль."
 
-#: users/resources/userlogin.py:95
+#: users/resources/userlogin.py:98
 msgid "Token successfully refreshed."
 msgstr "Жетон благополучно освежен."
 
@@ -568,6 +586,63 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid "The component kind with id_kind '%(id_kind)s' already exists."
+#~ msgstr "Тип компонента с идентификатором '%(id_kind)s' уже существует."
+
+#~ msgid "The component kind with identity '%(id_kind)s' has not been found."
+#~ msgstr "Тип компонента с идентификатором '%(id_kind)s' не обнаружен."
+
+#~ msgid ""
+#~ "The component kind has been saved successfully. Details are in payload."
+#~ msgstr "Тип компонента успешно сохранен. Детали в сообщении."
+
+#~ msgid ""
+#~ "The component kind with id '%(id_kind)s' has been updated successfully. "
+#~ "Details are in payload."
+#~ msgstr ""
+#~ "Тип компонента с идентификатором '%(id_kind)s' успешно обновлен. Детали в "
+#~ "сообщении."
+
+#~ msgid "The component kind with id '%(id_kind)s' has been deleted."
+#~ msgstr "Тип компонента с идентификатором '%(id_kind)s' убит на смерть."
+
+#~ msgid ""
+#~ "The component kind of '%(kind_id)s' with identity '%(identity)s' and "
+#~ "locale '%(locale_id)s' already exists."
+#~ msgstr ""
+#~ "Компонента с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+#~ "локализацией '%(locale_id)s' уже существует."
+
+#~ msgid ""
+#~ "The component kind of '%(kind_id)s' with identity '%(identity)s' and "
+#~ "locale '%(locale_id)s' not found."
+#~ msgstr ""
+#~ "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+#~ "локализацией '%(locale_id)s' не обнаружен."
+
+#~ msgid "The component has been saved successfully. Details are in payload."
+#~ msgstr "Компонент успешно сохранен. Детали в сообщении."
+
+#~ msgid ""
+#~ "The component kind of '%(kind_id)s' with identity '%(identity)s' and "
+#~ "locale '%(locale_id)s' updated successfully. Details are in payload."
+#~ msgstr ""
+#~ "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+#~ "локализацией '%(locale_id)s' успешно обновлен. Детали в сообщении."
+
+#~ msgid ""
+#~ "The component kind of '%(kind_id)s' with identity '%(identity)s' and "
+#~ "locale '%(locale_id)s' deleted successfully."
+#~ msgstr ""
+#~ "Компонент с типом '%(kind_id)s', идентификатором '%(identity)s' и "
+#~ "локализацией '%(locale_id)s' успешно убит."
+
+#~ msgid "A structure with identity '%(view_id)s' already exists."
+#~ msgstr "Структура с идентификатором '%(view_id)s' уже существует."
+
+#~ msgid "A structure with identity '%(view_id)s' not found."
+#~ msgstr "Структура с идентификатором '%(view_id)s' не обнаружена."
 
 #~ msgid "Picture identity '%(file_name)s' contains illigal simbols"
 #~ msgstr "Идентификатор картинки '%(file_name)s' содержит нелегальные символы"

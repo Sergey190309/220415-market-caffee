@@ -12,7 +12,7 @@ import {
   // putContentSaga
 } from '../../../redux/saga/content/content'
 import {
-  deviceSelector, backendUpdateStart,
+  deviceSelector, backendTxtUpdateStart,
   resetBackendUpdate, backendUpdateSelector
 } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
@@ -22,23 +22,29 @@ import ParagraphEditor from './editors/ParagraphEditor' // tested
 import Indicator from './indicator/Indicator'
 
 const ViewParagraph = ({
-  initialState, recordId, viewName, lng,
-  addAboveProp,
-  addBelowProp,
+  initialState, recordId, viewName,
+  addElementProp,
   deleteElementProp
 }) => {
   /**
    * States:
-   * state: object - Paragraph content loaded from back-end using getContentSaga.
-   * content: object - Content itself shown on the component. Updated with useEffect.
-   * changed: boolean - Indication content was changed from last download or upload.
+   * state: object - Paragraph content loaded from back-end
+   * using getContentSaga. content: object - Content itself
+   * shown on the component. Updated with useEffect.
+   * changed: boolean - Indication content was changed from last
+   * download or upload.
    *    Updated with useEffect.
-   * contextMenuOpened: boolean - Self explain. Open with right button.
-   * paragraphEditted: boolean - Set close showing, open textboxes for edition.
-   * indicatorOpened: boolean - Set component indicator on and off respectevily.
+   * contextMenuOpened: boolean - Self explain. Open with right
+   * button.
+   * paragraphEditted: boolean - Set close showing, open
+   * textboxes for edition.
+   * indicatorOpened: boolean - Set component indicator on and
+   * off respectevily.
    * Store state variables.
-   * editable: boolean - Admin only can set this variable on admin page.
-   * loaded: boolean - Indication whether changed content successfully uploaded to back-end.
+   * editable: boolean - Admin only can set this variable on
+   * admin page.
+   * loaded: boolean - Indication whether changed content
+   * successfully uploaded to back-end.
    *    Used to set save to back-end context menu disabled.
    */
   const [state, getSagaDispatch] = useSaga(
@@ -67,7 +73,7 @@ const ViewParagraph = ({
         view_id: viewName
       }
     })
-  }, [recordId, viewName, lng])
+  }, [recordId, viewName])
 
   useEffect(() => {
     // console.log('ViewParagraph, useEffect (state to content), editable ->', editable)
@@ -81,8 +87,11 @@ const ViewParagraph = ({
   }, [content])
 
   useEffect(() => {
-    setChanged(false)
-    dispatch(resetBackendUpdate())
+    if (changed) {
+      // console.log('componetns, ViewParagraph, useEffect ->')
+      setChanged(false)
+      dispatch(resetBackendUpdate())
+    }
   }, [loaded])
 
   const onClickHandler = event => {
@@ -100,6 +109,51 @@ const ViewParagraph = ({
     contextRef.current = createContextFromEvent(event)
     setIndicatorOpened(false)
     setContextMenuOpened(true)
+  }
+
+  const saveToBackend = () => {
+    // console.log('ViewParagraph, saveToBackend, content ->', content)
+    dispatch(backendTxtUpdateStart({
+      identity: recordId,
+      view_id: viewName,
+      content: content
+    }))
+  }
+  const addAbove = () => {
+    /**
+     * To send signal one module above to change structure
+     */
+    const recordIndex = parseInt(recordId.split('_').pop())
+    if (isNaN(recordIndex)) {
+      console.log('Unable to parse recordId for index')
+    } else {
+      addElementProp(recordIndex)
+    }
+    // console.log('ViewParagraph, addAbove')
+  }
+  const addBelow = () => {
+    /**
+     * To send signal one module above to change structure
+     */
+    const recordIndex = parseInt(recordId.split('_').pop())
+    if (isNaN(recordIndex)) {
+      console.log('Unable to parse recordId for index')
+    } else {
+      addElementProp(recordIndex + 1)
+    }
+    //  console.log('ViewParagraph, addBelow')
+  }
+  const deleteElement = () => {
+    /**
+     * To send signal one module above to change structure
+     */
+    const recordIndex = parseInt(recordId.split('_').pop())
+    // console.log('ViewParagraph, deleteFmBackend')
+    if (isNaN(recordIndex)) {
+      console.log('Unable to parse recordId for index')
+    } else {
+      deleteElementProp(recordIndex)
+    }
   }
 
   const NormalOutput = () => (<Message
@@ -125,36 +179,6 @@ const ViewParagraph = ({
     ))}
   </Message>)
 
-  const saveToBackend = () => {
-    // console.log('ViewParagraph, saveToBackend, content ->', content)
-    dispatch(backendUpdateStart({
-      identity: recordId,
-      view_id: viewName,
-      content: content
-    }))
-  }
-  const addAbove = () => {
-    /**
-     * To send signal one block above to change structure
-     */
-    addAboveProp(recordId)
-    // console.log('ViewParagraph, addAbove')
-  }
-  const addBelow = () => {
-    /**
-     * To send signal one block above to change structure
-     */
-    addBelowProp(recordId)
-    // console.log('ViewParagraph, addBelow')
-  }
-  const deleteElement = () => {
-    /**
-     * To send signal one block above to change structure
-     */
-    deleteElementProp(recordId)
-    // console.log('ViewParagraph, deleteFmBackend')
-  }
-
   return (
     <Fragment>
       {editable
@@ -178,7 +202,10 @@ const ViewParagraph = ({
             />
         : null
       }
-      <NormalOutput />
+      {paragraphEditted
+        ? null
+        : <NormalOutput />
+      }
       {indicatorOpened
         ? <Indicator
             isOpened={indicatorOpened}
@@ -201,9 +228,7 @@ ViewParagraph.defaultProps = {
   },
   recordId: '',
   viewName: '',
-  lng: '',
-  addAboveProp: () => {},
-  addBelowProp: () => {},
+  addElementProp: () => {},
   deleteElementProp: () => {}
 }
 
@@ -211,9 +236,7 @@ ViewParagraph.propTypes = {
   initialState: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  lng: PropTypes.string.isRequired,
-  addAboveProp: PropTypes.func.isRequired,
-  addBelowProp: PropTypes.func.isRequired,
+  addElementProp: PropTypes.func.isRequired,
   deleteElementProp: PropTypes.func.isRequired
 }
 

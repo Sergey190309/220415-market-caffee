@@ -21,7 +21,7 @@ from application.schemas.locales_global import LocaleGlobalSchema, LocaleGlobalG
 from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import ContentGetSchema, ContentSchema
 from application.structure.models.structure import StructureModel
-from application.structure.shemas.structure import StructureSchema, StructureGetSchema
+from application.structure.schemas.structure import StructureSchema, StructureGetSchema
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema, UserGetSchema
 
@@ -282,14 +282,14 @@ def attributes():
                 'type': 'vblock',
                 'name': 'vblock00',
                 'subtype': 'txt',
-                "qnt": 3,
+                "qnt": 4,
             },
         '02':
             {
                 'type': 'hblock',
                 'name': 'hblock00',
                 'subtype': 'pix',
-                "qnt": 2
+                "qnt": 3
             },
         '03':
             {
@@ -317,8 +317,10 @@ def structure_instance(random_text):
         #     print('conftest, structure_instance, value ->', values.get(value))
 
         _values = {
-            'view_id':
-                values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'view_id': values.get(
+                'view_id', global_constants.get_VIEWS[0].get('view_id')),
+            'locale_id': values.get(
+                'locale_id', global_constants.get_LOCALES[0].get('id')),
             'created': values.get('created', datetime.now()),
             'user_id': values.get('user_id', randint(1, 128)),
             'attributes': values.get('attributes', {})

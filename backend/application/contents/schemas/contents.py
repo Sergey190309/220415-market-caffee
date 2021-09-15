@@ -4,7 +4,6 @@ from ..modules.fma_contents import fma_contents
 # This error is kind of marshmallow feature error.
 from application.schemas.locales_global import LocaleGlobalSchema  # noqa: 401
 from application.schemas.views_global import ViewGlobalSchema  # noqa: 401
-# from .views import ViewSchema  # noqa: 401
 
 from ..models.contents import ContentModel
 
