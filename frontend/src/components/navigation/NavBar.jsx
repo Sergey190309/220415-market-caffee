@@ -7,6 +7,7 @@ import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Menu, Container, Popup, Sticky } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
+// import styled from 'styled-components'
 // import i18next from 'i18next';
 
 import Logo from '../page_views/various/Logo'
@@ -19,6 +20,10 @@ import { positiveColor } from '../../utils/colors'
 
 import { logOut, openModal, authSelector, lngSelector, setEditable } from '../../redux/slices'
 // import { l_ogOutAction } from '../../redux/actions';
+
+// const ColoredMenu = styled(Menu)`
+//   background-color: blue;
+// `
 
 export const clickHandler = (
   name,
@@ -98,6 +103,7 @@ export const NavBar = ({
           color={color}
           secondary
           size='small'
+          // style={{ backgroundColor: 'red' }}
           style={{ backgroundColor: '#fff' }}
           // fixed='top'
         >

@@ -18,7 +18,7 @@ const MemoViewVBlock = memo(ViewVBlock)
 
 export const getLoadedStructure = (viewName, structures) => {
   /**
-   * Recieve all structures, return one that correspond
+   * Recieve all structures, return one that corresponds
    * to the component name (ViewName)
    */
   const { [viewName]: value } = structures
@@ -26,7 +26,17 @@ export const getLoadedStructure = (viewName, structures) => {
   return value || {}
 }
 
-export const ElementSwitcher = ({ viewName, getStructure }) => {
+export const upperLvlAddElement = () => {
+  console.log('ElementSwitcher\n upperLvlAddElement')
+}
+export const upperLvlRemoveElement = () => {
+  console.log('ElementSwitcher\n upperLvlRemoveElement')
+}
+
+export const ElementSwitcher = ({
+  viewName, getStructure,
+  upperLvlAddElementProp, upperLvlDeleteElementProp
+}) => {
   // const [language, setLanguage] = useState('')
   const [structure, setStructure] = useState({})
   // const lng = useSelector(lngSelector)
@@ -42,7 +52,6 @@ export const ElementSwitcher = ({ viewName, getStructure }) => {
 
   const keys = Object.keys(structure)
   const output = keys.map((key, index) => {
-    // console.log('ElementSwitcher: \n keys ->', keys)
     const componentType = structure[key].type
     const componentSubType = structure[key].subtype ? structure[key].subtype : null
     const subComponentQnt = structure[key].qnt ? structure[key].qnt : null
@@ -50,12 +59,12 @@ export const ElementSwitcher = ({ viewName, getStructure }) => {
       `${key}_${componentType}` +
       (componentSubType ? `_${componentSubType}` : '') +
       (subComponentQnt ? `_${subComponentQnt}` : '')
-    // console.log(recordsId)
     let component
     const props = {
       recordsId: recordsId,
-      viewName: viewName
-      // lng: language
+      viewName: viewName,
+      upperLvlAddElementProp,
+      upperLvlDeleteElementProp
     }
     switch (componentType) {
       case 'header':
@@ -81,21 +90,26 @@ export const ElementSwitcher = ({ viewName, getStructure }) => {
     )
   })
   // console.log('output, output ->', output);
+  // return (
+  //   <Container style={{ backgroundColor: 'blue' }}>
+  //     {output}
+  //   </Container>
+  // )
   return output
 }
 
 ElementSwitcher.defaultProps = {
-  // structureProp: {},
   viewName: '',
-  getStructure: getLoadedStructure
-  // lng: ''
+  getStructure: getLoadedStructure,
+  upperLvlAddElementProp: upperLvlAddElement,
+  upperLvlDeleteElementProp: upperLvlRemoveElement
 }
 
 ElementSwitcher.propTypes = {
-  // structureProp: PropTypes.object.isRequired,
   viewName: PropTypes.string.isRequired,
-  getStructure: PropTypes.func.isRequired
-  // lng: PropTypes.string.isRequired
+  getStructure: PropTypes.func.isRequired,
+  upperLvlAddElementProp: PropTypes.func.isRequired,
+  upperLvlDeleteElementProp: PropTypes.func.isRequired
 }
 
 export default ElementSwitcher

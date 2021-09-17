@@ -1,14 +1,17 @@
 {
-  "1stLevel": {
-    "addAbove": "Add element above (left of) this one",
-    "addBelow": "Add element below (right of) this one",
-    "deleteElement": "Delete this element",
-    "editElement": "Edit this element",
-    "saveElement": "Save to back-end"
-  },
-  "2ndLavel": {
-    "back": "Back to edit",
-    "cancel": "Cancel editing",
-    "save": "Save edited text"
-  }
+    "1LE": {
+        "handle": "Upper level elements handling"
+    },
+    "2LE": {
+        "addAbove": "Add element above (left of) this one",
+        "addBelow": "Add element below (right of) this one",
+        "deleteElement": "Delete this element",
+        "editElement": "Edit this element",
+        "saveElement": "Save to back-end"
+    },
+    "2LEEdit": {
+        "back": "Back to edit",
+        "cancel": "Cancel editing",
+        "save": "Save edited text"
+    }
 }

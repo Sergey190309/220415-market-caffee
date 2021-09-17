@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
+import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Popup, Button } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
+import {
+  ELEMENT_EDIT, ELEMENT_SAVE,
+  ELEMENT_ADD_ABOVE, ELEMENT_ADD_BELOW,
+  ELEMENT_DELETE, ELEMENT_UPPER_LVL
+} from '../../../../redux/constants/menuKeys'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
+import { deviceSelector } from '../../../../redux/slices'
+import { createContextFromEvent } from './createContextFromEvent'
+import { ContextMenuButton } from '../styledComponents'
+import UpperLvlContextMenu from './UpperLvlContextMenu'
 
 const ParagraphContextMenu = ({
   isOpened,
@@ -14,9 +24,14 @@ const ParagraphContextMenu = ({
   saveToBackend,
   deleteElement,
   addAbove,
-  addBelow
+  addBelow,
+  upperLvlAddElementProp,
+  upperLvlDeleteElementProp
 }) => {
   const [opened, setOpened] = useState(false)
+  const [upperLvlCntxtOpened, setUpperLvlCntxtOpened] = useState(false)
+  const { editable } = useSelector(deviceSelector)
+  const upperLvlmenuContext = useRef(null)
   const { t } = useTranslation('context')
 
   useEffect(() => {
@@ -28,20 +43,28 @@ const ParagraphContextMenu = ({
     // console.log('ParagraphContentMenu, onClickHandling, name ->', name)
     event.preventDefault()
     switch (name) {
-      case 'edit':
+      case ELEMENT_EDIT:
         setParagraphEditted(true)
         break
-      case 'save':
+      case ELEMENT_SAVE:
         saveToBackend()
         break
-      case 'delete':
+      case ELEMENT_DELETE:
         deleteElement()
         break
-      case 'above':
+      case ELEMENT_ADD_ABOVE:
         addAbove()
         break
-      case 'below':
+      case ELEMENT_ADD_BELOW:
         addBelow()
+        break
+      case ELEMENT_UPPER_LVL:
+        if (editable) {
+          upperLvlmenuContext.current = createContextFromEvent(event)
+          setUpperLvlCntxtOpened(editable && !upperLvlCntxtOpened)
+          console.log('component, ParagraphContextMenu:',
+            '\n case ELEMENT_UPPER_LVL')
+        }
         break
       default:
         break
@@ -51,65 +74,85 @@ const ParagraphContextMenu = ({
   }
 
   // console.log('ParagraphContextMenu, context ->', context)
+  /**
+   * 2LE - 2nd level element
+   */
   return (
-    <Popup
-      // basic
-      data-testid='Popup'
-      context={context}
-      // open={true}
-      open={opened}
-      onClose={() => {
-        setOpened(false)
-        setContextMenuOpened(false)
-      }}
-      // data-testid='Popup'
-    >
-      <Button.Group
-        vertical
-        // compact
-        style={{
-          width: '300px'
+    <Fragment>
+      {
+        upperLvlCntxtOpened
+          ? <UpperLvlContextMenu
+            isOpened={upperLvlCntxtOpened}
+            context={upperLvlmenuContext}
+            setOpened={setUpperLvlCntxtOpened}
+            upperLvlAddElementProp={upperLvlAddElementProp}
+            upperLvlDeleteElementProp={upperLvlDeleteElementProp}
+
+            />
+          : null
+      }
+      <Popup
+        hoverable
+        data-testid='Popup'
+        wide
+        context={context}
+        open={opened}
+        // open={true}
+        onClose={() => {
+          setOpened(false)
+          setContextMenuOpened(false)
         }}
       >
-        <Button
-          name='edit'
-          icon={{ name: 'edit', color: positiveColor }}
-          onClick={onClickHandling}
-          content={t('1stLevel.editElement')}
-          style={{ textAlign: 'left' }}
-        />
-        <Button
-          name='save'
-          icon={{ name: 'save', color: warningColor }}
-          // disabled={false}
-          disabled={saveDisabled}
-          onClick={onClickHandling}
-          content={t('1stLevel.saveElement')}
-          style={{ textAlign: 'left' }}
-        />
-        <Button
-          name='above'
-          icon={{ name: 'angle double up', color: neutralColor }}
-          content={t('1stLevel.addAbove')}
-          style={{ textAlign: 'left' }}
-          onClick={onClickHandling}
-        />
-        <Button
-          name='below'
-          icon={{ name: 'angle double down', color: neutralColor }}
-          content={t('1stLevel.addBelow')}
-          style={{ textAlign: 'left' }}
-          onClick={onClickHandling}
-        />
-        <Button
-          name='delete'
-          icon={{ name: 'delete', color: warningColor }}
-          content={t('1stLevel.deleteElement')}
-          style={{ textAlign: 'left' }}
-          onClick={onClickHandling}
+        <Button.Group
+          vertical
+          // style={{ width: '300px' }}
+        >
+          <ContextMenuButton
+            name={ELEMENT_EDIT}
+            icon={{ float: 'left', name: 'edit', color: positiveColor }}
+            content={t('2LE.editElement')}
+            fitted='vertically'
+            onClick={onClickHandling}
           />
-      </Button.Group>
-    </Popup>
+          <ContextMenuButton
+            name={ELEMENT_SAVE}
+            icon={{ float: 'left', name: 'save', color: warningColor }}
+            content={t('2LE.saveElement')}
+            disabled={saveDisabled}
+            fitted='vertically'
+            onClick={onClickHandling}
+          />
+          <ContextMenuButton
+            name={ELEMENT_ADD_ABOVE}
+            icon={{ float: 'left', name: 'angle up', color: neutralColor }}
+            content={t('2LE.addAbove')}
+            fitted='vertically'
+            onClick={onClickHandling}
+          />
+          <ContextMenuButton
+            name={ELEMENT_ADD_BELOW}
+            icon={{ float: 'left', name: 'angle down', color: neutralColor }}
+            content={t('2LE.addBelow')}
+            fitted='vertically'
+            onClick={onClickHandling}
+          />
+          <ContextMenuButton
+            name={ELEMENT_DELETE}
+            icon={{ float: 'left', name: 'delete', color: warningColor }}
+            content={t('2LE.deleteElement')}
+            fitted='vertically'
+            onClick={onClickHandling}
+          />
+          <ContextMenuButton
+            name={ELEMENT_UPPER_LVL}
+            icon={{ float: 'left', name: 'angle double up', color: neutralColor }}
+            content={t('1LE.handle')}
+            fitted='vertically'
+            onClick={onClickHandling}
+          />
+        </Button.Group>
+      </Popup>
+    </Fragment>
   )
 }
 
@@ -122,7 +165,9 @@ ParagraphContextMenu.defaultProps = {
   saveToBackend: () => { },
   deleteElement: () => { },
   addAbove: () => { },
-  addBelow: () => { }
+  addBelow: () => { },
+  upperLvlAddElementProp: () => { },
+  upperLvlDeleteElementProp: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
@@ -134,7 +179,9 @@ ParagraphContextMenu.propTypes = {
   saveToBackend: PropTypes.func.isRequired,
   deleteElement: PropTypes.func.isRequired,
   addAbove: PropTypes.func.isRequired,
-  addBelow: PropTypes.func.isRequired
+  addBelow: PropTypes.func.isRequired,
+  upperLvlAddElementProp: PropTypes.func.isRequired,
+  upperLvlDeleteElementProp: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

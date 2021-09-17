@@ -39,7 +39,10 @@ export const deleteElement = (viewName, recordsId, recordIndex, dispatch) => {
   }))
 }
 
-const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) => {
+const ViewVBlock = ({
+  recordsId, viewName, addElementProp, deleteElementProp,
+  upperLvlAddElementProp, upperLvlDeleteElementProp
+}) => {
   /**
    * recordsId structure - 01_vblock_txt_3
    * 01 - serial number
@@ -72,12 +75,14 @@ const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) 
   const props = {
     viewName,
     addElementProp: addElement,
-    deleteElementProp: deleteElement
+    deleteElementProp: deleteElement,
+    upperLvlAddElementProp,
+    upperLvlDeleteElementProp
   }
+  // console.log('ViewVBlock output:',
+  //   '\n length ->', recordIdList.length)
 
   if (recordsId.includes('txt')) {
-    // console.log('ViewVBlock output:',
-    //   '\n length ->', recordIdList.length)
     return recordIdList.map(txtRecordId => {
       return (
         <Fragment key={txtRecordId}>
@@ -85,6 +90,19 @@ const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) 
         </Fragment>
       )
     })
+
+    // return (
+    //   <Container style={{ backgroundColor: 'blue' }}>
+    //     {recordIdList.map(txtRecordId => {
+    //       return (
+    //         <Fragment key={txtRecordId}
+    //         >
+    //           <ViewParagraph {...props} recordId={txtRecordId} />
+    //         </Fragment>
+    //       )
+    //     })}
+    //   </Container>
+    // )
   }
   if (recordsId.includes('pix')) {
     // console.log('ViewHBlock, props ->', props)
@@ -108,14 +126,18 @@ ViewVBlock.defaultProps = {
   recordsId: '',
   viewName: '',
   addElementProp: addElement,
-  deleteElementProp: deleteElement
+  deleteElementProp: deleteElement,
+  upperLvlAddElementProp: () => { },
+  upperLvlDeleteElementProp: () => { }
 }
 
 ViewVBlock.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   addElementProp: PropTypes.func.isRequired,
-  deleteElementProp: PropTypes.func.isRequired
+  deleteElementProp: PropTypes.func.isRequired,
+  upperLvlAddElementProp: PropTypes.func.isRequired,
+  upperLvlDeleteElementProp: PropTypes.func.isRequired
 }
 
 export default ViewVBlock

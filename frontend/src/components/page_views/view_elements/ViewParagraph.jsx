@@ -23,8 +23,8 @@ import Indicator from './indicator/Indicator'
 
 const ViewParagraph = ({
   initialState, recordId, viewName,
-  addElementProp,
-  deleteElementProp
+  addElementProp, deleteElementProp,
+  upperLvlAddElementProp, upperLvlDeleteElementProp
 }) => {
   /**
    * States:
@@ -157,16 +157,18 @@ const ViewParagraph = ({
   }
 
   const NormalOutput = () => (<Message
-    onClick={onClickHandler}
-    onMouseLeave={() => {
-      setIndicatorOpened(false)
-      setContextMenuOpened(false)
-    }}
-    data-testid='Message'
+    // onMouseLeave={() => {
+    //   console.log('ViewParagraph:\n onMouseLeave')
+    //   setIndicatorOpened(false)
+    //   setContextMenuOpened(false)
+    // }}
+
     onContextMenu={editable
       ? onContextMenuHendler
       : null
     }
+    onClick={onClickHandler}
+    data-testid='Message'
   >
     <Message.Header content={content.title} />
     {content.title && content.content.length > 0
@@ -199,6 +201,8 @@ const ViewParagraph = ({
               deleteElement={deleteElement}
               addAbove={addAbove}
               addBelow={addBelow}
+              upperLvlAddElementProp={upperLvlAddElementProp}
+              upperLvlDeleteElementProp={upperLvlDeleteElementProp}
             />
         : null
       }
@@ -211,25 +215,26 @@ const ViewParagraph = ({
             isOpened={indicatorOpened}
             context={indicatorRef}
             header={viewName}
-            // header={identities.recordId}
             content={recordId}
             setIndicatorOpened={setIndicatorOpened}
-            // content={identities.viewName}
           />
         : null
       }
     </Fragment>
   )
 }
+
 ViewParagraph.defaultProps = {
   initialState: {
-    title: '', // info from back end
+    title: '', // info from back-end
     content: ['']
   },
   recordId: '',
   viewName: '',
   addElementProp: () => {},
-  deleteElementProp: () => {}
+  deleteElementProp: () => { },
+  upperLvlAddElementProp: () => { },
+  upperLvlDeleteElementProp: () => {}
 }
 
 ViewParagraph.propTypes = {
@@ -237,7 +242,9 @@ ViewParagraph.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   addElementProp: PropTypes.func.isRequired,
-  deleteElementProp: PropTypes.func.isRequired
+  deleteElementProp: PropTypes.func.isRequired,
+  upperLvlAddElementProp: PropTypes.func.isRequired,
+  upperLvlDeleteElementProp: PropTypes.func.isRequired
 }
 
 export default ViewParagraph
