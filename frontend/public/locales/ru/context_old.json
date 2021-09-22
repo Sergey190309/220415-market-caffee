@@ -16,5 +16,10 @@
     "back": "Вернуться к редактированию",
     "cancel": "Отменить редактирование",
     "save": "Сохранить отредактированный элемент"
+  },
+  "1le": {
+    "addAbove": "1le.addAbove",
+    "addBelow": "1le.addBelow",
+    "DeleteElement": "1le.DeleteElement"
   }
 }

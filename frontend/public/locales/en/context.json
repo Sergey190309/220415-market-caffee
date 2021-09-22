@@ -1,6 +1,15 @@
 {
     "1LE": {
-        "handle": "Upper level elements handling"
+        "addAbove": "Add upper level element above (left of) this one",
+        "addBelow": "Add upper level element below (right of) this one",
+        "DeleteElement": "Delete this upper level element",
+        "footer": "Add footer",
+        "handle": "Upper level elements handling",
+        "hblock": "Add horizontal block",
+        "header": "Add header",
+        "pix": "Block will contains pictures",
+        "txt": "Block will contains paragraphs",
+        "vblock": "Add vertical block"
     },
     "2LE": {
         "addAbove": "Add element above (left of) this one",

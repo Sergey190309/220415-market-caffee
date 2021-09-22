@@ -6,16 +6,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"POT-Creation-Date: 2021-09-16T04:27:35.305Z\n"
-"PO-Revision-Date: 2021-09-16 04:28+0000\n"
+"POT-Creation-Date: 2021-09-22T07:14:57.504Z\n"
+"PO-Revision-Date: 2021-09-22 07:19+0000\n"
 "Language: ru\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "X-Generator: Poedit 2.2.1\n"
 
+msgid "1LE##addAbove"
+msgstr "Добавить элемент верхнего уровня сверху (слева) от этого"
+
+msgid "1LE##addBelow"
+msgstr "Добавить элемент верхнего уровня снизу (справа) от этого"
+
+msgid "1LE##DeleteElement"
+msgstr "Убить этот элемент верхнего уровня"
+
+msgid "1LE##footer"
+msgstr "Добавить подвал"
+
 msgid "1LE##handle"
 msgstr "Работа с элементами верхнего уровня"
+
+msgid "1LE##hblock"
+msgstr "Добавить горизонтальный блок"
+
+msgid "1LE##header"
+msgstr "Добавить заголовок"
+
+msgid "1LE##pix"
+msgstr "Блок будет содержать картинки"
+
+msgid "1LE##txt"
+msgstr "Блок будет содержать параграфы"
+
+msgid "1LE##vblock"
+msgstr "Добавить вертикальный блок"
 
 msgid "2LE##addAbove"
 msgstr "Добавить элемент свеху (cлева) от этого"

@@ -1,19 +1,32 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react'
+import React, { useState, useEffect, useRef, Fragment, useContext } from 'react'
 import { useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Popup, Button } from 'semantic-ui-react'
+import {
+  Popup,
+  Menu,
+  Dropdown
+  // Icon
+  // Button, Grid, Icon
+} from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 import {
   ELEMENT_EDIT, ELEMENT_SAVE,
-  ELEMENT_ADD_ABOVE, ELEMENT_ADD_BELOW,
-  ELEMENT_DELETE, ELEMENT_UPPER_LVL
+  ELEMENT_ADD_ABOVE, ELEMENT_ADD_BELOW, ELEMENT_DELETE,
+  UPPER_ELEMENT_ADD_ABOVE, UPPER_ELEMENT_ADD_BELOW, UPPER_ELEMENT_DELETE
 } from '../../../../redux/constants/menuKeys'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
 import { deviceSelector } from '../../../../redux/slices'
 import { createContextFromEvent } from './createContextFromEvent'
-import { ContextMenuButton } from '../styledComponents'
-import UpperLvlContextMenu from './UpperLvlContextMenu'
+// import { ContextMenuButton } from '../styledComponents'
+import {
+  ContextMenuItem
+  // IconContent
+} from '../../../items/ContextMenuItem'
+import ElementTypesMenu from './ElementTypesMenu'
+
+import { UpperLevel } from '../ElementSwitcher'
+import { UpperLeverElementId } from '../ViewVBlock'
 
 const ParagraphContextMenu = ({
   isOpened,
@@ -24,23 +37,95 @@ const ParagraphContextMenu = ({
   saveToBackend,
   deleteElement,
   addAbove,
-  addBelow,
-  upperLvlAddElementProp,
-  upperLvlDeleteElementProp
+  addBelow
+  // upperLvlAddElementProp,
+  // upperLvlDeleteElementProp
 }) => {
   const [opened, setOpened] = useState(false)
-  const [upperLvlCntxtOpened, setUpperLvlCntxtOpened] = useState(false)
+  const [upperLvlElementID, setUpperLvlElementID] = useState(-1)
+  const [menuStructure, setMenuStructure] = useState([])
+  const [subMenuStructure, setSubMenuStructure] = useState([])
+  const [elementTypesMenuOpened, setElementTypesMenuOpened] = useState(false)
   const { editable } = useSelector(deviceSelector)
-  const upperLvlmenuContext = useRef(null)
+  const elementTypeMenuContextRef = useRef(null)
   const { t } = useTranslation('context')
 
+  const { upperLvlDeleteElement } = useContext(UpperLevel)
+  const upperLevelElementId = parseInt(useContext(UpperLeverElementId).split('_')[0])
+
   useEffect(() => {
-    // console.log('ParagraphContentMenu, useEffect isOpened->', isOpened)
+    // console.log('ParagraphContentMenu:\n useEffect onMount->')
+    setMenuStructure([
+      {
+        name: ELEMENT_EDIT,
+        icon: { name: 'edit', color: positiveColor },
+        content: t('2LE.editElement'),
+        disabled: false,
+        onClick: onClickHandler
+      },
+      {
+        name: ELEMENT_SAVE,
+        icon: { name: 'save', color: warningColor },
+        content: t('2LE.saveElement'),
+        disabled: saveDisabled,
+        onClick: onClickHandler
+      },
+      {
+        name: ELEMENT_ADD_ABOVE,
+        icon: { name: 'angle up', color: neutralColor },
+        content: t('2LE.addAbove'),
+        disabled: false,
+        onClick: onClickHandler
+      },
+      {
+        name: ELEMENT_ADD_BELOW,
+        icon: { name: 'angle down', color: neutralColor },
+        content: t('2LE.addBelow'),
+        disabled: false,
+        onClick: onClickHandler
+      },
+      {
+        name: ELEMENT_DELETE,
+        icon: { name: 'delete', color: warningColor },
+        content: t('2LE.deleteElement'),
+        disabled: false,
+        onClick: onClickHandler
+      }
+    ])
+    setSubMenuStructure([
+      {
+        name: UPPER_ELEMENT_ADD_ABOVE,
+        icon: { name: 'angle up', color: neutralColor },
+        text: t('1LE.addAbove'),
+        onClick: onClickHandler
+      },
+      {
+        name: UPPER_ELEMENT_ADD_BELOW,
+        icon: { name: 'angle down', color: neutralColor },
+        text: t('1LE.addBelow'),
+        onClick: onClickHandler
+      },
+      {
+        name: UPPER_ELEMENT_DELETE,
+        icon: { name: 'delete', color: warningColor },
+        text: t('1LE.DeleteElement'),
+        onClick: onClickHandler
+      }
+    ])
+  }, [])
+
+  useEffect(() => {
+    // console.log('ParagraphContentMenu:\n useEffect isOpened->', isOpened)
     setOpened(isOpened)
+    // setUppreLvlElementID(upperLevelElementId)
   }, [isOpened])
 
-  const onClickHandling = (event, { name }) => {
-    // console.log('ParagraphContentMenu, onClickHandling, name ->', name)
+  useEffect(() => {
+    setUpperLvlElementID(upperLevelElementId)
+  }, [upperLevelElementId])
+
+  const onClickHandler = (event, { name }) => {
+    // console.log('ParagraphContentMenu, onClickHandler, name ->', name)
     event.preventDefault()
     switch (name) {
       case ELEMENT_EDIT:
@@ -58,43 +143,53 @@ const ParagraphContextMenu = ({
       case ELEMENT_ADD_BELOW:
         addBelow()
         break
-      case ELEMENT_UPPER_LVL:
+      case UPPER_ELEMENT_ADD_ABOVE:
         if (editable) {
-          upperLvlmenuContext.current = createContextFromEvent(event)
-          setUpperLvlCntxtOpened(editable && !upperLvlCntxtOpened)
-          console.log('component, ParagraphContextMenu:',
-            '\n case ELEMENT_UPPER_LVL')
+          // console.log('ParagraphContextMenu:\n UPPER_ELEMENT_ADD_ABOVE')
+          elementTypeMenuContextRef.current = createContextFromEvent(event)
+          console.log('ParagraphContextMenu:\n onClickHandler',
+            '\n  upperLevelElementId ->', upperLevelElementId)
+          setElementTypesMenuOpened(true)
         }
+        break
+      case UPPER_ELEMENT_ADD_BELOW:
+        elementTypeMenuContextRef.current = createContextFromEvent(event)
+        setUpperLvlElementID(upperLevelElementId + 1)
+        console.log('ParagraphContextMenu:\n onClickHandler',
+          '\n  upperLevelElementId ->', upperLevelElementId)
+        setElementTypesMenuOpened(true)
+        break
+      case UPPER_ELEMENT_DELETE:
+        // console.log('ParagraphContextMenu:\n UPPER_ELEMENT_DELETE')
+        upperLvlDeleteElement(upperLevelElementId)
         break
       default:
         break
     }
     setOpened(false)
     setContextMenuOpened(false)
+    // setUpperLvlCntxtOpened(false)
   }
 
-  // console.log('ParagraphContextMenu, context ->', context)
   /**
    * 2LE - 2nd level element
    */
   return (
     <Fragment>
-      {
-        upperLvlCntxtOpened
-          ? <UpperLvlContextMenu
-            isOpened={upperLvlCntxtOpened}
-            context={upperLvlmenuContext}
-            setOpened={setUpperLvlCntxtOpened}
-            upperLvlAddElementProp={upperLvlAddElementProp}
-            upperLvlDeleteElementProp={upperLvlDeleteElementProp}
-
-            />
-          : null
+      {elementTypesMenuOpened
+        ? <ElementTypesMenu
+            isOpened={elementTypesMenuOpened}
+            context={elementTypeMenuContextRef}
+            upperLevelElementId={upperLvlElementID}
+            setOpenedProp={setElementTypesMenuOpened}
+          />
+        : null
       }
       <Popup
-        hoverable
         data-testid='Popup'
-        wide
+        // basic
+        // hoverable
+        wide='very'
         context={context}
         open={opened}
         // open={true}
@@ -103,54 +198,32 @@ const ParagraphContextMenu = ({
           setContextMenuOpened(false)
         }}
       >
-        <Button.Group
+        <Menu
           vertical
-          // style={{ width: '300px' }}
+          compact
         >
-          <ContextMenuButton
-            name={ELEMENT_EDIT}
-            icon={{ float: 'left', name: 'edit', color: positiveColor }}
-            content={t('2LE.editElement')}
-            fitted='vertically'
-            onClick={onClickHandling}
-          />
-          <ContextMenuButton
-            name={ELEMENT_SAVE}
-            icon={{ float: 'left', name: 'save', color: warningColor }}
-            content={t('2LE.saveElement')}
-            disabled={saveDisabled}
-            fitted='vertically'
-            onClick={onClickHandling}
-          />
-          <ContextMenuButton
-            name={ELEMENT_ADD_ABOVE}
-            icon={{ float: 'left', name: 'angle up', color: neutralColor }}
-            content={t('2LE.addAbove')}
-            fitted='vertically'
-            onClick={onClickHandling}
-          />
-          <ContextMenuButton
-            name={ELEMENT_ADD_BELOW}
-            icon={{ float: 'left', name: 'angle down', color: neutralColor }}
-            content={t('2LE.addBelow')}
-            fitted='vertically'
-            onClick={onClickHandling}
-          />
-          <ContextMenuButton
-            name={ELEMENT_DELETE}
-            icon={{ float: 'left', name: 'delete', color: warningColor }}
-            content={t('2LE.deleteElement')}
-            fitted='vertically'
-            onClick={onClickHandling}
-          />
-          <ContextMenuButton
-            name={ELEMENT_UPPER_LVL}
-            icon={{ float: 'left', name: 'angle double up', color: neutralColor }}
-            content={t('1LE.handle')}
-            fitted='vertically'
-            onClick={onClickHandling}
-          />
-        </Button.Group>
+          {menuStructure.map((item, index) => (
+            <ContextMenuItem key={index} {...item} />
+          ))}
+          <Menu.Item>
+            <Dropdown
+              // button
+              fluid
+              // item
+              icon={{ name: 'dropdown', color: neutralColor }}
+              text={t('1LE.handle')}
+              // floating
+              // labeled
+              // button
+              className='icon'
+                    >
+              <Dropdown.Menu>
+                {subMenuStructure.map((item, index) =>
+                <Dropdown.Item key={index} {...item} />)}
+              </Dropdown.Menu>
+            </Dropdown >
+          </Menu.Item>
+        </Menu>
       </Popup>
     </Fragment>
   )
@@ -165,9 +238,7 @@ ParagraphContextMenu.defaultProps = {
   saveToBackend: () => { },
   deleteElement: () => { },
   addAbove: () => { },
-  addBelow: () => { },
-  upperLvlAddElementProp: () => { },
-  upperLvlDeleteElementProp: () => { }
+  addBelow: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
@@ -179,9 +250,7 @@ ParagraphContextMenu.propTypes = {
   saveToBackend: PropTypes.func.isRequired,
   deleteElement: PropTypes.func.isRequired,
   addAbove: PropTypes.func.isRequired,
-  addBelow: PropTypes.func.isRequired,
-  upperLvlAddElementProp: PropTypes.func.isRequired,
-  upperLvlDeleteElementProp: PropTypes.func.isRequired
+  addBelow: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

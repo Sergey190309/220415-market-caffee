@@ -23,29 +23,29 @@ import Indicator from './indicator/Indicator'
 
 const ViewParagraph = ({
   initialState, recordId, viewName,
-  addElementProp, deleteElementProp,
-  upperLvlAddElementProp, upperLvlDeleteElementProp
+  addElementProp, deleteElementProp
+  // upperLvlAddElementProp, upperLvlDeleteElementProp
 }) => {
   /**
    * States:
    * state: object - Paragraph content loaded from back-end
-   * using getContentSaga. content: object - Content itself
-   * shown on the component. Updated with useEffect.
-   * changed: boolean - Indication content was changed from last
-   * download or upload.
+   *    using getContentSaga.
+   * content: object - Content itself shown on the component.
    *    Updated with useEffect.
+   * changed: boolean - Indication content was changed from last
+   *    download or upload. Updated with useEffect.
    * contextMenuOpened: boolean - Self explain. Open with right
-   * button.
+   *    button.
    * paragraphEditted: boolean - Set close showing, open
-   * textboxes for edition.
+   *    textboxes for edition.
    * indicatorOpened: boolean - Set component indicator on and
-   * off respectevily.
+   *    off respectevily.
    * Store state variables.
    * editable: boolean - Admin only can set this variable on
-   * admin page.
+   *    admin page.
    * loaded: boolean - Indication whether changed content
-   * successfully uploaded to back-end.
-   *    Used to set save to back-end context menu disabled.
+   *    successfully uploaded to back-end. Used to set save to
+   *    back-end context menu disabled.
    */
   const [state, getSagaDispatch] = useSaga(
     getContentSaga, initialState)
@@ -201,8 +201,8 @@ const ViewParagraph = ({
               deleteElement={deleteElement}
               addAbove={addAbove}
               addBelow={addBelow}
-              upperLvlAddElementProp={upperLvlAddElementProp}
-              upperLvlDeleteElementProp={upperLvlDeleteElementProp}
+              // upperLvlAddElementProp={upperLvlAddElementProp}
+              // upperLvlDeleteElementProp={upperLvlDeleteElementProp}
             />
         : null
       }
@@ -232,9 +232,9 @@ ViewParagraph.defaultProps = {
   recordId: '',
   viewName: '',
   addElementProp: () => {},
-  deleteElementProp: () => { },
-  upperLvlAddElementProp: () => { },
-  upperLvlDeleteElementProp: () => {}
+  deleteElementProp: () => { }
+  // upperLvlAddElementProp: () => { },
+  // upperLvlDeleteElementProp: () => {}
 }
 
 ViewParagraph.propTypes = {
@@ -242,9 +242,9 @@ ViewParagraph.propTypes = {
   recordId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
   addElementProp: PropTypes.func.isRequired,
-  deleteElementProp: PropTypes.func.isRequired,
-  upperLvlAddElementProp: PropTypes.func.isRequired,
-  upperLvlDeleteElementProp: PropTypes.func.isRequired
+  deleteElementProp: PropTypes.func.isRequired
+  // upperLvlAddElementProp: PropTypes.func.isRequired,
+  // upperLvlDeleteElementProp: PropTypes.func.isRequired
 }
 
 export default ViewParagraph
