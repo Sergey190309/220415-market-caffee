@@ -76,12 +76,15 @@ const ViewParagraph = ({
   }, [recordId, viewName])
 
   useEffect(() => {
-    // console.log('ViewParagraph, useEffect (state to content), editable ->', editable)
     setContent(state)
   }, [state])
 
   useEffect(() => {
     if (JSON.stringify(state) !== JSON.stringify(content)) {
+      // console.log('ViewParagraph:\n useEffect (content)',
+      //   '\n  state ->', state,
+      //   '\n  content', content
+      // )
       setChanged(true)
     }
   }, [content])
@@ -188,7 +191,7 @@ const ViewParagraph = ({
           ? <ParagraphEditor
             setParagraphEditted={setParagraphEditted}
             comingContent={content}
-            setComimgContent={setContent}
+            setComingContent={setContent}
           />
           : <ParagraphContextMenu
               isOpened={contextMenuOpened}

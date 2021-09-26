@@ -21,7 +21,7 @@ const Indicator = ({ isOpened, context, header, content }) => {
   // console.log('components, page_view, view_elements, indicator, content ->', content)
   return (
     <Popup
-      // disabled={false}
+      data-testid='Popup'
       position='right center'
       context={context}
       open={opened}

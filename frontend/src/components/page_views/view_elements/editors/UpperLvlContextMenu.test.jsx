@@ -1,5 +1,0 @@
-describe('UpperLvlContextMenu', () => {
-  test('dummy', () => {
-
-  })
-})

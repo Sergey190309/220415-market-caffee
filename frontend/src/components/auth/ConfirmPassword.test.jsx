@@ -157,8 +157,8 @@ describe('ConfirmPassword component testing', () => {
           expect(actualProps.closeModal).toHaveBeenCalledTimes(1)
           expect(actualProps.confirmPasswordModalClosed).toHaveBeenCalledTimes(1)
         })
-        console.log('auth, confirmPassword.test:\n confirm button',
-          '\n  confirmButton.value ->', confirmButton.value)
+        // console.log('auth, confirmPassword.test:\n confirm button',
+        //   '\n  confirmButton.value ->', confirmButton.value)
         // screen.debug(confirmButton)
       })
       test('cancel button', async () => {

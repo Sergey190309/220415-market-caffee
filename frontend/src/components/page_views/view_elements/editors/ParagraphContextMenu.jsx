@@ -112,7 +112,7 @@ const ParagraphContextMenu = ({
         onClick: onClickHandler
       }
     ])
-  }, [])
+  }, [saveDisabled])
 
   useEffect(() => {
     // console.log('ParagraphContentMenu:\n useEffect isOpened->', isOpened)
@@ -145,7 +145,6 @@ const ParagraphContextMenu = ({
         break
       case UPPER_ELEMENT_ADD_ABOVE:
         if (editable) {
-          // console.log('ParagraphContextMenu:\n UPPER_ELEMENT_ADD_ABOVE')
           elementTypeMenuContextRef.current = createContextFromEvent(event)
           // console.log('ParagraphContextMenu:\n onClickHandler',
           //   '\n  upperLevelElementId ->', upperLevelElementId)

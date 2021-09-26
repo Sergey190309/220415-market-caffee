@@ -70,7 +70,7 @@ const ElementTypesMenu = ({
   const onClickHandler = (event, { name }) => {
     event.preventDefault()
     // console.log('ElementTypeMenu:\n onClickHandler',
-    //   '\n  name ->', name)
+    //   '\n  upperLevelElementId ->', upperLevelElementId)
     switch (name) {
       case elementBlockTypes.header:
       case elementBlockTypes.footer:
