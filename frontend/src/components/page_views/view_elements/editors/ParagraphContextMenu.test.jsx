@@ -1,7 +1,6 @@
 /* eslint-disable react/display-name */
 import React from 'react'
 import { Provider } from 'react-redux'
-// import renderer from 'react-test-renderer'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -9,7 +8,6 @@ import store from '../../../../redux/store'
 import { UpperLevel } from '../ElementSwitcher'
 import { UpperLeverElementId } from '../ViewVBlock'
 import { createContextFromEvent } from './createContextFromEvent'
-// import ElementTypesMenu from './ElementTypesMenu'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
 
@@ -47,7 +45,6 @@ describe('ParagraphContextMenu testing', () => {
         }} >
           <UpperLeverElementId.Provider value={upperLvlElementId} >
             <ParagraphContextMenu {...actualProps} />
-            {/* <ParagraphContextMenu {...actualProps} /> */}
           </UpperLeverElementId.Provider>
         </UpperLevel.Provider>
       </Provider>

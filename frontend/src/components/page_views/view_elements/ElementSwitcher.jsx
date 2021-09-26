@@ -14,6 +14,8 @@ import ViewVBlock from './ViewVBlock'
 import ViewHBlock from './ViewHBlock'
 import ViewNothing from './ViewNothing'
 
+// console.log('ElementSwithcer:\n ViewVBlock ->', ViewVBlock)
+
 const MemoViewVBlock = memo(ViewVBlock)
 
 export const getLoadedStructure = (viewName, structures) => {
