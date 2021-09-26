@@ -99,6 +99,7 @@ const ElementTypesMenu = ({
 
   return (
     <Popup
+      data-testid='Popup'
       basic
       context={context}
       open={opened}
@@ -108,7 +109,6 @@ const ElementTypesMenu = ({
         setOpenedProp(false)
       }}
     >
-      {/* <h1>Hello!</h1> */}
       <Menu
         vertical
         compact

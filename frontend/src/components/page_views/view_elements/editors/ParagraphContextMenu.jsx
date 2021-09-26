@@ -134,29 +134,29 @@ const ParagraphContextMenu = ({
       case ELEMENT_SAVE:
         saveToBackend()
         break
-      case ELEMENT_DELETE:
-        deleteElement()
-        break
       case ELEMENT_ADD_ABOVE:
         addAbove()
         break
       case ELEMENT_ADD_BELOW:
         addBelow()
         break
+      case ELEMENT_DELETE:
+        deleteElement()
+        break
       case UPPER_ELEMENT_ADD_ABOVE:
         if (editable) {
           // console.log('ParagraphContextMenu:\n UPPER_ELEMENT_ADD_ABOVE')
           elementTypeMenuContextRef.current = createContextFromEvent(event)
-          console.log('ParagraphContextMenu:\n onClickHandler',
-            '\n  upperLevelElementId ->', upperLevelElementId)
+          // console.log('ParagraphContextMenu:\n onClickHandler',
+          //   '\n  upperLevelElementId ->', upperLevelElementId)
           setElementTypesMenuOpened(true)
         }
         break
       case UPPER_ELEMENT_ADD_BELOW:
         elementTypeMenuContextRef.current = createContextFromEvent(event)
         setUpperLvlElementID(upperLevelElementId + 1)
-        console.log('ParagraphContextMenu:\n onClickHandler',
-          '\n  upperLevelElementId ->', upperLevelElementId)
+        // console.log('ParagraphContextMenu:\n onClickHandler',
+        //   '\n  upperLevelElementId ->', upperLevelElementId)
         setElementTypesMenuOpened(true)
         break
       case UPPER_ELEMENT_DELETE:
