@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Popup } from 'semantic-ui-react'
 
@@ -21,7 +21,7 @@ const Indicator = ({ isOpened, context, header, content }) => {
   // console.log('components, page_view, view_elements, indicator, content ->', content)
   return (
     <Popup
-      // disabled={false}
+      data-testid='Popup'
       position='right center'
       context={context}
       open={opened}

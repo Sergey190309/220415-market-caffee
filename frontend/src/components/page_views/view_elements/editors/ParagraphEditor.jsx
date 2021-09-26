@@ -15,7 +15,7 @@ import { warningColor } from '../../../../utils/colors'
 const ParagraphEditor = ({
   comingContent,
   setParagraphEditted,
-  setComimgContent
+  setComingContent
 }) => {
   const [content, setContent] = useState({
     title: '',
@@ -36,12 +36,13 @@ const ParagraphEditor = ({
 
   const contextMenuAction = (action) => {
     if (action === 'save') {
-      // console.log('ParagraphEditor, contextMenuAction, content.content ->', typeof (content.content))
+      // console.log('ParagraphEditor:\n contextMenuAction',
+      //   '\n  content ->', content)
       const _text = content.content === ''
         ? []
         : content.content.split('\n')
       const _content = { ...content, content: _text }
-      setComimgContent(_content)
+      setComingContent(_content)
       setParagraphEditted(false)
     }
     if (action === 'cancel') {
@@ -109,13 +110,13 @@ ParagraphEditor.defaultProps = {
     content: ['']
   },
   setParagraphEditted: () => { },
-  setComimgContent: () => {}
+  setComingContent: () => {}
 }
 
 ParagraphEditor.propTypes = {
   comingContent: PropTypes.object.isRequired,
   setParagraphEditted: PropTypes.func.isRequired,
-  setComimgContent: PropTypes.func.isRequired
+  setComingContent: PropTypes.func.isRequired
 }
 
 export default ParagraphEditor

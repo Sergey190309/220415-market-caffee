@@ -5,34 +5,64 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"POT-Creation-Date: 2021-08-05T15:15:30.640Z\n"
-"PO-Revision-Date: 2021-08-05 15:17+0000\n"
+"POT-Creation-Date: 2021-09-22T07:14:27.235Z\n"
+"PO-Revision-Date: 2021-09-22 07:17+0000\n"
 "Language: en\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "X-Generator: Poedit 2.2.1\n"
 
-msgid "1stLevel##addAbove"
+msgid "1LE##addAbove"
+msgstr "Add upper level element above (left of) this one"
+
+msgid "1LE##addBelow"
+msgstr "Add upper level element below (right of) this one"
+
+msgid "1LE##DeleteElement"
+msgstr "Delete this upper level element"
+
+msgid "1LE##footer"
+msgstr "Add footer"
+
+msgid "1LE##handle"
+msgstr "Upper level elements handling"
+
+msgid "1LE##hblock"
+msgstr "Add horizontal block"
+
+msgid "1LE##header"
+msgstr "Add header"
+
+msgid "1LE##pix"
+msgstr "Block will contains pictures"
+
+msgid "1LE##txt"
+msgstr "Block will contains paragraphs"
+
+msgid "1LE##vblock"
+msgstr "Add vertical block"
+
+msgid "2LE##addAbove"
 msgstr "Add element above (left of) this one"
 
-msgid "1stLevel##addBelow"
+msgid "2LE##addBelow"
 msgstr "Add element below (right of) this one"
 
-msgid "1stLevel##deleteElement"
+msgid "2LE##deleteElement"
 msgstr "Delete this element"
 
-msgid "1stLevel##editElement"
+msgid "2LE##editElement"
 msgstr "Edit this element"
 
-msgid "1stLevel##saveElement"
+msgid "2LE##saveElement"
 msgstr "Save to back-end"
 
-msgid "2ndLavel##back"
+msgid "2LEEdit##back"
 msgstr "Back to edit"
 
-msgid "2ndLavel##cancel"
+msgid "2LEEdit##cancel"
 msgstr "Cancel editing"
 
-msgid "2ndLavel##save"
+msgid "2LEEdit##save"
 msgstr "Save edited text"

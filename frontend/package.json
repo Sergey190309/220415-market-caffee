@@ -21,6 +21,7 @@
     "redux": "^4.1.1",
     "redux-saga": "^1.1.3",
     "semantic-ui-react": "^2.0.4",
+    "styled-components": "^5.3.1",
     "uuid": "^8.3.2",
     "web-vitals": "^2.1.0",
     "yup": "^0.32.9"
@@ -34,6 +35,9 @@
     "test:w": "jest --watch",
     "test:wc": "jest --watch --coverage",
     "eject": "craco eject"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   },
   "eslintIgnore": [],
   "browserslist": {

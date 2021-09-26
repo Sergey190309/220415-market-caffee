@@ -1,7 +1,7 @@
 module.exports = {
   contextSeparator: '_',
   createOldCatalogs: true, // save previous translation catalogs to the \_old folder
-  defaultNamespace: 'signup',
+  defaultNamespace: '',
   defaultValue: '',
   indentation: 2,
   keepRemoved: false,

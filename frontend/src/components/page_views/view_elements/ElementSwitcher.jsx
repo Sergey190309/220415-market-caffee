@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, memo } from 'react'
+import React, { createContext, useState, useEffect, memo } from 'react'
 import { useSelector } from 'react-redux'
 import { Divider } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
@@ -14,11 +14,13 @@ import ViewVBlock from './ViewVBlock'
 import ViewHBlock from './ViewHBlock'
 import ViewNothing from './ViewNothing'
 
+// console.log('ElementSwithcer:\n ViewVBlock ->', ViewVBlock)
+
 const MemoViewVBlock = memo(ViewVBlock)
 
 export const getLoadedStructure = (viewName, structures) => {
   /**
-   * Recieve all structures, return one that correspond
+   * Recieve all structures, return one that corresponds
    * to the component name (ViewName)
    */
   const { [viewName]: value } = structures
@@ -26,17 +28,28 @@ export const getLoadedStructure = (viewName, structures) => {
   return value || {}
 }
 
-export const ElementSwitcher = ({ viewName, getStructure }) => {
-  // const [language, setLanguage] = useState('')
+export const upperLvlAddElement = (id, type, subType) => {
+  console.log('ElementSwitcher\n upperLvlAddElement',
+    '\n  id ->', id,
+    '\n  type ->', type,
+    '\n  subType ->', subType
+  )
+}
+export const upperLvlDeleteElement = id => {
+  console.log('ElementSwitcher\n upperLvlDeleteElement\n  id ->', id)
+}
+export const UpperLevel = createContext()
+
+export const ElementSwitcher = ({
+  viewName, getStructure,
+  upperLvlAddElement, upperLvlDeleteElement
+}) => {
   const [structure, setStructure] = useState({})
-  // const lng = useSelector(lngSelector)
   const loadedStructures = useSelector(structureSelector)
 
   useEffect(() => {
     const newStructure = getStructure(
       viewName, loadedStructures)
-    // console.log('ElementSwitcher, useEffect[loadedStructures]:',
-    //   '\n structureProp[01] ->', newStructure['01'])
     setStructure(newStructure)
   }, [loadedStructures])
 
@@ -50,12 +63,12 @@ export const ElementSwitcher = ({ viewName, getStructure }) => {
       `${key}_${componentType}` +
       (componentSubType ? `_${componentSubType}` : '') +
       (subComponentQnt ? `_${subComponentQnt}` : '')
-    // console.log(recordsId)
     let component
     const props = {
       recordsId: recordsId,
       viewName: viewName
-      // lng: language
+      // upperLvlAddElementProp,
+      // upperLvlDeleteElementProp
     }
     switch (componentType) {
       case 'header':
@@ -74,28 +87,32 @@ export const ElementSwitcher = ({ viewName, getStructure }) => {
         component = <ViewNothing {...props} />
     }
     return (
-      <Fragment key={key}>
+      // <Fragment key={key}>
+      <UpperLevel.Provider key={key} value={{
+        upperLvlAddElement,
+        upperLvlDeleteElement
+      }}>
         {component}
         {index < keys.length - 1 ? <Divider /> : null}
-      </Fragment>
+      </UpperLevel.Provider>
+      // </Fragment>
     )
   })
-  // console.log('output, output ->', output);
   return output
 }
 
 ElementSwitcher.defaultProps = {
-  // structureProp: {},
   viewName: '',
-  getStructure: getLoadedStructure
-  // lng: ''
+  getStructure: getLoadedStructure,
+  upperLvlAddElement,
+  upperLvlDeleteElement
 }
 
 ElementSwitcher.propTypes = {
-  // structureProp: PropTypes.object.isRequired,
   viewName: PropTypes.string.isRequired,
-  getStructure: PropTypes.func.isRequired
-  // lng: PropTypes.string.isRequired
+  getStructure: PropTypes.func.isRequired,
+  upperLvlAddElement: PropTypes.func.isRequired,
+  upperLvlDeleteElement: PropTypes.func.isRequired
 }
 
 export default ElementSwitcher

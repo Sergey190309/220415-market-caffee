@@ -3,6 +3,7 @@ import React, { useState, useEffect, memo } from 'react'
 import { useSelector } from 'react-redux'
 // import PropTypes from 'prop-types'
 import { Segment, Container } from 'semantic-ui-react'
+// import styled from 'styled-components'
 
 import ElementSwitcher from '../view_elements/ElementSwitcher'
 import {
@@ -11,6 +12,10 @@ import {
 } from '../../../redux/slices'
 
 import { viewSegmentColor } from '../../../utils/colors'
+
+// const PaddedButton = styled(Button)`
+//   margin: .05em 0em !important;
+// `
 
 const MemoElementSwitcher = memo(ElementSwitcher)
 
@@ -26,7 +31,22 @@ export const Landing = () => {
 
   return (
     <Container data-testid='LandingContainer'>
-      <Segment color={viewSegmentColor} data-testid='LandingSegment'>
+      {/* <Segment>
+        <Button.Group vertical>
+          <PaddedButton>
+            Button1
+          </PaddedButton>
+          <PaddedButton>
+            Button2
+          </PaddedButton>
+          <PaddedButton>
+            Button3
+          </PaddedButton>
+        </Button.Group>
+      </Segment> */}
+      <Segment color={viewSegmentColor} data-testid='LandingSegment'
+        // style={{ backgroundColor: 'red' }}
+      >
         {ready
           ? <MemoElementSwitcher viewName={componentName} />
           : null}

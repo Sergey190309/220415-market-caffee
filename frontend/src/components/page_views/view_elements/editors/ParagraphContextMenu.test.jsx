@@ -1,11 +1,23 @@
+/* eslint-disable react/display-name */
 import React from 'react'
 import { Provider } from 'react-redux'
-// import renderer from 'react-test-renderer'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import store from '../../../../redux/store'
+import { UpperLevel } from '../ElementSwitcher'
+import { UpperLeverElementId } from '../ViewVBlock'
+import { createContextFromEvent } from './createContextFromEvent'
+
 import ParagraphContextMenu from './ParagraphContextMenu'
+
+jest.mock('./createContextFromEvent')
+
+const mockChildComponent = jest.fn()
+jest.mock('./ElementTypesMenu', () => props => {
+  mockChildComponent(props)
+  return <div data-testid='ElementTypesMenu' />
+})
 
 describe('ParagraphContextMenu testing', () => {
   const testProps = {
@@ -13,203 +25,268 @@ describe('ParagraphContextMenu testing', () => {
     saveDisabled: true,
     context: {},
     setContextMenuOpened: jest.fn(),
-    setParagraphEditted: jest.fn()
+    setParagraphEditted: jest.fn(),
+    saveToBackend: jest.fn(),
+    deleteElement: jest.fn(),
+    addAbove: jest.fn(),
+    addBelow: jest.fn()
+  }
+  const upperLvlElementId = '01_vblock_txt_3'
+  const upperLvlAddElement = jest.fn()
+  const upperLvlDeleteElement = jest.fn()
+
+  const renderReduxContext = (actualProps) => {
+    // await waitFor(() => {
+    render(
+      <Provider store={store}>
+        <UpperLevel.Provider value={{
+          upperLvlAddElement,
+          upperLvlDeleteElement
+        }} >
+          <UpperLeverElementId.Provider value={upperLvlElementId} >
+            <ParagraphContextMenu {...actualProps} />
+          </UpperLeverElementId.Provider>
+        </UpperLevel.Provider>
+      </Provider>
+    )
+    // expect(container).toBeEmptyDOMElement()
+    // })
   }
 
   describe('component actions', () => {
-    test('save button enabled', async () => {
+    describe('submenu actions', () => {
       const actualProps = {
         ...testProps,
-        isOpened: true,
-        saveDisabled: false
+        isOpened: true
       }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
+      beforeEach(async () => {
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
       })
-      const saveButtonAnabled = screen.getByRole('button', { name: '1stLevel.saveElement' })
-      expect(saveButtonAnabled).toBeEnabled()
-      // screen.debug()
-    })
+      test('dropdown, addAbove', async () => {
+        const upperAddAbove = screen.getByRole('option', { name: '1LE.addAbove' })
 
-    test('edit button clicked actions', async () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true
-      }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
+        await waitFor(() => { userEvent.click(upperAddAbove) })
+        expect(createContextFromEvent).toHaveBeenCalledTimes(1)
+        expect(typeof createContextFromEvent.mock.calls[0][0]).toBe('object')
+        // const elementTypesMenuPropsKeys = Object.keys(mockChildComponent.mock.calls[0][0])
+        expect(Object.keys(mockChildComponent.mock.calls[0][0]))
+          .toEqual(expect.arrayContaining([
+            'isOpened', 'context',
+            'upperLevelElementId', 'setOpenedProp']))
+        expect(mockChildComponent.mock.calls[0][0].isOpened)
+          .toBeTruthy()
+        expect(mockChildComponent.mock.calls[0][0]
+          .upperLevelElementId)
+          .toBe(parseInt(upperLvlElementId.split('_')[0]))
+        // screen.debug()
       })
-      expect(screen.queryByTestId('Popup')).not.toBe(null)
-      const editButton = screen.getByRole('button', { name: '1stLevel.editElement' })
-      userEvent.click(editButton)
-      expect(actualProps.setParagraphEditted).toHaveBeenCalledTimes(1)
-      expect(actualProps.setParagraphEditted).toHaveBeenCalledWith(true)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-      expect(screen.queryByTestId('Popup')).toBe(null)
-      // screen.debug()
+      test('dropdown, addBelow', async () => {
+        const upperAddBelow = screen.getByRole('option', { name: '1LE.addBelow' })
+
+        await waitFor(() => { userEvent.click(upperAddBelow) })
+        expect(createContextFromEvent).toHaveBeenCalledTimes(1)
+        expect(typeof createContextFromEvent.mock.calls[0][0]).toBe('object')
+        // const elementTypesMenuPropsKeys = Object.keys(mockChildComponent.mock.calls[0][0])
+        expect(Object.keys(mockChildComponent.mock.calls[0][0]))
+          .toEqual(expect.arrayContaining([
+            'isOpened', 'context',
+            'upperLevelElementId', 'setOpenedProp']))
+        expect(mockChildComponent.mock.calls[0][0].isOpened)
+          .toBeTruthy()
+        expect(mockChildComponent.mock.calls[0][0]
+          .upperLevelElementId)
+          .toBe(parseInt(upperLvlElementId.split('_')[0]) + 1)
+        // screen.debug()
+      })
+      test('dropdown, delete', async () => {
+        const uppreDelete = screen.getByRole('option', { name: '1LE.DeleteElement' })
+        expect(screen.queryByTestId('Popup')).not.toBe(null)
+        await waitFor(() => { userEvent.click(uppreDelete) })
+        expect(upperLvlDeleteElement).toHaveBeenCalledTimes(1)
+        expect(upperLvlDeleteElement).toHaveBeenCalledWith(parseInt(upperLvlElementId.split('_')[0]))
+        expect(screen.queryByTestId('Popup')).toBe(null)
+        // console.log('ParagraphContextMenu.test:',
+        //   '\n dropdown delete',
+        //   '\n  upperLvlDeleteElement ->', upperLvlDeleteElement.mock.calls)
+      })
     })
-    test('save button clicked actions', async () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true,
-        saveDisabled: false
-      }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
+    describe('menu options testing', () => {
+      test('save option enabled', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true,
+          saveDisabled: false
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
+        const saveOptionAnabled = screen.getByRole('listbox')
+        // const saveOptionAnabled = screen.getByText('2LE.saveElement')
+        expect(saveOptionAnabled).not.toHaveClass('disabled')
+        // screen.debug(saveOptionAnabled)
       })
-      expect(screen.queryByTestId('Popup')).not.toBe(null)
-      // screen.debug()
-      const saveButton = screen.getByRole('button', { name: '1stLevel.saveElement' })
-      userEvent.click(saveButton)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-      expect(screen.queryByTestId('Popup')).toBe(null)
-      // screen.debug()
-    })
-    test('add above button clicked actions', async () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true
-      }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
+
+      test('edit option clicked actions', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
+        expect(screen.queryByTestId('Popup')).not.toBe(null)
+        const editOption = screen.getByText('2LE.editElement')
+        userEvent.click(editOption)
+        expect(actualProps.setParagraphEditted)
+          .toHaveBeenCalledTimes(1)
+        expect(actualProps.setParagraphEditted)
+          .toHaveBeenCalledWith(true)
+        expect(actualProps.setContextMenuOpened)
+          .toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened)
+          .toHaveBeenCalledWith(false)
+        expect(screen.queryByTestId('Popup')).toBe(null)
+        // screen.debug()
       })
-      expect(screen.queryByTestId('Popup')).not.toBe(null)
-      const addAboveButton = screen.getByRole('button', { name: '1stLevel.addAbove' })
-      userEvent.click(addAboveButton)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-      expect(screen.queryByTestId('Popup')).toBe(null)
-      // screen.debug()
-    })
-    test('add below button clicked actions', async () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true
-      }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
+
+      test('save option clicked actions', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true,
+          saveDisabled: false
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
+        expect(screen.queryByTestId('Popup')).not.toBe(null)
+        // screen.debug()
+        const saveOption = screen.getByText('2LE.saveElement')
+        userEvent.click(saveOption)
+        expect(actualProps.saveToBackend).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
+        expect(screen.queryByTestId('Popup')).toBe(null)
       })
-      expect(screen.queryByTestId('Popup')).not.toBe(null)
-      const addBelowButton = screen.getByRole('button', { name: '1stLevel.addBelow' })
-      userEvent.click(addBelowButton)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-      expect(screen.queryByTestId('Popup')).toBe(null)
-      // screen.debug()
-    })
-    test('delete button clicked actions', async () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true
-      }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
+
+      test('add above option clicked actions', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
+        expect(screen.queryByTestId('Popup')).not.toBe(null)
+        const addAboveOption = screen.getByText('2LE.addAbove')
+        userEvent.click(addAboveOption)
+        expect(actualProps.addAbove).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
+        expect(screen.queryByTestId('Popup')).toBe(null)
+        // screen.debug()
       })
-      expect(screen.queryByTestId('Popup')).not.toBe(null)
-      const deleteButton = screen.getByRole('button', { name: '1stLevel.deleteElement' })
-      userEvent.click(deleteButton)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
-      expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-      expect(screen.queryByTestId('Popup')).toBe(null)
-      // screen.debug()
+      test('add below option clicked actions', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
+        expect(screen.queryByTestId('Popup')).not.toBe(null)
+        const addBelowOption = screen.getByText('2LE.addBelow')
+        userEvent.click(addBelowOption)
+        expect(actualProps.addBelow).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
+        expect(screen.queryByTestId('Popup')).toBe(null)
+        // screen.debug()
+      })
+      test('delete Option clicked actions', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
+        expect(screen.queryByTestId('Popup')).not.toBe(null)
+        const deleteOption = screen.getByText('2LE.deleteElement')
+        userEvent.click(deleteOption)
+        expect(actualProps.deleteElement).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
+        expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
+        expect(screen.queryByTestId('Popup')).toBe(null)
+        // screen.debug()
+      })
     })
   })
 
   describe('appeance', () => {
     test('popup does not exist when is not opened', async () => {
-      // const actualProps = {...testProps, isOpened: true}
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ParagraphContextMenu {...testProps} />
-            {/* <ParagraphContextMenu {...actualProps} /> */}
-          </Provider>
-        )
-        // expect(container).toBeEmptyDOMElement()
-      })
-      expect(screen.queryByTestId('Popup')).toBe(null)
+      // const actualProps = { ...testProps, isOpened: true }
+      await renderReduxContext(testProps)
+      await expect(screen.queryByTestId('Popup')).toBe(null)
       // const result = screen.queryByTestId('Popup')
       // console.log('it is impty when is not opened, result ->', result)
       // screen.debug()
     })
 
-    test('it should exist and has all buttons and icons', async () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true
-      }
-      await waitFor(() => {
-        // state = store.getState()
-        // console.log('second test, state ->', state)
-        render(
-          <Provider store={store}>
-            {/* <ParagraphContextMenu {...testProps} /> */}
-            <ParagraphContextMenu {...actualProps} />
-          </Provider>
-        )
-        // expect(store.getState()).toEqual(storeBefore);
-        // console.log('state ->', store.getState())
-      })
+    test('it should exist and has all options and icons', async () => {
+      const actualProps = { ...testProps, isOpened: true }
+      renderReduxContext(actualProps)
       expect(screen.findByTestId('Popup')).not.toBe(null)
 
-      const editButton = screen.getByRole('button', { name: '1stLevel.editElement' })
-      expect(editButton).toBeVisible()
-      expect(editButton).toBeEnabled()
-      expect(editButton).toHaveClass('ui button')
-      expect(editButton.children[0]).toHaveClass('teal edit icon')
+      const editItem = screen.getByText('2LE.editElement')
+      // const editItem = screen.getByRole('Item', { name: '1stLevel.editElement' })
+      expect(editItem).toBeVisible()
+      expect(editItem).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(editItem.children[0]).toHaveClass('teal edit icon')
 
-      const saveButton = screen.getByRole('button', { name: '1stLevel.saveElement' })
-      expect(saveButton).toBeVisible()
-      expect(saveButton).toBeDisabled()
-      expect(saveButton).toHaveClass('ui button')
-      expect(saveButton.children[0]).toHaveClass('orange save icon')
+      const saveItem = screen.getByText('2LE.saveElement')
+      expect(saveItem).toBeVisible()
+      expect(saveItem).toHaveClass('disabled item sc-bdfBQB eVLmMB', { exact: true })
+      expect(saveItem.children[0]).toHaveClass('orange save icon')
 
-      const aboveButton = screen.getByRole('button', { name: '1stLevel.addAbove' })
-      expect(aboveButton).toBeVisible()
-      expect(aboveButton).toBeEnabled()
-      expect(aboveButton).toHaveClass('ui button')
-      expect(aboveButton.children[0]).toHaveClass('olive angle double up icon')
+      const aboveItem = screen.getByText('2LE.addAbove')
+      expect(aboveItem).toBeVisible()
+      expect(aboveItem).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(aboveItem.children[0]).toHaveClass('olive angle up icon')
 
-      const addBelowButton = screen.getByRole('button', { name: '1stLevel.addBelow' })
-      expect(addBelowButton).toBeVisible()
-      expect(addBelowButton).toBeEnabled()
-      expect(addBelowButton).toHaveClass('ui button')
-      expect(addBelowButton.children[0]).toHaveClass('olive angle double down icon')
+      const belowItem = screen.getByText('2LE.addBelow')
+      expect(belowItem).toBeVisible()
+      expect(belowItem).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(belowItem.children[0]).toHaveClass('olive angle down icon')
 
-      const deleteButton = screen.getByRole('button', { name: '1stLevel.deleteElement' })
-      expect(deleteButton).toBeVisible()
-      expect(deleteButton).toBeEnabled()
-      expect(deleteButton).toHaveClass('ui button')
-      expect(deleteButton.children[0]).toHaveClass('orange delete icon')
+      const deleteItem = screen.getByText('2LE.deleteElement')
+      expect(deleteItem).toBeVisible()
+      expect(deleteItem).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(deleteItem.children[0]).toHaveClass('orange delete icon')
 
-      // console.log('rendering, deleteButton ->', deleteButton.children[0].className)
-      // screen.debug()
+      const dropDown = screen.getByRole('listbox')
+      expect(dropDown).toBeVisible()
+      expect(dropDown).toHaveClass('ui fluid dropdown icon')
+      expect(dropDown.children).toHaveLength(3)
+      expect(dropDown).toHaveTextContent('1LE.handle')
+
+      const upperAboveOption = screen.getByRole('option', { name: '1LE.addAbove' })
+      expect(upperAboveOption).toBeVisible()
+      expect(upperAboveOption).toHaveClass('item', { exact: true })
+      expect(upperAboveOption.children[0]).toHaveClass('olive angle up icon')
+      // console.log('rendering, deleteoption ->', dropDown.children.length)
+
+      const uppreBelowOption = screen.getByRole('option', { name: '1LE.addBelow' })
+      expect(uppreBelowOption).toBeVisible()
+      expect(uppreBelowOption).toHaveClass('item', { exact: true })
+      expect(uppreBelowOption.children[0]).toHaveClass('olive angle down icon', { exact: true })
+      // screen.debug(uppreBelowOption)
+
+      const upperDeleteOption = screen.getByRole('option', { name: '1LE.DeleteElement' })
+      expect(upperDeleteOption).toBeVisible()
+      expect(upperDeleteOption).toHaveClass('item', { exact: true })
+      expect(upperDeleteOption.children[0]).toHaveClass('orange delete icon', { exact: true })
     })
   })
 })

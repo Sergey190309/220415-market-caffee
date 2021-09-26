@@ -1,9 +1,5 @@
-import React, { useState, useEffect, Fragment } from 'react'
-// import { connect } from 'react-redux';
-import {
-  useDispatch
-  // useSelector
-} from 'react-redux'
+import React, { createContext, useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Container, Divider } from 'semantic-ui-react'
 
@@ -11,12 +7,13 @@ import { makeRecordIdList } from '../../../utils/utils'
 import {
   backendAddElementStart,
   backendRemoveElementStart
-  // lngSelector
 } from '../../../redux/slices'
 
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
+
+export const UpperLeverElementId = createContext()
 
 export const addElement = (viewName, recordsId, recordIndex, dispatch) => {
   // console.log('components, page_view, view_element, ViewVBlock, add element, \nrecordIndex ->',
@@ -39,7 +36,10 @@ export const deleteElement = (viewName, recordsId, recordIndex, dispatch) => {
   }))
 }
 
-const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) => {
+const ViewVBlock = ({
+  recordsId, viewName, addElementProp, deleteElementProp
+  // upperLvlAddElementProp, upperLvlDeleteElementProp
+}) => {
   /**
    * recordsId structure - 01_vblock_txt_3
    * 01 - serial number
@@ -80,9 +80,9 @@ const ViewVBlock = ({ recordsId, viewName, addElementProp, deleteElementProp }) 
     //   '\n length ->', recordIdList.length)
     return recordIdList.map(txtRecordId => {
       return (
-        <Fragment key={txtRecordId}>
+        <UpperLeverElementId.Provider key={txtRecordId} value={recordsId}>
           <ViewParagraph {...props} recordId={txtRecordId} />
-        </Fragment>
+        </UpperLeverElementId.Provider>
       )
     })
   }
