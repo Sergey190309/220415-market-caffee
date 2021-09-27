@@ -8,6 +8,7 @@ import { STRUCTURE_ADD, STRUCTURE_REMOVE, CONTENT_UPDATE } from '../constants/ty
  */
 
 export const initialState = {
+  // update: []
   values: {
     identity: '',
     view_id: '',
@@ -15,24 +16,24 @@ export const initialState = {
     index: -1
   },
   kind: '',
-  /**
-   * Above used to configure values for specific update.
-   * See constants/tytpes.js
-   * 210909: STRUCTURE_ADD, STRUCTURE_REMOVE, CONTENT_UPDATE
-   */
   loading: false,
   loaded: false // used to set save to backend inactive
 }
+/**
+ * Above used to configure values for specific update.
+ * See constants/types.js
+ * 210909: STRUCTURE_ADD, STRUCTURE_REMOVE, CONTENT_UPDATE
+ */
 
 const backendUpdateSlice = createSlice({
   name: 'backendUpdate',
   initialState,
   reducers: {
     setTestState: (state, { payload }) => {
-    /**
-     * That's for testing only.
-     * It rewrites all state.
-     */
+      /**
+       * That's for testing only.
+       * It rewrites all state.
+       */
       Object.assign(state, payload)
     },
     resetBackendUpdate: state => {
@@ -78,16 +79,18 @@ const backendUpdateSlice = createSlice({
       state.loading = false
       state.loaded = false
     },
-    backendTxtUpdateStart: (state, { payload }) => {
-      // console.log('slice, backendUpdate:\n',
-      //   ' backendTxtUpdateStart\n',
-      //   '  payload ->', payload)
+    backendTxtUpdateReady: (state, { payload }) => {
       if (typeof payload !== 'undefined') {
         state.values.identity = payload.identity
         state.values.view_id = payload.view_id
         state.values.content = payload.content
         state.kind = CONTENT_UPDATE
       }
+    },
+    backendTxtUpdateStart: (state) => {
+      // console.log('slice, backendUpdate:\n',
+      //   ' backendTxtUpdateStart\n',
+      //   '  payload ->', payload)
       state.loading = true
       state.loaded = false
     },
@@ -108,7 +111,7 @@ export const {
   setTestState,
   backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
   backendRemoveElementStart, backendRemoveElementSuccess, backendRemoveElementFail,
-  backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
+  backendTxtUpdateReady, backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
   backendUpdateFail,
   resetBackendUpdate
 } = backendUpdateSlice.actions

@@ -4,7 +4,7 @@ import {
   backendUpdateFail,
   backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
   backendRemoveElementStart, backendRemoveElementSuccess, backendRemoveElementFail,
-  backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
+  backendTxtUpdateReady, backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
   initialState,
   resetBackendUpdate, setTestState
 } from './backendUpdate'
@@ -169,20 +169,30 @@ describe('backendTxtUpdate slice testing', () => {
       }
       // }
     }
-    test('backendTxtUpdateStart testing', () => {
-      store.dispatch(backendTxtUpdateStart(mockTxtContentsPayload))
+    test('backendTxtUpdateReady', () => {
+      store.dispatch(backendTxtUpdateReady(mockTxtContentsPayload))
       state = store.getState().backendUpdate
       const expState = {
+        ...initialState,
         values: { ...mockTxtContentsPayload, index: -1 },
-        kind: CONTENT_UPDATE,
+        kind: CONTENT_UPDATE
+      }
+      expect(state).toEqual(expState)
+      // console.log('slices, backendUpdate.test:',
+      //   '\n backendTxtUpdateReady',
+      //   '\n  state ->', state)
+    })
+    test('backendTxtUpdateStart', () => {
+      store.dispatch(backendTxtUpdateStart())
+      state = store.getState().backendUpdate
+      const expState = {
+        ...initialState,
+        // values: { ...mockTxtContentsPayload, index: -1 },
+        // kind: CONTENT_UPDATE,
         loading: true,
         loaded: false
       }
       expect(state).toEqual(expState)
-      // console.log('slices, backendUpdate.test:\n ',
-      //   'backendAddElementStart\n  state ->', state)
-      // console.log('slices, backendUpdate.test:\n ',
-      //   'backendAddElementStart\n  expState ->', expState)
     })
 
     test('backendTxtUpdateSuccess testing', () => {

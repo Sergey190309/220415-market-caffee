@@ -40,7 +40,7 @@ export {
   setTestState as backendUpdateSetState,
   backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
   backendRemoveElementStart, backendRemoveElementSuccess, backendRemoveElementFail,
-  backendTxtUpdateStart, backendTxtUpdateSuccess, backendUpdateFail,
+  backendTxtUpdateReady, backendTxtUpdateStart, backendTxtUpdateSuccess, backendUpdateFail,
   resetBackendUpdate,
   backendUpdateSelector
 }

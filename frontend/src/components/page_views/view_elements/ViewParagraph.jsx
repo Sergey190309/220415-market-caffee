@@ -12,12 +12,15 @@ import {
   // putContentSaga
 } from '../../../redux/saga/content/content'
 import {
-  deviceSelector, backendTxtUpdateStart,
-  resetBackendUpdate, backendUpdateSelector
+  deviceSelector,
+  backendUpdateSelector,
+  backendTxtUpdateReady, backendTxtUpdateStart,
+  resetBackendUpdate
 } from '../../../redux/slices'
 import { createContextFromEvent } from './editors/createContextFromEvent' // tested
 import ParagraphContextMenu
   from './editors/ParagraphContextMenu' // tested
+import SaveToBackendContextMenu from '../../items/SaveToBackendContextMenu'
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 import Indicator from './indicator/Indicator'
 
@@ -58,7 +61,7 @@ const ViewParagraph = ({
   const [paragraphEditted, setParagraphEditted] = useState(false)
   const [indicatorOpened, setIndicatorOpened] = useState(false)
   const { editable } = useSelector(deviceSelector)
-  const { loaded } = useSelector(backendUpdateSelector)
+  const { loaded, kind } = useSelector(backendUpdateSelector)
   const dispatch = useDispatch()
 
   const contextRef = useRef(null)
@@ -85,6 +88,11 @@ const ViewParagraph = ({
       //   '\n  state ->', state,
       //   '\n  content', content
       // )
+      dispatch(backendTxtUpdateReady({
+        identity: recordId,
+        view_id: viewName,
+        content: content
+      }))
       setChanged(true)
     }
   }, [content])
@@ -107,7 +115,6 @@ const ViewParagraph = ({
   }
 
   const onContextMenuHendler = event => {
-    // console.log('ViewParagraph, onContextMenuHendler')
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setIndicatorOpened(false)
@@ -116,11 +123,7 @@ const ViewParagraph = ({
 
   const saveToBackend = () => {
     // console.log('ViewParagraph, saveToBackend, content ->', content)
-    dispatch(backendTxtUpdateStart({
-      identity: recordId,
-      view_id: viewName,
-      content: content
-    }))
+    dispatch(backendTxtUpdateStart())
   }
   const addAbove = () => {
     /**
@@ -129,10 +132,7 @@ const ViewParagraph = ({
     const recordIndex = parseInt(recordId.split('_').pop())
     if (isNaN(recordIndex)) {
       console.log('Unable to parse recordId for index')
-    } else {
-      addElementProp(recordIndex)
-    }
-    // console.log('ViewParagraph, addAbove')
+    } else { addElementProp(recordIndex) }
   }
   const addBelow = () => {
     /**
@@ -141,10 +141,7 @@ const ViewParagraph = ({
     const recordIndex = parseInt(recordId.split('_').pop())
     if (isNaN(recordIndex)) {
       console.log('Unable to parse recordId for index')
-    } else {
-      addElementProp(recordIndex + 1)
-    }
-    //  console.log('ViewParagraph, addBelow')
+    } else { addElementProp(recordIndex + 1) }
   }
   const deleteElement = () => {
     /**
@@ -154,39 +151,85 @@ const ViewParagraph = ({
     // console.log('ViewParagraph, deleteFmBackend')
     if (isNaN(recordIndex)) {
       console.log('Unable to parse recordId for index')
-    } else {
-      deleteElementProp(recordIndex)
-    }
+    } else { deleteElementProp(recordIndex) }
   }
 
-  const NormalOutput = () => (<Message
-    // onMouseLeave={() => {
-    //   console.log('ViewParagraph:\n onMouseLeave')
-    //   setIndicatorOpened(false)
-    //   setContextMenuOpened(false)
-    // }}
+  const normalOutput = () => (
+    <Message
+      onContextMenu={editable
+        ? onContextMenuHendler
+        : null
+      }
+      onClick={onClickHandler}
+      data-testid='Message'
+    >
+      <Message.Header content={content.title} />
+      {content.title && content.content.length > 0
+        ? <Divider />
+        : null}
+      {content.content.map((item, index) => (
+        <Message.Item as='p' key={index}>
+          {item}
+        </Message.Item>
+      ))}
+    </Message>
+  )
 
-    onContextMenu={editable
-      ? onContextMenuHendler
-      : null
-    }
-    onClick={onClickHandler}
-    data-testid='Message'
-  >
-    <Message.Header content={content.title} />
-    {content.title && content.content.length > 0
-      ? <Divider />
-      : null}
-    {content.content.map((item, index) => (
-      <Message.Item as='p' key={index}>
-        {item}
-      </Message.Item>
-    ))}
-  </Message>)
+  const paragraphEditorConf = () => (
+    <ParagraphEditor
+      setParagraphEditted={setParagraphEditted}
+      comingContent={content}
+      setComingContent={setContent}
+    />
+  )
+
+  const indicatorConf = () => (
+    <Indicator
+      isOpened={indicatorOpened}
+      context={indicatorRef}
+      header={viewName}
+      content={recordId}
+      setIndicatorOpened={setIndicatorOpened}
+    />
+  )
+
+  const paragraphContextMenuConf = () => (
+    <ParagraphContextMenu
+      isOpened={contextMenuOpened}
+      saveDisabled={!changed}
+      context={contextRef}
+      setContextMenuOpened={setContextMenuOpened}
+      setParagraphEditted={setParagraphEditted}
+      saveToBackend={saveToBackend}
+      deleteElement={deleteElement}
+      addAbove={addAbove}
+      addBelow={addBelow}
+    />
+  )
 
   return (
     <Fragment>
       {editable
+        ? paragraphEditted
+          ? paragraphEditorConf()
+          : <Fragment>
+              {normalOutput()}
+              {indicatorOpened
+                ? indicatorConf()
+                : null
+              }
+              {contextMenuOpened
+                ? (kind === '')
+                    ? paragraphContextMenuConf()
+                    : changed
+                      ? paragraphContextMenuConf()
+                      : <SaveToBackendContextMenu />
+                : null
+              }
+            </Fragment>
+        : normalOutput()
+      }
+      {/* {editable
         ? paragraphEditted
           ? <ParagraphEditor
             setParagraphEditted={setParagraphEditted}
@@ -194,19 +237,19 @@ const ViewParagraph = ({
             setComingContent={setContent}
           />
           : <ParagraphContextMenu
-              isOpened={contextMenuOpened}
-              // saveDisabled={false}
-              saveDisabled={!changed}
-              context={contextRef}
-              setContextMenuOpened={setContextMenuOpened}
-              setParagraphEditted={setParagraphEditted}
-              saveToBackend={saveToBackend}
-              deleteElement={deleteElement}
-              addAbove={addAbove}
-              addBelow={addBelow}
-              // upperLvlAddElementProp={upperLvlAddElementProp}
-              // upperLvlDeleteElementProp={upperLvlDeleteElementProp}
-            />
+            isOpened={contextMenuOpened}
+            // saveDisabled={false}
+            saveDisabled={!changed}
+            context={contextRef}
+            setContextMenuOpened={setContextMenuOpened}
+            setParagraphEditted={setParagraphEditted}
+            saveToBackend={saveToBackend}
+            deleteElement={deleteElement}
+            addAbove={addAbove}
+            addBelow={addBelow}
+          // upperLvlAddElementProp={upperLvlAddElementProp}
+          // upperLvlDeleteElementProp={upperLvlDeleteElementProp}
+          />
         : null
       }
       {paragraphEditted
@@ -215,14 +258,14 @@ const ViewParagraph = ({
       }
       {indicatorOpened
         ? <Indicator
-            isOpened={indicatorOpened}
-            context={indicatorRef}
-            header={viewName}
-            content={recordId}
-            setIndicatorOpened={setIndicatorOpened}
-          />
+          isOpened={indicatorOpened}
+          context={indicatorRef}
+          header={viewName}
+          content={recordId}
+          setIndicatorOpened={setIndicatorOpened}
+        />
         : null
-      }
+      } */}
     </Fragment>
   )
 }
@@ -234,7 +277,7 @@ ViewParagraph.defaultProps = {
   },
   recordId: '',
   viewName: '',
-  addElementProp: () => {},
+  addElementProp: () => { },
   deleteElementProp: () => { }
   // upperLvlAddElementProp: () => { },
   // upperLvlDeleteElementProp: () => {}
