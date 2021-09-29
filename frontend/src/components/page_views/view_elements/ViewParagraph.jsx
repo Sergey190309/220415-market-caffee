@@ -9,7 +9,6 @@ import {
 import { useSaga } from '../../../redux/saga/content/createIO'
 import {
   getContentSaga
-  // putContentSaga
 } from '../../../redux/saga/content/content'
 import {
   deviceSelector,
@@ -17,7 +16,7 @@ import {
   backendTxtUpdateReady, backendTxtUpdateStart,
   resetBackendUpdate
 } from '../../../redux/slices'
-import { createContextFromEvent } from './editors/createContextFromEvent' // tested
+import { createContextFromEvent } from '../../../utils/createContextFromEvent' // tested
 import ParagraphContextMenu
   from './editors/ParagraphContextMenu' // tested
 import SaveToBackendContextMenu from '../../items/SaveToBackendContextMenu'
@@ -27,7 +26,6 @@ import Indicator from './indicator/Indicator'
 const ViewParagraph = ({
   initialState, recordId, viewName,
   addElementProp, deleteElementProp
-  // upperLvlAddElementProp, upperLvlDeleteElementProp
 }) => {
   /**
    * States:
@@ -58,10 +56,13 @@ const ViewParagraph = ({
   })
   const [changed, setChanged] = useState(false)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
-  const [paragraphEditted, setParagraphEditted] = useState(false)
+  const [saveContextMenuOpened, setSaveContextMenuOpened] = useState(false)
   const [indicatorOpened, setIndicatorOpened] = useState(false)
+  const [paragraphEditted, setParagraphEditted] = useState(false)
+
   const { editable } = useSelector(deviceSelector)
   const { loaded, kind } = useSelector(backendUpdateSelector)
+
   const dispatch = useDispatch()
 
   const contextRef = useRef(null)
@@ -69,14 +70,17 @@ const ViewParagraph = ({
 
   useEffect(() => { // Saga
     // console.log('ViewParagraph, useEffect(getSagaDispatch), recordId ->', recordId)
-    getSagaDispatch({
-      type: CONTENT_REQUESTED,
-      payload: {
-        identity: recordId,
-        view_id: viewName
-      }
-    })
-  }, [recordId, viewName])
+    if (kind === '') {
+      setChanged(false)
+      getSagaDispatch({
+        type: CONTENT_REQUESTED,
+        payload: {
+          identity: recordId,
+          view_id: viewName
+        }
+      })
+    }
+  }, [recordId, viewName, kind])
 
   useEffect(() => {
     setContent(state)
@@ -84,10 +88,6 @@ const ViewParagraph = ({
 
   useEffect(() => {
     if (JSON.stringify(state) !== JSON.stringify(content)) {
-      // console.log('ViewParagraph:\n useEffect (content)',
-      //   '\n  state ->', state,
-      //   '\n  content', content
-      // )
       dispatch(backendTxtUpdateReady({
         identity: recordId,
         view_id: viewName,
@@ -99,7 +99,6 @@ const ViewParagraph = ({
 
   useEffect(() => {
     if (changed) {
-      // console.log('componetns, ViewParagraph, useEffect ->')
       setChanged(false)
       dispatch(resetBackendUpdate())
     }
@@ -118,11 +117,16 @@ const ViewParagraph = ({
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setIndicatorOpened(false)
-    setContextMenuOpened(true)
+    if (kind === '') { setContextMenuOpened(true) } else {
+      if (changed) {
+        setContextMenuOpened(true)
+      } else {
+        setSaveContextMenuOpened(true)
+      }
+    }
   }
 
   const saveToBackend = () => {
-    // console.log('ViewParagraph, saveToBackend, content ->', content)
     dispatch(backendTxtUpdateStart())
   }
   const addAbove = () => {
@@ -175,7 +179,7 @@ const ViewParagraph = ({
     </Message>
   )
 
-  const paragraphEditorConf = () => (
+  const paragraphEditor = () => (
     <ParagraphEditor
       setParagraphEditted={setParagraphEditted}
       comingContent={content}
@@ -183,7 +187,9 @@ const ViewParagraph = ({
     />
   )
 
-  const indicatorConf = () => (
+  // console.log('ViewParagraph:\n indicator',
+  //   '\n  indicatorOpened ->', indicatorOpened)
+  const indicator = () => (
     <Indicator
       isOpened={indicatorOpened}
       context={indicatorRef}
@@ -193,9 +199,9 @@ const ViewParagraph = ({
     />
   )
 
-  const paragraphContextMenuConf = () => (
+  const paragraphContextMenu = () => (
     <ParagraphContextMenu
-      isOpened={contextMenuOpened}
+      // isOpened={contextMenuOpened}
       saveDisabled={!changed}
       context={contextRef}
       setContextMenuOpened={setContextMenuOpened}
@@ -207,65 +213,37 @@ const ViewParagraph = ({
     />
   )
 
+  // console.log('ViewParagraph:\n saveToBackendContextMenu')
+  const saveToBackendContextMenu = () => (
+    <SaveToBackendContextMenu
+      isOpened={saveContextMenuOpened}
+      context={contextRef}
+      setContextMenuOpened={setSaveContextMenuOpened}
+    />
+  )
+
   return (
     <Fragment>
       {editable
         ? paragraphEditted
-          ? paragraphEditorConf()
+          ? paragraphEditor()
           : <Fragment>
-              {normalOutput()}
-              {indicatorOpened
-                ? indicatorConf()
-                : null
-              }
-              {contextMenuOpened
-                ? (kind === '')
-                    ? paragraphContextMenuConf()
-                    : changed
-                      ? paragraphContextMenuConf()
-                      : <SaveToBackendContextMenu />
-                : null
-              }
-            </Fragment>
+            {normalOutput()}
+            {indicatorOpened
+              ? indicator()
+              : null
+            }
+            {contextMenuOpened
+              ? paragraphContextMenu()
+              : null
+            }
+            {saveContextMenuOpened
+              ? saveToBackendContextMenu()
+              : null
+            }
+          </Fragment>
         : normalOutput()
       }
-      {/* {editable
-        ? paragraphEditted
-          ? <ParagraphEditor
-            setParagraphEditted={setParagraphEditted}
-            comingContent={content}
-            setComingContent={setContent}
-          />
-          : <ParagraphContextMenu
-            isOpened={contextMenuOpened}
-            // saveDisabled={false}
-            saveDisabled={!changed}
-            context={contextRef}
-            setContextMenuOpened={setContextMenuOpened}
-            setParagraphEditted={setParagraphEditted}
-            saveToBackend={saveToBackend}
-            deleteElement={deleteElement}
-            addAbove={addAbove}
-            addBelow={addBelow}
-          // upperLvlAddElementProp={upperLvlAddElementProp}
-          // upperLvlDeleteElementProp={upperLvlDeleteElementProp}
-          />
-        : null
-      }
-      {paragraphEditted
-        ? null
-        : <NormalOutput />
-      }
-      {indicatorOpened
-        ? <Indicator
-          isOpened={indicatorOpened}
-          context={indicatorRef}
-          header={viewName}
-          content={recordId}
-          setIndicatorOpened={setIndicatorOpened}
-        />
-        : null
-      } */}
     </Fragment>
   )
 }
@@ -279,8 +257,6 @@ ViewParagraph.defaultProps = {
   viewName: '',
   addElementProp: () => { },
   deleteElementProp: () => { }
-  // upperLvlAddElementProp: () => { },
-  // upperLvlDeleteElementProp: () => {}
 }
 
 ViewParagraph.propTypes = {
@@ -289,8 +265,6 @@ ViewParagraph.propTypes = {
   viewName: PropTypes.string.isRequired,
   addElementProp: PropTypes.func.isRequired,
   deleteElementProp: PropTypes.func.isRequired
-  // upperLvlAddElementProp: PropTypes.func.isRequired,
-  // upperLvlDeleteElementProp: PropTypes.func.isRequired
 }
 
 export default ViewParagraph

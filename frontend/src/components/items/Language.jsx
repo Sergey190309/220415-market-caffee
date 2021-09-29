@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import i18next from 'i18next'
@@ -10,6 +10,8 @@ import {
   techSelector, lngSelector, lngSwitch,
   structureStart
 } from '../../redux/slices'
+// import SaveToBackendContextMenu from '../items/SaveToBackendContextMenu'
+// import { createContextFromEvent } from '../../utils/createContextFromEvent'
 // import { setLngAction } from '../../redux/actions/lng';
 
 export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
@@ -24,9 +26,15 @@ export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
 export const Language = ({ onChange, i18next }) => {
   const [activeLng, setActiveLng] = useState(i18next.language) // Active language
   const [availableLngs, setAvailableLngs] = useState([]) // availableLngs languages
+  // const [saveContextMenuOpened, setSaveContextMenuOpened] = useState(false)
+
+  // const refContext = useRef(null)
+
   const dispatch = useDispatch()
+
   const { loaded } = useSelector(techSelector)
   const { lng } = useSelector(lngSelector)
+  // const { kind } = useSelector(backendUpdateSelector)
 
   // console.log('component, Language, i18next.language ->', i18next.language)
 
@@ -52,14 +60,18 @@ export const Language = ({ onChange, i18next }) => {
     }
   }, [activeLng, lng])
 
-  const _onChange = (evt, { value }) => {
-    evt.preventDefault()
+  const _onChange = (event, { value }) => {
+    event.preventDefault()
+    // if (kind !== '') {
+    //   refContext.current = createContextFromEvent(event)
+    //   setSaveContextMenuOpened(true)
+    // }
+    // console.log('Language:\n _onChange\n  activeLng ->', activeLng)
+
     onChange(value, setActiveLng, dispatch)
-    // console.log('component, Language, _onChange, activeLng ->', activeLng)
   }
   // console.log('component, Language, activeLng ->', activeLng)
-
-  return (
+  const dropdown = () => (
     <Dropdown
       name='langSwitcher'
       floating
@@ -71,6 +83,12 @@ export const Language = ({ onChange, i18next }) => {
       onChange={_onChange}
       value={activeLng}
     />
+  )
+
+  return (
+    <Fragment>
+      {dropdown()}
+    </Fragment>
   )
 }
 

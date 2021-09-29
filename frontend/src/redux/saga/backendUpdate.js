@@ -210,21 +210,6 @@ export function * backendTextUpdate (action) {
       return
     }
     if (error.response) {
-      // if (error.response.status === 401 && error.response.data.error === 'token_expired') {
-      //   // console.log('saga, backendUpdate.error, description ->', error.response.data.description)
-      //   yield put(openModal('confirmPassword'))
-      //   yield put(
-      //     startAlert(
-      //       setAlertData({
-      //         message: error.response.data.description,
-      //         alertType: 'error',
-      //         timeout: 5000
-      //       })
-      //     )
-      //   )
-      //   // confirmPasswordHelper(error.response.data.description, payload)
-      //   return
-      // }
       console.log('contentSaga, error.response! ->')
       console.log(error.response.data.error)
       console.log(error.response.status)
@@ -232,7 +217,7 @@ export function * backendTextUpdate (action) {
     } else if (error.request) {
       console.log('contentSaga, error.request ->', error.request)
     } else {
-      // console.log('Error', error.message)
+      console.log('Error', error.message)
     }
   }
 }

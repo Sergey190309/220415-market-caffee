@@ -16,8 +16,6 @@ import ViewNothing from './ViewNothing'
 export const UpperLeverElementId = createContext()
 
 export const addElement = (viewName, recordsId, recordIndex, dispatch) => {
-  // console.log('components, page_view, view_element, ViewVBlock, add element, \nrecordIndex ->',
-  //   recordIndex, ' of ', recordsId)
   dispatch(backendAddElementStart({
     view_id: viewName,
     identity: recordsId,
@@ -76,8 +74,6 @@ const ViewVBlock = ({
   }
 
   if (recordsId.includes('txt')) {
-    // console.log('ViewVBlock output:',
-    //   '\n length ->', recordIdList.length)
     return recordIdList.map(txtRecordId => {
       return (
         <UpperLeverElementId.Provider key={txtRecordId} value={recordsId}>
@@ -87,7 +83,6 @@ const ViewVBlock = ({
     })
   }
   if (recordsId.includes('pix')) {
-    // console.log('ViewHBlock, props ->', props)
     return recordIdList.map((pixRecordId, index) => {
       return (
         <Container textAlign='center' key={pixRecordId} >

@@ -21,5 +21,8 @@
     "addAbove": "1le.addAbove",
     "addBelow": "1le.addBelow",
     "DeleteElement": "1le.DeleteElement"
+  },
+  "2LE": {
+    "cancelEditElement": "Отменить корректуру"
   }
 }

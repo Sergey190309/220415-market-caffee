@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Popup, Button } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
@@ -14,17 +14,17 @@ const EditorContextMenu = ({
   setContextMenuOpened,
   contextMenuAction
 }) => {
-  const [opened, setOpened] = useState(false)
+  // const [opened, setOpened] = useState(false)
   const { t } = useTranslation('context')
 
-  useEffect(() => {
-    setOpened(isOpened)
-  }, [isOpened])
+  // useEffect(() => {
+  //   setOpened(isOpened)
+  // }, [isOpened])
 
   const onButtonClickHandle = (event, { name }) => {
     event.preventDefault()
     contextMenuAction(name)
-    setOpened(false)
+    // setOpened(false)
     setContextMenuOpened(false)
   }
   /**
@@ -33,10 +33,10 @@ const EditorContextMenu = ({
   return (
     <Popup
       data-testid='Popup'
-      basic context={context} open={opened}
+      basic context={context} open={isOpened}
       wide
       onClose={() => {
-        setOpened(false)
+        // setOpened(false)
         setContextMenuOpened(false)
       }}
     >

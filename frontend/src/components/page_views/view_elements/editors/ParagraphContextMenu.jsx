@@ -5,8 +5,6 @@ import {
   Popup,
   Menu,
   Dropdown
-  // Icon
-  // Button, Grid, Icon
 } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
@@ -17,7 +15,7 @@ import {
 } from '../../../../redux/constants/menuKeys'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
 import { deviceSelector } from '../../../../redux/slices'
-import { createContextFromEvent } from './createContextFromEvent'
+import { createContextFromEvent } from '../../../../utils/createContextFromEvent'
 // import { ContextMenuButton } from '../styledComponents'
 import {
   ContextMenuItem
@@ -41,17 +39,20 @@ const ParagraphContextMenu = ({
   // upperLvlAddElementProp,
   // upperLvlDeleteElementProp
 }) => {
-  const [opened, setOpened] = useState(false)
+  // const [opened, setOpened] = useState(false)
   const [upperLvlElementID, setUpperLvlElementID] = useState(-1)
   const [menuStructure, setMenuStructure] = useState([])
   const [subMenuStructure, setSubMenuStructure] = useState([])
   const [elementTypesMenuOpened, setElementTypesMenuOpened] = useState(false)
+
   const { editable } = useSelector(deviceSelector)
+
   const elementTypeMenuContextRef = useRef(null)
-  const { t } = useTranslation('context')
 
   const { upperLvlDeleteElement } = useContext(UpperLevel)
   const upperLevelElementId = parseInt(useContext(UpperLeverElementId).split('_')[0])
+
+  const { t } = useTranslation('context')
 
   useEffect(() => {
     // console.log('ParagraphContentMenu:\n useEffect onMount->')
@@ -115,12 +116,6 @@ const ParagraphContextMenu = ({
   }, [saveDisabled])
 
   useEffect(() => {
-    // console.log('ParagraphContentMenu:\n useEffect isOpened->', isOpened)
-    setOpened(isOpened)
-    // setUppreLvlElementID(upperLevelElementId)
-  }, [isOpened])
-
-  useEffect(() => {
     setUpperLvlElementID(upperLevelElementId)
   }, [upperLevelElementId])
 
@@ -154,47 +149,46 @@ const ParagraphContextMenu = ({
       case UPPER_ELEMENT_ADD_BELOW:
         elementTypeMenuContextRef.current = createContextFromEvent(event)
         setUpperLvlElementID(upperLevelElementId + 1)
-        // console.log('ParagraphContextMenu:\n onClickHandler',
-        //   '\n  upperLevelElementId ->', upperLevelElementId)
         setElementTypesMenuOpened(true)
         break
       case UPPER_ELEMENT_DELETE:
-        // console.log('ParagraphContextMenu:\n UPPER_ELEMENT_DELETE')
         upperLvlDeleteElement(upperLevelElementId)
         break
       default:
         break
     }
-    setOpened(false)
+    // setOpened(false)
     setContextMenuOpened(false)
-    // setUpperLvlCntxtOpened(false)
   }
 
   /**
    * 2LE - 2nd level element
    */
+
+  const elementTypesMenu = () => (
+    <ElementTypesMenu
+      isOpened={elementTypesMenuOpened}
+      context={elementTypeMenuContextRef}
+      upperLevelElementId={upperLvlElementID}
+      setOpenedProp={setElementTypesMenuOpened}
+    />
+  )
+
   return (
     <Fragment>
       {elementTypesMenuOpened
-        ? <ElementTypesMenu
-            isOpened={elementTypesMenuOpened}
-            context={elementTypeMenuContextRef}
-            upperLevelElementId={upperLvlElementID}
-            setOpenedProp={setElementTypesMenuOpened}
-          />
+        ? elementTypesMenu()
         : null
       }
       <Popup
         data-testid='Popup'
-        // basic
-        // hoverable
+        hoverable
         wide='very'
         context={context}
-        open={opened}
-        // open={true}
+        open={isOpened}
         onClose={() => {
-          setOpened(false)
           setContextMenuOpened(false)
+          // console.log('ParagraphContextMenu:\n onClose')
         }}
       >
         <Menu
@@ -206,14 +200,9 @@ const ParagraphContextMenu = ({
           ))}
           <Menu.Item>
             <Dropdown
-              // button
               fluid
-              // item
               icon={{ name: 'dropdown', color: neutralColor }}
               text={t('1LE.handle')}
-              // floating
-              // labeled
-              // button
               className='icon'
                     >
               <Dropdown.Menu>
@@ -229,7 +218,7 @@ const ParagraphContextMenu = ({
 }
 
 ParagraphContextMenu.defaultProps = {
-  isOpened: false,
+  isOpened: true,
   saveDisabled: false,
   context: {},
   setContextMenuOpened: () => { },

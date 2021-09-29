@@ -87,6 +87,9 @@ const backendUpdateSlice = createSlice({
         state.kind = CONTENT_UPDATE
       }
     },
+    backendTxtUpdateClear: state => {
+      Object.assign(state, { ...initialState })
+    },
     backendTxtUpdateStart: (state) => {
       // console.log('slice, backendUpdate:\n',
       //   ' backendTxtUpdateStart\n',
@@ -111,7 +114,8 @@ export const {
   setTestState,
   backendAddElementStart, backendAddElementSuccess, backendAddElementFail,
   backendRemoveElementStart, backendRemoveElementSuccess, backendRemoveElementFail,
-  backendTxtUpdateReady, backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
+  backendTxtUpdateReady, backendTxtUpdateClear,
+  backendTxtUpdateStart, backendTxtUpdateSuccess, backendTxtUpdateFail,
   backendUpdateFail,
   resetBackendUpdate
 } = backendUpdateSlice.actions

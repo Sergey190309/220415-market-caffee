@@ -1,35 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Popup } from 'semantic-ui-react'
 
-const Indicator = ({ isOpened, context, header, content }) => {
-  const [opened, setOpened] = useState(isOpened)
-  // useEffect(() => {
-  //   let mounted = true
-  //   if (mounted === true) {
-  //     setOpened(isOpened)
-  //   }
-  //   return () => {
-  //     mounted = false
-  //   }
-  // }, [isOpened])
-
-  // useEffect(() => {
-  //   setOpened(isOpened)
-  // }, [isOpened])
-  // console.log('components, page_view, view_elements, indicator, header ->', header)
-  // console.log('components, page_view, view_elements, indicator, content ->', content)
+const Indicator = ({
+  isOpened, context, header, content, setIndicatorOpened
+}) => {
   return (
     <Popup
       data-testid='Popup'
-      position='right center'
+      hoverable
       context={context}
-      open={opened}
+      open={isOpened}
       header={header}
       content={content}
       onClose={() => {
-        setOpened(false)
-        // setIndicatorOpened(false)
+        // setOpened(false)
+        setIndicatorOpened(false)
       }}
     />
   )
@@ -39,13 +25,15 @@ Indicator.defaultProps = {
   isOpened: false,
   context: {},
   header: '',
-  content: ''
+  content: '',
+  setIndicatorOpened: () => { }
 }
 
 Indicator.propTypes = {
   isOpened: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   header: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired
+  content: PropTypes.string.isRequired,
+  setIndicatorOpened: PropTypes.func.isRequired
 }
 export default Indicator

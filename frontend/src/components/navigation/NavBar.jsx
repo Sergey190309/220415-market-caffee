@@ -1,14 +1,12 @@
-import React, {
-  useState, useEffect
-  // forwardRef
-} from 'react'
+import React,
+{ useState, useEffect }
+  from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Menu, Container, Popup, Sticky } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 // import styled from 'styled-components'
-// import i18next from 'i18next';
 
 import Logo from '../page_views/various/Logo'
 import NavItem from './nav_item/NavItem'
@@ -16,14 +14,11 @@ import SignInOut from '../items/LogInOut'
 import Language from '../items/Language'
 
 import { positiveColor } from '../../utils/colors'
-// import { swapiGetter } from '../../api/calls/study';
 
-import { logOut, openModal, authSelector, lngSelector, setEditable } from '../../redux/slices'
-// import { l_ogOutAction } from '../../redux/actions';
-
-// const ColoredMenu = styled(Menu)`
-//   background-color: blue;
-// `
+import {
+  authSelector, lngSelector, backendUpdateSelector,
+  logOut, openModal, setEditable
+} from '../../redux/slices'
 
 export const clickHandler = (
   name,
@@ -62,6 +57,7 @@ export const NavBar = ({
   const dispatch = useDispatch()
   const { isAdmin, isLoggedIn } = useSelector(authSelector)
   const { lng } = useSelector(lngSelector)
+  const { kind } = useSelector(backendUpdateSelector)
   // const contextRef = useRef()
   const history = useHistory()
 
@@ -91,7 +87,9 @@ export const NavBar = ({
     history.push('/')
   }
 
-  // console.log('NavBar, context ->', context)
+  const disabled = (kind !== '')
+  console.log('NavBar:\n setActive',
+    '\n  kind ->', kind)
 
   return (
     <Container>
@@ -105,25 +103,28 @@ export const NavBar = ({
           size='small'
           // style={{ backgroundColor: 'red' }}
           style={{ backgroundColor: '#fff' }}
-          // fixed='top'
+        // fixed='top'
         >
           <Menu.Item
             as={Link}
             to='/'
             name='logo'
+            // active={setActive()}
             active={activeItem === 'logo'}
             onClick={_ClickHandler}>
             <Logo color={color} />
           </Menu.Item>
           <Menu.Menu position='left'>
             <Menu.Item
-              // disabled
-              as={Link}
+              disabled
+              as={disabled ? null : Link}
               to='/pricelist'
               name='priceList'
               active={activeItem === 'priceList'}
               onClick={_ClickHandler}>
-              <NavItem name='priceList' title={t('menu')} />
+              <NavItem
+                name='priceList' title={t('menu')} disabled={disabled && activeItem !== 'priceList'}
+              />
             </Menu.Item>
             <Menu.Item
               as={Link}
