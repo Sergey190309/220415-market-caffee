@@ -20,7 +20,7 @@ import { createContextFromEvent } from '../../../../utils/createContextFromEvent
 import {
   ContextMenuItem
   // IconContent
-} from '../../../items/ContextMenuItem'
+} from '../../../items/menu_items/ContextMenuItem'
 import ElementTypesMenu from './ElementTypesMenu'
 
 import { UpperLevel } from '../ElementSwitcher'

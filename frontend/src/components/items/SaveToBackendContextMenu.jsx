@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { ELEMENT_EDIT_SAVE, ELEMENT_EDIT_CANCEL } from '../../redux/constants/menuKeys'
 import { positiveColor, warningColor } from '../../utils/colors'
 import { backendTxtUpdateStart, backendTxtUpdateClear } from '../../redux/slices'
-import { ContextMenuItem } from './ContextMenuItem'
+import { ContextMenuItem } from './menu_items/ContextMenuItem'
 
 const SaveToBackendContextMenu = ({
   isOpened,

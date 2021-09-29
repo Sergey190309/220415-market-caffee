@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 
 import Logo from '../page_views/various/Logo'
 import NavItem from './nav_item/NavItem'
+import NavMenuItem from '../items/menu_items/NavMenuItem'
 import SignInOut from '../items/LogInOut'
 import Language from '../items/Language'
 
@@ -75,7 +76,9 @@ export const NavBar = ({
   const color = positiveColor
 
   const _ClickHandler = (e, { name }) => {
-    // console.log('NavBar _ClickHandler, name ->', name);
+    console.log('NavBar:\n _ClickHandler',
+      '\n  name ->', name
+    )
     clickHandler(
       name,
       dispatch,
@@ -88,8 +91,8 @@ export const NavBar = ({
   }
 
   const disabled = (kind !== '')
-  console.log('NavBar:\n setActive',
-    '\n  kind ->', kind)
+  // console.log('NavBar:\n setActive',
+  //   '\n  Link ->', Link)
 
   return (
     <Container>
@@ -115,15 +118,29 @@ export const NavBar = ({
             <Logo color={color} />
           </Menu.Item>
           <Menu.Menu position='left'>
+            <NavMenuItem
+              // header
+              // as={disabled ? null : Link}
+              disabled={disabled}
+              name='priceList'
+              to='/pricelist'
+              active={activeItem === 'priceList'}
+              content={t('menu')}
+              onClick={_ClickHandler}
+            />
             <Menu.Item
-              disabled
-              as={disabled ? null : Link}
+              // link
+              // disabled
+              as={Link}
+              // as={disabled ? null : Link}
               to='/pricelist'
               name='priceList'
               active={activeItem === 'priceList'}
               onClick={_ClickHandler}>
               <NavItem
-                name='priceList' title={t('menu')} disabled={disabled && activeItem !== 'priceList'}
+                name='priceList' title={t('menu')}
+              // disabled={disabled}
+              // name='priceList' title={t('menu')} disabled={disabled && activeItem !== 'priceList'}
               />
             </Menu.Item>
             <Menu.Item

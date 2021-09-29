@@ -7,7 +7,7 @@ import {
   elementBlockTypes,
   elementBlockSubTypes
 } from '../../../../utils/elementTypes'
-import { ContextMenuItem } from '../../../items/ContextMenuItem'
+import { ContextMenuItem } from '../../../items/menu_items/ContextMenuItem'
 import { neutralColor, positiveColor } from '../../../../utils/colors'
 import { UpperLevel } from '../ElementSwitcher'
 // import { UpperLeverElementId } from '../ViewVBlock'

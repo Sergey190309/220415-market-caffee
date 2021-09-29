@@ -57,8 +57,8 @@ export const ContextMenuItem = ({ name, icon, content, disabled, onClick }) => {
       disabled={disabled}
       onClick={onClick}
       content={content}
-    >
-    </StyledContextMenuItem>
+    />
+    // </StyledContextMenuItem>
   )
 }
 

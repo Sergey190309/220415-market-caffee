@@ -1,0 +1,5 @@
+describe('NavMenuItem', () => {
+  test('dummy', () => {
+
+  })
+})
