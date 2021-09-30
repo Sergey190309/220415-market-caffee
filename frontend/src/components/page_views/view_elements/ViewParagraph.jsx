@@ -114,6 +114,10 @@ const ViewParagraph = ({
   }
 
   const onContextMenuHendler = event => {
+    console.log('ViewParagraph:\n onContextMenuHendler',
+      '\n  kind ->', kind,
+      '\n  contextMenuOpened ->', contextMenuOpened
+    )
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setIndicatorOpened(false)

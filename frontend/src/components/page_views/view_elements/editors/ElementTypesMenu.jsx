@@ -16,7 +16,7 @@ const ElementTypesMenu = ({
   isOpened, context,
   upperLevelElementId, setOpenedProp
 }) => {
-  const [opened, setOpened] = useState(false)
+  // const [opened, setOpened] = useState(false)
   const [menuStrucrure, setMenuStrucrure] = useState([])
   const [subMenuStructure, setSubMenuStructure] = useState([])
 
@@ -61,16 +61,18 @@ const ElementTypesMenu = ({
     )
   }, [])
 
-  useEffect(() => {
-    // console.log('ElementTypesMenu:\n useEffect',
-    //   '\n  isOpened ->', isOpened)
-    setOpened(isOpened)
-  }, [isOpened])
+  // useEffect(() => {
+  //   // console.log('ElementTypesMenu:\n useEffect',
+  //   //   '\n  isOpened ->', isOpened)
+  //   setOpened(isOpened)
+  // }, [isOpened])
 
   const onClickHandler = (event, { name }) => {
+    console.log('ElementTypeMenu:\n onClickHandler',
+      '\n  upperLevelElementId ->', upperLevelElementId,
+      '\n  name ->', name
+    )
     event.preventDefault()
-    // console.log('ElementTypeMenu:\n onClickHandler',
-    //   '\n  upperLevelElementId ->', upperLevelElementId)
     switch (name) {
       case elementBlockTypes.header:
       case elementBlockTypes.footer:
@@ -83,7 +85,7 @@ const ElementTypesMenu = ({
       default:
         break
     }
-    setOpened(false)
+    // setOpened(false)
     setOpenedProp(false)
   }
 
@@ -94,18 +96,20 @@ const ElementTypesMenu = ({
     } else {
       elementType.current = ''
     }
-    // console.log('ElementTypeMenu:\n Dropdown\n  elementType ->', elementType)
+    console.log('ElementTypeMenu:\n Dropdown',
+      '\n  elementType ->', elementType)
   }
 
   return (
     <Popup
       data-testid='Popup'
-      basic
+      // basic
+      // hoverable
       context={context}
-      open={opened}
+      open={isOpened}
       onClose={() => {
         // console.log('ElementTypesMenu:\n onClose')
-        setOpened(false)
+        // setOpened(false)
         setOpenedProp(false)
       }}
     >
@@ -123,12 +127,13 @@ const ElementTypesMenu = ({
             text={t('1LE.vblock')}
             className='icon'
             onClick={() => {
+              console.log('ElementTypesMenu:\n first dropdown')
               onClickDropdownHandler(elementBlockTypes.vblock)
             }}
           >
             <Dropdown.Menu>
               {subMenuStructure.map((item, index) =>
-              <Dropdown.Item key={index} {...item} />)}
+                <Dropdown.Item key={index} {...item} />)}
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
@@ -144,7 +149,7 @@ const ElementTypesMenu = ({
           >
             <Dropdown.Menu>
               {subMenuStructure.map((item, index) =>
-              <Dropdown.Item key={index} {...item} />)}
+                <Dropdown.Item key={index} {...item} />)}
             </Dropdown.Menu>
           </Dropdown>
         </Menu.Item>
@@ -158,7 +163,7 @@ ElementTypesMenu.defaultProps = {
   isOpened: false,
   context: {},
   upperLevelElementId: -1,
-  setOpenedProp: () => {}
+  setOpenedProp: () => { }
 }
 
 ElementTypesMenu.propTypes = {

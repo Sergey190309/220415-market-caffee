@@ -9,6 +9,10 @@ import {
   // Grid, Button
 } from 'semantic-ui-react'
 
+import {
+  useMousePosition
+} from '../../../utils/useMousePosition'
+
 const StyledContextMenuItem = styled(Menu.Item)`
   /* margin: .1em 0em !important;
   text-align: left !important; */
@@ -47,8 +51,24 @@ const StyledContextMenuItem = styled(Menu.Item)`
 //   content: PropTypes.string.isRequired
 // }
 
-export const ContextMenuItem = ({ name, icon, content, disabled, onClick }) => {
+export const ContextMenuItem = ({
+  name, icon, content, disabled, onClick, onHover, setContext
+}) => {
   // console.log('ContextMenuItem:\n name ->', name)
+  const mousePosition = useMousePosition()
+
+  const context = {
+    getBoundingClientRect: () => ({
+      left: mousePosition.x,
+      top: mousePosition.y,
+      right: mousePosition.x + 1,
+      bottom: mousePosition.y + 1,
+
+      height: 0,
+      width: 0
+    })
+  }
+
   return (
     <StyledContextMenuItem
       // fitted='horizontally'
@@ -57,6 +77,17 @@ export const ContextMenuItem = ({ name, icon, content, disabled, onClick }) => {
       disabled={disabled}
       onClick={onClick}
       content={content}
+      onMouseEnter={() => {
+        // console.log('ContextMenuItem:\n onMouseEnter',
+        //   '\n  name ->', name,
+        //   '\n  mousePosition ->', mousePosition
+        // )
+        onHover(context)
+      }}
+      onMouseLeave={() => {
+        console.log('ContextMenuItem:\n onMouseLeave\n  name ->', name)
+        onHover({})
+      }}
     />
     // </StyledContextMenuItem>
   )
@@ -67,7 +98,9 @@ ContextMenuItem.defaultProps = {
   icon: {},
   content: '',
   disabled: false,
-  onClick: () => {}
+  onClick: () => { },
+  onHover: () => { },
+  setContext: () => { }
 }
 
 ContextMenuItem.propTypes = {
@@ -75,7 +108,9 @@ ContextMenuItem.propTypes = {
   icon: PropTypes.object.isRequired,
   content: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onHover: PropTypes.func.isRequired,
+  setContext: PropTypes.func.isRequired
 }
 
 // export default ContextMenuItem
