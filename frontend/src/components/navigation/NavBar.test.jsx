@@ -77,7 +77,7 @@ describe('NavBar testing', () => {
   describe('react components', () => {
     const testProps = {
       initActive: '',
-      context: { },
+      context: {},
       openModal: jest.fn(),
       clickHandler: jest.fn(),
       logOut: jest.fn()
@@ -96,7 +96,6 @@ describe('NavBar testing', () => {
          */
         expect(screen.getAllByRole('link')).toHaveLength(3)
         expect(screen.getAllByRole('img')).toHaveLength(1)
-        expect(screen.getAllByRole('heading')).toHaveLength(3)
         expect(screen.getAllByRole('button')).toHaveLength(1)
         expect(screen.getAllByRole('listbox')).toHaveLength(1)
         expect(screen.getAllByRole('alert')).toHaveLength(1)
@@ -112,7 +111,8 @@ describe('NavBar testing', () => {
           'href',
           '/pictures'
         )
-        expect(screen.getByRole('img')).toHaveClass(
+        expect(screen.getByTestId('NavMenuLogo')
+          .firstElementChild).toHaveClass(
           'ui mini centered middle aligned image'
         )
         expect(screen.getByRole('button')).toHaveClass('ui button', { exact: true })
@@ -122,9 +122,10 @@ describe('NavBar testing', () => {
         /**
          * For friends disabled and has no href when noone logged.
          */
-        const forFriendsItem = screen.getByRole('heading', { name: 'forFriends' })
-        expect(forFriendsItem).toHaveClass('ui disabled header', { exact: true })
+        const forFriendsItem = screen.getByText('forFriends')
+        expect(forFriendsItem).toHaveClass('disabled item', { exact: true })
         expect(forFriendsItem).not.toHaveAttribute('/href')
+        // screen.debug(forFriendsItem)
       })
 
       test('it exists and has appropriate elements and classes not admin logged', () => {
@@ -141,7 +142,7 @@ describe('NavBar testing', () => {
          */
         expect(screen.getAllByRole('link')).toHaveLength(4)
         expect(screen.getAllByRole('img')).toHaveLength(1)
-        expect(screen.getAllByRole('heading')).toHaveLength(3)
+        // expect(screen.getAllByRole('heading')).toHaveLength(3)
         expect(screen.getAllByRole('button')).toHaveLength(1)
         expect(screen.getAllByRole('listbox')).toHaveLength(1)
         expect(screen.getAllByRole('alert')).toHaveLength(1)
@@ -161,9 +162,13 @@ describe('NavBar testing', () => {
           'href',
           '/private'
         )
-        expect(screen.getByRole('img')).toHaveClass(
+        expect(screen.getByTestId('NavMenuLogo')
+          .firstElementChild).toHaveClass(
           'ui mini centered middle aligned image'
         )
+        // expect(screen.getByRole('img')).toHaveClass(
+        //   'ui mini centered middle aligned image'
+        // )
         expect(screen.getByRole('button')).toHaveClass('ui button', { exact: true })
         expect(screen.getByRole('listbox')).toHaveClass('ui button floating dropdown', {
           exact: true
@@ -184,7 +189,7 @@ describe('NavBar testing', () => {
          */
         expect(screen.getAllByRole('link')).toHaveLength(5)
         expect(screen.getAllByRole('img')).toHaveLength(1)
-        expect(screen.getAllByRole('heading')).toHaveLength(4)
+        // expect(screen.getAllByRole('heading')).toHaveLength(4)
         expect(screen.getAllByRole('button')).toHaveLength(1)
         expect(screen.getAllByRole('listbox')).toHaveLength(1)
         expect(screen.getAllByRole('alert')).toHaveLength(1)
@@ -208,9 +213,13 @@ describe('NavBar testing', () => {
           'href',
           '/admin'
         )
-        expect(screen.getByRole('img')).toHaveClass(
+        expect(screen.getByTestId('NavMenuLogo')
+          .firstElementChild).toHaveClass(
           'ui mini centered middle aligned image'
         )
+        // expect(screen.getByRole('img')).toHaveClass(
+        //   'ui mini centered middle aligned image'
+        // )
         expect(screen.getByRole('button')).toHaveClass('ui button', { exact: true })
         expect(screen.getByRole('listbox')).toHaveClass('ui button floating dropdown', {
           exact: true

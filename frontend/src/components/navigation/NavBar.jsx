@@ -2,14 +2,12 @@ import React,
 { useState, useEffect }
   from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Menu, Container, Popup, Sticky } from 'semantic-ui-react'
+import { Menu, Container, Sticky } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
-// import styled from 'styled-components'
 
-import Logo from '../page_views/various/Logo'
-import NavItem from './nav_item/NavItem'
+import NavMenuLogo from '../items/menu_items/NavMenuLogo'
 import NavMenuItem from '../items/menu_items/NavMenuItem'
 import SignInOut from '../items/LogInOut'
 import Language from '../items/Language'
@@ -54,6 +52,7 @@ export const NavBar = ({
   logOut
 }) => {
   const [activeItem, setActiveItem] = useState(initActive)
+  const [menuDisabled, setMenuDisabled] = useState(false)
 
   const dispatch = useDispatch()
   const { isAdmin, isLoggedIn } = useSelector(authSelector)
@@ -63,6 +62,10 @@ export const NavBar = ({
   const history = useHistory()
 
   const { t, i18n } = useTranslation('navbar')
+
+  useEffect(() => {
+    setMenuDisabled(kind !== '')
+  }, [kind])
 
   useEffect(() => {
     if (i18n.language !== lng) {
@@ -76,9 +79,9 @@ export const NavBar = ({
   const color = positiveColor
 
   const _ClickHandler = (e, { name }) => {
-    console.log('NavBar:\n _ClickHandler',
-      '\n  name ->', name
-    )
+    // console.log('NavBar:\n _ClickHandler',
+    //   '\n  name ->', name
+    // )
     clickHandler(
       name,
       dispatch,
@@ -90,9 +93,12 @@ export const NavBar = ({
     history.push('/')
   }
 
-  const disabled = (kind !== '')
-  // console.log('NavBar:\n setActive',
-  //   '\n  Link ->', Link)
+  // console.log('NavBar:',
+  //   '\n  isLoggedIn ->', isLoggedIn,
+  //   '\n  activeItem ->', activeItem,
+  //   '\n  menuDisabled ->', menuDisabled,
+  //   '\n  kind ->', kind
+  // )
 
   return (
     <Container>
@@ -108,88 +114,69 @@ export const NavBar = ({
           style={{ backgroundColor: '#fff' }}
         // fixed='top'
         >
-          <Menu.Item
-            as={Link}
-            to='/'
-            name='logo'
-            // active={setActive()}
-            active={activeItem === 'logo'}
-            onClick={_ClickHandler}>
-            <Logo color={color} />
-          </Menu.Item>
           <Menu.Menu position='left'>
+            <NavMenuLogo
+              // data-testid='NavMenuLogo'
+              disabled={menuDisabled}
+              name='logo'
+              to='/'
+              active={activeItem === 'logo'}
+              onClick={_ClickHandler}
+            />
             <NavMenuItem
-              // header
-              // as={disabled ? null : Link}
-              disabled={disabled}
+              disabled={menuDisabled}
               name='priceList'
               to='/pricelist'
               active={activeItem === 'priceList'}
               content={t('menu')}
               onClick={_ClickHandler}
             />
-            <Menu.Item
-              // link
-              // disabled
-              as={Link}
-              // as={disabled ? null : Link}
-              to='/pricelist'
-              name='priceList'
-              active={activeItem === 'priceList'}
-              onClick={_ClickHandler}>
-              <NavItem
-                name='priceList' title={t('menu')}
-              // disabled={disabled}
-              // name='priceList' title={t('menu')} disabled={disabled && activeItem !== 'priceList'}
-              />
-            </Menu.Item>
-            <Menu.Item
-              as={Link}
-              to='/pictures'
+            <NavMenuItem
+              disabled={menuDisabled}
               name='pictures'
+              to='/pictures'
               active={activeItem === 'pictures'}
-              onClick={_ClickHandler}>
-              <NavItem name='pictures' title={t('gallery')} />
-            </Menu.Item>
-            <Popup
-              trigger={
-                <Menu.Item
-                  as={isLoggedIn ? Link : null}
-                  to='/private'
-                  name='private'
-                  active={activeItem === 'private'}
-                  onClick={_ClickHandler}>
-                  <NavItem name='private' title={t('forFriends')} disabled={!isLoggedIn} />
-                </Menu.Item>
-              }
-              on='hover'
-              position='top center'
-              disabled={isLoggedIn === undefined ? false : isLoggedIn}
-              content={t('plsLogIn')}
+              content={t('gallery')}
+              onClick={_ClickHandler}
             />
-            <Menu.Item
-              as={isAdmin ? Link : null}
-              to='/admin'
-              name='admin'
-              active={activeItem === 'admin'}
-              onClick={_ClickHandler}>
-              <NavItem
+            <NavMenuItem
+              disabled={!isLoggedIn || menuDisabled}
+              name='private'
+              to='/private'
+              active={activeItem === 'private'}
+              content={t('forFriends')}
+              onClick={_ClickHandler}
+            />
+            {(isAdmin === undefined ? false : isAdmin)
+              ? <NavMenuItem
+                disabled={menuDisabled}
                 name='admin'
-                title={t('forAdmins')}
-                visible={isAdmin === undefined ? false : isAdmin}
+                to='/admin'
+                active={activeItem === 'admin'}
+                content={t('forAdmins')}
+                onClick={_ClickHandler}
               />
-            </Menu.Item>
+              : null
+            }
           </Menu.Menu>
           <Menu.Menu position='right'>
-            <Menu.Item name='signInOut' active={false} onClick={_ClickHandler}>
+            <Menu.Item
+              // disabled={false}
+              disabled={menuDisabled}
+              name='signInOut'
+              active={false}
+              onClick={_ClickHandler}
+            >
               <SignInOut title={isLoggedIn ? t('logOut') : t('logIn')} />
             </Menu.Item>
             <Menu.Item
               data-testid='lngSwitcher'
+              disabled={menuDisabled}
               name='language'
               active={false}
-              onClick={_ClickHandler}>
-              <Language />
+              onClick={_ClickHandler}
+            >
+              <Language disabled={menuDisabled} />
             </Menu.Item>
           </Menu.Menu>
         </Menu>
@@ -199,7 +186,7 @@ export const NavBar = ({
 }
 
 NavBar.defaultProps = {
-  initActive: '',
+  initActive: 'logo',
   context: {},
   openModal: openModal,
   clickHandler: clickHandler,

@@ -2,36 +2,42 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import {
-  Menu
+  MenuItem
   // Icon
   // Grid, Button
 } from 'semantic-ui-react'
 
-const StyledNavMenuItem = styled(Menu.Item)`
-  font-weight: bold;
-  font-size: 1.2em;
-`
+// const StyledNavMenuItem = styled(MenuItem)`
+//   font-weight: bold;
+//   font-size: 1.2em;
+// `
 
 const NavMenuItem = ({ disabled, name, to, active, content, onClick }) => {
+  // console.log('NavMenuItem:\n',
+  //   '\n  disabled ->', disabled
+  // )
   return (
-    <Menu.Item
-      as={Link}
-      // disabled={disabled}
+    <MenuItem
+      style={{ fontWeight: 'bold', fontSize: '1.2em' }}
+      // fitted='horizontally'
+      as={disabled ? null : Link}
+      disabled={disabled}
       name={name}
       to={to}
-      // active={active}
+      active={active}
       content={content}
       onClick={onClick}
     />
-    //   Fuck!
-    // </StyledNavMenuItem>
+    //   {content}
+    //   {/* {children} */}
+    // </MenuItem>
   )
 }
 
 NavMenuItem.defaultProps = {
-  // as: {},
+  // link: {},
   disabled: false,
   name: '',
   to: '',
@@ -41,7 +47,8 @@ NavMenuItem.defaultProps = {
 }
 
 NavMenuItem.propTypes = {
-  // as: PropTypes.object.isRequired,
+  // children: PropTypes.object.isRequired,
+  // link: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,

@@ -1,0 +1,5 @@
+describe('NavMenuLogo', () => {
+  test('dummy', () => {
+
+  });
+});
