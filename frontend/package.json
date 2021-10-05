@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
-    "axios": "^0.21.2",
+    "axios": "^0.22.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
     "i18next": "^21.1.1",
@@ -57,7 +57,7 @@
     "@babel/preset-env": "^7.15.6",
     "@craco/craco": "^6.3.0",
     "@semantic-ui-react/craco-less": "^1.2.3",
-    "@testing-library/dom": "^8.6.0",
+    "@testing-library/dom": "^8.7.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.1",
     "@testing-library/user-event": "^13.2.1",
