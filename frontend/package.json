@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.1",
-    "axios": "^0.21.2",
+    "axios": "^0.22.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
     "i18next": "^21.2.4",
@@ -70,7 +70,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.26.1",
     "i18next-conv": "^10.2.0",
-    "i18next-parser": "^4.7.0",
+    "i18next-parser": "^5.0.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "26.6.0",
     "jest-extended": "^0.11.5",
