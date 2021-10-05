@@ -10,9 +10,6 @@ import {
   techSelector, lngSelector, lngSwitch,
   structureStart
 } from '../../redux/slices'
-// import SaveToBackendContextMenu from '../items/SaveToBackendContextMenu'
-// import { createContextFromEvent } from '../../utils/createContextFromEvent'
-// import { setLngAction } from '../../redux/actions/lng';
 
 export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   // console.log('Lanaguage component, onChange, value ->', value);
@@ -23,7 +20,7 @@ export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   dispatch(structureStart()) // load application structure for different language.
 }
 
-export const Language = ({ onChange, i18next }) => {
+export const Language = ({ disabled, onChange, i18next }) => {
   const [activeLng, setActiveLng] = useState(i18next.language) // Active language
   const [availableLngs, setAvailableLngs] = useState([]) // availableLngs languages
   // const [saveContextMenuOpened, setSaveContextMenuOpened] = useState(false)
@@ -73,12 +70,13 @@ export const Language = ({ onChange, i18next }) => {
   // console.log('component, Language, activeLng ->', activeLng)
   const dropdown = () => (
     <Dropdown
+      data-testid='dropdown'
+      disabled={disabled}
       name='langSwitcher'
       floating
       button
       defaultOpen={false}
       placeholder='langSwitcher'
-      data-testid='dropdown'
       options={availableLngs}
       onChange={_onChange}
       value={activeLng}
@@ -93,11 +91,13 @@ export const Language = ({ onChange, i18next }) => {
 }
 
 Language.defaultProps = {
+  disabled: false,
   onChange: onChange,
   i18next: i18next
 }
 
 Language.propTypes = {
+  disabled: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   i18next: PropTypes.object.isRequired
 }

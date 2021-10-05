@@ -1,0 +1,5 @@
+describe('useMousePosition', () => {
+  test('dummy', () => {
+
+  })
+})

@@ -11,8 +11,8 @@ import {
 } from 'semantic-ui-react'
 
 import Content from '../layout/Content'
-import Logo from '../page_views/various/Logo'
-import NavItem from './nav_item/NavItem'
+// import Logo from '../page_views/various/Logo'
+// import NavItem from './nav_item/NavItem'
 
 const SideBar = () => {
   const [visible, setVisible] = useState(false)
@@ -26,13 +26,13 @@ const SideBar = () => {
           width='2'
           textAlign='center'
           verticalAlign='middle'>
-          <Logo />
+          {/* <Logo /> */}
         </Grid.Column>
         <Grid.Column
           width='12'
           textAlign='center'
           verticalAlign='middle'>
-          <NavItem title='Hi there!' />
+          {/* <NavItem title='Hi there!' /> */}
         </Grid.Column>
         <Grid.Column
           width='2'
@@ -66,13 +66,13 @@ const SideBar = () => {
                 as={Link}
                 to='/pricelist'
                 name='priceList'>
-                <NavItem name='priceList' title='Menu' />
+                {/* <NavItem name='priceList' title='Menu' /> */}
               </Menu.Item>
               <Menu.Item
                 as={Link}
                 to='/pictures'
                 name='pictures'>
-                <NavItem name='pictures' title='Gallery' />
+                {/* <NavItem name='pictures' title='Gallery' /> */}
               </Menu.Item>
               <Menu.Item name='login'>
                 <Link

@@ -34,16 +34,17 @@ describe('ViewParagraph testing', () => {
       })
       const element = screen.getByTestId('Message')
       userEvent.click(element, { button: 2 })
-      const result = mockParagraphContextMenu.mock.calls[mockParagraphContextMenu.mock.calls.length - 1][0]
-      // console.log('ViewParagraph test, right click, calls ->', result)
-      expect(result.isOpened).toBe(true)
+      const result = mockParagraphContextMenu.mock
+        .calls[0][0]
       expect(result.saveDisabled).toBe(true)
-      // expect(result.saveDisabled).toBe(true)
       expect(result.context).toBeObject()
       expect(result.setContextMenuOpened).toBeFunction()
       expect(result.setParagraphEditted).toBeFunction()
       expect(result.saveToBackend).toBeFunction()
-      // screen.debug()
+      expect(result.deleteElement).toBeFunction()
+      expect(result.addAbove).toBeFunction()
+      expect(result.addBelow).toBeFunction()
+      // console.log('ViewParagraph.test, right click, calls ->', result)
     })
 
     test('should indicate proper values', async () => {

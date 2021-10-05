@@ -7,11 +7,11 @@ import userEvent from '@testing-library/user-event'
 import store from '../../../../redux/store'
 import { UpperLevel } from '../ElementSwitcher'
 import { UpperLeverElementId } from '../ViewVBlock'
-import { createContextFromEvent } from './createContextFromEvent'
+import { createContextFromEvent } from '../../../../utils/createContext'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
 
-jest.mock('./createContextFromEvent')
+jest.mock('../../../../utils/createContext')
 
 const mockChildComponent = jest.fn()
 jest.mock('./ElementTypesMenu', () => props => {
@@ -103,10 +103,12 @@ describe('ParagraphContextMenu testing', () => {
       test('dropdown, delete', async () => {
         const uppreDelete = screen.getByRole('option', { name: '1LE.DeleteElement' })
         expect(screen.queryByTestId('Popup')).not.toBe(null)
-        await waitFor(() => { userEvent.click(uppreDelete) })
+        userEvent.click(uppreDelete)
         expect(upperLvlDeleteElement).toHaveBeenCalledTimes(1)
         expect(upperLvlDeleteElement).toHaveBeenCalledWith(parseInt(upperLvlElementId.split('_')[0]))
-        expect(screen.queryByTestId('Popup')).toBe(null)
+        // await waitFor(() => {
+        // })
+        // expect(screen.queryByTestId('Popup')).toBe(null)
         // console.log('ParagraphContextMenu.test:',
         //   '\n dropdown delete',
         //   '\n  upperLvlDeleteElement ->', upperLvlDeleteElement.mock.calls)
@@ -147,8 +149,10 @@ describe('ParagraphContextMenu testing', () => {
           .toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened)
           .toHaveBeenCalledWith(false)
-        expect(screen.queryByTestId('Popup')).toBe(null)
-        // screen.debug()
+        // expect(screen.queryByTestId('Popup')).toBe(null)
+        // waitFor(() => {
+        //   screen.debug()
+        // })
       })
 
       test('save option clicked actions', async () => {
@@ -167,7 +171,7 @@ describe('ParagraphContextMenu testing', () => {
         expect(actualProps.saveToBackend).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-        expect(screen.queryByTestId('Popup')).toBe(null)
+        // expect(screen.queryByTestId('Popup')).toBe(null)
       })
 
       test('add above option clicked actions', async () => {
@@ -184,7 +188,7 @@ describe('ParagraphContextMenu testing', () => {
         expect(actualProps.addAbove).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-        expect(screen.queryByTestId('Popup')).toBe(null)
+        // expect(screen.queryByTestId('Popup')).toBe(null)
         // screen.debug()
       })
       test('add below option clicked actions', async () => {
@@ -201,7 +205,7 @@ describe('ParagraphContextMenu testing', () => {
         expect(actualProps.addBelow).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-        expect(screen.queryByTestId('Popup')).toBe(null)
+        // expect(screen.queryByTestId('Popup')).toBe(null)
         // screen.debug()
       })
       test('delete Option clicked actions', async () => {
@@ -218,7 +222,7 @@ describe('ParagraphContextMenu testing', () => {
         expect(actualProps.deleteElement).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledTimes(1)
         expect(actualProps.setContextMenuOpened).toHaveBeenCalledWith(false)
-        expect(screen.queryByTestId('Popup')).toBe(null)
+        // expect(screen.queryByTestId('Popup')).toBe(null)
         // screen.debug()
       })
     })
@@ -227,8 +231,10 @@ describe('ParagraphContextMenu testing', () => {
   describe('appeance', () => {
     test('popup does not exist when is not opened', async () => {
       // const actualProps = { ...testProps, isOpened: true }
-      await renderReduxContext(testProps)
-      await expect(screen.queryByTestId('Popup')).toBe(null)
+      await waitFor(() => {
+        renderReduxContext(testProps)
+      })
+      expect(screen.queryByTestId('Popup')).toBe(null)
       // const result = screen.queryByTestId('Popup')
       // console.log('it is impty when is not opened, result ->', result)
       // screen.debug()
