@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@reduxjs/toolkit": "^1.6.1",
+    "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.22.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
