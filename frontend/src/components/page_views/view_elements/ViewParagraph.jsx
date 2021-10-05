@@ -16,9 +16,10 @@ import {
   backendTxtUpdateReady, backendTxtUpdateStart,
   resetBackendUpdate
 } from '../../../redux/slices'
-import { createContextFromEvent } from '../../../utils/createContextFromEvent' // tested
+import { createContextFromEvent } from '../../../utils/createContext' // tested
 import ParagraphContextMenu
   from './editors/ParagraphContextMenu' // tested
+import UpperLevelMenu from './editors/UpperLevelMenu'
 import SaveToBackendContextMenu from '../../items/SaveToBackendContextMenu'
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 import Indicator from './indicator/Indicator'
@@ -37,6 +38,8 @@ const ViewParagraph = ({
    *    download or upload. Updated with useEffect.
    * contextMenuOpened: boolean - Self explain. Open with right
    *    button.
+   * upperLevelContextMenuOpened: boolean. Open when appropriate button
+   *    pressed on context menu.
    * paragraphEditted: boolean - Set close showing, open
    *    textboxes for edition.
    * indicatorOpened: boolean - Set component indicator on and
@@ -55,7 +58,9 @@ const ViewParagraph = ({
     content: ['']
   })
   const [changed, setChanged] = useState(false)
+  // const [contextMenuOpened, setContextMenuOpened] = useState(true)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
+  const [upperLevelContextMenuOpened, setUpperLevelContextMenuOpened] = useState(false)
   const [saveContextMenuOpened, setSaveContextMenuOpened] = useState(false)
   const [indicatorOpened, setIndicatorOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
@@ -114,10 +119,6 @@ const ViewParagraph = ({
   }
 
   const onContextMenuHendler = event => {
-    console.log('ViewParagraph:\n onContextMenuHendler',
-      '\n  kind ->', kind,
-      '\n  contextMenuOpened ->', contextMenuOpened
-    )
     event.preventDefault()
     contextRef.current = createContextFromEvent(event)
     setIndicatorOpened(false)
@@ -128,6 +129,14 @@ const ViewParagraph = ({
         setSaveContextMenuOpened(true)
       }
     }
+  }
+
+  const upperLevelElementMenu = () => {
+    // console.log('ViewParagraph:\n upperLevelElementHandler',
+    //   '\n  context ->'
+    // )
+    setContextMenuOpened(false)
+    setUpperLevelContextMenuOpened(true)
   }
 
   const saveToBackend = () => {
@@ -208,16 +217,26 @@ const ViewParagraph = ({
       // isOpened={contextMenuOpened}
       saveDisabled={!changed}
       context={contextRef}
-      setContextMenuOpened={setContextMenuOpened}
-      setParagraphEditted={setParagraphEditted}
-      saveToBackend={saveToBackend}
-      deleteElement={deleteElement}
-      addAbove={addAbove}
-      addBelow={addBelow}
+      setMenuOpened={setContextMenuOpened}
+      {...{
+        upperLevelElementMenu,
+        setParagraphEditted,
+        saveToBackend,
+        deleteElement,
+        addAbove,
+        addBelow
+      }}
     />
   )
 
-  // console.log('ViewParagraph:\n saveToBackendContextMenu')
+  const upperLevelContextMenu = () => (
+    <UpperLevelMenu
+      context={contextRef}
+      setMenuOpened={setUpperLevelContextMenuOpened}
+
+    />
+  )
+
   const saveToBackendContextMenu = () => (
     <SaveToBackendContextMenu
       isOpened={saveContextMenuOpened}
@@ -239,6 +258,10 @@ const ViewParagraph = ({
             }
             {contextMenuOpened
               ? paragraphContextMenu()
+              : null
+            }
+            {upperLevelContextMenuOpened
+              ? upperLevelContextMenu()
               : null
             }
             {saveContextMenuOpened

@@ -7,11 +7,11 @@ import userEvent from '@testing-library/user-event'
 import store from '../../../../redux/store'
 import { UpperLevel } from '../ElementSwitcher'
 import { UpperLeverElementId } from '../ViewVBlock'
-import { createContextFromEvent } from '../../../../utils/createContextFromEvent'
+import { createContextFromEvent } from '../../../../utils/createContext'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
 
-jest.mock('../../../../utils/createContextFromEvent')
+jest.mock('../../../../utils/createContext')
 
 const mockChildComponent = jest.fn()
 jest.mock('./ElementTypesMenu', () => props => {

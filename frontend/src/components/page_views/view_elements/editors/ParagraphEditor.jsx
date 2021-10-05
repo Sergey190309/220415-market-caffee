@@ -9,7 +9,7 @@ import { Form, Segment } from 'semantic-ui-react'
 import TextareaAutosize from 'react-textarea-autosize'
 
 import EditorContextMenu from './EditorContextMenu'
-import { createContextFromEvent } from '../../../../utils/createContextFromEvent'
+import { createContextFromEvent } from '../../../../utils/createContext'
 import { warningColor } from '../../../../utils/colors'
 
 const ParagraphEditor = ({

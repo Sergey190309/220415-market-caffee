@@ -10,9 +10,6 @@ import {
   techSelector, lngSelector, lngSwitch,
   structureStart
 } from '../../redux/slices'
-// import SaveToBackendContextMenu from '../items/SaveToBackendContextMenu'
-// import { createContextFromEvent } from '../../utils/createContextFromEvent'
-// import { setLngAction } from '../../redux/actions/lng';
 
 export const onChange = (value, setActiveLng, dispatch, _i18next = i18next) => {
   // console.log('Lanaguage component, onChange, value ->', value);
