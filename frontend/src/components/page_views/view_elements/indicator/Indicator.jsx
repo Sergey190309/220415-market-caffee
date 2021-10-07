@@ -1,20 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Popup } from 'semantic-ui-react'
 
+import { LandingContext } from '../../../../context'
+
 const Indicator = ({
-  isOpened, context, header, content, setIndicatorOpened
+  isOpened, context,
+  content, setIndicatorOpened
 }) => {
+  const { componentName: viewName } = useContext(LandingContext)
   return (
     <Popup
       data-testid='Popup'
       hoverable
       context={context}
       open={isOpened}
-      header={header}
+      header={viewName}
       content={content}
       onClose={() => {
-        // setOpened(false)
         setIndicatorOpened(false)
       }}
     />
@@ -24,7 +27,6 @@ const Indicator = ({
 Indicator.defaultProps = {
   isOpened: false,
   context: {},
-  header: '',
   content: '',
   setIndicatorOpened: () => { }
 }
@@ -32,7 +34,6 @@ Indicator.defaultProps = {
 Indicator.propTypes = {
   isOpened: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
-  header: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   setIndicatorOpened: PropTypes.func.isRequired
 }
