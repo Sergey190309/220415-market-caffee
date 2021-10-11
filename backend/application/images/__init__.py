@@ -1,4 +1,5 @@
 from flask import Blueprint, current_app, url_for
+# print('images')
 from flask_uploads import configure_uploads
 # from flask_uploads import configure_uploads
 from .utils.image_helper import IMAGE_SET

@@ -21,6 +21,7 @@ import application.structure.models  # Don't remove see above.
 
 def create_app(config='default_config.py'):
 
+
     app = Flask(__name__)
     load_dotenv('.env', verbose=True)
     app.config.from_pyfile(config)
@@ -56,6 +57,7 @@ def create_app(config='default_config.py'):
         app.register_blueprint(create_contents(), url_prefix='/content')
 
         # Module for image handling
+        # print('application')
         from .images import create_images
         app.register_blueprint(create_images(), url_prefix='/images')
 
