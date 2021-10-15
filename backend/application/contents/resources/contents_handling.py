@@ -99,15 +99,15 @@ class ContentsHandling(Resource):
         (title and contents) accordenly.
         '''
         _lng = request.headers.get('Accept-Language')
-        print('resources, content_handling, '
-              '\n _lng ->', _lng)
+        # print('resources, content_handling, '
+        #       '\n _lng ->', _lng)
         fbp.set_lng(_lng)
         _user_id = get_jwt_identity()
         if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
-        print(' _user_id ->', _user_id)
+        # print(' _user_id ->', _user_id)
         _requested_json = request.get_json()
-        print(' _requested_json ->', _requested_json)
+        # print(' _requested_json ->', _requested_json)
         _aux_info = cls.request_json_handling(_requested_json)
         if _aux_info is not None:
             return _aux_info
@@ -171,7 +171,7 @@ class ContentsHandling(Resource):
     @jwt_required()
     def patch(cls) -> Dict:
         '''
-        Used for delete any element a block.
+        Used for delete any element in a block.
         Change view structure.
         Move all elements information (title and contents) accordenly.
         '''

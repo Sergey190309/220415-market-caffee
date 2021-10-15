@@ -7,6 +7,9 @@ def create_structure():
     )
 
     with current_app.app_context():
+        # Not sure error register is correct
+        from .errors.register import register_error_handler
+        register_error_handler(structure_bp)
 
         # flask_restful and routining
         from .modules.api_structure import api_structure

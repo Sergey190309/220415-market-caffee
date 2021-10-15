@@ -5,7 +5,7 @@ from sqlalchemy.exc import OperationalError, InvalidRequestError, ProgrammingErr
 from marshmallow.exceptions import ValidationError
 from babel.core import UnknownLocaleError
 
-from .custom_exception import NotExistsError
+from .custom_exceptions import NotExistsError
 
 
 def register_error_handler(module):

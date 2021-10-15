@@ -12,44 +12,15 @@ class GlobalConstants():
         {'id': 'en', 'description': 'General english.'},
         {'id': 'ru', 'description': 'Общий русский.'},
     ]
-    _UPPER_LEVEL_TYPES = [
-        {
-            'type': 'header',
-            'description': ('Element consist of title and content. Normally shows '
-                            'in the top of a page.')
-        },
-        {
-            'type': 'footer',
-            'description': ('Element consist of title and content. Normally shows '
-                            'at the end of a page.')
-        },
-        {
-            'type': 'vblock',
-            'description': ('Element consist of couple (stated with qnt value) sub '
-                            'elements, those elements sit one above other '
-                            'vertically. Sub elements could be any sub types but '
-                            'each upper level element can contain same sub type '
-                            'elements.')
-        },
-        {
-            'type': 'hblock',
-            'description': ('Element consist of couple (stated with qnt value) sub '
-                            'elements, those elements sit alongside each other '
-                            'horizontally. Sub elements could be any sub types but '
-                            'each upper level element can contain same sub type '
-                            'elements.')
-        },
-    ]
     _VIEWS = [
         {
             'view_id': 'landing',
-            'description':
-            'That is root view where customers come from searching engines.'
+            'description': ('That is root view where customers come '
+                            'from searching engines.')
         },
         {
             'view_id': 'price_list',
-            'description':
-            'The view with price to our services.'
+            'description': 'The view with price to our services.'
         },
         {
             'view_id': 'pictures',
@@ -64,17 +35,47 @@ class GlobalConstants():
             'description': 'Views that available to logged admins only.'
         },
     ]
+    _UPPER_LEVEL_TYPES = [
+        {
+            'type': 'header',
+            'description': ('Element consist of title and content. '
+                            'Normally shows in the top of a page.')
+        },
+        {
+            'type': 'footer',
+            'description': ('Element consist of title and content. '
+                            'Normally shows at the end of a page.')
+        },
+        {
+            'type': 'vblock',
+            'description': ('Element consist of couple (stated with qnt '
+                            'value) sub elements, those elements sit one '
+                            'above other vertically. Sub elements could '
+                            'be any sub types but each upper level '
+                            'element can contain same sub type elements.')
+        },
+        {
+            'type': 'hblock',
+            'description': ('Element consist of couple (stated with qnt '
+                            'value) sub elements, those elements sit '
+                            'alongside each other horizontally. Sub '
+                            'elements could be any sub types but each '
+                            'upper level element can contain same sub '
+                            'type elements.')
+        },
+    ]
     _UPPER_LEVEL_SUBTYPES = [
         {
             'subtype': 'txt',
-            'description': ('Sub element consists of title and content. It could '
-                            'be represented by view paragraph front end component.')
+            'description': ('Sub element consists of title and content. '
+                            'It could be represented by view paragraph '
+                            'front end component.')
         },
         {
             'subtype': 'pix',
-            'description': ('Sub element consists of title, content and picture. '
-                            'It could be represented by view picture front end '
-                            'component.')
+            'description': ('Sub element consists of title, content and '
+                            'picture. It could be represented by view '
+                            'picture front end component.')
         },
     ]
 
@@ -116,7 +117,7 @@ class GlobalConstants():
     @classmethod
     @property
     def get_UPPER_LEVEL_SUBTYPES_PKS(cls):
-        return [item.get('type') for item in cls._UPPER_LEVEL_SUBTYPES]
+        return [item.get('subtype') for item in cls._UPPER_LEVEL_SUBTYPES]
 
 
 global_constants = GlobalConstants()

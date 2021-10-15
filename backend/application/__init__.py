@@ -21,19 +21,18 @@ import application.structure.models  # Don't remove see above.
 
 def create_app(config='default_config.py'):
 
-
     app = Flask(__name__)
     load_dotenv('.env', verbose=True)
     app.config.from_pyfile(config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
-    # Flask_SQLAlchemy init.
+    # Flask_SQLAlchemy init
     dbs_global.init_app(app)
-    # Flask_migrate init.
+    # Flask_migrate init
     flm_global.init_app(app, dbs_global)
     # Global api endpoint
     api_global.init_app(app)
-    # flask_cors.
+    # flask_cors
     crs_global.init_app(app)
     # Flask_BabelPlus
     fbp.init_app(app)
