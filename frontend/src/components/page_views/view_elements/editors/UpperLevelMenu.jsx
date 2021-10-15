@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, useContext, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
   Popup,
@@ -11,19 +11,46 @@ import {
   UPPER_ELEMENT_ADD_ABOVE, UPPER_ELEMENT_ADD_BELOW,
   UPPER_ELEMENT_DELETE
 } from '../../../../redux/constants/menuKeys'
+import { LandingContext, ElementSwitcherContext } from '../../../../context'
 import { neutralColor, warningColor } from '../../../../utils/colors'
 import { ContextMenuItem } from '../../../items/menu_items/ContextMenuItem'
 
 // import { deviceSelector } from '../../../../redux/slices'
 
+/**
+ * To handle upper level elements I need:
+ *    - view id (landing or something)
+ *    - serial index - id, string in my case.
+ *    - upper level type - choose from upperLevelTypeMenu (Header,
+ *        Footer, VBlock, HBlock)
+ *    - upper level subtype - from upperLevelSubtypeMenu (txt, pix).
+ * Functions to handle upper level elements would be here. They are:
+ *    - addUpperLevelElement - provide context to type and subtype menus
+ *    - deleteUpperLevelElement - direct dispatch here in onClickHandler.
+ */
+
+export const addUppreLevelElement = (viewId, upperElementIndex, type = 'header', subtype = 'txt') => {
+  console.log('UpperLevelMenu:\n addUppreLevelElement',
+    '\n  viewId ->', viewId,
+    '\n  upperElementIndex ->', upperElementIndex,
+    '\n  type ->', type,
+    '\n  subtype ->', subtype
+  )
+}
+
 const UpperLevelMenu = ({
-  isOpened,
+  // isOpened,
   context,
-  setMenuOpened
+  setMenuOpened,
+  setUpperLevelTypeMenuOpened,
+  addBelow
 }) => {
   const { t } = useTranslation('context')
   const [opened, setOpened] = useState(false)
   const [menuStructure, setMenuStructure] = useState([])
+
+  const { componentName: viewId } = useContext(LandingContext)
+  const { recordsId } = useContext(ElementSwitcherContext)
 
   // const { editable } = useSelector(deviceSelector)
   useEffect(() => {
@@ -52,14 +79,39 @@ const UpperLevelMenu = ({
       // console.log('UpperLevelMenu:\n useEffect[], clean up',
       //   '\n  isMenuOpened ->', isOpened
       // )
-      setOpened(false)
+      setMenuOpened(false)
     }
   }, [])
 
   const onClickHandler = (event, { name }) => {
     event.preventDefault()
-    console.log('UpperLevelMenu:\n onClickHandler',
-      '\n  name ->', name)
+    switch (name) {
+      case UPPER_ELEMENT_ADD_ABOVE:
+        console.log('UpperLevelMenu:\n onClickHandler',
+          '\n  name ->', name)
+        addBelow(false)
+        setUpperLevelTypeMenuOpened(true)
+        // addUppreLevelElement(viewId, +recordsId.split('_')[0])
+        break
+      case UPPER_ELEMENT_ADD_BELOW:
+        console.log('UpperLevelMenu:\n onClickHandler',
+          '\n  name ->', name)
+        // addUppreLevelElement(viewId, +recordsId.split('_')[0] + 1)
+        addBelow(true)
+        setUpperLevelTypeMenuOpened(true)
+        break
+      case UPPER_ELEMENT_DELETE:
+        console.log('UpperLevelMenu:\n onClickHandler',
+          '\n  name ->', name,
+          '\n  viewId ->', viewId,
+          '\n  recordsId ->', recordsId,
+          '\n  index ->', recordsId.split('_')[0]
+        )
+        break
+
+      default:
+        break
+    }
     setMenuOpened(false)
   }
 
@@ -73,7 +125,7 @@ const UpperLevelMenu = ({
         open={opened}
         // open={opened && editable}
         onClose={() => {
-          console.log('ParagraphContextMenu:\n onClose')
+          // console.log('UpperLevelMenu:\n onClose')
           // setOpened(false)
           setMenuOpened(false)
         }}
@@ -96,13 +148,17 @@ const UpperLevelMenu = ({
 UpperLevelMenu.defaultProps = {
   isOpened: true,
   context: {},
-  setMenuOpened: () => { }
+  setMenuOpened: () => { },
+  setUpperLevelTypeMenuOpened: () => { },
+  addBelow: () => { }
 }
 
 UpperLevelMenu.propTypes = {
   isOpened: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
-  setMenuOpened: PropTypes.func.isRequired
+  setMenuOpened: PropTypes.func.isRequired,
+  setUpperLevelTypeMenuOpened: PropTypes.func.isRequired,
+  addBelow: PropTypes.func.isRequired
 }
 
 export default UpperLevelMenu

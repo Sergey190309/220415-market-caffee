@@ -4,7 +4,7 @@ from flask_restful import Resource
 from flask import make_response, render_template
 from flask_babelplus import lazy_gettext as _
 
-from application.errors.custom_exception import NotExistsError
+from application.errors.custom_exceptions import NotExistsError
 
 from ..local_init_data_users import users_constants
 # from application.globals import global_constants

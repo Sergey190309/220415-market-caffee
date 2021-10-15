@@ -1,5 +1,5 @@
 
-class WrongTimezone(ValueError):
+class WrongTimezone(Exception):
     def __init__(
         self,
         message='Wrong time zone, it should be from -12 till +12',

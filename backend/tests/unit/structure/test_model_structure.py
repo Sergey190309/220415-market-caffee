@@ -21,6 +21,28 @@ def saved_structure_instance(client, structure_instance):
 
 
 # @pytest.mark.active
+def test_insert_upper_level_element(
+    saved_structure_instance, structure_get_schema,
+    attributes
+
+):
+    '''clean up structure tables'''
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    '''Fill structure table'''
+    fill_structure()
+    '''Choose constants to work with structure'''
+    _criterions = {
+        'view_id': random.choice(global_constants.get_VIEWS_PKS),
+        'locale_id': random.choice(global_constants.get_PKS)
+    }
+    print('\ntest_model_structure',
+          '\n test_insert_upper_level_element',
+          '\n  view_id ->', _criterions.get('view_id'),
+          '\n  locale_id ->', _criterions.get('locale_id')
+          )
+
+
+# @pytest.mark.active
 def test_change_element_qnt(
     saved_structure_instance, structure_get_schema,
     attributes

@@ -7,8 +7,8 @@
         "handle": "Upper level elements handling",
         "hblock": "Add horizontal block",
         "header": "Add header",
-        "pix": "Block will contains pictures",
-        "txt": "Block will contains paragraphs",
+        "pix": "Block will contain pictures",
+        "txt": "Block will contain paragraphs",
         "vblock": "Add vertical block"
     },
     "2LE": {

@@ -53,7 +53,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "@craco/craco": "^6.3.0",
     "@semantic-ui-react/craco-less": "^1.2.3",

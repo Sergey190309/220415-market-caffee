@@ -45,8 +45,28 @@ class StructureModel(dbs_global.Model):
         return cls.query.filter_by(**ids).first()
         # return _result
 
+    @classmethod
+    def insert_upper_level_element(cls, args: Dict = {}) -> Union[None, str]:
+        '''
+        The method change (increase by 1) all elements with bigger indexes, insert
+        new dummy element.
+        args are: view_id, locale_id, index, type, subtype
+        '''
+        '''check args are valid'''
+        print('structure, model\n insert_upper_level_element',
+              '\n  args ->', args
+              )
+        # if ards.get('view_id') not in :
+        #     pass
+        '''change records with indexes more then new element index'''
+        '''insert new element'''
+
+    @classmethod
+    def remove_upper_level_element(cls) -> Union[None, str]:
+        pass
+
     @property
-    def is_exist(self):
+    def is_exist(self) -> bool:
         return StructureModel.find_by_ids({
             'view_id': self.view_id,
             'locale_id': self.locale_id
@@ -57,6 +77,7 @@ class StructureModel(dbs_global.Model):
         direction: str = '',  # inc or dec
         block_index: str = '', user_id: int = 0
     ) -> Union[int, str]:
+
         _source_attributes = dict(self.attributes)
         if direction == 'inc':
             _new_qnt = _source_attributes.get(block_index).get('qnt') + 1
@@ -75,7 +96,7 @@ class StructureModel(dbs_global.Model):
         if update_result is None:
             return _new_qnt
         else:
-            return self.update({'attributes': _target_attributes, 'user_id': user_id})
+            return update_result
 
     def update(self, update_values: Dict = {}) -> Union[None, str]:
         # print(update_values)

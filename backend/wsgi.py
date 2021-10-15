@@ -8,6 +8,7 @@
 
 # from auxiliary.initialization import initialization
 
+# print('wsgi.py')
 from application import create_app
 
 app = create_app()

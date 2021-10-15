@@ -7,7 +7,6 @@ import {
   backendRemoveElementSuccess,
   backendTxtUpdateStart,
   backendTxtUpdateSuccess,
-  // backendUpdateFail,
   backendUpdateSelector,
   startAlert,
   openModal,
@@ -19,10 +18,13 @@ import {
   patchRemoveElement
 } from '../../api/calls/content'
 import { setAlertData } from '../../utils/utils'
-// import { actRespErrorMessage } from '../../utils/errorHandler'
 
 function * elementsArgs (action) {
-  // console.log('saga, backendUpdate:\n elementsArgs',
+  /**
+   * It checks whether no payload awailable if so it gives
+   * arguments from state.
+   */
+  // console.log('backendUpdate(saga):\n elementsArgs',
   //   '\n  action ->', action)
   let values
   if (typeof action.payload === 'undefined') {
@@ -67,11 +69,12 @@ export function * backendAddElement (action) {
   // console.log('saga, backendUpdate:\n backendAddElement',
   //   '\n  action ->', action
   // )
+  /**
+   * get args from state if not in payload.
+   */
   const json = yield call(elementsArgs, action)
+
   try {
-    // console.log('saga, backendUpdate:\n backendAddElement',
-    //   '\n  json ->', json
-    // )
     const resp = yield call(putAddElement, json)
     // console.log('saga, backendUpdate:\n',
     //   ' backendAddElement\n  resp ->', resp)

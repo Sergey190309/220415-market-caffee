@@ -1,8 +1,8 @@
 import React, {
-  useState, useEffect
-  // useRef, useContext
+  useState, useEffect,
+  useContext
 } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import {
   Popup,
@@ -14,42 +14,44 @@ import { useTranslation } from 'react-i18next'
 import {
   ELEMENT_EDIT, ELEMENT_SAVE,
   ELEMENT_ADD_ABOVE, ELEMENT_ADD_BELOW, ELEMENT_DELETE,
-  // UPPER_ELEMENT_ADD_ABOVE, UPPER_ELEMENT_ADD_BELOW, UPPER_ELEMENT_DELETE,
   UPPER_ELEMENT_HANDLE
 } from '../../../../redux/constants/menuKeys'
 import { positiveColor, neutralColor, warningColor } from '../../../../utils/colors'
-import { deviceSelector } from '../../../../redux/slices'
+import { deviceSelector, backendTxtUpdateStart, backendAddElementStart, backendRemoveElementStart } from '../../../../redux/slices'
+import {
+  LandingContext, ElementSwitcherContext, ViewParagraphContext
+} from '../../../../context'
 import {
   ContextMenuItem
 } from '../../../items/menu_items/ContextMenuItem'
 
 const ParagraphContextMenu = ({
-  isOpened,
+  // isOpened,
   saveDisabled,
   context,
   setMenuOpened,
   upperLevelElementMenu,
-  setParagraphEditted,
-  saveToBackend,
-  deleteElement,
-  addAbove,
-  addBelow
-  // upperLvlAddElementProp,
-  // upperLvlDeleteElementProp
+  setParagraphEditted
 }) => {
   const { t } = useTranslation('context')
   const [opened, setOpened] = useState(false)
   const [menuStructure, setMenuStructure] = useState([])
 
   const { editable } = useSelector(deviceSelector)
-  // const upperLevelElementId = parseInt(useContext(UpperLeverElementId)
-  //   .split('_')[0])
+  const dispatch = useDispatch()
 
-  // const upperLevelMenuContextRef = useRef(null)
+  const { componentName } = useContext(LandingContext)
+  const { recordsId } = useContext(ElementSwitcherContext)
+  const { index } = useContext(ViewParagraphContext)
 
   useEffect(() => {
-    // console.log('ParagraphContextMenu:\n useEffect[]')
-    setOpened(isOpened)
+    // console.log('ParagraphContextMenu:\n useEffect[]',
+    //   '\n  componentName ->', componentName,
+    //   '\n  recordsId ->', recordsId,
+    //   '\n  index ->', index
+    // )
+    // upperLvlAddElement('id', 'type', 'subType')
+    setOpened(true)
     return () => {
       // console.log('ParagraphContextMenu:\n useEffect[isOpened]',
       //   '\n  clean up')
@@ -97,39 +99,52 @@ const ParagraphContextMenu = ({
   const onClickHandler = (event, { name }) => {
     event.preventDefault()
     switch (name) {
+      case ELEMENT_EDIT:
+        setParagraphEditted(true)
+        // setMenuOpened(false)
+        break
+      case ELEMENT_SAVE:
+        // saveToBackend()
+        dispatch(backendTxtUpdateStart())
+        // setMenuOpened(false)
+        break
+      case ELEMENT_ADD_ABOVE:
+        dispatch(backendAddElementStart({
+          view_id: componentName,
+          identity: recordsId,
+          index
+        }))
+        // setMenuOpened(false)
+        break
+      case ELEMENT_ADD_BELOW:
+        dispatch(backendAddElementStart({
+          view_id: componentName,
+          identity: recordsId,
+          index: index + 1
+        }))
+        // setMenuOpened(false)
+        break
+      case ELEMENT_DELETE:
+        dispatch(backendRemoveElementStart({
+          view_id: componentName,
+          identity: recordsId,
+          index
+        }))
+        // setMenuOpened(false)
+        break
       case UPPER_ELEMENT_HANDLE:
         // console.log('ParagraphContextMenu:',
         //   '\n onClickHandler(UPPER_ELEMENT_HANDLE)',
         //   '\n  x ->', event.clientX,
         //   '\n  y ->', event.clientY
         // )
-        // upperLevelMenuContextRef.current = createContextFromEvent(event)
         upperLevelElementMenu()
-        setMenuOpened(false)
-        break
-      case ELEMENT_EDIT:
-        setParagraphEditted(true)
-        setMenuOpened(false)
-        break
-      case ELEMENT_SAVE:
-        saveToBackend()
-        setMenuOpened(false)
-        break
-      case ELEMENT_ADD_ABOVE:
-        addAbove()
-        setMenuOpened(false)
-        break
-      case ELEMENT_ADD_BELOW:
-        addBelow()
-        setMenuOpened(false)
-        break
-      case ELEMENT_DELETE:
-        deleteElement()
-        setMenuOpened(false)
+        // setMenuOpened(false)
         break
       default:
         break
     }
+    setMenuOpened(false)
   }
 
   /**
@@ -137,56 +152,48 @@ const ParagraphContextMenu = ({
    */
 
   return (
-      <Popup
-        data-testid='Popup'
-        hoverable
-        // hoverable={!upperLavelMenuOpened}
-        wide='very'
-        context={context}
-        open={opened && editable}
-        onClose={() => {
-          setMenuOpened(false)
-          // console.log('ParagraphContextMenu:\n onClose')
-        }}
+    <Popup
+      data-testid='Popup'
+      hoverable
+      // hoverable={!upperLavelMenuOpened}
+      wide='very'
+      context={context}
+      open={opened && editable}
+      onClose={() => {
+        setMenuOpened(false)
+        // console.log('ParagraphContextMenu:\n onClose')
+      }}
+    >
+      <Menu
+        vertical
+        compact
       >
-        <Menu
-          vertical
-          compact
-        >
-          {menuStructure.map((item, index) => (
-            <ContextMenuItem
-              key={index} {...item} onClick={onClickHandler}
-            />
-          ))}
-        </Menu>
-      </Popup>
+        {menuStructure.map((item, index) => (
+          <ContextMenuItem
+            key={index} {...item} onClick={onClickHandler}
+          />
+        ))}
+      </Menu>
+    </Popup>
   )
 }
 
 ParagraphContextMenu.defaultProps = {
-  isOpened: true,
+  // isOpened: true,
   saveDisabled: false,
   context: {},
   setMenuOpened: () => { },
   upperLevelElementMenu: () => { },
-  setParagraphEditted: () => { },
-  saveToBackend: () => { },
-  deleteElement: () => { },
-  addAbove: () => { },
-  addBelow: () => { }
+  setParagraphEditted: () => { }
 }
 
 ParagraphContextMenu.propTypes = {
-  isOpened: PropTypes.bool.isRequired,
+  // isOpened: PropTypes.bool.isRequired,
   saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setMenuOpened: PropTypes.func.isRequired,
   upperLevelElementMenu: PropTypes.func.isRequired,
-  setParagraphEditted: PropTypes.func.isRequired,
-  saveToBackend: PropTypes.func.isRequired,
-  deleteElement: PropTypes.func.isRequired,
-  addAbove: PropTypes.func.isRequired,
-  addBelow: PropTypes.func.isRequired
+  setParagraphEditted: PropTypes.func.isRequired
 }
 
 export default ParagraphContextMenu

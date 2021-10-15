@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react'
+import React, { useState, useEffect, useRef, Fragment, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Message, Divider } from 'semantic-ui-react'
@@ -13,20 +13,25 @@ import {
 import {
   deviceSelector,
   backendUpdateSelector,
-  backendTxtUpdateReady, backendTxtUpdateStart,
+  backendTxtUpdateReady,
+  // backendTxtUpdateStart,
   resetBackendUpdate
 } from '../../../redux/slices'
 import { createContextFromEvent } from '../../../utils/createContext' // tested
+import { ViewParagraphProvider, LandingContext } from '../../../context'
 import ParagraphContextMenu
   from './editors/ParagraphContextMenu' // tested
 import UpperLevelMenu from './editors/UpperLevelMenu'
+import UpperLevelElementTypesMenu
+  from './editors/UpperLevelElementTypesMenu'
+import UpperLevelElementSubtypesMenu from './editors/UpperLevelElementSubtypesMenu'
 import SaveToBackendContextMenu from '../../items/SaveToBackendContextMenu'
 import ParagraphEditor from './editors/ParagraphEditor' // tested
 import Indicator from './indicator/Indicator'
 
 const ViewParagraph = ({
-  initialState, recordId, viewName,
-  addElementProp, deleteElementProp
+  initialState, recordId
+  // viewName
 }) => {
   /**
    * States:
@@ -61,6 +66,12 @@ const ViewParagraph = ({
   // const [contextMenuOpened, setContextMenuOpened] = useState(true)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [upperLevelContextMenuOpened, setUpperLevelContextMenuOpened] = useState(false)
+  const [
+    upperLevelTypeMenuOpened, setUpperLevelTypeMenuOpened
+  ] = useState(false)
+  const [
+    upperLevelSubtypeMenuOpened, setUpperLevelSubtypeMenuOpened
+  ] = useState(false)
   const [saveContextMenuOpened, setSaveContextMenuOpened] = useState(false)
   const [indicatorOpened, setIndicatorOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
@@ -70,11 +81,24 @@ const ViewParagraph = ({
 
   const dispatch = useDispatch()
 
-  const contextRef = useRef(null)
-  const indicatorRef = useRef(null)
+  const contextRef = useRef(null) // place for popup menu
+  const indexRef = useRef(null) // index of low level element to handle.
+  const addBelowRef = useRef(false) // shows whether add 1 to upper level
+  // element handling.
+  const upperLevelElementTypeRef = useRef('')
+  const addBelow = addBelowArg => {
+    addBelowRef.current = addBelowArg
+  }
+  const setUpperLevelElementType = type => {
+    upperLevelElementTypeRef.current = type
+  }
+  const { componentName: viewName } = useContext(LandingContext)
 
   useEffect(() => { // Saga
-    // console.log('ViewParagraph, useEffect(getSagaDispatch), recordId ->', recordId)
+    // console.log('ViewParagraph:',
+    //   '\n useEffect[recordId, viewName, kind]',
+    //   '\n  index ->', +recordId.split('_').pop())
+    indexRef.current = +recordId.split('_').pop()
     if (kind === '') {
       setChanged(false)
       getSagaDispatch({
@@ -85,7 +109,7 @@ const ViewParagraph = ({
         }
       })
     }
-  }, [recordId, viewName, kind])
+  }, [recordId, kind])
 
   useEffect(() => {
     setContent(state)
@@ -114,7 +138,7 @@ const ViewParagraph = ({
     event.preventDefault()
     if (editable) {
       setIndicatorOpened(editable && !indicatorOpened)
-      indicatorRef.current = createContextFromEvent(event)
+      contextRef.current = createContextFromEvent(event)
     }
   }
 
@@ -137,38 +161,6 @@ const ViewParagraph = ({
     // )
     setContextMenuOpened(false)
     setUpperLevelContextMenuOpened(true)
-  }
-
-  const saveToBackend = () => {
-    dispatch(backendTxtUpdateStart())
-  }
-  const addAbove = () => {
-    /**
-     * To send signal one module above to change structure
-     */
-    const recordIndex = parseInt(recordId.split('_').pop())
-    if (isNaN(recordIndex)) {
-      console.log('Unable to parse recordId for index')
-    } else { addElementProp(recordIndex) }
-  }
-  const addBelow = () => {
-    /**
-     * To send signal one module above to change structure
-     */
-    const recordIndex = parseInt(recordId.split('_').pop())
-    if (isNaN(recordIndex)) {
-      console.log('Unable to parse recordId for index')
-    } else { addElementProp(recordIndex + 1) }
-  }
-  const deleteElement = () => {
-    /**
-     * To send signal one module above to change structure
-     */
-    const recordIndex = parseInt(recordId.split('_').pop())
-    // console.log('ViewParagraph, deleteFmBackend')
-    if (isNaN(recordIndex)) {
-      console.log('Unable to parse recordId for index')
-    } else { deleteElementProp(recordIndex) }
   }
 
   const normalOutput = () => (
@@ -205,8 +197,7 @@ const ViewParagraph = ({
   const indicator = () => (
     <Indicator
       isOpened={indicatorOpened}
-      context={indicatorRef}
-      header={viewName}
+      context={contextRef}
       content={recordId}
       setIndicatorOpened={setIndicatorOpened}
     />
@@ -220,11 +211,7 @@ const ViewParagraph = ({
       setMenuOpened={setContextMenuOpened}
       {...{
         upperLevelElementMenu,
-        setParagraphEditted,
-        saveToBackend,
-        deleteElement,
-        addAbove,
-        addBelow
+        setParagraphEditted
       }}
     />
   )
@@ -233,7 +220,25 @@ const ViewParagraph = ({
     <UpperLevelMenu
       context={contextRef}
       setMenuOpened={setUpperLevelContextMenuOpened}
+      {...{ setUpperLevelTypeMenuOpened, addBelow }}
+    />
+  )
 
+  const upperLevelElementTypesMenu = () => (
+    <UpperLevelElementTypesMenu
+      context={contextRef}
+      setMenuOpened={setUpperLevelTypeMenuOpened}
+      addBelow={addBelowRef.current}
+      {...{ setUpperLevelSubtypeMenuOpened, setUpperLevelElementType }}
+    />
+  )
+
+  const upperLevelElementSubtypesMenu = () => (
+    <UpperLevelElementSubtypesMenu
+      context={contextRef}
+      addBelow={addBelowRef.current}
+      upperLevelElementType={upperLevelElementTypeRef.current}
+      setMenuOpened={setUpperLevelSubtypeMenuOpened}
     />
   )
 
@@ -246,7 +251,7 @@ const ViewParagraph = ({
   )
 
   return (
-    <Fragment>
+    <ViewParagraphProvider value={{ index: indexRef.current }}>
       {editable
         ? paragraphEditted
           ? paragraphEditor()
@@ -264,6 +269,14 @@ const ViewParagraph = ({
               ? upperLevelContextMenu()
               : null
             }
+            {upperLevelTypeMenuOpened
+              ? upperLevelElementTypesMenu()
+              : null
+            }
+            {upperLevelSubtypeMenuOpened
+              ? upperLevelElementSubtypesMenu()
+              : null
+            }
             {saveContextMenuOpened
               ? saveToBackendContextMenu()
               : null
@@ -271,7 +284,7 @@ const ViewParagraph = ({
           </Fragment>
         : normalOutput()
       }
-    </Fragment>
+    </ViewParagraphProvider>
   )
 }
 
@@ -280,18 +293,14 @@ ViewParagraph.defaultProps = {
     title: '', // info from back-end
     content: ['']
   },
-  recordId: '',
-  viewName: '',
-  addElementProp: () => { },
-  deleteElementProp: () => { }
+  recordId: ''
+  // viewName: ''
 }
 
 ViewParagraph.propTypes = {
   initialState: PropTypes.object.isRequired,
-  recordId: PropTypes.string.isRequired,
-  viewName: PropTypes.string.isRequired,
-  addElementProp: PropTypes.func.isRequired,
-  deleteElementProp: PropTypes.func.isRequired
+  recordId: PropTypes.string.isRequired
+  // viewName: PropTypes.string.isRequired
 }
 
 export default ViewParagraph

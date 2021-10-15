@@ -16,7 +16,9 @@ Use backup restore instead.
 #         ('user', 'Registered user after confirmation.'),
 #         ('power_user', 'By admin decision.'),
 #         ('admin', 'By owners decision.')])
-@pytest.mark.active
+
+
+# @pytest.mark.active
 def test_structures(
     # id, remark,
     _engine, table_name='structure'

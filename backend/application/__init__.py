@@ -26,13 +26,13 @@ def create_app(config='default_config.py'):
     app.config.from_pyfile(config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
-    # Flask_SQLAlchemy init.
+    # Flask_SQLAlchemy init
     dbs_global.init_app(app)
-    # Flask_migrate init.
+    # Flask_migrate init
     flm_global.init_app(app, dbs_global)
     # Global api endpoint
     api_global.init_app(app)
-    # flask_cors.
+    # flask_cors
     crs_global.init_app(app)
     # Flask_BabelPlus
     fbp.init_app(app)
@@ -56,6 +56,7 @@ def create_app(config='default_config.py'):
         app.register_blueprint(create_contents(), url_prefix='/content')
 
         # Module for image handling
+        # print('application')
         from .images import create_images
         app.register_blueprint(create_images(), url_prefix='/images')
 
