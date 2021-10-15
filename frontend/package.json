@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.6.2",
-    "axios": "^0.22.0",
+    "axios": "^0.23.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
     "i18next": "^21.2.4",
@@ -23,7 +23,7 @@
     "semantic-ui-react": "^2.0.4",
     "styled-components": "^5.3.1",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.0",
+    "web-vitals": "^2.1.2",
     "yup": "^0.32.9"
   },
   "scripts": {
@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-env": "^7.15.8",
     "@craco/craco": "^6.3.0",
     "@semantic-ui-react/craco-less": "^1.2.3",
     "@testing-library/dom": "^8.7.2",
