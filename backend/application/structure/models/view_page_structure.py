@@ -34,6 +34,8 @@ class ViewPageStructure:
                 raise UpperLevelStructureWrongKeys(_key, 400)
                 # print('index ->', index, '\tkey ->', _key)
         for k, v in args.items():
+            if isinstance(v, Dict):
+                v = UpperLevelElement(v)
             setattr(self, k, v)
         # setattr(self, name, value)
 
@@ -114,3 +116,10 @@ class ViewPageStructure:
         '''delete excess element'''
         delattr(self, str(len(self.__dict__) - 1).zfill(2))
         return removed_element
+
+    def serialize(self) -> Dict:
+        result = {}
+        for k, v in self.__dict__.items():
+            result[k] = {k[1:]: v for (k, v) in v.__dict__.items()}
+
+        return result

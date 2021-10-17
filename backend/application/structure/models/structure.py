@@ -8,6 +8,8 @@ from application.modules.dbs_global import dbs_global
 from application.models.locales_global import LocaleGlobalModel  # noqa: 401
 from application.models.views_global import ViewGlobalModel  # noqa: 401
 
+from .view_page_structure import ViewPageStructure
+
 
 class StructureModel(dbs_global.Model):
     '''
@@ -36,25 +38,33 @@ class StructureModel(dbs_global.Model):
     view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
 
     @classmethod
-    def find(cls, searching_criterions: Dict = {}) -> List['StructureModel']:
+    def find(cls,
+             searching_criterions: Dict = {}) -> List['StructureModel']:
         return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
     def find_by_ids(cls, ids: Dict = {}) -> Union['StructureModel', None]:
-        # _result = cls.query.filter_by(view_id=view_id).first()
         return cls.query.filter_by(**ids).first()
-        # return _result
 
-    @classmethod
-    def insert_upper_level_element(cls, args: Dict = {}) -> Union[None, str]:
+    # @classmethod
+    def insert_upper_level_element(
+            self, index: int = 0,
+            args: Dict = {},
+            user_id: int = {}) -> Union[None, str]:
         '''
-        The method change (increase by 1) all elements with bigger indexes, insert
-        new dummy element.
-        args are: view_id, locale_id, index, type, subtype
+        The method change (increase by 1) all elements with bigger
+        indexes, insert new dummy element.
+        Compalsory arguments : index;
+        Optional arguments (opt_args) are: others (on 211015 they are
+            type, subtype, qnt, name). They have default values in
+            classes.
         '''
-        '''check args are valid'''
+        # '''check args are valid''' not sure it's nesessary
+        _view_page_structure = ViewPageStructure(dict(self.attributes))
+
         print('structure, model\n insert_upper_level_element',
-              '\n  args ->', args
+              '\n  type(_view_page_structure) ->', type(_view_page_structure),
+              '\n  _view_page_structure ->', _view_page_structure
               )
         # if ards.get('view_id') not in :
         #     pass
@@ -75,37 +85,32 @@ class StructureModel(dbs_global.Model):
     def change_element_qnt(
         self,
         direction: str = '',  # inc or dec
-        block_index: str = '', user_id: int = 0
+        block_index: int = 0, user_id: int = 0
     ) -> Union[int, str]:
-
-        _source_attributes = dict(self.attributes)
+        _view_page_structure = ViewPageStructure(dict(self.attributes))
+        _upper_level_element = _view_page_structure.get_element(block_index)
+        # _upper_level_element = _view_page_structure.get_element(int(block_index))
         if direction == 'inc':
-            _new_qnt = _source_attributes.get(block_index).get('qnt') + 1
-        elif direction == 'dec':
-            _new_qnt = _source_attributes.get(block_index).get('qnt') - 1
-        else:
-            _new_qnt = _source_attributes.get(block_index).get('qnt')
-        _target_attributes = {
-            **_source_attributes,
-            block_index: {
-                **_source_attributes.get(block_index), 'qnt': _new_qnt
-            }
-        }
-        update_result = self.update(
-            {'attributes': _target_attributes, 'user_id': user_id})
+            _upper_level_element.insert_element()
+        if direction == 'dec':
+            _upper_level_element.remove_element()
+        # print('\nmodels, structure:\n change_element_qnt',
+        #       '\n  _view_page_structure ->', _view_page_structure.serialize())
+        update_result = self.update({
+            'attributes': _view_page_structure.serialize(),
+            'user_id': user_id})
         if update_result is None:
-            return _new_qnt
+            return _upper_level_element.qnt
         else:
             return update_result
 
     def update(self, update_values: Dict = {}) -> Union[None, str]:
-        # print(update_values)
+        # print('\nmodel, structure:\n update',
+        #       '\n  update_values ->', update_values)
         if update_values is None:
             return None
         for key in update_values.keys():
-            # print(key)
             setattr(self, key, update_values[key])
-            # self.attributes = update_values.get(key).copy()
         self.updated = datetime.now()
         return self.save_to_db()
 

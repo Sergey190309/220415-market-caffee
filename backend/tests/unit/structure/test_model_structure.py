@@ -20,21 +20,38 @@ def saved_structure_instance(client, structure_instance):
     return _method
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_insert_upper_level_element(
     saved_structure_instance, structure_get_schema,
     attributes
-
 ):
     '''clean up structure tables'''
     [_structure.delete_fm_db() for _structure in StructureModel.find()]
-    '''Fill structure table'''
+    '''fill structure table'''
     fill_structure()
-    '''Choose constants to work with structure'''
+    '''choose constants to work with structure'''
     _criterions = {
         'view_id': random.choice(global_constants.get_VIEWS_PKS),
         'locale_id': random.choice(global_constants.get_PKS)
     }
+    _uplev_elem_index = 1
+    _uplev_elem_items = {
+        'type': 'hblock',
+        'subtype': 'pix',
+        'qnt': '3',
+        'name': 'fancy name'
+    }
+    _first_user_id = random.randrange(128)
+    '''update original structure to work with'''
+    _updating_structure = StructureModel.find_by_ids(_criterions)
+    _updating_structure.update({'attributes': attributes})
+    '''insert upper level element'''
+    _updating_structure.insert_upper_level_element(
+        _uplev_elem_index,
+        _uplev_elem_items,
+        _first_user_id
+    )
+
     print('\ntest_model_structure',
           '\n test_insert_upper_level_element',
           '\n  view_id ->', _criterions.get('view_id'),
@@ -56,14 +73,15 @@ def test_change_element_qnt(
         'view_id': random.choice(global_constants.get_VIEWS_PKS),
         'locale_id': random.choice(global_constants.get_PKS)
     }
-    _block_index = '01'
-    _qnt = attributes.get(_block_index).get('qnt')
+    _block_index = 1
+    _qnt = attributes.get(str(_block_index).zfill(2)).get('qnt')
     _first_user_id = random.randrange(128)
     '''Update structure'''
     _updating_structure = StructureModel.find_by_ids(_criterions)
     _updating_structure.update({'attributes': attributes})
     _us_dumped = structure_get_schema.dump(_updating_structure)
-    _element_qnt = _us_dumped.get('attributes').get(_block_index).get('qnt')
+    _element_qnt = _us_dumped.get(
+        'attributes').get(str(_block_index).zfill(2)).get('qnt')
     _user_id = _us_dumped.get('user_id')
     '''Expect it's updated as per available constants'''
     assert _element_qnt == _qnt
@@ -76,28 +94,32 @@ def test_change_element_qnt(
     _updated_structure = StructureModel.find_by_ids(_criterions)
 
     _us_dumped = structure_get_schema.dump(_updated_structure)
-    _element_qnt = _us_dumped.get('attributes').get(_block_index).get('qnt')
+    _element_qnt = _us_dumped.get(
+        'attributes').get(str(_block_index).zfill(2)).get('qnt')
     _user_id = _us_dumped.get('user_id')
     '''Expect it's updated as per available constants'''
     assert _element_qnt == _qnt + 1
     assert _first_user_id == _user_id
 
+    # print('\ntest_model_structure:\n test_add_element',
+    #   '\n  _updated_structure ->', structure_get_schema.dump(_updated_structure),
+    #   '\n  _element_qnt ->', _element_qnt)
+
     '''remove element'''
     _second_user_id = random.randrange(128)
-    _updating_structure.change_element_qnt('dec', _block_index, _second_user_id)
+    _updating_structure.change_element_qnt(
+        'dec', _block_index, _second_user_id)
 
     '''Get elements and check expectations'''
     _updated_structure = StructureModel.find_by_ids(_criterions)
 
     _us_dumped = structure_get_schema.dump(_updated_structure)
-    _element_qnt = _us_dumped.get('attributes').get(_block_index).get('qnt')
+    _element_qnt = _us_dumped.get(
+        'attributes').get(str(_block_index).zfill(2)).get('qnt')
     _user_id = _us_dumped.get('user_id')
     '''Expect it's updated as per available constants'''
     assert _element_qnt == _qnt
     assert _second_user_id == _user_id
-
-    # print('\nunits, structure, test_model_structure, test_add_element, attributes ->',
-    #       attributes)
 
 
 # @pytest.mark.active

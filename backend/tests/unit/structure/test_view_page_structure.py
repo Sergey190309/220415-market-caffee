@@ -57,7 +57,7 @@ def view_page_structure(header, footer, hblock, vblock):
 
 
 # @pytest.mark.active
-def test_UpperLevelElement_init(header, footer, hblock, vblock):
+def test_ViewPageStructure_init(header, footer, hblock, vblock):
 
     view_page_structure = ViewPageStructure({
         '00': header,
@@ -99,19 +99,19 @@ def test_UpperLevelElement_init(header, footer, hblock, vblock):
 
 
 # @pytest.mark.active
-def test_UpperLevelElement_get(view_page_structure):
+def test_ViewPageStructure_get(view_page_structure):
     _view_page_structure = view_page_structure
     _length = _view_page_structure.len()
     assert _length == 4
     for i in range(_length):
         _element = _view_page_structure.get_element(i)
-        # print('test_view_page_structure:\n test_UpperLevelElement_get',
+        # print('test_view_page_structure:\n test_ViewPageStructure_get',
         #       '\n type _element ->', type(_element))
         assert isinstance(_element, UpperLevelElement)
 
 
 # @pytest.mark.active
-def test_UpperLevelElement_set(view_page_structure):
+def test_ViewPageStructure_set(view_page_structure):
     _view_page_structure = view_page_structure
     _length = _view_page_structure.len()
     _index = 2
@@ -176,7 +176,7 @@ def test_UpperLevelElement_set(view_page_structure):
 
 
 # @pytest.mark.active
-def test_UpperLevelElement_insert(view_page_structure):
+def test_ViewPageStructure_insert(view_page_structure):
     _view_page_structure = view_page_structure
     _length = _view_page_structure.len()
     _element_name = 'inserted_element_name'
@@ -217,8 +217,8 @@ def test_UpperLevelElement_insert(view_page_structure):
     #       '\n  _view_page_structure ->', _view_page_structure)
 
 
-@pytest.mark.active
-def test_UpperLevelElement_remove(hblock, vblock, footer, view_page_structure):
+# @pytest.mark.active
+def test_ViewPageStructure_remove(hblock, vblock, footer, view_page_structure):
     _view_page_structure = view_page_structure
     _length = _view_page_structure.len()
     assert _length == 4
@@ -235,7 +235,6 @@ def test_UpperLevelElement_remove(hblock, vblock, footer, view_page_structure):
     '''success'''
     '''remove in a middle'''
     _index = 1
-
     removed_element = _view_page_structure.remove_element(_index)
     substitute_element = _view_page_structure.get_element(_index)
     assert _view_page_structure.len() == _length - 1
@@ -270,3 +269,28 @@ def test_UpperLevelElement_remove(hblock, vblock, footer, view_page_structure):
     with pytest.raises(UpperLevelStructureRemoveLastElement) as e_info:
         view_page_structure.remove_element(0)
     assert str(e_info.value) == 'not allowed!'
+
+
+# @pytest.mark.active
+def test_ViewPageStructure_serialize(
+        header, footer, hblock, vblock, view_page_structure):
+    result = view_page_structure.serialize()
+    for k, v in result.items():
+        if v.get('type') == 'header':
+            assert v.get('name') == header.__dict__.get('_name')
+        if v.get('type') == 'footer':
+            assert v.get('name') == footer.__dict__.get('_name')
+        if v.get('type') == 'hblock':
+            assert v.get('name') == hblock.__dict__.get('_name')
+            assert v.get('subtype') == hblock.__dict__.get('_subtype')
+            assert v.get('qnt') == hblock.__dict__.get('_qnt')
+        if v.get('type') == 'vblock':
+            assert v.get('name') == vblock.__dict__.get('_name')
+            assert v.get('subtype') == vblock.__dict__.get('_subtype')
+            assert v.get('qnt') == vblock.__dict__.get('_qnt')
+
+    # print('\ntest_view_page_structure:',
+    #       '\n test_ViewPageStructure_serialize',
+    #       '\n  result ->', result,
+    #       '\n  header ->', header.__dict__
+    #       )

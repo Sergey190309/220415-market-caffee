@@ -118,7 +118,7 @@ class ContentsHandling(Resource):
         _tested_criterion = structure_get_schema.load(_criterion)
         _structure = StructureModel.find_by_ids(_tested_criterion)
         _change_element_qnt_result = _structure.change_element_qnt(
-            'inc', cls.block_index, _user_id)
+            'inc', int(cls.block_index), _user_id)
         if not isinstance(_change_element_qnt_result, int):
             return {
                 'message': str(_(
@@ -190,7 +190,7 @@ class ContentsHandling(Resource):
                       'locale_id': _lng}
         _tested_criterion = structure_get_schema.load(_criterion)
         _structure = StructureModel.find_by_ids(_tested_criterion)
-        _structure.change_element_qnt('dec', cls.block_index, _user_id)
+        _structure.change_element_qnt('dec', int(cls.block_index), _user_id)
         '''Remove one record from db contents with approapriate locale.'''
         result = ContentModel.remove_element_fm_block(
             block_id=cls.block_id,
