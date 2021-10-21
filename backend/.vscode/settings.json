@@ -1,42 +1,4 @@
 {
-  // "python.pythonPath": "venv/bin/python",
-  // "python.autoComplete.extraPaths": [
-  //   "backend"
-  //   ],
-  "python.linting.flake8Enabled": true,
-  "python.linting.enabled": true,
-  "python.testing.pytestArgs": [
-    "tests"
-  ],
-  "python.testing.unittestEnabled": false,
-  "python.testing.nosetestsEnabled": false,
-  "python.testing.pytestEnabled": true,
-  "testExplorer.addToEditorContextMenu": true,
-  "testExplorer.hideWhen": "noTests",
-  "testExplorer.mergeSuites": true,
-  "testExplorer.onReload": "reset",
-  "testExplorer.onStart": "reset",
-  "testExplorer.showExpandButton": 1,
-  "testExplorer.sort": "byLocationWithSuitesFirst",
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/__pycache__": true,
-    "**/.pytest_cache": true,
-    "**/venv": true,
-    "**/.vscode": true,
-    "**/.directory": true
-  },
-  "explorerExclude.backup": null,
-  "python.linting.mypyArgs": [],
-  "python.linting.banditEnabled": false,
-  "python.defaultInterpreterPath": "/home/sa/code/201201-market-caffee/backend/venv/bin/python3.9",
-  "python.autoComplete.extraPaths": [
-
-  ],
-  "editor.unusualLineTerminators": "auto",
-  "python.linting.pylintEnabled": false
+  "php.suggest.basic": false,
+  "php.validate.enable": false,
 }
