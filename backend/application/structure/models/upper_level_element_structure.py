@@ -1,5 +1,7 @@
 from typing import Dict, Union, List
 
+# from flask_babelplus import lazy_gettext as _
+
 from application.global_init_data import global_constants
 
 from ..errors.custom_exceptions import (

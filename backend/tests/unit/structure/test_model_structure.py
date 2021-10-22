@@ -20,7 +20,7 @@ def saved_structure_instance(client, structure_instance):
     return _method
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_insert_upper_level_element(
     saved_structure_instance, structure_get_schema,
     attributes
