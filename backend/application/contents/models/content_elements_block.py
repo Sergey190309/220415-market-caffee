@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Union, List
 from flask_babelplus import lazy_gettext as _
 from ..errors.custom_exceptions import (
     WrongTypeError,
@@ -6,6 +6,7 @@ from ..errors.custom_exceptions import (
     WrongIndexError
 )
 
+from .types import ContentValues  # , StactureValues
 from .content_elements import ContentElements
 from .content_element import ContentElement
 
@@ -23,9 +24,11 @@ class ContentElementBlock(ContentElements):
     _subtypes = ['txt', 'pix']
 
     def __init__(
-            self, type: str = '', subtype: str = '', name: str = '',
-            elements: [(Union[Dict, ContentElement])] = []):
+            self, upper_index: int = 0,
+            type: str = '', subtype: str = '', name: str = '',
+            elements: List[(Union[Dict, ContentElement])] = []):
         super().__init__(
+            upper_index=upper_index,
             type=type,
             types=ContentElementBlock._types,
             name=name)
@@ -35,10 +38,12 @@ class ContentElementBlock(ContentElements):
         #       '\n  name ->', name,
         #       '\n  elements ->', elements,
         #       )
-        self.subtype = subtype
+        self.subtype: str = subtype
         self.elements = elements
 
-    def check_index(self, index: int = 0, ext: bool = False):
+    def check_index(self, index: int = 0, ext: bool = False) -> bool:
+        '''Raise error if index out of range. ext - check index in
+            case of new element insertion.'''
         _length = len(self.elements)
         if ext:
             _ext = 1
@@ -55,17 +60,18 @@ class ContentElementBlock(ContentElements):
 
     @classmethod
     def wrong_element_type(cls, type: any) -> None:
+        '''Just raise error to avoid DRY.'''
         raise WrongElementTypeError(
             str(_("Elements should be '['dict', 'ContentElement']', but "
                   "at least one of the elements has type '%(type)s'.",
                   type=type)), 400)
 
     @property
-    def subtype(self):
+    def subtype(self) -> str:
         return self._subtype
 
     @subtype.setter
-    def subtype(self, value: str = ''):
+    def subtype(self, value: str = '') -> None:
         if ContentElementBlock._subtypes:
             if value not in ContentElementBlock._subtypes:
                 raise WrongTypeError(
@@ -78,13 +84,12 @@ class ContentElementBlock(ContentElements):
         self._subtype = value
 
     @property
-    def elements(self):
+    def elements(self) -> List[ContentElement]:
+        '''Retung list of clsss ContentElement instancess.'''
         return self._elements
 
     @elements.setter
-    def elements(self, value: [Union[Dict, ContentElement]]):
-        # kind_of_items = ''
-        # _value = []
+    def elements(self, value: List[Union[Dict, ContentElement]]) -> None:
         self._elements = []
         for item in value:
             if isinstance(item, Dict):
@@ -94,13 +99,13 @@ class ContentElementBlock(ContentElements):
             else:
                 ContentElementBlock.wrong_element_type(type(item))
 
-    def get_element(self, index: int = 0):
+    def get_element(self, index: int = 0) -> ContentElement:
         self.check_index(index)
         return self.elements[index]
 
     def set_element(
             self, index: int = 0,
-            value: Union[Dict, ContentElement] = {}):
+            value: Union[Dict, ContentElement] = {}) -> None:
         self.check_index(index)
         if isinstance(value, dict):
             self._elements[index] = ContentElement(value)
@@ -111,7 +116,7 @@ class ContentElementBlock(ContentElements):
 
     def insert(
             self, index: int = 0,
-            value: Union[Dict, ContentElement] = {}):
+            value: Union[Dict, ContentElement] = {}) -> None:
         self.check_index(index, ext=True)
         if isinstance(value, dict):
             self._elements.insert(index, ContentElement(value))
@@ -120,10 +125,54 @@ class ContentElementBlock(ContentElements):
         else:
             ContentElementBlock.wrong_element_type(type(value))
 
-    def remove(self, index: int = 0):
+    def remove(self, index: int = 0) -> ContentElement:
         self.check_index(index)
-        self._elements.pop(index)
+        return self._elements.pop(index)
+
+    def serialize_to_content(
+            self, index: int = 0) -> ContentValues:
+        '''
+        The method should return info than would be stored in db
+            table content:
+        {
+            identity: '01_vblock_txt_001',
+            element: {
+                title: 'Title value',
+                content: 'Content value'
+            }
+        }
+        '''
+        self.upper_index
+        return {
+            'identity': '_'.join([
+                str(self.upper_index).zfill(2),
+                self.type, self.subtype,
+                str(index).zfill(3)
+            ]),
+            'wrong': self.get_element(index).value
+            # 'element': self.get_element(index).value
+        }
 
     @property
-    def serialize(self):
-        pass
+    # def serialize_to_structure(self) -> Dict[Dict[str, str, str, str]]:
+    def serialize_to_structure(self) -> Dict:
+        '''
+        The method should return info than would be stored in structure
+            db table:
+        {
+            "01": {
+                "qnt": 3,
+                "name": "vblock00",
+                "type": "vblock",
+                "subtype": "txt"}
+        }
+        '''
+        result = {
+            str(self._upper_index).zfill(2): {
+                'qnt': len(self.elements),
+                'name': self.name,
+                'type': self.type,
+                'subtype': self.subtype
+            }
+        }
+        return result

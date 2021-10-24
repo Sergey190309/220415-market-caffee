@@ -39,13 +39,15 @@ def elements_inst(element):
 
 # @pytest.mark.active
 def test_check_index(elements_dict):
+    _upper_index = 9
     _size = 3
     _type = 'vblock'
     _subtype = 'txt'
     _name = 'name'
     _elements_dict = elements_dict(_size)
     block_instance_dict = ContentElementBlock(
-        _type, _subtype, _name, _elements_dict)
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
 
     '''success'''
     for index in range(_size):
@@ -85,6 +87,7 @@ def test_check_index(elements_dict):
 # @pytest.mark.active
 def test_ContentElementBlock_init_success(
         element, elements_dict, elements_inst):
+    _upper_index = 6
     _size = 5
     _type = 'vblock'
     _subtype = 'txt'
@@ -93,7 +96,10 @@ def test_ContentElementBlock_init_success(
     '''list of dictionary elements'''
     _elements_dict = elements_dict(_size)
     block_instance_dict = ContentElementBlock(
-        _type, _subtype, _name, _elements_dict)
+        upper_index=_upper_index,
+        type=_type, subtype=_subtype, name=_name,
+        elements=_elements_dict)
+    assert block_instance_dict.upper_index == _upper_index
     assert block_instance_dict.type == _type
     assert block_instance_dict.subtype == _subtype
     assert block_instance_dict.name == _name
@@ -108,7 +114,10 @@ def test_ContentElementBlock_init_success(
     '''list of instances elements'''
     _elements_inst = elements_inst(_size)
     block_instance_inst = ContentElementBlock(
-        _type, _subtype, _name, _elements_inst)
+        upper_index=_upper_index,
+        type=_type, subtype=_subtype, name=_name,
+        elements=_elements_inst)
+    assert block_instance_dict.upper_index == _upper_index
     assert block_instance_inst.type == _type
     assert block_instance_inst.subtype == _subtype
     assert block_instance_inst.name == _name
@@ -129,6 +138,7 @@ def test_ContentElementBlock_init_success(
 # @pytest.mark.active
 def test_ContentElementBlock_init_fail(
         element, elements_dict, elements_inst):
+    _upper_index = 9
     _size = 3
     _type = 'vblock'
     _subtype = 'txt'
@@ -144,7 +154,9 @@ def test_ContentElementBlock_init_fail(
 
     '''wrong content element key'''
     with pytest.raises(WrongElementKeyError) as e_info:
-        ContentElementBlock(_type, _subtype, _name, _wrong_elements_dict)
+        ContentElementBlock(
+            upper_index=_upper_index, type=_type, subtype=_subtype,
+            name=_name, elements=_wrong_elements_dict)
     assert str(e_info.value)\
         == ("Content element value key should be either 'title' or "
             f"'content', but one of them is '{_wrong_element_key}'.")
@@ -153,7 +165,9 @@ def test_ContentElementBlock_init_fail(
     wrong_elements_type = [* _elements_inst]
     wrong_elements_type.append(1)
     with pytest.raises(WrongElementTypeError) as e_info:
-        ContentElementBlock(_type, _subtype, _name, wrong_elements_type)
+        ContentElementBlock(
+            upper_index=_upper_index, type=_type, subtype=_subtype,
+            name=_name, elements=wrong_elements_type)
     assert str(e_info.value)\
         == ("Elements should be '['dict', 'ContentElement']', but at "
             f"least one of the elements has type '{type(1)}'.")
@@ -161,7 +175,9 @@ def test_ContentElementBlock_init_fail(
     '''wrong type'''
     _wrong_type = 'header'
     with pytest.raises(WrongTypeError) as e_info:
-        ContentElementBlock(_wrong_type, _subtype, _name, _elements_inst)
+        ContentElementBlock(
+            upper_index=_upper_index, type=_wrong_type, subtype=_subtype,
+            name=_name, elements=_elements_inst)
     assert str(e_info.value)\
         == ("Upper level element could be '['vblock', 'hblock']', but "
             f"provided type is '{_wrong_type}'.")
@@ -169,15 +185,17 @@ def test_ContentElementBlock_init_fail(
     '''wrong subtype'''
     _wrong_subtype = 'shit'
     with pytest.raises(WrongTypeError) as e_info:
-        ContentElementBlock(_type, _wrong_subtype, _name, _elements_inst)
+        ContentElementBlock(
+            upper_index=_upper_index, type=_type, subtype=_wrong_subtype,
+            name=_name, elements=_elements_inst)
     assert str(e_info.value)\
         == ("Block element type shoud be withing '['txt', 'pix']', but "
             f"provided subtype is '{_wrong_subtype}'.")
 
-    print('\ntest_content_elements_block:',
-          '\n test_ContentElementBlock_init_fail'
-          '\n  e_info ->', e_info.value,
-          )
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementBlock_init_fail'
+    #       '\n  e_info ->', e_info.value,
+    #       )
 
 
 # @pytest.mark.active
@@ -186,6 +204,7 @@ def test_ContentElementBlock_get_element(
         elements_dict,
         elements_inst
 ):
+    _upper_index = 9
     _size = 3
     _type = 'vblock'
     _subtype = 'txt'
@@ -193,7 +212,8 @@ def test_ContentElementBlock_get_element(
 
     _elements_dict = elements_dict(_size)
     block_instance_dict = ContentElementBlock(
-        _type, _subtype, _name, _elements_dict)
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
     '''success'''
     for i in range(_size):
         assert block_instance_dict.get_element(i).value.get('title')\
@@ -223,6 +243,7 @@ def test_ContentElementBlock_get_element(
 
 # @pytest.mark.active
 def test_ContentElementBlock_set_element(element, elements_dict):
+    _upper_index = 9
     _size = 3
     _type = 'vblock'
     _subtype = 'txt'
@@ -230,7 +251,8 @@ def test_ContentElementBlock_set_element(element, elements_dict):
 
     _elements_dict = elements_dict(_size)
     block_instance_dict = ContentElementBlock(
-        _type, _subtype, _name, _elements_dict)
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
     for i in range(_size):
         assert block_instance_dict.get_element(i).value.get('title')\
             == _elements_dict[i].get('title')
@@ -270,8 +292,9 @@ def test_ContentElementBlock_set_element(element, elements_dict):
             f"'{type(_wrong_element)}'.")
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_ContentElementBlock_insert(element, elements_dict):
+    _upper_index = 9
     _size = 3
     _type = 'vblock'
     _subtype = 'txt'
@@ -280,7 +303,8 @@ def test_ContentElementBlock_insert(element, elements_dict):
     _elements_dict = elements_dict(_size)
     _element = element(_size)
     block_instance = ContentElementBlock(
-        _type, _subtype, _name, _elements_dict)
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
     assert len(block_instance.elements) == _size
     for i in range(_size):
         assert block_instance.get_element(i).value.get('title')\
@@ -294,23 +318,156 @@ def test_ContentElementBlock_insert(element, elements_dict):
     _old_last_element = block_instance.get_element(_size - 1)
     block_instance.insert(_index, _element)
     _new_last_element = block_instance.get_element(_size)
+    _inserted_element = block_instance.get_element(_index)
 
     assert len(block_instance.elements) == _size + 1
-    assert block_instance.get_element(_index).value.get('title')\
-        == _element.get('title')
-    assert block_instance.get_element(_index).value.get('content')\
-        == _element.get('content')
+    assert _inserted_element.value == _element
     assert _new_last_element.value == _old_last_element.value
 
     '''insert to end'''
     block_instance.remove(_index)  # return to previos conditions
-    _index = _size - 1
+    _index = _size
+    # [print(element.value) for element in block_instance.elements]
     block_instance.insert(_index, _element)
     _new_last_element = block_instance.get_element(_size)
     assert len(block_instance.elements) == _size + 1
-    # assert _new_last_element
-    print('\ntest_content_elements_block:',
-          '\n test_ContentElementBlock_insert',
-          '\n  _element ->', _element,
-          '\n  _new_last_element ->', _new_last_element.value
-          )
+    assert _new_last_element.value == _element
+
+    '''fails'''
+    _negative_index = -1
+    with pytest.raises(WrongIndexError) as e_info:
+        block_instance.insert(_negative_index, _element)
+    assert str(e_info.value)\
+        == (f"Length of element array is {_size + 1} but you try to "
+            f"operate with index '{_negative_index}'.")
+
+    '''exceeding index'''
+    _exceeding_index = _size + 2
+    with pytest.raises(WrongIndexError) as e_info:
+        block_instance.insert(_exceeding_index, _element)
+    assert str(e_info.value)\
+        == (f"Length of element array is {_size + 1} but you try to "
+            f"operate with index '{_exceeding_index}'.")
+
+    '''wrong element type'''
+    _wrong_element = 5
+    with pytest.raises(WrongElementTypeError) as e_info:
+        block_instance.insert(_size, _wrong_element)
+    assert str(e_info.value)\
+        == ("Elements should be '['dict', 'ContentElement']', "
+            "but at least one of the elements has type "
+            f"'{type(_wrong_element)}'.")
+
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementBlock_insert',
+    #       '\n  _index ->', _index,
+    #       )
+
+
+# @pytest.mark.active
+def test_ContentElementBlock_remove(element, elements_dict):
+    _upper_index = 9
+    _size = 3
+    _type = 'vblock'
+    _subtype = 'txt'
+    _name = 'name'
+
+    _elements_dict = elements_dict(_size)
+    # _element = element(_size)
+    block_instance = ContentElementBlock(
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
+    assert len(block_instance.elements) == _size
+    for i in range(_size):
+        assert block_instance.get_element(i).value.get('title')\
+            == _elements_dict[i].get('title')
+        assert block_instance.get_element(i).value.get('content')\
+            == _elements_dict[i].get('content')
+
+    '''success'''
+    '''remove from to beginning'''
+    _index = 0
+    _old_last_element = block_instance.get_element(_size - 1)
+    _removed_element = block_instance.remove(_index)
+    _new_last_element = block_instance.get_element(_size - 2)
+
+    assert len(block_instance.elements) == _size - 1
+    assert isinstance(_removed_element, ContentElement)
+    assert _removed_element.value == element(_index)
+    assert _new_last_element.value == _old_last_element.value
+
+    '''remove from end'''
+    '''restore block element'''
+    block_instance.insert(_index, _removed_element)
+    _index = _size - 1
+    _removed_element = block_instance.remove(_index)
+    _new_last_element = block_instance.get_element(_index - 1)
+    # print('\n_removed_element ->', _removed_element.value,
+    # '\n_removed_element ->', _removed_element.value,
+    # '\n _new_last_element ->', _new_last_element.value)
+    assert len(block_instance.elements) == _size - 1
+    assert _removed_element.value == element(_index)
+    assert _new_last_element.value == element(_index - 1)
+
+    '''index checks have been tested above'''
+
+
+# @pytest.mark.active
+def test_ContentElementBlock_serialize_to_content(element, elements_dict):
+    _upper_index = 9
+    _size = 3
+    _type = 'vblock'
+    _subtype = 'txt'
+    _name = 'name'
+
+    _elements_dict = elements_dict(_size)
+    block_instance = ContentElementBlock(
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
+    assert len(block_instance.elements) == _size
+    '''success'''
+    for i in range(_size):
+        # print('\ntest_content_elements_block',
+        #       '\n test_ContentElementBlock_serialize_element',
+        #       '\n  block_instance.serialize_element(i).get(identity) ->',
+        #       block_instance.serialize_element(i).get('identity'),
+        #       '\n  block_instance.serialize_element(i).get(element) ->',
+        #       block_instance.serialize_element(i).get('element')
+        #       )
+        # assert block_instance.serialize_to_content(i).get('element')\
+        #     == element(i)
+        assert block_instance.serialize_to_content(i).get('identity')\
+            == '_'.join([
+                str(_upper_index).zfill(2),
+                _type, _subtype,
+                str(i).zfill(3)])
+    '''index checks have been tested above'''
+
+
+@pytest.mark.active
+def test_ContentElementBlock_serialize_to_structure(
+        element, elements_dict):
+    _upper_index = 9
+    _size = 3
+    _type = 'vblock'
+    _subtype = 'txt'
+    _name = 'name'
+
+    _key = str(_upper_index).zfill(2)
+    _exp_result = {
+        _key: {
+            'qnt': _size,
+            'name': _name,
+            'type': _type,
+            'subtype': _subtype
+        }
+    }
+    _elements_dict = elements_dict(_size)
+    block_instance = ContentElementBlock(
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
+    _result = block_instance.serialize_to_structure
+    assert _result.get(_key) == _exp_result.get(_key)
+    print('\ntest_content_elements_block',
+          '\n test_ContentElementBlock_serialize',
+          '\n  result ->', _result)
