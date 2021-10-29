@@ -7,6 +7,7 @@ from ..errors.custom_exceptions import (
     WrongElementTypeError
 )
 
+from .types import ContentValues
 from .content_elements import ContentElements
 from .content_element import ContentElement
 
@@ -20,18 +21,18 @@ class ContentElementsSimple(ContentElements):
     '''
     '''Allowed type elements:'''
     # _type_elements = []
-    _type_elements = ['header', 'footer']
+    _types = ['header', 'footer']
 
     def __init__(
-            self, type: str = '', name: str = '',
+            self, upper_index: int = 0,
+            type: str = '', name: str = '',
             element: Union[Dict, ContentElement] = {}):
         super().__init__(
+            upper_index=upper_index,
             type=type,
-            types=ContentElementsSimple._type_elements,
+            types=ContentElementsSimple._types,
             name=name
         )
-        # self.type = type
-        # self.name = name
         self.element = element
 
     @property
@@ -46,7 +47,7 @@ class ContentElementsSimple(ContentElements):
             self._element = element
         elif isinstance(element, Dict):
             if hasattr(self, '_element'):  # the instance already exists
-                _element = {**self.serialize, **element}
+                _element = {**self.element.value, **element}
             else:
                 _element = element  # instance initiation
             self._element = ContentElement(_element)
@@ -57,8 +58,43 @@ class ContentElementsSimple(ContentElements):
                       type=type(element))), 400)
 
     @property
-    def serialize(self) -> Dict:
+    def serialize_to_content(self) -> ContentValues:
         '''
-        The method return not class instance by respective dict.
+        The method should return info than would be stored in db
+            table content:
+        {
+            identity: '01_header',
+            element: {
+                title: 'Title value',
+                content: 'Content value'
+            }
+        }
         '''
-        return self._element.value
+        # self.upper_index
+        return {
+            'identity': '_'.join([
+                str(self.upper_index).zfill(2),
+                self.type
+            ]),
+            'element': self.element.value
+        }
+
+    @property
+    def serialize_to_structure(self) -> Dict:
+        '''
+        The method should return info than would be stored in structure
+            db table:
+        {
+            "06": {
+                "name": "header name",
+                "type": "header",
+            }
+        }
+        '''
+        result = {
+            str(self._upper_index).zfill(2): {
+                'name': self.name,
+                'type': self.type
+            }
+        }
+        return result

@@ -1,17 +1,18 @@
 from typing import Dict, Union, List
 from flask_babelplus import lazy_gettext as _
 from ..errors.custom_exceptions import (
-    WrongTypeError,
+    # WrongTypeError,
     WrongElementTypeError,
-    WrongIndexError
+    WrongIndexError,
+    WrongValueError
 )
 
-from .types import ContentValues  # , StactureValues
+# from .types import ContentValues  # , StactureValues
 from .content_elements import ContentElements
 from .content_element import ContentElement
 
 
-class ContentElementBlock(ContentElements):
+class ContentElementsBlock(ContentElements):
     '''
     The class represent information that could be shown as block of
         content  element on view page.
@@ -24,13 +25,13 @@ class ContentElementBlock(ContentElements):
     _subtypes = ['txt', 'pix']
 
     def __init__(
-            self, upper_index: int = 0,
-            type: str = '', subtype: str = '', name: str = '',
+            self, upper_index: int = 0, type: str = '',
+            subtype: str = '', name: str = '',
             elements: List[(Union[Dict, ContentElement])] = []):
         super().__init__(
             upper_index=upper_index,
             type=type,
-            types=ContentElementBlock._types,
+            types=ContentElementsBlock._types,
             name=name)
         # print('\ncontent_elements_block"\n init',
         #       '\n  type ->', type,
@@ -72,14 +73,14 @@ class ContentElementBlock(ContentElements):
 
     @subtype.setter
     def subtype(self, value: str = '') -> None:
-        if ContentElementBlock._subtypes:
-            if value not in ContentElementBlock._subtypes:
-                raise WrongTypeError(
+        if ContentElementsBlock._subtypes:
+            if value not in ContentElementsBlock._subtypes:
+                raise WrongValueError(
                     str(_(
-                        "Block element type shoud be withing "
+                        "Block element subtype shoud be within "
                         "'%(subtypes)s', but provided subtype is "
                         "'%(subtype)s'.",
-                        subtypes=ContentElementBlock._subtypes,
+                        subtypes=ContentElementsBlock._subtypes,
                         subtype=value)), 400)
         self._subtype = value
 
@@ -97,7 +98,7 @@ class ContentElementBlock(ContentElements):
             elif isinstance(item, ContentElement):
                 self._elements.append(item)
             else:
-                ContentElementBlock.wrong_element_type(type(item))
+                ContentElementsBlock.wrong_element_type(type(item))
 
     def get_element(self, index: int = 0) -> ContentElement:
         self.check_index(index)
@@ -112,7 +113,7 @@ class ContentElementBlock(ContentElements):
         elif isinstance(value, ContentElement):
             self._elements[index] = value
         else:
-            ContentElementBlock.wrong_element_type(type(value))
+            ContentElementsBlock.wrong_element_type(type(value))
 
     def insert(
             self, index: int = 0,
@@ -123,14 +124,14 @@ class ContentElementBlock(ContentElements):
         elif isinstance(value, ContentElement):
             self._elements.insert(index, value)
         else:
-            ContentElementBlock.wrong_element_type(type(value))
+            ContentElementsBlock.wrong_element_type(type(value))
 
     def remove(self, index: int = 0) -> ContentElement:
         self.check_index(index)
         return self._elements.pop(index)
 
-    def serialize_to_content(
-            self, index: int = 0) -> ContentValues:
+    def serialize_to_content_element(
+            self, index: int = 0) -> Dict:
         '''
         The method should return info than would be stored in db
             table content:
@@ -142,19 +143,43 @@ class ContentElementBlock(ContentElements):
             }
         }
         '''
-        self.upper_index
+        # self.upper_index
         return {
             'identity': '_'.join([
                 str(self.upper_index).zfill(2),
                 self.type, self.subtype,
                 str(index).zfill(3)
             ]),
-            'wrong': self.get_element(index).value
-            # 'element': self.get_element(index).value
+            'element': self.get_element(index).value
         }
 
     @property
-    # def serialize_to_structure(self) -> Dict[Dict[str, str, str, str]]:
+    def serialize_to_content(self) -> List[Dict]:
+        '''
+        The method should return info than would be stored in db
+            table content:
+        {
+            identity: '01_vblock_txt_001',
+            element: {
+                title: 'Title value',
+                content: 'Content value'
+            }
+        }
+        '''
+        # self.upper_index
+        _result = []
+        for i, element in enumerate(self.elements):
+            _result.append({
+                'identity': '_'.join([
+                    str(self.upper_index).zfill(2),
+                    self.type, self.subtype,
+                    str(i).zfill(3)
+                ]),
+                'element': element.value
+            })
+        return _result
+
+    @property
     def serialize_to_structure(self) -> Dict:
         '''
         The method should return info than would be stored in structure

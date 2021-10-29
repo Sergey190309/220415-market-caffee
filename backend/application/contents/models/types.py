@@ -22,10 +22,15 @@ class ContentValues(TypedDict):
 
 
 class StactureValues(TypedDict):
-        '''{
-            "01": {
-                "qnt": 3,
-                "name": "vblock00",
-                "type": "vblock",
-                "subtype": "txt"}
-        }'''
+
+    '''
+    The class represents values that needed to update structure table:
+    {
+        "01": {
+            "qnt": 3,
+            "name": "vblock00",
+            "type": "vblock",
+            "subtype": "txt"}
+    }
+    '''
+    pass

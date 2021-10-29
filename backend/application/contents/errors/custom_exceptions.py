@@ -68,3 +68,48 @@ class WrongTypeError(ContentErrors):
             '1st level element type is wrong: %(message)s',
             message=message)))
         print(error)
+
+
+class WrongValueError(ContentErrors):
+    '''
+    The exception is raising type is unapplacable for specific class
+        instance.
+    '''
+
+    def __init__(self, message, error):
+        super().__init__(message, error)
+        self.error = error
+        print(str(_(
+            'Value is wrong: %(message)s',
+            message=message)))
+        print(error)
+
+
+class WrongViewNameError(ContentErrors):
+    '''
+    The exception is raising type is unapplacable for specific class
+        instance.
+    '''
+
+    def __init__(self, message, error):
+        super().__init__(message, error)
+        self.error = error
+        print(str(_(
+            'View name is wrong: %(message)s',
+            message=message)))
+        print(error)
+
+
+class WrongLocaleError(ContentErrors):
+    '''
+    The exception is raising type is unapplacable for specific class
+        instance.
+    '''
+
+    def __init__(self, message, error):
+        super().__init__(message, error)
+        self.error = error
+        print(str(_(
+            'Wrong locale: %(message)s',
+            message=message)))
+        print(error)
