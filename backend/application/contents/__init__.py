@@ -9,16 +9,16 @@ def create_contents():
 
     with current_app.app_context():
 
-        # Custom error handler Custom error handler for whole application
-        # from ..errors.register import register_error_handler
-        # register_error_handler(contents_bp)
+        '''Custom error handler Custom error handler for content module'''
+        from ..errors.register import register_error_handler
+        register_error_handler(contents_bp)
 
-        # flask_restful and routining
+        '''flask_restful and routining'''
         from .modules.api_contents import api_contents
         api_contents.init_app(contents_bp)
 
-        # flask_cors. Keep it in modules to have independed
-        # Cross Origin Resource Sharing (CORS) handling
+        '''flask_cors. Keep it in modules to have independed
+        Cross Origin Resource Sharing (CORS) handling'''
         from .modules.crs_contents import crs_contents
         crs_contents.init_app(contents_bp)
 
