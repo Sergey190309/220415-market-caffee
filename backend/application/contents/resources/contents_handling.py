@@ -97,17 +97,23 @@ class ContentsHandling(Resource):
         Change view structure.
         Create new record and move all elements information
         (title and contents) accordenly.
+        Arguments:
+        body:
+        {
+            "view_id": "landing",
+            "item_index": 1,  - low level index
+            "block_id": "01_vblock_txt_4"  - (upper level index)_
+                (block type)_(block subtype)_(low level element qnt)
+        }
+        header:
+        'Accept-Language' - locale
         '''
         _lng = request.headers.get('Accept-Language')
-        # print('resources, content_handling, '
-        #       '\n _lng ->', _lng)
         fbp.set_lng(_lng)
         _user_id = get_jwt_identity()
         if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
-        # print(' _user_id ->', _user_id)
         _requested_json = request.get_json()
-        # print(' _requested_json ->', _requested_json)
         _aux_info = cls.request_json_handling(_requested_json)
         if _aux_info is not None:
             return _aux_info
@@ -115,6 +121,8 @@ class ContentsHandling(Resource):
         _view_id = _requested_json.get('view_id')
         _criterion = {'view_id': _view_id,
                       'locale_id': _lng}
+        # print('\nresources, content_handling, '
+        #       '\n _lng ->', _lng)
         _tested_criterion = structure_get_schema.load(_criterion)
         _structure = StructureModel.find_by_ids(_tested_criterion)
         _change_element_qnt_result = _structure.change_element_qnt(

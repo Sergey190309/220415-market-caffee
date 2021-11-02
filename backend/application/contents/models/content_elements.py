@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 from ..errors.custom_exceptions import WrongIndexError, WrongTypeError
 
 from flask_babelplus import lazy_gettext as _
@@ -61,3 +61,9 @@ class ContentElements():
             self._name = value
         else:
             self._name = ''
+
+    def save_to_db(self) -> Union[None, str]:
+        pass
+
+    def delete_to_db(self) -> Union[None, str]:
+        pass

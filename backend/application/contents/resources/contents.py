@@ -23,8 +23,9 @@ class Content(Resource):
             view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
-                "A contents with identity '%(identity)s', view '%(view_id)s' and "
-                "locale '%(locale_id)s' already exists.",
+                "A contents with identity '%(identity)s', view "
+                "'%(view_id)s' and locale '%(locale_id)s' already "
+                "exists.",
                 identity=identity,
                 view_id=view_id,
                 locale_id=locale_id)),
@@ -36,8 +37,8 @@ class Content(Resource):
             view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
-                "A contents with identity '%(identity)s', view '%(view_id)s' and "
-                "locale '%(locale_id)s' not found.",
+                "A contents with identity '%(identity)s', view "
+                "'%(view_id)s' and locale '%(locale_id)s' not found.",
                 identity=identity,
                 view_id=view_id,
                 locale_id=locale_id)),
@@ -55,7 +56,8 @@ class Content(Resource):
     def no_access(cls) -> Dict:
         return {
             'message': str(_(
-                "Sorry, access to views' information is allowed to admin only."
+                "Sorry, access to views' information is allowed to "
+                "admin only."
             ))
         }, 401
 
@@ -106,7 +108,8 @@ class Content(Resource):
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
-                    "Something went wrong. Check tech_token and sessions set up."))
+                    "Something went wrong. Check tech_token and sessions "
+                    "set up."))
             }, 500
         _requested_dict = {
             'view_id': request.args.get('view_id'),

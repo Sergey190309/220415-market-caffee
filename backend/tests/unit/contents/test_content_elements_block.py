@@ -8,35 +8,6 @@ from application.contents.models.content_elements_block import (
 from application.contents.models.content_element import ContentElement
 
 
-@pytest.fixture
-def element():
-    def _method(id: int = 0):
-        return{
-            'title': f'Title value No {str(id).zfill(3)}',
-            'content': f'Content value No {str(id).zfill(3)}'
-        }
-    return _method
-
-
-@pytest.fixture
-def elements_dict(element):
-    def _method(size: int = 0):
-        _elements = []
-        [_elements.append(element(i)) for i in range(size)]
-        return _elements
-    return _method
-
-
-@pytest.fixture
-def elements_inst(element):
-    def _method(size: int = 0):
-        _elements = []
-        [_elements.append(ContentElement(element(i)))
-         for i in range(size)]
-        return _elements
-    return _method
-
-
 # @pytest.mark.active
 def test_check_index(elements_dict):
     _upper_index = 9

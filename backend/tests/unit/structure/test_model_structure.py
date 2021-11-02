@@ -123,7 +123,7 @@ def test_change_element_qnt(
 
 
 # @pytest.mark.active
-def test_find(saved_structure_instance, structure_get_schema):
+def test_StructureModel_find(saved_structure_instance, structure_get_schema):
     '''Clean up the structure table'''
     StructureModel.query.delete()
 
@@ -182,7 +182,8 @@ def test_find(saved_structure_instance, structure_get_schema):
 
 
 # @pytest.mark.active
-def test_find_by_ids(saved_structure_instance, structure_get_schema, attributes):
+def test_StructureModel_find_by_ids(
+        saved_structure_instance, structure_get_schema, attributes):
     '''Clean up'''
     StructureModel.query.delete()
     '''Create structures, it should be 10 of them.'''

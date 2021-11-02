@@ -129,7 +129,7 @@ class StructureModel(dbs_global.Model):
             # print('\nstructure.models.StructureModel.save_to_db Error\n', error)
             return str(error)
 
-    def delete_fm_db(self) -> None:
+    def delete_fm_db(self) -> Union[str, None]:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()

@@ -8,7 +8,8 @@ from application.global_init_data import global_constants
 from application.structure.models import StructureModel
 from application.contents.models import ContentModel
 from application.contents.schemas.contents import content_schema
-from application.structure.modules.dbs_init_structure import fill_structure
+from application.structure.modules.dbs_init_structure import (
+    fill_structure)
 
 
 # @pytest.mark.active
@@ -17,11 +18,11 @@ from application.structure.modules.dbs_init_structure import fill_structure
     [
         ('en', 'Request does not contain',
          'Sorry, access', 'Something wrong', 'structure'),
-        ('ru', 'Запрос не содержит',
-         'Извиняйте, доступ', 'Что-то не так', 'структура'),
+        # ('ru', 'Запрос не содержит',
+        #  'Извиняйте, доступ', 'Что-то не так', 'структура'),
     ]
 )
-def test_contents_handling_put(
+def test_ContentsHandling_put(
     client, structure_get_schema,
     user_instance, access_token,
     attributes,
@@ -42,7 +43,7 @@ def test_contents_handling_put(
         attributes.get(_block_id).get('subtype')
     ])
     _qnt = attributes.get(_block_id).get('qnt')
-    # print('\ntest_contents_handling_put:\n_qnt ->', _qnt)
+    # print('\ntest_ContentsHandling_put:\n_qnt ->', _qnt)
     _block_id = '_'.join([_record_id_body, str(_qnt)])
     _item_index = 2
     _record_ids = _content.elem_ids('', _block_id)
@@ -164,7 +165,7 @@ def test_contents_handling_put(
             'Что-то не так', 'структура'),
     ]
 )
-def test_contents_handling_delete(
+def test_ContentsHandling_delete(
     client, structure_get_schema,
     user_instance, access_token,
     attributes,

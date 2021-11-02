@@ -11,6 +11,22 @@ class ContentErrors(Exception):
         # self.args = args
 
 
+class RecordNotFoundError(ContentErrors):
+    '''
+    The exception is raising when any content family classes unable to
+        retreve records from db.
+    They coudl be in ['title', 'content']
+    '''
+
+    def __init__(self, message, error):
+        super().__init__(message, error)
+        self.error = error
+        print(str(_(
+            'Record not found: %(message)s',
+            message=message)))
+        print(error)
+
+
 class WrongElementKeyError(ContentErrors):
     '''
     The exception is raising when ContentElement has wrong keys.

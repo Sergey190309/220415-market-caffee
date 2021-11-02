@@ -99,7 +99,7 @@ class ContentModel(dbs_global.Model):
         is not exists
         move element after item_index by one
         '''
-        # print('\nContents, model, add_element_to_block, '
+        # print('\nContentModel:\nadd_element_to_block, '
         #       '\n block_id ->', block_id,
         #       '\n item_index ->', item_index,
         #       '\n view_id ->', view_id,
@@ -261,15 +261,20 @@ class ContentModel(dbs_global.Model):
             identity=ids.get('identity'), view_id=ids.get('view_id'),
             locale_id=ids.get('locale_id')) is not None
 
+    # @property
+    # def identity(self) -> str:
+    #     return identity
+
     def is_exist(self) -> bool:
         return ContentModel.find_by_identity_view_locale(
             identity=self.identity, view_id=self.view_id,
             locale_id=self.locale_id) is not None
 
-    def update(self, update_values: Dict = None) -> Union[None, str]:
+    # def update(self, update_values: Dict = None) -> Union[None, str]:
+    def update(self, update_values: Dict = {}) -> Union[None, str]:
         # print(update_values)
-        if update_values is None:
-            return
+        # if update_values is None:
+        #     return
         for key in update_values.keys():
             # print(key)
             setattr(self, key, update_values[key])
@@ -288,7 +293,7 @@ class ContentModel(dbs_global.Model):
         except Exception as error:
             print('contents.models.ContentModel.save_to_db Error\n', error)
 
-    def delete_fm_db(self) -> None:
+    def delete_fm_db(self) -> Union[None, str]:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()

@@ -502,7 +502,7 @@ def test_PageView_serialize_to_content(
              'locale_id']) == sorted(list(element.keys()))
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_PageView_serialize_to_structure(
         view_name, locale, simple_element, block_element, elements):
     _page_view = PageView(

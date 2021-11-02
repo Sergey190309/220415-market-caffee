@@ -27,8 +27,9 @@ def ul_element_serializer(ul_element: Union[
 def serialize_simple_ul_element(
         ul_element: ContentElementsSimple) -> Dict:
     return [{
-        'identity': ul_element.serialize_to_content.get('identity'),
-        **ul_element.serialize_to_content.get('element')
+        **ul_element.serialize_to_content
+        # 'identity': ul_element.serialize_to_content.get('identity'),
+        # **ul_element.serialize_to_content.get('element')
     }]
 
 

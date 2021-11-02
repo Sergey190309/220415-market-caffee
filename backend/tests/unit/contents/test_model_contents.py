@@ -1,5 +1,5 @@
 import pytest
-import random
+from random import choice, randrange
 from typing import Dict, List
 # from typing import Dict, NoneType
 
@@ -14,20 +14,6 @@ from application.contents.schemas.contents import content_schema
 # from application.contents.local_init_data_contents import contents_constants
 from application.global_init_data import global_constants
 from application.modules.dbs_init_global import fill_views
-
-
-@pytest.fixture
-def saved_content_instance(client, content_instance) -> ContentModel:
-    def _method(values: Dict = {}) -> ContentModel:
-        # print('\nsaved_content_instance, values ->', values)
-        _saved_content = content_instance(values)
-        _saved_content.save_to_db()
-        # print('\nsaved_content_instance, _saved_content ->', _saved_content)
-        yield _saved_content
-        if _saved_content.is_exist():
-            _saved_content.delete_fm_db()
-        yield
-    return _method
 
 
 # @pytest.mark.active
@@ -64,13 +50,13 @@ def test_remove_element_fm_block(
     _content = ContentModel()
     _locale_id = lng
     # _locale_id = random.choice(global_constants.get_PKS)
-    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _view_id = choice(global_constants.get_VIEWS_PKS)
     _record_id_body = '01_vblock_txt'
     _qnt = 4
     _block_id = '_'.join([_record_id_body, str(_qnt)])
     _item_index = 2
     _record_ids = _content.elem_ids('', _block_id)
-    _user_id = random.randrange(128)
+    _user_id = randrange(128)
     '''Fill contents table'''
     def create_save(record_id: str = ''):
         record = content_schema.load({
@@ -128,14 +114,14 @@ def test_remove_element_fm_block_DB_mistake(
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''Create test constants'''
     _content = ContentModel()
-    _locale_id = random.choice(global_constants.get_PKS)
-    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _locale_id = choice(global_constants.get_PKS)
+    _view_id = choice(global_constants.get_VIEWS_PKS)
     _record_id_body = '01_vblock_txt'
     _qnt = 4
     _block_id = '_'.join([_record_id_body, str(_qnt)])
     _item_index = 2
     _record_ids = _content.elem_ids('', _block_id)
-    _user_id = random.randrange(128)
+    _user_id = randrange(128)
     '''Fill contents table'''
     def create_save(record_id: str = ''):
         record = content_schema.load({
@@ -205,14 +191,19 @@ def test_add_element_to_block(client):
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''Create test constants'''
     _content = ContentModel()
-    _locale_id = random.choice(global_constants.get_PKS)
-    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _locale_id = choice(global_constants.get_PKS)
+    _view_id = choice(global_constants.get_VIEWS_PKS)
     _record_id_body = '01_vblock_txt'
+    # _ul_index = randrange(9)
+    # _element_block_type = choice(
+    #     global_constants.get_UPPER_LEVEL_TYPES_PKS)
+    # _element_block_subtype = choice(
+    #     global_constants.get_UPPER_LEVEL_SUBTYPES_PKS)
     _qnt = 4
     _block_id = '_'.join([_record_id_body, str(_qnt + 1)])
-    _item_index = random.randrange(_qnt)
+    _item_index = randrange(_qnt)
     _record_ids = _content.elem_ids('', _block_id)
-    _user_id = random.randrange(128)
+    _user_id = randrange(128)
     '''Fill contents table'''
     def create_save(record_id: str = ''):
         record = content_schema.load({
@@ -295,14 +286,14 @@ def test_add_element_to_block_DB_mistakes(client, remove_record_index):
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''Create test constants'''
     _content = ContentModel()
-    _locale_id = random.choice(global_constants.get_PKS)
-    _view_id = random.choice(global_constants.get_VIEWS_PKS)
+    _locale_id = choice(global_constants.get_PKS)
+    _view_id = choice(global_constants.get_VIEWS_PKS)
     _record_id_body = '01_vblock_txt'
     _qnt = 6
     _item_index = 3
     _record_ids = _content.elem_ids(
         '', '_'.join([_record_id_body, str(_qnt)]))
-    _user_id = random.randrange(128)
+    _user_id = randrange(128)
     '''Fill contents table'''
     def create_save(record_id: str = ''):
         record = content_schema.load({
@@ -368,7 +359,7 @@ def test_add_element_to_block_DB_mistakes(client, remove_record_index):
 
 
 # @pytest.mark.active
-def test_content_find_all(
+def test_ContentModel_content_find_all(
         saved_content_instance,
         # random_text_underscore,
         # other_valid_item,
@@ -412,7 +403,7 @@ def test_content_find_all(
         _contents.append(next(_content_gens[index]))
         # print('\nunit, contents, test_content_find, _content ->', _contents)
 
-    # testing find method it should return list
+    '''testing find method it should return list'''
     _result = ContentModel.find()
     assert isinstance(_result, List)
     assert len(_result) == 8
@@ -424,7 +415,7 @@ def test_content_find_all(
         {'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'ru'})
     assert len(_result) == 1
 
-    # testing find_by_identity_view_locale it should retun model
+    '''testing find_by_identity_view_locale it should retun model'''
     _result = ContentModel.find_by_identity_view_locale(
         identity='identity00',
         view_id='price_list',
@@ -445,7 +436,7 @@ def test_content_find_all(
 
 
 # @pytest.mark.active
-def test_is_exist(saved_content_instance):
+def test_ContentModel_is_exist(saved_content_instance):
     _content_gen = saved_content_instance()
     _content = next(_content_gen)
     assert _content.is_exist()
@@ -462,7 +453,8 @@ def test_content_update(
     '''
     Update.
     '''
-    # Get pks and values for saved content instance, keep instance to clean up db:
+    '''Get pks and values for saved content instance, keep instance to
+        clean update db:'''
     _content_gen = saved_content_instance()
     _content = next(_content_gen)
     _content_json = content_get_schema.dump(_content)
