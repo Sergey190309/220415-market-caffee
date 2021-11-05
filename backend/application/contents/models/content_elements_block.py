@@ -1,5 +1,7 @@
 from typing import Dict, Union, List
 from flask_babelplus import lazy_gettext as _
+
+from application.modules.dbs_global import dbs_global
 from ..errors.custom_exceptions import (
     # WrongTypeError,
     WrongElementTypeError,
@@ -10,6 +12,8 @@ from ..errors.custom_exceptions import (
 # from .types import ContentValues  # , StactureValues
 from .content_elements import ContentElements
 from .content_element import ContentElement
+from .contents import ContentModel
+from ..schemas.contents import content_schema
 
 
 class ContentElementsBlock(ContentElements):
@@ -33,12 +37,6 @@ class ContentElementsBlock(ContentElements):
             type=type,
             types=ContentElementsBlock._types,
             name=name)
-        # print('\ncontent_elements_block"\n init',
-        #       '\n  type ->', type,
-        #       '\n  subtype ->', subtype,
-        #       '\n  name ->', name,
-        #       '\n  elements ->', elements,
-        #       )
         self.subtype: str = subtype
         self.elements = elements
 
@@ -175,7 +173,7 @@ class ContentElementsBlock(ContentElements):
                     self.type, self.subtype,
                     str(i).zfill(3)
                 ]),
-                'element': element.value
+                **element.value
             })
         return _result
 
@@ -201,3 +199,94 @@ class ContentElementsBlock(ContentElements):
             }
         }
         return result
+
+    @classmethod
+    def load_fm_db(
+            cls, identity: str = '', view_id: str = '',
+            locale_id: str = '') -> Union[None, 'ContentElementsBlock']:
+        '''here identity consisn of upper_index, type, subtype -
+            01_type_subtype'''
+        '''
+        The method creates ContentElementsBlock instance based on info
+            from db content table. The method should be called by
+            PageView instance.
+        I do not check loaded elements validity due to productivity.
+        '''
+        _splitted_identity = identity.split('_')
+        _instance = ContentElementsBlock(
+            upper_index=int(_splitted_identity[0]),
+            type=_splitted_identity[1],
+            subtype=_splitted_identity[2],
+            elements=[
+                element.serialize() for element in
+                ContentModel.find_identity_like(
+                    searching_criterions={
+                        'view_id': view_id, 'locale_id': locale_id},
+                    identity_like=f'{identity}%'
+                )]
+        )
+        if len(_instance.elements) == 0:
+            return None
+        else:
+            return _instance
+
+    def save_to_db(self, view_id: str = '',
+                   locale_id: str = '',
+                   user_id: int = 0) -> Union[None, str]:
+        '''
+        The method update or create new records in contents tables.
+        Remove excess records if any.
+        If new content table record created correct structure table???
+        '''
+
+        # print('\nContentElementBlock:\n save_to_db',)
+        _id_prefix = '_'.join(
+            [str(self.upper_index).zfill(2), self.type, self.subtype])
+        _max_index = 0
+        for i, element in enumerate(self.elements):
+            _identity = '_'.join([_id_prefix, str(i).zfill(3)])
+            _instance = ContentModel.find_by_identity_view_locale(
+                identity=_identity, view_id=view_id, locale_id=locale_id)
+            if _instance is None:
+                '''if record does not exist create instance and save
+                    to db'''
+                _instance = content_schema.load({
+                    'identity': _identity,
+                    'view_id': view_id,
+                    'locale_id': locale_id,
+                    'user_id': user_id,
+                    **element.value
+                }, session=dbs_global.session)
+                '''if record exists correct one'''
+                _instance.save_to_db()
+            else:
+                _instance.update({**element.value, 'user_id': user_id})
+            _max_index = i + 1
+        '''clean up exceeding records'''
+        _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
+        _instance = ContentModel.find_by_identity_view_locale(
+            identity=_identity, view_id=view_id, locale_id=locale_id)
+        while _instance is not None:
+            _instance.delete_fm_db()
+            _max_index += 1
+            _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
+            _instance = ContentModel.find_by_identity_view_locale(
+                identity=_identity, view_id=view_id, locale_id=locale_id)
+
+    def delete_fm_db(self, view_id: str = '',
+                     locale_id: str = '') -> Union[None, str]:
+        '''
+        The method delete correspon record from content table.
+        '''
+        _id_prefix = '_'.join(
+            [str(self.upper_index).zfill(2), self.type, self.subtype])
+        _index = 0
+        _identity = '_'.join([_id_prefix, str(_index).zfill(3)])
+        _instance = ContentModel.find_by_identity_view_locale(
+            identity=_identity, view_id=view_id, locale_id=locale_id)
+        while _instance is not None:
+            _instance.delete_fm_db()
+            _index += 1
+            _identity = '_'.join([_id_prefix, str(_index).zfill(3)])
+            _instance = ContentModel.find_by_identity_view_locale(
+                identity=_identity, view_id=view_id, locale_id=locale_id)

@@ -14,7 +14,7 @@ from application.contents.models.content_elements_simple import (
     ContentElementsSimple)
 from application.contents.models.content_element import ContentElement
 
-from application.structure.models.structure import StructureModel
+# from application.structure.models.structure import StructureModel
 
 
 # @pytest.mark.active
@@ -155,7 +155,7 @@ def test_ContentElementsSimple_serialize_to_content(value):
     _element_json = json.dumps(content_element.serialize_to_content,
                                sort_keys=True)
     _testing_json = json.dumps({
-        'identity': _identity,
+        'identity': '_'.join([str(_upper_index).zfill(2), _type]),
         'title': value().get('title'),
         'content': value().get('content'),
     }, sort_keys=True)
@@ -193,7 +193,7 @@ def test_ContentElementsSimple_serialize_to_structure(value):
 # @pytest.mark.active
 def test_ContentElementsSimple_load_fm_db(client, value):
     '''clean up structure and content tables'''
-    [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''init'''
     '''Create test constants'''
@@ -285,7 +285,7 @@ def test_ContentElementsSimple_save_to_db(client, value):
     #       )
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_ContentElementsSimple_delete_fm_db(client, value):
     '''clean up structure and content tables'''
     # [_structure.delete_fm_db() for _structure in StructureModel.find()]

@@ -10,7 +10,8 @@ from ..models.contents import ContentModel
 
 class ContentSchema(fma_contents.SQLAlchemyAutoSchema):  # noqa
     '''
-    The schema used for reguliar content creation and for 'information' dump.
+    The schema used for reguliar content creation and for 'information'
+        dump.
     '''
     locale = fma_contents.Nested('LocaleGlobalSchema', many=False)
     view = fma_contents.Nested('ViewGlobalSchema', many=False)
@@ -30,8 +31,8 @@ content_schema = ContentSchema()
 
 class ContentGetSchema(fma_contents.SQLAlchemyAutoSchema):  # noqa
     '''
-    The schema used for searching criterion on get method and other auxiliary
-    purposes.
+    The schema used for searching criterion on get method and other
+        auxiliary purposes.
     No load instance and nested schemas.
     '''
     # locale = fma_contents.Nested('LocaleGlobalSchema', many=False)

@@ -108,6 +108,7 @@ def test_PageView_ul_element_serializer(simple_element, block_element):
         marker=_block_marker)
     _block_serialized = ul_element_serializer(_block_element)
 
+    # print()
     for i, item in enumerate(_block_serialized):
         assert item.get('identity') == '_'.join(
             [
@@ -118,10 +119,14 @@ def test_PageView_ul_element_serializer(simple_element, block_element):
             ]
         )
         _serialized =\
-            _block_element.serialize_to_content[i].get('element')
+            _block_element.serialize_to_content[i]
+
         assert item.get('title') == _serialized.get('title')
         assert item.get('content') == _serialized.get('content')
-        # print(_serialized.get('title'))
+        # assert item.get('title') == _serialized.get('title')
+        # assert item.get('content') == _serialized.get('content')
+        # print(_block_element.serialize_to_content[i])
+
     '''fail, wrong upper level element type'''
     _wron_ul_element = 'shit'
     with pytest.raises(WrongTypeError) as e_info:
@@ -495,7 +500,7 @@ def test_PageView_serialize_to_content(
             _length += len(element.elements)
     assert len(result) == _length
     for element in result:
-        print(element)
+        # print(element)
         assert isinstance(element, Dict)
         assert sorted(
             ['identity', 'title', 'content', 'view_id',

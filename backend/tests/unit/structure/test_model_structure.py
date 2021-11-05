@@ -232,6 +232,8 @@ def test_StructureModel_find_by_ids(
     [next(_structure_gen) for _structure_gen in _structure_gens]
 
 
+# def test_StructureModel_serialize()
+
 # @pytest.mark.active
 def test_update(saved_structure_instance, structure_get_schema,
                 attributes):

@@ -33,6 +33,16 @@ def element():
 
 
 @pytest.fixture
+def element_dict():
+    def _method(marker: str = ''):
+        return {
+            'title': f"Title value. Marker - '{marker}'",
+            'content': f"Content value. Marker - '{marker}'"
+        }
+    return _method
+
+
+@pytest.fixture
 def elements_dict(element):
     def _method(size: int = 0):
         _elements = []

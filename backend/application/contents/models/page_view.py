@@ -37,8 +37,9 @@ def serialize_block_ul_element(
         ul_element: ContentElementsBlock) -> Dict:
     return [
         {
-            'identity': item.get('identity'),
-            **item.get('element')
+            **item
+            # 'identity': item.get('identity'),
+            # **item.get('element')
         }
         for item in ul_element.serialize_to_content
     ]

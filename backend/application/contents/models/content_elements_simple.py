@@ -147,6 +147,9 @@ class ContentElementsSimple(ContentElements):
 
     def delete_fm_db(self, view_id: str = '',
                      locale_id: str = '') -> Union[None, str]:
+        '''
+        The method delete correspon record from content table.
+        '''
         _identity = '_'.join([str(self.upper_index).zfill(2), self.type])
         _available_record = ContentModel.find_by_identity_view_locale(
             identity=_identity, view_id=view_id, locale_id=locale_id)

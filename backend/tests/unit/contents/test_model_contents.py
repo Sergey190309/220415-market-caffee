@@ -12,6 +12,8 @@ from application.structure.models import StructureModel
 from application.models.views_global import ViewGlobalModel
 from application.contents.schemas.contents import content_schema
 # from application.contents.local_init_data_contents import contents_constants
+from application.contents.models.content_elements_block import (
+    ContentElementsBlock)
 from application.global_init_data import global_constants
 from application.modules.dbs_init_global import fill_views
 
@@ -359,7 +361,7 @@ def test_add_element_to_block_DB_mistakes(client, remove_record_index):
 
 
 # @pytest.mark.active
-def test_ContentModel_content_find_all(
+def test_ContentModel_content_find_simples(
         saved_content_instance,
         # random_text_underscore,
         # other_valid_item,
@@ -382,22 +384,30 @@ def test_ContentModel_content_find_all(
     _content_ids = []
     _content_gens = []
     _contents = []
-    _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'landing', 'locale_id': 'en'})
-    _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'landing', 'locale_id': 'ru'})
-    _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'en'})
-    _content_ids.append(
-        {'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'ru'})
-    _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'landing', 'locale_id': 'en'})
-    _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'landing', 'locale_id': 'ru'})
-    _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'price_list', 'locale_id': 'en'})
-    _content_ids.append(
-        {'identity': 'identity01', 'view_id': 'price_list', 'locale_id': 'ru'})
+    _content_ids.append({
+        'identity': 'identity00', 'view_id': 'landing', 'locale_id': 'en'
+    })
+    _content_ids.append({
+        'identity': 'identity00', 'view_id': 'landing', 'locale_id': 'ru'
+    })
+    _content_ids.append({
+        'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'en'
+    })
+    _content_ids.append({
+        'identity': 'identity00', 'view_id': 'price_list', 'locale_id': 'ru'
+    })
+    _content_ids.append({
+        'identity': 'identity01', 'view_id': 'landing', 'locale_id': 'en'
+    })
+    _content_ids.append({
+        'identity': 'identity01', 'view_id': 'landing', 'locale_id': 'ru'
+    })
+    _content_ids.append({
+        'identity': 'identity01', 'view_id': 'price_list', 'locale_id': 'en'
+    })
+    _content_ids.append({
+        'identity': 'identity01', 'view_id': 'price_list', 'locale_id': 'ru'
+    })
     for index, _content_id in enumerate(_content_ids):
         _content_gens.append(saved_content_instance(_content_id))
         _contents.append(next(_content_gens[index]))
@@ -433,6 +443,94 @@ def test_ContentModel_content_find_all(
 
     for _content_gen in _content_gens:
         next(_content_gen)
+
+
+# @pytest.mark.active
+def test_ContentModel_find_all_like(client, elements_dict):
+    '''clean up content tables'''
+    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+
+    _view_id_00 = choice(global_constants.get_VIEWS_PKS)
+    _view_id_01 = _view_id_00
+    # _view_id_01 = choice([item for item in global_constants.get_VIEWS_PKS
+    #                       if item != _view_id_00])
+    _locale_id = choice(global_constants.get_PKS)
+    _upper_index_00 = randrange(100)
+    _upper_index_01 = randrange(100)
+    while _upper_index_01 == _upper_index_00:
+        _upper_index_01 = randrange(100)
+    _size_00 = 3
+    _size_01 = 5
+    # _size_01 = randrange(3, 10)
+    _type_00 = choice(ContentElementsBlock._types)
+    _type_01 = choice(ContentElementsBlock._types)
+    _subtype_00 = choice(ContentElementsBlock._subtypes)
+    _subtype_01 = choice(ContentElementsBlock._subtypes)
+    _name_00 = f'name of {_type_00}'
+    _name_01 = f'name of {_type_01}'
+    _identity_00 = '_'.join(
+        [str(_upper_index_00).zfill(2), _type_00, _subtype_00])
+    _identity_01 = '_'.join(
+        [str(_upper_index_01).zfill(2), _type_01, _subtype_01])
+
+    _elements_dict_00 = elements_dict(_size_00)
+    _elements_dict_01 = elements_dict(_size_01)
+    _block_instance_00 = ContentElementsBlock(
+        upper_index=_upper_index_00, type=_type_00, subtype=_subtype_00,
+        name=_name_00, elements=_elements_dict_00)
+    _block_instance_01 = ContentElementsBlock(
+        upper_index=_upper_index_01, type=_type_01, subtype=_subtype_01,
+        name=_name_01, elements=_elements_dict_01)
+    assert len(_block_instance_00.elements) == _size_00
+    assert len(_block_instance_01.elements) == _size_01
+    for element in _block_instance_00.serialize_to_content:
+        _content_record = content_schema.load({
+            **element, 'view_id': _view_id_00, 'locale_id': _locale_id},
+            session=dbs_global.session)
+        _content_record.save_to_db()
+    for element in _block_instance_01.serialize_to_content:
+        _content_record = content_schema.load({
+            **element, 'view_id': _view_id_01, 'locale_id': _locale_id},
+            session=dbs_global.session)
+        _content_record.save_to_db()
+    _seaching_criterions = {
+        'view_id': _view_id_00,
+        'locale_id': _locale_id
+    }
+    _identity_like = f'{_identity_00}%'
+    _found = ContentModel.find_identity_like(
+        searching_criterions=_seaching_criterions,
+        identity_like=_identity_like)
+    assert len(_found) == _size_00
+
+    _identity_like = f'{_identity_01}%'
+    _found = ContentModel.find_identity_like(
+        searching_criterions=_seaching_criterions,
+        identity_like=_identity_like)
+    assert len(_found) == _size_01
+    # print('\ntest_model_contents:\n test_ContentModel_find_all_like',
+    #       '\n  _found ->', _found)
+
+
+# @pytest.mark.active
+def test_ContentModel_serialize(client, element_dict):
+    _identity = 'mock_identity'
+    _view_id = choice(global_constants.get_VIEWS_PKS)
+    _locale_id = choice(global_constants.get_PKS)
+    _element = element_dict(marker='Element for serialization.')
+
+    _instance = content_schema.load({
+        'identity': _identity,
+        'view_id': _view_id,
+        'locale_id': _locale_id,
+        **_element
+    }, session=dbs_global.session)
+    result = _instance.serialize()
+    assert result.get('title') == _element.get('title')
+    assert result.get('content') == _element.get('content')
+    # print('\ntest_model_contents:\n test_ContentModel_serialize',
+    #       '\n  result ->', result)
 
 
 # @pytest.mark.active

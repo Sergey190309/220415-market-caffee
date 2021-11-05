@@ -1,4 +1,4 @@
-from typing import Dict, Union
+from typing import Dict, Union, List
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
 from flask_babelplus import lazy_gettext as _
@@ -69,9 +69,12 @@ class ContentModel(dbs_global.Model):
         return ['_'.join([_record_body, str(index).zfill(3)]) for index in range(_qnt)]
 
     @classmethod
-    def find(cls, searching_criterion: Dict = {}) -> ['ContentModel']:
-        # print(searching_criterion)
-        return cls.query.filter_by(**searching_criterion).all()
+    def find(cls, searching_criterions: Dict = {}) -> ['ContentModel']:
+        # print(searching_criterions)
+        '''
+        Find list of records that strictly meet searching_criterions.
+        '''
+        return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
     def find_by_identity_view_locale(
@@ -79,9 +82,27 @@ class ContentModel(dbs_global.Model):
             identity: str = '',
             view_id: str = '',
             locale_id: str = '') -> 'ContentModel':
+        '''
+        Find first record that meet strict primary keys.
+        Actually it's for handling unique items.
+        '''
         return cls.query.filter_by(
             identity=identity, view_id=view_id,
             locale_id=locale_id).first()
+
+    @classmethod
+    def find_identity_like(
+            cls, searching_criterions: Dict = {},
+            identity_like: str = '') -> List['ContentModel']:
+        '''
+        The method needed for running like queries for identity field.
+        searching_criterions - full field's name. Like locale_id, etc.
+        identity_like - string used as argument for like().
+            Example 02_hblock_txt
+        '''
+        return cls.query.filter_by(
+            **searching_criterions).filter(
+                cls.identity.like(identity_like)).all()
 
     @classmethod
     def add_element_to_block(
@@ -188,6 +209,15 @@ class ContentModel(dbs_global.Model):
         })
         return update_result
 
+    def serialize(self) -> Dict:
+        '''
+        Serialize the instance to values of ContentElement.
+        '''
+        return {
+            'title': self.title,
+            'content': self.content
+        }
+
     @classmethod
     def remove_element_fm_block(
             cls,
@@ -260,10 +290,6 @@ class ContentModel(dbs_global.Model):
         return ContentModel.find_by_identity_view_locale(
             identity=ids.get('identity'), view_id=ids.get('view_id'),
             locale_id=ids.get('locale_id')) is not None
-
-    # @property
-    # def identity(self) -> str:
-    #     return identity
 
     def is_exist(self) -> bool:
         return ContentModel.find_by_identity_view_locale(
