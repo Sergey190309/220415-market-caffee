@@ -7,9 +7,9 @@ from flask_babelplus import lazy_gettext as _
 
 from application.modules.fbp import fbp
 from application.users.models import UserModel
-from application.structure.models.structure import StructureModel
-from application.structure.schemas.structure import structure_get_schema
-from ..models.contents import ContentModel
+# from application.structure.models.structure import StructureModel
+# from application.structure.schemas.structure import structure_get_schema
+# from ..models.contents import ContentModel
 from ..models.content_elements_block import ContentElementsBlock
 from ..errors.custom_exceptions import WrongIndexError
 
@@ -24,12 +24,32 @@ class ContentsHandling(Resource):
     item_index: int = 0
 
     @classmethod
-    def not_found(cls,
-                  identity: str = '',
-                  view_id: str = '',
-                  locale_id: str = '',
-                  ) -> Dict:
-        pass
+    def not_found(cls, identity: str = '', view_id: str = '',
+                  locale_id: str = '') -> Dict:
+        return {
+            'message': str(_(
+                "While trying to retrieve content for identity - "
+                "'%(identity)s', page view - '%(view_id)s', locale "
+                "- '%(locale_id)s' found nothing. Something went "
+                "wrong.",
+                identity=identity,
+                view_id=view_id,
+                locale_id=locale_id))
+        }, 404
+
+    @classmethod
+    def success(cls, identity: str = '', view_id: str = '',
+                locale_id: str = '') -> Dict:
+        return {
+            'message': str(_(
+                "The content quontity and db structure for view "
+                "'%(view_id)s' in block '%(identity)s' and locale "
+                "'%(locale_id)s' has been "
+                "successfully updated.",
+                identity=identity,
+                view_id=view_id,
+                locale_id=locale_id))
+        }, 200
 
     @classmethod
     def no_access(cls) -> Dict:
@@ -78,35 +98,28 @@ class ContentsHandling(Resource):
         if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
         # _requested_json = request.get_json()
+        '''join values into one variable'''
         _kwargs = {**request.get_json(), 'locale_id': _lng}
         try:
+            '''get index out of variable that one is not needed in
+                load_fm_db'''
             _item_index = _kwargs.pop('item_index')
+            '''create upper level block element instance'''
             _block_instance = ContentElementsBlock.load_fm_db(**_kwargs)
             if _block_instance is None:
-                return {
-                    'message': str(_(
-                        "While trying to retrieve content for identity - "
-                        "'%(identity)s', page view - '%(view_id)s', locale "
-                        "- '%(locale_id)s' found nothing. Something went "
-                        "wrong.",
-                        identity=_kwargs.get('identity'),
-                        view_id=_kwargs.get('view_id'),
-                        locale_id=_kwargs.get('locale_id')))
-                }, 500
+                '''report if block element instance is not available'''
+                return cls.not_found(**_kwargs)
+            '''handle the instance'''
             _block_instance.insert(_item_index)
             _identity = _kwargs.pop('identity')
-            _block_instance.save_to_db(**_kwargs)
-            return {
-                'message': str(_(
-                    "The content quontity and db structure for view "
-                    "'%(view_id)s' in block '%(identity)s' and locale "
-                    "'%(locale_id)s' has been "
-                    "successfully updated.",
-                    view_id=_kwargs.get('view_id'),
-                    identity=_identity,
-                    locale_id=_lng))
-            }, 200
+            result = _block_instance.save_to_db(**_kwargs)
+            if result is not None:
+                return cls.error_message(error_info=result, status=500)
+            else:
+                '''report success'''
+                return cls.success(**{**_kwargs, 'identity': _identity})
         except (WrongIndexError, KeyError) as e:
+            '''report some wrong argument errors'''
             return cls.error_message(error_info=str(e), status=400)
         except Exception as e:
             # return cls.error_message(error_info=str(e), status=400)
@@ -116,10 +129,16 @@ class ContentsHandling(Resource):
     @jwt_required()
     def patch(cls) -> Dict:
         '''
-        Used for delete any element in a block.
+        Used for delete any element in a upper level block.
         Change structure withing specific block.
         Move all elements information (title and contents) accordenly.
-        Arguments are same as in put.
+        Arguments are {
+            "view_id": "landing",
+            "identity": "01_vblock_txt"  - (upper level index)_
+                (block type)_(block subtype)_(low level element qnt)
+            "item_index": 1, - low level index, ie serial number of item
+                in block
+        }
         '''
         _lng = request.headers.get('Accept-Language')
         fbp.set_lng(_lng)
@@ -127,8 +146,29 @@ class ContentsHandling(Resource):
         if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
         _kwargs = {**request.get_json(), 'locale_id': _lng}
-        print('\nContentsHandling\n patch',
-              '\n  _kwargs ->', dumps(_kwargs, indent=4))
+        try:
+            _item_index = _kwargs.pop('item_index')
+            _block_instance = ContentElementsBlock.load_fm_db(**_kwargs)
+            if _block_instance is None:
+                '''report if block element instance is not available'''
+                return cls.not_found(**_kwargs)
+            '''handle the instance'''
+            _block_instance.remove(_item_index)
+            _identity = _kwargs.pop('identity')
+            result = _block_instance.save_to_db(**_kwargs)
+            # print('\nContentsHandling\n patch',
+            #       '\n  _kwargs ->', dumps(_kwargs, indent=4),
+            #       '\n  _block_instance ->', _block_instance,
+            #       )
+            if result is not None:
+                return cls.error_message(error_info=result, status=500)
+            else:
+                '''report success'''
+                return cls.success(**{**_kwargs, 'identity': _identity})
+        except WrongIndexError as e:
+            '''report some wrong argument errors'''
+            return cls.error_message(error_info=str(e), status=400)
+            raise e
         # if _aux_info is not None:
         #     return _aux_info
         # '''Find appropriage record in structure to correct'''
