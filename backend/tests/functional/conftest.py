@@ -14,7 +14,7 @@ def user_create_json(random_email):
         return {
             'role_id': args.get('role_id', None),
             'email': args.get('email', random_email()),
-            'password': args.get('password', 'qwerty' )
+            'password': args.get('password', 'qwerty')
         }
     return _method
 

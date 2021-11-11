@@ -15,6 +15,10 @@ from .content_element import ContentElement
 from .contents import ContentModel
 from ..schemas.contents import content_schema
 
+from application.structure.models.structure import StructureModel
+from application.structure.schemas.structure import (
+    structure_schema)
+
 
 class ContentElementsBlock(ContentElements):
     '''
@@ -208,8 +212,7 @@ class ContentElementsBlock(ContentElements):
             01_type_subtype'''
         '''
         The method creates ContentElementsBlock instance based on info
-            from db content table. The method should be called by
-            PageView instance.
+            from db content table.
         I do not check loaded elements validity due to productivity.
         '''
         _splitted_identity = identity.split('_')
@@ -236,10 +239,9 @@ class ContentElementsBlock(ContentElements):
         '''
         The method update or create new records in contents tables.
         Remove excess records if any.
-        If new content table record created correct structure table???
+        If new content table record created correct structure.
         '''
 
-        # print('\nContentElementBlock:\n save_to_db',)
         _id_prefix = '_'.join(
             [str(self.upper_index).zfill(2), self.type, self.subtype])
         _max_index = 0
@@ -273,11 +275,38 @@ class ContentElementsBlock(ContentElements):
             _instance = ContentModel.find_by_identity_view_locale(
                 identity=_identity, view_id=view_id, locale_id=locale_id)
 
+        '''structure table operations'''
+        '''get existing structure record'''
+        _structure_instance = StructureModel.find_by_ids(ids={
+            'view_id': view_id,
+            'locale_id': locale_id
+        })
+        '''no such structure records'''
+        if _structure_instance is None:
+            _structure_instance = structure_schema.load({
+                'view_id': view_id,
+                'locale_id': locale_id,
+                'user_id': user_id,
+                'attributes': self.serialize_to_structure
+            }, session=dbs_global.session)
+            return _structure_instance.save_to_db()
+        else:
+            _structure_attributes = {**_structure_instance.attributes, }
+        # print('\nContentElementBlock:\n save_to_db',
+        #       '\n  _structure_attributes', _structure_attributes,)
+        key = str(self.upper_index).zfill(2)
+        _structure_attributes[key] = self.serialize_to_structure.get(key)
+        return _structure_instance.update(
+            {'attributes': _structure_attributes, 'user_id': user_id})
+        # _structure_json = structure_get_schema.dump(_structure_instance)
+
     def delete_fm_db(self, view_id: str = '',
                      locale_id: str = '') -> Union[None, str]:
         '''
         The method delete correspon record from content table.
+        Correct structure table.
         '''
+        '''handle content table'''
         _id_prefix = '_'.join(
             [str(self.upper_index).zfill(2), self.type, self.subtype])
         _index = 0
@@ -290,3 +319,10 @@ class ContentElementsBlock(ContentElements):
             _identity = '_'.join([_id_prefix, str(_index).zfill(3)])
             _instance = ContentModel.find_by_identity_view_locale(
                 identity=_identity, view_id=view_id, locale_id=locale_id)
+        '''handle structure table'''
+        '''get respective structure record'''
+        _structure_instance = StructureModel.find_by_ids({
+            'view_id': view_id, 'locale_id': locale_id})
+        print('\ncontent_elements_block:\ndelete_fm_db',
+              '\n  _block_structure_instance ->',
+              _structure_instance)

@@ -38,13 +38,35 @@ class StructureModel(dbs_global.Model):
     view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
 
     @classmethod
+    def find_by_ids(cls, ids: Dict = {}) -> Union['StructureModel', None]:
+        '''ids - PKs (view_id, locale_id)'''
+        return cls.query.filter_by(**ids).first()
+
+    @classmethod
     def find(cls,
              searching_criterions: Dict = {}) -> List['StructureModel']:
         return cls.query.filter_by(**searching_criterions).all()
 
     @classmethod
-    def find_by_ids(cls, ids: Dict = {}) -> Union['StructureModel', None]:
-        return cls.query.filter_by(**ids).first()
+    def get_element_cls(
+            cls, ids: Dict = {},
+            upper_index: int = 0) -> Union[Dict, None]:
+        '''ids - PKs (view_id, locale_id)'''
+        _instance = cls.find_by_ids(ids)
+        return _instance.get_element(str(upper_index).zfill(2))
+        # return cls.find_by_ids(ids).attributes.get(element_key)
+
+    @classmethod
+    def remove_element_cls(
+            cls, ids: Dict = {},
+            upper_index: int = 0) -> Union[Dict, None]:
+        '''ids - PKs (view_id, locale_id)'''
+        _instance = cls.find_by_ids(ids)
+        return _instance.get_element(str(upper_index).zfill(2))
+        # return cls.find_by_ids(ids).attributes.get(element_key)
+
+    def get_element(self, upper_index: int = 0) -> Union[Dict, None]:
+        return self.attributes.get(str(upper_index).zfill(2))
 
     # @classmethod
     def insert_upper_level_element(

@@ -7,7 +7,7 @@ from application.contents.models.contents import ContentModel
 
 @pytest.fixture
 def value():
-    def _method(marker: str = 0):
+    def _method(marker: str = ''):
         return {
             'title': f'Mock title! {marker}',
             'content': f'Mock content. {marker}'

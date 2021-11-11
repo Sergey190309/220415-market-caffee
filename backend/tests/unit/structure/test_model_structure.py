@@ -1,6 +1,7 @@
 import pytest
 from typing import Dict  # , List
-import random
+from random import randrange, choice
+from json import dumps
 
 from application.structure.models.structure import StructureModel
 from application.global_init_data import global_constants
@@ -31,8 +32,8 @@ def test_insert_upper_level_element(
     fill_structure()
     '''choose constants to work with structure'''
     _criterions = {
-        'view_id': random.choice(global_constants.get_VIEWS_PKS),
-        'locale_id': random.choice(global_constants.get_PKS)
+        'view_id': choice(global_constants.get_VIEWS_PKS),
+        'locale_id': choice(global_constants.get_PKS)
     }
     _uplev_elem_index = 1
     _uplev_elem_items = {
@@ -41,7 +42,7 @@ def test_insert_upper_level_element(
         'qnt': '3',
         'name': 'fancy name'
     }
-    _first_user_id = random.randrange(128)
+    _first_user_id = randrange(128)
     '''update original structure to work with'''
     _updating_structure = StructureModel.find_by_ids(_criterions)
     _updating_structure.update({'attributes': attributes})
@@ -70,12 +71,12 @@ def test_change_element_qnt(
     fill_structure()
     '''Choose constants to work with structure'''
     _criterions = {
-        'view_id': random.choice(global_constants.get_VIEWS_PKS),
-        'locale_id': random.choice(global_constants.get_PKS)
+        'view_id': choice(global_constants.get_VIEWS_PKS),
+        'locale_id': choice(global_constants.get_PKS)
     }
     _block_index = 1
     _qnt = attributes.get(str(_block_index).zfill(2)).get('qnt')
-    _first_user_id = random.randrange(128)
+    _first_user_id = randrange(128)
     '''Update structure'''
     _updating_structure = StructureModel.find_by_ids(_criterions)
     _updating_structure.update({'attributes': attributes})
@@ -106,7 +107,7 @@ def test_change_element_qnt(
     #   '\n  _element_qnt ->', _element_qnt)
 
     '''remove element'''
-    _second_user_id = random.randrange(128)
+    _second_user_id = randrange(128)
     _updating_structure.change_element_qnt(
         'dec', _block_index, _second_user_id)
 
@@ -163,7 +164,7 @@ def test_StructureModel_find(saved_structure_instance, structure_get_schema):
     qnt = 5  # elements for update and further search
     _changed_user_list = []
     for index in range(0, qnt):
-        _random_structure = random.choice(_result)
+        _random_structure = choice(_result)
         _random_structure.update({'user_id': 0})
         _changed_user_list.append(_random_structure)
         _result.remove(_random_structure)
@@ -189,16 +190,10 @@ def test_StructureModel_find_by_ids(
     '''Create structures, it should be 10 of them.'''
     _global_view_keys = global_constants.get_VIEWS_PKS
     _global_locales_keys = global_constants.get_PKS
-    [
-        {'view_id': _view_key, 'locale_id': _locale_key}
-        for _view_key in _global_view_keys
-        for _locale_key in _global_locales_keys
-    ]
     _structure_gens = [saved_structure_instance(
         {
             'view_id': _view_key, 'locale_id': _locale_key,
-            'attributes':
-            {
+            'attributes': {
                 'view_id': _view_key, 'locale_id': _locale_key
             }
         })
@@ -208,15 +203,17 @@ def test_StructureModel_find_by_ids(
 
     '''Get criterion and find appropriate instance'''
     _criterions = {
-        'view_id': random.choice(_global_view_keys),
-        'locale_id': random.choice(_global_locales_keys)
+        'view_id': choice(_global_view_keys),
+        'locale_id': choice(_global_locales_keys)
     }
     _found_structure = StructureModel.find_by_ids(_criterions)
     _found_attributes = structure_get_schema.dump(_found_structure).get('attributes')
-
+    # print('\ntest_model_structure:\n test_StructureModel_find_by_ids',
+    # '\n  _found_attributes ->', _found_attributes)
     '''Asset I've found approapriate instance'''
     assert _found_attributes.get('view_id') == _criterions.get('view_id')
-    assert _found_attributes.get('locale_id') == _criterions.get('locale_id')
+    assert _found_attributes.get('locale_id')\
+        == _criterions.get('locale_id')
 
     '''Try to find something with wrong criterions'''
     _wrong_criterions = _criterions.copy()
@@ -232,7 +229,71 @@ def test_StructureModel_find_by_ids(
     [next(_structure_gen) for _structure_gen in _structure_gens]
 
 
-# def test_StructureModel_serialize()
+# @pytest.mark.active
+def test_StructureModel_remove_element_cls(
+        saved_structure_instance, structure_get_schema, attributes):
+    '''Clean up'''
+    StructureModel.query.delete()
+    '''Create structures with empty attribure, it should be 10 of them.'''
+    _global_view_keys = global_constants.get_VIEWS_PKS
+    _global_locales_keys = global_constants.get_PKS
+    _structure_gens = [saved_structure_instance(
+        {
+            'view_id': _view_key, 'locale_id': _locale_key,
+            # 'attributes': attributes
+        })
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys]
+    [next(_structure_gen) for _structure_gen in _structure_gens]
+    '''choose one of the structure'''
+    _criterions = {
+        'view_id': choice(_global_view_keys),
+        'locale_id': choice(_global_locales_keys)
+    }
+
+    _instance = StructureModel.find_by_ids(_criterions)
+    _instance.update({'attributes': attributes})
+    _index = randrange(len(attributes))
+    _element_structure = StructureModel.get_element_cls(
+        _criterions, _index)
+
+    '''Clean up'''
+    [next(_structure_gen) for _structure_gen in _structure_gens]
+
+
+# @pytest.mark.active
+def test_StructureModel_get_element(
+        saved_structure_instance, structure_get_schema, attributes):
+    '''Clean up'''
+    StructureModel.query.delete()
+    '''Create structures with empty attribure, it should be 10 of them.'''
+    _global_view_keys = global_constants.get_VIEWS_PKS
+    _global_locales_keys = global_constants.get_PKS
+    _structure_gens = [saved_structure_instance(
+        {
+            'view_id': _view_key, 'locale_id': _locale_key,
+            # 'attributes': attributes
+        })
+        for _view_key in _global_view_keys
+        for _locale_key in _global_locales_keys]
+    [next(_structure_gen) for _structure_gen in _structure_gens]
+    '''choose one of the structure'''
+    _criterions = {
+        'view_id': choice(_global_view_keys),
+        'locale_id': choice(_global_locales_keys)
+    }
+
+    _instance = StructureModel.find_by_ids(_criterions)
+    _instance.update({'attributes': attributes})
+    _index = randrange(len(attributes))
+    print('\ntest_model_structure:\n test_StructureModel_get_element',
+          '\n  _instance ->', dumps(_instance.attributes, indent=4),
+          '\n  _index ->', _index
+          )
+
+    '''Clean up'''
+    [next(_structure_gen) for _structure_gen in _structure_gens]
+
 
 # @pytest.mark.active
 def test_update(saved_structure_instance, structure_get_schema,
@@ -256,8 +317,8 @@ def test_update(saved_structure_instance, structure_get_schema,
 
     '''Choose random keys to update structure'''
     _criterions = {
-        'view_id': random.choice(_global_view_keys),
-        'locale_id': random.choice(_global_locales_keys)
+        'view_id': choice(_global_view_keys),
+        'locale_id': choice(_global_locales_keys)
     }
     _structure_for_update = StructureModel.find_by_ids(_criterions)
     assert structure_get_schema.dump(_structure_for_update).get('updated') is None
@@ -301,8 +362,8 @@ def test_delete(saved_structure_instance, structure_get_schema,
 
     '''Choose random keys to update structure'''
     _criterions = {
-        'view_id': random.choice(_global_view_keys),
-        'locale_id': random.choice(_global_locales_keys)
+        'view_id': choice(_global_view_keys),
+        'locale_id': choice(_global_locales_keys)
     }
     _structure_to_delete = StructureModel.find_by_ids(_criterions)
 

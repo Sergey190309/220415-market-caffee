@@ -57,9 +57,10 @@ export const ElementSwitcher = ({
     const componentType = structure[key].type
     const componentSubType = structure[key].subtype ? structure[key].subtype : null
     const subComponentQnt = structure[key].qnt ? structure[key].qnt : null
-    const recordsId =
+    const upperLevelElementId =
       `${key}_${componentType}` +
-      (componentSubType ? `_${componentSubType}` : '') +
+      (componentSubType ? `_${componentSubType}` : '')
+    const recordsId = upperLevelElementId +
       (subComponentQnt ? `_${subComponentQnt}` : '')
     let component
     const props = {
@@ -67,6 +68,7 @@ export const ElementSwitcher = ({
       viewName
     }
     const value = {
+      upperLevelElementId,
       recordsId
       // upperLvlAddElement, upperLvlDeleteElement
     }

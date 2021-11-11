@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-10-11 11:28+0000\n"
-"PO-Revision-Date: 2021-10-11 11:29+0000\n"
+"POT-Creation-Date: 2021-11-10 05:30+0000\n"
+"PO-Revision-Date: 2021-11-10 06:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -23,11 +23,183 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: venv\n"
 
-#: contents/models/contents.py:124
+#: contents/errors/custom_exceptions.py:25
+#, python-format
+msgid "Record not found: %(message)s"
+msgstr "Запись не найдена: %(message)s"
+
+#: contents/errors/custom_exceptions.py:40
+#: structure/errors/custom_exceptions.py:26
+#: structure/errors/custom_exceptions.py:91
+#, python-format
+msgid "Wrong upper level element key: %(message)s"
+msgstr "Неправильный ключ элемента верхнего уровня: %(message)s"
+
+#: contents/errors/custom_exceptions.py:55
+#, python-format
+msgid "1st level element has a wong type: %(message)s"
+msgstr "Неправильный тип элемента 1-го уровня: %(message)s"
+
+#: contents/errors/custom_exceptions.py:69
+#, python-format
+msgid "Index provided has been out of range: %(message)s"
+msgstr "Предоставленный индекс находится вне разрешенных значений: %(message)s"
+
+#: contents/errors/custom_exceptions.py:84
+#, python-format
+msgid "1st level element type is wrong: %(message)s"
+msgstr "Неправильный ключ элемента 1-го уровня - %(message)s"
+
+#: contents/errors/custom_exceptions.py:99
+#, python-format
+msgid "Value is wrong: %(message)s"
+msgstr "Значение не верно: %(message)s"
+
+#: contents/errors/custom_exceptions.py:114
+#, python-format
+msgid "View name is wrong: %(message)s"
+msgstr "Название странички не верно: %(message)s"
+
+#: contents/errors/custom_exceptions.py:129
+#, python-format
+msgid "Wrong locale: %(message)s"
+msgstr "Неправильная локализация: %(message)s"
+
+#: contents/models/content_element.py:18
+msgid "dummy"
+msgstr "заглушка"
+
+#: contents/models/content_element.py:27
+msgid ""
+"Content element value key should be either 'title' or 'content', but nothing "
+"has been provided."
+msgstr ""
+"Ключ значения элемента содержания должен быть или 'title', или 'content', "
+"однако ничего не предоставлено."
+
+#: contents/models/content_element.py:33
+#, python-format
+msgid ""
+"Content element value key should be either 'title' or 'content', but one of "
+"them is '%(key)s'."
+msgstr ""
+"Ключ значения элемента содержанию должен быть или 'title', или 'content', "
+"однако один из них '%(key)s'."
+
+#: contents/models/content_elements.py:34
+#, python-format
+msgid "Index has been '%(index)s', it's wrong."
+msgstr "Индекс - '%(index)s', а это не правильно."
+
+#: contents/models/content_elements.py:48
+#, python-format
+msgid ""
+"Upper level element could be '%(types)s', but provided type is '%(type)s'."
+msgstr ""
+"Элементы верхнего уровня могут быть следующих типов - '%(types)s', однако "
+"тип предоставленного элемента - '%(type)s'."
+
+#: contents/models/content_elements_block.py:59
+#: contents/models/page_view.py:189
+#, python-format
+msgid ""
+"Length of element array is %(length)s but you try to operate with index "
+"'%(index)s'."
+msgstr ""
+"Длинна множества элементов - %(length)s однако вы пытаетесь работать с "
+"индексом - '%(index)s'."
+
+#: contents/models/content_elements_block.py:68
+#, python-format
+msgid ""
+"Elements should be '['dict', 'ContentElement']', but at least one of the "
+"elements has type '%(type)s'."
+msgstr ""
+"Элемент должен быть типов '['dict', 'ContentElement']', однако, хотя бы у "
+"одного из них тип - '%(type)s'."
+
+#: contents/models/content_elements_block.py:82
+#, python-format
+msgid ""
+"Block element subtype shoud be within '%(subtypes)s', but provided subtype "
+"is '%(subtype)s'."
+msgstr ""
+"Подтип блочного элемента должен быть в приделах '%(subtypes)s', однако "
+"приведен подтип '%(subtype)s'."
+
+#: contents/models/content_elements_simple.py:58
+#, python-format
+msgid ""
+"Element type should be either 'Dict' or 'ContentElement', but it's "
+"'%(type)s'."
+msgstr ""
+"Тип элемента должен быть или 'Dict', или 'ContentElement', однако он "
+"'%(type)s'."
+
+#: contents/models/content_elements_simple.py:158
+#, python-format
+msgid ""
+"Record with identity '%(identity)s', view id '%(view_id)s' and locale id "
+"'%(locale_id)s' has not been found."
+msgstr ""
+"Запись с идентификатором '%(identity)s', для странички '%(view_id)s' и с "
+"локализацией '%(locale_id)s' не обнаружена."
+
+#: contents/models/contents.py:145
 msgid ""
 "Redundant record has been found and deleted, try to insert element once more."
 msgstr ""
 "Избыточная запись обнаружена и убита, попытайтесь вставить элемент еще раз."
+
+#: contents/models/page_view.py:22 contents/models/page_view.py:70
+#: contents/models/page_view.py:113
+#, python-format
+msgid "You try to operate upper level element type - '%(type)s', it's wrong."
+msgstr ""
+"Вы пытаетесь работать с элементом верхнего уровня типа '%(type)s', это не "
+"правильно."
+
+#: contents/models/page_view.py:118
+#, python-format
+msgid "You try to use '%(type)s' as upper level element type. It's wrong."
+msgstr ""
+"Вы пытаетесь использовать '%(type)s' как элемент верхнего уровня. Это не "
+"правильно."
+
+#: contents/models/page_view.py:128 contents/models/page_view.py:146
+#, python-format
+msgid ""
+"You're trying to create upper level element instance having wrong argument "
+"type - '%(type)s'."
+msgstr ""
+"Вы пытаетесь создать элемент верхнего уровня, используя неправильный тип "
+"аргумента - '%(type)s'."
+
+#: contents/models/page_view.py:202
+#, python-format
+msgid ""
+"Page view should be withing '%(view_names)s' but '%(page_view)s' has been "
+"delivered."
+msgstr ""
+"Названия страниц должны быть в приделах'%(view_names)s' однако предоставлено "
+"- '%(page_view)s'."
+
+#: contents/models/page_view.py:216
+#, python-format
+msgid ""
+"Locale should be within '%(locales)s' but '%(locale)s' has been delivered."
+msgstr ""
+"Локале должно быть в приделах '%(locales)s' однако предоставлено - "
+"'%(locale)s'."
+
+#: contents/models/page_view.py:235
+#, python-format
+msgid ""
+"Type of upper level element should be within '%(types)s' but '%(type)s' has "
+"been delivered."
+msgstr ""
+"Тип элемента верхнего уровня должен быть в приделах '%(types)s' однако "
+"предоставленный тип - '%(type)s'."
 
 #: contents/resources/contents.py:26
 #, python-format
@@ -38,7 +210,7 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' уже существует."
 
-#: contents/resources/contents.py:39
+#: contents/resources/contents.py:40
 #, python-format
 msgid ""
 "A contents with identity '%(identity)s', view '%(view_id)s' and locale "
@@ -47,36 +219,36 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:50 contents/resources/contents_handling.py:44
+#: contents/resources/contents.py:51 contents/resources/contents_handling.py:47
 #: structure/resources/structure.py:64
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:58 contents/resources/contents_handling.py:35
+#: contents/resources/contents.py:59 contents/resources/contents_handling.py:38
 #: resources/views_global.py:20
 msgid "Sorry, access to views' information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ к информации о страницах разрешен только администратору."
 
-#: contents/resources/contents.py:90
+#: contents/resources/contents.py:92
 msgid "The content has been saved successfully. Details are in payload."
 msgstr "Содержание успешно сохранено. Детали в сообщении."
 
-#: contents/resources/contents.py:109 resources/locale_global.py:37
+#: contents/resources/contents.py:111 resources/locale_global.py:37
 #: structure/resources/structure.py:28
 msgid "Something went wrong. Check tech_token and sessions set up."
 msgstr "Что-то пошло не так, проверь технический жетон и организацию сессий."
 
-#: contents/resources/contents.py:122
+#: contents/resources/contents.py:125
 msgid "The content has been found. Details are in payload."
 msgstr "Содержание обнаружено. Детали в сообщении."
 
-#: contents/resources/contents.py:155
+#: contents/resources/contents.py:158
 msgid ""
 "The content has been found and successfully updated. Details are in payload."
 msgstr "Содержание обнаружено и успешно обновлено. Детали в сообщении."
 
-#: contents/resources/contents.py:189
+#: contents/resources/contents.py:192
 #, python-format
 msgid ""
 "The content on view '%(view_id)s' with locale '%(locale_id)s' and identity "
@@ -85,65 +257,26 @@ msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
 
-#: contents/resources/contents_handling.py:58
-#: contents/resources/contents_handling.py:67
+#: contents/resources/contents_handling.py:90
 #, python-format
 msgid ""
-"Request does not containts required '%(argument)s', something wrong on front-"
-"end."
+"While trying to retrieve content for identity - '%(identity)s', page view - "
+"'%(view_id)s', locale - '%(locale_id)s' found nothing. Something went wrong."
 msgstr ""
-"Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
-"фронт-енде."
+"При попытке запросить содержание с идентификацией - '%(identity)s', для "
+"странички - '%(view_id)s' и с локализацией '%(locale_id)s' ничего не "
+"найдено. Что-то пошло не так."
 
-#: contents/resources/contents_handling.py:82
-#, python-format
-msgid ""
-"Request does not containts required '%(argument)s', something wrong on front-"
-"end. "
-msgstr ""
-"Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
-"фронт-енде. "
-
-#: contents/resources/contents_handling.py:88
-msgid ""
-"Block index is out of range, either below 0 or above block items quontity. "
-"Something wrong on front-end."
-msgstr ""
-"Индекс элемента в блоке вне возможных значений, или меньше нуля, или больше "
-"количества элементов в блоке. Что-то не так на фронт-энде."
-
-#: contents/resources/contents_handling.py:125
-#, python-format
-msgid ""
-"While trying update view structure '%(view_id)s', locale '%(locale_id)s' the "
-"following message has come: '%(result)s'. That's not good, check it out."
-msgstr ""
-"При попытке обновить структуру картинки '%(view_id)s', локализация "
-"'%(locale_id)s' получено следующее сообщение: '%(result)s'. Это не хорошо, "
-"проверьте пожалуйста."
-
-#: contents/resources/contents_handling.py:149
-#, python-format
-msgid ""
-"While trying to add element into block with index '%(block_index)s' on view "
-"'%(view_id)s' with locale '%(locale_id)s' the folliwng message has come: "
-"'%(result)s'. That's not good, check it out."
-msgstr ""
-"При попытке добавить элемент в блок с индексом '%(block_index)s' на "
-"страничку '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
-"сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
-
-#: contents/resources/contents_handling.py:161
-#: contents/resources/contents_handling.py:219
+#: contents/resources/contents_handling.py:103
 #, python-format
 msgid ""
 "The content quontity and db structure for view '%(view_id)s' in block "
-"'%(block_index)s' and locale '%(locale_id)s' has been successfully updated."
+"'%(identity)s' and locale '%(locale_id)s' has been successfully updated."
 msgstr ""
-"Количество содержимого и структура ДБ для странички '%(view_id)s', в блоке "
-"'%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
+"Количество содержимого и структура БД для странички '%(view_id)s', в блоке "
+"'%(identity)s' и c локализацией '%(locale_id)s' успешно обновлено."
 
-#: contents/resources/contents_handling.py:206
+#: contents/resources/contents_handling.py:153
 #, python-format
 msgid ""
 "While trying to remove element from block with index '%(block_index)s' on "
@@ -153,6 +286,15 @@ msgstr ""
 "При попытке удалить элемент из блока с индексом '%(block_index)s' на "
 "страничке '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
 "сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
+
+#: contents/resources/contents_handling.py:166
+#, python-format
+msgid ""
+"The content quontity and db structure for view '%(view_id)s' in block "
+"'%(block_index)s' and locale '%(locale_id)s' has been successfully updated."
+msgstr ""
+"Количество содержимого и структура ДБ для странички '%(view_id)s', в блоке "
+"'%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
 
 #: home/resources/index.py:26
 msgid "Global variables are as in payload."
@@ -334,10 +476,36 @@ msgstr "Не действительный регион."
 msgid "Not a valid time zone."
 msgstr "Не действительный часовой пояс."
 
-#: structure/errors/custom_exceptions.py:23
+#: structure/errors/custom_exceptions.py:44
 #, python-format
-msgid "Wrong upper level element key - %(message)s"
-msgstr "Неправильный ключ элемента верхнего уровня - %(message)s"
+msgid "Wrong upper level element value: %(message)s"
+msgstr "Неправильное значение элемента верхнего уровня - %(message)s"
+
+#: structure/errors/custom_exceptions.py:60
+msgid "Wrong upper level element configurations: "
+msgstr "Неверная конфигурация элемента верхнего уровня."
+
+#: structure/errors/custom_exceptions.py:77
+#, python-format
+msgid "Something went wrong with qnt operations: %(message)s"
+msgstr "Что-то пошло не так в операции qnt: %(message)s"
+
+#: structure/errors/custom_exceptions.py:104
+#, python-format
+msgid "You use invalid index: %(message)s"
+msgstr "Вы используете ошибочный индекс: %(message)s"
+
+#: structure/errors/custom_exceptions.py:117
+#, python-format
+msgid "You tried to remove last element from page view structure: %(message)s"
+msgstr ""
+"Вы пытаетесь уничтожить последний элемент верхнего уровня из структуры: "
+"%(message)s"
+
+#: structure/models/view_page_structure.py:60
+#, python-format
+msgid "Index %(index)s has been out of range."
+msgstr "Индекс %(index)s вне разрешенных значений."
 
 #: structure/resources/structure.py:35
 #, python-format
@@ -595,6 +763,45 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid ""
+#~ "Request does not containts required '%(argument)s', something wrong on "
+#~ "front-end."
+#~ msgstr ""
+#~ "Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
+#~ "фронт-енде."
+
+#~ msgid ""
+#~ "Request does not containts required '%(argument)s', something wrong on "
+#~ "front-end. "
+#~ msgstr ""
+#~ "Запрос не содержит обязательного '%(argument)s', что-то пошло не так на "
+#~ "фронт-енде. "
+
+#~ msgid ""
+#~ "Block index is out of range, either below 0 or above block items "
+#~ "quontity. Something wrong on front-end."
+#~ msgstr ""
+#~ "Индекс элемента в блоке вне возможных значений, или меньше нуля, или "
+#~ "больше количества элементов в блоке. Что-то не так на фронт-энде."
+
+#~ msgid ""
+#~ "While trying update view structure '%(view_id)s', locale '%(locale_id)s' "
+#~ "the following message has come: '%(result)s'. That's not good, check it "
+#~ "out."
+#~ msgstr ""
+#~ "При попытке обновить структуру картинки '%(view_id)s', локализация "
+#~ "'%(locale_id)s' получено следующее сообщение: '%(result)s'. Это не "
+#~ "хорошо, проверьте пожалуйста."
+
+#~ msgid ""
+#~ "While trying to add element into block with index '%(block_index)s' on "
+#~ "view '%(view_id)s' with locale '%(locale_id)s' the folliwng message has "
+#~ "come: '%(result)s'. That's not good, check it out."
+#~ msgstr ""
+#~ "При попытке добавить элемент в блок с индексом '%(block_index)s' на "
+#~ "страничку '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
+#~ "сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
 
 #~ msgid "The component kind with id_kind '%(id_kind)s' already exists."
 #~ msgstr "Тип компонента с идентификатором '%(id_kind)s' уже существует."
