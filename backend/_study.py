@@ -1,15 +1,11 @@
-from pprint import pprint as pp
-_admin_headers = {
-    'Authorization': 'Bearer _admin_access_token',
-    'Content-Type': 'application/json',
-    'Accept-Language': 'ru'}
+import json
+_json = {
+    "identity": "52_vblock_pix",
+    "item_index": 3,
+    "view_id": "landing"
+}
 
-result = {**_admin_headers}
+identity = _json
 
-result.pop('Authorization')
-
-result2 = {k: v for (k, v) in _admin_headers.items() if k != 'Authorization'}
-
-pp(_admin_headers, width=75)
-pp(result, width=50)
-pp(result2, width=50)
+print(json.dumps(_json, indent=4))
+print(_json)

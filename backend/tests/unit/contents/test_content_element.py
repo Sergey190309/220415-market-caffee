@@ -9,7 +9,13 @@ from application.contents.models.content_element import ContentElement
 # @pytest.mark.active
 def test_ContentElement_check_keys(value):
     '''success'''
-    assert ContentElement.check_keys(value())
+    # assert ContentElement.check_keys(value())
+    '''no keys'''
+    with pytest.raises(WrongElementKeyError) as e_info:
+        ContentElement.check_keys()
+    assert str(e_info.value)\
+        == ("Content element value key should be either 'title' or "
+            "'content', but nothing has been provided.")
     '''wrong key'''
     _wrong_title_key = 'wrong_title'
     _wrong_key_value = {**value(), _wrong_title_key: 'Mock title!'}

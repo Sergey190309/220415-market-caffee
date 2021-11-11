@@ -1,4 +1,5 @@
 from typing import Dict
+# import json
 
 from flask_babelplus import lazy_gettext as _
 
@@ -12,12 +13,20 @@ class ContentElement():
     '''
     _keys = ['title', 'content']
 
-    def __init__(self, value: Dict = {'title': '', 'content': ''}):
-        if ContentElement.check_keys(value):
+    def __init__(self, value: Dict = {}):
+        if len(value) == 0:
+            value = {'title': str(_("dummy")), 'content': str(_("dummy"))}
+            self._value = {**value}
+        elif ContentElement.check_keys(value):
             self._value = {**value}
 
     @classmethod
     def check_keys(cls, value: Dict = {}) -> bool:
+        if len(value) == 0:
+            raise WrongElementKeyError(
+                str(_("Content element value key should be either "
+                      "'title' or 'content', but nothing has been "
+                      "provided.")), 400)
         for key in value.keys():
             if key not in cls._keys:
                 raise WrongElementKeyError(

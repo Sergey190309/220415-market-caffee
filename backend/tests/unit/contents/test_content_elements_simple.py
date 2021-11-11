@@ -335,9 +335,12 @@ def test_ContentElementsSimple_delete_fm_db(client, value):
     with pytest.raises(RecordNotFoundError) as e_info:
         _element_instance.delete_fm_db(
             view_id=_view_id, locale_id=_locale_id)
-    assert str(e_info.value)\
-        == (f"Record with identity '{_identity}', view id '{_view_id}' "
-            f"and locale id '{_locale_id}' has not been found.")
+    # assert str(e_info.value)\
+    #     == (f"Record with identity '{_identity}', view id '{_view_id}' "
+    #         f"and locale id '{_locale_id}' has not been found.")
+    assert str(e_info.value).find(_identity) != -1
+    assert str(e_info.value).find(_view_id) != -1
+    assert str(e_info.value).find(_locale_id) != -1
     # print('\ntest_content_element:',
     #       '\n test_ContentElementsSimple_delete_fm_db',
-    #       '\n  _found_db_instance ->\n  ', _found_db_instance)
+    #       '\n  e_info.value ->\n  ', e_info.value)

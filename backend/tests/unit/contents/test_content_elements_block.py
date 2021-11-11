@@ -1,4 +1,5 @@
 import pytest
+from json import dumps
 from random import randrange, choice
 
 from application.modules.dbs_global import dbs_global
@@ -12,6 +13,7 @@ from application.contents.models.content_element import ContentElement
 from application.contents.models.contents import ContentModel
 from application.contents.schemas.contents import (
     content_schema, content_get_schema)
+from application.structure.models.structure import StructureModel
 
 
 # @pytest.mark.active
@@ -523,6 +525,7 @@ def test_ContentElementsBlock_load_fm_db(client, element, elements_dict):
             session=dbs_global.session)
         _content_record.save_to_db()
 
+    '''testing'''
     _identity = '_'.join([str(_upper_index_00).zfill(2), _type_00, _subtype])
     loaded_block_instance = ContentElementsBlock.load_fm_db(
         identity=_identity, view_id=_view_id, locale_id=_locale_id)
@@ -537,7 +540,7 @@ def test_ContentElementsBlock_load_fm_db(client, element, elements_dict):
 # @pytest.mark.active
 def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
     '''clean up content table'''
-    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]
     [_content.delete_fm_db() for _content in ContentModel.find()]
 
     '''create testing consants'''
@@ -572,7 +575,7 @@ def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
     for i, element in enumerate(loaded_instance.elements):
         assert element.value == _elements_dict[i]
 
-    '''get records directly from db'''
+    '''get records directly from content table'''
     _identity_like = '_'.join(
         [str(_upper_index).zfill(2), _type, _subtype])
     content_model_instance = ContentModel.find_identity_like(
@@ -590,6 +593,16 @@ def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
             'user_id': _user_id,
             **_elements_dict[i]
         }
+    '''get record from structure table, check it'''
+    _structure_dict = StructureModel.find_by_ids({
+        'view_id': _view_id,
+        'locale_id': _locale_id
+    }).get_element(_upper_index)
+    assert _structure_dict == {
+        'type': _type,
+        'subtype': _subtype,
+        'qnt': _size,
+        'name': f'name of {_type}'}
 
     '''correct loaded ContentElementsBlock instance and reduce element
         quantity'''
@@ -613,46 +626,84 @@ def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
     assert corrected_model_instance[_index].serialize().get('title')\
         == _new_title
 
+    '''get record from structure table, check it'''
+    _structure_dict = StructureModel.find_by_ids({
+        'view_id': _view_id,
+        'locale_id': _locale_id
+    }).get_element(_upper_index)
+    assert _structure_dict == {
+        'type': _type,
+        'subtype': _subtype,
+        'qnt': _size - 2,
+        'name': f'name of {_type}'}
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementsBlock_save_to_db',
+    #       '\n  _structure_dict ->', _structure_dict)
 
-@pytest.mark.active
+
+# @pytest.mark.active
 def test_ContentElementsBlock_delete_fm_db(
-        client, element, elements_dict):
-    '''clean up content table'''
-    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
-    [_content.delete_fm_db() for _content in ContentModel.find()]
-
+        client, create_test_content):
     '''create testing consants'''
-    _view_id = choice(global_constants.get_VIEWS_PKS)
-    _locale_id = choice(global_constants.get_PKS)
-    _upper_index = randrange(100)
-    _user_id = randrange(128)
-    _size = randrange(12)
-    _type = choice(ContentElementsBlock._types)
-    _subtype = choice(ContentElementsBlock._subtypes)
-    _name = f'name of {_type}'
-    _elements_dict = elements_dict(_size)
-    _identity = '_'.join([str(_upper_index).zfill(2), _type, _subtype])
-
-    '''create ContentElementsBlock instance'''
-    block_instance = ContentElementsBlock(
-        upper_index=_upper_index, type=_type, subtype=_subtype,
-        name=_name, elements=_elements_dict)
-    assert len(block_instance.elements) == _size
-
-    '''save it to db'''
-    block_instance.save_to_db(view_id=_view_id, locale_id=_locale_id,
-                              user_id=_user_id)
+    _size = 6
+    blocks_details = create_test_content(size_00=_size)
+    _view_id = blocks_details.get('view_id')
+    _locale_id = blocks_details.get('locale_id')
+    _block = blocks_details.get('block_00')
+    _identity = '_'.join([
+        str(_block.get('upper_index')).zfill(2),
+        _block.get('type'), _block.get('subtype')])
 
     '''load insance having PKs'''
     loaded_instance = ContentElementsBlock.load_fm_db(
-        identity=_identity, view_id=_view_id, locale_id=_locale_id)
+        identity=_identity,
+        view_id=_view_id,
+        locale_id=_locale_id)
     assert len(loaded_instance.elements) == _size
+
+    '''load respective structure record'''
+    _structure_record = StructureModel.find_by_ids({
+        'view_id': _view_id,
+        'locale_id': _locale_id
+    })
+
+    '''test structure records corresponds to sources'''
+    blocks = [item for item in blocks_details.keys()
+              if item not in ['view_id', 'locale_id']]
+    assert len(_structure_record.attributes) == len(blocks)
+    for item in blocks:
+        _dict_source = blocks_details.get(item)
+        _key = _dict_source.pop('upper_index')
+        _dict_target = _structure_record.attributes.get(
+            str(_key).zfill(2))
+        # _json_source = dumps(_dict_source, sort_keys=True)
+        # _json_target = dumps(_dict_target, sort_keys=True)
+        assert dumps(_dict_source, sort_keys=True)\
+            == dumps(_dict_target, sort_keys=True)
+
+    print('\ntest_content_elements_block',
+          '\n test_ContentElementsBlock_delete_fm_db',
+          '\n  blocks_details ->', dumps(blocks_details, indent=4),
+          )
+
     '''delete instance'''
     loaded_instance.delete_fm_db(view_id=_view_id, locale_id=_locale_id)
     '''try to load it again'''
     loaded_instance = ContentElementsBlock.load_fm_db(
         identity=_identity, view_id=_view_id, locale_id=_locale_id)
     assert loaded_instance is None
-    # print('\ntest_content_elements_block',
-    #       '\n test_ContentElementsBlock_delete_fm_db',
-    #       '\n  loaded_instance ->', loaded_instance)
+
+    '''load again respective structure record'''
+    _structure_record = StructureModel.find_by_ids({
+        'view_id': _view_id,
+        'locale_id': _locale_id
+    })
+
+    '''test structure records corresponds to sources'''
+    blocks = [item for item in blocks_details.keys()
+              if item not in ['view_id', 'locale_id']]
+    # assert len(_structure_record.attributes) == len(blocks) - 1
+
+    print('\n  _structure_record ->',
+          dumps(_structure_record.attributes, indent=4),
+          )

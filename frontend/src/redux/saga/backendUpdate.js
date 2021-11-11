@@ -34,11 +34,13 @@ function * elementsArgs (action) {
   } else {
     values = action.payload
   }
-  const { identity, index, ...others } = values
+  const { index, ...others } = values
+  // const { identity, index, ...others } = values
   // const json = { ...others, block_id: identity, item_index: index }
   // console.log('saga, backendUpdate:\n elementsArgs',
   //   '\n  others ->', others)
-  return { ...others, block_id: identity, item_index: index }
+  return { ...others, item_index: index }
+  // return { ...others, block_id: identity, item_index: index }
 }
 
 function * initConfirmPassword (error) {

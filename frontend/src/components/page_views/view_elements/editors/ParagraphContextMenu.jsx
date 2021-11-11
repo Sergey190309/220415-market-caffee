@@ -41,11 +41,13 @@ const ParagraphContextMenu = ({
   const dispatch = useDispatch()
 
   const { componentName } = useContext(LandingContext)
-  const { recordsId } = useContext(ElementSwitcherContext)
+  const { upperLevelElementId } = useContext(ElementSwitcherContext)
   const { index } = useContext(ViewParagraphContext)
 
   useEffect(() => {
-    // console.log('ParagraphContextMenu:\n useEffect[]',
+    // const uppreLevelElementId = recordsId.split('_').slice(0, -1).join('_')
+    console.log('ParagraphContextMenu:\n useEffect[]',
+      '\n  recordsId ->', upperLevelElementId)
     //   '\n  componentName ->', componentName,
     //   '\n  recordsId ->', recordsId,
     //   '\n  index ->', index
@@ -111,7 +113,7 @@ const ParagraphContextMenu = ({
       case ELEMENT_ADD_ABOVE:
         dispatch(backendAddElementStart({
           view_id: componentName,
-          identity: recordsId,
+          identity: upperLevelElementId,
           index
         }))
         // setMenuOpened(false)
@@ -119,7 +121,7 @@ const ParagraphContextMenu = ({
       case ELEMENT_ADD_BELOW:
         dispatch(backendAddElementStart({
           view_id: componentName,
-          identity: recordsId,
+          identity: upperLevelElementId,
           index: index + 1
         }))
         // setMenuOpened(false)
@@ -127,7 +129,7 @@ const ParagraphContextMenu = ({
       case ELEMENT_DELETE:
         dispatch(backendRemoveElementStart({
           view_id: componentName,
-          identity: recordsId,
+          identity: upperLevelElementId,
           index
         }))
         // setMenuOpened(false)

@@ -1,7 +1,7 @@
 import pytest
 # from flask import current_app
 from typing import Dict
-from random import randint, choice
+from random import randint, choice, randrange
 from string import ascii_lowercase
 from datetime import datetime
 
@@ -30,11 +30,108 @@ from application.global_init_data import global_constants
 from application.users.local_init_data_users import users_constants
 from application.home.local_init_data_home import Sessions
 
+from application.contents.models.content_elements_block import (
+    ContentElementsBlock)
+
 
 rv = RandomWords()
 rm = RandomEmails()
 # from application.components.schemas.component_kinds import (
 #     ComponentKindGetSchema, ComponentKindSchema)
+
+
+@pytest.fixture
+def element():
+    def _method(id: int = 0):
+        return{
+            'title': f'Title value No {str(id).zfill(3)}',
+            'content': f'Content value No {str(id).zfill(3)}'
+        }
+    return _method
+
+
+@pytest.fixture
+def elements_dict(element):
+    def _method(size: int = 0):
+        _elements = []
+        [_elements.append(element(i)) for i in range(size)]
+        return _elements
+    return _method
+
+
+@pytest.fixture
+def create_test_content(elements_dict) -> Dict:
+    '''
+    The fixture create classes and save them to db, return names and
+        other details for testing.
+    '''
+    def _method(locale: str = '', size_00: int = 0):
+        '''clean up content tables'''
+        [_structure.delete_fm_db() for _structure in StructureModel.find()]
+        [_content.delete_fm_db() for _content in ContentModel.find()]
+        '''choose testing constants'''
+        _view_id = choice(global_constants.get_VIEWS_PKS)
+        if locale == '':
+            _locale_id = choice(global_constants.get_PKS)
+        else:
+            _locale_id = locale
+        _upper_index_00 = randrange(100)
+        _upper_index_01 = randrange(100)
+        while _upper_index_01 == _upper_index_00:
+            _upper_index_01 = randrange(100)
+        if size_00 == 0:
+            _size_00 = randrange(3, 7)
+        else:
+            _size_00 = size_00
+        _size_01 = randrange(2, 5)
+        _type_00 = choice(ContentElementsBlock._types)
+        _type_01 = choice([item for item in ContentElementsBlock._types
+                           if item != _type_00])
+        _subtype_00 = choice(ContentElementsBlock._subtypes)
+        _subtype_01 = choice([item for item in ContentElementsBlock._subtypes
+                              if item != _subtype_00])
+        _name_00 = f'name of {_type_00}'
+        _name_01 = f'name of {_type_01}'
+
+        _elements_dict_00 = elements_dict(_size_00)
+        _elements_dict_01 = elements_dict(_size_01)
+
+        _block_instance_00 = ContentElementsBlock(
+            upper_index=_upper_index_00, type=_type_00, subtype=_subtype_00,
+            name=_name_00, elements=_elements_dict_00)
+        _block_instance_00.save_to_db(view_id=_view_id, locale_id=_locale_id)
+        _block_instance_01 = ContentElementsBlock(
+            upper_index=_upper_index_01, type=_type_01, subtype=_subtype_01,
+            name=_name_01, elements=_elements_dict_01)
+        _block_instance_01.save_to_db(view_id=_view_id, locale_id=_locale_id)
+
+        _structure_00 = _block_instance_00.serialize_to_structure
+        _structure_01 = _block_instance_01.serialize_to_structure
+        # print('\ntest_api_contents_handling:\n create_test_content',
+        #       '\n  _structure_00 ->', _structure_00,
+        #       '\n  _structure_01 ->', _structure_01,
+        #       )
+        return {
+            'view_id': _view_id,
+            'locale_id': _locale_id,
+            'block_00': {
+                'upper_index': _upper_index_00,
+                'type': _type_00,
+                'subtype': _subtype_00,
+                'name': _name_00,
+                'qnt': _structure_00.get(
+                    str(_upper_index_00).zfill(2)).get('qnt')
+            },
+            'block_01': {
+                'upper_index': _upper_index_01,
+                'type': _type_01,
+                'subtype': _subtype_01,
+                'name': _name_01,
+                'qnt': _structure_01.get(
+                    str(_upper_index_01).zfill(2)).get('qnt')
+            }
+        }
+    return _method
 
 
 @pytest.fixture(scope='session')
