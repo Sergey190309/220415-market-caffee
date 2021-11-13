@@ -291,7 +291,7 @@ class ContentElementsBlock(ContentElements):
             }, session=dbs_global.session)
             return _structure_instance.save_to_db()
         else:
-            _structure_attributes = {**_structure_instance.attributes, }
+            _structure_attributes = {**_structure_instance.attributes}
         # print('\nContentElementBlock:\n save_to_db',
         #       '\n  _structure_attributes', _structure_attributes,)
         key = str(self.upper_index).zfill(2)

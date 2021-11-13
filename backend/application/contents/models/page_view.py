@@ -1,12 +1,14 @@
 from typing import List, Union, Dict, Callable
 # from .content_elements import ContentElements
 from flask_babelplus import lazy_gettext as _
-from application.global_init_data import global_constants
+# from application.global_init_data import
+from ...global_init_data import global_constants
 from ..errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
     WrongValueError)
 from .content_elements_simple import ContentElementsSimple
 from .content_elements_block import ContentElementsBlock
+from ...structure.models.structure import StructureModel
 
 
 def ul_element_serializer(ul_element: Union[
@@ -156,6 +158,32 @@ def create_block_ul_element(
     )
 
 
+def ul_element_loader(
+        ids: Dict = {}, key: str = '', type: str = '', subtype: str = '',
+        name: str = '') -> Callable:
+    if type in ContentElementsSimple._types:
+        _simple_element = ContentElementsSimple.load_fm_db(
+            identity='_'.join([key, type]), **ids)
+        _simple_element.name = name
+        return _simple_element
+    elif type in ContentElementsBlock._types:
+        _block_element = ContentElementsBlock.load_fm_db(
+            identity='_'.join([key, type, subtype]), **ids)
+        _block_element.name = name
+        return _block_element
+    else:
+        if not isinstance(type, str):
+            raise WrongTypeError(
+                str(_("You try to operate upper level element type - "
+                      "'%(type)s', it's wrong.",
+                      type=type(type))), 400)
+        else:
+            raise WrongValueError(
+                str(_("You try to use '%(type)s' as upper level element "
+                      "type. It's wrong.",
+                      type=type)), 400)
+
+
 class PageView():
     '''
     The class represents whole page as a list of Content Elements, both
@@ -220,7 +248,8 @@ class PageView():
         self._locale = value
 
     @property
-    def elements(self) -> List:
+    def elements(self) -> List[Union[ContentElementsSimple,
+                                     ContentElementsBlock]]:
         return self._elements
 
     @elements.setter
@@ -240,6 +269,14 @@ class PageView():
         self._elements = value
 
     def get_element_vals(self, index: int = 0) -> Dict:
+        '''
+        Then method return dictionary. Parent part of upper level elements
+            are same.
+        Simple element - attribute element: Dict
+        Block element - attribute elements: list of dict
+        Not sure where can I use it.
+        '''
+
         self.check_index(index)
         # _ul_element = self.elements[index]
         # print('\npage_view:\n get_element_dict',
@@ -273,7 +310,8 @@ class PageView():
     def insert_vals(
             self, index: int = 0, element_type: str = '',
             subtype: str = '', name: str = '',
-            element_value: Union[Dict, List] = {}) -> None:
+            element_value: Union[Dict, List[Dict]] = {}) -> None:
+
         self.check_index(index, ext=True)
         kwargs = {
             'index': index,
@@ -317,3 +355,51 @@ class PageView():
                 **_attributes, **element.serialize_to_structure}
         return {**{'view_id': self.view_name, 'locale_id': self.locale},
                 'attributes': _attributes}
+
+    @classmethod
+    def load_fm_db(
+            cls, ids: Dict = {}) -> 'PageView':
+        '''
+        The method load all available info based on view and locale.
+        First is takes structure, then contents.
+        I don't set error handling cause I do not plan to use this method
+            in working flow, testing only.
+        '''
+        '''load respective record from structure table'''
+        _structure = StructureModel.find_by_ids(ids)
+        _attributes = _structure.attributes
+        _upper_level_elements = []
+        print('\nPageView\n load_fm_db')
+        #       ContentElementsSimple._types)
+        for key in _attributes.keys():
+            '''get identity'''
+            _type = _attributes.get(key).get('type')
+            _subtype = _attributes.get(key).get('subtype')
+            _name = _attributes.get(key).get('name')
+            print('  name ->', _name)
+            _identity = '_'.join([key, _type])
+            if _subtype is not None:
+                _identity = '_'.join([_identity, _subtype])
+            _upper_level_elements.append(ul_element_loader(
+                ids=ids, key=key, type=_type,
+                subtype=_subtype, name=_name))
+        return PageView(
+            view_name=ids.get('view_id'), locale=ids.get('locale_id'),
+            elements=_upper_level_elements)
+
+    def save_to_db(self, user_id: int = 0) -> Union[None, str]:
+        '''
+        The method save the instance to content and structure tables.
+        Returning string conteins error report from called methods.
+        '''
+        # print('PageView:\n save_to_db')
+        for element in self.elements:
+            result = element.save_to_db(
+                view_id=self.view_name, locale_id=self.locale,
+                user_id=user_id)
+            if result is not None:
+                return result
+        return None
+
+    def delete_fm_db(self):
+        pass

@@ -12,6 +12,8 @@ from .content_elements import ContentElements
 from .content_element import ContentElement
 from .contents import ContentModel
 from ..schemas.contents import content_schema
+from application.structure.models.structure import StructureModel
+from application.structure.schemas.structure import structure_schema
 
 
 class ContentElementsSimple(ContentElements):
@@ -122,7 +124,8 @@ class ContentElementsSimple(ContentElements):
             upper_index=int(_info[0]), type=_info[1], element=_value)
 
     def save_to_db(self, view_id: str = '',
-                   locale_id: str = '') -> Union[None, str]:
+                   locale_id: str = '',
+                   user_id: int = 0) -> Union[None, str]:
         '''
         The method update or create new record in contents tables. If new
             content table record created correct structure table.
@@ -135,7 +138,8 @@ class ContentElementsSimple(ContentElements):
             '''if not create ContentModel instance and save it'''
             _element_to_db = content_schema.load({
                 **self.serialize_to_content,
-                'view_id': view_id, 'locale_id': locale_id
+                'view_id': view_id, 'locale_id': locale_id,
+                'user_id': user_id,
             }, session=dbs_global.session)
             _element_to_db.save_to_db()
         else:
@@ -144,6 +148,29 @@ class ContentElementsSimple(ContentElements):
             _available_record.update({
                 'title': _updating_values.get('title'),
                 'content': _updating_values.get('content')})
+        '''structure table operations'''
+        '''get existing structure record'''
+        _structure_instance = StructureModel.find_by_ids(ids={
+            'view_id': view_id,
+            'locale_id': locale_id
+        })
+        '''no such structure records'''
+        if _structure_instance is None:
+            _structure_instance = structure_schema.load({
+                'view_id': view_id,
+                'locale_id': locale_id,
+                'user_id': user_id,
+                'attributes': self.serialize_to_structure
+            }, session=dbs_global.session)
+            return _structure_instance.save_to_db()
+        else:
+            _structure_attributes = {**_structure_instance.attributes}
+        key = str(self.upper_index).zfill(2)
+        _structure_attributes[key] = self.serialize_to_structure.get(key)
+        # print('\nContentElementsSimple:\n save_to_db',
+        #       '\n  _structure_instance ->', _structure_instance)
+        return _structure_instance.update(
+            {'attributes': _structure_attributes, 'user_id': user_id})
 
     def delete_fm_db(self, view_id: str = '',
                      locale_id: str = '') -> Union[None, str]:
