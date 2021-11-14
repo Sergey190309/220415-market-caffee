@@ -7,6 +7,7 @@ from flask_babelplus import lazy_gettext as _
 
 
 class ContentElements():
+
     _type_values = []
 
     def __init__(
