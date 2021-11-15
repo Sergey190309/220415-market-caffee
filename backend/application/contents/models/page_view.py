@@ -264,7 +264,8 @@ class PageView():
                     str(_("Type of upper level element should be within "
                           "'%(types)s' but '%(type)s' has been "
                           "delivered.",
-                          types='[ContentElementsSimple, ContentElementsBlock]',
+                          types=('[ContentElementsSimple, '
+                                 'ContentElementsBlock]'),
                           type=type(ul_element))), 400)
         self._elements = value
 
