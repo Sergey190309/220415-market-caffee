@@ -1,6 +1,6 @@
 import pytest
 # from typing import Dict
-from json import dumps
+# from json import dumps
 from random import randrange
 # from pprint import pprint as pp
 from flask import url_for
@@ -14,93 +14,6 @@ from application.contents.models import ContentModel
 #     fill_structure)
 # from application.contents.models.content_elements_block import (
 #     ContentElementsBlock)
-
-
-# @pytest.fixture
-# def element():
-#     def _method(id: int = 0):
-#         return{
-#             'title': f'Title value No {str(id).zfill(3)}',
-#             'content': f'Content value No {str(id).zfill(3)}'
-#         }
-#     return _method
-
-
-# @pytest.fixture
-# def elements_dict(element):
-#     def _method(size: int = 0):
-#         _elements = []
-#         [_elements.append(element(i)) for i in range(size)]
-#         return _elements
-#     return _method
-
-
-# @pytest.fixture
-# def create_test_content(elements_dict) -> Dict:
-#     '''
-#     The fixture create classes and save them to db, return names and
-#         other details for testing.
-#     '''
-#     def _method(locale: str = ''):
-#         '''clean up content tables'''
-#         [_structure.delete_fm_db() for _structure in StructureModel.find()]
-#         [_content.delete_fm_db() for _content in ContentModel.find()]
-#         '''choose testing constants'''
-#         _view_id = choice(global_constants.get_VIEWS_PKS)
-#         _locale_id = locale
-#         _upper_index_00 = randrange(100)
-#         _upper_index_01 = randrange(100)
-#         while _upper_index_01 == _upper_index_00:
-#             _upper_index_01 = randrange(100)
-#         _size_00 = 6
-#         # _size_00 = randrange(3, 7)
-#         _size_01 = randrange(2, 5)
-#         _type_00 = choice(ContentElementsBlock._types)
-#         _type_01 = choice([item for item in ContentElementsBlock._types
-#                            if item != _type_00])
-#         _subtype_00 = choice(ContentElementsBlock._subtypes)
-#         _subtype_01 = choice([item for item in ContentElementsBlock._subtypes
-#                               if item != _subtype_00])
-#         _name_00 = f'name of {_type_00}'
-#         _name_01 = f'name of {_type_01}'
-
-#         _elements_dict_00 = elements_dict(_size_00)
-#         _elements_dict_01 = elements_dict(_size_01)
-
-#         _block_instance_00 = ContentElementsBlock(
-#             upper_index=_upper_index_00, type=_type_00, subtype=_subtype_00,
-#             name=_name_00, elements=_elements_dict_00)
-#         _block_instance_00.save_to_db(view_id=_view_id, locale_id=_locale_id)
-#         _block_instance_01 = ContentElementsBlock(
-#             upper_index=_upper_index_01, type=_type_01, subtype=_subtype_01,
-#             name=_name_01, elements=_elements_dict_01)
-#         _block_instance_01.save_to_db(view_id=_view_id, locale_id=_locale_id)
-
-#         _structure_00 = _block_instance_00.serialize_to_structure
-#         _structure_01 = _block_instance_01.serialize_to_structure
-#         # print('\ntest_api_contents_handling:\n create_test_content',
-#         #       '\n  _structure_00 ->', _structure_00,
-#         #       '\n  _structure_01 ->', _structure_01,
-#         #       )
-#         return {
-#             'view_id': _view_id,
-#             'locale_is': _locale_id,
-#             'block_00': {
-#                 'upper_index': _upper_index_00,
-#                 'type': _type_00,
-#                 'subtype': _subtype_00,
-#                 'qnt': _structure_00.get(
-#                     str(_upper_index_00).zfill(2)).get('qnt')
-#             },
-#             'block_01': {
-#                 'upper_index': _upper_index_01,
-#                 'type': _type_01,
-#                 'subtype': _subtype_01,
-#                 'qnt': _structure_01.get(
-#                     str(_upper_index_01).zfill(2)).get('qnt')
-#             }
-#         }
-#     return _method
 
 
 # @pytest.mark.active
@@ -236,7 +149,7 @@ def test_ContentsHandling_put(
     # # [_structure.delete_fm_db() for _structure in StructureModel.find()]
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.parametrize(
     ('lng, test_word, test_word_01, test_word_02, test_word_03,'
      'test_word_04, test_word_05'),

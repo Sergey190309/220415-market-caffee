@@ -13,8 +13,7 @@ from application.contents.schemas.contents import content_schema
 from application.contents.models.content_elements_simple import (
     ContentElementsSimple)
 from application.contents.models.content_element import ContentElement
-
-# from application.structure.models.structure import StructureModel
+from application.structure.models.structure import StructureModel
 
 
 # @pytest.mark.active
@@ -228,12 +227,13 @@ def test_ContentElementsSimple_load_fm_db(client, value):
 # @pytest.mark.active
 def test_ContentElementsSimple_save_to_db(client, value):
     '''clean up structure and content tables'''
-    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]
     [_content.delete_fm_db() for _content in ContentModel.find()]
     '''init'''
     _view_id = choice(global_constants.get_VIEWS_PKS)
     _locale_id = choice(global_constants.get_PKS)
     _upper_index = randrange(100)
+    _user_id = randrange(128)
     _type = 'header'
     _name = 'name'
     _value = value('db value')
@@ -243,7 +243,8 @@ def test_ContentElementsSimple_save_to_db(client, value):
     content_elements = ContentElementsSimple(
         upper_index=_upper_index, type=_type,
         name=_name, element=_element)
-    content_elements.save_to_db(view_id=_view_id, locale_id=_locale_id)
+    content_elements.save_to_db(
+        view_id=_view_id, locale_id=_locale_id, user_id=_user_id)
     '''testing'''
     _found_db_instance = ContentModel.find_by_identity_view_locale(
         identity='_'.join([str(_upper_index).zfill(2), _type]),
