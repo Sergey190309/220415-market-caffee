@@ -347,10 +347,13 @@ def test_PageView_set_element_dict(view_name, locale, simple_element,
                     assert item.find(_marker) != -1
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_PageView_insert_vals_success(
         client, view_name, locale, simple_element, block_element,
         elements):
+    '''clean up content table'''
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+
     _page_view = PageView(
         view_name=view_name, locale=locale, elements=elements)
     '''insert simple upper level element to beginning'''
@@ -367,47 +370,73 @@ def test_PageView_insert_vals_success(
         'element_value': _simple_element.element.value
     }
     _length = len(_page_view.elements)
-    _last_elem_json = dumps(
-        _page_view.get_element_vals(_length - 1), sort_keys=True)
+    _last_elem_dict = _page_view.get_element_vals(_length - 1)
     _page_view.insert_vals(_insert_position, **simple_kwargs)
 
-    print('\ntest_page_view:\n test_PageView_insert_vals')
-    for item in _page_view.elements:
-        print('\t', dumps(item.serialize_to_content, indent=4),
-              )
-    _page_view.save_to_db(user_id=5)
+    # _page_view.save_to_db(user_id=5)
 
-    # '''tests'''
-    # assert len(_page_view.elements) == _length + 1
-    # assert _inserting_json == dumps(_page_view.get_element_vals(
-    #     _insert_position), sort_keys=True)
-    # assert _last_elem_json == dumps(_page_view.get_element_vals(
-    #     _length), sort_keys=True)
+    '''tests'''
+    assert len(_page_view.elements) == _length + 1
+    assert _inserting_json == dumps(_page_view.get_element_vals(
+        _insert_position), sort_keys=True)
+    _last_elem_dict['index'] = _last_elem_dict.get('index') + 1
+    _last_elem_json = dumps(_last_elem_dict, sort_keys=True)
+    assert _last_elem_json == dumps(_page_view.get_element_vals(
+        _length), sort_keys=True)
 
-    # '''insert to end'''
-    # # _insert_position = 0
-    # _el_type = 'hblock'
-    # _el_subtype = 'pix'
-    # _qnt = 3
-    # _marker = 'insert to end'
+    '''insert to end'''
+    _length = len(_page_view.elements)
+    _insert_position = _length
+    _el_type = 'footer'
+    _marker = 'insert to end'
+    _simple_element = simple_element(
+        upper_index=_insert_position, type=_el_type, marker=_marker)
+    _inserting_json = dumps(
+        ul_element_extractor(_simple_element), sort_keys=True)
+    simple_kwargs = {
+        'element_type': _simple_element.type,
+        # 'subtype': '',
+        'name': _simple_element.name,
+        'element_value': _simple_element.element.value
+    }
+    _last_elem_dict = _page_view.get_element_vals(_length - 1)
+    _page_view.insert_vals(_insert_position, **simple_kwargs)
+
+    '''tests'''
+    assert len(_page_view.elements) == _length + 1
+    assert dumps(_page_view.get_element_vals(
+        _insert_position), sort_keys=True) == _inserting_json
+
+    # _page_view.save_to_db(user_id=5)
+    '''insert in a between'''
+    _length = len(_page_view.elements)
+    _insert_position = randrange(1, _length)
+    _el_type = 'hblock'
+    _el_subtype = 'pix'
+    _qnt = 3
+    _marker = 'insert to someware'
     # _length = len(_page_view.elements)
-    # _block_element = block_element(
-    #     upper_index=_length, type=_el_type, subtype=_el_subtype,
-    #     qnt=_qnt, marker=_marker)
-    # _inserting_json = dumps(
-    #     ul_element_extractor(_block_element), sort_keys=True)
-    # _element_values = [item.value for item in _block_element.elements]
-    # _block_kwargs = {
-    #     'element_type': _block_element.type,
-    #     'subtype': _block_element.subtype,
-    #     'name': _block_element.name,
-    #     'element_value': _element_values
-    # }
-    # _page_view.insert_vals(_length, **_block_kwargs)
-    # '''testing'''
-    # assert len(_page_view.elements) == _length + 1
-    # assert _inserting_json == dumps(_page_view.get_element_vals(
-    #     _length), sort_keys=True)
+    _block_element = block_element(
+        upper_index=_insert_position, type=_el_type, subtype=_el_subtype,
+        qnt=_qnt, marker=_marker)
+    _inserting_dict = ul_element_extractor(_block_element)
+    _element_values = [item.value for item in _block_element.elements]
+    _block_kwargs = {
+        'element_type': _block_element.type,
+        'subtype': _block_element.subtype,
+        'name': _block_element.name,
+        'element_value': _element_values
+    }
+    _page_view.insert_vals(_insert_position, **_block_kwargs)
+    '''testing'''
+    assert len(_page_view.elements) == _length + 1
+    _inserting_json = dumps(_inserting_dict, sort_keys=True)
+    assert dumps(_page_view.get_element_vals(
+        _insert_position), sort_keys=True) == _inserting_json
+    # print('\ntest_page_view:\n test_PageView_insert_vals')
+    # for item in _page_view.elements:
+    #     print('\t', dumps(item.serialize_to_content, indent=4),
+    #           )
 
 
 # @pytest.mark.active
@@ -469,22 +498,24 @@ def test_PageView_insert_vals_fail(
     # print('\ntest_page_view:\ntest_PageView_insert_vals\n\n',)
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_PageView_remove_vals(view_name, locale, simple_element,
                               block_element, elements):
-    _remove_position = 1
     _page_view = PageView(
         view_name=view_name, locale=locale, elements=elements)
     _length = len(_page_view.elements)
+    _remove_position = randrange(_length)
     _element_in_page = dumps(
         _page_view.get_element_vals(_remove_position), sort_keys=True)
     _removed_element = dumps(
         _page_view.remove_vals(_remove_position), sort_keys=True)
     assert len(_page_view.elements) == _length - 1
     assert _element_in_page == _removed_element
-    # print('\ntest_page_view:\ntest_PageView_remove_vals',
-    #       '\n  _removed_element ->', _removed_element
-    #       )
+    _last_element = _page_view.get_element_vals(_length - 2)
+    assert _last_element.get('index') == len(_page_view.elements) - 1
+    # print('\ntest_page_view:\n test_PageView_insert_vals',
+    #       '\n  _element_in_page ->', _element_in_page,
+    #       '\n  _removed_element ->', _removed_element)
 
 
 # @pytest.mark.active

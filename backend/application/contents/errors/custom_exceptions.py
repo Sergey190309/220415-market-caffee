@@ -129,3 +129,18 @@ class WrongLocaleError(ContentErrors):
             'Wrong locale: %(message)s',
             message=message)))
         print(error)
+
+
+class WrongDirection(ContentErrors):
+    '''
+    The exception is raising when index handling direction is neither
+        'inc' not 'dec'.
+    '''
+
+    def __init__(self, message, error):
+        super().__init__(message, error)
+        self.error = error
+        print(str(_(
+            'Wrong direction: %(message)s',
+            message=message)))
+        print(error)

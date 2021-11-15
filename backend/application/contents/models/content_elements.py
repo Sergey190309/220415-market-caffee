@@ -1,5 +1,6 @@
 from typing import List, Union
-from ..errors.custom_exceptions import WrongIndexError, WrongTypeError
+from ..errors.custom_exceptions import (
+    WrongIndexError, WrongTypeError, WrongDirection)
 
 from flask_babelplus import lazy_gettext as _
 
@@ -62,6 +63,27 @@ class ContentElements():
             self._name = value
         else:
             self._name = ''
+
+    def ul_index(self, direction: str = '', old_index: int = -1) -> int:
+        '''
+        Depending on direction increase or decrease old_index by 1.
+        If no old_index provided use internal one.
+        direction: Union['inc', 'dec']
+        The method returns new upper level index.
+        '''
+        if old_index == -1:
+            old_index = self.upper_index
+        if direction == 'inc':
+            self.upper_index = old_index + 1
+        elif direction == 'dec':
+            self.upper_index = old_index - 1
+        else:
+            raise WrongDirection(
+                str(_("Index change direction may be either 'inc' as "
+                      "increase or 'dec' as decrease, but "
+                      "'%(direction)s' has been provided.",
+                      direction=direction)), 400)
+        return self.upper_index
 
     def save_to_db(self) -> Union[None, str]:
         pass

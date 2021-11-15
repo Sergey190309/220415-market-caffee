@@ -16,7 +16,8 @@ def view_api_resp(
     '''
     def _method(values: Dict = {}, headers: Dict = {}):
         _values_json = view_global_schema.dump(view_instance(values))
-        resp = client.post(url_for('viewglobal'), json=_values_json, headers=headers)
+        resp = client.post(
+            url_for('viewglobal'), json=_values_json, headers=headers)
         return resp
     return _method
 
@@ -85,7 +86,8 @@ def test_view_post_already_exists(
     resp = view_api_resp(headers=_headers)
     original_key = {}
     original_key['view_id'] = resp.json.get('payload').get('view_id')
-    resp = client.post(url_for('viewglobal'), json=original_key, headers=_headers)
+    resp = client.post(
+        url_for('viewglobal'), json=original_key, headers=_headers)
     assert resp.status_code == 400
     assert 'payload' not in resp.json.keys()
     assert 'message' in resp.json.keys()
@@ -152,7 +154,8 @@ def test_view_put(client, view_api_resp, user_instance, access_token):
     # Try to update view with wrong key
     _wrong_key_json = _json.copy()
     _wrong_key_json['view_id'] = 'wrong'
-    resp = client.put(url_for('viewglobal'), json=_wrong_key_json, headers=_headers)
+    resp = client.put(
+        url_for('viewglobal'), json=_wrong_key_json, headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
@@ -178,14 +181,16 @@ def test_view_delete(client, view_api_resp, user_instance, access_token):
 
     # try to delete with wring key
     _wrong_params = {'view_id': 'wrong_key'}
-    resp = client.delete(url_for('viewglobal', **_wrong_params), headers=_headers)
+    resp = client.delete(
+        url_for('viewglobal', **_wrong_params), headers=_headers)
     assert resp.status_code == 404
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()
     assert isinstance(resp.json.get('message'), str)
 
-    # delete wire with corrct key
-    resp = client.delete(url_for('viewglobal', **_params), headers=_headers)
+    # delete wire with correct key
+    resp = client.delete(
+        url_for('viewglobal', **_params), headers=_headers)
     assert resp.status_code == 200
     assert 'message' in resp.json.keys()
     assert 'payload' not in resp.json.keys()

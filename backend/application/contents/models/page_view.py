@@ -323,11 +323,29 @@ class PageView():
         }
         # _new_element = ul_element_creator(**kwargs)
         self.elements.insert(index, ul_element_creator(**kwargs))
+        # print('\nPageView:\n insert_vals',
+        #       #   '\n  index ->', index
+        #       )
+        '''increase upper level element index for all elements are index
+            above inserted'''
+        for i, element in enumerate(self.elements):
+            if i <= index:
+                continue
+            element.ul_index('inc', i - 1)
+            # print('  element ->', element,
+            #       '\n  i ->', i)
 
     def remove_vals(self, index: int = 0) -> Dict:
         self.check_index(index)
-        # element = self.elements.pop(index)
-        return ul_element_extractor(self.elements.pop(index))
+        removed_element = self.elements.pop(index)
+        '''decrease upper level element index for all elements are index
+            above deleted'''
+        for i, element in enumerate(self.elements):
+            if i < index:
+                continue
+            element.ul_index('dec', i + 1)
+
+        return ul_element_extractor(removed_element)
 
     @property
     def serialize_to_content(self) -> List:
@@ -365,19 +383,20 @@ class PageView():
         First is takes structure, then contents.
         I don't set error handling cause I do not plan to use this method
             in working flow, testing only.
+        ids - PKs in StructureModel (view_id, locale_id).
         '''
         '''load respective record from structure table'''
         _structure = StructureModel.find_by_ids(ids)
         _attributes = _structure.attributes
         _upper_level_elements = []
-        print('\nPageView\n load_fm_db')
+        # print('\nPageView\n load_fm_db')
         #       ContentElementsSimple._types)
         for key in _attributes.keys():
             '''get identity'''
             _type = _attributes.get(key).get('type')
             _subtype = _attributes.get(key).get('subtype')
             _name = _attributes.get(key).get('name')
-            print('  name ->', _name)
+            # print('  name ->', _name)
             _identity = '_'.join([key, _type])
             if _subtype is not None:
                 _identity = '_'.join([_identity, _subtype])

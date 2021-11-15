@@ -30,12 +30,15 @@ class StructureModel(dbs_global.Model):
     created = dbs_global.Column(
         dbs_global.DateTime, nullable=False, default=datetime.now())
     updated = dbs_global.Column(dbs_global.DateTime)
-    user_id = dbs_global.Column(dbs_global.Integer, nullable=False, default=0)
+    user_id = dbs_global.Column(
+        dbs_global.Integer, nullable=False, default=0)
     attributes = dbs_global.Column(MutableDict.as_mutable(
         mysql.JSON), nullable=False, default={})
 
-    locale = dbs_global.relationship('LocaleGlobalModel', backref='structuremodel')
-    view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
+    locale = dbs_global.relationship(
+        'LocaleGlobalModel', backref='structuremodel')
+    view = dbs_global.relationship(
+        'ViewGlobalModel', backref='structuremodel')
 
     @classmethod
     def find_by_ids(cls, ids: Dict = {}) -> Union['StructureModel', None]:

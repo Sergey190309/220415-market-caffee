@@ -1,24 +1,32 @@
 import pytest
+from typing import List
+from random import randrange
+
 
 from application.contents.errors.custom_exceptions import (
-    WrongIndexError, WrongTypeError)
+    WrongIndexError, WrongTypeError, WrongDirection)
 from application.contents.models.content_elements import ContentElements
 
 
 @pytest.fixture
 def values():
-    return {
-        'index': 5,
-        'type': 'type01',
-        'types': ['type00', 'type01', 'type02'],
-        'name': 'name',
-    }
+    def _method(
+            index: int = 5, type: str = 'type01',
+            types: List = ['type00', 'type01', 'type02'],
+            name: str = 'name'):
+        return {
+            'index': index,
+            'type': type,
+            'types': types,
+            'name': name,
+        }
+    return _method
 
 
 # @pytest.mark.active
 def test_ContentElements_init_success(values):
     '''init, success'''
-    _index, _type, _types, _name = values.values()
+    _index, _type, _types, _name = values().values()
     content_elements = ContentElements(
         upper_index=_index, type=_type,
         types=_types, name=_name)
@@ -29,7 +37,7 @@ def test_ContentElements_init_success(values):
 
 # @pytest.mark.active
 def test_ContentElements_init_fail(values):
-    _index, _type, _types, _name = values.values()
+    _index, _type, _types, _name = values().values()
     '''wrongindex'''
     '''negative index'''
     _wrong_index = -1
@@ -64,7 +72,7 @@ def test_ContentElements_init_fail(values):
 # @pytest.mark.active
 def test_ContentElements_set_get_success(values):
     '''init, success'''
-    _index, _type, _types, _name = values.values()
+    _index, _type, _types, _name = values().values()
     content_elements = ContentElements(
         upper_index=_index, type=_type,
         types=_types, name=_name)
@@ -82,3 +90,53 @@ def test_ContentElements_set_get_success(values):
     #       '\n test_ContentElements_init_success',
     #   '\n  values ->', _values,
     #   )
+
+
+# @pytest.mark.active
+def test_ContentElements_ul_index(values):
+    _index, _type, _types, _name = values(
+        index=randrange(1, 99)).values()
+    content_elements = ContentElements(
+        upper_index=_index, type=_type,
+        types=_types, name=_name)
+
+    '''success'''
+    result = content_elements.ul_index(direction='inc')
+    assert content_elements.upper_index == _index + 1 == result
+    result = content_elements.ul_index(direction='dec')
+    assert content_elements.upper_index == _index == result
+
+    _old_index = randrange(1, 99)
+    result = content_elements.ul_index(
+        direction='inc', old_index=_old_index)
+    assert content_elements.upper_index == _old_index + 1 == result
+    _old_index = randrange(1, 99)
+    result = content_elements.ul_index(
+        direction='dec', old_index=_old_index)
+    assert content_elements.upper_index == _old_index - 1 == result
+
+    '''fails'''
+    '''wrong direction'''
+    _wrong = 'fuck'
+    with pytest.raises(WrongDirection) as e_info:
+        content_elements.ul_index(direction=_wrong)
+    assert str(e_info.value)\
+        == ("Index change direction may be either 'inc' as increase or "
+            f"'dec' as decrease, but '{_wrong}' has been provided.")
+
+    _old_index = 99
+    with pytest.raises(WrongIndexError) as e_info:
+        content_elements.ul_index(direction='inc', old_index=_old_index)
+    assert str(e_info.value)\
+        == f"Index has been '{_old_index + 1}', it's wrong."
+    _old_index = 0
+    with pytest.raises(WrongIndexError) as e_info:
+        content_elements.ul_index(direction='dec', old_index=_old_index)
+    assert str(e_info.value)\
+        == f"Index has been '{_old_index - 1}', it's wrong."
+
+    # print('\ntest_content_elements:',
+    #       '\n test_ContentElements_ul_index',
+    #       '\n  content_elements.upper_index ->',
+    #       content_elements.upper_index,
+    #       )
