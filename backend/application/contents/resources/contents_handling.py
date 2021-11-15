@@ -1,5 +1,5 @@
 from typing import Dict
-from json import dumps
+# from json import dumps
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -15,6 +15,7 @@ from ..errors.custom_exceptions import WrongIndexError
 
 
 class ContentsHandling(Resource):
+    '''list of kwargs dictionary keys for testing validity'''
     _kwargs = ['identity', 'item_index', 'view_id', 'locale_id'].sort()
     block_id: str = ''  # 01_vblock_txt_4
     block_index: int = '',  # index block on a page
@@ -55,13 +56,13 @@ class ContentsHandling(Resource):
     def no_access(cls) -> Dict:
         return {
             'message': str(_(
-                "Sorry, access to views' information is allowed to admin only."
+                "Sorry, access to views' information is allowed to admin "
+                "only."
             ))
         }, 401
 
     @classmethod
     def error_message(cls, error_info: str = '', status: int = 0) -> Dict:
-        # print('contents, resources, contents_handling, error_info ->', error_info)
         return {
             'message': str(_(
                 "Something went wrong. Info in payload.")),
@@ -169,45 +170,3 @@ class ContentsHandling(Resource):
             '''report some wrong argument errors'''
             return cls.error_message(error_info=str(e), status=400)
             raise e
-        # if _aux_info is not None:
-        #     return _aux_info
-        # '''Find appropriage record in structure to correct'''
-        # _view_id = _requested_json.get('view_id')
-        # _criterion = {'view_id': _view_id,
-        #               'locale_id': _lng}
-        # _tested_criterion = structure_get_schema.load(_criterion)
-        # _structure = StructureModel.find_by_ids(_tested_criterion)
-        # _structure.change_element_qnt('dec', int(cls.block_index), _user_id)
-        # '''Remove one record from db contents with approapriate locale.'''
-        # result = ContentModel.remove_element_fm_block(
-        #     block_id=cls.block_id,
-        #     item_index=cls.item_index,
-        #     view_id=_view_id,
-        #     locale_id=_lng,
-        #     user_id=_user_id
-        # )
-
-        # if result is not None:
-        #     return {
-        #         'message': str(_(
-        #             "While trying to remove element from block with "
-        #             "index '%(block_index)s' on view '%(view_id)s' "
-        #             "with locale '%(locale_id)s' the folliwng message "
-        #             "has come: '%(result)s'. That's not good, check "
-        #             "it out.",
-        #             view_id=_view_id,
-        #             block_index=cls.block_index,
-        #             locale_id=_lng,
-        #             result=result
-        #         ))
-        #     }, 500
-        # return {
-        #     'message': str(_(
-        #         "The content quontity and db structure for view "
-        #         "'%(view_id)s' in block '%(block_index)s' and locale "
-        #         "'%(locale_id)s' has been "
-        #         "successfully updated.",
-        #         view_id=_view_id,
-        #         block_index=cls.block_index,
-        #         locale_id=_lng))
-        # }, 200

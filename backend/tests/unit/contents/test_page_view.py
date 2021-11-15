@@ -7,7 +7,7 @@ from application.global_init_data import global_constants
 
 from application.contents.errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
-    WrongValueError)
+    WrongValueError, WrongDirection)
 from application.contents.models.content_element import (
     ContentElement)
 from application.contents.models.content_elements_simple import (
@@ -498,7 +498,7 @@ def test_PageView_insert_vals_fail(
     # print('\ntest_page_view:\ntest_PageView_insert_vals\n\n',)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_PageView_remove_vals(view_name, locale, simple_element,
                               block_element, elements):
     _page_view = PageView(
@@ -516,6 +516,43 @@ def test_PageView_remove_vals(view_name, locale, simple_element,
     # print('\ntest_page_view:\n test_PageView_insert_vals',
     #       '\n  _element_in_page ->', _element_in_page,
     #       '\n  _removed_element ->', _removed_element)
+
+
+# @pytest.mark.active
+def test_PageView_move_element(
+        client, view_name, locale, simple_element, block_element,
+        elements):
+    '''it works I don't like to test success movements'''
+    _page_view = PageView(
+        view_name=view_name, locale=locale, elements=elements)
+    _length = len(_page_view.elements)
+    _index = randrange(1, _length)
+    _direction = 'up'
+    _page_view.move_element(_index, _direction)
+    _index = 0
+    with pytest.raises(WrongIndexError) as e_info:
+        _page_view.move_element(_index, _direction)
+    assert str(e_info.value).find('-1') != -1
+    _index = randrange(0, _length - 1)
+    _direction = 'down'
+    _page_view.move_element(_index, _direction)
+    _index = _length - 1
+    with pytest.raises(WrongIndexError) as e_info:
+        _page_view.move_element(_index, _direction)
+    assert str(e_info.value).find('4') != -1
+
+    # print('\ntest_page_view:\n test_PageView_move_element')
+    # for element in _page_view.elements:
+    #     print('\n  element ->',
+    #           dumps(element.serialize_to_content, indent=4),
+    #           )
+    '''wrong direction'''
+    _direction = 'fuck'
+    with pytest.raises(WrongDirection) as e_info:
+        _page_view.move_element(_index, _direction)
+    assert str(e_info.value) \
+        == ("Upper level element may be moved 'up' or 'down, but "
+            f"'{_direction}' has been provided.")
 
 
 # @pytest.mark.active

@@ -5,7 +5,7 @@ from flask_babelplus import lazy_gettext as _
 from ...global_init_data import global_constants
 from ..errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
-    WrongValueError)
+    WrongValueError, WrongDirection)
 from .content_elements_simple import ContentElementsSimple
 from .content_elements_block import ContentElementsBlock
 from ...structure.models.structure import StructureModel
@@ -346,6 +346,28 @@ class PageView():
             element.ul_index('dec', i + 1)
 
         return ul_element_extractor(removed_element)
+
+    def move_element(self, index: int = -1, direction: str = '') -> None:
+        '''
+        Depending on direction move upper level element one position up
+            or down.
+        direction: Union['up', 'down']
+        '''
+        if direction == 'up':
+            _new_index = index - 1
+            self.check_index(_new_index)
+        elif direction == 'down':
+            _new_index = index + 1
+            self.check_index(_new_index)
+        else:
+            raise WrongDirection(
+                str(_("Upper level element may be moved 'up' or 'down, "
+                      "but '%(direction)s' has been provided.",
+                      direction=direction)), 400)
+        self.elements.insert(_new_index, self.elements.pop(index))
+        '''handle mixed indexes'''
+        self.elements[index].ul_index(index=index)
+        self.elements[_new_index].ul_index(index=_new_index)
 
     @property
     def serialize_to_content(self) -> List:

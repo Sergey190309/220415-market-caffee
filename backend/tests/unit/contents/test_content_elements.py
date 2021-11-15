@@ -92,7 +92,7 @@ def test_ContentElements_set_get_success(values):
     #   )
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_ContentElements_ul_index(values):
     _index, _type, _types, _name = values(
         index=randrange(1, 99)).values()
@@ -108,14 +108,13 @@ def test_ContentElements_ul_index(values):
 
     _old_index = randrange(1, 99)
     result = content_elements.ul_index(
-        direction='inc', old_index=_old_index)
+        direction='inc', index=_old_index)
     assert content_elements.upper_index == _old_index + 1 == result
     _old_index = randrange(1, 99)
     result = content_elements.ul_index(
-        direction='dec', old_index=_old_index)
+        direction='dec', index=_old_index)
     assert content_elements.upper_index == _old_index - 1 == result
 
-    '''fails'''
     '''wrong direction'''
     _wrong = 'fuck'
     with pytest.raises(WrongDirection) as e_info:
@@ -126,12 +125,12 @@ def test_ContentElements_ul_index(values):
 
     _old_index = 99
     with pytest.raises(WrongIndexError) as e_info:
-        content_elements.ul_index(direction='inc', old_index=_old_index)
+        content_elements.ul_index(direction='inc', index=_old_index)
     assert str(e_info.value)\
         == f"Index has been '{_old_index + 1}', it's wrong."
     _old_index = 0
     with pytest.raises(WrongIndexError) as e_info:
-        content_elements.ul_index(direction='dec', old_index=_old_index)
+        content_elements.ul_index(direction='dec', index=_old_index)
     assert str(e_info.value)\
         == f"Index has been '{_old_index - 1}', it's wrong."
 

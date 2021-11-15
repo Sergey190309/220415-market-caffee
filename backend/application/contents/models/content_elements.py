@@ -64,19 +64,22 @@ class ContentElements():
         else:
             self._name = ''
 
-    def ul_index(self, direction: str = '', old_index: int = -1) -> int:
+    def ul_index(self, direction: str = '', index: int = -1) -> int:
         '''
-        Depending on direction increase or decrease old_index by 1.
-        If no old_index provided use internal one.
+        Depending on direction increase or decrease index by 1.
+        If no index provided use internal one.
+        If no direction provided internal index assiged with argument.
         direction: Union['inc', 'dec']
         The method returns new upper level index.
         '''
-        if old_index == -1:
-            old_index = self.upper_index
-        if direction == 'inc':
-            self.upper_index = old_index + 1
+        if index == -1:
+            index = self.upper_index
+        if direction == '':
+            self.upper_index = index
+        elif direction == 'inc':
+            self.upper_index = index + 1
         elif direction == 'dec':
-            self.upper_index = old_index - 1
+            self.upper_index = index - 1
         else:
             raise WrongDirection(
                 str(_("Index change direction may be either 'inc' as "
