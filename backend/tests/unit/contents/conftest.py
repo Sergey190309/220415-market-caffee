@@ -67,7 +67,8 @@ def saved_content_instance(client, content_instance) -> ContentModel:
         # print('\nsaved_content_instance, values ->', values)
         _saved_content = content_instance(values)
         _saved_content.save_to_db()
-        # print('\nsaved_content_instance, _saved_content ->', _saved_content)
+        # print('\nsaved_content_instance, _saved_content ->',
+        # _saved_content)
         yield _saved_content
         if _saved_content.is_exist():
             _saved_content.delete_fm_db()

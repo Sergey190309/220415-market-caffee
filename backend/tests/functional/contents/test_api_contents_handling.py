@@ -47,7 +47,6 @@ def test_ContentsHandling_put(
     _item_index = randrange(_block_00.get('qnt'))
     _qnt = _block_00.get('qnt')
 
-    '''success'''
     '''Create user and admin'''
     _user = user_instance({'role_id': 'user'})
     _user.save_to_db()
@@ -70,6 +69,7 @@ def test_ContentsHandling_put(
         'identity': _identity,
         'item_index': _item_index
     }
+
     '''Success'''
     _resp = client.put(url_for('contents_bp.contentshandling'),
                        json=_json, headers=_admin_headers)
@@ -105,7 +105,8 @@ def test_ContentsHandling_put(
 
     '''wrong item index'''
     '''no item index'''
-    _json_wrong_index = {k: v for (k, v) in _json.items() if k != 'item_index'}
+    _json_wrong_index = {k: v for (k, v) in _json.items()
+                         if k != 'item_index'}
     _resp = client.put(url_for('contents_bp.contentshandling'),
                        json=_json_wrong_index, headers=_admin_headers)
     assert _resp.status_code == 400
@@ -145,8 +146,8 @@ def test_ContentsHandling_put(
         _user.delete_fm_db()
     if _admin is not None:
         _admin.delete_fm_db()
-    # # '''clean up structure tables'''
-    # # [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    # '''clean up structure tables'''
+    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
 
 
 # @pytest.mark.active

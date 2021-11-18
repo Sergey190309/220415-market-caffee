@@ -1,5 +1,5 @@
 import pytest
-from json import dumps
+# from json import dumps
 from random import randrange, choice
 
 from application.modules.dbs_global import dbs_global
@@ -179,10 +179,10 @@ def test_ContentElementsBlock_init_fail(
 
 
 # @pytest.mark.active
-def test_ContentElementsBlock_get_element(
+def test_ContentElementsBlock_get_set_subtype(
         element,
         elements_dict,
-        elements_inst
+        # elements_inst
 ):
     _upper_index = 9
     _size = 3
@@ -194,35 +194,23 @@ def test_ContentElementsBlock_get_element(
     block_instance_dict = ContentElementsBlock(
         upper_index=_upper_index, type=_type, subtype=_subtype,
         name=_name, elements=_elements_dict)
-    '''success'''
-    for i in range(_size):
-        assert block_instance_dict.get_element(i).value.get('title')\
-            == _elements_dict[i].get('title')
-        assert block_instance_dict.get_element(i).value.get('content')\
-            == _elements_dict[i].get('content')
 
-    '''fail'''
-    _negative_index = -1
-    with pytest.raises(WrongIndexError) as e_info:
-        block_instance_dict.get_element(_negative_index)
-    assert str(e_info.value)\
-        == (f"Length of element array is {_size} but you try to operate "
-            f"with index '{_negative_index}'.")
+    assert block_instance_dict.subtype == _subtype
 
-    with pytest.raises(WrongIndexError) as e_info:
-        block_instance_dict.get_element(_size)
-    assert str(e_info.value)\
-        == (f"Length of element array is {_size} but you try to operate "
-            f"with index '{_size}'.")
-
+    _other_subtype = 'pix'
+    block_instance_dict.subtype = _other_subtype
+    assert block_instance_dict.subtype == _other_subtype
     # print('\ntest_content_elements_block:',
-    #       '\n test_ContentElementsBlock_init_success'
-    #       '\n  result ->', result.value
-    #       )
+    #       '\n test_ContentElementsBlock_get_set_subtype')
+    # print('  block_instance_dict ->', block_instance_dict.subtype)
 
 
 # @pytest.mark.active
-def test_ContentElementsBlock_set_element(element, elements_dict):
+def test_ContentElementsBlock_get_set_elements(
+        element,
+        elements_dict,
+        # elements_inst
+):
     _upper_index = 9
     _size = 3
     _type = 'vblock'
@@ -230,48 +218,97 @@ def test_ContentElementsBlock_set_element(element, elements_dict):
     _name = 'name'
 
     _elements_dict = elements_dict(_size)
-    print()
-    print(_elements_dict)
-    block_instance_dict = ContentElementsBlock(
+    _block_instance = ContentElementsBlock(
         upper_index=_upper_index, type=_type, subtype=_subtype,
         name=_name, elements=_elements_dict)
-    for i in range(_size):
-        assert block_instance_dict.get_element(i).value.get('title')\
-            == _elements_dict[i].get('title')
-        assert block_instance_dict.get_element(i).value.get('content')\
-            == _elements_dict[i].get('content')
+    assert len(_block_instance.elements) == _size
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementsBlock_get_set_elements')
+    '''getter testing'''
+    for i, element in enumerate(_elements_dict):
+        assert element == _block_instance.elements[i].value
+    '''setter, dictionary testing'''
+    _size = 5
+    _elements_dict = elements_dict(_size)
+    _block_instance.elements = _elements_dict
+    assert len(_block_instance.elements) == _size
+    for i, element in enumerate(_elements_dict):
+        assert element == _block_instance.elements[i].value
+    '''setter, ContentElement instance'''
+    _size = 6
+    _elements_dict = elements_dict(_size)
+    _elements_instances = []
+    for element in _elements_dict:
+        _elements_instances.append(ContentElement(element))
+    _block_instance.elements = _elements_instances
+    assert len(_block_instance.elements) == _size
+    for i, element in enumerate(_elements_dict):
+        assert element == _block_instance.elements[i].value
 
-    '''success'''
-    _index_new_dict_element = 0
-    _index_new_inst_element = 1
-    _new_element_dict = element(_size)
-    _new_element_inst = ContentElement(element(_size + 1))
-    block_instance_dict.set_element(
-        _index_new_dict_element, _new_element_dict)
-    block_instance_dict.set_element(
-        _index_new_inst_element, _new_element_inst)
-
-    assert block_instance_dict.get_element(
-        _index_new_dict_element).value.get('title')\
-        == _new_element_dict.get('title')
-    assert block_instance_dict.get_element(
-        _index_new_dict_element).value.get('content')\
-        == _new_element_dict.get('content')
-    assert block_instance_dict.get_element(
-        _index_new_inst_element).value.get('title')\
-        == _new_element_inst.value.get('title')
-    assert block_instance_dict.get_element(
-        _index_new_inst_element).value.get('content')\
-        == _new_element_inst.value.get('content')
-
-    '''fail, wrong new element type'''
-    _wrong_element = 1
+    '''fail, wrong element type'''
+    _wrong_type_element = 25
+    _elements_instances.append(_wrong_type_element)
     with pytest.raises(WrongElementTypeError) as e_info:
-        block_instance_dict.set_element(0, _wrong_element)
+        _block_instance.elements = _elements_instances
+    assert str(e_info.value) ==\
+        ("Elements should be '['dict', 'ContentElement']', but at least "
+         f"one of the elements has type '{type(_wrong_type_element)}'.")
+
+
+# @pytest.mark.active
+def test_ContentElementsBlock_get_set_element(
+        element,
+        elements_dict,
+        # elements_inst
+):
+    _upper_index = 9
+    _size = 3
+    _type = 'vblock'
+    _subtype = 'txt'
+    _name = 'name'
+
+    _elements_dict = elements_dict(_size)
+    _block_instance = ContentElementsBlock(
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
+    '''success'''
+    for i, _element in enumerate(_elements_dict):
+        assert _block_instance.get_element(i).value == _element
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementsBlock_get_set_element')
+    # print('  element ->', element(99))
+    '''success, dictionary'''
+    _index = randrange(_size)
+    _element_dict = element(99)
+    _block_instance.set_element(index=_index, value=_element_dict)
+    assert _block_instance.get_element(index=_index).value\
+        == _element_dict
+    '''success, dictionary'''
+    _index = randrange(_size)
+    _element_inst = ContentElement(element(100))
+    _block_instance.set_element(index=_index, value=_element_inst)
+    assert _block_instance.get_element(index=_index).value\
+        == _element_inst.value
+    '''fail, wrong element type'''
+    _wrong_element = 'wrong'
+    _index = randrange(_size)
+    with pytest.raises(WrongElementTypeError) as e_info:
+        _block_instance.set_element(index=_index, value=_wrong_element)
+    assert str(e_info.value) ==\
+        ("Elements should be '['dict', 'ContentElement']', but at least "
+         f"one of the elements has type '{type(_wrong_element)}'.")
+    '''fail, indexes'''
+    _negative_index = -1
+    with pytest.raises(WrongIndexError) as e_info:
+        _block_instance.get_element(_negative_index)
     assert str(e_info.value)\
-        == (f"Elements should be '{['dict', 'ContentElement']}', but at "
-            "least one of the elements has type "
-            f"'{type(_wrong_element)}'.")
+        == (f"Length of element array is {_size} but you try to operate "
+            f"with index '{_negative_index}'.")
+    with pytest.raises(WrongIndexError) as e_info:
+        _block_instance.get_element(_size)
+    assert str(e_info.value)\
+        == (f"Length of element array is {_size} but you try to operate "
+            f"with index '{_size}'.")
 
 
 # @pytest.mark.active
@@ -283,67 +320,52 @@ def test_ContentElementsBlock_insert(element, elements_dict):
     _name = 'name'
 
     _elements_dict = elements_dict(_size)
-    _element = element(_size)
-    block_instance = ContentElementsBlock(
+    _block_instance = ContentElementsBlock(
         upper_index=_upper_index, type=_type, subtype=_subtype,
         name=_name, elements=_elements_dict)
-    assert len(block_instance.elements) == _size
-    for i in range(_size):
-        assert block_instance.get_element(i).value.get('title')\
-            == _elements_dict[i].get('title')
-        assert block_instance.get_element(i).value.get('content')\
-            == _elements_dict[i].get('content')
-
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementsBlock_insert')
+    assert len(_block_instance.elements) == _size
+    for i, _element in enumerate(_elements_dict):
+        assert _block_instance.get_element(i).value == _element
     '''success'''
-    '''insert to beginning'''
-    _index = 0
-    _old_last_element = block_instance.get_element(_size - 1)
-    block_instance.insert(_index, _element)
-    _new_last_element = block_instance.get_element(_size)
-    _inserted_element = block_instance.get_element(_index)
-
-    assert len(block_instance.elements) == _size + 1
-    assert _inserted_element.value == _element
-    assert _new_last_element.value == _old_last_element.value
-
+    '''insert anywhare but append'''
+    _index = randrange(_size)
+    _element = element(555)
+    _block_instance.insert(index=_index, value=_element)
+    _length = len(_block_instance.elements)
+    assert _length == _size + 1
+    assert _block_instance.get_element(index=_index).value == _element
+    assert _block_instance.get_element(index=_size).value\
+        == _elements_dict[_size - 1]
     '''insert to end'''
-    block_instance.remove(_index)  # return to previos conditions
-    _index = _size
-    # [print(element.value) for element in block_instance.elements]
-    block_instance.insert(_index, _element)
-    _new_last_element = block_instance.get_element(_size)
-    assert len(block_instance.elements) == _size + 1
-    assert _new_last_element.value == _element
-
+    _element = element(999)
+    _block_instance.insert(_length, _element)
+    assert len(_block_instance.elements) == _length + 1
+    assert _block_instance.get_element(index=_length).value == _element
     '''fails'''
+    '''negative index'''
     _negative_index = -1
     with pytest.raises(WrongIndexError) as e_info:
-        block_instance.insert(_negative_index, _element)
+        _block_instance.insert(_negative_index, _element)
     assert str(e_info.value)\
-        == (f"Length of element array is {_size + 1} but you try to "
+        == (f"Length of element array is {_length + 1} but you try to "
             f"operate with index '{_negative_index}'.")
-
     '''exceeding index'''
-    _exceeding_index = _size + 2
+    _exceeding_index = _length + 2
     with pytest.raises(WrongIndexError) as e_info:
-        block_instance.insert(_exceeding_index, _element)
+        _block_instance.insert(_exceeding_index, _element)
     assert str(e_info.value)\
-        == (f"Length of element array is {_size + 1} but you try to "
+        == (f"Length of element array is {_length + 1} but you try to "
             f"operate with index '{_exceeding_index}'.")
-
     '''wrong element type'''
     _wrong_element = 5
     with pytest.raises(WrongElementTypeError) as e_info:
-        block_instance.insert(_size, _wrong_element)
+        _block_instance.insert(_size, _wrong_element)
     assert str(e_info.value)\
         == ("Elements should be '['dict', 'ContentElement']', "
             "but at least one of the elements has type "
             f"'{type(_wrong_element)}'.")
-
-    # print('\ntest_content_elements_block:',
-    #       '\n test_ContentElementsBlock_insert',
-    #       '\n  _index ->', _index,
-    #       )
 
 
 # @pytest.mark.active
@@ -476,9 +498,9 @@ def test_ContentElementsBlock_serialize_to_structure(
         name=_name, elements=_elements_dict)
     _result = block_instance.serialize_to_structure
     assert _result.get(_key) == _exp_result.get(_key)
-    print('\ntest_content_elements_block',
-          '\n test_ContentElementsBlock_serialize',
-          '\n  result ->', _result)
+    # print('\ntest_content_elements_block',
+    #       '\n test_ContentElementsBlock_serialize',
+    #       '\n  result ->', _result)
 
 
 # @pytest.mark.active
@@ -526,19 +548,18 @@ def test_ContentElementsBlock_load_fm_db(client, element, elements_dict):
         _content_record.save_to_db()
 
     '''testing'''
-    _identity = '_'.join([str(_upper_index_00).zfill(2), _type_00, _subtype])
+    _identity = '_'.join(
+        [str(_upper_index_00).zfill(2), _type_00, _subtype])
     loaded_block_instance = ContentElementsBlock.load_fm_db(
         identity=_identity, view_id=_view_id, locale_id=_locale_id)
 
-    # print('\ntest_content_elements_block',
-    #       '\n test_ContentElementsBlock_load_fm_db',
-    #       '\n  _elements_dict_00 ->', _elements_dict_00)
     for i, instance in enumerate(loaded_block_instance.elements):
         assert instance.value == _elements_dict_00[i]
 
 
 # @pytest.mark.active
-def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
+def test_ContentElementsBlock_save_to_db_content_structure(
+        client, element, elements_dict):
     '''clean up content table'''
     [_structure.delete_fm_db() for _structure in StructureModel.find()]
     [_content.delete_fm_db() for _content in ContentModel.find()]
@@ -548,43 +569,48 @@ def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
     _locale_id = choice(global_constants.get_PKS)
     _upper_index = randrange(100)
     _user_id = randrange(128)
-    _size = 4
+    _size = randrange(3, 20)
     _type = choice(ContentElementsBlock._types)
     _subtype = choice(ContentElementsBlock._subtypes)
     _name = f'name of {_type}'
     _elements_dict = elements_dict(_size)
 
     '''create ContentElementsBlock instance'''
-    block_instance = ContentElementsBlock(
+    _block_instance = ContentElementsBlock(
         upper_index=_upper_index, type=_type, subtype=_subtype,
         name=_name, elements=_elements_dict)
-    assert len(block_instance.elements) == _size
+    assert len(_block_instance.elements) == _size
 
     '''save it to db'''
-    block_instance.save_to_db(view_id=_view_id, locale_id=_locale_id,
-                              user_id=_user_id)
+    _block_instance.save_to_db_content(
+        view_id=_view_id, locale_id=_locale_id, user_id=_user_id,
+        save_structure=True)
 
     '''load insance having PKs and check it adequate to source'''
-    loaded_instance = ContentElementsBlock.load_fm_db(
+    _loaded_instance = ContentElementsBlock.load_fm_db(
         identity='_'.join([str(_upper_index).zfill(2), _type, _subtype]),
-        view_id=_view_id, locale_id=_locale_id
+        view_id=_view_id, locale_id=_locale_id, load_name=True
     )
-    assert loaded_instance.upper_index == _upper_index
-    assert loaded_instance.type == _type
-    assert loaded_instance.subtype == _subtype
-    for i, element in enumerate(loaded_instance.elements):
+    assert _loaded_instance.upper_index == _upper_index
+    assert _loaded_instance.type == _type
+    assert _loaded_instance.subtype == _subtype
+    assert _loaded_instance.name == _name
+    for i, element in enumerate(_loaded_instance.elements):
         assert element.value == _elements_dict[i]
+    # print('\ntest_content_elements_block:',
+    #       '\n test_ContentElementsBlock_save_to_db_content',
+    #       '\n  _loaded_instance ->', _loaded_instance)
 
     '''get records directly from content table'''
     _identity_like = '_'.join(
         [str(_upper_index).zfill(2), _type, _subtype])
-    content_model_instance = ContentModel.find_identity_like(
+    _content_model_instance = ContentModel.find_identity_like(
         searching_criterions={'view_id': _view_id,
                               'locale_id': _locale_id},
         identity_like=f"{_identity_like}%",
     )
-    assert len(content_model_instance) == _size
-    for i, element in enumerate(content_model_instance):
+    assert len(_content_model_instance) == _size
+    for i, element in enumerate(_content_model_instance):
         _element_dict = content_get_schema.dump(element)
         assert _element_dict == {
             'identity': '_'.join([_identity_like, str(i).zfill(3)]),
@@ -606,24 +632,25 @@ def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
 
     '''correct loaded ContentElementsBlock instance and reduce element
         quantity'''
-    block_instance.remove(randrange(len(block_instance.elements)))
-    block_instance.remove(randrange(len(block_instance.elements)))
-    _index = randrange(len(block_instance.elements))
+    _block_instance.remove(randrange(len(_block_instance.elements)))
+    _block_instance.remove(randrange(len(_block_instance.elements)))
+    _index = randrange(len(_block_instance.elements))
     _new_title = f"corrected title for element No '{_index}'"
-    _new_element = {**block_instance.get_element(index=_index).value,
+    _new_element = {**_block_instance.get_element(index=_index).value,
                     'title': _new_title}
-    block_instance.set_element(index=_index, value=_new_element)
+    _block_instance.set_element(index=_index, value=_new_element)
     '''save it to db'''
-    block_instance.save_to_db(view_id=_view_id, locale_id=_locale_id,
-                              user_id=_user_id)
+    _block_instance.save_to_db_content(
+        view_id=_view_id, locale_id=_locale_id, user_id=_user_id,
+        save_structure=True)
     '''load new instance and check it adequate to changes'''
-    corrected_model_instance = ContentModel.find_identity_like(
+    _corrected_model_instance = ContentModel.find_identity_like(
         searching_criterions={'view_id': _view_id,
                               'locale_id': _locale_id},
         identity_like=f"{_identity_like}%",
     )
-    assert len(corrected_model_instance) == _size - 2
-    assert corrected_model_instance[_index].serialize().get('title')\
+    assert len(_corrected_model_instance) == _size - 2
+    assert _corrected_model_instance[_index].serialize().get('title')\
         == _new_title
 
     '''get record from structure table, check it'''
@@ -636,9 +663,6 @@ def test_ContentElementsBlock_save_to_db(client, element, elements_dict):
         'subtype': _subtype,
         'qnt': _size - 2,
         'name': f'name of {_type}'}
-    # print('\ntest_content_elements_block:',
-    #       '\n test_ContentElementsBlock_save_to_db',
-    #       '\n  _structure_dict ->', _structure_dict)
 
 
 # @pytest.mark.active
@@ -662,48 +686,48 @@ def test_ContentElementsBlock_delete_fm_db(
     assert len(loaded_instance.elements) == _size
 
     '''load respective structure record'''
-    _structure_record = StructureModel.find_by_ids({
-        'view_id': _view_id,
-        'locale_id': _locale_id
-    })
+    # _structure_record = StructureModel.find_by_ids({
+    #     'view_id': _view_id,
+    #     'locale_id': _locale_id
+    # })
 
     '''test structure records corresponds to sources'''
-    blocks = [item for item in blocks_details.keys()
-              if item not in ['view_id', 'locale_id']]
-    assert len(_structure_record.attributes) == len(blocks)
-    for item in blocks:
-        _dict_source = blocks_details.get(item)
-        _key = _dict_source.pop('upper_index')
-        _dict_target = _structure_record.attributes.get(
-            str(_key).zfill(2))
-        # _json_source = dumps(_dict_source, sort_keys=True)
-        # _json_target = dumps(_dict_target, sort_keys=True)
-        assert dumps(_dict_source, sort_keys=True)\
-            == dumps(_dict_target, sort_keys=True)
+    # blocks = [item for item in blocks_details.keys()
+    #           if item not in ['view_id', 'locale_id']]
+    # assert len(_structure_record.attributes) == len(blocks)
+    # for item in blocks:
+    #     _dict_source = blocks_details.get(item)
+    #     _key = _dict_source.pop('upper_index')
+    #     _dict_target = _structure_record.attributes.get(
+    #         str(_key).zfill(2))
+    #     _json_source = dumps(_dict_source, sort_keys=True)
+    #     _json_target = dumps(_dict_target, sort_keys=True)
+    #     assert dumps(_dict_source, sort_keys=True)\
+    #         == dumps(_dict_target, sort_keys=True)
 
-    print('\ntest_content_elements_block',
-          '\n test_ContentElementsBlock_delete_fm_db',
-          '\n  blocks_details ->', dumps(blocks_details, indent=4),
-          )
+    # print('\ntest_content_elements_block',
+    #       '\n test_ContentElementsBlock_delete_fm_db',
+    #       '\n  blocks_details ->', dumps(blocks_details, indent=4),
+    #       )
 
     '''delete instance'''
     loaded_instance.delete_fm_db(view_id=_view_id, locale_id=_locale_id)
     '''try to load it again'''
-    loaded_instance = ContentElementsBlock.load_fm_db(
-        identity=_identity, view_id=_view_id, locale_id=_locale_id)
-    assert loaded_instance is None
+    # loaded_instance = ContentElementsBlock.load_fm_db(
+    #     identity=_identity, view_id=_view_id, locale_id=_locale_id)
+    # assert loaded_instance is None
 
     '''load again respective structure record'''
-    _structure_record = StructureModel.find_by_ids({
-        'view_id': _view_id,
-        'locale_id': _locale_id
-    })
+    # _structure_record = StructureModel.find_by_ids({
+    #     'view_id': _view_id,
+    #     'locale_id': _locale_id
+    # })
 
     '''test structure records corresponds to sources'''
-    blocks = [item for item in blocks_details.keys()
-              if item not in ['view_id', 'locale_id']]
+    # blocks = [item for item in blocks_details.keys()
+    #           if item not in ['view_id', 'locale_id']]
     # assert len(_structure_record.attributes) == len(blocks) - 1
 
-    print('\n  _structure_record ->',
-          dumps(_structure_record.attributes, indent=4),
-          )
+    # print('\n  _structure_record ->',
+    #       dumps(_structure_record.attributes, indent=4),
+    #       )

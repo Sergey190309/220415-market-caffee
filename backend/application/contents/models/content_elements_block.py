@@ -205,18 +205,20 @@ class ContentElementsBlock(ContentElements):
         return result
 
     @classmethod
-    def load_fm_db(
-            cls, identity: str = '', view_id: str = '',
-            locale_id: str = '') -> Union[None, 'ContentElementsBlock']:
+    def load_fm_db(cls, identity: str = '', view_id: str = '',
+                   locale_id: str = '', load_name: bool = False
+                   ) -> Union[None, 'ContentElementsBlock']:
         '''here identity consisn of upper_index, type, subtype -
             01_type_subtype'''
         '''
         The method creates ContentElementsBlock instance based on info
-            from db content table.
+            from db content table. Name is got from structure table.
+            In case of structure table record for this page does not
+            exist name would be empty.
         I do not check loaded elements validity due to productivity.
         '''
         _splitted_identity = identity.split('_')
-        _instance = ContentElementsBlock(
+        instance = ContentElementsBlock(
             upper_index=int(_splitted_identity[0]),
             type=_splitted_identity[1],
             subtype=_splitted_identity[2],
@@ -228,23 +230,33 @@ class ContentElementsBlock(ContentElements):
                     identity_like=f'{identity}%'
                 )]
         )
-        if len(_instance.elements) == 0:
+        if load_name:
+            _structure_instance = StructureModel.find_by_ids(
+                ids={'view_id': view_id, 'locale_id': locale_id})
+            if _structure_instance is not None:
+                instance.name = _structure_instance.attributes.get(
+                    str(instance.upper_index).zfill(2)).get('name')
+        if len(instance.elements) == 0:
             return None
         else:
-            return _instance
+            return instance
 
-    def save_to_db(self, view_id: str = '',
-                   locale_id: str = '',
-                   user_id: int = 0) -> Union[None, str]:
+    def save_to_db_content(
+            self,
+            view_id: str = '',
+            locale_id: str = '',
+            user_id: int = 0,
+            save_structure: bool = False) -> Union[None, str]:
         '''
         The method update or create new records in contents tables.
         Remove excess records if any.
-        If new content table record created correct structure.
+        If new content table record created correct structure if required
+            by save_structure argument.
         '''
 
         _id_prefix = '_'.join(
             [str(self.upper_index).zfill(2), self.type, self.subtype])
-        _max_index = 0
+        # _max_index = 0
         for i, element in enumerate(self.elements):
             _identity = '_'.join([_id_prefix, str(i).zfill(3)])
             _instance = ContentModel.find_by_identity_view_locale(
@@ -274,8 +286,15 @@ class ContentElementsBlock(ContentElements):
             _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
             _instance = ContentModel.find_by_identity_view_locale(
                 identity=_identity, view_id=view_id, locale_id=locale_id)
+        if save_structure:
+            self.save_to_db_structure(
+                view_id=view_id, locale_id=locale_id, user_id=user_id)
 
-        '''structure table operations'''
+    def save_to_db_structure(
+            self,
+            view_id: str = '',
+            locale_id: str = '',
+            user_id: int = 0) -> Union[None, str]:
         '''get existing structure record'''
         _structure_instance = StructureModel.find_by_ids(ids={
             'view_id': view_id,
@@ -295,7 +314,8 @@ class ContentElementsBlock(ContentElements):
         # print('\nContentElementBlock:\n save_to_db',
         #       '\n  _structure_attributes', _structure_attributes,)
         key = str(self.upper_index).zfill(2)
-        _structure_attributes[key] = self.serialize_to_structure.get(key)
+        _structure_attributes[
+            key] = self.serialize_to_structure.get(key)
         return _structure_instance.update(
             {'attributes': _structure_attributes, 'user_id': user_id})
         # _structure_json = structure_get_schema.dump(_structure_instance)
@@ -321,8 +341,10 @@ class ContentElementsBlock(ContentElements):
                 identity=_identity, view_id=view_id, locale_id=locale_id)
         '''handle structure table'''
         '''get respective structure record'''
-        _structure_instance = StructureModel.find_by_ids({
-            'view_id': view_id, 'locale_id': locale_id})
-        print('\ncontent_elements_block:\ndelete_fm_db',
-              '\n  _block_structure_instance ->',
-              _structure_instance)
+        # _structure_instance = StructureModel.find_by_ids({
+        #     'view_id': view_id, 'locale_id': locale_id})
+        # if _structure_instance is not None:
+        #     _structure_instance.remove_element_cls()
+        # print('\ncontent_elements_block:\ndelete_fm_db',
+        #       '\n  _block_structure_instance ->',
+        #       _structure_instance.attributes)

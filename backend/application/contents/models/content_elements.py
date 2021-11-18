@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List
 from ..errors.custom_exceptions import (
     WrongIndexError, WrongTypeError, WrongDirection)
 
@@ -88,8 +88,8 @@ class ContentElements():
                       direction=direction)), 400)
         return self.upper_index
 
-    def save_to_db(self) -> Union[None, str]:
-        pass
+    # def save_to_db(self) -> Union[None, str]:
+    #     pass
 
-    def delete_to_db(self) -> Union[None, str]:
-        pass
+    # def delete_to_db(self) -> Union[None, str]:
+    #     pass

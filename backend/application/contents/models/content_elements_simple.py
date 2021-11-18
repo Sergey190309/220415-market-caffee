@@ -106,7 +106,8 @@ class ContentElementsSimple(ContentElements):
     def load_fm_db(
             cls, identity: str = '',
             view_id: str = '',
-            locale_id: str = '') -> 'ContentElementsSimple':
+            locale_id: str = '',
+            load_name: bool = False) -> 'ContentElementsSimple':
         '''
         The method creates ContentElementsSimple instance based on info
             from db content table. The method should be called by
@@ -115,25 +116,40 @@ class ContentElementsSimple(ContentElements):
         '''
         content_model = ContentModel.find_by_identity_view_locale(
             identity=identity, view_id=view_id, locale_id=locale_id)
+        if content_model is None:
+            return None
         _info = content_model.identity.split('_')
         _value = {
             'title': content_model.title,
             'content': content_model.content
         }
-        return ContentElementsSimple(
+        instance = ContentElementsSimple(
             upper_index=int(_info[0]), type=_info[1], element=_value)
+        if load_name:
+            _structure_instance = StructureModel.find_by_ids(
+                ids={'view_id': view_id, 'locale_id': locale_id})
+            if _structure_instance is not None:
+                instance.name = _structure_instance.attributes.get(
+                    str(instance.upper_index).zfill(2)).get('name')
+        return instance
 
-    def save_to_db(self, view_id: str = '',
-                   locale_id: str = '',
-                   user_id: int = 0) -> Union[None, str]:
+    def save_to_db_content(
+            self, view_id: str = '', locale_id: str = '',
+            user_id: int = 0,
+            save_structure: bool = False) -> Union[None, str]:
         '''
-        The method update or create new record in contents tables. If new
-            content table record created correct structure table.
+        The method update or create new record in contents tables.
+        NO ACTION ON STRUCTURE, so far.
+        If new content table record created correct structure table.
         '''
         _identity = '_'.join([str(self.upper_index).zfill(2), self.type])
         '''check whether record exists'''
         _available_record = ContentModel.find_by_identity_view_locale(
             identity=_identity, view_id=view_id, locale_id=locale_id)
+        # _available_record = ContentElementsSimple.load_fm_db(
+        #     identity=_identity,
+        #     view_id=view_id, locale_id=locale_id, load_name=True
+        # )
         if _available_record is None:
             '''if not create ContentModel instance and save it'''
             _element_to_db = content_schema.load({
@@ -147,8 +163,15 @@ class ContentElementsSimple(ContentElements):
             _updating_values = self.serialize_to_content
             _available_record.update({
                 'title': _updating_values.get('title'),
-                'content': _updating_values.get('content')})
-        '''structure table operations'''
+                'content': _updating_values.get('content'),
+                'user_id': user_id})
+        if save_structure:
+            self.save_to_db_structure(
+                view_id=view_id, locale_id=locale_id, user_id=user_id)
+
+    def save_to_db_structure(self, view_id: str = '',
+                             locale_id: str = '',
+                             user_id: int = 0) -> Union[None, str]:
         '''get existing structure record'''
         _structure_instance = StructureModel.find_by_ids(ids={
             'view_id': view_id,

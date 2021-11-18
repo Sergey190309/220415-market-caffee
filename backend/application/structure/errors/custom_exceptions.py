@@ -114,6 +114,7 @@ class UpperLevelStructureRemoveLastElement(StructureErrors):
         super().__init__(message, error)
         self.errors = error
         print(str(_(
-            'You tried to remove last element from page view structure: %(message)s',
+            'You tried to remove last element from page view structure: '
+            '%(message)s',
             message=message)))
         print(error)

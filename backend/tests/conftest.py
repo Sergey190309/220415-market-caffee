@@ -16,23 +16,28 @@ from application.models.locales_global import LocaleGlobalModel
 
 # from application.contents.models.views import ViewModel
 from application.schemas.views_global import ViewGlobalSchema
-from application.schemas.locales_global import LocaleGlobalSchema, LocaleGlobalGetSchema
+from application.schemas.locales_global import (
+    LocaleGlobalSchema, LocaleGlobalGetSchema)
 # from application.contents.schemas.views import ViewGetSchema, ViewSchema
 from application.contents.models.contents import ContentModel
-from application.contents.schemas.contents import ContentGetSchema, ContentSchema
+from application.contents.schemas.contents import (
+    ContentGetSchema, ContentSchema)
 from application.structure.models.structure import StructureModel
-from application.structure.schemas.structure import StructureSchema, StructureGetSchema
+from application.structure.schemas.structure import (
+    StructureSchema, StructureGetSchema)
 from application.users.models.users import UserModel
 from application.users.schemas.users import UserSchema, UserGetSchema
 
 from application.global_init_data import global_constants
-# from application.contents.local_init_data_contents import contents_constants
+# from application.contents.local_init_data_contents import (
+#     contents_constants)
 from application.users.local_init_data_users import users_constants
 from application.home.local_init_data_home import Sessions
 
 from application.contents.models.content_elements_block import (
     ContentElementsBlock)
-
+from application.contents.models.content_elements_simple import (
+    ContentElementsSimple)
 
 rv = RandomWords()
 rm = RandomEmails()
@@ -60,15 +65,19 @@ def elements_dict(element):
 
 
 @pytest.fixture
-def create_test_content(elements_dict) -> Dict:
+def create_test_content(element, elements_dict) -> Dict:
     '''
-    The fixture create classes and save them to db, return names and
-        other details for testing.
+    The fixture create contants and structure classes and save them to
+        db, return names and other details for testing.
     '''
-    def _method(locale: str = '', size_00: int = 0):
-        '''clean up content tables'''
-        [_structure.delete_fm_db() for _structure in StructureModel.find()]
-        [_content.delete_fm_db() for _content in ContentModel.find()]
+    def _method(locale: str = '', size_00: int = 0, user_id: int = 0,
+                clean: bool = True):
+        '''clean up content tables if required'''
+        if clean:
+            [_structure.delete_fm_db()
+             for _structure in StructureModel.find()]
+            [_content.delete_fm_db() for _content in ContentModel.find()]
+
         '''choose testing constants'''
         _view_id = choice(global_constants.get_VIEWS_PKS)
         if locale == '':
@@ -79,6 +88,16 @@ def create_test_content(elements_dict) -> Dict:
         _upper_index_01 = randrange(100)
         while _upper_index_01 == _upper_index_00:
             _upper_index_01 = randrange(100)
+        _upper_index_02 = randrange(100)
+        while _upper_index_02 == _upper_index_00\
+                or _upper_index_02 == _upper_index_01:
+            _upper_index_02 = randrange(100)
+        _upper_index_03 = randrange(100)
+        while _upper_index_03 == _upper_index_00\
+                or _upper_index_03 == _upper_index_01\
+                or _upper_index_03 == _upper_index_02:
+            _upper_index_03 = randrange(100)
+
         if size_00 == 0:
             _size_00 = randrange(3, 7)
         else:
@@ -87,29 +106,53 @@ def create_test_content(elements_dict) -> Dict:
         _type_00 = choice(ContentElementsBlock._types)
         _type_01 = choice([item for item in ContentElementsBlock._types
                            if item != _type_00])
+        _type_02 = choice(ContentElementsSimple._types)
+        _type_03 = choice([item for item in ContentElementsSimple._types
+                           if item != _type_02])
         _subtype_00 = choice(ContentElementsBlock._subtypes)
-        _subtype_01 = choice([item for item in ContentElementsBlock._subtypes
-                              if item != _subtype_00])
+        _subtype_01 = choice(
+            [item for item in ContentElementsBlock._subtypes
+             if item != _subtype_00])
         _name_00 = f'name of {_type_00}'
         _name_01 = f'name of {_type_01}'
+        _name_02 = f'name of {_type_02}'
+        _name_03 = f'name of {_type_03}'
 
         _elements_dict_00 = elements_dict(_size_00)
         _elements_dict_01 = elements_dict(_size_01)
+        _element_00 = element(0)
+        _element_01 = element(1)
 
         _block_instance_00 = ContentElementsBlock(
-            upper_index=_upper_index_00, type=_type_00, subtype=_subtype_00,
+            upper_index=_upper_index_00,
+            type=_type_00, subtype=_subtype_00,
             name=_name_00, elements=_elements_dict_00)
-        _block_instance_00.save_to_db(view_id=_view_id, locale_id=_locale_id)
+        _block_instance_00.save_to_db(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
         _block_instance_01 = ContentElementsBlock(
-            upper_index=_upper_index_01, type=_type_01, subtype=_subtype_01,
+            upper_index=_upper_index_01,
+            type=_type_01, subtype=_subtype_01,
             name=_name_01, elements=_elements_dict_01)
-        _block_instance_01.save_to_db(view_id=_view_id, locale_id=_locale_id)
+        _block_instance_01.save_to_db(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
+        _simple_instance_00 = ContentElementsSimple(
+            upper_index=_upper_index_02, type=_type_02,
+            name=_name_02, element=_element_00)
+        _simple_instance_00.save_to_db(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
+        _simple_instance_01 = ContentElementsSimple(
+            upper_index=_upper_index_03, type=_type_03,
+            name=_name_03, element=_element_01)
+        _simple_instance_01.save_to_db(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
 
-        _structure_00 = _block_instance_00.serialize_to_structure
-        _structure_01 = _block_instance_01.serialize_to_structure
+        _structure_block_00 = _block_instance_00.serialize_to_structure
+        _structure_block_01 = _block_instance_01.serialize_to_structure
+        _structure_simple_00 = _simple_instance_00.serialize_to_structure
+        _structure_simple_01 = _simple_instance_01.serialize_to_structure
         # print('\ntest_api_contents_handling:\n create_test_content',
-        #       '\n  _structure_00 ->', _structure_00,
-        #       '\n  _structure_01 ->', _structure_01,
+        #       '\n  _structure_simple_00 ->', _structure_simple_00,
+        #       '\n  _structure_simple_01 ->', _structure_simple_01,
         #       )
         return {
             'view_id': _view_id,
@@ -119,16 +162,30 @@ def create_test_content(elements_dict) -> Dict:
                 'type': _type_00,
                 'subtype': _subtype_00,
                 'name': _name_00,
-                'qnt': _structure_00.get(
-                    str(_upper_index_00).zfill(2)).get('qnt')
+                'qnt': _structure_block_00.get(
+                    str(_upper_index_00).zfill(2)).get('qnt'),
+                'structure': _structure_block_00
             },
             'block_01': {
                 'upper_index': _upper_index_01,
                 'type': _type_01,
                 'subtype': _subtype_01,
                 'name': _name_01,
-                'qnt': _structure_01.get(
-                    str(_upper_index_01).zfill(2)).get('qnt')
+                'qnt': _structure_block_01.get(
+                    str(_upper_index_01).zfill(2)).get('qnt'),
+                'structure': _structure_block_01
+            },
+            'simple_00': {
+                'upper_index': _upper_index_02,
+                'type': _type_02,
+                'name': _name_02,
+                'structure': _structure_simple_00
+            },
+            'simple_01': {
+                'upper_index': _upper_index_03,
+                'type': _type_03,
+                'name': _name_03,
+                'structure': _structure_simple_01
             }
         }
     return _method
@@ -142,7 +199,8 @@ def root_url():
 @pytest.fixture(scope='session')
 def app():
     app = create_app('testing_config.py')
-    dbs_global.create_all(app=app)  # to avoid delay when before_first_request started.
+    # to avoid delay when before_first_request started.
+    dbs_global.create_all(app=app)
     # Testing only.
     # print('\ntest.conftest, app ->')
     # dbs_global.init_app(app)
@@ -196,11 +254,13 @@ def valid_item():
     role - user's role.
     '''
     def _method(item_kind: str = None):
-        if item_kind is None or item_kind not in ['locale', 'kind', 'view', 'role']:
+        if item_kind is None or item_kind not in [
+                'locale', 'kind', 'view', 'role']:
             return {
                 'message':
                     "You should provide item_kind you want. "
-                    "It sould be 'id' for locale_id, 'id_kind' or 'view_id'."}
+                    "It sould be 'id' for locale_id, 'id_kind' or "
+                    "'view_id'."}
         if item_kind == 'locale':
             _active_constant = global_constants.get_LOCALES
             key = 'id'
@@ -257,7 +317,9 @@ def random_text():
     Latin or cyrrilic from argument.
     Quontity of worlds - argument.
     '''
-    def _method(lng: str = 'en', qnt: int = 1, underscore: bool = False) -> str:
+    def _method(
+            lng: str = 'en', qnt: int = 1,
+            underscore: bool = False) -> str:
         row_words = rv.random_words(count=qnt)
         char = ' '
         if underscore:
@@ -301,10 +363,12 @@ def view_instance(random_text, view_global_schema):
     '''
     def _method(values: Dict = {}) -> 'ViewGlobalModel':
         _values_json = {
-            'view_id': values.get('view_id', random_text(qnt=3, underscore=True)),
+            'view_id': values.get(
+                'view_id', random_text(qnt=3, underscore=True)),
             'description': values.get('description', random_text(qnt=12))
         }
-        return view_global_schema.load(_values_json, session=dbs_global.session)
+        return view_global_schema.load(
+            _values_json, session=dbs_global.session)
     return _method
 
 
@@ -410,8 +474,6 @@ def structure_instance(random_text):
     view_id - valid view
     '''
     def _method(values: Dict = {}):
-        # for value in values:
-        #     print('conftest, structure_instance, value ->', values.get(value))
 
         _values = {
             'view_id': values.get(
@@ -422,8 +484,6 @@ def structure_instance(random_text):
             'user_id': values.get('user_id', randint(1, 128)),
             'attributes': values.get('attributes', {})
         }
-        # for value in _values:
-        # print('conftest, structure_instance, value ->', _values.get(value))
         return StructureModel(**_values)
     return _method
 
@@ -438,11 +498,15 @@ def content_instance(random_text):
     '''
     def _method(values: Dict = {}):
         # keys = content_ids.keys()
-        lng = values.get('locale_id', global_constants.get_LOCALES[0]['id'])
+        lng = values.get(
+            'locale_id', global_constants.get_LOCALES[0]['id'])
         _values = {
-            'identity': values.get('identity', random_text(qnt=2, underscore=True)),
+            'identity': values.get(
+                'identity', random_text(qnt=2, underscore=True)),
             'view_id':
-                values.get('view_id', global_constants.get_VIEWS[0].get('view_id')),
+                values.get(
+                    'view_id',
+                    global_constants.get_VIEWS[0].get('view_id')),
             'locale_id': lng,
             'user_id': values.get('user_id', randint(1, 128)),
             'title': values.get('title', random_text(lng=lng, qnt=3)),
@@ -456,10 +520,12 @@ def content_instance(random_text):
 def locale_instance(random_text, locale_global_schema):
     def _method(values: Dict = {}) -> LocaleGlobalModel:
         _values = {
-            'id': values.get('id', ''.join(choice(ascii_lowercase) for x in range(2))),
+            'id': values.get(
+                'id', ''.join(choice(ascii_lowercase) for x in range(2))),
             'remarks': values.get('remarks', random_text(qnt=5))
         }
-        _locale = locale_global_schema.load(_values, session=dbs_global.session)
+        _locale = locale_global_schema.load(
+            _values, session=dbs_global.session)
         return _locale
     return _method
 
@@ -468,7 +534,6 @@ def locale_instance(random_text, locale_global_schema):
 def saved_locale_instance(client, locale_instance):
     def _method(values: Dict = {}):
         _locale_instance = locale_instance(values=values)
-        # print('\nsaved_locale_instance, _locale_instance ->', _locale_instance)
         _locale_instance.save_to_db()
         yield _locale_instance
         # print('second')
