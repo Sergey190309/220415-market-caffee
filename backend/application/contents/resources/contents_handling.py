@@ -113,7 +113,8 @@ class ContentsHandling(Resource):
             '''handle the instance'''
             _block_instance.insert(_item_index)
             _identity = _kwargs.pop('identity')
-            result = _block_instance.save_to_db(**_kwargs)
+            result = _block_instance.save_to_db_content(
+                **_kwargs, save_structure=True)
             if result is not None:
                 return cls.error_message(error_info=result, status=500)
             else:
@@ -156,7 +157,8 @@ class ContentsHandling(Resource):
             '''handle the instance'''
             _block_instance.remove(_item_index)
             _identity = _kwargs.pop('identity')
-            result = _block_instance.save_to_db(**_kwargs)
+            result = _block_instance.save_to_db_content(
+                **_kwargs, save_structure=True)
             # print('\nContentsHandling\n patch',
             #       '\n  _kwargs ->', dumps(_kwargs, indent=4),
             #       '\n  _block_instance ->', _block_instance,

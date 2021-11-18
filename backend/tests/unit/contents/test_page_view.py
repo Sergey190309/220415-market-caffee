@@ -75,15 +75,15 @@ def block_element():
 def elements(simple_element, block_element):
     def _method(marker: str = ''):
         _header = simple_element(
-            upper_index=0, type='header', marker=marker)
+            upper_index=randrange(99), type='header', marker=marker)
         _vblock = block_element(
-            upper_index=_header.upper_index + 1, type='vblock',
+            upper_index=randrange(99), type='vblock',
             subtype='txt', qnt=4, marker=marker)
         _hblock = block_element(
-            upper_index=_vblock.upper_index + 1, type='hblock',
+            upper_index=randrange(99), type='hblock',
             subtype='pix', qnt=5, marker=marker)
         _footer = simple_element(
-            upper_index=_hblock.upper_index + 1, type='footer',
+            upper_index=randrange(99), type='footer',
             marker=marker)
         return [
             _header, _vblock, _hblock, _footer
@@ -192,13 +192,13 @@ def test_PageView_check_index(view_name, locale, elements):
     _length = len(_page_view.elements)
     '''success'''
     for index in range(_length):
-        assert _page_view.check_index(index)
-    assert _page_view.check_index(_length, ext=True)
+        assert _page_view._check_index(index)
+    assert _page_view._check_index(_length, ext=True)
 
     '''fails'''
     _negative_index = -1
     with pytest.raises(WrongIndexError) as e_info:
-        _page_view.check_index(_negative_index)
+        _page_view._check_index(_negative_index)
     assert str(e_info.value)\
         == (f"Length of element array is {_length} but you try to "
             f"operate with index '{_negative_index}'.")
@@ -206,13 +206,22 @@ def test_PageView_check_index(view_name, locale, elements):
     '''exeed without ext'''
     _index = _length
     with pytest.raises(WrongIndexError) as e_info:
-        _page_view.check_index(_index)
+        _page_view._check_index(_index)
     assert str(e_info.value)\
         == (f"Length of element array is {_length} but you try to "
             f"operate with index '{_index}'.")
 
     '''with ext'''
-    assert _page_view.check_index(_index, ext=True)
+    assert _page_view._check_index(_index, ext=True)
+
+
+# @pytest.mark.active
+def test_PageView_normalize_indexes(view_name, locale, elements):
+    # print('\ntest_page_view:\n test_PageView_normalize_indexes')
+    _page_view = PageView(
+        view_name=view_name(), locale=locale(), elements=elements())
+    for i, element in enumerate(_page_view.elements):
+        assert element.upper_index == i
 
 
 # @pytest.mark.active
@@ -304,7 +313,6 @@ def test_PageView_view_get_set_elements(view_name, locale, elements):
     _page_view = PageView(
         view_name=_view_name, locale=_locale, elements=_elements)
     '''getter testing'''
-    # print('\ntest_page_view:\n test_PageView_view_get_set_elements')
     for element in _page_view.elements:
         if isinstance(element, ContentElementsSimple):
             for key in element.element.value.keys():
@@ -318,11 +326,10 @@ def test_PageView_view_get_set_elements(view_name, locale, elements):
     '''setter testing'''
     _marker = 'set'
     _elements = elements(marker=_marker)
+    # print('\ntest_page_view:\n test_PageView_view_get_set_elements')
     _page_view.elements = _elements
-    # for element in _elements:
-    #     print('  element ->', element,
-    #           )
-    for element in _page_view.elements:
+    for i, element in enumerate(_page_view.elements):
+        element.upper_index == i
         if isinstance(element, ContentElementsSimple):
             for key in element.element.value.keys():
                 assert element.element.value.get(key).find(_marker) != -1
@@ -332,6 +339,15 @@ def test_PageView_view_get_set_elements(view_name, locale, elements):
             for item in element.elements:
                 for key in item.value.keys():
                     assert item.value.get(key).find(_marker) != -1
+    '''setter fail, wrong element type'''
+    _something = 2.5
+    _elements.append(_something)
+    with pytest.raises(WrongTypeError) as e_info:
+        _page_view.elements = _elements
+    assert str(e_info.value) ==\
+        ("Type of upper level element should be within "
+         "'[ContentElementsSimple, ContentElementsBlock]' but "
+         f"'{type(_something)}' has been delivered.")
 
 
 # @pytest.mark.active
@@ -366,7 +382,7 @@ def test_PageView_get_element_vals(view_name, locale, elements):
 
 
 # @pytest.mark.active
-def test_PageView_set_element_dict(view_name, locale, simple_element,
+def test_PageView_set_element_vals(view_name, locale, simple_element,
                                    block_element, elements):
     _view_name = view_name()
     _locale = locale()
@@ -436,13 +452,15 @@ def test_PageView_set_element_dict(view_name, locale, simple_element,
 def test_PageView_insert_vals_success(
         client, view_name, locale, simple_element, block_element,
         elements):
-    '''clean up content table'''
-    [_content.delete_fm_db() for _content in ContentModel.find()]
+    # '''clean up tables'''
+    # [_content.delete_fm_db() for _content in ContentModel.find()]
+    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
     _view_name = view_name()
     _locale = locale()
     _elements = elements()
     _page_view = PageView(
         view_name=_view_name, locale=_locale, elements=_elements)
+
     '''insert simple upper level element to beginning'''
     _insert_position = 0
     _el_type = 'header'
@@ -450,26 +468,25 @@ def test_PageView_insert_vals_success(
     _simple_element = simple_element(type=_el_type, marker=_marker)
     _inserting_json = dumps(
         ul_element_extractor(_simple_element), sort_keys=True)
-    simple_kwargs = {
-        'element_type': _simple_element.type,
-        # 'subtype': '',
-        'name': _simple_element.name,
-        'element_value': _simple_element.element.value
-    }
+    simple_kwargs = {'element_type': _simple_element.type,
+                     # 'subtype': '',
+                     'name': _simple_element.name,
+                     'element_value': _simple_element.element.value}
     _length = len(_page_view.elements)
     _last_elem_dict = _page_view.get_element_vals(_length - 1)
     _page_view.insert_vals(_insert_position, **simple_kwargs)
 
-    # _page_view.save_to_db(user_id=5)
-
-    '''tests'''
+    '''testing results'''
+    '''length'''
     assert len(_page_view.elements) == _length + 1
-    assert _inserting_json == dumps(_page_view.get_element_vals(
-        _insert_position), sort_keys=True)
+    '''inserted element should be save as in page view'''
+    assert dumps(_page_view.get_element_vals(
+        _insert_position), sort_keys=True) == _inserting_json
+    '''check last element'''
     _last_elem_dict['index'] = _last_elem_dict.get('index') + 1
     _last_elem_json = dumps(_last_elem_dict, sort_keys=True)
-    assert _last_elem_json == dumps(_page_view.get_element_vals(
-        _length), sort_keys=True)
+    assert dumps(_page_view.get_element_vals(
+        _length), sort_keys=True) == _last_elem_json
 
     '''insert to end'''
     _length = len(_page_view.elements)
@@ -494,15 +511,13 @@ def test_PageView_insert_vals_success(
     assert dumps(_page_view.get_element_vals(
         _insert_position), sort_keys=True) == _inserting_json
 
-    # _page_view.save_to_db(user_id=5)
     '''insert in a between'''
     _length = len(_page_view.elements)
     _insert_position = randrange(1, _length)
     _el_type = 'hblock'
     _el_subtype = 'pix'
-    _qnt = 3
+    _qnt = randrange(7)
     _marker = 'insert to someware'
-    # _length = len(_page_view.elements)
     _block_element = block_element(
         upper_index=_insert_position, type=_el_type, subtype=_el_subtype,
         qnt=_qnt, marker=_marker)
@@ -520,10 +535,11 @@ def test_PageView_insert_vals_success(
     _inserting_json = dumps(_inserting_dict, sort_keys=True)
     assert dumps(_page_view.get_element_vals(
         _insert_position), sort_keys=True) == _inserting_json
-    # print('\ntest_page_view:\n test_PageView_insert_vals')
-    # for item in _page_view.elements:
-    #     print('\t', dumps(item.serialize_to_content, indent=4),
-    #           )
+    # _page_view.save_to_db(user_id=randrange(128))
+    # print('\ntest_page_view:\n test_PageView_insert_vals'
+    #       '\n  _last_elem_dict ->', _last_elem_dict)
+    # [print(dumps(element.serialize_to_content, indent=4))
+    #  for element in _page_view.elements]
 
 
 # @pytest.mark.active
@@ -589,8 +605,11 @@ def test_PageView_insert_vals_fail(
 
 
 # @pytest.mark.active
-def test_PageView_remove_vals(view_name, locale, simple_element,
+def test_PageView_remove_vals(client, view_name, locale, simple_element,
                               block_element, elements):
+    '''clean up tables'''
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]
     _view_name = view_name()
     _locale = locale()
     _elements = elements()
@@ -603,45 +622,94 @@ def test_PageView_remove_vals(view_name, locale, simple_element,
     _removed_element = dumps(
         _page_view.remove_vals(_remove_position), sort_keys=True)
     assert len(_page_view.elements) == _length - 1
-    assert _element_in_page == _removed_element
+    assert _removed_element == _element_in_page
     _last_element = _page_view.get_element_vals(_length - 2)
     assert _last_element.get('index') == len(_page_view.elements) - 1
-    # print('\ntest_page_view:\n test_PageView_insert_vals',
-    #       '\n  _element_in_page ->', _element_in_page,
-    #       '\n  _removed_element ->', _removed_element)
+    _page_view.save_to_db(user_id=randrange(128))
+    # print('\ntest_page_view:\n test_PageView_remove_vals')
+    # [print(dumps(element.serialize_to_content, indent=4))
+    #  for element in _page_view.elements]
 
 
-# @pytest.mark.active
+@pytest.mark.active
 def test_PageView_move_element(
         client, view_name, locale, simple_element, block_element,
         elements):
     '''it works I don't like to test success movements'''
+    # '''clean up tables'''
+    # [_content.delete_fm_db() for _content in ContentModel.find()]
+    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
     _view_name = view_name()
     _locale = locale()
     _elements = elements()
     _page_view = PageView(
         view_name=_view_name, locale=_locale, elements=_elements)
     _length = len(_page_view.elements)
+    '''success'''
+    '''moving up'''
     _index = randrange(1, _length)
     _direction = 'up'
+    _moving_element = _page_view.get_element_vals(_index)
+    _moving_element.pop('index')
+    _moving_element_json = dumps(_moving_element, sort_keys=True)
+
+    _shifting_element = _page_view.get_element_vals(_index - 1)
+    _shifting_element.pop('index')
+    _shifting_element_json = dumps(_shifting_element, sort_keys=True)
+
     _page_view.move_element(_index, _direction)
+
+    _moved_element = _page_view.get_element_vals(_index - 1)
+    _moved_element.pop('index')
+    _moved_element_json = dumps(_moved_element, sort_keys=True)
+
+    _shifted_element = _page_view.get_element_vals(_index)
+    _shifted_element.pop('index')
+    _shifted_element_json = dumps(_shifted_element, sort_keys=True)
+    assert _moved_element_json == _moving_element_json
+    assert _shifted_element_json == _shifting_element_json
+
+    '''moving down'''
+    _index = randrange(0, _length - 1)
+    _direction = 'down'
+    _moving_element = _page_view.get_element_vals(_index)
+    _moving_element.pop('index')
+    _moving_element_json = dumps(_moving_element, sort_keys=True)
+
+    _shifting_element = _page_view.get_element_vals(_index + 1)
+    _shifting_element.pop('index')
+    _shifting_element_json = dumps(_shifting_element, sort_keys=True)
+
+    _page_view.move_element(_index, _direction)
+
+    _moved_element = _page_view.get_element_vals(_index + 1)
+    _moved_element.pop('index')
+    _moved_element_json = dumps(_moved_element, sort_keys=True)
+
+    _shifted_element = _page_view.get_element_vals(_index)
+    _shifted_element.pop('index')
+    _shifted_element_json = dumps(_shifted_element, sort_keys=True)
+    assert _moved_element_json == _moving_element_json
+    assert _shifted_element_json == _shifting_element_json
+    # print('\ntest_page_view:\n test_PageView_move_element'
+    #       '\n  _moved_element ->', dumps(_moved_element, indent=4))
+    # [print(dumps(element.serialize_to_content, indent=4))
+    #  for element in _page_view.elements]
+
+    '''fails'''
+    '''wrong combination index - direction'''
+    _direction = 'up'
     _index = 0
     with pytest.raises(WrongIndexError) as e_info:
         _page_view.move_element(_index, _direction)
     assert str(e_info.value).find('-1') != -1
-    _index = randrange(0, _length - 1)
+
     _direction = 'down'
-    _page_view.move_element(_index, _direction)
     _index = _length - 1
     with pytest.raises(WrongIndexError) as e_info:
         _page_view.move_element(_index, _direction)
     assert str(e_info.value).find('4') != -1
 
-    # print('\ntest_page_view:\n test_PageView_move_element')
-    # for element in _page_view.elements:
-    #     print('\n  element ->',
-    #           dumps(element.serialize_to_content, indent=4),
-    #           )
     '''wrong direction'''
     _direction = 'fuck'
     with pytest.raises(WrongDirection) as e_info:
@@ -711,23 +779,24 @@ def test_PageView_load_fm_db(
     '''success'''
     _page_view_fm_db = PageView.load_fm_db(
         ids={'view_id': _view_name, 'locale_id': _locale})
-    assert _page_view.view_name == _page_view_fm_db.view_name
-    assert _page_view.locale == _page_view_fm_db.locale
-    # assert len(_page_view.elements) == len(_page_view_fm_db.elements)
-    # print('\ntest_page_view:\n test_PageView_load_fm_db')
-    # for i, element in enumerate(_page_view.elements):
-    #     _type = type(element)
-    #     assert isinstance(_page_view_fm_db.elements[i], _type)
-    #     assert element.name == _page_view_fm_db.elements[i].name
-    #     if isinstance(element, ContentElementsBlock):
-    #         assert len(element.elements) \
-    #             == len(_page_view_fm_db.elements[i].elements)
-    #         print('  length ->', len(element.elements))
+    assert _page_view_fm_db.view_name == _page_view.view_name
+    assert _page_view_fm_db.locale == _page_view.locale
+    assert len(_page_view_fm_db.elements) == len(_page_view.elements)
+    for i, element in enumerate(_page_view.elements):
+        _type = type(element)
+        assert isinstance(_page_view_fm_db.elements[i], _type)
+        assert _page_view_fm_db.elements[i].name == element.name
+        if isinstance(element, ContentElementsBlock):
+            assert len(_page_view_fm_db.elements[i].elements)\
+                == len(element.elements)
 
-    # '''fails'''
-    # _wrong = 'wrong'
-    # _fm_db = PageView.load_fm_db({
-    #     'view_id': _wrong, 'locale_id': locale})
+    '''fails'''
+    _wrong = 'wrong'
+    _fm_db = PageView.load_fm_db({
+        'view_id': _wrong, 'locale_id': locale})
+    assert _fm_db is None
+    # print('\ntest_page_view:\n test_PageView_load_fm_db'
+    #       '\n  _fm_db ->', _fm_db)
 
 
 # @pytest.mark.active
@@ -746,8 +815,8 @@ def test_PageView_save_to_db(
         view_name=_view_name, locale=_locale, elements=_elements)
     _page_view.save_to_db(user_id=_user_id)
     # print('\ntest_page_view:\n test_PageView_save_to_db')
-    # print('  _page_view ->', _page_view)
-
+    # [print(
+    #     '  _elements ->', element.upper_index) for element in _elements]
     for element in _page_view.elements:
         # print('  elements ->', element.__dict__)
         _identity = '_'.join([str(element.upper_index).zfill(2),

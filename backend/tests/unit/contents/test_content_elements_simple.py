@@ -224,7 +224,7 @@ def test_ContentElementsSimple_load_fm_db(client, value):
     #       )
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_ContentElementsSimple_save_to_db_content_structure(
         client, value):
     '''clean up structure and content tables'''
@@ -241,16 +241,17 @@ def test_ContentElementsSimple_save_to_db_content_structure(
     _element = value('element value')
 
     '''creating element for testing'''
-    content_elements = ContentElementsSimple(
+    _content_element = ContentElementsSimple(
         upper_index=_upper_index, type=_type,
         name=_name, element=_element)
-    content_elements.save_to_db_content(
+    _content_element.save_to_db_content(
         view_id=_view_id, locale_id=_locale_id, user_id=_user_id,
         save_structure=True)
     '''testing useing load'''
     _loaded_instance = ContentElementsSimple.load_fm_db(
         identity={'_'.join([str(_upper_index).zfill(2), _type])},
         view_id=_view_id, locale_id=_locale_id, load_name=True)
+
     '''test loaded element'''
     assert _loaded_instance.upper_index == _upper_index
     assert _loaded_instance.type == _type
@@ -281,17 +282,18 @@ def test_ContentElementsSimple_save_to_db_content_structure(
     _found_identity = ContentElementsSimple.load_fm_db(
         identity='_'.join([str(_upper_index).zfill(2), _type]),
         view_id=_view_id,
-        locale_id=_locale_id
+        locale_id=_locale_id,
+        load_name=True
     )
-    print('\ntest_content_element:',
-          '\n ContentElementsSimple_save_to_db_content_structure',
-          '\n  _new_instance ->', _new_instance.name,
-          '\n  _found_identity ->', _found_identity.name,
-          )
     assert _found_identity.upper_index == _upper_index
     assert _found_identity.type == _type
     # assert _found_identity.name == _name
     assert _found_identity.element.value == _element
+    # print('\ntest_content_element:',
+    #       '\n ContentElementsSimple_save_to_db_content_structure',
+    #       '\n  _new_instance ->', _new_instance.name,
+    #       '\n  _found_identity ->', _found_identity.name,
+    #       )
 
 
 # @pytest.mark.active

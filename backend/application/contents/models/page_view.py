@@ -201,8 +201,9 @@ class PageView():
         self.locale = locale
         self._elements = []
         self.elements = elements
+        self._normalize_indexes()
 
-    def check_index(self, index: int = 0, ext: bool = False) -> bool:
+    def _check_index(self, index: int = 0, ext: bool = False) -> bool:
         '''Raise error if index out of range. ext - check index in
             case of new element insertion.'''
         _length = len(self.elements)
@@ -218,6 +219,15 @@ class PageView():
                       "to operate with index '%(index)s'.",
                       length=_length,
                       index=index)), 400)
+
+    def _normalize_indexes(self) -> None:
+        '''
+        Insure elements' upper level indexes are serial and started
+            with 0.
+        '''
+        # print('\nPageView:\n _normalize_indexes')
+        for i, element in enumerate(self.elements):
+            element.upper_index = i
 
     @property
     def view_name(self) -> str:
@@ -268,6 +278,7 @@ class PageView():
                                  'ContentElementsBlock]'),
                           type=type(ul_element))), 400)
         self._elements = value
+        self._normalize_indexes()
 
     def get_element_vals(self, index: int = 0) -> Dict:
         '''
@@ -278,7 +289,7 @@ class PageView():
         Not sure where can I use it.
         '''
 
-        self.check_index(index)
+        self._check_index(index)
         # _ul_element = self.elements[index]
         # print('\npage_view:\n get_element_dict',
         #       '\n  _ul_element ->', _ul_element)
@@ -288,7 +299,7 @@ class PageView():
             self, index: int = 0, element_type: str = '',
             subtype: str = '', name: str = '',
             element_value: Union[Dict, List] = {}) -> None:
-        self.check_index(index)
+        self._check_index(index)
         '''get upper level element to check type and use values'''
         _ul_element = self.elements[index]
         if element_type == '':
@@ -313,7 +324,7 @@ class PageView():
             subtype: str = '', name: str = '',
             element_value: Union[Dict, List[Dict]] = {}) -> None:
 
-        self.check_index(index, ext=True)
+        self._check_index(index, ext=True)
         kwargs = {
             'index': index,
             'element_type': element_type,
@@ -336,15 +347,9 @@ class PageView():
             #       '\n  i ->', i)
 
     def remove_vals(self, index: int = 0) -> Dict:
-        self.check_index(index)
+        self._check_index(index)
         removed_element = self.elements.pop(index)
-        '''decrease upper level element index for all elements are index
-            above deleted'''
-        for i, element in enumerate(self.elements):
-            if i < index:
-                continue
-            element.ul_index('dec', i + 1)
-
+        self._normalize_indexes()
         return ul_element_extractor(removed_element)
 
     def move_element(self, index: int = -1, direction: str = '') -> None:
@@ -355,10 +360,10 @@ class PageView():
         '''
         if direction == 'up':
             _new_index = index - 1
-            self.check_index(_new_index)
+            self._check_index(_new_index)
         elif direction == 'down':
             _new_index = index + 1
-            self.check_index(_new_index)
+            self._check_index(_new_index)
         else:
             raise WrongDirection(
                 str(_("Upper level element may be moved 'up' or 'down, "
@@ -409,6 +414,8 @@ class PageView():
         '''
         '''load respective record from structure table'''
         _structure = StructureModel.find_by_ids(ids)
+        if _structure is None:
+            return None
         _attributes = _structure.attributes
         _upper_level_elements = []
         # print('\nPageView\n load_fm_db')
@@ -436,9 +443,9 @@ class PageView():
         '''
         # print('PageView:\n save_to_db')
         for element in self.elements:
-            result = element.save_to_db(
+            result = element.save_to_db_content(
                 view_id=self.view_name, locale_id=self.locale,
-                user_id=user_id)
+                user_id=user_id, save_structure=True)
             if result is not None:
                 return result
         return None

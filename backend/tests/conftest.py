@@ -127,24 +127,28 @@ def create_test_content(element, elements_dict) -> Dict:
             upper_index=_upper_index_00,
             type=_type_00, subtype=_subtype_00,
             name=_name_00, elements=_elements_dict_00)
-        _block_instance_00.save_to_db(
-            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
+        _block_instance_00.save_to_db_content(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id,
+            save_structure=True)
         _block_instance_01 = ContentElementsBlock(
             upper_index=_upper_index_01,
             type=_type_01, subtype=_subtype_01,
             name=_name_01, elements=_elements_dict_01)
-        _block_instance_01.save_to_db(
-            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
+        _block_instance_01.save_to_db_content(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id,
+            save_structure=True)
         _simple_instance_00 = ContentElementsSimple(
             upper_index=_upper_index_02, type=_type_02,
             name=_name_02, element=_element_00)
-        _simple_instance_00.save_to_db(
-            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
+        _simple_instance_00.save_to_db_content(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id,
+            save_structure=True)
         _simple_instance_01 = ContentElementsSimple(
             upper_index=_upper_index_03, type=_type_03,
             name=_name_03, element=_element_01)
-        _simple_instance_01.save_to_db(
-            view_id=_view_id, locale_id=_locale_id, user_id=user_id)
+        _simple_instance_01.save_to_db_content(
+            view_id=_view_id, locale_id=_locale_id, user_id=user_id,
+            save_structure=True)
 
         _structure_block_00 = _block_instance_00.serialize_to_structure
         _structure_block_01 = _block_instance_01.serialize_to_structure

@@ -84,14 +84,15 @@ class StructureModel(dbs_global.Model):
             type, subtype, qnt, name). They have default values in
             classes.
         '''
+        pass
         # '''check args are valid''' not sure it's nesessary
-        _view_page_structure = ViewPageStructure(dict(self.attributes))
+        # _view_page_structure = ViewPageStructure(dict(self.attributes))
 
-        print('structure, model\n insert_upper_level_element',
-              '\n  type(_view_page_structure) ->',
-              type(_view_page_structure),
-              '\n  _view_page_structure ->', _view_page_structure
-              )
+        # print('\nstructure, model\n insert_upper_level_element',
+        #       '\n  type(_view_page_structure) ->',
+        #       type(_view_page_structure),
+        #       '\n  _view_page_structure ->', _view_page_structure
+        #       )
         # if ards.get('view_id') not in :
         #     pass
         '''change records with indexes more then new element index'''
