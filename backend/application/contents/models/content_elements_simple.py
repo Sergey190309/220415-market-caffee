@@ -139,32 +139,25 @@ class ContentElementsSimple(ContentElements):
             save_structure: bool = False) -> Union[None, str]:
         '''
         The method update or create new record in contents tables.
-        NO ACTION ON STRUCTURE, so far.
         If new content table record created correct structure table.
         '''
-        _identity = '_'.join([str(self.upper_index).zfill(2), self.type])
-        '''check whether record exists'''
-        _available_record = ContentModel.find_by_identity_view_locale(
-            identity=_identity, view_id=view_id, locale_id=locale_id)
-        # _available_record = ContentElementsSimple.load_fm_db(
-        #     identity=_identity,
-        #     view_id=view_id, locale_id=locale_id, load_name=True
-        # )
-        if _available_record is None:
-            '''if not create ContentModel instance and save it'''
-            _element_to_db = content_schema.load({
-                **self.serialize_to_content,
-                'view_id': view_id, 'locale_id': locale_id,
-                'user_id': user_id,
-            }, session=dbs_global.session)
-            _element_to_db.save_to_db()
-        else:
-            '''otherwise update existing record'''
-            _updating_values = self.serialize_to_content
-            _available_record.update({
-                'title': _updating_values.get('title'),
-                'content': _updating_values.get('content'),
-                'user_id': user_id})
+        '''clean up existing records with same key <- upper_index'''
+        _instances = ContentModel.find_identity_like(
+            searching_criterions={
+                'view_id': view_id, 'locale_id': locale_id},
+            identity_like=f'{str(self.upper_index).zfill(2)}%'
+        )
+        # print('\nContentElementSimple:\n save_to_db_content'
+        #       '\n  _instances ->', _instances)
+        for instance in _instances:
+            instance.delete_fm_db()
+        '''create ContentModel instance and save it'''
+        _element_to_db = content_schema.load({
+            **self.serialize_to_content,
+            'view_id': view_id, 'locale_id': locale_id,
+            'user_id': user_id,
+        }, session=dbs_global.session)
+        _element_to_db.save_to_db()
         if save_structure:
             self.save_to_db_structure(
                 view_id=view_id, locale_id=locale_id, user_id=user_id)

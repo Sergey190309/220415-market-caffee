@@ -42,6 +42,8 @@ class ContentElementsBlock(ContentElements):
             types=ContentElementsBlock._types,
             name=name)
         self.subtype: str = subtype
+        if len(elements) == 0:
+            elements.append(ContentElement())
         self.elements = elements
 
     def check_index(self, index: int = 0, ext: bool = False) -> bool:
@@ -218,28 +220,26 @@ class ContentElementsBlock(ContentElements):
         I do not check loaded elements validity due to productivity.
         '''
         _splitted_identity = identity.split('_')
+        _elements = ContentModel.find_identity_like(
+            searching_criterions={
+                'view_id': view_id, 'locale_id': locale_id},
+            identity_like=f'{identity}%')
+        if len(_elements) == 0:
+            return None
         instance = ContentElementsBlock(
             upper_index=int(_splitted_identity[0]),
             type=_splitted_identity[1],
             subtype=_splitted_identity[2],
             elements=[
-                element.serialize() for element in
-                ContentModel.find_identity_like(
-                    searching_criterions={
-                        'view_id': view_id, 'locale_id': locale_id},
-                    identity_like=f'{identity}%'
-                )]
-        )
+                element.serialize() for element in _elements
+            ])
         if load_name:
             _structure_instance = StructureModel.find_by_ids(
                 ids={'view_id': view_id, 'locale_id': locale_id})
             if _structure_instance is not None:
                 instance.name = _structure_instance.attributes.get(
                     str(instance.upper_index).zfill(2)).get('name')
-        if len(instance.elements) == 0:
-            return None
-        else:
-            return instance
+        return instance
 
     def save_to_db_content(
             self,
@@ -254,38 +254,30 @@ class ContentElementsBlock(ContentElements):
             by save_structure argument.
         '''
 
+        '''clean up existing records with same key <- upper_index'''
+        _instances = ContentModel.find_identity_like(
+            searching_criterions={
+                'view_id': view_id, 'locale_id': locale_id},
+            identity_like=f'{str(self.upper_index).zfill(2)}%'
+        )
+        # print('\nContentElementBlock:\n save_to_db_content'
+        #       '\n  _instances ->', _instances)
+        for instance in _instances:
+            instance.delete_fm_db()
+
         _id_prefix = '_'.join(
             [str(self.upper_index).zfill(2), self.type, self.subtype])
-        # _max_index = 0
         for i, element in enumerate(self.elements):
             _identity = '_'.join([_id_prefix, str(i).zfill(3)])
-            _instance = ContentModel.find_by_identity_view_locale(
-                identity=_identity, view_id=view_id, locale_id=locale_id)
-            if _instance is None:
-                '''if record does not exist create instance and save
-                    to db'''
-                _instance = content_schema.load({
-                    'identity': _identity,
-                    'view_id': view_id,
-                    'locale_id': locale_id,
-                    'user_id': user_id,
-                    **element.value
-                }, session=dbs_global.session)
-                '''if record exists correct one'''
-                _instance.save_to_db()
-            else:
-                _instance.update({**element.value, 'user_id': user_id})
-            _max_index = i + 1
-        '''clean up exceeding records'''
-        _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
-        _instance = ContentModel.find_by_identity_view_locale(
-            identity=_identity, view_id=view_id, locale_id=locale_id)
-        while _instance is not None:
-            _instance.delete_fm_db()
-            _max_index += 1
-            _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
-            _instance = ContentModel.find_by_identity_view_locale(
-                identity=_identity, view_id=view_id, locale_id=locale_id)
+            # print('  _identity ->', _identity)
+            _instance = content_schema.load({
+                'identity': _identity,
+                'view_id': view_id,
+                'locale_id': locale_id,
+                'user_id': user_id,
+                **element.value
+            }, session=dbs_global.session)
+            _instance.save_to_db()
         if save_structure:
             self.save_to_db_structure(
                 view_id=view_id, locale_id=locale_id, user_id=user_id)

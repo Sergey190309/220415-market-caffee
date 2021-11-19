@@ -34,15 +34,87 @@ from application.global_init_data import global_constants
 from application.users.local_init_data_users import users_constants
 from application.home.local_init_data_home import Sessions
 
-from application.contents.models.content_elements_block import (
-    ContentElementsBlock)
+from application.contents.models.content_element import ContentElement
 from application.contents.models.content_elements_simple import (
     ContentElementsSimple)
+from application.contents.models.content_elements_block import (
+    ContentElementsBlock)
 
 rv = RandomWords()
 rm = RandomEmails()
 # from application.components.schemas.component_kinds import (
 #     ComponentKindGetSchema, ComponentKindSchema)
+
+
+@pytest.fixture
+def view_name():
+    def _method(view_name: str = ''):
+        return choice([item for item in global_constants.get_VIEWS_PKS
+                       if item != view_name])
+    return _method
+
+
+@pytest.fixture
+def locale():
+    def _method(locale: str = ''):
+        return choice([item for item in global_constants.get_PKS
+                       if item != locale])
+    return _method
+
+
+@pytest.fixture
+def simple_element():
+    def _method(
+            upper_index: int = 0, type: str = '', marker: str = ''):
+        return ContentElementsSimple(
+            upper_index=upper_index, type=type, name=f'name of {type}',
+            element=ContentElement({
+                'title': f'Title for {type} {marker}',
+                'content': f'Content for {type} {marker}'
+            })
+        )
+    return _method
+
+
+@pytest.fixture
+def block_element():
+    def _method(
+            upper_index: int = 0, type: str = '', subtype: str = '',
+            qnt: int = 1, marker: str = ''):
+        _elements = []
+        for i in range(qnt):
+            _elements.append(ContentElement({
+                'title':
+                    f'Title for {type} ContentElement No {i}; {marker}!',
+                'content':
+                    f'Content for {type} ContentElement No {i}; {marker}.'
+            }))
+        return ContentElementsBlock(
+            upper_index=upper_index, type=type,
+            subtype=subtype, name=f'name of {type}',
+            elements=_elements
+        )
+    return _method
+
+
+@pytest.fixture
+def elements(simple_element, block_element):
+    def _method(marker: str = ''):
+        _header = simple_element(
+            upper_index=randrange(99), type='header', marker=marker)
+        _vblock = block_element(
+            upper_index=randrange(99), type='vblock',
+            subtype='txt', qnt=4, marker=marker)
+        _hblock = block_element(
+            upper_index=randrange(99), type='hblock',
+            subtype='pix', qnt=5, marker=marker)
+        _footer = simple_element(
+            upper_index=randrange(99), type='footer',
+            marker=marker)
+        return [
+            _header, _vblock, _hblock, _footer
+        ]
+    return _method
 
 
 @pytest.fixture

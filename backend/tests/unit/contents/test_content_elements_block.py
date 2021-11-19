@@ -569,7 +569,8 @@ def test_ContentElementsBlock_save_to_db_content_structure(
     _locale_id = choice(global_constants.get_PKS)
     _upper_index = randrange(100)
     _user_id = randrange(128)
-    _size = randrange(3, 20)
+    _size = 10
+    # _size = randrange(3, 20)
     _type = choice(ContentElementsBlock._types)
     _subtype = choice(ContentElementsBlock._subtypes)
     _name = f'name of {_type}'

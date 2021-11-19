@@ -1,15 +1,15 @@
 import pytest
 from json import dumps
 from typing import Dict, List
-from random import choice, randrange
+from random import randrange
 
-from application.global_init_data import global_constants
+# from application.global_init_data import global_constants
 
 from application.contents.errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
     WrongValueError, WrongDirection)
-from application.contents.models.content_element import (
-    ContentElement)
+# from application.contents.models.content_element import (
+#     ContentElement)
 from application.contents.models.content_elements_simple import (
     ContentElementsSimple)
 from application.contents.models.content_elements_block import (
@@ -18,77 +18,6 @@ from application.contents.models.page_view import (
     PageView, ul_element_extractor, ul_element_serializer)
 from application.structure.models.structure import StructureModel
 from application.contents.models.contents import ContentModel
-
-
-@pytest.fixture
-def view_name():
-    def _method(view_name: str = ''):
-        return choice([item for item in global_constants.get_VIEWS_PKS
-                       if item != view_name])
-    return _method
-
-
-@pytest.fixture
-def locale():
-    def _method(locale: str = ''):
-        return choice([item for item in global_constants.get_PKS
-                       if item != locale])
-    return _method
-
-
-@pytest.fixture
-def simple_element():
-    def _method(
-            upper_index: int = 0, type: str = '', marker: str = ''):
-        return ContentElementsSimple(
-            upper_index=upper_index, type=type, name=f'name of {type}',
-            element=ContentElement({
-                'title': f'Title for {type} {marker}',
-                'content': f'Content for {type} {marker}'
-            })
-        )
-    return _method
-
-
-@pytest.fixture
-def block_element():
-    def _method(
-            upper_index: int = 0, type: str = '', subtype: str = '',
-            qnt: int = 1, marker: str = ''):
-        _elements = []
-        for i in range(qnt):
-            _elements.append(ContentElement({
-                'title':
-                    f'Title for {type} ContentElement No {i}; {marker}!',
-                'content':
-                    f'Content for {type} ContentElement No {i}; {marker}.'
-            }))
-        return ContentElementsBlock(
-            upper_index=upper_index, type=type,
-            subtype=subtype, name=f'name of {type}',
-            elements=_elements
-        )
-    return _method
-
-
-@pytest.fixture
-def elements(simple_element, block_element):
-    def _method(marker: str = ''):
-        _header = simple_element(
-            upper_index=randrange(99), type='header', marker=marker)
-        _vblock = block_element(
-            upper_index=randrange(99), type='vblock',
-            subtype='txt', qnt=4, marker=marker)
-        _hblock = block_element(
-            upper_index=randrange(99), type='hblock',
-            subtype='pix', qnt=5, marker=marker)
-        _footer = simple_element(
-            upper_index=randrange(99), type='footer',
-            marker=marker)
-        return [
-            _header, _vblock, _hblock, _footer
-        ]
-    return _method
 
 
 # @pytest.mark.active
@@ -456,7 +385,8 @@ def test_PageView_insert_vals_success(
     # [_content.delete_fm_db() for _content in ContentModel.find()]
     # [_structure.delete_fm_db() for _structure in StructureModel.find()]
     _view_name = view_name()
-    _locale = locale()
+    _locale = 'en'
+    # _locale = locale()
     _elements = elements()
     _page_view = PageView(
         view_name=_view_name, locale=_locale, elements=_elements)
@@ -464,7 +394,7 @@ def test_PageView_insert_vals_success(
     '''insert simple upper level element to beginning'''
     _insert_position = 0
     _el_type = 'header'
-    _marker = 'insert to beginning'
+    _marker = 'inserted to beginning'
     _simple_element = simple_element(type=_el_type, marker=_marker)
     _inserting_json = dumps(
         ul_element_extractor(_simple_element), sort_keys=True)
@@ -487,6 +417,10 @@ def test_PageView_insert_vals_success(
     _last_elem_json = dumps(_last_elem_dict, sort_keys=True)
     assert dumps(_page_view.get_element_vals(
         _length), sort_keys=True) == _last_elem_json
+    # print('\ntest_page_view:\n test_PageView_insert_vals')
+    # print('  simple_kwargs ->', simple_kwargs)
+    # [print(dumps(element.serialize_to_content, indent=4))
+    #  for element in _page_view.elements]
 
     '''insert to end'''
     _length = len(_page_view.elements)
@@ -536,10 +470,6 @@ def test_PageView_insert_vals_success(
     assert dumps(_page_view.get_element_vals(
         _insert_position), sort_keys=True) == _inserting_json
     # _page_view.save_to_db(user_id=randrange(128))
-    # print('\ntest_page_view:\n test_PageView_insert_vals'
-    #       '\n  _last_elem_dict ->', _last_elem_dict)
-    # [print(dumps(element.serialize_to_content, indent=4))
-    #  for element in _page_view.elements]
 
 
 # @pytest.mark.active
@@ -631,22 +561,28 @@ def test_PageView_remove_vals(client, view_name, locale, simple_element,
     #  for element in _page_view.elements]
 
 
-@pytest.mark.active
+# @pytest.mark.active
 def test_PageView_move_element(
         client, view_name, locale, simple_element, block_element,
         elements):
     '''it works I don't like to test success movements'''
-    # '''clean up tables'''
-    # [_content.delete_fm_db() for _content in ContentModel.find()]
-    # [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    '''clean up tables'''
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]
     _view_name = view_name()
     _locale = locale()
+    _ids = {
+        'view_id': _view_name,
+        'locale_id': _locale
+    }
     _elements = elements()
     _page_view = PageView(
         view_name=_view_name, locale=_locale, elements=_elements)
+    _page_view.save_to_db(user_id=1)
     _length = len(_page_view.elements)
     '''success'''
     '''moving up'''
+    # _index = 1
     _index = randrange(1, _length)
     _direction = 'up'
     _moving_element = _page_view.get_element_vals(_index)
@@ -658,16 +594,21 @@ def test_PageView_move_element(
     _shifting_element_json = dumps(_shifting_element, sort_keys=True)
 
     _page_view.move_element(_index, _direction)
+    _page_view.save_to_db(user_id=2)
+    _loaded_view = PageView.load_fm_db(ids=_ids)
 
-    _moved_element = _page_view.get_element_vals(_index - 1)
+    _moved_element = _loaded_view.get_element_vals(_index - 1)
     _moved_element.pop('index')
     _moved_element_json = dumps(_moved_element, sort_keys=True)
 
-    _shifted_element = _page_view.get_element_vals(_index)
+    _shifted_element = _loaded_view.get_element_vals(_index)
     _shifted_element.pop('index')
     _shifted_element_json = dumps(_shifted_element, sort_keys=True)
     assert _moved_element_json == _moving_element_json
     assert _shifted_element_json == _shifting_element_json
+    # print('\ntest_page_view:\n test_PageView_move_element')
+    # [print(dumps(element.serialize_to_content, indent=4))
+    #  for element in _loaded_view.elements]
 
     '''moving down'''
     _index = randrange(0, _length - 1)
@@ -691,10 +632,6 @@ def test_PageView_move_element(
     _shifted_element_json = dumps(_shifted_element, sort_keys=True)
     assert _moved_element_json == _moving_element_json
     assert _shifted_element_json == _shifting_element_json
-    # print('\ntest_page_view:\n test_PageView_move_element'
-    #       '\n  _moved_element ->', dumps(_moved_element, indent=4))
-    # [print(dumps(element.serialize_to_content, indent=4))
-    #  for element in _page_view.elements]
 
     '''fails'''
     '''wrong combination index - direction'''
@@ -714,9 +651,7 @@ def test_PageView_move_element(
     _direction = 'fuck'
     with pytest.raises(WrongDirection) as e_info:
         _page_view.move_element(_index, _direction)
-    assert str(e_info.value) \
-        == ("Upper level element may be moved 'up' or 'down, but "
-            f"'{_direction}' has been provided.")
+    assert str(e_info.value).find(_direction) != -1
 
 
 # @pytest.mark.active

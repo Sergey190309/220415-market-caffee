@@ -5,7 +5,7 @@ from flask_babelplus import lazy_gettext as _
 from ...global_init_data import global_constants
 from ..errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
-    WrongValueError, WrongDirection)
+    WrongValueError, WrongDirection, WrongElementTypeError)
 from .content_elements_simple import ContentElementsSimple
 from .content_elements_block import ContentElementsBlock
 from ...structure.models.structure import StructureModel
@@ -324,6 +324,9 @@ class PageView():
             subtype: str = '', name: str = '',
             element_value: Union[Dict, List[Dict]] = {}) -> None:
 
+        if element_value == {}\
+                and element_type in ContentElementsBlock._types:
+            element_value = []
         self._check_index(index, ext=True)
         kwargs = {
             'index': index,
