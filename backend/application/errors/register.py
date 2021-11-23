@@ -1,6 +1,7 @@
 from flask import jsonify
 
-from sqlalchemy.exc import OperationalError, InvalidRequestError, ProgrammingError
+from sqlalchemy.exc import (
+    OperationalError, InvalidRequestError, ProgrammingError)
 # from pymysql import err
 from marshmallow.exceptions import ValidationError
 from babel.core import UnknownLocaleError

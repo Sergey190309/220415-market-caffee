@@ -1,11 +1,10 @@
-import json
-_json = {
-    "identity": "52_vblock_pix",
-    "item_index": 3,
-    "view_id": "landing"
-}
+view_id = 'view_id'
+locale_id = 'locale_id'
+user_id = 128
 
-identity = _json
+_list = [view_id, locale_id, user_id]
+
+_dict = {k:  for (k, v) in }
 
 print(json.dumps(_json, indent=4))
 print(_json)

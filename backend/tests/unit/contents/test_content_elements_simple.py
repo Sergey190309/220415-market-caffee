@@ -225,7 +225,8 @@ def test_ContentElementsSimple_load_fm_db(client, value):
 
 
 # @pytest.mark.active
-def test_ContentElementsSimple_save_to_db(client, value):
+def test_ContentElementsSimple_save_to_db_content_structure(
+        client, value):
     '''clean up structure and content tables'''
     [_structure.delete_fm_db() for _structure in StructureModel.find()]
     [_content.delete_fm_db() for _content in ContentModel.find()]
@@ -233,19 +234,31 @@ def test_ContentElementsSimple_save_to_db(client, value):
     _view_id = choice(global_constants.get_VIEWS_PKS)
     _locale_id = choice(global_constants.get_PKS)
     _upper_index = randrange(100)
-    _user_id = randrange(128)
+    _user_id = randrange(64)
     _type = 'header'
     _name = 'name'
-    _value = value('db value')
+    # _value = value('db value')
     _element = value('element value')
 
     '''creating element for testing'''
-    content_elements = ContentElementsSimple(
+    _content_element = ContentElementsSimple(
         upper_index=_upper_index, type=_type,
         name=_name, element=_element)
-    content_elements.save_to_db(
-        view_id=_view_id, locale_id=_locale_id, user_id=_user_id)
-    '''testing'''
+    _content_element.save_to_db_content(
+        view_id=_view_id, locale_id=_locale_id, user_id=_user_id,
+        save_structure=True)
+    '''testing useing load'''
+    _loaded_instance = ContentElementsSimple.load_fm_db(
+        identity={'_'.join([str(_upper_index).zfill(2), _type])},
+        view_id=_view_id, locale_id=_locale_id, load_name=True)
+
+    '''test loaded element'''
+    assert _loaded_instance.upper_index == _upper_index
+    assert _loaded_instance.type == _type
+    assert _loaded_instance.name == _name
+    assert _loaded_instance.element.value == _element
+
+    '''testing records in tables'''
     _found_db_instance = ContentModel.find_by_identity_view_locale(
         identity='_'.join([str(_upper_index).zfill(2), _type]),
         view_id=_view_id, locale_id=_locale_id
@@ -254,35 +267,32 @@ def test_ContentElementsSimple_save_to_db(client, value):
         == '_'.join([str(_upper_index).zfill(2), _type])
     assert _found_db_instance.title == _element.get('title')
     assert _found_db_instance.content == _element.get('content')
-
-    '''creating record in db with same primary keys'''
-    _record = content_schema.load({
-        'identity': '_'.join([str(_upper_index).zfill(2), _type]),
-        'view_id': _view_id, 'locale_id': _locale_id,
-        'title': _value.get('title'), 'content': _value.get('content')
-    }, session=dbs_global.session)
-    _record.save_to_db()
-    _found_db_instance = ContentModel.find_by_identity_view_locale(
-        identity='_'.join([str(_upper_index).zfill(2), _type]),
-        view_id=_view_id, locale_id=_locale_id
-    )
-    assert _found_db_instance.identity\
-        == '_'.join([str(_upper_index).zfill(2), _type])
-    assert _found_db_instance.title == _value.get('title')
-    assert _found_db_instance.content == _value.get('content')
 
     '''update db record with element instance, same PKs'''
-    content_elements.save_to_db(view_id=_view_id, locale_id=_locale_id)
-    assert _found_db_instance.identity\
-        == '_'.join([str(_upper_index).zfill(2), _type])
-    assert _found_db_instance.title == _element.get('title')
-    assert _found_db_instance.content == _element.get('content')
-
+    _element = value(marker='new value')
+    _name = f'new {_name}'
+    # _upper_index = randrange(50, 100)
+    _user_id = randrange(64, 128)
+    _new_instance = ContentElementsSimple(
+        upper_index=_upper_index, type=_type,
+        name=_name, element=_element)
+    _new_instance.save_to_db_content(
+        view_id=_view_id, locale_id=_locale_id,
+        user_id=_user_id, save_structure=True)
+    _found_identity = ContentElementsSimple.load_fm_db(
+        identity='_'.join([str(_upper_index).zfill(2), _type]),
+        view_id=_view_id,
+        locale_id=_locale_id,
+        load_name=True
+    )
+    assert _found_identity.upper_index == _upper_index
+    assert _found_identity.type == _type
+    # assert _found_identity.name == _name
+    assert _found_identity.element.value == _element
     # print('\ntest_content_element:',
-    #       '\n test_ContentElementsSimple_save_to_db',
-    #       '\n  content_elements ->\n  ',
-    #       content_elements.serialize_to_content,
-    #       '\n  ', content_elements.serialize_to_structure
+    #       '\n ContentElementsSimple_save_to_db_content_structure',
+    #       '\n  _new_instance ->', _new_instance.name,
+    #       '\n  _found_identity ->', _found_identity.name,
     #       )
 
 

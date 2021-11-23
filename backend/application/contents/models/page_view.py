@@ -5,9 +5,11 @@ from flask_babelplus import lazy_gettext as _
 from ...global_init_data import global_constants
 from ..errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
-    WrongValueError)
+    # WrongElementTypeError,
+    WrongValueError, WrongDirection)
 from .content_elements_simple import ContentElementsSimple
 from .content_elements_block import ContentElementsBlock
+from .contents import ContentModel
 from ...structure.models.structure import StructureModel
 
 
@@ -201,8 +203,9 @@ class PageView():
         self.locale = locale
         self._elements = []
         self.elements = elements
+        self._normalize_indexes()
 
-    def check_index(self, index: int = 0, ext: bool = False) -> bool:
+    def _check_index(self, index: int = 0, ext: bool = False) -> bool:
         '''Raise error if index out of range. ext - check index in
             case of new element insertion.'''
         _length = len(self.elements)
@@ -218,6 +221,15 @@ class PageView():
                       "to operate with index '%(index)s'.",
                       length=_length,
                       index=index)), 400)
+
+    def _normalize_indexes(self) -> None:
+        '''
+        Insure elements' upper level indexes are serial and started
+            with 0.
+        '''
+        # print('\nPageView:\n _normalize_indexes')
+        for i, element in enumerate(self.elements):
+            element.upper_index = i
 
     @property
     def view_name(self) -> str:
@@ -268,6 +280,7 @@ class PageView():
                                  'ContentElementsBlock]'),
                           type=type(ul_element))), 400)
         self._elements = value
+        self._normalize_indexes()
 
     def get_element_vals(self, index: int = 0) -> Dict:
         '''
@@ -278,7 +291,7 @@ class PageView():
         Not sure where can I use it.
         '''
 
-        self.check_index(index)
+        self._check_index(index)
         # _ul_element = self.elements[index]
         # print('\npage_view:\n get_element_dict',
         #       '\n  _ul_element ->', _ul_element)
@@ -288,7 +301,7 @@ class PageView():
             self, index: int = 0, element_type: str = '',
             subtype: str = '', name: str = '',
             element_value: Union[Dict, List] = {}) -> None:
-        self.check_index(index)
+        self._check_index(index)
         '''get upper level element to check type and use values'''
         _ul_element = self.elements[index]
         if element_type == '':
@@ -313,7 +326,10 @@ class PageView():
             subtype: str = '', name: str = '',
             element_value: Union[Dict, List[Dict]] = {}) -> None:
 
-        self.check_index(index, ext=True)
+        if element_value == {}\
+                and element_type in ContentElementsBlock._types:
+            element_value = []
+        self._check_index(index, ext=True)
         kwargs = {
             'index': index,
             'element_type': element_type,
@@ -323,11 +339,45 @@ class PageView():
         }
         # _new_element = ul_element_creator(**kwargs)
         self.elements.insert(index, ul_element_creator(**kwargs))
+        # print('\nPageView:\n insert_vals',
+        #       #   '\n  index ->', index
+        #       )
+        '''increase upper level element index for all elements are index
+            above inserted'''
+        for i, element in enumerate(self.elements):
+            if i <= index:
+                continue
+            element.ul_index('inc', i - 1)
+            # print('  element ->', element,
+            #       '\n  i ->', i)
 
     def remove_vals(self, index: int = 0) -> Dict:
-        self.check_index(index)
-        # element = self.elements.pop(index)
-        return ul_element_extractor(self.elements.pop(index))
+        self._check_index(index)
+        removed_element = self.elements.pop(index)
+        self._normalize_indexes()
+        return ul_element_extractor(removed_element)
+
+    def move_element(self, index: int = -1, direction: str = '') -> None:
+        '''
+        Depending on direction move upper level element one position up
+            or down.
+        direction: Union['up', 'down']
+        '''
+        if direction == 'up':
+            _new_index = index - 1
+            self._check_index(_new_index)
+        elif direction == 'down':
+            _new_index = index + 1
+            self._check_index(_new_index)
+        else:
+            raise WrongDirection(
+                str(_("Upper level element may be moved 'up' or 'down, "
+                      "but '%(direction)s' has been provided.",
+                      direction=direction)), 400)
+        self.elements.insert(_new_index, self.elements.pop(index))
+        '''handle mixed indexes'''
+        self.elements[index].ul_index(index=index)
+        self.elements[_new_index].ul_index(index=_new_index)
 
     @property
     def serialize_to_content(self) -> List:
@@ -365,19 +415,22 @@ class PageView():
         First is takes structure, then contents.
         I don't set error handling cause I do not plan to use this method
             in working flow, testing only.
+        ids - PKs in StructureModel (view_id, locale_id).
         '''
         '''load respective record from structure table'''
         _structure = StructureModel.find_by_ids(ids)
+        if _structure is None:
+            return None
         _attributes = _structure.attributes
         _upper_level_elements = []
-        print('\nPageView\n load_fm_db')
+        # print('\nPageView\n load_fm_db')
         #       ContentElementsSimple._types)
         for key in _attributes.keys():
             '''get identity'''
             _type = _attributes.get(key).get('type')
             _subtype = _attributes.get(key).get('subtype')
             _name = _attributes.get(key).get('name')
-            print('  name ->', _name)
+            # print('  name ->', _name)
             _identity = '_'.join([key, _type])
             if _subtype is not None:
                 _identity = '_'.join([_identity, _subtype])
@@ -391,16 +444,47 @@ class PageView():
     def save_to_db(self, user_id: int = 0) -> Union[None, str]:
         '''
         The method save the instance to content and structure tables.
+        Then it cleans up of exeeding records in content table if any and
+            correct attributes on structre table.
         Returning string conteins error report from called methods.
+
         '''
         # print('PageView:\n save_to_db')
-        for element in self.elements:
-            result = element.save_to_db(
+        for i, element in enumerate(self.elements):
+            result = element.save_to_db_content(
                 view_id=self.view_name, locale_id=self.locale,
-                user_id=user_id)
+                user_id=user_id, save_structure=True)
             if result is not None:
                 return result
-        return None
+
+        '''clean up tables'''
+        '''exeeding records in content table'''
+        _content_index = i + 1
+        _records = ContentModel.find_identity_like(searching_criterions={
+            'view_id': self.view_name, 'locale_id': self.locale},
+            identity_like=f'{str(_content_index).zfill(2)}%'
+        )
+        while len(_records) > 0:
+            result = _records[0].delete_fm_db()
+            _content_index += 1
+            _records = ContentModel.find_identity_like(
+                searching_criterions={
+                    'view_id': self.view_name, 'locale_id': self.locale},
+                identity_like=f'{str(_content_index).zfill(2)}%'
+            )
+        ''' correct attribute record in structure table'''
+        _structure = StructureModel.find_by_ids(
+            ids={'view_id': self.view_name, 'locale_id': self.locale})
+
+        _structure_index = i + 1
+        # print('\nPageView:\n save_to_db'
+        #       '\n  _structure before ->', _structure.attributes)
+        while _structure.attributes.get(
+                str(_structure_index).zfill(2)) is not None:
+            _structure.attributes.pop(str(_structure_index).zfill(2))
+            _structure_index += 1
+        result = _structure.save_to_db()
+        return result
 
     def delete_fm_db(self):
         pass

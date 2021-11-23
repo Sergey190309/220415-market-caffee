@@ -66,7 +66,8 @@ class ContentModel(dbs_global.Model):
             _qnt -= 1
         _record_body = '_'.join(block_id.split('_')[0:-1])
         # print('\nContents, model, block_id ->', block_id)
-        return ['_'.join([_record_body, str(index).zfill(3)]) for index in range(_qnt)]
+        return ['_'.join([_record_body, str(index).zfill(3)])
+                for index in range(_qnt)]
 
     @classmethod
     def find(cls, searching_criterions: Dict = {}) -> ['ContentModel']:
@@ -138,7 +139,8 @@ class ContentModel(dbs_global.Model):
             'locale_id': locale_id
         }
         if cls.is_exist_cls(_criterian):
-            _redundant_record = cls.find_by_identity_view_locale(**_criterian)
+            _redundant_record = cls.find_by_identity_view_locale(
+                **_criterian)
             _redundant_record.delete_fm_db()
             return {
                 'message': str(_(
@@ -150,7 +152,8 @@ class ContentModel(dbs_global.Model):
         '''Creation new exeeding record'''
         '''_record_s - source record; _record_t - target record'''
         _active_index = len(_updated_record_ids) - 1
-        _criterian = {**_criterian, 'identity': _updated_record_ids[_active_index - 1]}
+        _criterian = {**_criterian,
+                      'identity': _updated_record_ids[_active_index - 1]}
         _record_s = cls.find_by_identity_view_locale(**_criterian)
         if _record_s is None:
             _record_s = ContentModel(
@@ -191,7 +194,8 @@ class ContentModel(dbs_global.Model):
                 _criterian = {**_criterian,
                               'identity':
                               _updated_record_ids[_active_index]}
-                _active_record = cls.find_by_identity_view_locale(**_criterian)
+                _active_record = cls.find_by_identity_view_locale(
+                    **_criterian)
                 update_result = _active_record.update({
                     'user_id': user_id,
                     'title': _record_s.title,
@@ -256,8 +260,9 @@ class ContentModel(dbs_global.Model):
                           'identity': _updated_record_ids[_active_index]}
             _record_t = cls.find_by_identity_view_locale(**_criterian)
             if _active_index < len(_updated_record_ids) - 1:
-                _criterian = {**_criterian,
-                              'identity': _updated_record_ids[_active_index + 1]}
+                _criterian = {
+                    **_criterian,
+                    'identity': _updated_record_ids[_active_index + 1]}
             else:
                 _criterian = {**_criterian,
                               'identity': _last_record_id}
@@ -314,14 +319,16 @@ class ContentModel(dbs_global.Model):
         except IntegrityError as error:
             dbs_global.session.rollback()
             return (
-                "contents.models.ContentModel.save_to_db IntegrityError:\n"
-                f"{error.orig}")
+                "contents.models.ContentModel.save_to_db IntegrityError:"
+                f"\n{error.orig}")
         except Exception as error:
-            print('contents.models.ContentModel.save_to_db Error\n', error)
+            print('contents.models.ContentModel.save_to_db Error\n',
+                  error)
 
     def delete_fm_db(self) -> Union[None, str]:
         try:
             dbs_global.session.delete(self)
             dbs_global.session.commit()
         except Exception as error:
-            print('contents.models.ContentModel.delete_fm_db error\n', error)
+            print('contents.models.ContentModel.delete_fm_db error\n',
+                  error)

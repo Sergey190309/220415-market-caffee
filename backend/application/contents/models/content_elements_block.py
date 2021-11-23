@@ -4,9 +4,8 @@ from flask_babelplus import lazy_gettext as _
 from application.modules.dbs_global import dbs_global
 from ..errors.custom_exceptions import (
     # WrongTypeError,
-    WrongElementTypeError,
-    WrongIndexError,
-    WrongValueError
+    WrongElementTypeError, WrongIndexError, WrongValueError,
+    WrongDirection
 )
 
 # from .types import ContentValues  # , StactureValues
@@ -42,6 +41,8 @@ class ContentElementsBlock(ContentElements):
             types=ContentElementsBlock._types,
             name=name)
         self.subtype: str = subtype
+        if len(elements) == 0:
+            elements.append(ContentElement())
         self.elements = elements
 
     def check_index(self, index: int = 0, ext: bool = False) -> bool:
@@ -106,9 +107,8 @@ class ContentElementsBlock(ContentElements):
         self.check_index(index)
         return self.elements[index]
 
-    def set_element(
-            self, index: int = 0,
-            value: Union[Dict, ContentElement] = {}) -> None:
+    def set_element(self, index: int = 0,
+                    value: Union[Dict, ContentElement] = {}) -> None:
         self.check_index(index)
         if isinstance(value, dict):
             self._elements[index] = ContentElement(value)
@@ -117,9 +117,11 @@ class ContentElementsBlock(ContentElements):
         else:
             ContentElementsBlock.wrong_element_type(type(value))
 
-    def insert(
-            self, index: int = 0,
-            value: Union[Dict, ContentElement] = {}) -> None:
+    def insert(self, index: int = 0,
+               value: Union[Dict, ContentElement] = {}) -> None:
+        '''
+        The method does not update db.
+        '''
         self.check_index(index, ext=True)
         if isinstance(value, dict):
             self._elements.insert(index, ContentElement(value))
@@ -129,8 +131,31 @@ class ContentElementsBlock(ContentElements):
             ContentElementsBlock.wrong_element_type(type(value))
 
     def remove(self, index: int = 0) -> ContentElement:
+        '''
+        The method does not update db.
+        '''
         self.check_index(index)
         return self._elements.pop(index)
+
+    def move(self, index: int = -1, direction: str = '') -> None:
+        '''
+        Depending on direction move block element one position up or down.
+        Direction: Union['up', 'down']
+        The method does not update db.
+        '''
+        if direction == 'up':
+            _new_index = index - 1
+            self.check_index(_new_index)
+        elif direction == 'down':
+            _new_index = index + 1
+            self.check_index(_new_index)
+        else:
+            raise WrongDirection(
+                str(_("Block element may be moved 'up' or 'down, "
+                      "but '%(direction)s' has been provided.",
+                      direction=direction)), 400)
+        self.elements.insert(_new_index, self.elements.pop(index))
+        '''handle mixed identitites'''
 
     def serialize_to_content_element(
             self, index: int = 0) -> Dict:
@@ -205,77 +230,86 @@ class ContentElementsBlock(ContentElements):
         return result
 
     @classmethod
-    def load_fm_db(
-            cls, identity: str = '', view_id: str = '',
-            locale_id: str = '') -> Union[None, 'ContentElementsBlock']:
+    def load_fm_db(cls, identity: str = '', view_id: str = '',
+                   locale_id: str = '', load_name: bool = False
+                   ) -> Union[None, 'ContentElementsBlock']:
         '''here identity consisn of upper_index, type, subtype -
             01_type_subtype'''
         '''
         The method creates ContentElementsBlock instance based on info
-            from db content table.
+            from db content table. Name is got from structure table.
+            In case of structure table record for this page does not
+            exist name would be empty.
         I do not check loaded elements validity due to productivity.
         '''
         _splitted_identity = identity.split('_')
-        _instance = ContentElementsBlock(
+        _elements = ContentModel.find_identity_like(
+            searching_criterions={
+                'view_id': view_id, 'locale_id': locale_id},
+            identity_like=f'{identity}%')
+        if len(_elements) == 0:
+            return None
+        instance = ContentElementsBlock(
             upper_index=int(_splitted_identity[0]),
             type=_splitted_identity[1],
             subtype=_splitted_identity[2],
             elements=[
-                element.serialize() for element in
-                ContentModel.find_identity_like(
-                    searching_criterions={
-                        'view_id': view_id, 'locale_id': locale_id},
-                    identity_like=f'{identity}%'
-                )]
-        )
-        if len(_instance.elements) == 0:
-            return None
-        else:
-            return _instance
+                element.serialize() for element in _elements
+            ])
+        if load_name:
+            _structure_instance = StructureModel.find_by_ids(
+                ids={'view_id': view_id, 'locale_id': locale_id})
+            if _structure_instance is not None:
+                instance.name = _structure_instance.attributes.get(
+                    str(instance.upper_index).zfill(2)).get('name')
+        return instance
 
-    def save_to_db(self, view_id: str = '',
-                   locale_id: str = '',
-                   user_id: int = 0) -> Union[None, str]:
+    def save_to_db_content(
+            self,
+            view_id: str = '',
+            locale_id: str = '',
+            user_id: int = 0,
+            save_structure: bool = False) -> Union[None, str]:
         '''
         The method update or create new records in contents tables.
         Remove excess records if any.
-        If new content table record created correct structure.
+        If new content table record created correct structure if required
+            by save_structure argument.
         '''
+
+        '''clean up existing records with same key <- upper_index'''
+        _instances = ContentModel.find_identity_like(
+            searching_criterions={
+                'view_id': view_id, 'locale_id': locale_id},
+            identity_like=f'{str(self.upper_index).zfill(2)}%'
+        )
+        # print('\nContentElementBlock:\n save_to_db_content'
+        #       '\n  _instances ->', _instances)
+        for instance in _instances:
+            instance.delete_fm_db()
 
         _id_prefix = '_'.join(
             [str(self.upper_index).zfill(2), self.type, self.subtype])
-        _max_index = 0
         for i, element in enumerate(self.elements):
             _identity = '_'.join([_id_prefix, str(i).zfill(3)])
-            _instance = ContentModel.find_by_identity_view_locale(
-                identity=_identity, view_id=view_id, locale_id=locale_id)
-            if _instance is None:
-                '''if record does not exist create instance and save
-                    to db'''
-                _instance = content_schema.load({
-                    'identity': _identity,
-                    'view_id': view_id,
-                    'locale_id': locale_id,
-                    'user_id': user_id,
-                    **element.value
-                }, session=dbs_global.session)
-                '''if record exists correct one'''
-                _instance.save_to_db()
-            else:
-                _instance.update({**element.value, 'user_id': user_id})
-            _max_index = i + 1
-        '''clean up exceeding records'''
-        _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
-        _instance = ContentModel.find_by_identity_view_locale(
-            identity=_identity, view_id=view_id, locale_id=locale_id)
-        while _instance is not None:
-            _instance.delete_fm_db()
-            _max_index += 1
-            _identity = '_'.join([_id_prefix, str(_max_index).zfill(3)])
-            _instance = ContentModel.find_by_identity_view_locale(
-                identity=_identity, view_id=view_id, locale_id=locale_id)
+            # print('  _identity ->', _identity)
+            _instance = content_schema.load({
+                'identity': _identity,
+                'view_id': view_id,
+                'locale_id': locale_id,
+                'user_id': user_id,
+                **element.value
+            }, session=dbs_global.session)
+            _instance.save_to_db()
+        if save_structure:
+            self.save_to_db_structure(
+                view_id=view_id, locale_id=locale_id, user_id=user_id)
 
-        '''structure table operations'''
+    def save_to_db_structure(
+            self,
+            view_id: str = '',
+            locale_id: str = '',
+            user_id: int = 0) -> Union[None, str]:
         '''get existing structure record'''
         _structure_instance = StructureModel.find_by_ids(ids={
             'view_id': view_id,
@@ -295,7 +329,8 @@ class ContentElementsBlock(ContentElements):
         # print('\nContentElementBlock:\n save_to_db',
         #       '\n  _structure_attributes', _structure_attributes,)
         key = str(self.upper_index).zfill(2)
-        _structure_attributes[key] = self.serialize_to_structure.get(key)
+        _structure_attributes[
+            key] = self.serialize_to_structure.get(key)
         return _structure_instance.update(
             {'attributes': _structure_attributes, 'user_id': user_id})
         # _structure_json = structure_get_schema.dump(_structure_instance)
@@ -321,8 +356,10 @@ class ContentElementsBlock(ContentElements):
                 identity=_identity, view_id=view_id, locale_id=locale_id)
         '''handle structure table'''
         '''get respective structure record'''
-        _structure_instance = StructureModel.find_by_ids({
-            'view_id': view_id, 'locale_id': locale_id})
-        print('\ncontent_elements_block:\ndelete_fm_db',
-              '\n  _block_structure_instance ->',
-              _structure_instance)
+        # _structure_instance = StructureModel.find_by_ids({
+        #     'view_id': view_id, 'locale_id': locale_id})
+        # if _structure_instance is not None:
+        #     _structure_instance.remove_element_cls()
+        # print('\ncontent_elements_block:\ndelete_fm_db',
+        #       '\n  _block_structure_instance ->',
+        #       _structure_instance.attributes)

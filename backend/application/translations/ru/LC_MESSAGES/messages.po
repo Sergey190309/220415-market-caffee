@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-10 05:30+0000\n"
-"PO-Revision-Date: 2021-11-10 06:10+0000\n"
+"POT-Creation-Date: 2021-11-23 04:50+0000\n"
+"PO-Revision-Date: 2021-11-23 04:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -65,6 +65,11 @@ msgstr "Название странички не верно: %(message)s"
 msgid "Wrong locale: %(message)s"
 msgstr "Неправильная локализация: %(message)s"
 
+#: contents/errors/custom_exceptions.py:144
+#, python-format
+msgid "Wrong direction: %(message)s"
+msgstr "Неправильное направление: %(message)s"
+
 #: contents/models/content_element.py:18
 msgid "dummy"
 msgstr "заглушка"
@@ -86,12 +91,12 @@ msgstr ""
 "Ключ значения элемента содержанию должен быть или 'title', или 'content', "
 "однако один из них '%(key)s'."
 
-#: contents/models/content_elements.py:34
+#: contents/models/content_elements.py:36
 #, python-format
 msgid "Index has been '%(index)s', it's wrong."
 msgstr "Индекс - '%(index)s', а это не правильно."
 
-#: contents/models/content_elements.py:48
+#: contents/models/content_elements.py:50
 #, python-format
 msgid ""
 "Upper level element could be '%(types)s', but provided type is '%(type)s'."
@@ -99,8 +104,17 @@ msgstr ""
 "Элементы верхнего уровня могут быть следующих типов - '%(types)s', однако "
 "тип предоставленного элемента - '%(type)s'."
 
-#: contents/models/content_elements_block.py:59
-#: contents/models/page_view.py:189
+#: contents/models/content_elements.py:85
+#, python-format
+msgid ""
+"Index change direction may be either 'inc' as increase or 'dec' as decrease, "
+"but '%(direction)s' has been provided."
+msgstr ""
+"Направление изменения индекса может быть или 'inc' от увеличить, или 'dec' "
+"от уменьшить, однако '%(direction)s' предоставлено."
+
+#: contents/models/content_elements_block.py:60
+#: contents/models/page_view.py:220
 #, python-format
 msgid ""
 "Length of element array is %(length)s but you try to operate with index "
@@ -109,7 +123,7 @@ msgstr ""
 "Длинна множества элементов - %(length)s однако вы пытаетесь работать с "
 "индексом - '%(index)s'."
 
-#: contents/models/content_elements_block.py:68
+#: contents/models/content_elements_block.py:69
 #, python-format
 msgid ""
 "Elements should be '['dict', 'ContentElement']', but at least one of the "
@@ -118,7 +132,7 @@ msgstr ""
 "Элемент должен быть типов '['dict', 'ContentElement']', однако, хотя бы у "
 "одного из них тип - '%(type)s'."
 
-#: contents/models/content_elements_block.py:82
+#: contents/models/content_elements_block.py:83
 #, python-format
 msgid ""
 "Block element subtype shoud be within '%(subtypes)s', but provided subtype "
@@ -127,7 +141,16 @@ msgstr ""
 "Подтип блочного элемента должен быть в приделах '%(subtypes)s', однако "
 "приведен подтип '%(subtype)s'."
 
-#: contents/models/content_elements_simple.py:58
+#: contents/models/content_elements_block.py:149
+#, python-format
+msgid ""
+"Block element may be moved 'up' or 'down, but '%(direction)s' has been "
+"provided."
+msgstr ""
+"Элемент блока может быть перемещен 'up' - вверх или 'down' - вниз, однако "
+"'%(direction)s' предоставлено."
+
+#: contents/models/content_elements_simple.py:60
 #, python-format
 msgid ""
 "Element type should be either 'Dict' or 'ContentElement', but it's "
@@ -136,7 +159,7 @@ msgstr ""
 "Тип элемента должен быть или 'Dict', или 'ContentElement', однако он "
 "'%(type)s'."
 
-#: contents/models/content_elements_simple.py:158
+#: contents/models/content_elements_simple.py:201
 #, python-format
 msgid ""
 "Record with identity '%(identity)s', view id '%(view_id)s' and locale id "
@@ -145,28 +168,28 @@ msgstr ""
 "Запись с идентификатором '%(identity)s', для странички '%(view_id)s' и с "
 "локализацией '%(locale_id)s' не обнаружена."
 
-#: contents/models/contents.py:145
+#: contents/models/contents.py:147
 msgid ""
 "Redundant record has been found and deleted, try to insert element once more."
 msgstr ""
 "Избыточная запись обнаружена и убита, попытайтесь вставить элемент еще раз."
 
-#: contents/models/page_view.py:22 contents/models/page_view.py:70
-#: contents/models/page_view.py:113
+#: contents/models/page_view.py:26 contents/models/page_view.py:74
+#: contents/models/page_view.py:117 contents/models/page_view.py:179
 #, python-format
 msgid "You try to operate upper level element type - '%(type)s', it's wrong."
 msgstr ""
 "Вы пытаетесь работать с элементом верхнего уровня типа '%(type)s', это не "
 "правильно."
 
-#: contents/models/page_view.py:118
+#: contents/models/page_view.py:122 contents/models/page_view.py:184
 #, python-format
 msgid "You try to use '%(type)s' as upper level element type. It's wrong."
 msgstr ""
 "Вы пытаетесь использовать '%(type)s' как элемент верхнего уровня. Это не "
 "правильно."
 
-#: contents/models/page_view.py:128 contents/models/page_view.py:146
+#: contents/models/page_view.py:132 contents/models/page_view.py:150
 #, python-format
 msgid ""
 "You're trying to create upper level element instance having wrong argument "
@@ -175,7 +198,7 @@ msgstr ""
 "Вы пытаетесь создать элемент верхнего уровня, используя неправильный тип "
 "аргумента - '%(type)s'."
 
-#: contents/models/page_view.py:202
+#: contents/models/page_view.py:242
 #, python-format
 msgid ""
 "Page view should be withing '%(view_names)s' but '%(page_view)s' has been "
@@ -184,7 +207,7 @@ msgstr ""
 "Названия страниц должны быть в приделах'%(view_names)s' однако предоставлено "
 "- '%(page_view)s'."
 
-#: contents/models/page_view.py:216
+#: contents/models/page_view.py:256
 #, python-format
 msgid ""
 "Locale should be within '%(locales)s' but '%(locale)s' has been delivered."
@@ -192,7 +215,7 @@ msgstr ""
 "Локале должно быть в приделах '%(locales)s' однако предоставлено - "
 "'%(locale)s'."
 
-#: contents/models/page_view.py:235
+#: contents/models/page_view.py:276
 #, python-format
 msgid ""
 "Type of upper level element should be within '%(types)s' but '%(type)s' has "
@@ -200,6 +223,15 @@ msgid ""
 msgstr ""
 "Тип элемента верхнего уровня должен быть в приделах '%(types)s' однако "
 "предоставленный тип - '%(type)s'."
+
+#: contents/models/page_view.py:374
+#, python-format
+msgid ""
+"Upper level element may be moved 'up' or 'down, but '%(direction)s' has been "
+"provided."
+msgstr ""
+"Элемент верхнего уровня может быть перемещен 'up' - вверх или 'down' - вниз, "
+"однако '%(direction)s' предоставлено."
 
 #: contents/resources/contents.py:26
 #, python-format
@@ -219,13 +251,14 @@ msgstr ""
 "Содержание с идентификатором '%(identity)s', страничкой '%(view_id)s' и "
 "локализацией '%(locale_id)s' не обнаружено."
 
-#: contents/resources/contents.py:51 contents/resources/contents_handling.py:47
+#: contents/resources/contents.py:51 contents/resources/contents_handling.py:68
+#: contents/resources/ul_element_handling.py:68
 #: structure/resources/structure.py:64
 msgid "Something went wrong. Info in payload."
 msgstr "Что-то пошло не так. Информация в сообщении."
 
-#: contents/resources/contents.py:59 contents/resources/contents_handling.py:38
-#: resources/views_global.py:20
+#: contents/resources/contents.py:59 contents/resources/contents_handling.py:59
+#: contents/resources/ul_element_handling.py:59 resources/views_global.py:20
 msgid "Sorry, access to views' information is allowed to admin only."
 msgstr ""
 "Извиняйте, доступ к информации о страницах разрешен только администратору."
@@ -257,7 +290,8 @@ msgstr ""
 "Содержание для странички '%(view_id)s', локализацией '%(locale_id)s' и "
 "идентификацией '%(identity)s' обнаружен и успешно убит."
 
-#: contents/resources/contents_handling.py:90
+#: contents/resources/contents_handling.py:32
+#: contents/resources/ul_element_handling.py:32
 #, python-format
 msgid ""
 "While trying to retrieve content for identity - '%(identity)s', page view - "
@@ -267,7 +301,7 @@ msgstr ""
 "странички - '%(view_id)s' и с локализацией '%(locale_id)s' ничего не "
 "найдено. Что-то пошло не так."
 
-#: contents/resources/contents_handling.py:103
+#: contents/resources/contents_handling.py:46
 #, python-format
 msgid ""
 "The content quontity and db structure for view '%(view_id)s' in block "
@@ -276,25 +310,14 @@ msgstr ""
 "Количество содержимого и структура БД для странички '%(view_id)s', в блоке "
 "'%(identity)s' и c локализацией '%(locale_id)s' успешно обновлено."
 
-#: contents/resources/contents_handling.py:153
+#: contents/resources/ul_element_handling.py:46
 #, python-format
 msgid ""
-"While trying to remove element from block with index '%(block_index)s' on "
-"view '%(view_id)s' with locale '%(locale_id)s' the folliwng message has "
-"come: '%(result)s'. That's not good, check it out."
+"The content and structure tables for page '%(view_id)s' conserning block "
+"'%(identity)s' and locale '%(locale_id)s' has been successfully updated."
 msgstr ""
-"При попытке удалить элемент из блока с индексом '%(block_index)s' на "
-"страничке '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
-"сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
-
-#: contents/resources/contents_handling.py:166
-#, python-format
-msgid ""
-"The content quontity and db structure for view '%(view_id)s' in block "
-"'%(block_index)s' and locale '%(locale_id)s' has been successfully updated."
-msgstr ""
-"Количество содержимого и структура ДБ для странички '%(view_id)s', в блоке "
-"'%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
+"Таблицы содержимого и структуры для странички '%(view_id)s', касательно "
+"блока '%(identity)s' и с локализацией '%(locale_id)s' успешно обновлено."
 
 #: home/resources/index.py:26
 msgid "Global variables are as in payload."
@@ -763,6 +786,28 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid "You try to insert upper level element of wrong type - '%(type)s'."
+#~ msgstr ""
+#~ "Вы пытаетесь вставить элемент верхнего уровня неправильного типа "
+#~ "'%(type)s'."
+
+#~ msgid ""
+#~ "While trying to remove element from block with index '%(block_index)s' on "
+#~ "view '%(view_id)s' with locale '%(locale_id)s' the folliwng message has "
+#~ "come: '%(result)s'. That's not good, check it out."
+#~ msgstr ""
+#~ "При попытке удалить элемент из блока с индексом '%(block_index)s' на "
+#~ "страничке '%(view_id)s' с локализацией '%(locale_id)s' получено следующее "
+#~ "сообщение: '%(result)s'. Это не хорошо, проверьте пожалуйста."
+
+#~ msgid ""
+#~ "The content quontity and db structure for view '%(view_id)s' in block "
+#~ "'%(block_index)s' and locale '%(locale_id)s' has been successfully "
+#~ "updated."
+#~ msgstr ""
+#~ "Количество содержимого и структура ДБ для странички '%(view_id)s', в "
+#~ "блоке '%(block_index)s' и локализацией '%(locale_id)s' успешно обновлено."
 
 #~ msgid ""
 #~ "Request does not containts required '%(argument)s', something wrong on "

@@ -30,12 +30,15 @@ class StructureModel(dbs_global.Model):
     created = dbs_global.Column(
         dbs_global.DateTime, nullable=False, default=datetime.now())
     updated = dbs_global.Column(dbs_global.DateTime)
-    user_id = dbs_global.Column(dbs_global.Integer, nullable=False, default=0)
+    user_id = dbs_global.Column(
+        dbs_global.Integer, nullable=False, default=0)
     attributes = dbs_global.Column(MutableDict.as_mutable(
         mysql.JSON), nullable=False, default={})
 
-    locale = dbs_global.relationship('LocaleGlobalModel', backref='structuremodel')
-    view = dbs_global.relationship('ViewGlobalModel', backref='structuremodel')
+    locale = dbs_global.relationship(
+        'LocaleGlobalModel', backref='structuremodel')
+    view = dbs_global.relationship(
+        'ViewGlobalModel', backref='structuremodel')
 
     @classmethod
     def find_by_ids(cls, ids: Dict = {}) -> Union['StructureModel', None]:
@@ -47,6 +50,9 @@ class StructureModel(dbs_global.Model):
              searching_criterions: Dict = {}) -> List['StructureModel']:
         return cls.query.filter_by(**searching_criterions).all()
 
+    def get_element(self, upper_index: int = 0) -> Union[Dict, None]:
+        return self.attributes.get(str(upper_index).zfill(2))
+
     @classmethod
     def get_element_cls(
             cls, ids: Dict = {},
@@ -56,20 +62,17 @@ class StructureModel(dbs_global.Model):
         return _instance.get_element(str(upper_index).zfill(2))
         # return cls.find_by_ids(ids).attributes.get(element_key)
 
-    @classmethod
-    def remove_element_cls(
-            cls, ids: Dict = {},
-            upper_index: int = 0) -> Union[Dict, None]:
-        '''ids - PKs (view_id, locale_id)'''
-        _instance = cls.find_by_ids(ids)
-        return _instance.get_element(str(upper_index).zfill(2))
-        # return cls.find_by_ids(ids).attributes.get(element_key)
-
-    def get_element(self, upper_index: int = 0) -> Union[Dict, None]:
-        return self.attributes.get(str(upper_index).zfill(2))
+    # @classmethod
+    # def remove_element_cls(
+    #         cls, ids: Dict = {},
+    #         upper_index: int = 0) -> Union[Dict, None]:
+    #     '''ids - PKs (view_id, locale_id)'''
+    #     _instance = cls.find_by_ids(ids)
+    #     return _instance.get_element(str(upper_index).zfill(2))
+    #     # return cls.find_by_ids(ids).attributes.get(element_key)
 
     # @classmethod
-    def insert_upper_level_element(
+    def insert_element(
             self, index: int = 0,
             args: Dict = {},
             user_id: int = {}) -> Union[None, str]:
@@ -81,21 +84,19 @@ class StructureModel(dbs_global.Model):
             type, subtype, qnt, name). They have default values in
             classes.
         '''
+        pass
         # '''check args are valid''' not sure it's nesessary
-        _view_page_structure = ViewPageStructure(dict(self.attributes))
+        # _view_page_structure = ViewPageStructure(dict(self.attributes))
 
-        print('structure, model\n insert_upper_level_element',
-              '\n  type(_view_page_structure) ->', type(_view_page_structure),
-              '\n  _view_page_structure ->', _view_page_structure
-              )
+        # print('\nstructure, model\n insert_upper_level_element',
+        #       '\n  type(_view_page_structure) ->',
+        #       type(_view_page_structure),
+        #       '\n  _view_page_structure ->', _view_page_structure
+        #       )
         # if ards.get('view_id') not in :
         #     pass
         '''change records with indexes more then new element index'''
         '''insert new element'''
-
-    @classmethod
-    def remove_upper_level_element(cls) -> Union[None, str]:
-        pass
 
     @property
     def is_exist(self) -> bool:
@@ -110,14 +111,17 @@ class StructureModel(dbs_global.Model):
         block_index: int = 0, user_id: int = 0
     ) -> Union[int, str]:
         _view_page_structure = ViewPageStructure(dict(self.attributes))
-        _upper_level_element = _view_page_structure.get_element(block_index)
-        # _upper_level_element = _view_page_structure.get_element(int(block_index))
+        _upper_level_element = _view_page_structure.get_element(
+            block_index)
+        # _upper_level_element = _view_page_structure.get_element(
+        #     int(block_index))
         if direction == 'inc':
             _upper_level_element.insert_element()
         if direction == 'dec':
             _upper_level_element.remove_element()
         # print('\nmodels, structure:\n change_element_qnt',
-        #       '\n  _view_page_structure ->', _view_page_structure.serialize())
+        #       '\n  _view_page_structure ->',
+        #       _view_page_structure.serialize())
         update_result = self.update({
             'attributes': _view_page_structure.serialize(),
             'user_id': user_id})
@@ -142,13 +146,15 @@ class StructureModel(dbs_global.Model):
             dbs_global.session.commit()
         except InterruptedError as error:
             dbs_global.session.rollback()
-            # return (
-            #     "\nstructure.models.StructureModel.save_to_db IntegrityError:\n"
-            #     f"{error.orig}")
+            return (
+                "\nstructure.models.StructureModel.save_to_db "
+                f"IntegrityError:\n{error.orig}")
             return str(error)
         except Exception as error:
             dbs_global.session.rollback()
-            # print('\nstructure.models.StructureModel.save_to_db Error\n', error)
+            # print(
+            #     '\nstructure.models.StructureModel.save_to_db Error\n',
+            #     error)
             return str(error)
 
     def delete_fm_db(self) -> Union[str, None]:
@@ -156,5 +162,6 @@ class StructureModel(dbs_global.Model):
             dbs_global.session.delete(self)
             dbs_global.session.commit()
         except Exception as error:
-            # print('structure.models.StructureModel.save_to_db Error\n', error)
+            # print('structure.models.StructureModel.save_to_db Error\n',
+            #       error)
             return str(error)
