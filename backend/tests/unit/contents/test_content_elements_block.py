@@ -6,7 +6,7 @@ from application.modules.dbs_global import dbs_global
 from application.global_init_data import global_constants
 from application.contents.errors.custom_exceptions import (
     WrongElementKeyError, WrongElementTypeError, WrongTypeError,
-    WrongIndexError, WrongValueError)
+    WrongIndexError, WrongValueError, WrongDirection)
 from application.contents.models.content_elements_block import (
     ContentElementsBlock)
 from application.contents.models.content_element import ContentElement
@@ -414,6 +414,89 @@ def test_ContentElementsBlock_remove(element, elements_dict):
     assert _new_last_element.value == element(_index - 1)
 
     '''index checks have been tested above'''
+
+
+# @pytest.mark.active
+def test_ContentElementsBlock_move(
+        client,
+        view_name, locale,
+        element, elements_dict):
+    '''clean up content table'''
+    [_structure.delete_fm_db() for _structure in StructureModel.find()]
+    [_content.delete_fm_db() for _content in ContentModel.find()]
+    '''object variables'''
+    _view_name = view_name()
+    _locale = locale()
+    _upper_index = randrange(3, 20)
+    # _size = 3
+    _size = randrange(2, 10)
+    _type = 'vblock'
+    _subtype = 'txt'
+    _name = f'name of {_type}'
+
+    _elements_dict = elements_dict(_size)
+    # _element = element(_size)
+    _block_instance = ContentElementsBlock(
+        upper_index=_upper_index, type=_type, subtype=_subtype,
+        name=_name, elements=_elements_dict)
+    assert len(_block_instance._elements) == _size
+    _block_instance.save_to_db_content(
+        view_id=_view_name, locale_id=_locale, user_id=randrange(128),
+        save_structure=True)
+    # _index = 1
+    _index = randrange(_size - 1)
+    '''fail'''
+    '''wrong direction'''
+    _wrong = 'fuck'
+    with pytest.raises(WrongDirection) as e_info:
+        _block_instance.move(index=_index, direction=_wrong)
+    assert str(e_info.value).find(_wrong) != -1
+    '''success, down'''
+    _direction = 'down'
+    _moving_element = _block_instance.get_element(_index)
+    _replacing_element = _block_instance.get_element(_index + 1)
+    _block_instance.move(index=_index, direction=_direction)
+    _block_instance.save_to_db_content(
+        view_id=_view_name, locale_id=_locale, user_id=randrange(128))
+    _loaded_instance = ContentElementsBlock.load_fm_db(
+        identity='_'.join([str(_upper_index).zfill(2), _type, _subtype]),
+        view_id=_view_name, locale_id=_locale, load_name=True)
+    _moved_element = _loaded_instance.get_element(_index + 1)
+    _replaced_element = _loaded_instance.get_element(_index)
+    assert _moving_element.value == _moved_element.value
+    assert _replacing_element.value == _replaced_element.value
+    '''success, up'''
+    _index = randrange(1, _size)
+    _direction = 'up'
+    _moving_element = _block_instance.get_element(_index)
+    _replacing_element = _block_instance.get_element(_index - 1)
+    _block_instance.move(index=_index, direction=_direction)
+    _block_instance.save_to_db_content(
+        view_id=_view_name, locale_id=_locale, user_id=randrange(128))
+    _loaded_instance = ContentElementsBlock.load_fm_db(
+        identity='_'.join([str(_upper_index).zfill(2), _type, _subtype]),
+        view_id=_view_name, locale_id=_locale, load_name=True)
+    _moved_element = _loaded_instance.get_element(_index - 1)
+    _replaced_element = _loaded_instance.get_element(_index)
+    assert _moving_element.value == _moved_element.value
+    assert _replacing_element.value == _replaced_element.value
+
+    '''fail, wrong direction - index combination'''
+    _index = 0
+    _direction = 'up'
+    with pytest.raises(WrongIndexError) as e_info:
+        _block_instance.move(index=_index, direction=_direction)
+    assert str(e_info.value).find(str(_index - 1))
+    _index = len(_block_instance.elements) - 1
+    _direction = 'down'
+    with pytest.raises(WrongIndexError) as e_info:
+        _block_instance.move(index=_index, direction=_direction)
+    assert str(e_info.value).find(str(_index + 1))
+
+    # print('\ntest_content_elements_block:'
+    #       '\n test_ContentElementsBlock_move')
+    # [print('  _block_instance ->', element) for element
+    #  in _loaded_instance.serialize_to_content]
 
 
 # @pytest.mark.active

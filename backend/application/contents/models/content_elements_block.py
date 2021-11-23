@@ -4,9 +4,8 @@ from flask_babelplus import lazy_gettext as _
 from application.modules.dbs_global import dbs_global
 from ..errors.custom_exceptions import (
     # WrongTypeError,
-    WrongElementTypeError,
-    WrongIndexError,
-    WrongValueError
+    WrongElementTypeError, WrongIndexError, WrongValueError,
+    WrongDirection
 )
 
 # from .types import ContentValues  # , StactureValues
@@ -108,9 +107,8 @@ class ContentElementsBlock(ContentElements):
         self.check_index(index)
         return self.elements[index]
 
-    def set_element(
-            self, index: int = 0,
-            value: Union[Dict, ContentElement] = {}) -> None:
+    def set_element(self, index: int = 0,
+                    value: Union[Dict, ContentElement] = {}) -> None:
         self.check_index(index)
         if isinstance(value, dict):
             self._elements[index] = ContentElement(value)
@@ -119,9 +117,11 @@ class ContentElementsBlock(ContentElements):
         else:
             ContentElementsBlock.wrong_element_type(type(value))
 
-    def insert(
-            self, index: int = 0,
-            value: Union[Dict, ContentElement] = {}) -> None:
+    def insert(self, index: int = 0,
+               value: Union[Dict, ContentElement] = {}) -> None:
+        '''
+        The method does not update db.
+        '''
         self.check_index(index, ext=True)
         if isinstance(value, dict):
             self._elements.insert(index, ContentElement(value))
@@ -131,8 +131,31 @@ class ContentElementsBlock(ContentElements):
             ContentElementsBlock.wrong_element_type(type(value))
 
     def remove(self, index: int = 0) -> ContentElement:
+        '''
+        The method does not update db.
+        '''
         self.check_index(index)
         return self._elements.pop(index)
+
+    def move(self, index: int = -1, direction: str = '') -> None:
+        '''
+        Depending on direction move block element one position up or down.
+        Direction: Union['up', 'down']
+        The method does not update db.
+        '''
+        if direction == 'up':
+            _new_index = index - 1
+            self.check_index(_new_index)
+        elif direction == 'down':
+            _new_index = index + 1
+            self.check_index(_new_index)
+        else:
+            raise WrongDirection(
+                str(_("Block element may be moved 'up' or 'down, "
+                      "but '%(direction)s' has been provided.",
+                      direction=direction)), 400)
+        self.elements.insert(_new_index, self.elements.pop(index))
+        '''handle mixed identitites'''
 
     def serialize_to_content_element(
             self, index: int = 0) -> Dict:

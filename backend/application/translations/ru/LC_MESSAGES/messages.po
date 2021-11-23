@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-11-19 09:31+0000\n"
-"PO-Revision-Date: 2021-11-19 09:32+0000\n"
+"POT-Creation-Date: 2021-11-23 04:50+0000\n"
+"PO-Revision-Date: 2021-11-23 04:51+0000\n"
 "Last-Translator: \n"
 "Language-Team: ru <LL@li.org>\n"
 "Language: ru\n"
@@ -113,8 +113,8 @@ msgstr ""
 "Направление изменения индекса может быть или 'inc' от увеличить, или 'dec' "
 "от уменьшить, однако '%(direction)s' предоставлено."
 
-#: contents/models/content_elements_block.py:61
-#: contents/models/page_view.py:218
+#: contents/models/content_elements_block.py:60
+#: contents/models/page_view.py:220
 #, python-format
 msgid ""
 "Length of element array is %(length)s but you try to operate with index "
@@ -123,7 +123,7 @@ msgstr ""
 "Длинна множества элементов - %(length)s однако вы пытаетесь работать с "
 "индексом - '%(index)s'."
 
-#: contents/models/content_elements_block.py:70
+#: contents/models/content_elements_block.py:69
 #, python-format
 msgid ""
 "Elements should be '['dict', 'ContentElement']', but at least one of the "
@@ -132,7 +132,7 @@ msgstr ""
 "Элемент должен быть типов '['dict', 'ContentElement']', однако, хотя бы у "
 "одного из них тип - '%(type)s'."
 
-#: contents/models/content_elements_block.py:84
+#: contents/models/content_elements_block.py:83
 #, python-format
 msgid ""
 "Block element subtype shoud be within '%(subtypes)s', but provided subtype "
@@ -140,6 +140,15 @@ msgid ""
 msgstr ""
 "Подтип блочного элемента должен быть в приделах '%(subtypes)s', однако "
 "приведен подтип '%(subtype)s'."
+
+#: contents/models/content_elements_block.py:149
+#, python-format
+msgid ""
+"Block element may be moved 'up' or 'down, but '%(direction)s' has been "
+"provided."
+msgstr ""
+"Элемент блока может быть перемещен 'up' - вверх или 'down' - вниз, однако "
+"'%(direction)s' предоставлено."
 
 #: contents/models/content_elements_simple.py:60
 #, python-format
@@ -165,22 +174,22 @@ msgid ""
 msgstr ""
 "Избыточная запись обнаружена и убита, попытайтесь вставить элемент еще раз."
 
-#: contents/models/page_view.py:24 contents/models/page_view.py:72
-#: contents/models/page_view.py:115 contents/models/page_view.py:177
+#: contents/models/page_view.py:26 contents/models/page_view.py:74
+#: contents/models/page_view.py:117 contents/models/page_view.py:179
 #, python-format
 msgid "You try to operate upper level element type - '%(type)s', it's wrong."
 msgstr ""
 "Вы пытаетесь работать с элементом верхнего уровня типа '%(type)s', это не "
 "правильно."
 
-#: contents/models/page_view.py:120 contents/models/page_view.py:182
+#: contents/models/page_view.py:122 contents/models/page_view.py:184
 #, python-format
 msgid "You try to use '%(type)s' as upper level element type. It's wrong."
 msgstr ""
 "Вы пытаетесь использовать '%(type)s' как элемент верхнего уровня. Это не "
 "правильно."
 
-#: contents/models/page_view.py:130 contents/models/page_view.py:148
+#: contents/models/page_view.py:132 contents/models/page_view.py:150
 #, python-format
 msgid ""
 "You're trying to create upper level element instance having wrong argument "
@@ -189,7 +198,7 @@ msgstr ""
 "Вы пытаетесь создать элемент верхнего уровня, используя неправильный тип "
 "аргумента - '%(type)s'."
 
-#: contents/models/page_view.py:240
+#: contents/models/page_view.py:242
 #, python-format
 msgid ""
 "Page view should be withing '%(view_names)s' but '%(page_view)s' has been "
@@ -198,7 +207,7 @@ msgstr ""
 "Названия страниц должны быть в приделах'%(view_names)s' однако предоставлено "
 "- '%(page_view)s'."
 
-#: contents/models/page_view.py:254
+#: contents/models/page_view.py:256
 #, python-format
 msgid ""
 "Locale should be within '%(locales)s' but '%(locale)s' has been delivered."
@@ -206,7 +215,7 @@ msgstr ""
 "Локале должно быть в приделах '%(locales)s' однако предоставлено - "
 "'%(locale)s'."
 
-#: contents/models/page_view.py:274
+#: contents/models/page_view.py:276
 #, python-format
 msgid ""
 "Type of upper level element should be within '%(types)s' but '%(type)s' has "
@@ -215,13 +224,7 @@ msgstr ""
 "Тип элемента верхнего уровня должен быть в приделах '%(types)s' однако "
 "предоставленный тип - '%(type)s'."
 
-#: contents/models/page_view.py:333
-#, python-format
-msgid "You try to insert upper level element of wrong type - '%(type)s'."
-msgstr ""
-"Вы пытаетесь вставить элемент верхнего уровня неправильного типа '%(type)s'."
-
-#: contents/models/page_view.py:378
+#: contents/models/page_view.py:374
 #, python-format
 msgid ""
 "Upper level element may be moved 'up' or 'down, but '%(direction)s' has been "
@@ -783,6 +786,11 @@ msgstr "Пользователь с email '%(email)s' найден, детали
 #, python-format
 msgid "Sorry but user with email '%(email)s' has not been found."
 msgstr "Пользователь с почтой '%(email)s' не найден."
+
+#~ msgid "You try to insert upper level element of wrong type - '%(type)s'."
+#~ msgstr ""
+#~ "Вы пытаетесь вставить элемент верхнего уровня неправильного типа "
+#~ "'%(type)s'."
 
 #~ msgid ""
 #~ "While trying to remove element from block with index '%(block_index)s' on "

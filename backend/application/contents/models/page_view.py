@@ -5,9 +5,11 @@ from flask_babelplus import lazy_gettext as _
 from ...global_init_data import global_constants
 from ..errors.custom_exceptions import (
     WrongViewNameError, WrongLocaleError, WrongTypeError, WrongIndexError,
-    WrongValueError, WrongDirection, WrongElementTypeError)
+    # WrongElementTypeError,
+    WrongValueError, WrongDirection)
 from .content_elements_simple import ContentElementsSimple
 from .content_elements_block import ContentElementsBlock
+from .contents import ContentModel
 from ...structure.models.structure import StructureModel
 
 
@@ -442,16 +444,47 @@ class PageView():
     def save_to_db(self, user_id: int = 0) -> Union[None, str]:
         '''
         The method save the instance to content and structure tables.
+        Then it cleans up of exeeding records in content table if any and
+            correct attributes on structre table.
         Returning string conteins error report from called methods.
+
         '''
         # print('PageView:\n save_to_db')
-        for element in self.elements:
+        for i, element in enumerate(self.elements):
             result = element.save_to_db_content(
                 view_id=self.view_name, locale_id=self.locale,
                 user_id=user_id, save_structure=True)
             if result is not None:
                 return result
-        return None
+
+        '''clean up tables'''
+        '''exeeding records in content table'''
+        _content_index = i + 1
+        _records = ContentModel.find_identity_like(searching_criterions={
+            'view_id': self.view_name, 'locale_id': self.locale},
+            identity_like=f'{str(_content_index).zfill(2)}%'
+        )
+        while len(_records) > 0:
+            result = _records[0].delete_fm_db()
+            _content_index += 1
+            _records = ContentModel.find_identity_like(
+                searching_criterions={
+                    'view_id': self.view_name, 'locale_id': self.locale},
+                identity_like=f'{str(_content_index).zfill(2)}%'
+            )
+        ''' correct attribute record in structure table'''
+        _structure = StructureModel.find_by_ids(
+            ids={'view_id': self.view_name, 'locale_id': self.locale})
+
+        _structure_index = i + 1
+        # print('\nPageView:\n save_to_db'
+        #       '\n  _structure before ->', _structure.attributes)
+        while _structure.attributes.get(
+                str(_structure_index).zfill(2)) is not None:
+            _structure.attributes.pop(str(_structure_index).zfill(2))
+            _structure_index += 1
+        result = _structure.save_to_db()
+        return result
 
     def delete_fm_db(self):
         pass

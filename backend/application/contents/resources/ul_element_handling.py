@@ -157,7 +157,7 @@ class UpperLevelHandling(Resource):
                 return cls.error_message(error_info=result, status=500)
         except (WrongIndexError, WrongElementTypeError,
                 WrongValueError, KeyError) as e:
-            '''report some wrong argument errors'''
+            '''report errors'''
             return cls.error_message(error_info=str(e), status=400)
         except Exception as e:
             raise e
@@ -173,4 +173,29 @@ class UpperLevelHandling(Resource):
         header
             Accept-Language: locale
         '''
-        pass
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
+        _user_id = get_jwt_identity()
+        if not UserModel.find_by_id(_user_id).is_admin:
+            return cls.no_access()
+        '''join values into one variable'''
+        _kwargs = {**request.get_json(), 'locale_id': _lng}
+        try:
+            _index = int(_kwargs.pop('identity'))
+            _page_instance = PageView.load_fm_db(ids=_kwargs)
+            if _page_instance is None:
+                return cls.not_found(
+                    **_kwargs, identity=str(_index).zfill(2))
+            _page_instance.remove_vals(index=_index)
+            result = _page_instance.save_to_db(user_id=_user_id)
+            if result is None:
+                '''report success'''
+                return cls.success(**{**_kwargs, 'identity': _index})
+            else:
+                return cls.error_message(error_info=result, status=500)
+        except (WrongIndexError, WrongElementTypeError,
+                WrongValueError, KeyError, IndexError) as e:
+            '''report errors'''
+            return cls.error_message(error_info=str(e), status=400)
+        except Exception as e:
+            raise e

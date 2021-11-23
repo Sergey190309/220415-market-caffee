@@ -1,5 +1,5 @@
 from typing import Dict
-# from json import dumps
+from json import dumps
 from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -68,6 +68,64 @@ class ContentsHandling(Resource):
                 "Something went wrong. Info in payload.")),
             'payload': error_info
         }, status
+
+    @classmethod
+    @jwt_required()
+    def post(cls) -> Dict:
+        '''
+        Used to move existing elements within a block.
+        It works with blocks only.
+        It does not change view structure.
+        Arguments:
+        body:
+        {
+            "view_id": "landing",
+            "identity": "01_vblock_txt", - (upper level index)_
+                (block type)_(block subtype)_(low level element qnt)
+            "item_index": 2, - low level index, ie serial number of item
+                in block
+            "direction": "up" - movement directin, 'up' - reduce item
+                index.
+            --------------------------------------------------------
+            I use identity instead of block index to avoid additinaly
+                getting information from db for the sake of productivity.
+        }
+        header:
+        'Accept-Language' - locale
+        '''
+        _lng = request.headers.get('Accept-Language')
+        fbp.set_lng(_lng)
+        _user_id = get_jwt_identity()
+        if not UserModel.find_by_id(_user_id).is_admin:
+            return cls.no_access()
+        '''join values into one variable'''
+        _kwargs = {**request.get_json(), 'locale_id': _lng}
+        try:
+            '''get index out of variable that one is not needed in
+                load_fm_db'''
+            _item_index = _kwargs.pop('item_index')
+            _direction = _kwargs.pop('direction')
+            '''create upper level block element instance'''
+            _block_instance = ContentElementsBlock.load_fm_db(**_kwargs)
+            if _block_instance is None:
+                '''report if block element instance is not available'''
+                return cls.not_found(**_kwargs)
+            '''handle the instance'''
+            _block_instance.move(index=_item_index, direction=_direction)
+            '''remove not needed key: value'''
+            _identity = _kwargs.pop('identity')
+            result = _block_instance.save_to_db_content(**_kwargs)
+            if result is not None:
+                return cls.error_message(error_info=result, status=500)
+            else:
+                '''report success'''
+                return cls.success(**{**_kwargs, 'identity': _identity})
+        except (WrongIndexError, KeyError) as e:
+            '''report some wrong argument errors'''
+            return cls.error_message(error_info=str(e), status=400)
+        except Exception as e:
+            # return cls.error_message(error_info=str(e), status=400)
+            raise e
 
     @classmethod
     @jwt_required()
