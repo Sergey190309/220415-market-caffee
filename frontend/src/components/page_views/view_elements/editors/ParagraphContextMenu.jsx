@@ -33,6 +33,10 @@ const ParagraphContextMenu = ({
   upperLevelElementMenu,
   setParagraphEditted
 }) => {
+  /**
+   * The menu rendered with write click haveng logged as admin and set
+   * edition allowed.
+   */
   const { t } = useTranslation('context')
   const [opened, setOpened] = useState(false)
   const [menuStructure, setMenuStructure] = useState([])

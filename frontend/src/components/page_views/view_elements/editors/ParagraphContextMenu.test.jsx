@@ -13,11 +13,11 @@ import ParagraphContextMenu from './ParagraphContextMenu'
 
 jest.mock('../../../../utils/createContext')
 
-const mockChildComponent = jest.fn()
-jest.mock('./ElementTypesMenu', () => props => {
-  mockChildComponent(props)
-  return <div data-testid='ElementTypesMenu' />
-})
+// const mockChildComponent = jest.fn()
+// jest.mock('./ElementTypesMenu', () => props => {
+//   mockChildComponent(props)
+//   return <div data-testid='ElementTypesMenu' />
+// })
 
 describe('ParagraphContextMenu testing', () => {
   const testProps = {
@@ -64,22 +64,22 @@ describe('ParagraphContextMenu testing', () => {
           renderReduxContext(actualProps)
         })
       })
-      test('dropdown, addAbove', async () => {
+      test.only('dropdown, addAbove', async () => {
         const upperAddAbove = screen.getByRole('option', { name: '1LE.addAbove' })
 
         await waitFor(() => { userEvent.click(upperAddAbove) })
         expect(createContextFromEvent).toHaveBeenCalledTimes(1)
         expect(typeof createContextFromEvent.mock.calls[0][0]).toBe('object')
         // const elementTypesMenuPropsKeys = Object.keys(mockChildComponent.mock.calls[0][0])
-        expect(Object.keys(mockChildComponent.mock.calls[0][0]))
-          .toEqual(expect.arrayContaining([
-            'isOpened', 'context',
-            'upperLevelElementId', 'setOpenedProp']))
-        expect(mockChildComponent.mock.calls[0][0].isOpened)
-          .toBeTruthy()
-        expect(mockChildComponent.mock.calls[0][0]
-          .upperLevelElementId)
-          .toBe(parseInt(upperLvlElementId.split('_')[0]))
+        // expect(Object.keys(mockChildComponent.mock.calls[0][0]))
+        //   .toEqual(expect.arrayContaining([
+        //     'isOpened', 'context',
+        //     'upperLevelElementId', 'setOpenedProp']))
+        // expect(mockChildComponent.mock.calls[0][0].isOpened)
+        //   .toBeTruthy()
+        // expect(mockChildComponent.mock.calls[0][0]
+        //   .upperLevelElementId)
+        //   .toBe(parseInt(upperLvlElementId.split('_')[0]))
         // screen.debug()
       })
       test('dropdown, addBelow', async () => {
