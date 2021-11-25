@@ -72,7 +72,8 @@ export const NavBar = ({
       i18n.changeLanguage(lng)
     }
     // console.log('Component, NavBar, useEffect, lng ->', lng )
-  }, [lng, i18n])
+  }, [lng])
+  // }, [lng, i18n])
   // const [showRemark, setShowRemark] = useState(false);
   // console.log('Component, NavBar, t ->', t )
 
@@ -190,11 +191,7 @@ NavBar.defaultProps = {
   context: {},
   openModal: openModal,
   clickHandler: clickHandler,
-  // isLoggedIn: false,
-  // isAdmin: false,
   logOut: logOut
-  // l_ogOutAction: l_ogOutAction,
-  // alertActions: alertActions,
 }
 
 NavBar.propTypes = {
@@ -202,11 +199,7 @@ NavBar.propTypes = {
   context: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
   clickHandler: PropTypes.func.isRequired,
-  // isAuthenticated: PropTypes.bool.isRequired,
-  // isAdmin: PropTypes.bool.isRequired,
   logOut: PropTypes.func.isRequired
-  // l_ogOutAction: PropTypes.func.isRequired,
-  // alertActions: PropTypes.func.isRequired,
 }
 
 export default NavBar

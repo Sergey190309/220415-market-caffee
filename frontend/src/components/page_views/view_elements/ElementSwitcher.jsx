@@ -12,8 +12,6 @@ import ViewVBlock from './ViewVBlock'
 import ViewHBlock from './ViewHBlock'
 import ViewNothing from './ViewNothing'
 
-// console.log('ElementSwithcer:\n ViewVBlock ->', ViewVBlock)
-
 const MemoViewVBlock = memo(ViewVBlock)
 
 export const getLoadedStructure = (viewName, structures) => {
@@ -22,25 +20,13 @@ export const getLoadedStructure = (viewName, structures) => {
    * to the component name (ViewName)
    */
   const { [viewName]: value } = structures
-  // console.log('Landing, getLoadedStructure, value ->', value)
   return value || {}
 }
 
-// export const upperLvlAddElement = (id, type, subType) => {
-//   console.log('ElementSwitcher\n upperLvlAddElement',
-//     '\n  id ->', id,
-//     '\n  type ->', type,
-//     '\n  subType ->', subType
-//   )
-// }
-// export const upperLvlDeleteElement = id => {
-//   console.log('ElementSwitcher\n upperLvlDeleteElement\n  id ->', id)
-// }
 export const UpperLevel = createContext()
 
 export const ElementSwitcher = ({
   viewName, getStructure
-  // upperLvlAddElement, upperLvlDeleteElement
 }) => {
   const [structure, setStructure] = useState({})
   const loadedStructures = useSelector(structureSelector)
@@ -70,7 +56,6 @@ export const ElementSwitcher = ({
     const value = {
       upperLevelElementId,
       recordsId
-      // upperLvlAddElement, upperLvlDeleteElement
     }
     switch (componentType) {
       case 'header':
@@ -103,15 +88,11 @@ export const ElementSwitcher = ({
 ElementSwitcher.defaultProps = {
   viewName: '',
   getStructure: getLoadedStructure
-  // upperLvlAddElement,
-  // upperLvlDeleteElement
 }
 
 ElementSwitcher.propTypes = {
   viewName: PropTypes.string.isRequired,
   getStructure: PropTypes.func.isRequired
-  // upperLvlAddElement: PropTypes.func.isRequired,
-  // upperLvlDeleteElement: PropTypes.func.isRequired
 }
 
 export default ElementSwitcher

@@ -7,7 +7,6 @@ import { Form, Input, SubmitButton } from 'formik-semantic-ui-react'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 
-// import { CONTENT_UPDATE, STRUCTURE_ADD, STRUCTURE_REMOVE } from '../../redux/constants/types'
 import {
   closeModal,
   confirmPasswordStart,
@@ -15,7 +14,6 @@ import {
   setMessage,
   authSelector,
   deviceSelector
-  // backendUpdateSelector
 } from '../../redux/slices'
 import Alert from '../layout/Alert'
 
@@ -41,7 +39,6 @@ const ConfirmPassword = ({
 }) => {
   const dispatch = useDispatch()
   const { isConfirmedPassword } = useSelector(authSelector)
-  // const { kind } = useSelector(backendUpdateSelector)
   const { message } = useSelector(deviceSelector)
   const { t } = useTranslation('auth')
 

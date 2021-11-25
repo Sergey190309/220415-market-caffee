@@ -39,9 +39,7 @@ export const LogIn = ({
   openModal,
   closeModal,
   logInStart,
-  // isLoggedIn,
   logInModalClosed
-  // dispatch
 }) => {
   // console.log('components, logIn closeModal ->', closeModal())
   const dispatch = useDispatch()
@@ -50,12 +48,10 @@ export const LogIn = ({
 
   useEffect(() => {
     if (isLoggedIn) {
-      // console.log('useEffect for logout');
       dispatch(closeModal())
       logInModalClosed()
     }
   }, [isLoggedIn])
-  // }, [isLoggedIn, closeModal, logInModalClosed, dispatch])
 
   const onSubmit = (formData, { setSubmitting }) => {
     // onSubmit(formData, logInStart, setSubmitting, dispatch)
@@ -65,8 +61,6 @@ export const LogIn = ({
 
   return (
     <Container
-      // as='p'
-      // data-testid="containerMark"
       fluid
       textAlign='center'>
       <Alert />
@@ -181,7 +175,6 @@ LogIn.defaultProps = {
   closeModal: closeModal,
   logInStart: logInStart,
   logInModalClosed: logInModalClosed
-  // onSubmit: onSubmit
 }
 
 LogIn.propTypes = {
@@ -191,7 +184,6 @@ LogIn.propTypes = {
   closeModal: PropTypes.func.isRequired,
   logInStart: PropTypes.func.isRequired,
   logInModalClosed: PropTypes.func.isRequired
-  // onSubmit: PropTypes.func.isRequired,
 }
 
 export default LogIn

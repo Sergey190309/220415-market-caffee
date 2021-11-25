@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal } from 'semantic-ui-react'
+
 import LogIn from './LogIn'
 import SignUp from './SignUp'
 import ConfirmPassword from './ConfirmPassword'

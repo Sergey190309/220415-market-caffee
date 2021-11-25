@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { TECH_TOKEN } from '../constants/localStorageVariables'
 
+import { TECH_TOKEN } from '../constants/localStorageVariables'
 import { setAxiosTechToken } from '../../api/apiClient'
 
 /**
