@@ -49,12 +49,6 @@ const ViewParagraph = ({
    *    textboxes for edition.
    * indicatorOpened: boolean - Set component indicator on and
    *    off respectevily.
-   * Store state variables.
-   * editable: boolean - Admin only can set this variable on
-   *    admin page.
-   * loaded: boolean - Indication whether changed content
-   *    successfully uploaded to back-end. Used to set save to
-   *    back-end context menu disabled.
    */
   const [state, getSagaDispatch] = useSaga(
     getContentSaga, initialState)
@@ -63,7 +57,6 @@ const ViewParagraph = ({
     content: ['']
   })
   const [changed, setChanged] = useState(false)
-  // const [contextMenuOpened, setContextMenuOpened] = useState(true)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
   const [upperLevelContextMenuOpened, setUpperLevelContextMenuOpened] = useState(false)
   const [
@@ -86,6 +79,7 @@ const ViewParagraph = ({
   const addBelowRef = useRef(false) // shows whether add 1 to upper level
   // element handling.
   const upperLevelElementTypeRef = useRef('')
+
   const addBelow = addBelowArg => {
     addBelowRef.current = addBelowArg
   }

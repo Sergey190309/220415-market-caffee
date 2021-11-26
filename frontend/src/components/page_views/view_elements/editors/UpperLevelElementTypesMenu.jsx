@@ -24,10 +24,10 @@ const ElementTypesMenu = ({
   setMenuOpened,
   setUpperLevelSubtypeMenuOpened
 }) => {
+  const { t } = useTranslation('context')
+
   const [opened, setOpened] = useState(false)
   const [menuStrucrure, setMenuStrucrure] = useState([])
-
-  const { t } = useTranslation('context')
 
   // const elementType = useRef('')
   // const elementSubType = useRef('')
@@ -64,18 +64,6 @@ const ElementTypesMenu = ({
       setMenuOpened(false)
     }
   }, [])
-  //       {
-  //         name: elementBlockSubTypes.txt,
-  //         icon: { name: 'file alternate outline', color: positiveColor },
-  //         text: t('1LE.txt'),
-  //         onClick: onClickHandler
-  //       },
-  //       {
-  //         name: elementBlockSubTypes.pix,
-  //         icon: { name: 'file image outline', color: positiveColor },
-  //         text: t('1LE.pix'),
-  //         onClick: onClickHandler
-  //       }
 
   const onClickHandler = (event, { name }) => {
     event.preventDefault()
@@ -115,32 +103,6 @@ const ElementTypesMenu = ({
     }
     setMenuOpened(false)
   }
-  //   switch (name) {
-  //     case elementBlockTypes.header:
-  //     case elementBlockTypes.footer:
-  //       upperLvlAddElement(upperLevelElementId, name)
-  //       break
-  //     case elementBlockSubTypes.txt:
-  //     case elementBlockSubTypes.pix:
-  //       upperLvlAddElement(upperLevelElementId, elementType.current, name)
-  //       break
-  //     default:
-  //       break
-  //   }
-  //   // setOpened(false)
-  //   setOpenedProp(false)
-  // }
-
-  // const onClickDropdownHandler = (type) => {
-  //   // event.preventDefault()
-  //   if (elementType.current === '') {
-  //     elementType.current = type
-  //   } else {
-  //     elementType.current = ''
-  //   }
-  //   console.log('ElementTypeMenu:\n Dropdown',
-  //     '\n  elementType ->', elementType)
-  // }
 
   return (
     <Popup

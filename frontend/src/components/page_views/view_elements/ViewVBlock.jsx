@@ -1,16 +1,16 @@
-import React, { createContext, useState, useEffect, Fragment } from 'react'
+import React, {
+  // createContext,
+  useState, useEffect, Fragment
+} from 'react'
 import PropTypes from 'prop-types'
 import { Container, Divider } from 'semantic-ui-react'
 
 import { makeRecordIdList } from '../../../utils/utils'
-
-// import { ViewVBlockProvider } from '../../../context'
-
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
-export const UpperLeverElementId = createContext()
+// export const UpperLeverElementId = createContext()
 
 const ViewVBlock = ({
   recordsId,

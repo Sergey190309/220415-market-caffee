@@ -18,11 +18,11 @@ const SaveToBackendContextMenu = ({
   context,
   setContextMenuOpened
 }) => {
+  const { t } = useTranslation('context')
+
   const [menuStructure, setMenuStructure] = useState([])
 
   const dispatch = useDispatch()
-
-  const { t } = useTranslation('context')
 
   useEffect(() => {
     setMenuStructure([

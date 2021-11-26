@@ -1,6 +1,5 @@
 import { stdChannel, runSaga } from 'redux-saga'
 import { useState, useEffect, useRef } from 'react'
-// import {contentSaga} from './contentLoading'
 
 export const createIO = () => {
   const channel = stdChannel()

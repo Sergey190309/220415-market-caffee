@@ -1,14 +1,7 @@
-import React, {
-  useState, useEffect,
-  useContext
-} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  Popup,
-  Menu
-  // Dropdown
-} from 'semantic-ui-react'
+import { Popup, Menu } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -26,7 +19,6 @@ import {
 } from '../../../items/menu_items/ContextMenuItem'
 
 const ParagraphContextMenu = ({
-  // isOpened,
   saveDisabled,
   context,
   setMenuOpened,
@@ -49,14 +41,8 @@ const ParagraphContextMenu = ({
   const { index } = useContext(ViewParagraphContext)
 
   useEffect(() => {
-    // const uppreLevelElementId = recordsId.split('_').slice(0, -1).join('_')
-    console.log('ParagraphContextMenu:\n useEffect[]',
-      '\n  recordsId ->', upperLevelElementId)
-    //   '\n  componentName ->', componentName,
-    //   '\n  recordsId ->', recordsId,
-    //   '\n  index ->', index
-    // )
-    // upperLvlAddElement('id', 'type', 'subType')
+    // console.log('ParagraphContextMenu:\n useEffect[]',
+    //   '\n  recordsId ->', upperLevelElementId)
     setOpened(true)
     return () => {
       // console.log('ParagraphContextMenu:\n useEffect[isOpened]',
@@ -185,7 +171,6 @@ const ParagraphContextMenu = ({
 }
 
 ParagraphContextMenu.defaultProps = {
-  // isOpened: true,
   saveDisabled: false,
   context: {},
   setMenuOpened: () => { },
@@ -194,7 +179,6 @@ ParagraphContextMenu.defaultProps = {
 }
 
 ParagraphContextMenu.propTypes = {
-  // isOpened: PropTypes.bool.isRequired,
   saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setMenuOpened: PropTypes.func.isRequired,
