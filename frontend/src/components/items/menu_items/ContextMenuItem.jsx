@@ -20,7 +20,6 @@ const StyledContextMenuItem = styled(Menu.Item)`
 export const ContextMenuItem = ({
   name, icon, content, disabled, onClick
 }) => {
-  // console.log('ContextMenuItem:\n  onClick ->', onClick)
   return (
     <StyledContextMenuItem
       name={name}
@@ -38,8 +37,6 @@ ContextMenuItem.defaultProps = {
   content: '',
   disabled: false,
   onClick: () => { }
-  // onHover: false
-  // setContext: () => { }
 }
 
 ContextMenuItem.propTypes = {
@@ -48,10 +45,4 @@ ContextMenuItem.propTypes = {
   content: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
   onClick: PropTypes.func.isRequired
-  // onHover: PropTypes.oneOfType([
-  //   PropTypes.bool,
-  //   PropTypes.func
-  // ]).isRequired
 }
-
-// export default ContextMenuItem

@@ -74,7 +74,7 @@ const ViewParagraph = ({
 
   const dispatch = useDispatch()
 
-  const contextRef = useRef(null) // place for popup menu
+  const contextRef = useRef(null) // place on screen for popup menu
   const indexRef = useRef(null) // index of low level element to handle.
   const addBelowRef = useRef(false) // shows whether add 1 to upper level
   // element handling.
