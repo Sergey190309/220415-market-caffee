@@ -39,14 +39,14 @@ describe('ParagraphContextMenu testing', () => {
     // await waitFor(() => {
     render(
       <Provider store={store}>
-        <UpperLevel.Provider value={{
+        {/* <UpperLevel.Provider value={{
           upperLvlAddElement,
           upperLvlDeleteElement
         }} >
-          <UpperLeverElementId.Provider value={upperLvlElementId} >
+          <UpperLeverElementId.Provider value={upperLvlElementId} > */}
             <ParagraphContextMenu {...actualProps} />
-          </UpperLeverElementId.Provider>
-        </UpperLevel.Provider>
+          {/* </UpperLeverElementId.Provider>
+        </UpperLevel.Provider> */}
       </Provider>
     )
     // expect(container).toBeEmptyDOMElement()
