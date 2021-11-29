@@ -40,8 +40,8 @@ const ParagraphContextMenu = ({
   // const { componentName } = useContext(LandingContext)
   const upperLevelElementId = '01_vblock_txt'
   // const { upperLevelElementId } = useContext(ElementSwitcherContext)
-  const index = 0
-  // const { index } = useContext(ViewParagraphContext)
+  // const index = 0
+  const { index } = useContext(ViewParagraphContext)
 
   useEffect(() => {
     // console.log('ParagraphContextMenu:\n useEffect[]',

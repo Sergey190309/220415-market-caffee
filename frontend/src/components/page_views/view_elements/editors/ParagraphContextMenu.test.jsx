@@ -7,7 +7,11 @@ import userEvent from '@testing-library/user-event'
 import store from '../../../../redux/store'
 import { UpperLevel } from '../ElementSwitcher'
 import { UpperLeverElementId } from '../ViewVBlock'
-import { createContextFromEvent } from '../../../../utils/createContext'
+import {
+  createContextFromEvent
+} from '../../../../utils/createContext'
+
+import { ViewParagraphProvider } from '../../../../context'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
 
@@ -37,16 +41,17 @@ describe('ParagraphContextMenu testing', () => {
 
   const renderReduxContext = (actualProps) => {
     // await waitFor(() => {
+    const index = 1
     render(
       <Provider store={store}>
         {/* <UpperLevel.Provider value={{
           upperLvlAddElement,
           upperLvlDeleteElement
-        }} >
-          <UpperLeverElementId.Provider value={upperLvlElementId} > */}
-            <ParagraphContextMenu {...actualProps} />
-          {/* </UpperLeverElementId.Provider>
-        </UpperLevel.Provider> */}
+        }} > */}
+        <ViewParagraphProvider value={index} >
+          <ParagraphContextMenu {...actualProps} />
+        </ViewParagraphProvider>
+        {/* </UpperLevel.Provider> */}
       </Provider>
     )
     // expect(container).toBeEmptyDOMElement()
@@ -64,12 +69,11 @@ describe('ParagraphContextMenu testing', () => {
           renderReduxContext(actualProps)
         })
       })
-      test.only('dropdown, addAbove', async () => {
-        const upperAddAbove = screen.getByRole('option', { name: '1LE.addAbove' })
-
-        await waitFor(() => { userEvent.click(upperAddAbove) })
-        expect(createContextFromEvent).toHaveBeenCalledTimes(1)
-        expect(typeof createContextFromEvent.mock.calls[0][0]).toBe('object')
+      test.only('addAbove pressed', async () => {
+        const addAbove = screen.getByText('2LE.addAbove')
+        await waitFor(() => { userEvent.click(addAbove) })
+        // expect(createContextFromEvent).toHaveBeenCalledTimes(1)
+        // expect(typeof createContextFromEvent.mock.calls[0][0]).toBe('object')
         // const elementTypesMenuPropsKeys = Object.keys(mockChildComponent.mock.calls[0][0])
         // expect(Object.keys(mockChildComponent.mock.calls[0][0]))
         //   .toEqual(expect.arrayContaining([
@@ -81,6 +85,7 @@ describe('ParagraphContextMenu testing', () => {
         //   .upperLevelElementId)
         //   .toBe(parseInt(upperLvlElementId.split('_')[0]))
         // screen.debug()
+        screen.debug(addAbove)
       })
       test('dropdown, addBelow', async () => {
         const upperAddBelow = screen.getByRole('option', { name: '1LE.addBelow' })
