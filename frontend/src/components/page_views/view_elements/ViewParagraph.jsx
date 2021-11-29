@@ -90,7 +90,7 @@ const ViewParagraph = ({
 
   useEffect(() => { // Saga
     // console.log('ViewParagraph:',
-    //   '\n useEffect[recordId, viewName, kind]',
+    //   '\n useEffect[recordId, kind]',
     //   '\n  index ->', +recordId.split('_').pop())
     indexRef.current = +recordId.split('_').pop()
     if (kind === '') {

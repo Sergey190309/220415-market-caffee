@@ -5,17 +5,19 @@ import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import store from '../../../../redux/store'
+// import { putTextContent } from '../../../../api/calls/content'
 import { UpperLevel } from '../ElementSwitcher'
 import { UpperLeverElementId } from '../ViewVBlock'
 import {
   createContextFromEvent
 } from '../../../../utils/createContext'
 
-import { ViewParagraphProvider } from '../../../../context'
+import { ElementSwitcherProvider, LandingProvider, ViewParagraphProvider } from '../../../../context'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
 
 jest.mock('../../../../utils/createContext')
+jest.mock('../../../../api/calls/content')
 
 // const mockChildComponent = jest.fn()
 // jest.mock('./ElementTypesMenu', () => props => {
@@ -39,19 +41,24 @@ describe('ParagraphContextMenu testing', () => {
   const upperLvlAddElement = jest.fn()
   const upperLvlDeleteElement = jest.fn()
 
-  const renderReduxContext = (actualProps) => {
+  const renderReduxContext = (actualProps, context = {
+    index: { index: 1 },
+    upperLevelElementId: { upperLevelElementId: '01_vblock_txt' },
+    componentName: {componentName: 'landing'}
+  }) => {
     // await waitFor(() => {
-    const index = 1
+    // const index = { index: 1 }
+    // console.log('ParagraphContextMenu.test:\n renderReduxContext',
+    //   '\n  index ->', index)
     render(
       <Provider store={store}>
-        {/* <UpperLevel.Provider value={{
-          upperLvlAddElement,
-          upperLvlDeleteElement
-        }} > */}
-        <ViewParagraphProvider value={index} >
-          <ParagraphContextMenu {...actualProps} />
-        </ViewParagraphProvider>
-        {/* </UpperLevel.Provider> */}
+        <LandingProvider value={ } >
+          <ElementSwitcherProvider value={context.upperLevelElementId} >
+            <ViewParagraphProvider value={context.index} >
+              <ParagraphContextMenu {...actualProps} />
+            </ViewParagraphProvider>
+          </ElementSwitcherProvider>
+        </LandingProvider>
       </Provider>
     )
     // expect(container).toBeEmptyDOMElement()
@@ -69,9 +76,14 @@ describe('ParagraphContextMenu testing', () => {
           renderReduxContext(actualProps)
         })
       })
-      test.only('addAbove pressed', async () => {
+
+      test.only('2LE.editElement pressed', () => {
+        screen.debug()
+      })
+
+      test('addAbove pressed', async () => {
         const addAbove = screen.getByText('2LE.addAbove')
-        await waitFor(() => { userEvent.click(addAbove) })
+        // await waitFor(() => { userEvent.click(addAbove) })
         // expect(createContextFromEvent).toHaveBeenCalledTimes(1)
         // expect(typeof createContextFromEvent.mock.calls[0][0]).toBe('object')
         // const elementTypesMenuPropsKeys = Object.keys(mockChildComponent.mock.calls[0][0])

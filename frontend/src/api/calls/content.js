@@ -5,8 +5,8 @@ const elementURL = '/content/handling'
 const imageURL = '/images/'
 
 export const putAddElement = json => {
-  // console.log('api, calls, content:\n putAddElement',
-  //   '\n  json ->', json)
+  console.log('api, calls, content:\n putAddElement',
+    '\n  json ->', json)
   const resp = authTextAxiosClient.put(elementURL, { ...json })
   return resp
 }
@@ -19,7 +19,8 @@ export const patchRemoveElement = json => {
 }
 
 export const putTextContent = json => {
-  // console.log('api, calls, content, putViewContent, json ->', json)
+  console.log('api, calls, content:\n putTextContent',
+    '\n  json ->', json)
   const resp = authTextAxiosClient.put(contentURL, { ...json })
   // console.log('api, calls, content, putViewContent, resp ->', resp)
   return resp

@@ -36,10 +36,10 @@ const ParagraphContextMenu = ({
   const { editable } = useSelector(deviceSelector)
   const dispatch = useDispatch()
 
-  const componentName = 'landing'
-  // const { componentName } = useContext(LandingContext)
-  const upperLevelElementId = '01_vblock_txt'
-  // const { upperLevelElementId } = useContext(ElementSwitcherContext)
+  // const componentName = 'landing'
+  const { componentName } = useContext(LandingContext)
+  // const upperLevelElementId = '01_vblock_txt'
+  const { upperLevelElementId } = useContext(ElementSwitcherContext)
   // const index = 0
   const { index } = useContext(ViewParagraphContext)
 
@@ -47,6 +47,11 @@ const ParagraphContextMenu = ({
     // console.log('ParagraphContextMenu:\n useEffect[]',
     //   '\n  index ->', index)
     setOpened(true)
+    console.log('ParagraphContextMenu:\n useEffect[],',
+      '\n  componentName ->', componentName,
+      '\n  upperLevelElementId ->', upperLevelElementId,
+      '\n  index ->', index
+    )
     return () => {
       // console.log('ParagraphContextMenu:\n useEffect[isOpened]',
       //   '\n  clean up')

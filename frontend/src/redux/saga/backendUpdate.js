@@ -37,7 +37,7 @@ function * elementsArgs (action) {
 }
 
 function * initConfirmPassword (error) {
-  // console.log('saga, backendUpdate:\n initConfirmPassword\n  error ->', error)
+  console.log('saga, backendUpdate:\n initConfirmPassword\n  error ->', error)
   if (error.response.status === 401 && error.response.data.error === 'token_expired') {
     yield put(openModal('confirmPassword'))
     yield put(
@@ -61,9 +61,6 @@ export function * addElementSaga () {
 }
 
 export function * backendAddElement (action) {
-  // console.log('saga, backendUpdate:\n backendAddElement',
-  //   '\n  action ->', action
-  // )
   /**
    * get args from state if not in payload.
    */
@@ -85,9 +82,9 @@ export function * backendAddElement (action) {
       )
     )
   } catch (error) {
-    // console.log('saga, backendUpdate:\n backendAddElement',
-    //   '\n  error ->', error
-    // )
+    console.log('saga, backendUpdate:\n backendAddElement',
+      '\n  error ->', error
+    )
     if (yield call(initConfirmPassword, error)) {
       return
     }
@@ -145,6 +142,7 @@ export function * putTextSaga () {
 }
 
 export function * backendTextUpdate (action) {
+  // console.log('backendTextUpdate saga worker')
   let values
   if (typeof action.payload === 'undefined') {
     const stateContent = yield select(backendUpdateSelector)
@@ -155,7 +153,7 @@ export function * backendTextUpdate (action) {
     values = action.payload
   }
   const { content, ...others } = values
-  const json = {
+  const json = { // convert contet to string with breakers - <br>
     ...others,
     title: content.title,
     content: content.content ? content.content.join('<br>') : ''
