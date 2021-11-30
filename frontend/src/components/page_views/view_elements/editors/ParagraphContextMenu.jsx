@@ -34,6 +34,7 @@ const ParagraphContextMenu = ({
   const [menuStructure, setMenuStructure] = useState([])
 
   const { editable } = useSelector(deviceSelector)
+
   const dispatch = useDispatch()
 
   // const componentName = 'landing'
@@ -47,11 +48,11 @@ const ParagraphContextMenu = ({
     // console.log('ParagraphContextMenu:\n useEffect[]',
     //   '\n  index ->', index)
     setOpened(true)
-    console.log('ParagraphContextMenu:\n useEffect[],',
-      '\n  componentName ->', componentName,
-      '\n  upperLevelElementId ->', upperLevelElementId,
-      '\n  index ->', index
-    )
+    // console.log('ParagraphContextMenu:\n useEffect[],',
+    //   '\n  componentName ->', componentName,
+    //   '\n  upperLevelElementId ->', upperLevelElementId,
+    //   '\n  index ->', index
+    // )
     return () => {
       // console.log('ParagraphContextMenu:\n useEffect[isOpened]',
       //   '\n  clean up')

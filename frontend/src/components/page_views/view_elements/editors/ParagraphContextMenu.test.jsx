@@ -6,18 +6,26 @@ import userEvent from '@testing-library/user-event'
 
 import store from '../../../../redux/store'
 // import { putTextContent } from '../../../../api/calls/content'
-import { UpperLevel } from '../ElementSwitcher'
-import { UpperLeverElementId } from '../ViewVBlock'
+// import { UpperLevel } from '../ElementSwitcher'
+// import { UpperLeverElementId } from '../ViewVBlock'
 import {
   createContextFromEvent
 } from '../../../../utils/createContext'
 
-import { ElementSwitcherProvider, LandingProvider, ViewParagraphProvider } from '../../../../context'
+import {
+  ElementSwitcherProvider, LandingProvider,
+  ViewParagraphProvider
+} from '../../../../context'
+// import { backendTxtUpdateStart } from '../../../../redux/slices'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
+// import { result } from 'lodash-es'
 
-jest.mock('../../../../utils/createContext')
-jest.mock('../../../../api/calls/content')
+// jest.mock('../../../../redux/slices', () => ({
+//   backendTxtUpdateStart: jest.fn()
+// }))
+// jest.mock('../../../../utils/createContext')
+// jest.mock('../../../../api/calls/content')
 
 // const mockChildComponent = jest.fn()
 // jest.mock('./ElementTypesMenu', () => props => {
@@ -27,33 +35,29 @@ jest.mock('../../../../api/calls/content')
 
 describe('ParagraphContextMenu testing', () => {
   const testProps = {
-    isOpened: false,
     saveDisabled: true,
     context: {},
-    setContextMenuOpened: jest.fn(),
-    setParagraphEditted: jest.fn(),
-    saveToBackend: jest.fn(),
-    deleteElement: jest.fn(),
-    addAbove: jest.fn(),
-    addBelow: jest.fn()
+    setMenuOpened: jest.fn(),
+    upperLevelElementMenu: jest.fn(),
+    setParagraphEditted: jest.fn()
   }
-  const upperLvlElementId = '01_vblock_txt_3'
-  const upperLvlAddElement = jest.fn()
-  const upperLvlDeleteElement = jest.fn()
-
-  const renderReduxContext = (actualProps, context = {
+  // const upperLvlElementId = '01_vblock_txt_3'
+  // const upperLvlAddElement = jest.fn()
+  // const upperLvlDeleteElement = jest.fn()
+  const mockContext = {
     index: { index: 1 },
     upperLevelElementId: { upperLevelElementId: '01_vblock_txt' },
-    componentName: {componentName: 'landing'}
-  }) => {
-    // await waitFor(() => {
-    // const index = { index: 1 }
+    componentName: { componentName: 'landing' }
+  }
+
+  const renderReduxContext = (actualProps, context = mockContext) => {
     // console.log('ParagraphContextMenu.test:\n renderReduxContext',
     //   '\n  index ->', index)
     render(
       <Provider store={store}>
-        <LandingProvider value={ } >
-          <ElementSwitcherProvider value={context.upperLevelElementId} >
+        <LandingProvider value={context.componentName} >
+          <ElementSwitcherProvider
+            value={context.upperLevelElementId} >
             <ViewParagraphProvider value={context.index} >
               <ParagraphContextMenu {...actualProps} />
             </ViewParagraphProvider>
@@ -61,27 +65,66 @@ describe('ParagraphContextMenu testing', () => {
         </LandingProvider>
       </Provider>
     )
-    // expect(container).toBeEmptyDOMElement()
-    // })
   }
 
   describe('component actions', () => {
     describe('submenu actions', () => {
-      const actualProps = {
-        ...testProps,
-        isOpened: true
-      }
-      beforeEach(async () => {
+      // const actualProps = {
+      //   ...testProps,
+      //   isOpened: true
+      // }
+      // beforeEach(async () => {
+      //   await waitFor(() => {
+      //     renderReduxContext(actualProps)
+      //   })
+      // })
+
+      test('2LE.editElement pressed', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true
+        }
         await waitFor(() => {
           renderReduxContext(actualProps)
         })
+
+        const editElement = screen.getByText('2LE.editElement')
+        await waitFor(() => { userEvent.click(editElement) })
+        const _result = testProps.setParagraphEditted.mock.calls
+        expect(_result).toHaveLength(1)
+        expect(_result[0]).toHaveLength(1)
+        expect(_result[0][0]).toBeTruthy()
+
+        // console.log('ParagraphContextMenu.test:',
+        //   '\n 2LE.editElement pressed',
+        //   '\n  calls ->', testProps.setParagraphEditted.mock.calls)
+
+        // screen.debug(editElement)
       })
 
-      test.only('2LE.editElement pressed', () => {
-        screen.debug()
-      })
+      test('2LE.saveElement pressed', async () => {
+        const actualProps = {
+          ...testProps,
+          isOpened: true
+        }
+        await waitFor(() => {
+          renderReduxContext(actualProps)
+        })
 
-      test('addAbove pressed', async () => {
+        const saveElement = screen.getByText('2LE.saveElement')
+        await waitFor(() => { userEvent.click(saveElement) })
+        // const _result = testProps.setParagraphEditted.mock.calls
+        // expect(_result).toHaveLength(1)
+        // expect(_result[0]).toHaveLength(1)
+        // expect(_result[0][0]).toBeTruthy()
+
+        // console.log('ParagraphContextMenu.test:',
+        //   '\n 2LE.saveElement pressed',
+        //   '\n  calls ->', backendTxtUpdateStart.mock.calls)
+
+        screen.debug(saveElement)
+      })
+      test.skip('addAbove pressed', async () => {
         const addAbove = screen.getByText('2LE.addAbove')
         // await waitFor(() => { userEvent.click(addAbove) })
         // expect(createContextFromEvent).toHaveBeenCalledTimes(1)
@@ -99,7 +142,7 @@ describe('ParagraphContextMenu testing', () => {
         // screen.debug()
         screen.debug(addAbove)
       })
-      test('dropdown, addBelow', async () => {
+      test.skip('dropdown, addBelow', async () => {
         const upperAddBelow = screen.getByRole('option', { name: '1LE.addBelow' })
 
         await waitFor(() => { userEvent.click(upperAddBelow) })
@@ -117,7 +160,7 @@ describe('ParagraphContextMenu testing', () => {
           .toBe(parseInt(upperLvlElementId.split('_')[0]) + 1)
         // screen.debug()
       })
-      test('dropdown, delete', async () => {
+      test.skip('dropdown, delete', async () => {
         const uppreDelete = screen.getByRole('option', { name: '1LE.DeleteElement' })
         expect(screen.queryByTestId('Popup')).not.toBe(null)
         userEvent.click(uppreDelete)
@@ -131,7 +174,7 @@ describe('ParagraphContextMenu testing', () => {
         //   '\n  upperLvlDeleteElement ->', upperLvlDeleteElement.mock.calls)
       })
     })
-    describe('menu options testing', () => {
+    describe.skip('menu options testing', () => {
       test('save option enabled', async () => {
         const actualProps = {
           ...testProps,
@@ -245,7 +288,7 @@ describe('ParagraphContextMenu testing', () => {
     })
   })
 
-  describe('appeance', () => {
+  describe.skip('appeance', () => {
     test('popup does not exist when is not opened', async () => {
       // const actualProps = { ...testProps, isOpened: true }
       await waitFor(() => {
