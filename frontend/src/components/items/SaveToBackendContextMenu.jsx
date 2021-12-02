@@ -13,7 +13,7 @@ import { positiveColor, warningColor } from '../../utils/colors'
 import { backendTxtUpdateStart, backendTxtUpdateClear } from '../../redux/slices'
 import { ContextMenuItem } from './menu_items/ContextMenuItem'
 
-export const SaveToBackendContextMenu = t => ([
+export const saveToBackendContextMenu = t => ([
 
 ])
 
