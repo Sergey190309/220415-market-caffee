@@ -46,14 +46,4 @@ export const Layout = () => {
   )
 }
 
-// Layout.propTypes = {
-//   layout: PropTypes.object.isRequired
-// }
-
-// const mapStateToProps = (state) => ({
-//   layout: state.device
-//   // layout: state.layout,
-// })
-
 export default Layout
-// export default connect(mapStateToProps)(Layout)

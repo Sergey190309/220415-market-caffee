@@ -13,16 +13,20 @@ import { positiveColor, warningColor } from '../../utils/colors'
 import { backendTxtUpdateStart, backendTxtUpdateClear } from '../../redux/slices'
 import { ContextMenuItem } from './menu_items/ContextMenuItem'
 
+export const SaveToBackendContextMenu = t => ([
+
+])
+
 const SaveToBackendContextMenu = ({
   isOpened,
   context,
   setContextMenuOpened
 }) => {
+  const { t } = useTranslation('context')
+
   const [menuStructure, setMenuStructure] = useState([])
 
   const dispatch = useDispatch()
-
-  const { t } = useTranslation('context')
 
   useEffect(() => {
     setMenuStructure([

@@ -1,16 +1,16 @@
-import React, { createContext, useState, useEffect, Fragment } from 'react'
+import React, {
+  // createContext,
+  useState, useEffect, Fragment
+} from 'react'
 import PropTypes from 'prop-types'
 import { Container, Divider } from 'semantic-ui-react'
 
 import { makeRecordIdList } from '../../../utils/utils'
-
-// import { ViewVBlockProvider } from '../../../context'
-
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
 
-export const UpperLeverElementId = createContext()
+// export const UpperLeverElementId = createContext()
 
 const ViewVBlock = ({
   recordsId,
@@ -29,15 +29,20 @@ const ViewVBlock = ({
    */
 
   useEffect(() => {
+    // console.log('ViewVBlock:\n useEffect[recordsId]',
+    //   '\n  recordsId ->', recordsId)
     const newRecordIdList = makeRecordIdList(recordsId)
     setRecordIdList(newRecordIdList)
-  }, [recordsId])
+  }, [])
+  // }, [recordsId])
 
   const props = {
     viewName
   }
 
-  const output = () => {
+  // console.log('ViewVBlock:',
+  //   '\n  recordsId ->', recordsId)
+  const Output = () => {
     if (recordsId.includes('txt')) {
       return recordIdList.map(txtRecordId => {
         return (
@@ -65,9 +70,9 @@ const ViewVBlock = ({
   }
 
   return (
-    // <ViewVBlockProvider value={}>
-    output()
-    // </ViewVBlockProvider>
+    <Container data-testid='Output' >
+      <Output />
+    </Container>
   )
 }
 

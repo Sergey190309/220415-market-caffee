@@ -1,4 +1,4 @@
-import { createContextFromEvent } from './createContextFromEvent'
+import { createContextFromEvent } from './createContext'
 describe('createContextFromEvent', () => {
   test('it should return specific object', () => {
     const mockEvent = {
@@ -16,6 +16,6 @@ describe('createContextFromEvent', () => {
       height: 0,
       width: 0
 
-    });
-  });
-});
+    })
+  })
+})

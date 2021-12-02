@@ -1,6 +1,7 @@
 import React from 'react'
 import { Header, Segment } from 'semantic-ui-react'
 import { useSelector } from 'react-redux'
+
 import { alertsSelector } from '../../redux/slices/alerts'
 import { positiveColor, warningColor } from '../../utils/colors'
 

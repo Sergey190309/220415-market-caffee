@@ -13,17 +13,17 @@ export const ViewHeader = ({ recordsId, viewName, initState }) => {
    * header - kind of element
    */
   const [state, sagaDispatch] = useSaga(getContentSaga, initState)
+
   useEffect(() => {
-    // console.log('ViewHeader, useEffect, recordsId ->', recordsId)
     sagaDispatch({
       type: CONTENT_REQUESTED,
       payload: {
         identity: recordsId,
         view_id: viewName
-        // locale_id: lng
       }
     })
-  }, [recordsId, viewName, sagaDispatch])
+  }, [recordsId, viewName])
+  // }, [recordsId, viewName, sagaDispatch])
 
   return (
     <Message
@@ -31,17 +31,12 @@ export const ViewHeader = ({ recordsId, viewName, initState }) => {
       content={state.content}
       size='big'
     />
-    // <div>
-    //   <h1>{state.title}</h1>
-    //   <p>{state.content}</p>
-    // </div>
   )
 }
 
 ViewHeader.defaultProps = {
   recordsId: '',
   viewName: '',
-  // lng: '',
   initState: {
     title: '',
     content: ''
@@ -51,7 +46,6 @@ ViewHeader.defaultProps = {
 ViewHeader.propTypes = {
   recordsId: PropTypes.string.isRequired,
   viewName: PropTypes.string.isRequired,
-  // lng: PropTypes.string.isRequired,
   initState: PropTypes.object.isRequired
 }
 

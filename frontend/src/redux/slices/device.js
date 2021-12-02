@@ -42,12 +42,9 @@ const deviceSlice = createSlice({
        * medium (1080) - tablet;
        * big - normal PC
        */
-      // console.log('deviceSlice, setDeviceSize, payload ->', payload)
-      // state.deviceSize = payload;
       state.deviceSize = payload < smallDeviceLimit ? 'small' : payload < mediumDeviceLimit ? 'medium' : 'big'
     },
     openModal: (state, { payload }) => { // tested
-      // console.log('deviceSlice, openModal, payload ->', payload)
       state.kindOfModal = payload
     },
     closeModal: state => { // tested
@@ -57,6 +54,7 @@ const deviceSlice = createSlice({
       state.message = payload
     },
     setEditable: (state, { payload }) => { // tested
+      console.log('deviceSlice:\n setEditable\n  payload ->', payload)
       state.editable = payload
     }
   }

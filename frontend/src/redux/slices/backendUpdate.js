@@ -46,9 +46,9 @@ const backendUpdateSlice = createSlice({
       state.loaded = false
     },
     backendAddElementStart: (state, { payload }) => {
+      // console.log('slice, backendUpdate:',
+      //   '\n backendAddElementStart\n  payload ->', payload)
       if (typeof payload !== 'undefined') {
-        // console.log('slice, backendUpdate:\n',
-        //   ' backendAddElementStart\n  payload ->', payload)
         state.values = payload
       }
       state.kind = STRUCTURE_ADD

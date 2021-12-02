@@ -24,8 +24,6 @@ function * elementsArgs (action) {
    * It checks whether no payload awailable if so it gives
    * arguments from state.
    */
-  // console.log('backendUpdate(saga):\n elementsArgs',
-  //   '\n  action ->', action)
   let values
   if (typeof action.payload === 'undefined') {
     const stateContent = yield select(backendUpdateSelector)
@@ -35,16 +33,11 @@ function * elementsArgs (action) {
     values = action.payload
   }
   const { index, ...others } = values
-  // const { identity, index, ...others } = values
-  // const json = { ...others, block_id: identity, item_index: index }
-  // console.log('saga, backendUpdate:\n elementsArgs',
-  //   '\n  others ->', others)
   return { ...others, item_index: index }
-  // return { ...others, block_id: identity, item_index: index }
 }
 
 function * initConfirmPassword (error) {
-  // console.log('saga, backendUpdate:\n initConfirmPassword\n  error ->', error)
+  console.log('saga, backendUpdate:\n initConfirmPassword\n  error ->', error)
   if (error.response.status === 401 && error.response.data.error === 'token_expired') {
     yield put(openModal('confirmPassword'))
     yield put(
@@ -68,9 +61,6 @@ export function * addElementSaga () {
 }
 
 export function * backendAddElement (action) {
-  // console.log('saga, backendUpdate:\n backendAddElement',
-  //   '\n  action ->', action
-  // )
   /**
    * get args from state if not in payload.
    */
@@ -92,9 +82,9 @@ export function * backendAddElement (action) {
       )
     )
   } catch (error) {
-    // console.log('saga, backendUpdate:\n backendAddElement',
-    //   '\n  error ->', error
-    // )
+    console.log('saga, backendUpdate:\n backendAddElement',
+      '\n  error ->', error
+    )
     if (yield call(initConfirmPassword, error)) {
       return
     }
@@ -117,22 +107,8 @@ export function * removeElementSaga () {
 
 export function * backendRemoveElement (action) {
   const json = yield call(elementsArgs, action)
-  // let values
-  // if (typeof action.payload === 'undefined') {
-  //   const stateContent = yield select(backendUpdateSelector)
-  //   const { kind, loading, loaded, ...stateValues } = stateContent
-  //   values = stateValues.values
-  // } else {
-  //   values = action.payload
-  // }
-  // // console.log('saga, backendUpdate:\n',
-  // //   ' backendRemoveElement\n  values ->', values)
-  // const { identity, index, ...others } = values
-  // const json = { ...others, block_id: identity, item_index: index }
   try {
     const resp = yield call(patchRemoveElement, json)
-    // console.log('saga, backendUpdate:\n backendRemoveElement\n',
-    //   '  resp.data.message ->', resp.data.message)
     yield put(structureStart())
     yield put(backendRemoveElementSuccess())
     yield put(
@@ -149,21 +125,6 @@ export function * backendRemoveElement (action) {
       return
     }
     if (error.response) {
-      // if (error.response.status === 401 && error.response.data.error === 'token_expired') {
-      //   // console.log('saga, backendUpdate.error, description ->', error.response.data.description)
-      //   yield put(openModal('confirmPassword'))
-      //   yield put(
-      //     startAlert(
-      //       setAlertData({
-      //         message: error.response.data.description,
-      //         alertType: 'error',
-      //         timeout: 5000
-      //       })
-      //     )
-      //   )
-      //   // confirmPasswordHelper(error.response.data.description, payload)
-      //   return
-      // }
       console.log('contentSaga, error.response! ->')
       console.log(error.response.data.error)
       console.log(error.response.status)
@@ -181,6 +142,7 @@ export function * putTextSaga () {
 }
 
 export function * backendTextUpdate (action) {
+  // console.log('backendTextUpdate saga worker')
   let values
   if (typeof action.payload === 'undefined') {
     const stateContent = yield select(backendUpdateSelector)
@@ -190,10 +152,8 @@ export function * backendTextUpdate (action) {
   } else {
     values = action.payload
   }
-  // console.log('saga, backendUpdate:\n backendTextUpdate',
-  //   '\n  values.content ->', values.content)
   const { content, ...others } = values
-  const json = {
+  const json = { // convert contet to string with breakers - <br>
     ...others,
     title: content.title,
     content: content.content ? content.content.join('<br>') : ''

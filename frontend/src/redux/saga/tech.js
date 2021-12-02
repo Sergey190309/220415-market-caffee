@@ -87,8 +87,6 @@ export function * i18nSaga () {
 
 export function * i18nWorker (
   action
-  // setI18n = setI18next,
-  // setCommonLng = axiosCommonLng
 ) {
   try {
     /**
@@ -96,10 +94,7 @@ export function * i18nWorker (
      * awailable on back end.
      */
     yield call(setI18next, action.payload)
-    // console.log('i18n worker, i18next.languages ->', i18next.languages)
-    // call(axiosCommonLng, i18next.language); // Set axios header for backend calls.
     yield put(i18nSuccess())
-    // console.log('i18nWorker, i18next.language ->', i18next.language)
     /**
      * initate structure loading here
      */

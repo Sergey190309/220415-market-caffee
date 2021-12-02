@@ -10,10 +10,10 @@ import { useTranslation } from 'react-i18next'
 import {
   elementBlockSubTypes
 } from '../../../../utils/elementTypes'
+import { LandingContext, ElementSwitcherContext } from '../../../../context'
 import {
   ContextMenuItem
 } from '../../../items/menu_items/ContextMenuItem'
-import { LandingContext, ElementSwitcherContext } from '../../../../context'
 import {
   positiveColor
 } from '../../../../utils/colors'

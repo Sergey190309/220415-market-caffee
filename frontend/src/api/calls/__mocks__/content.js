@@ -10,12 +10,13 @@ export const patchRemoveElement = json => {
 }
 
 export const putTextContent = json => {
-  // console.log('putTextContent, json ->', json)
+  console.log('api, calls, content, mock:\n putTextContent',
+    '\n  json ->', json)
   return Promise.resolve({ data: resolveDataPutTextContent })
 }
 
 export const getViewContent = params => {
-  // console.log('mockGetViewContent, params ->', params)
+  // console.log('mockGetViewContent,\n  params ->', params)
   switch (params.identity) {
     case 'mockNoTitle':
       return Promise.resolve({

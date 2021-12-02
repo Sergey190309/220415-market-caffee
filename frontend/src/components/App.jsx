@@ -19,10 +19,6 @@ export const App = ({ setDeviceSize }) => {
     return () => window.removeEventListener('resize', updateDimentions)
   }, [width])
 
-  // useEffect(() => {
-  //   getLngList(techToken);
-  // }, [techToken]);
-
   const updateDimentions = () => {
     const _width = window.outerWidth
     setWidth(_width)

@@ -1,12 +1,19 @@
 /* eslint-disable react/display-name */
 import React from 'react'
-import { Provider } from 'react-redux'
-import { render, screen, waitFor } from '@testing-library/react'
+// import { Provider } from 'react-redux'
+import {
+  // render,
+  screen, waitFor
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-
+import { testRender, makeTestStore } from '../../../testHelpers'
 import ViewParagraph from './ViewParagraph'
 import store from '../../../redux/store'
-import { resolveDataContent } from '../../../testAxiosConstants'
+// import { resolveDataContent } from '../../../testAxiosConstants'
+// import { getViewContent } from '../../../api/calls/content'
+import { LandingProvider } from '../../../context'
+// import { initialState } from '../../../redux/slices/alerts'
+import { setEditable } from '../../../redux/slices'
 
 jest.mock('../../../api/calls/content')
 
@@ -17,109 +24,135 @@ jest.mock('./editors/ParagraphContextMenu', () => props => {
   return <div data-testid='mockParagraphContextMenu' />
 })
 
+const mockIndicator = jest.fn()
+
+jest.mock('./indicator/Indicator', () => props => {
+  mockIndicator(props)
+  return <div data-testid='mockIndicator' />
+})
+
 describe('ViewParagraph testing', () => {
   const testProps = {
-    recordId: 'mockRecordId',
-    viewName: 'mockViewName',
-    lng: 'mockLng'
+    initialState: {
+      title: 'Mock title in test',
+      content: ['Mock content in test, firs line', 'second line']
+    },
+    recordId: '01_vblock_txt_001'
   }
-  describe('actions', () => {
-    test('right click -> context menu with appropriate args', async () => {
+  const mockContext = {
+    componentName: { componentName: 'landing' }
+  }
+  const renderReduxContext = (
+    actualProps,
+    testStore = makeTestStore(store),
+    context = mockContext
+  ) => {
+    testRender(
+      <LandingProvider value={context.componentName} >
+        <ViewParagraph {...actualProps} />
+      </LandingProvider>,
+      { store: testStore }
+    )
+  }
+  describe('appearance', () => {
+    // beforeEach(() => {
+    //   store.dispatch(setEditable(true))
+    // })
+    test('rendering normal (shapshot)', async () => {
+      const actualProps = { ...testProps }
       await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ViewParagraph {...testProps} />
-          </Provider>
-        )
+        renderReduxContext(actualProps, store)
       })
-      const element = screen.getByTestId('Message')
-      userEvent.click(element, { button: 2 })
-      const result = mockParagraphContextMenu.mock
-        .calls[0][0]
-      expect(result.saveDisabled).toBe(true)
-      expect(result.context).toBeObject()
-      expect(result.setContextMenuOpened).toBeFunction()
-      expect(result.setParagraphEditted).toBeFunction()
-      expect(result.saveToBackend).toBeFunction()
-      expect(result.deleteElement).toBeFunction()
-      expect(result.addAbove).toBeFunction()
-      expect(result.addBelow).toBeFunction()
-      // console.log('ViewParagraph.test, right click, calls ->', result)
+      const message = screen.getByTestId('Message')
+      expect(message).toMatchSnapshot()
+      expect(message.children).toHaveLength(5)
+      // screen.debug(message)
+      // console.log('ViewParagraph.test:\n rendering normal',
+      //   '\n  message ->', message.children.length)
     })
-
-    test('should indicate proper values', async () => {
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ViewParagraph {...testProps} />
-          </Provider>
-        )
-      })
-      const result = screen.getByTestId('Message')
-      expect(result.children).toHaveLength(5)
-      expect(result.children[0]).toHaveTextContent(resolveDataContent.payload.title)
-      expect(result.children[1]).toHaveClass('ui divider')
-
-      expect(result.children[2]).toHaveTextContent(resolveDataContent.payload.content[0])
-      expect(result.children[3]).toHaveTextContent(resolveDataContent.payload.content[1])
-      expect(result.children[4]).toHaveTextContent(resolveDataContent.payload.content[2])
-      // screen.debug()
-    })
-    test('should indicate proper values, no title', async () => {
-      const actualProps = {
+    test('rendering no title and devider', async () => {
+      const actualProps =
+      {
         ...testProps,
-        recordId: 'mockNoTitle'
+        initialState: {
+          ...testProps.initialState, content: []
+        }
       }
       await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ViewParagraph {...actualProps} />
-          </Provider>
-        )
+        renderReduxContext(actualProps, store)
       })
-      const result = screen.getByTestId('Message')
-      expect(result.children).toHaveLength(4)
-      // expect(result.children[0]).toHaveTextContent(resolveDataContent.payload.title)
-      // expect(result.children[1]).toHaveClass('ui divider')
-
-      expect(result.children[0]).toBeEmptyDOMElement()
-      expect(result.children[1]).toHaveTextContent(resolveDataContent.payload.content[0])
-      expect(result.children[2]).toHaveTextContent(resolveDataContent.payload.content[1])
-      expect(result.children[3]).toHaveTextContent(resolveDataContent.payload.content[2])
-      // screen.debug()
-    })
-
-    test('should indicate proper values, no content', async () => {
-      const actualProps = {
-        ...testProps,
-        recordId: 'mockNoContent'
-      }
-      await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ViewParagraph {...actualProps} />
-          </Provider>
-        )
-      })
-      const result = screen.getByTestId('Message')
-      expect(result.children).toHaveLength(1)
-      expect(result.children[0]).toHaveTextContent(resolveDataContent.payload.title)
-      // screen.debug()
+      const message = screen.getByTestId('Message')
+      expect(message.children).toHaveLength(1)
+      // screen.debug(message)
     })
   })
-
-  describe('appeance', () => {
-    test('rendering (shapshot)', async () => {
+  describe('actions', () => {
+    test('left click -> indicator', async () => {
+      const actualProps = { ...testProps }
       await waitFor(() => {
-        render(
-          <Provider store={store}>
-            <ViewParagraph {...testProps} />
-          </Provider>
-        )
+        renderReduxContext(actualProps, store)
       })
-      const result = screen.getByTestId('Message')
-      // console.log('ViewParagraph testing, appeance, result ->', result)
-      expect(result).toMatchSnapshot()
+      const message = screen.getByTestId('Message')
+      expect(screen.queryByTestId('mockIndicator'))
+        .not.toBeInTheDocument()
+      userEvent.click(message)
+      // userEvent.click(message, { button: 2 })
+      expect(mockIndicator).toHaveBeenCalledTimes(1)
+      expect(screen.getByTestId('mockIndicator'))
+        .toBeInTheDocument()
+      // const contextMenu = screen.getByTestId(
+      //   'mockParagraphContextMenu')
+      const result = mockIndicator.mock.calls[0][0]
+      expect(result.isOpened).toBeTruthy()
+      expect(result.context).toBeObject()
+      expect(result.content).toBe(testProps.recordId)
+      expect(result.setIndicatorOpened).toBeFunction()
+      // console.log('ViewParagraph.test, left click ->',
+      //   result)
+    })
+
+    test('right click -> context menu', async () => {
+      const actualProps = { ...testProps }
+      await waitFor(() => {
+        renderReduxContext(actualProps, store)
+      })
+      const message = screen.getByTestId('Message')
+      expect(screen.queryByTestId('mockParagraphContextMenu'))
+        .not.toBeInTheDocument()
+      userEvent.click(message, { button: 2 })
+      expect(mockParagraphContextMenu).toHaveBeenCalledTimes(1)
+      expect(screen.getByTestId('mockParagraphContextMenu'))
+        .toBeInTheDocument()
+      // const contextMenu = screen.getByTestId(
+      //   'mockParagraphContextMenu')
+      const result = mockParagraphContextMenu.mock.calls[0][0]
+      expect(result.saveDisabled).toBeFalsy()
+      expect(result.context).toBeObject()
+      expect(result.setMenuOpened).toBeFunction()
+      expect(result.upperLevelElementMenu).toBeFunction()
+      expect(result.setParagraphEditted).toBeFunction()
+      // console.log('ViewParagraph.test, right click, calls ->',
+      //   result)
+      // screen.debug(contextMenu)
+    })
+    test('not editable -> no action on clicks', async () => {
+      store.dispatch(setEditable(false))
+      const actualProps = { ...testProps }
+      await waitFor(() => {
+        renderReduxContext(actualProps, store)
+      })
+      const message = screen.getByTestId('Message')
+      expect(screen.queryByTestId('mockIndicator'))
+        .not.toBeInTheDocument()
+      userEvent.click(message)
+      expect(screen.queryByTestId('mockIndicator'))
+        .not.toBeInTheDocument()
+
+      expect(screen.queryByTestId('mockParagraphContextMenu'))
+        .not.toBeInTheDocument()
+      userEvent.click(message, { button: 2 })
+      expect(screen.queryByTestId('mockParagraphContextMenu'))
+        .not.toBeInTheDocument()
       // screen.debug()
     })
   })

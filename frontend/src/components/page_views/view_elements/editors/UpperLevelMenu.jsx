@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Popup,
-  Menu
-  // Dropdown
-} from 'semantic-ui-react'
+import { Popup, Menu } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -39,7 +35,6 @@ export const addUppreLevelElement = (viewId, upperElementIndex, type = 'header',
 }
 
 const UpperLevelMenu = ({
-  // isOpened,
   context,
   setMenuOpened,
   setUpperLevelTypeMenuOpened,
@@ -52,7 +47,6 @@ const UpperLevelMenu = ({
   const { componentName: viewId } = useContext(LandingContext)
   const { recordsId } = useContext(ElementSwitcherContext)
 
-  // const { editable } = useSelector(deviceSelector)
   useEffect(() => {
     // console.log('UpperLevelMenu:\n useEffect[isMenuOpened]',
     //   '\n  isMenuOpened ->', isMenuOpened

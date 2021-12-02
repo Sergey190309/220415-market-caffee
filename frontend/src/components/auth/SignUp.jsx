@@ -14,9 +14,9 @@ import {
   closeModal,
   signUpModalClosed
 } from '../../redux/slices'
-import { positiveColor, neutralColor, warningColor } from '../../utils/colors'
 
 import Alert from '../layout/Alert'
+import { positiveColor, neutralColor, warningColor } from '../../utils/colors'
 
 export const formStructure = {
   userName: 'sa',
@@ -46,20 +46,13 @@ export const signUpSchema = t =>
     )
   })
 
-// export const onSubmit = formData => {
-//   // const { email, password } = formData;
-//   console.log(JSON.stringify(formData, null, 2));
-// };
-
 export const SignUp = ({
   initValues,
   signUpSchema,
   closeModal,
   signUpStart,
-  // isSignedUp,
   signUpModalClosed
 }) => {
-  // console.log('components, SignUp, signUpStart ->', signUpStart())
   const dispatch = useDispatch()
   const { isSignedUp } = useSelector(authSelector)
   useEffect(() => {
@@ -67,22 +60,16 @@ export const SignUp = ({
       dispatch(closeModal())
       dispatch(signUpModalClosed())
     }
-  }, [dispatch, isSignedUp, closeModal, signUpModalClosed])
+  }, [isSignedUp])
 
   const { t } = useTranslation('auth')
 
   const onSubmit = (formData, { setSubmitting }) => {
     const { userName, password2, ...otherProps } = formData
     const signUpData = { user_name: userName, ...otherProps }
-    // const { userName, email, password } = formData;
-    // console.log('SignUp, signUpData ->', signUpData);
     dispatch(signUpStart(signUpData))
     setSubmitting(false)
   }
-
-  // const color = 'teal';
-  // const resColor = 'olive';
-  // const canColor = 'orange';
 
   return (
     <Container fluid textAlign='center'>

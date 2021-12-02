@@ -1,14 +1,7 @@
-import React, {
-  useState, useEffect,
-  useContext
-} from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import {
-  Popup,
-  Menu
-  // Dropdown
-} from 'semantic-ui-react'
+import { Popup, Menu } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 import {
@@ -25,35 +18,75 @@ import {
   ContextMenuItem
 } from '../../../items/menu_items/ContextMenuItem'
 
+export const paragraphContextMenu = (t, saveDisabled) => ([
+  {
+    name: ELEMENT_EDIT,
+    icon: { name: 'edit', color: positiveColor },
+    content: t('2LE.editElement')
+  },
+  {
+    name: ELEMENT_SAVE,
+    icon: { name: 'save', color: warningColor },
+    content: t('2LE.saveElement'),
+    disabled: saveDisabled
+  },
+  {
+    name: ELEMENT_ADD_ABOVE,
+    icon: { name: 'angle up', color: neutralColor },
+    content: t('2LE.addAbove')
+  },
+  {
+    name: ELEMENT_ADD_BELOW,
+    icon: { name: 'angle down', color: neutralColor },
+    content: t('2LE.addBelow')
+  },
+  {
+    name: ELEMENT_DELETE,
+    icon: { name: 'delete', color: warningColor },
+    content: t('2LE.deleteElement')
+  },
+  {
+    name: UPPER_ELEMENT_HANDLE,
+    icon: { name: 'angle right', color: neutralColor },
+    content: t('1LE.handle')
+  }
+])
+
 const ParagraphContextMenu = ({
-  // isOpened,
   saveDisabled,
   context,
   setMenuOpened,
   upperLevelElementMenu,
   setParagraphEditted
 }) => {
+  /**
+   * The menu rendered with write click haveng logged as admin and set
+   * edition allowed.
+   */
   const { t } = useTranslation('context')
   const [opened, setOpened] = useState(false)
   const [menuStructure, setMenuStructure] = useState([])
 
   const { editable } = useSelector(deviceSelector)
+
   const dispatch = useDispatch()
 
+  // const componentName = 'landing'
   const { componentName } = useContext(LandingContext)
+  // const upperLevelElementId = '01_vblock_txt'
   const { upperLevelElementId } = useContext(ElementSwitcherContext)
+  // const index = 0
   const { index } = useContext(ViewParagraphContext)
 
   useEffect(() => {
-    // const uppreLevelElementId = recordsId.split('_').slice(0, -1).join('_')
-    console.log('ParagraphContextMenu:\n useEffect[]',
-      '\n  recordsId ->', upperLevelElementId)
+    // console.log('ParagraphContextMenu:\n useEffect[]',
+    //   '\n  index ->', index)
+    setOpened(true)
+    // console.log('ParagraphContextMenu:\n useEffect[],',
     //   '\n  componentName ->', componentName,
-    //   '\n  recordsId ->', recordsId,
+    //   '\n  upperLevelElementId ->', upperLevelElementId,
     //   '\n  index ->', index
     // )
-    // upperLvlAddElement('id', 'type', 'subType')
-    setOpened(true)
     return () => {
       // console.log('ParagraphContextMenu:\n useEffect[isOpened]',
       //   '\n  clean up')
@@ -63,39 +96,7 @@ const ParagraphContextMenu = ({
 
   useEffect(() => {
     // console.log('ParagraphContentMenu:\n useEffect onMount->')
-    setMenuStructure([
-      {
-        name: ELEMENT_EDIT,
-        icon: { name: 'edit', color: positiveColor },
-        content: t('2LE.editElement')
-      },
-      {
-        name: ELEMENT_SAVE,
-        icon: { name: 'save', color: warningColor },
-        content: t('2LE.saveElement'),
-        disabled: saveDisabled
-      },
-      {
-        name: ELEMENT_ADD_ABOVE,
-        icon: { name: 'angle up', color: neutralColor },
-        content: t('2LE.addAbove')
-      },
-      {
-        name: ELEMENT_ADD_BELOW,
-        icon: { name: 'angle down', color: neutralColor },
-        content: t('2LE.addBelow')
-      },
-      {
-        name: ELEMENT_DELETE,
-        icon: { name: 'delete', color: warningColor },
-        content: t('2LE.deleteElement')
-      },
-      {
-        name: UPPER_ELEMENT_HANDLE,
-        icon: { name: 'angle right', color: neutralColor },
-        content: t('1LE.handle')
-      }
-    ])
+    setMenuStructure(paragraphContextMenu(t, saveDisabled))
   }, [saveDisabled])
 
   const onClickHandler = (event, { name }) => {
@@ -181,7 +182,6 @@ const ParagraphContextMenu = ({
 }
 
 ParagraphContextMenu.defaultProps = {
-  // isOpened: true,
   saveDisabled: false,
   context: {},
   setMenuOpened: () => { },
@@ -190,7 +190,6 @@ ParagraphContextMenu.defaultProps = {
 }
 
 ParagraphContextMenu.propTypes = {
-  // isOpened: PropTypes.bool.isRequired,
   saveDisabled: PropTypes.bool.isRequired,
   context: PropTypes.object.isRequired,
   setMenuOpened: PropTypes.func.isRequired,
