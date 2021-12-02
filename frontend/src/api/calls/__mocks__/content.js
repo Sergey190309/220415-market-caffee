@@ -16,7 +16,7 @@ export const putTextContent = json => {
 }
 
 export const getViewContent = params => {
-  // console.log('mockGetViewContent, params ->', params)
+  // console.log('mockGetViewContent,\n  params ->', params)
   switch (params.identity) {
     case 'mockNoTitle':
       return Promise.resolve({

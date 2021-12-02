@@ -58,14 +58,16 @@ const ViewParagraph = ({
   })
   const [changed, setChanged] = useState(false)
   const [contextMenuOpened, setContextMenuOpened] = useState(false)
-  const [upperLevelContextMenuOpened, setUpperLevelContextMenuOpened] = useState(false)
+  const [upperLevelContextMenuOpened,
+    setUpperLevelContextMenuOpened] = useState(false)
   const [
     upperLevelTypeMenuOpened, setUpperLevelTypeMenuOpened
   ] = useState(false)
   const [
     upperLevelSubtypeMenuOpened, setUpperLevelSubtypeMenuOpened
   ] = useState(false)
-  const [saveContextMenuOpened, setSaveContextMenuOpened] = useState(false)
+  const [saveContextMenuOpened,
+    setSaveContextMenuOpened] = useState(false)
   const [indicatorOpened, setIndicatorOpened] = useState(false)
   const [paragraphEditted, setParagraphEditted] = useState(false)
 
@@ -91,7 +93,7 @@ const ViewParagraph = ({
   useEffect(() => { // Saga
     // console.log('ViewParagraph:',
     //   '\n useEffect[recordId, kind]',
-    //   '\n  index ->', +recordId.split('_').pop())
+    //   '\n  recordId ->', recordId)
     indexRef.current = +recordId.split('_').pop()
     if (kind === '') {
       setChanged(false)
@@ -106,6 +108,9 @@ const ViewParagraph = ({
   }, [recordId, kind])
 
   useEffect(() => {
+    // console.log('ViewParagraph:',
+    //   '\n useEffect[state]',
+    //   '\n  state ->', state)
     setContent(state)
   }, [state])
 
@@ -288,13 +293,11 @@ ViewParagraph.defaultProps = {
     content: ['']
   },
   recordId: ''
-  // viewName: ''
 }
 
 ViewParagraph.propTypes = {
   initialState: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired
-  // viewName: PropTypes.string.isRequired
 }
 
 export default ViewParagraph

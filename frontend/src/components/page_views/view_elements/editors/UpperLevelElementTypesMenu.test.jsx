@@ -1,146 +1,159 @@
 import React from 'react'
-import { Provider } from 'react-redux'
-import { render, screen, waitFor } from '@testing-library/react'
-
-import store from '../../../../redux/store'
-import { UpperLevel } from '../ElementSwitcher'
-import { UpperLeverElementId } from '../ViewVBlock'
-import { elementBlockTypes, elementBlockSubTypes } from '../../../../utils/elementTypes'
-import ElementTypesMenu from './ElementTypesMenu'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-describe('ElementTypesMenu', () => {
+import { makeTestStore, testRender } from '../../../../testHelpers'
+import store from '../../../../redux/store'
+import { elementBlockTypes, elementBlockSubTypes }
+  from '../../../../utils/elementTypes'
+import UpperLevelElementTypesMenu, { upperLevelElementTypesMenu }
+  from './UpperLevelElementTypesMenu'
+import { ElementSwitcherProvider, LandingProvider }
+  from '../../../../context'
+import { elementFunc } from './auxFuncs'
+
+jest.mock('./auxFuncs', () => ({
+  elementFunc: jest.fn()
+}))
+
+describe('UpperLevelElementTypesMenu testing', () => {
   const upperLevelElementId = 1
   const testProps = {
-    isOpened: false,
     context: {},
-    upperLevelElementId,
-    setOpenedProp: jest.fn()
+    addBelow: false,
+    setUpperLevelElementType: jest.fn(),
+    setMenuOpened: jest.fn(),
+    setUpperLevelSubtypeMenuOpened: jest.fn()
   }
-  const upperLvlElementId = '01_vblock_txt_3'
-  const upperLvlAddElement = jest.fn()
-  const upperLvlDeleteElement = jest.fn()
+  const mockContext = {
+    recordsId: { recordsId: '01_vblock_txt_6' },
+    componentName: { componentName: 'landing' }
+  }
 
-  const renderReduxContext = props => {
-    render(
-      <Provider store={store}>
-        <UpperLevel.Provider value={{
-          upperLvlAddElement,
-          upperLvlDeleteElement
-        }}>
-          <UpperLeverElementId.Provider value={upperLvlElementId}>
-            <ElementTypesMenu {...props} />
-          </UpperLeverElementId.Provider>
-        </UpperLevel.Provider>
-      </Provider>
+  // const upperLvlAddElement = jest.fn()
+
+  const renderReduxContext = (
+    actualProps,
+    testStore = makeTestStore(store),
+    context = mockContext
+  ) => {
+    testRender(
+      <LandingProvider value={context.componentName} >
+        <ElementSwitcherProvider value={context.recordsId} >
+          <UpperLevelElementTypesMenu {...actualProps} />
+        </ElementSwitcherProvider>
+      </LandingProvider>
+      , { store: testStore }
     )
   }
-  describe('component action', () => {
-    describe('menu options actions', () => {
-      test('addHeader', async () => {
-        const actualProps = { ...testProps, isOpened: true }
-        await waitFor(() => { renderReduxContext(actualProps) })
-        const addHeader = screen.getByText('1LE.header')
-        userEvent.click(addHeader)
-        expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
-        expect(upperLvlAddElement).toHaveBeenCalledWith(upperLevelElementId, elementBlockTypes.header)
-      })
-      test('footer', async () => {
-        const actualProps = { ...testProps, isOpened: true }
-        await waitFor(() => { renderReduxContext(actualProps) })
-        const addFooter = screen.getByText('1LE.footer')
-        userEvent.click(addFooter)
-        expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
-        expect(upperLvlAddElement).toHaveBeenCalledWith(upperLevelElementId, elementBlockTypes.footer)
-        // console.log('ElementTypesMenu.test:\n addFooter',
-        //   '\n  upperLvlAddElement ->', upperLvlAddElement.mock.calls[0])
-        // screen.debug(addFooter)
-      })
-    })
-    describe('submenu options actions', () => {
-      test('add vblock, txt', async () => {
-        const actualProps = { ...testProps, isOpened: true }
-        await waitFor(() => { renderReduxContext(actualProps) })
-        const addVBlockDD = screen.getByText('1LE.vblock')
-        const subMenuTxt = screen.getAllByRole('option', { name: '1LE.txt' })
-        expect(screen.queryByTestId('Popup')).not.toBe(null)
-        await waitFor(() => { userEvent.click(addVBlockDD) })
-        await waitFor(() => { userEvent.click(subMenuTxt[0]) })
-        expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
-        expect(upperLvlAddElement)
-          .toHaveBeenCalledWith(upperLevelElementId,
-            elementBlockTypes.vblock, elementBlockSubTypes.txt)
-        // console.log('ElementTypesMenu.test:\n addFooter',
-        //   '\n  upperLvlAddElement ->', upperLvlAddElement.mock.calls)
-        expect(screen.queryByTestId('Popup')).toBe(null)
-        // screen.debug()
-      })
-      test('add vblock, pix', async () => {
-        const actualProps = { ...testProps, isOpened: true }
-        await waitFor(() => { renderReduxContext(actualProps) })
-        const addVBlockDD = screen.getByText('1LE.vblock')
-        const subMenuTxt = screen.getAllByRole('option', { name: '1LE.pix' })
-        expect(screen.queryByTestId('Popup')).not.toBe(null)
-        await waitFor(() => { userEvent.click(addVBlockDD) })
-        await waitFor(() => { userEvent.click(subMenuTxt[0]) })
-        expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
-        expect(upperLvlAddElement)
-          .toHaveBeenCalledWith(upperLevelElementId,
-            elementBlockTypes.vblock, elementBlockSubTypes.pix)
-        // console.log('ElementTypesMenu.test:\n addFooter',
-        //   '\n  upperLvlAddElement ->', upperLvlAddElement.mock.calls)
-        expect(screen.queryByTestId('Popup')).toBe(null)
-        // screen.debug()
-      })
-      test('add hblock, txt', async () => {
-        const actualProps = { ...testProps, isOpened: true }
-        await waitFor(() => { renderReduxContext(actualProps) })
-        const addVBlockDD = screen.getByText('1LE.hblock')
-        const subMenuTxt = screen.getAllByRole('option', { name: '1LE.txt' })
-        expect(screen.queryByTestId('Popup')).not.toBe(null)
-        await waitFor(() => { userEvent.click(addVBlockDD) })
-        await waitFor(() => { userEvent.click(subMenuTxt[0]) })
-        expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
-        expect(upperLvlAddElement)
-          .toHaveBeenCalledWith(upperLevelElementId,
-            elementBlockTypes.hblock, elementBlockSubTypes.txt)
-        // console.log('ElementTypesMenu.test:\n addFooter',
-        //   '\n  upperLvlAddElement ->', upperLvlAddElement.mock.calls)
-        expect(screen.queryByTestId('Popup')).toBe(null)
-        // screen.debug()
-      })
-      test('add hblock, pix', async () => {
-        const actualProps = { ...testProps, isOpened: true }
-        await waitFor(() => { renderReduxContext(actualProps) })
-        const addVBlockDD = screen.getByText('1LE.hblock')
-        const subMenuTxt = screen.getAllByRole('option', { name: '1LE.pix' })
-        expect(screen.queryByTestId('Popup')).not.toBe(null)
-        await waitFor(() => { userEvent.click(addVBlockDD) })
-        await waitFor(() => { userEvent.click(subMenuTxt[0]) })
-        expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
-        expect(upperLvlAddElement)
-          .toHaveBeenCalledWith(upperLevelElementId,
-            elementBlockTypes.hblock, elementBlockSubTypes.pix)
-        // console.log('ElementTypesMenu.test:\n addFooter',
-        //   '\n  upperLvlAddElement ->', upperLvlAddElement.mock.calls)
-        expect(screen.queryByTestId('Popup')).toBe(null)
-        // screen.debug()
-      })
-    })
-  })
-
   describe('appeance', () => {
-    test('it should exist and has all options and icons (snapshot)', async () => {
-      const actualProps = { ...testProps, isOpened: true }
-      await waitFor(() => { renderReduxContext(actualProps) })
+    test('is exsists (snapshot)', async () => {
+      /**
+       * I test here snapshot and menu length
+       */
+      const actualProps = { ...testProps }
+      await waitFor(() => { renderReduxContext(actualProps, store) })
       const popup = screen.getByTestId('Popup')
       expect(popup).toMatchSnapshot()
-      // screen.debug()
+      expect(popup.children[0].children)
+        .toHaveLength(upperLevelElementTypesMenu(jest.fn()).length)
+      // screen.debug(popup)
     })
-    test('it does not exist if not opened', async () => {
+    test.skip('it desappred if is lost focus ', async () => {
+      /**
+       * I was unable to simulate unhover.
+       * Guess it's so small element to move mouse someware other place.
+       */
       const actualProps = { ...testProps }
-      await waitFor(() => { renderReduxContext(actualProps) })
-      expect(screen.queryByTestId('Popup')).toBe(null)
+      await waitFor(() => { renderReduxContext(actualProps, store) })
+      const popup = screen.getByTestId('Popup')
+      expect(popup).toBeInTheDocument()
+      expect(popup.children[0].children)
+        .toHaveLength(upperLevelElementTypesMenu(jest.fn()).length)
+      const uLEHeader = screen.getByText('1LE.header')
+      // screen.debug(uLEHeader)
+      userEvent.click(uLEHeader)
+      // userEvent.unhover(popup)
+      expect(actualProps.setMenuOpened).toHaveBeenCalledTimes(1)
+      // console.log('UpperLevelElementTypesMenu.test:\n it desappred',
+      //   '\n  popup ->', popup.children[0].children.length)
+      // expect(screen.queryByTestId('Popup')).not.toBeInTheDocument()
+      // screen.debug(screen.getByTestId('Popup'))
+    })
+  })
+  describe('menu action', () => {
+    test('header', async () => {
+      const actualProps = { ...testProps }
+      await waitFor(() => { renderReduxContext(actualProps, store) })
+      // const popup = screen.getByTestId('Popup')
+      const header = screen.getByText('1LE.header')
+      userEvent.click(header)
+      expect(elementFunc).toHaveBeenCalledTimes(1)
+      expect(elementFunc).toHaveBeenCalledWith({
+        name: elementBlockTypes.header,
+        viewId: mockContext.componentName.componentName,
+        recordsId: mockContext.recordsId.recordsId,
+        addBelow: actualProps.addBelow
+      })
+      expect(actualProps.setMenuOpened).toHaveBeenCalledTimes(1)
+      expect(actualProps.setMenuOpened).toHaveBeenCalledWith(false)
+      // console.log('UpperLevelElementTypesMenu.test:\n addHeader',
+      //   '\n  testFunc ->', elementFunc.mock.calls)
+      // screen.debug(header)
+      // expect(upperLvlAddElement).toHaveBeenCalledTimes(1)
+      // expect(upperLvlAddElement).toHaveBeenCalledWith(upperLevelElementId, elementBlockTypes.header)
+    })
+    test('footer', async () => {
+      const actualProps = { ...testProps, addBelow: true }
+      await waitFor(() => { renderReduxContext(actualProps, store) })
+      // const popup = screen.getByTestId('Popup')
+      const footer = screen.getByText('1LE.footer')
+      userEvent.click(footer)
+      expect(elementFunc).toHaveBeenCalledTimes(1)
+      expect(elementFunc).toHaveBeenCalledWith({
+        name: elementBlockTypes.footer,
+        viewId: mockContext.componentName.componentName,
+        recordsId: mockContext.recordsId.recordsId,
+        addBelow: actualProps.addBelow
+      })
+      expect(actualProps.setMenuOpened).toHaveBeenCalledTimes(1)
+      expect(actualProps.setMenuOpened).toHaveBeenCalledWith(false)
+    })
+    test('vblock', async () => {
+      const actualProps = { ...testProps, addBelow: true }
+      await waitFor(() => { renderReduxContext(actualProps, store) })
+      // const popup = screen.getByTestId('Popup')
+      const vblock = screen.getByText('1LE.vblock')
+      userEvent.click(vblock)
+      expect(elementFunc).toHaveBeenCalledTimes(1)
+      expect(elementFunc).toHaveBeenCalledWith({
+        name: elementBlockTypes.vblock
+      })
+      expect(actualProps.setMenuOpened).toHaveBeenCalledTimes(1)
+      expect(actualProps.setMenuOpened).toHaveBeenCalledWith(false)
+      expect(actualProps.setUpperLevelElementType)
+        .toHaveBeenCalledTimes(1)
+      expect(actualProps.setUpperLevelElementType)
+        .toHaveBeenCalledWith(elementBlockTypes.vblock)
+      // screen.debug(popup)
+    })
+    test('add vblock, pix', async () => {
+      const actualProps = { ...testProps }
+      await waitFor(() => { renderReduxContext(actualProps, store) })
+      // const popup = screen.getByTestId('Popup')
+      const hblock = screen.getByText('1LE.hblock')
+      userEvent.click(hblock)
+      expect(elementFunc).toHaveBeenCalledTimes(1)
+      expect(elementFunc).toHaveBeenCalledWith({
+        name: elementBlockTypes.hblock
+      })
+      expect(actualProps.setMenuOpened).toHaveBeenCalledTimes(1)
+      expect(actualProps.setMenuOpened).toHaveBeenCalledWith(false)
+      expect(actualProps.setUpperLevelElementType)
+        .toHaveBeenCalledTimes(1)
+      expect(actualProps.setUpperLevelElementType)
+        .toHaveBeenCalledWith(elementBlockTypes.hblock)
+      // screen.debug(popup)
     })
   })
 })

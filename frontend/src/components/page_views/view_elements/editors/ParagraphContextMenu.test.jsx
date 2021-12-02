@@ -1,43 +1,22 @@
 /* eslint-disable react/display-name */
 import React from 'react'
-// import { Provider } from 'react-redux'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { testRender } from '../../../../testHelpers'
+import { testRender, makeTestStore } from '../../../../testHelpers'
 import store from '../../../../redux/store'
-// import { putTextContent } from '../../../../api/calls/content'
-// import { UpperLevel } from '../ElementSwitcher'
-// import { UpperLeverElementId } from '../ViewVBlock'
-import {
-  createContextFromEvent
-} from '../../../../utils/createContext'
 
 import {
   ElementSwitcherProvider, LandingProvider,
   ViewParagraphProvider
 } from '../../../../context'
-// import { backendTxtUpdateStart } from '../../../../redux/slices'
 
 import ParagraphContextMenu from './ParagraphContextMenu'
 import {
   backendAddElementStart, backendRemoveElementStart,
   backendTxtUpdateStart, setEditable
 } from '../../../../redux/slices'
-import device from '../../../../redux/slices/device'
-// import { result } from 'lodash-es'
-
-// jest.mock('../../../../redux/slices', () => ({
-//   backendTxtUpdateStart: jest.fn()
-// }))
-// jest.mock('../../../../utils/createContext')
 jest.mock('../../../../api/calls/content')
-
-// const mockChildComponent = jest.fn()
-// jest.mock('./ElementTypesMenu', () => props => {
-//   mockChildComponent(props)
-//   return <div data-testid='ElementTypesMenu' />
-// })
 
 describe('ParagraphContextMenu testing', () => {
   const testProps = {
@@ -47,20 +26,17 @@ describe('ParagraphContextMenu testing', () => {
     upperLevelElementMenu: jest.fn(),
     setParagraphEditted: jest.fn()
   }
-  // const upperLvlElementId = '01_vblock_txt_3'
-  // const upperLvlAddElement = jest.fn()
-  // const upperLvlDeleteElement = jest.fn()
   const mockContext = {
     index: { index: 1 },
     upperLevelElementId: { upperLevelElementId: '01_vblock_txt' },
     componentName: { componentName: 'landing' }
   }
 
-  const makeTestStore = store => {
-    const origDispatch = store.dispatch
-    store.dispatch = jest.fn(origDispatch)
-    return store
-  }
+  // const makeTestStore = store => {
+  //   const origDispatch = store.dispatch
+  //   store.dispatch = jest.fn(origDispatch)
+  //   return store
+  // }
 
   const renderReduxContext = (
     actualProps,

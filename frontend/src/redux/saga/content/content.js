@@ -40,6 +40,8 @@ export const putContentSaga = function * (setter) {
 export const getContentSaga = function * (setter) {
   while (true) {
     const { payload } = yield take(CONTENT_REQUESTED)
+    // console.log('content, saga:\n getContentSaga',
+    //   '\n  payload ->', payload)
     try {
       // console.log('contentSaga:\n payload ->', payload)
       const result = yield call(getViewContent, payload)

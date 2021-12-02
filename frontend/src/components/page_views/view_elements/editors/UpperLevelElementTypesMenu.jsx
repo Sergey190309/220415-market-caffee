@@ -16,6 +16,30 @@ import { ContextMenuItem } from '../../../items/menu_items/ContextMenuItem'
 import {
   positiveColor
 } from '../../../../utils/colors'
+import { elementFunc } from './auxFuncs'
+
+export const upperLevelElementTypesMenu = t => ([
+  {
+    name: elementBlockTypes.header,
+    icon: { name: 'hand point up outline', color: positiveColor },
+    content: t('1LE.header')
+  },
+  {
+    name: elementBlockTypes.vblock,
+    icon: { name: 'ellipsis vertical', color: positiveColor },
+    content: t('1LE.vblock')
+  },
+  {
+    name: elementBlockTypes.hblock,
+    icon: { name: 'ellipsis horizontal', color: positiveColor },
+    content: t('1LE.hblock')
+  },
+  {
+    name: elementBlockTypes.footer,
+    icon: { name: 'hand point down outline', color: positiveColor },
+    content: t('1LE.footer')
+  }
+])
 
 const ElementTypesMenu = ({
   context,
@@ -37,29 +61,7 @@ const ElementTypesMenu = ({
 
   useEffect(() => {
     setOpened(true)
-    setMenuStrucrure([
-      {
-        name: elementBlockTypes.header,
-        icon: { name: 'hand point up outline', color: positiveColor },
-        content: t('1LE.header')
-        // onClick: onClickHandler
-      },
-      {
-        name: elementBlockTypes.vblock,
-        icon: { name: 'ellipsis vertical', color: positiveColor },
-        content: t('1LE.vblock')
-      },
-      {
-        name: elementBlockTypes.hblock,
-        icon: { name: 'ellipsis horizontal', color: positiveColor },
-        content: t('1LE.hblock')
-      },
-      {
-        name: elementBlockTypes.footer,
-        icon: { name: 'hand point down outline', color: positiveColor },
-        content: t('1LE.footer')
-      }
-    ])
+    setMenuStrucrure(upperLevelElementTypesMenu(t))
     return () => {
       setMenuOpened(false)
     }
@@ -69,34 +71,20 @@ const ElementTypesMenu = ({
     event.preventDefault()
     switch (name) {
       case elementBlockTypes.header:
-        console.log('UpperLevelElementTypesMenu:\n onClickHandler',
-          '\n  name ->', name,
-          '\n  viewId ->', viewId,
-          '\n  recordsId ->', recordsId,
-          '\n  recordsId ->', +recordsId.split('_')[0] + (addBelow ? 1 : 0)
-        )
+        elementFunc({ name, viewId, recordsId, addBelow })
         break
       case elementBlockTypes.vblock:
-        console.log('UpperLevelElementTypesMenu:\n onClickHandler',
-          '\n  name ->', name
-        )
+        elementFunc({ name })
         setUpperLevelElementType(elementBlockTypes.vblock)
         setUpperLevelSubtypeMenuOpened(true)
         break
       case elementBlockTypes.hblock:
-        console.log('UpperLevelElementTypesMenu:\n onClickHandler',
-          '\n  name ->', name
-        )
+        elementFunc({ name })
         setUpperLevelElementType(elementBlockTypes.hblock)
         setUpperLevelSubtypeMenuOpened(true)
         break
       case elementBlockTypes.footer:
-        console.log('UpperLevelElementTypesMenu:\n onClickHandler',
-          '\n  name ->', name,
-          '\n  viewId ->', viewId,
-          '\n  recordsId ->', recordsId,
-          '\n  recordsId ->', +recordsId.split('_')[0] + (addBelow ? 1 : 0)
-        )
+        elementFunc({ name, viewId, recordsId, addBelow })
         break
       default:
         break
