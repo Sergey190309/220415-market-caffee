@@ -10,8 +10,8 @@ export const patchRemoveElement = json => {
 }
 
 export const putTextContent = json => {
-  console.log('api, calls, content, mock:\n putTextContent',
-    '\n  json ->', json)
+  // console.log('api, calls, content, mock:\n putTextContent',
+  //   '\n  json ->', json)
   return Promise.resolve({ data: resolveDataPutTextContent })
 }
 

@@ -1,9 +1,18 @@
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 
 import { render } from '@testing-library/react'
 import { Provider } from 'react-redux'
 
 // import store from './redux/store'
+
+export const elementFunc = (info = {}) => {
+  /**
+   * That's dump function for testing.
+   */
+  console.log('UpperLevelElementTypesMenu:\n simpleElementFunc',
+    '\n  info ->', info)
+}
 
 export const testRender = (jsx, { store, ...otherOpts }) => {
   /**
@@ -14,6 +23,19 @@ export const testRender = (jsx, { store, ...otherOpts }) => {
       {jsx}
     </Provider>,
     otherOpts
+  )
+}
+
+export const testLinkedRender = (jsx, { ...otherProps } = {}) => {
+  /**
+   * The funciton return react component wrapped with
+   * react-router-dom BrowserRouter
+   */
+  return render(
+    <BrowserRouter>
+      {jsx}
+    </BrowserRouter>,
+    otherProps
   )
 }
 

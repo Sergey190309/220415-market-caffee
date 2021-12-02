@@ -1,5 +1,0 @@
-describe('ViewVBlockContext', () => {
-  test('dummy', () => {
-
-  })
-})

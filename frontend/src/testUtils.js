@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { combineReducers, createStore } from 'redux'

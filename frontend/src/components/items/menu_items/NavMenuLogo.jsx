@@ -5,7 +5,13 @@ import PropTypes from 'prop-types'
 
 import logo from '../../../assets/images/logo.png'
 
-const NavMenuLogo = ({ disabled, name, to, active, onClick }) => {
+const NavMenuLogo = ({
+  disabled,
+  name,
+  to,
+  active,
+  onClick
+}) => {
   return (
     <MenuItem
       data-testid='NavMenuLogo'

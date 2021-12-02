@@ -4,12 +4,16 @@ import { Popup, Menu } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
 import {
-  UPPER_ELEMENT_ADD_ABOVE, UPPER_ELEMENT_ADD_BELOW,
+  UPPER_ELEMENT_ADD_ABOVE,
+  UPPER_ELEMENT_ADD_BELOW,
   UPPER_ELEMENT_DELETE
 } from '../../../../redux/constants/menuKeys'
-import { LandingContext, ElementSwitcherContext } from '../../../../context'
+import { LandingContext, ElementSwitcherContext }
+  from '../../../../context'
 import { neutralColor, warningColor } from '../../../../utils/colors'
-import { ContextMenuItem } from '../../../items/menu_items/ContextMenuItem'
+import { ContextMenuItem }
+  from '../../../items/menu_items/ContextMenuItem'
+import { elementFunc } from '../../../../testHelpers'
 
 // import { deviceSelector } from '../../../../redux/slices'
 
@@ -25,14 +29,33 @@ import { ContextMenuItem } from '../../../items/menu_items/ContextMenuItem'
  *    - deleteUpperLevelElement - direct dispatch here in onClickHandler.
  */
 
-export const addUppreLevelElement = (viewId, upperElementIndex, type = 'header', subtype = 'txt') => {
-  console.log('UpperLevelMenu:\n addUppreLevelElement',
-    '\n  viewId ->', viewId,
-    '\n  upperElementIndex ->', upperElementIndex,
-    '\n  type ->', type,
-    '\n  subtype ->', subtype
-  )
-}
+// export const addUppreLevelElement = (
+//   viewId, upperElementIndex, type = 'header', subtype = 'txt') => {
+//   console.log('UpperLevelMenu:\n addUppreLevelElement',
+//     '\n  viewId ->', viewId,
+//     '\n  upperElementIndex ->', upperElementIndex,
+//     '\n  type ->', type,
+//     '\n  subtype ->', subtype
+//   )
+// }
+
+export const upperLevelMenu = t => ([
+  {
+    name: UPPER_ELEMENT_ADD_ABOVE,
+    icon: { name: 'angle up', color: neutralColor },
+    content: t('1LE.addAbove')
+  },
+  {
+    name: UPPER_ELEMENT_ADD_BELOW,
+    icon: { name: 'angle down', color: neutralColor },
+    content: t('1LE.addBelow')
+  },
+  {
+    name: UPPER_ELEMENT_DELETE,
+    icon: { name: 'delete', color: warningColor },
+    content: t('1LE.DeleteElement')
+  }
+])
 
 const UpperLevelMenu = ({
   context,
@@ -52,27 +75,8 @@ const UpperLevelMenu = ({
     //   '\n  isMenuOpened ->', isMenuOpened
     // )
     setOpened(true)
-    setMenuStructure([
-      {
-        name: UPPER_ELEMENT_ADD_ABOVE,
-        icon: { name: 'angle up', color: neutralColor },
-        content: t('1LE.addAbove')
-      },
-      {
-        name: UPPER_ELEMENT_ADD_BELOW,
-        icon: { name: 'angle down', color: neutralColor },
-        content: t('1LE.addBelow')
-      },
-      {
-        name: UPPER_ELEMENT_DELETE,
-        icon: { name: 'delete', color: warningColor },
-        content: t('1LE.DeleteElement')
-      }
-    ])
+    setMenuStructure(upperLevelMenu(t))
     return () => {
-      // console.log('UpperLevelMenu:\n useEffect[], clean up',
-      //   '\n  isMenuOpened ->', isOpened
-      // )
       setMenuOpened(false)
     }
   }, [])
@@ -81,26 +85,19 @@ const UpperLevelMenu = ({
     event.preventDefault()
     switch (name) {
       case UPPER_ELEMENT_ADD_ABOVE:
-        console.log('UpperLevelMenu:\n onClickHandler',
-          '\n  name ->', name)
+        elementFunc({ name })
         addBelow(false)
         setUpperLevelTypeMenuOpened(true)
-        // addUppreLevelElement(viewId, +recordsId.split('_')[0])
         break
       case UPPER_ELEMENT_ADD_BELOW:
-        console.log('UpperLevelMenu:\n onClickHandler',
-          '\n  name ->', name)
-        // addUppreLevelElement(viewId, +recordsId.split('_')[0] + 1)
+        elementFunc({ name })
         addBelow(true)
         setUpperLevelTypeMenuOpened(true)
         break
       case UPPER_ELEMENT_DELETE:
-        console.log('UpperLevelMenu:\n onClickHandler',
-          '\n  name ->', name,
-          '\n  viewId ->', viewId,
-          '\n  recordsId ->', recordsId,
-          '\n  index ->', recordsId.split('_')[0]
-        )
+        elementFunc({
+          name, viewId, recordsId, index: recordsId.split('_')[0]
+        })
         break
 
       default:
@@ -117,10 +114,7 @@ const UpperLevelMenu = ({
         wide='very'
         context={context}
         open={opened}
-        // open={opened && editable}
         onClose={() => {
-          // console.log('UpperLevelMenu:\n onClose')
-          // setOpened(false)
           setMenuOpened(false)
         }}
       >

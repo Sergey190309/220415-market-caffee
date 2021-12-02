@@ -1,5 +1,0 @@
-describe('ElementSwitcherContext', () => {
-  test('dummy', () => {
-
-  })
-})

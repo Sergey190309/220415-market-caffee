@@ -2,22 +2,27 @@ import React from 'react'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { makeTestStore, testRender } from '../../../../testHelpers'
+import { makeTestStore, testRender, elementFunc }
+  from '../../../../testHelpers'
 import store from '../../../../redux/store'
-import { elementBlockTypes, elementBlockSubTypes }
+import {
+  elementBlockTypes
+  // elementBlockSubTypes
+}
   from '../../../../utils/elementTypes'
 import UpperLevelElementTypesMenu, { upperLevelElementTypesMenu }
   from './UpperLevelElementTypesMenu'
 import { ElementSwitcherProvider, LandingProvider }
   from '../../../../context'
-import { elementFunc } from './auxFuncs'
+// import { elementFunc } from '../../../../testHelpers'
 
-jest.mock('./auxFuncs', () => ({
+jest.mock('../../../../testHelpers', () => ({
+  ...jest.requireActual('../../../../testHelpers'),
   elementFunc: jest.fn()
 }))
 
 describe('UpperLevelElementTypesMenu testing', () => {
-  const upperLevelElementId = 1
+  // const upperLevelElementId = 1
   const testProps = {
     context: {},
     addBelow: false,

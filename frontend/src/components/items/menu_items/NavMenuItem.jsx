@@ -14,14 +14,21 @@ import {
 //   font-size: 1.2em;
 // `
 
-const NavMenuItem = ({ disabled, name, to, active, content, onClick }) => {
+const NavMenuItem = ({
+  disabled,
+  name,
+  to,
+  active,
+  content,
+  onClick
+}) => {
   // console.log('NavMenuItem:\n',
   //   '\n  disabled ->', disabled
   // )
   return (
     <MenuItem
+      data-testid='MenuItem'
       style={{ fontWeight: 'bold', fontSize: '1.2em' }}
-      // fitted='horizontally'
       as={disabled ? null : Link}
       disabled={disabled}
       name={name}
@@ -30,14 +37,10 @@ const NavMenuItem = ({ disabled, name, to, active, content, onClick }) => {
       content={content}
       onClick={onClick}
     />
-    //   {content}
-    //   {/* {children} */}
-    // </MenuItem>
   )
 }
 
 NavMenuItem.defaultProps = {
-  // link: {},
   disabled: false,
   name: '',
   to: '',
@@ -47,8 +50,6 @@ NavMenuItem.defaultProps = {
 }
 
 NavMenuItem.propTypes = {
-  // children: PropTypes.object.isRequired,
-  // link: PropTypes.object.isRequired,
   disabled: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
