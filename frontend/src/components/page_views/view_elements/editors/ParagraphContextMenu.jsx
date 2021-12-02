@@ -18,6 +18,40 @@ import {
   ContextMenuItem
 } from '../../../items/menu_items/ContextMenuItem'
 
+export const paragraphContextMenu = (t, saveDisabled) => ([
+  {
+    name: ELEMENT_EDIT,
+    icon: { name: 'edit', color: positiveColor },
+    content: t('2LE.editElement')
+  },
+  {
+    name: ELEMENT_SAVE,
+    icon: { name: 'save', color: warningColor },
+    content: t('2LE.saveElement'),
+    disabled: saveDisabled
+  },
+  {
+    name: ELEMENT_ADD_ABOVE,
+    icon: { name: 'angle up', color: neutralColor },
+    content: t('2LE.addAbove')
+  },
+  {
+    name: ELEMENT_ADD_BELOW,
+    icon: { name: 'angle down', color: neutralColor },
+    content: t('2LE.addBelow')
+  },
+  {
+    name: ELEMENT_DELETE,
+    icon: { name: 'delete', color: warningColor },
+    content: t('2LE.deleteElement')
+  },
+  {
+    name: UPPER_ELEMENT_HANDLE,
+    icon: { name: 'angle right', color: neutralColor },
+    content: t('1LE.handle')
+  }
+])
+
 const ParagraphContextMenu = ({
   saveDisabled,
   context,
@@ -62,39 +96,7 @@ const ParagraphContextMenu = ({
 
   useEffect(() => {
     // console.log('ParagraphContentMenu:\n useEffect onMount->')
-    setMenuStructure([
-      {
-        name: ELEMENT_EDIT,
-        icon: { name: 'edit', color: positiveColor },
-        content: t('2LE.editElement')
-      },
-      {
-        name: ELEMENT_SAVE,
-        icon: { name: 'save', color: warningColor },
-        content: t('2LE.saveElement'),
-        disabled: saveDisabled
-      },
-      {
-        name: ELEMENT_ADD_ABOVE,
-        icon: { name: 'angle up', color: neutralColor },
-        content: t('2LE.addAbove')
-      },
-      {
-        name: ELEMENT_ADD_BELOW,
-        icon: { name: 'angle down', color: neutralColor },
-        content: t('2LE.addBelow')
-      },
-      {
-        name: ELEMENT_DELETE,
-        icon: { name: 'delete', color: warningColor },
-        content: t('2LE.deleteElement')
-      },
-      {
-        name: UPPER_ELEMENT_HANDLE,
-        icon: { name: 'angle right', color: neutralColor },
-        content: t('1LE.handle')
-      }
-    ])
+    setMenuStructure(paragraphContextMenu(t, saveDisabled))
   }, [saveDisabled])
 
   const onClickHandler = (event, { name }) => {

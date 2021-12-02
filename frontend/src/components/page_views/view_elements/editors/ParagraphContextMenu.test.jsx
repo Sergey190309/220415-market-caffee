@@ -16,6 +16,7 @@ import {
   backendAddElementStart, backendRemoveElementStart,
   backendTxtUpdateStart, setEditable
 } from '../../../../redux/slices'
+
 jest.mock('../../../../api/calls/content')
 
 describe('ParagraphContextMenu testing', () => {
