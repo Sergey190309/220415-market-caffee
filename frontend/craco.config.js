@@ -5,17 +5,17 @@ module.exports = {
   jest: {
     configure: {
       globals: {
-        CONFIG: true,
+        CONFIG: true
       },
       setupFilesAfterEnv: ['jest-extended', '<rootDir>/src/setupTests.js'],
       // "coveragePathIgnorePatterns": [...defaults.coveragePathIgnorePatterns, '<rootDir>/src/index.js'],
       // "snapshotSerializers": ["enzyme-to-json/serializer"],
       verbose: true,
-      testEnvironment: 'jsdom',
+      testEnvironment: 'jsdom'
       // moduleNameMapper: {
       //   'react-i18next': '<rootDir>/__mock__/react-i18next.js',
       //   'i18next': '<rootDir>/__mock__/i18next.js'
       // },
-    },
-  },
-};
+    }
+  }
+}

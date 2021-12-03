@@ -23,17 +23,19 @@ export const Landing = () => {
   }, [loaded])
 
   return (
-    <Container data-testid='LandingContainer'>
-      <Segment color={viewSegmentColor} data-testid='LandingSegment'
-      // style={{ backgroundColor: 'red' }}
-      >
-        <LandingProvider value={{ componentName }}>
-          {ready
-            ? <MemoElementSwitcher viewName={componentName} />
-            : null}
-        </LandingProvider>
-      </Segment>
-    </Container>
+    <>
+      <Container data-testid='LandingContainer'>
+        <Segment color={viewSegmentColor} data-testid='LandingSegment'
+        // style={{ backgroundColor: 'red' }}
+        >
+          <LandingProvider value={{ componentName }}>
+            {ready
+              ? <MemoElementSwitcher viewName={componentName} />
+              : null}
+          </LandingProvider>
+        </Segment>
+      </Container>
+    </>
   )
 }
 

@@ -1,3 +1,3 @@
-import '@testing-library/jest-dom';
-import '@testing-library/user-event';
-import 'jest-localstorage-mock';
+import '@testing-library/jest-dom'
+import '@testing-library/user-event'
+import 'jest-localstorage-mock'

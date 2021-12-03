@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef, Fragment, useContext } from 'react'
+import React, {
+  useState, useEffect, useRef, Fragment, useContext
+} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Message, Divider } from 'semantic-ui-react'
@@ -19,11 +21,10 @@ import {
 } from '../../../redux/slices'
 import { createContextFromEvent } from '../../../utils/createContext' // tested
 import { ViewParagraphProvider, LandingContext } from '../../../context'
-import ParagraphContextMenu
-  from './editors/ParagraphContextMenu' // tested
+import ParagraphContextMenu from './editors/ParagraphContextMenu' // tested
 import UpperLevelMenu from './editors/UpperLevelMenu'
-import UpperLevelElementTypesMenu
-  from './editors/UpperLevelElementTypesMenu'
+import
+UpperLevelElementTypesMenu from './editors/UpperLevelElementTypesMenu'
 import UpperLevelElementSubtypesMenu from './editors/UpperLevelElementSubtypesMenu'
 import SaveToBackendContextMenu from '../../items/SaveToBackendContextMenu'
 import ParagraphEditor from './editors/ParagraphEditor' // tested
