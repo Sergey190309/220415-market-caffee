@@ -58,7 +58,7 @@
     "@craco/craco": "^6.4.2",
     "@semantic-ui-react/craco-less": "^1.2.3",
     "@testing-library/dom": "^8.11.1",
-    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "babel-jest": "27.4.2",
