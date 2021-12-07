@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContextMenuItem appeance snapshot 1`] = `
+<body>
+  <div>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="red cocktail icon"
+      />
+      mockContent
+    </a>
+  </div>
+</body>
+`;

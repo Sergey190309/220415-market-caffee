@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalLogIn testing Appiance ModalLogIn exists (snapshot) 1`] = `
+<div
+  class="ui small basic modal transition visible active"
+  data-testid="modal"
+>
+  <div
+    class="content"
+  >
+    Nothing to display
+  </div>
+</div>
+`;

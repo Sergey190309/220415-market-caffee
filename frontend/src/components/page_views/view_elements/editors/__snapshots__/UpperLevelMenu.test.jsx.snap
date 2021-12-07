@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpperLevelMenu appearance render (snapshot) 1`] = `
+<div
+  class="ui top left very wide popup transition visible"
+  data-testid="Popup"
+  style="position: initial;"
+>
+  <div
+    class="ui compact vertical menu"
+  >
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="olive angle up icon"
+      />
+      1LE.addAbove
+    </a>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="olive angle down icon"
+      />
+      1LE.addBelow
+    </a>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="orange delete icon"
+      />
+      1LE.DeleteElement
+    </a>
+  </div>
+</div>
+`;

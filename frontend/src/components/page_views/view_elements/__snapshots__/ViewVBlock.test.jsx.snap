@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ViewVBlock testing appearance rendering, nothing 1`] = `
+<div
+  class="ui container"
+  data-testid="Output"
+>
+  <div
+    data-textid="mockViewNothing"
+  />
+</div>
+`;
+
+exports[`ViewVBlock testing appearance rendering, pix 1`] = `
+<div
+  class="ui container"
+  data-testid="Output"
+>
+  <div
+    class="ui center aligned container"
+  >
+    <div
+      data-textid="mockViewPicture"
+    />
+    <div
+      class="ui divider"
+    />
+  </div>
+  <div
+    class="ui center aligned container"
+  >
+    <div
+      data-textid="mockViewPicture"
+    />
+    <div
+      class="ui divider"
+    />
+  </div>
+  <div
+    class="ui center aligned container"
+  >
+    <div
+      data-textid="mockViewPicture"
+    />
+  </div>
+</div>
+`;
+
+exports[`ViewVBlock testing appearance rendering, txt 1`] = `
+<div
+  class="ui container"
+  data-testid="Output"
+>
+  <div
+    data-textid="mockViewParagraph"
+  />
+  <div
+    data-textid="mockViewParagraph"
+  />
+  <div
+    data-textid="mockViewParagraph"
+  />
+  <div
+    data-textid="mockViewParagraph"
+  />
+</div>
+`;

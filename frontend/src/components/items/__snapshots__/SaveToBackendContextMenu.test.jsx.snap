@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`saveToBackendContextMenu testing appearance rendering, elements qnt, (screenshot) 1`] = `
+<div
+  class="ui top left wide popup transition visible"
+  data-testid="Popup"
+  style="position: initial;"
+>
+  <div
+    class="ui icon message"
+  >
+    <i
+      aria-hidden="true"
+      class="orange exclamation icon"
+    />
+    <div
+      class="content"
+    >
+      <p>
+        note.SaveToBackendContextMenu
+      </p>
+    </div>
+  </div>
+  <div
+    class="ui compact vertical menu"
+    data-testid="Menu"
+  >
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="teal save icon"
+      />
+      2LE.saveEditedElement
+    </a>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="orange cancel icon"
+      />
+      2LE.cancelEditedElement
+    </a>
+  </div>
+</div>
+`;

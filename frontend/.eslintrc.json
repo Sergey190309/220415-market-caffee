@@ -3,10 +3,14 @@
         "browser": true,
         "es2021": true,
         "node": true,
-        "jest/globals": true
+        "jest": true
+        // "jest/globals": true
     },
     "extends": [
+        "eslint:recommended",  // new 211203
         "plugin:react/recommended",
+        "plugin:jest/recommended",  // new 211203
+        // "plugin:jest/style",  // new 211203
         "standard"
     ],
     "parserOptions": {
@@ -17,8 +21,9 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react",
-        "jest"
+        // "babel", // new 211203
+        "react"
+        // "jest"
     ],
     "rules": {
         "quotes": [

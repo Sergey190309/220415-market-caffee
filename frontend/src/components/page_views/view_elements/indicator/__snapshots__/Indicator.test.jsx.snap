@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Indicator Appeance indicator exists (snapshot) 1`] = `
+<div
+  class="ui top left popup transition visible"
+  data-testid="Popup"
+  style="position: initial;"
+>
+  <div
+    class="header"
+  >
+    landing
+  </div>
+  <div
+    class="content"
+  >
+    mockContent
+  </div>
+</div>
+`;

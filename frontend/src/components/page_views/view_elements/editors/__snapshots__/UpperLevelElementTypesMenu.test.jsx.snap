@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UpperLevelElementTypesMenu testing appeance is exsists (snapshot) 1`] = `
+<div
+  class="ui top left very wide popup transition visible"
+  data-testid="Popup"
+  style="position: initial;"
+>
+  <div
+    class="ui compact vertical menu"
+  >
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="teal hand point up outline icon"
+      />
+      1LE.header
+    </a>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="teal ellipsis vertical icon"
+      />
+      1LE.vblock
+    </a>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="teal ellipsis horizontal icon"
+      />
+      1LE.hblock
+    </a>
+    <a
+      class="item sc-bdfBQB eVLmMB"
+    >
+      <i
+        aria-hidden="true"
+        class="teal hand point down outline icon"
+      />
+      1LE.footer
+    </a>
+  </div>
+</div>
+`;
