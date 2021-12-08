@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { Menu, Popup } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
+import { elementFunc } from '../../../../testHelpers'
 import {
   elementBlockSubTypes
 } from '../../../../utils/elementTypes'
@@ -17,6 +18,20 @@ import {
 import {
   positiveColor
 } from '../../../../utils/colors'
+
+export const elementSubtypesMenu = t => [
+  {
+    name: elementBlockSubTypes.txt,
+    icon: { name: 'file alternate outline', color: positiveColor },
+    content: t('1LE.txt')
+  },
+  {
+    name: elementBlockSubTypes.pix,
+    icon: { name: 'file image outline', color: positiveColor },
+    content: t('1LE.pix')
+  }
+
+]
 
 const ElementSubtypesMenu = ({
   context,
@@ -37,46 +52,31 @@ const ElementSubtypesMenu = ({
 
   useEffect(() => {
     setOpened(true)
-    setMenuStrucrure([
-      {
-        name: elementBlockSubTypes.txt,
-        icon: { name: 'file alternate outline', color: positiveColor },
-        content: t('1LE.txt')
-      },
-      {
-        name: elementBlockSubTypes.pix,
-        icon: { name: 'file image outline', color: positiveColor },
-        content: t('1LE.pix')
-      }
-    ])
+    setMenuStrucrure(elementSubtypesMenu(t))
     return () => {
       setMenuOpened(false)
     }
   }, [])
 
   const onClickHandler = (event, { name }) => {
-    console.log('ElementTypeMenu:\n onClickHandler',
-      // '\n  upperLevelElementId ->', upperLevelElementId,
-      '\n  name ->', name
-    )
     event.preventDefault()
 
     switch (name) {
       case elementBlockSubTypes.txt:
-        console.log('UpperLevelElementSubtypesMenu:\n onClickHandler',
-          '\n  viewId ->', viewId,
-          '\n  index ->', +recordsId.split('_')[0] + (addBelow ? 1 : 0),
-          '\n  element type ->', upperLevelElementType,
-          '\n  element subtype ->', elementBlockSubTypes.txt
-        )
+        elementFunc({
+          viewId,
+          type: upperLevelElementType,
+          subtype: elementBlockSubTypes.txt,
+          index: +recordsId.split('_')[0] + (addBelow ? 1 : 0)
+        })
         break
       case elementBlockSubTypes.pix:
-        console.log('UpperLevelElementSubtypesMenu:\n onClickHandler',
-          '\n  viewId ->', viewId,
-          '\n  index ->', +recordsId.split('_')[0] + (addBelow ? 1 : 0),
-          '\n  element type ->', upperLevelElementType,
-          '\n  element subtype ->', elementBlockSubTypes.pix
-        )
+        elementFunc({
+          viewId,
+          type: upperLevelElementType,
+          subtype: elementBlockSubTypes.pix,
+          index: +recordsId.split('_')[0] + (addBelow ? 1 : 0)
+        })
         break
       default:
         break

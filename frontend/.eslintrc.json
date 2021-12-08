@@ -36,6 +36,7 @@
         "jest/no-focused-tests": "warn",
         "jest/no-identical-title": "error",
         "jest/prefer-to-have-length": "warn",
-        "jest/valid-expect": "error"
+        "jest/valid-expect": "error",
+        "jest/expect-expect": "off"
     }
 }
