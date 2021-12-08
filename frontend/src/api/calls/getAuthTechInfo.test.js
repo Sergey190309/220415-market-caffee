@@ -1,6 +1,7 @@
 import { v4 } from 'uuid'
-import { techTextAxiosClient as mockAxios } from '../../api/apiClient'
+import { techTextAxiosClient as mockAxios } from '../apiClient'
 import { lngsCall, techInCall } from './getAuthTechInfo'
+// import '@testing-library/jest-dom'
 
 describe('Testing API calls', () => {
   describe('lngsCall testing', () => {
@@ -41,7 +42,7 @@ describe('Testing API calls', () => {
     })
   })
 
-  describe('techInCall tesint', () => {
+  describe('techInCall', () => {
     const mockTechInData = { tech_id: v4() }
     const mockResolveData = {
       message: 'ТехРег докладывает! Тех жетон в сообщении.',
@@ -68,13 +69,10 @@ describe('Testing API calls', () => {
       expect(mockAxios.get).toHaveBeenCalledTimes(1)
       expect(mockAxios.get.mock.calls[0][0]).toBe('/home/tech/auth')
       expect(mockAxios.get.mock.calls[0][1]).toEqual({ params: mockTechInData })
-      // console.log(mockAxios.post.mock.calls[0])
       const { data } = resp
-      const { message, payload } = data
-      expect(data).toBeObject()
-      expect(data).toContainKeys(['message', 'payload'])
-      expect(message).toBeString()
-      expect(payload).toBeString()
+      console.log('getAuthTechInfo.test\n techInCall',
+        '\n  data ->', data)
+      expect(data).toEqual(expect.objectContaining(mockResolveData))
     })
   })
 })

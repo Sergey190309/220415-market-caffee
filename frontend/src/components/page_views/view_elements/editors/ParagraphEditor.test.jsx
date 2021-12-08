@@ -44,7 +44,7 @@ describe('ParagraphEditor', () => {
       // screen.debug()
     })
   })
-  describe('Actions', () => {
+  describe('actions', () => {
     it('should contain proper values', () => {
       render(
         <Provider store={store}>
@@ -89,11 +89,13 @@ describe('ParagraphEditor', () => {
       const args = mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0]
       expect(args.isOpened).toBeTruthy()
       expect(args.saveDisabled).toBeTruthy()
-      expect(args.context).toBeObject()
-      expect(args.setContextMenuOpened).toBeFunction()
-      expect(args.contextMenuAction).toBeFunction()
-      // console.log('EditorContextMenu, args ->', args)
+      expect(args.context).toMatchObject({
+        current: {}
+      })
+      // expect(args.setContextMenuOpened).toBeFunction()
+      // expect(args.contextMenuAction).toBeFunction()
       // expect(EditorContextMenu.isOpened).toBeFalsy()
+      console.log('EditorContextMenu, args.context ->', args.context)
       // screen.debug()
     })
   })
