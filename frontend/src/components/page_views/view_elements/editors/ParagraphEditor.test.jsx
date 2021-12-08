@@ -1,9 +1,11 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { Provider } from 'react-redux'
-import { render, screen } from '@testing-library/react'
+// import { Provider } from 'react-redux'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+
+import { testRender } from '../../../../testHelpers'
 
 import store from '../../../../redux/store'
 
@@ -32,25 +34,15 @@ describe('ParagraphEditor', () => {
   }
   describe('appeance', () => {
     test('rendering (snapshot)', async () => {
-      // await waitFor(() => {
-      render(
-        <Provider store={store}>
-          <ParagraphEditor {...testProps} />
-        </Provider>
-      )
-      // })
+      testRender(<ParagraphEditor {...testProps} />, { store: store })
       const segment = await screen.findByTestId('Segment')
       expect(segment).toMatchSnapshot()
       // screen.debug()
     })
   })
-  describe('Actions', () => {
+  describe('actions', () => {
     it('should contain proper values', () => {
-      render(
-        <Provider store={store}>
-          <ParagraphEditor {...testProps} />
-        </Provider>
-      )
+      testRender(<ParagraphEditor {...testProps} />, { store: store })
       const textAreas = screen.getAllByRole('textbox')
       expect(textAreas).toHaveLength(2)
       expect(textAreas[0]).toHaveValue(testProps.comingContent.title)
@@ -59,11 +51,7 @@ describe('ParagraphEditor', () => {
       // screen.debug()
     })
     it('text areas user input', () => {
-      render(
-        <Provider store={store}>
-          <ParagraphEditor {...testProps} />
-        </Provider>
-      )
+      testRender(<ParagraphEditor {...testProps} />, { store: store })
       const titleInput = 'Test value'
       const titleTextArea = screen.getAllByRole('textbox')[0]
       userEvent.clear(titleTextArea)
@@ -78,23 +66,17 @@ describe('ParagraphEditor', () => {
       expect(contentTextArea).toHaveValue(expContentInput)
     })
     it('right click -> context menu with appropriate args', () => {
-      render(
-        <Provider store={store}>
-          <ParagraphEditor {...testProps} />
-        </Provider>
-      )
+      testRender(<ParagraphEditor {...testProps} />, { store: store })
       const element = screen.getByTestId('Segment')
-      // expect(EditorContextMenu.isOpened).toBeTruthy()
       userEvent.click(element, { button: 2 })
       const args = mockEditorContextMenu.mock.calls[mockEditorContextMenu.mock.calls.length - 1][0]
       expect(args.isOpened).toBeTruthy()
       expect(args.saveDisabled).toBeTruthy()
-      expect(args.context).toBeObject()
-      expect(args.setContextMenuOpened).toBeFunction()
-      expect(args.contextMenuAction).toBeFunction()
-      // console.log('EditorContextMenu, args ->', args)
-      // expect(EditorContextMenu.isOpened).toBeFalsy()
-      // screen.debug()
+      expect(args.context).toMatchObject({ current: {} })
+      expect(args.setContextMenuOpened).toEqual(expect.any(Function))
+      expect(args.contextMenuAction).toEqual(expect.any(Function))
+      // console.log('EditorContextMenu, args.setContextMenuOpened ->',
+      //   args.setContextMenuOpened)
     })
   })
 })

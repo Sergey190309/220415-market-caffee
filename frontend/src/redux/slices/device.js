@@ -54,7 +54,7 @@ const deviceSlice = createSlice({
       state.message = payload
     },
     setEditable: (state, { payload }) => { // tested
-      console.log('deviceSlice:\n setEditable\n  payload ->', payload)
+      // console.log('deviceSlice:\n setEditable\n  payload ->', payload)
       state.editable = payload
     }
   }

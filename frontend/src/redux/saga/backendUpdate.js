@@ -37,7 +37,7 @@ function * elementsArgs (action) {
 }
 
 function * initConfirmPassword (error) {
-  console.log('saga, backendUpdate:\n initConfirmPassword\n  error ->', error)
+  // console.log('saga, backendUpdate:\n initConfirmPassword\n  error ->', error)
   if (error.response.status === 401 && error.response.data.error === 'token_expired') {
     yield put(openModal('confirmPassword'))
     yield put(

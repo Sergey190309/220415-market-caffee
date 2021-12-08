@@ -1,4 +1,6 @@
-# Byte-compiled / optimized / DLL files
+# clean up ignored
+# git rm -r --cached .
+
 # __pycache__/
 # venv
 # venv/
@@ -10,4 +12,4 @@
 # sendgrid.env
 
 
-node_modules
+# node_modules

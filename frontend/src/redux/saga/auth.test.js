@@ -1,4 +1,7 @@
-import { techTextAxiosClient as mockTechAxios, authTextAxiosClient as mockAuthAxios } from '../../api/apiClient'
+import {
+  techTextAxiosClient as mockTechAxios,
+  authTextAxiosClient as mockAuthAxios
+} from '../../api/apiClient'
 
 import {
   logInData as mockLogInData,
@@ -7,12 +10,16 @@ import {
 } from '../../testAxiosConstants'
 
 // import { runSaga } from 'redux-saga';
-import { logInFail, logInSuccess, signUpFail, signUpSuccess, startAlert } from '../slices'
+import {
+  logInFail, logInSuccess, signUpFail, signUpSuccess, startAlert
+} from '../slices'
 import { logInFetch, signUpFetch } from './auth'
 import { recordSaga } from '../../testUtils'
 import { actRespErrorMessage } from '../../utils/errorHandler'
 
-jest.mock('../../utils/errorHandler', () => ({ actRespErrorMessage: jest.fn() }))
+jest.mock('../../utils/errorHandler', () => ({
+  actRespErrorMessage: jest.fn()
+}))
 
 describe('auth testing', () => {
   describe('logIn whole saga testing', () => {
@@ -40,13 +47,15 @@ describe('auth testing', () => {
       const { type, payload } = dispatched[1]
       expect(type).toBe(startAlert.type)
       const { id, ...otherProps } = payload
-      expect(id).toBeString()
+      expect(id)
+        .toEqual(expect.stringMatching(/\w{8}(-\w{4}){3}-\w{12}/g))
       expect(otherProps).toEqual({
         message: mockResolveData.message,
         alertType: 'info',
         timeout: 3000
       })
-      // console.log(dispatched)
+      // console.log('auth.test\n success logIn',
+      //   '\n  id ->', id)
     })
 
     test('fail logIn, not found', async () => {
@@ -136,7 +145,8 @@ describe('auth testing', () => {
       // const { type, payload } = dispatched[1]
       // expect(type).toBe(START_ALERT);
       const { id, ...otherProps } = payload
-      expect(id).toBeString()
+      expect(id)
+        .toEqual(expect.stringMatching(/\w{8}(-\w{4}){3}-\w{12}/g))
       expect(otherProps).toEqual({
         message: mockResolveData.message,
         alertType: 'info',

@@ -8,11 +8,13 @@ import {
   UPPER_ELEMENT_ADD_BELOW,
   UPPER_ELEMENT_DELETE
 } from '../../../../redux/constants/menuKeys'
-import { LandingContext, ElementSwitcherContext }
-  from '../../../../context'
+import {
+  LandingContext, ElementSwitcherContext
+} from '../../../../context'
 import { neutralColor, warningColor } from '../../../../utils/colors'
-import { ContextMenuItem }
-  from '../../../items/menu_items/ContextMenuItem'
+import {
+  ContextMenuItem
+} from '../../../items/menu_items/ContextMenuItem'
 import { elementFunc } from '../../../../testHelpers'
 
 // import { deviceSelector } from '../../../../redux/slices'

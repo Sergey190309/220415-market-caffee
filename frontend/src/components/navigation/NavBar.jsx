@@ -1,8 +1,6 @@
-import React,
-{ useState, useEffect }
-  from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Menu, Container, Sticky } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
@@ -59,7 +57,8 @@ export const NavBar = ({
   const { lng } = useSelector(lngSelector)
   const { kind } = useSelector(backendUpdateSelector)
   // const contextRef = useRef()
-  const history = useHistory()
+  const navigate = useNavigate()
+  // it was useHistory
 
   const { t, i18n } = useTranslation('navbar')
 
@@ -91,7 +90,7 @@ export const NavBar = ({
       isLoggedIn,
       logOut
     )
-    history.push('/')
+    navigate('/')
   }
 
   // console.log('NavBar:',

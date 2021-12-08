@@ -1,6 +1,10 @@
-const { createJestConfig } = require("@craco/craco");
+console.log('\njest.config')
+const { createJestConfig } = require('@craco/craco')
+const cracoConfig = require('./craco.config.js')
 
-const cracoConfig = require("./craco.config.js");
-const jestConfig = createJestConfig(cracoConfig);
+const jestConfig = createJestConfig(cracoConfig)
 
-module.exports = jestConfig;
+console.log('\n jestConfig ->\n', jestConfig)
+
+// module.exports = config
+module.exports = jestConfig

@@ -10,7 +10,7 @@ from application.modules.crs_global import crs_global
 from application.errors.register import register_error_handler
 # Below models exported for flask app initialisation to get all tables in
 # place on that time.
-import application.models  # Don't remove untill you know what are you doing.
+import application.models  # Don't remove untill you sure.
 import application.users.models  # Don't remove see above.
 import application.contents.models  # Don't remove see above.
 import application.structure.models  # Don't remove see above.
@@ -50,19 +50,21 @@ def create_app(config='default_config.py'):
         from .users import create_users
         app.register_blueprint(create_users(), url_prefix='/users')
 
-        # Module for site contents that can be used by front end with possibility to
-        # correct it from site.
+        # Module for site contents that can be used by front end with
+        # possibility to correct it from site.
         from .contents import create_contents
         app.register_blueprint(create_contents(), url_prefix='/content')
 
         # Module for image handling
-        # print('application')
+        # print('\napplication, init\n')
         from .images import create_images
         app.register_blueprint(create_images(), url_prefix='/images')
 
-        # Application structure - element used to store views's contents, pictures, etc
+        # Application structure - element used to store views's contents,
+        # pictures, etc
         from .structure import create_structure
-        app.register_blueprint(create_structure(), url_prefix='/structure')
+        app.register_blueprint(
+            create_structure(), url_prefix='/structure')
 
         # Mailing
         from .mailing import create_mailing

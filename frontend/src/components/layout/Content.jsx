@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { Container, Sticky } from 'semantic-ui-react'
 
@@ -20,13 +20,13 @@ const Content = ({ context }) => {
           <Alert />
         </Sticky>
       </Container>
-      <Switch>
-        <Route path='/' exact component={Landing} />
-        <Route path='/pricelist' exact component={PriceList} />
-        <Route path='/pictures' exact component={Pictures} />
-        <Route path='/private' exact component={Private} />
-        <Route path='/admin' exact component={Admin} />
-      </Switch>
+      <Routes>
+        <Route path='/' element={<Landing />} />
+        <Route path='pricelist' exact element={<PriceList />} />
+        <Route path='pictures' exact element={<Pictures />} />
+        <Route path='private' exact element={<Private />} />
+        <Route path='admin' exact element={<Admin />} />
+      </Routes>
     </Fragment>
   )
 }

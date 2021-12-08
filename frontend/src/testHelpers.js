@@ -10,7 +10,7 @@ export const elementFunc = (info = {}) => {
   /**
    * That's dump function for testing.
    */
-  console.log('UpperLevelElementTypesMenu:\n simpleElementFunc',
+  console.log('testHelpers:\n elementFunc',
     '\n  info ->', info)
 }
 

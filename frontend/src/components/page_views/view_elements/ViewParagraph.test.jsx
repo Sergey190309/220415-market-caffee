@@ -104,11 +104,11 @@ describe('ViewParagraph testing', () => {
       //   'mockParagraphContextMenu')
       const result = mockIndicator.mock.calls[0][0]
       expect(result.isOpened).toBeTruthy()
-      expect(result.context).toBeObject()
+      expect(result.context).toEqual(expect.objectContaining({
+        current: { getBoundingClientRect: expect.any(Function) }
+      }))
       expect(result.content).toBe(testProps.recordId)
-      expect(result.setIndicatorOpened).toBeFunction()
-      // console.log('ViewParagraph.test, left click ->',
-      //   result)
+      expect(result.setIndicatorOpened).toEqual(expect.any(Function))
     })
 
     test('right click -> context menu', async () => {
@@ -127,12 +127,16 @@ describe('ViewParagraph testing', () => {
       //   'mockParagraphContextMenu')
       const result = mockParagraphContextMenu.mock.calls[0][0]
       expect(result.saveDisabled).toBeFalsy()
-      expect(result.context).toBeObject()
-      expect(result.setMenuOpened).toBeFunction()
-      expect(result.upperLevelElementMenu).toBeFunction()
-      expect(result.setParagraphEditted).toBeFunction()
-      // console.log('ViewParagraph.test, right click, calls ->',
-      //   result)
+      expect(result.context).toEqual(expect.objectContaining({
+        current: {
+          getBoundingClientRect: expect.any(Function)
+        }
+      }))
+      expect(result.setMenuOpened).toEqual(expect.any(Function))
+      expect(result.upperLevelElementMenu).toEqual(expect.any(Function))
+      expect(result.setParagraphEditted).toEqual(expect.any(Function))
+      // console.log('ViewParagraph.test\n right click ->',
+      //   '\n  result ->', result)
       // screen.debug(contextMenu)
     })
     test('not editable -> no action on clicks', async () => {

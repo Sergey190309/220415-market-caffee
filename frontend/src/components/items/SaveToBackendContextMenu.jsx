@@ -10,8 +10,9 @@ import { useTranslation } from 'react-i18next'
 
 import { ELEMENT_EDIT_SAVE, ELEMENT_EDIT_CANCEL } from '../../redux/constants/menuKeys'
 import { positiveColor, warningColor } from '../../utils/colors'
-import { backendTxtUpdateStart, backendTxtUpdateClear, deviceSelector }
-  from '../../redux/slices'
+import {
+  backendTxtUpdateStart, backendTxtUpdateClear, deviceSelector
+} from '../../redux/slices'
 import { ContextMenuItem } from './menu_items/ContextMenuItem'
 
 export const saveToBackendContextMenu = t => ([
