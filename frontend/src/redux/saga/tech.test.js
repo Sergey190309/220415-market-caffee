@@ -72,9 +72,11 @@ describe('Tech sagas tesing', () => {
       expect(dispatched).toHaveLength(1)
       const { type, payload } = dispatched[0]
       expect(type).toBe(techInFail.type)
-      expect(payload).toBeObject()
-      expect(payload).toContainKeys(['data'])
-      // console.log('tech in fail, dispatched ->', dispatched)
+      expect(payload).toEqual(expect.objectContaining({
+        data: mockRejectData
+      }))
+      // console.log('tech.test\n tech in fail',
+      //   ',\n  payload ->', payload)
     })
   })
 
@@ -140,10 +142,10 @@ describe('Tech sagas tesing', () => {
       expect(dispatched).toHaveLength(1)
       const { type, payload } = dispatched[0]
       expect(type).toBe(lngsFail.type)
-      expect(payload).toBeObject()
-      expect(payload).toContainKeys(['data'])
-
-      // console.log('tech in success tesing, dispatched ->', dispatched[0])
+      expect(payload).toEqual(expect.objectContaining({
+        data: mockRejectData
+      }))
+      // console.log('tech.test\n tech in fail', '\n  payload ->', payload)
     })
   })
 

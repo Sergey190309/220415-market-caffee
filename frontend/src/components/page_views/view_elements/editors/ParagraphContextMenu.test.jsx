@@ -83,33 +83,33 @@ describe('ParagraphContextMenu testing', () => {
       // screen.debug()
       const editElement = screen.getByText('2LE.editElement')
       expect(editElement).toBeVisible()
-      expect(editElement).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(editElement).toHaveClass('item')
       expect(editElement.children[0]).toHaveClass('teal edit icon')
 
       const saveElement = screen.getByText('2LE.saveElement')
       expect(saveElement).toBeVisible()
       expect(saveElement).toHaveClass(
-        'disabled item sc-bdfBQB eVLmMB', { exact: true })
+        'disabled item')
       expect(saveElement.children[0]).toHaveClass('orange save icon')
 
       const addAbove = screen.getByText('2LE.addAbove')
       expect(addAbove).toBeVisible()
-      expect(addAbove).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(addAbove).toHaveClass('item')
       expect(addAbove.children[0]).toHaveClass('olive angle up icon')
 
       const addBelow = screen.getByText('2LE.addBelow')
       expect(addBelow).toBeVisible()
-      expect(addBelow).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(addBelow).toHaveClass('item')
       expect(addBelow.children[0]).toHaveClass('olive angle down icon')
 
       const deleteElement = screen.getByText('2LE.deleteElement')
       expect(deleteElement).toBeVisible()
-      expect(deleteElement).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(deleteElement).toHaveClass('item')
       expect(deleteElement.children[0]).toHaveClass('orange delete icon')
 
       const handle = screen.getByText('1LE.handle')
       expect(handle).toBeVisible()
-      expect(handle).toHaveClass('item sc-bdfBQB eVLmMB')
+      expect(handle).toHaveClass('item')
       expect(handle.children[0]).toHaveClass(
         'olive angle right icon')
     })

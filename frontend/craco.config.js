@@ -3,6 +3,10 @@ console.log('\ncraco.config\n')
 // module.exports = require('./babel.config.js')
 const SemanicLessPlugin = require('@semantic-ui-react/craco-less')
 const BabelRcPlugin = require('@jackwilsdon/craco-use-babelrc')
+/**
+ * Above as far as I expect - for testing. Sometimes it works without.
+ * Check in docker.
+ */
 
 const cracoConfig = {
   plugins: [
@@ -38,6 +42,6 @@ const cracoConfig = {
 }
 // const { createJestConfig } = require('@craco/craco')
 // const jestConfig = createJestConfig(cracoConfig)
-console.log(cracoConfig)
+// console.log(cracoConfig)
 
 module.exports = cracoConfig

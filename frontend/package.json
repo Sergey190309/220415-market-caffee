@@ -34,9 +34,8 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "test:v": "craco test --verbose",
     "test:j": "jest test",
-    "test:w": "jest --watch",
-    "test:wc": "jest --watch --coverage",
     "eject": "craco eject"
   },
   "resolutions": {

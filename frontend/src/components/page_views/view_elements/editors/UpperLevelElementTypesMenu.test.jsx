@@ -64,7 +64,7 @@ describe('UpperLevelElementTypesMenu testing', () => {
         .toHaveLength(upperLevelElementTypesMenu(jest.fn()).length)
       // screen.debug(popup)
     })
-    test.skip('it desappred if is lost focus ', async () => {
+    test.skip('it desappred if is lost focus', async () => {
       /**
        * I was unable to simulate unhover.
        * Guess it's so small element to move mouse someware other place.

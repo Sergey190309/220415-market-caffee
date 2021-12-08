@@ -70,8 +70,8 @@ describe('Testing API calls', () => {
       expect(mockAxios.get.mock.calls[0][0]).toBe('/home/tech/auth')
       expect(mockAxios.get.mock.calls[0][1]).toEqual({ params: mockTechInData })
       const { data } = resp
-      console.log('getAuthTechInfo.test\n techInCall',
-        '\n  data ->', data)
+      // console.log('getAuthTechInfo.test\n techInCall',
+      //   '\n  data ->', data)
       expect(data).toEqual(expect.objectContaining(mockResolveData))
     })
   })
