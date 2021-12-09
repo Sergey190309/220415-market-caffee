@@ -1,7 +1,7 @@
 import { techTextAxiosClient as mockAxios } from '../apiClient'
 import { getViewContent } from './content'
 
-export const mockResolveData = {
+const mockResolveData = {
   message: 'The content has been found. Details are in payload.',
   payload: {
     updated: null,
@@ -24,19 +24,19 @@ export const mockResolveData = {
   }
 }
 
-export const mockRejectData = {
-  response: {
-    data: {
-      message:
-        'A contents with identity "01_vblock_txt_0", view "landing" and locale "en" not found.'
-    },
-    status: 404,
-    headers: { header: 'Some header' }
-  },
-  config: { config: 'Some config' }
-}
+// const mockRejectData = {
+//   response: {
+//     data: {
+//       message:
+//         'A contents with identity "01_vblock_txt_0", view "landing" and locale "en" not found.'
+//     },
+//     status: 404,
+//     headers: { header: 'Some header' }
+//   },
+//   config: { config: 'Some config' }
+// }
 
-export const params = {
+const params = {
   view_id: 'mock view_id',
   identity: 'mock identity',
   locale_id: 'mock locale_id'

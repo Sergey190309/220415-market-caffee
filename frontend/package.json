@@ -33,9 +33,10 @@
     "i18n:conv": "i18next-conv",
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test",
-    "test:v": "craco test --verbose",
-    "test:j": "jest test",
+    "test:c": "craco test",
+    "test:cv": "craco test --verbose",
+    "test": "jest test",
+    "test:w": "jest test --watch",
     "eject": "craco eject"
   },
   "resolutions": {
