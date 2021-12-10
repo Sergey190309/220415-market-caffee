@@ -23,6 +23,7 @@ const ViewFooter = ({ recordsId, viewName, initState }) => {
 
   return (
     <Message
+      data-testid='Message'
       header={state.title}
       content={state.content}
     />

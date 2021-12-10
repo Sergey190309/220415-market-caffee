@@ -15,6 +15,7 @@ export const ViewHeader = ({ recordsId, viewName, initState }) => {
   const [state, sagaDispatch] = useSaga(getContentSaga, initState)
 
   useEffect(() => {
+    // console.log('ViewHeader\n useEffect[]')
     sagaDispatch({
       type: CONTENT_REQUESTED,
       payload: {
@@ -22,11 +23,12 @@ export const ViewHeader = ({ recordsId, viewName, initState }) => {
         view_id: viewName
       }
     })
-  }, [recordsId, viewName])
-  // }, [recordsId, viewName, sagaDispatch])
+  }, [])
+  // }, [recordsId, viewName])
 
   return (
     <Message
+      data-testid='Message'
       header={state.title}
       content={state.content}
       size='big'
