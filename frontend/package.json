@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.2",
-    "@jackwilsdon/craco-use-babelrc": "^1.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.24.0",
     "formik": "^2.2.9",
