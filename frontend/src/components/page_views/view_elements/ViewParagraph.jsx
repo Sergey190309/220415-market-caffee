@@ -4,6 +4,7 @@ import React, {
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Message, Divider } from 'semantic-ui-react'
+// import { useTranslation } from 'react-i18next'
 
 import {
   CONTENT_REQUESTED
@@ -51,8 +52,8 @@ const ViewParagraph = ({
    * indicatorOpened: boolean - Set component indicator on and
    *    off respectevily.
    */
-  const [state, getSagaDispatch] = useSaga(
-    getContentSaga, initialState)
+  // const { t } = useTranslation('errors')
+  const [state, getSagaDispatch] = useSaga(getContentSaga, initialState)
   const [content, setContent] = useState({
     title: '',
     content: ['']
@@ -92,9 +93,9 @@ const ViewParagraph = ({
   const { componentName: viewName } = useContext(LandingContext)
 
   useEffect(() => { // Saga
-    // console.log('ViewParagraph:',
-    //   '\n useEffect[recordId, kind]',
-    //   '\n  recordId ->', recordId)
+    console.log('ViewParagraph:',
+      '\n useEffect[recordId, kind]',
+      '\n  recordId ->', recordId)
     indexRef.current = +recordId.split('_').pop()
     if (kind === '') {
       setChanged(false)
@@ -106,16 +107,28 @@ const ViewParagraph = ({
         }
       })
     }
-  }, [recordId, kind])
+    // }, [recordId, kind])
+  }, [])
 
   useEffect(() => {
-    // console.log('ViewParagraph:',
-    //   '\n useEffect[state]',
-    //   '\n  state ->', state)
-    setContent(state)
+    console.log('ViewParagraph:',
+      '\n useEffect[state]',
+      '\n  state ->', state,
+      '\n  content ->', content
+    )
+    if (Array.isArray(state.content)) {
+      setContent(state)
+    } else {
+      console.log('  wrong content ->', state.content)
+    }
   }, [state])
 
   useEffect(() => {
+    console.log('ViewParagraph:',
+      '\n useEffect[content]',
+      '\n  state ->', state,
+      '\n  content ->', content
+    )
     if (JSON.stringify(state) !== JSON.stringify(content)) {
       dispatch(backendTxtUpdateReady({
         identity: recordId,
@@ -123,6 +136,8 @@ const ViewParagraph = ({
         content: content
       }))
       setChanged(true)
+    } else {
+      setChanged(false)
     }
   }, [content])
 

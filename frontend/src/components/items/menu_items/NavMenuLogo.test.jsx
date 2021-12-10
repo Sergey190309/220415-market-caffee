@@ -4,6 +4,8 @@ import NavMenuLogo from './NavMenuLogo'
 import { testLinkedRender } from '../../../testHelpers'
 import userEvent from '@testing-library/user-event'
 
+jest.mock('../../../assets/images/logo.png')
+
 describe('NavMenuLogo', () => {
   const testProps = {
     disabled: false,

@@ -4,6 +4,7 @@ import { MenuItem, Image } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 import logo from '../../../assets/images/logo.png'
+// import logo from '../../../assets/images/logo.png'
 
 const NavMenuLogo = ({
   disabled,

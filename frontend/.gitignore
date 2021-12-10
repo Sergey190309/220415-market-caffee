@@ -9,7 +9,6 @@
 
 # testing
 /coverage
-**/__mocks__
 **/__snapshots__
 
 # logs
