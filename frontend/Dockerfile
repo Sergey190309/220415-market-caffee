@@ -12,3 +12,6 @@ RUN yarn
 COPY . ./
 
 CMD ["yarn", "start"]
+
+# build images
+# d build --rm -t frontend .

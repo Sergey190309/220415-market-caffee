@@ -1,4 +1,4 @@
-FROM python:3.9.1-slim-buster
+FROM python:3.10.1-slim-buster
 
 # The below is convention
 # RUN mkdir -p /usr/src
