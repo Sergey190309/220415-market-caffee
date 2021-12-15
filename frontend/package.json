@@ -57,7 +57,7 @@
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/plugin-transform-modules-commonjs": "^7.16.0",
-    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.0",
     "@semantic-ui-react/craco-less": "^1.2.3",
     "@testing-library/dom": "^8.11.1",
@@ -65,7 +65,7 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "add": "^2.0.6",
-    "babel-jest": "^27.4.2",
+    "babel-jest": "^27.4.5",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.3",
