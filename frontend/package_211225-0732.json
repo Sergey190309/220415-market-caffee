@@ -30,8 +30,8 @@
   "scripts": {
     "i18n:extr": "i18next",
     "i18n:conv": "i18next-conv",
-    "start": "craco --openssl-legacy-provider start",
-    "build": "craco --openssl-legacy-provider build",
+    "start": "craco start",
+    "build": "craco build",
     "test:c": "craco test",
     "test:cv": "craco test --verbose",
     "test": "jest test",

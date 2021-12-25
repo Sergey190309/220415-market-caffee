@@ -14,5 +14,6 @@ Flask-JWT-Extended
 Flask-Mail
 requests
 Flask-Cors
-Flask-Uploads
+Flask-Reuploaded
+# Flask-Uploads
 # sendgrid>=6.4.8,<6.5.0

@@ -13,3 +13,6 @@ COPY ./nginx.conf /etc/nginx/conf.d
 EXPOSE 80 433
 
 # CMD ["nginx", "-g", "daemon off;"]
+
+# command to build image:
+# d build --rm -t nginx .
