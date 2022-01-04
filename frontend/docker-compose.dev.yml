@@ -1,0 +1,17 @@
+# Done to follow:
+# https://medium.com/swlh/dockerizing-a-react-application-with-docker-and-nginx-19e88ef8e99a
+
+version: '3.7'
+services:
+  react-dev:
+    container_name: front_dev
+    build:
+      context: .
+      dockerfile: Dockerfile_dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ".:/app"
+      - "/app/node_modules"
+    environment:
+      - NODE_ENV=development

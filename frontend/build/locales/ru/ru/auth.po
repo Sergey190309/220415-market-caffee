@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"POT-Creation-Date: 2021-08-20T07:15:14.729Z\n"
+"PO-Revision-Date: 2021-08-20 07:16+0000\n"
+"Language: ru\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"X-Generator: Poedit 2.2.1\n"
+
+msgid "confirmpassword##buttons##cancel"
+msgstr "Отменить"
+
+msgid "confirmpassword##buttons##confirm"
+msgstr "Подтвердить"
+
+msgid "confirmpassword##buttons##or"
+msgstr "или"
+
+msgid "confirmpassword##errors##required"
+msgstr "Поле обязательно"
+
+msgid "confirmpassword##header"
+msgstr "Подтвердите свой пароль пожалуйста"
+
+msgid "confirmpassword##labels##password"
+msgstr "Пароль"
+
+msgid "confirmpassword##placeHolders##password"
+msgstr "Пароль"
+
+msgid "login##buttons##cancel"
+msgstr "Отмена"
+
+msgid "login##buttons##logIn"
+msgstr "Авторизоваться"
+
+msgid "login##buttons##or"
+msgstr "или"
+
+msgid "login##buttons##reset"
+msgstr "Перезагрузить"
+
+msgid "login##buttons##signUp"
+msgstr "Зарегестрироваться"
+
+msgid "login##errors##email##invalidEmail"
+msgstr "Недействительный электронный адрес"
+
+msgid "login##errors##password##min"
+msgstr "Не меньше {{min}} символов"
+
+msgid "login##errors##required"
+msgstr "Поле обязательно"
+
+msgid "login##header"
+msgstr "Авторизируйтесь"
+
+msgid "login##labels##email"
+msgstr "Электронная почта"
+
+msgid "login##labels##password"
+msgstr "Пароль"
+
+msgid "login##message"
+msgstr "Еще не с нами?"
+
+msgid "login##placeHolders##email"
+msgstr "Электронная почта"
+
+msgid "login##placeHolders##password"
+msgstr "Пароль"
+
+msgid "signup##buttons##cancel"
+msgstr "Отмена"
+
+msgid "signup##buttons##or"
+msgstr "или"
+
+msgid "signup##buttons##reset"
+msgstr "Перезагрузить"
+
+msgid "signup##buttons##signUp"
+msgstr "Зарегестрироваться"
+
+msgid "signup##errors##email##invalidEmail"
+msgstr "Недействительный электронный адрес"
+
+msgid "signup##errors##password##min"
+msgstr "Не меньше {{min}} символов"
+
+msgid "signup##errors##required"
+msgstr "Поле обязательно"
+
+msgid "signup##errors##userName##max"
+msgstr "Не более {{max}} символов"
+
+msgid "signup##header"
+msgstr "Зарегестрируйтесь"
+
+msgid "signup##labels##email"
+msgstr "Электронная почта"
+
+msgid "signup##labels##password"
+msgstr "Пароль"
+
+msgid "signup##labels##password2"
+msgstr "Еще раз"
+
+msgid "signup##labels##userName"
+msgstr "Имя пользователя"
+
+msgid "signup##placeHolders##email"
+msgstr "Электронная почта"
+
+msgid "signup##placeHolders##password"
+msgstr "Пароль"
+
+msgid "signup##placeHolders##password2"
+msgstr "Повторите пароль, пожалуйста"
+
+msgid "signup##placeHolders##userName"
+msgstr "Вы берете имя пользователя (не обязательно)"
+
+msgid "signup##warnings##pwdMustMatch!"
+msgstr "Пароли должны совпадать!"

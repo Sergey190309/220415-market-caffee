@@ -1,0 +1,14 @@
+# That's minimum docker-compose working based on
+# https://medium.com/swlh/dockerizing-a-react-application-with-docker-and-nginx-19e88ef8e99a
+
+
+version: '3.8'
+services:
+  front_dep:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile_dep
+    image: front_dep
+    container_name: front_dep
+    ports:
+        - 80:80

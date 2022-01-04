@@ -1,4 +1,4 @@
-FROM python:3.9.1-slim-buster
+FROM python:3.10.1-slim-buster
 
 # The below is convention
 # RUN mkdir -p /usr/src
@@ -46,4 +46,4 @@ CMD [ "uwsgi", "uwsgi.ini" ]
 # command to build image:
 # d build --rm -t backend .
 # command to run image:
-# d run --rm -ti -p 3000:3000 -v $(pwd):/backend backend
+# d run --rm --name backend -it -p 3000:3000 -v $(pwd):/backend backend

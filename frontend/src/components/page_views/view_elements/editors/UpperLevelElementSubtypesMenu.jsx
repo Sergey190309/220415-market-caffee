@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { Menu, Popup } from 'semantic-ui-react'
 import { useTranslation } from 'react-i18next'
 
-import { elementFunc } from '../../../../testHelpers'
+import { elementFunc } from '../../../../tstHelpers'
 import {
   elementBlockSubTypes
 } from '../../../../utils/elementTypes'

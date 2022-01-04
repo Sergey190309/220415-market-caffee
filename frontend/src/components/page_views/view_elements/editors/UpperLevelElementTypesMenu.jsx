@@ -16,7 +16,7 @@ import { ContextMenuItem } from '../../../items/menu_items/ContextMenuItem'
 import {
   positiveColor
 } from '../../../../utils/colors'
-import { elementFunc } from '../../../../testHelpers'
+import { elementFunc } from '../../../../tstHelpers'
 
 export const upperLevelElementTypesMenu = t => ([
   {

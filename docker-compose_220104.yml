@@ -1,4 +1,4 @@
-# That's minimum docker-compose working on minimum configuration having all services neede for full stack development
+# That's minimum docker-compose working on minimum configuration having all services needed for full stack development
 
 version: '3'
 services:
@@ -28,11 +28,11 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: backend
+    image: backend:latest
     container_name: backend
     restart: unless-stopped
-    ports:
-      - 5000:5000
+    # ports:
+    #   - 5000:5000
     environment:
 #     It seems I need to update this section with
       #APPLICATION_SETTINGS=default_config.py
@@ -45,8 +45,10 @@ services:
 
       DATABASE_USER: 'coffee'
       DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
-      DATABASE_HOST: '172.18.0.1'
+      DATABASE_HOST: mysqldb
       DATABASE_NAME: 'market_coffee'
+    expose:
+      - 8080
     volumes:
       - ./backend:/backend
       # - backenddata
@@ -79,7 +81,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: nginx
+    image: nginx:latest
     container_name: nginx
     restart: unless-stopped
     environment:
