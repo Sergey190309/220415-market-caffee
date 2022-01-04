@@ -15,7 +15,7 @@ import { neutralColor, warningColor } from '../../../../utils/colors'
 import {
   ContextMenuItem
 } from '../../../items/menu_items/ContextMenuItem'
-import { elementFunc } from '../../../../testHelpers'
+import { elementFunc } from '../../../../tstHelpers'
 
 // import { deviceSelector } from '../../../../redux/slices'
 
