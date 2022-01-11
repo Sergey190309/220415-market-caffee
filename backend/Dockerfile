@@ -1,8 +1,16 @@
 FROM python:3.10.1-slim-buster
 
+EXPOSE 80/tcp
+EXPOSE 443/tcp
 # The below is convention
 # RUN mkdir -p /usr/src
 WORKDIR /backend
+
+# set environment variables
+# not sure, taken from
+# https://testdriven.io/blog/dockerizing-flask-with-postgres-gunicorn-and-nginx/
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 # update and upgrade the instance
 RUN apt update && \
@@ -31,7 +39,9 @@ RUN pip install --no-cache-dir uwsgi
 # The file with python packages should be installed.
 # COPY requirements.txt .
 
-EXPOSE 5000
+
+EXPOSE 9090
+# EXPOSE 8003/tcp
 
 # ENTRYPOINT [ "python" ]
 # CMD [ "app.py" ]
