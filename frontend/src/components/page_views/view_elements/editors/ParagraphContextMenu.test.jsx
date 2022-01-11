@@ -3,7 +3,7 @@ import React from 'react'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { testRender, makeTestStore } from '../../../../testHelpers'
+import { testRender, makeTestStore } from '../../../../tstHelpers'
 import store from '../../../../redux/store'
 
 import {

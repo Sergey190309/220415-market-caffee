@@ -4,12 +4,12 @@ import { screen, waitFor } from '@testing-library/react'
 import { ElementSwitcherProvider, LandingProvider }
   from '../../../../context'
 import store from '../../../../redux/store'
-import { makeTestStore, testRender, elementFunc } from '../../../../testHelpers'
+import { makeTestStore, testRender, elementFunc } from '../../../../tstHelpers'
 import UpperLevelMenu, { upperLevelMenu } from './UpperLevelMenu'
 import userEvent from '@testing-library/user-event'
 
-jest.mock('../../../../testHelpers', () => ({
-  ...jest.requireActual('../../../../testHelpers'),
+jest.mock('../../../../tstHelpers', () => ({
+  ...jest.requireActual('../../../../tstHelpers'),
   elementFunc: jest.fn()
 }))
 
@@ -52,7 +52,7 @@ describe('UpperLevelMenu', () => {
     })
   })
   describe('actions', () => {
-    test('1LE.addAbove ', async () => {
+    test('1LE.addAbove', async () => {
       const activeProps = { ...testProps }
       await waitFor(() => { renderReduxContext(activeProps, store) })
       const addAbove = screen.getByText('1LE.addAbove')
@@ -69,7 +69,7 @@ describe('UpperLevelMenu', () => {
       expect(activeProps.setMenuOpened).toHaveBeenCalledTimes(1)
       expect(activeProps.setMenuOpened).toHaveBeenCalledWith(false)
     })
-    test('1LE.addBelow ', async () => {
+    test('1LE.addBelow', async () => {
       const activeProps = { ...testProps }
       await waitFor(() => { renderReduxContext(activeProps, store) })
       const addBelow = screen.getByText('1LE.addBelow')
@@ -86,7 +86,7 @@ describe('UpperLevelMenu', () => {
       expect(activeProps.setMenuOpened).toHaveBeenCalledTimes(1)
       expect(activeProps.setMenuOpened).toHaveBeenCalledWith(false)
     })
-    test('1LE.DeleteElement ', async () => {
+    test('1LE.DeleteElement', async () => {
       const activeProps = { ...testProps }
       await waitFor(() => { renderReduxContext(activeProps, store) })
       const DeleteElement = screen.getByText('1LE.DeleteElement')

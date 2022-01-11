@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react'
 import {
-  render,
+  // render,
   screen,
   waitFor
 } from '@testing-library/react'
@@ -13,11 +13,11 @@ import ViewVBlock from './ViewVBlock'
 // import { output } from './ViewVBlock';
 
 import store from '../../../redux/store'
-import ViewParagraph from './ViewParagraph'
-import ViewPicture from './ViewPicture'
-import ViewNothing from './ViewNothing'
-import { Provider } from 'react-redux'
-import { testRender } from '../../../testHelpers'
+// import ViewParagraph from './ViewParagraph'
+// import ViewPicture from './ViewPicture'
+// import ViewNothing from './ViewNothing'
+// import { Provider } from 'react-redux'
+import { testRender } from '../../../tstHelpers'
 
 const mockViewParagraph = jest.fn()
 jest.mock('./ViewParagraph', () => props => {

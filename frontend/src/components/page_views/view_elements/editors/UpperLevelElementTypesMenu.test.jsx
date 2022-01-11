@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { makeTestStore, testRender, elementFunc }
-  from '../../../../testHelpers'
+  from '../../../../tstHelpers'
 import store from '../../../../redux/store'
 import {
   elementBlockTypes
@@ -14,10 +14,9 @@ import UpperLevelElementTypesMenu, { upperLevelElementTypesMenu }
   from './UpperLevelElementTypesMenu'
 import { ElementSwitcherProvider, LandingProvider }
   from '../../../../context'
-// import { elementFunc } from '../../../../testHelpers'
 
-jest.mock('../../../../testHelpers', () => ({
-  ...jest.requireActual('../../../../testHelpers'),
+jest.mock('../../../../tstHelpers', () => ({
+  ...jest.requireActual('../../../../tstHelpers'),
   elementFunc: jest.fn()
 }))
 

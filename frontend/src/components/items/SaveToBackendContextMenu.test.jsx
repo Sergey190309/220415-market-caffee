@@ -5,11 +5,8 @@ import userEvent from '@testing-library/user-event'
 import store from '../../redux/store'
 import SaveToBackendContextMenu, { saveToBackendContextMenu }
   from './SaveToBackendContextMenu'
-import { makeTestStore, testRender } from '../../testHelpers'
+import { makeTestStore, testRender } from '../../tstHelpers'
 import { backendTxtUpdateClear, backendTxtUpdateStart } from '../../redux/slices'
-// import { testRender, makeTestStore } from '../../../../testHelpers'
-// import store from '../../../../redux/store'
-// import moduleName from '../../'
 
 jest.mock('../../api/calls/content')
 

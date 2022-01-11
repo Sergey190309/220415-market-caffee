@@ -2,7 +2,7 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 
 import NavMenuItem from './NavMenuItem'
-import { testLinkedRender } from '../../../testHelpers'
+import { testLinkedRender } from '../../../tstHelpers'
 import userEvent from '@testing-library/user-event'
 describe('NavMenuItem', () => {
   const testProps = {
