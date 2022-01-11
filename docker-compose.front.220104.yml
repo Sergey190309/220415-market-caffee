@@ -10,5 +10,9 @@ services:
       dockerfile: Dockerfile_dep
     image: front_dep
     container_name: front_dep
+    # expose:
+    #   - 80
     ports:
         - 80:80
+
+
