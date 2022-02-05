@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.4.2",
     "@reduxjs/toolkit": "^1.7.1",
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
     "i18next": "^21.6.6",
@@ -69,7 +69,7 @@
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-jest": "^25.7.0",
+    "eslint-plugin-jest": "^26.0.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "eslint-plugin-react": "^7.28.0",
