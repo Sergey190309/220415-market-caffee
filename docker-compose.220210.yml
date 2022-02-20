@@ -89,9 +89,10 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - frontenddata:/etc/nginx
       - frontenddata:/etc/ssl/private
-      - frontenddata:/var/log/nginx
+      - nginxdata:/etc/nginx
+      # - nginxlogs:/var/log/nginx
+      - /var/log/serverlogs/:/var/log/nginx
     # depends_on:
     #   - nginx
     networks:
@@ -107,7 +108,9 @@ networks:
 volumes:
   mysqldata:
     driver: local
-  # nginxdata:
+  nginxdata:
+    driver: local
+  # nginxlogs:
   #   driver: local
   frontenddata:
     driver: local
