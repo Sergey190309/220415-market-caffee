@@ -5,7 +5,7 @@
   "dependencies": {
     "@craco/craco": "^6.4.2",
     "@reduxjs/toolkit": "^1.7.2",
-    "axios": "^0.25.0",
+    "axios": "^0.26.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
     "i18next": "^21.6.11",
