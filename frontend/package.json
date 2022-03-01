@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.2",
-    "@reduxjs/toolkit": "^1.7.2",
+    "@reduxjs/toolkit": "^1.8.0",
     "axios": "^0.26.0",
     "formik": "^2.2.9",
     "formik-semantic-ui-react": "^2.0.0",
