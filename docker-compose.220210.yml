@@ -4,8 +4,10 @@ version: '3.8'
 services:
   mysqldb:
     image: mysql:8.0.27
-    container_name: mysqldb
-    command: '--default-authentication-plugin=mysql_native_password'
+    # image: mysql/mysql-server:latest
+    container_name: mysqldb_cont
+    command: '--authentication_policy=mysql_native_password'
+    # command: '--default-authentication-plugin=mysql_native_password'
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 'ljoii98*_)(98767HG'
@@ -31,14 +33,18 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: backend
-    container_name: backend
+    container_name: backend_cont
     restart: unless-stopped
 
     networks:
       - backend
 
-    ports:
-      - '9090:9090'
+    expose:
+      - 9090
+    # ports:
+    #   - '9090:9090'
+
+    # tty: true
 
     environment:
       APP_ENV: 'prod'
@@ -83,18 +89,19 @@ services:
       context: ./frontend
       dockerfile: Dockerfile_dep
     image: frontend
-    container_name: frontend
+    container_name: frontend_cont
     restart: unless-stopped
     ports:
       - 80:80
       - 443:443
     volumes:
       - frontenddata:/etc/ssl/private
-      - nginxdata:/etc/nginx
+      # - nginxdata:/etc/nginx
       # - nginxlogs:/var/log/nginx
       - /var/log/serverlogs/:/var/log/nginx
-    # depends_on:
-    #   - nginx
+    depends_on:
+      # - backend_serv
+      - backend
     networks:
       - frontend
 
@@ -108,8 +115,8 @@ networks:
 volumes:
   mysqldata:
     driver: local
-  nginxdata:
-    driver: local
+  # nginxdata:
+  #   driver: local
   # nginxlogs:
   #   driver: local
   frontenddata:
