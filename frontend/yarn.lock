@@ -6835,10 +6835,10 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-i18next-conv@^12.0.2:
-  version "12.0.2"
-  resolved "https://registry.yarnpkg.com/i18next-conv/-/i18next-conv-12.0.2.tgz#3fd408b7b15f91028ce94004ad9d62b547f693da"
-  integrity sha512-TEBY8izG9fiZpIJ+7Tf3GpCzMTDeYPD3Twhf/s7wJKtXN7R2wML/VfpdXyVZYxioXKyKoD5p7DR8MetIXdoY3w==
+i18next-conv@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/i18next-conv/-/i18next-conv-12.1.0.tgz#ecf432139a139d024f433ccb93c9d021c8393bcd"
+  integrity sha512-ozVO9XlzXgRNQY7wNN6LbZNtz+JqUd6PfnElpqIEfIZ3B6EGO55hfMOKsK1F/YSmlSnUJyf38rYmMKywdBb0Rg==
   dependencies:
     c8 "^7.11.0"
     colorette "^2.0.16"
