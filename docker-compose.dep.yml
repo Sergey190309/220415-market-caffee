@@ -5,7 +5,7 @@ services:
   mysqldb:
     image: mysql:8.0.27
     # image: mysql/mysql-server:latest
-    container_name: mysqldb_cont
+    container_name: mysqldb_dep
     command: '--authentication_policy=mysql_native_password'
     # command: '--default-authentication-plugin=mysql_native_password'
     restart: unless-stopped
@@ -33,7 +33,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     image: backend
-    container_name: backend_cont
+    container_name: backend_dep
     restart: unless-stopped
 
     networks:
@@ -88,8 +88,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile_dep
-    image: frontend
-    container_name: frontend_cont
+    image: frontend_dep
+    container_name: frontend_dep
     restart: unless-stopped
     ports:
       - 80:80

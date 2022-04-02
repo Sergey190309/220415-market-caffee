@@ -1,0 +1,147 @@
+version: '3.8'
+# project_name: deployment
+
+services:
+  mysqldb:
+    image: mysql:8.0.27
+    # image: mysql/mysql-server:latest
+    container_name: mysqldb_dep
+    command: '--authentication_policy=mysql_native_password'
+    # command: '--default-authentication-plugin=mysql_native_password'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'ljoii98*_)(98767HG'
+      MYSQL_DATABASE: market_coffee
+      MYSQL_USER: coffee
+      MYSQL_PASSWORD: 'iij0*(*(*())^%^G'
+
+    volumes:
+      - mysqldata:/var/lib/mysql
+
+    networks:
+      - backend
+
+    expose:
+      - 3306
+      - 33060
+    # ports:
+    #   - '3306:3306'
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: backend
+    container_name: backend_dep
+    restart: unless-stopped
+
+    networks:
+      - backend
+      - frontend
+
+    expose:
+      - 9090
+    # ports:
+    #   - '9090:9090'
+
+    # tty: true
+
+    environment:
+      APP_ENV: 'prod'
+      APP_DEBUG: 'True'
+
+      DATABASE_USER: 'coffee'
+      DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
+      DATABASE_HOST: mysqldb
+      DATABASE_NAME: 'market_coffee'
+
+    # volumes:
+    #   - backend_data:/backend
+
+    depends_on:
+      - mysqldb
+
+
+  cors:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile_cors
+    image: cors
+    container_name: cors
+    restart: unless-stopped
+
+    networks:
+      - frontend
+
+    ports:
+      - 9090:9090
+
+    volumes:
+
+
+    depends_on:
+      - frontend
+  # nginx:
+  #   build:
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   image: nginx:dep
+  #   container_name: nginx
+  #   restart: unless-stopped
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   volumes:
+  #     - nginxdata:/etc/nginx
+  #     - nginxdata:/etc/ssl/private
+
+  #   networks:
+  #     - backend
+  #     - frontend
+
+  #   depends_on:
+  #     - backend
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile_dev
+    image: frontend_dev
+    container_name: frontend_dev
+    restart: unless-stopped
+    ports:
+      - 80:3000
+      # - 443:443
+    volumes:
+      - frontenddata:/etc/ssl/private
+      - ./frontend:/app
+      - /app/node_modules
+      # - nginxdata:/etc/nginx
+      # - nginxlogs:/var/log/nginx
+      - /var/log/serverlogs/:/var/log/nginx
+    depends_on:
+      # - backend_serv
+      - backend
+    networks:
+      - frontend
+
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    driver: bridge
+
+volumes:
+  mysqldata:
+    driver: local
+  # backenddata:
+  #   driver: local
+  # nginxdata:
+  #   driver: local
+  # nginxlogs:
+  #   driver: local
+  frontenddata:
+    driver: local
