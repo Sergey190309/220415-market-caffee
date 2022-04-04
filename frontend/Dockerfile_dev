@@ -19,7 +19,9 @@ RUN cat .bashrc >> /root/.bashrc
 
 RUN yarn
 
-CMD [ "yarn", "start" ]
+EXPOSE 80 443
+
+CMD [ "yarn", "start:docker" ]
 
 # =======================================>
 # d build  --target coping -t front_coping .

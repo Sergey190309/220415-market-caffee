@@ -2,7 +2,13 @@ import axios from 'axios'
 // import i18next from 'i18next';
 
 // const baseURL = 'http://127.0.0.1:3000'
-const baseURL = 'http://127.0.0.1:5000'
+let baseURL = 'localhost:9090'
+// let baseURL = 'localhost:5000'
+if (process.env.REACT_APP_BASE_URL !== undefined) {
+  baseURL = process.env.REACT_APP_BASE_URL
+}
+console.log('env in apiClient -', process.env.REACT_APP_BASE_URL)
+console.log('BASE_URL in apiClient -', baseURL)
 const headers = {
   // Accept: 'application/json',
   'Content-Type': 'application/json',

@@ -93,9 +93,9 @@ const ViewParagraph = ({
   const { componentName: viewName } = useContext(LandingContext)
 
   useEffect(() => { // Saga
-    console.log('ViewParagraph:',
-      '\n useEffect[recordId, kind]',
-      '\n  recordId ->', recordId)
+    // console.log('ViewParagraph:',
+    //   '\n useEffect[recordId, kind]',
+    //   '\n  recordId ->', recordId)
     indexRef.current = +recordId.split('_').pop()
     if (kind === '') {
       setChanged(false)
@@ -111,11 +111,11 @@ const ViewParagraph = ({
   }, [])
 
   useEffect(() => {
-    console.log('ViewParagraph:',
-      '\n useEffect[state]',
-      '\n  state ->', state,
-      '\n  content ->', content
-    )
+    // console.log('ViewParagraph:',
+    //   '\n useEffect[state]',
+    //   '\n  state ->', state,
+    //   '\n  content ->', content
+    // )
     if (Array.isArray(state.content)) {
       setContent(state)
     } else {
@@ -124,11 +124,11 @@ const ViewParagraph = ({
   }, [state])
 
   useEffect(() => {
-    console.log('ViewParagraph:',
-      '\n useEffect[content]',
-      '\n  state ->', state,
-      '\n  content ->', content
-    )
+    // console.log('ViewParagraph:',
+    //   '\n useEffect[content]',
+    //   '\n  state ->', state,
+    //   '\n  content ->', content
+    // )
     if (JSON.stringify(state) !== JSON.stringify(content)) {
       dispatch(backendTxtUpdateReady({
         identity: recordId,
