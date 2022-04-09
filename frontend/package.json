@@ -62,7 +62,7 @@
     "@babel/preset-react": "^7.16.7",
     "@semantic-ui-react/craco-less": "^2.0.2",
     "@testing-library/dom": "^8.13.0",
-    "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^14.0.4",
     "add": "^2.0.6",
