@@ -1,4 +1,4 @@
-console.log('\ncraco.config\n')
+console.log('\ncraco.config!\n')
 // const { defaults } = require('jest-config');
 // module.exports = require('./babel.config.js')
 const SemanicLessPlugin = require('@semantic-ui-react/craco-less')
