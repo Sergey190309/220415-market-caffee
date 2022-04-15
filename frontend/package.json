@@ -79,7 +79,7 @@
     "isomorphic-fetch": "^3.0.0",
     "jest": "^27.5.1",
     "jest-extended": "^2.0.0",
-    "jest-localstorage-mock": "^2.4.19",
+    "jest-localstorage-mock": "^2.4.21",
     "jest-watch-typeahead": "1.0.0",
     "nock": "^13.2.4",
     "react-test-renderer": "^17.0.1",
