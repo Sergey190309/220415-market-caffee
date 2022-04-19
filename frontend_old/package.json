@@ -1,0 +1,91 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.4.2",
+    "@reduxjs/toolkit": "^1.8.1",
+    "axios": "^0.26.1",
+    "formik": "^2.2.9",
+    "formik-semantic-ui-react": "^2.0.0",
+    "i18next": "^21.6.16",
+    "i18next-http-backend": "^1.4.0",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-i18next": "^11.16.6",
+    "react-redux": "^8.0.0",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "react-textarea-autosize": "^8.3.3",
+    "redux": "^4.1.2",
+    "redux-saga": "^1.1.3",
+    "semantic-ui-react": "^2.1.2",
+    "styled-components": "^5.3.5",
+    "uuid": "^8.3.2",
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "i18n:extr": "i18next",
+    "i18n:conv": "i18next-conv",
+    "start": "REACT_APP_BASE_URL=http://127.0.0.1:5000 craco --openssl-legacy-provider start",
+    "start:docker": "craco --openssl-legacy-provider start",
+    "build": "craco --openssl-legacy-provider build",
+    "test:c": "craco test",
+    "test:cv": "craco test --verbose",
+    "test": "jest test",
+    "test:w": "jest test --watch",
+    "eject": "craco eject"
+  },
+  "resolutions": {
+    "styled-components": "^5"
+  },
+  "eslintIgnore": [],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-transform-modules-commonjs": "^7.17.9",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@semantic-ui-react/craco-less": "^2.0.2",
+    "@testing-library/dom": "^8.13.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/user-event": "^14.1.1",
+    "add": "^2.0.6",
+    "babel-jest": "^27.5.1",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jest": "^26.1.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "eslint-plugin-react": "^7.29.4",
+    "i18next-conv": "^12.1.1",
+    "i18next-parser": "^6.3.0",
+    "isomorphic-fetch": "^3.0.0",
+    "jest": "^27.5.1",
+    "jest-extended": "^2.0.0",
+    "jest-localstorage-mock": "^2.4.21",
+    "jest-watch-typeahead": "1.0.0",
+    "nock": "^13.2.4",
+    "react-test-renderer": "^17.0.1",
+    "redux-mock-store": "^1.5.4",
+    "semantic-ui-less": "^2.4.1",
+    "yarn": "^1.22.18"
+  },
+  "proxy": "http://localhost:5000"
+}

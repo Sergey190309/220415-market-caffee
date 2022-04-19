@@ -1,0 +1,19 @@
+# clean up ignored
+# git rm -r --cached .
+
+# system
+.directory
+
+# dependencies
+/node_modules
+
+# builds
+/build
+
+# testing
+/coverage
+**/__snapshots__
+
+# logs
+*.logs
+*.log
