@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 # project_name: deployment
 
 services:
@@ -24,28 +24,28 @@ services:
       - backend
 
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.dev.220406
-  #   image: frontend_dev
-  #   container_name: frontend_dev
-  #   restart: unless-stopped
-  #   ports:
-  #     - 3000:3000
-  #     # - 443:443
-  #   volumes:
-  #     - frontenddata:/etc/ssl/private
-  #     - ./frontend:/app
-  #     - /app/node_modules
-  #     # - nginxdata:/etc/nginx
-  #     # - nginxlogs:/var/log/nginx
-  #     # - /var/log/serverlogs/:/var/log/nginx
-  #   depends_on:
-  #     # - backend_serv
-  #     - backend
-  #   networks:
-  #     - frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    image: frontend:dev
+    container_name: frontend_dev
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+      # - 443:443
+    volumes:
+      # - frontenddata:/etc/ssl/private
+      - ./frontend:/home/app
+      # - /app/node_modules
+      # - nginxdata:/etc/nginx
+      # - nginxlogs:/var/log/nginx
+      # - /var/log/serverlogs/:/var/log/nginx
+    depends_on:
+      # - backend_serv
+      - backend
+    networks:
+      - frontend
 
 
   backend:
