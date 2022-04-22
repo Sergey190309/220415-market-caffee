@@ -1,0 +1,22 @@
+# directories
+.vscode/
+coverage/
+node_modules/
+build/
+
+# files
+**/.directory
+**/__mocks__
+**/*test*
+# .dockerignore
+# README.md
+# jest.config.js
+_**
+# i18next-parser.config.js
+# yarn.lock
+
+
+npm-debug.log
+**/.git
+**/.DS_Store
+**/node_modules
