@@ -4,22 +4,28 @@
   "private": true,
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^14.1.1",
 =======
     "fomantic-ui-css": "^2.8.8",
 >>>>>>> d724b9457bc8427998965ceda3d7a6591cf7ec26
+=======
+>>>>>>> 5cf635b40d5e3b14b27088ba92c780d38e921ec5
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-scripts": "5.0.1",
-    "semantic-ui-react": "^2.1.2",
+    "styled-components": "^5.3.5",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
+    "test:w": "jest --watch",
+    "test:wc": "jest --watch --coverage",
+    "test:c": "jest --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,5 +45,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.1.1",
+    "@testing-library/user-event": "^14.1.1",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^28.0.2",
+    "jest": "^28.0.2",
+    "jest-environment-jsdom": "^28.0.2",
+    "jest-styled-components": "^7.0.8",
+    "react-test-renderer": "^18.1.0"
   }
 }
