@@ -1,19 +1,24 @@
-import React from 'react'
-import {Button} from 'semantic-ui-react'
+import React, { Fragment } from 'react'
+import * as SB from './styles/buttons.styled'
+import { GlobalStyle, MainContainer, MainItem } from './styles/global.styled'
 
 const App = () => {
   return (
-    <>
-      <h1>App</h1>
-      <Button
-        primary
-        content='Save'
-      />
-      <Button
-        secondary
-        content='Cancel'
-      />
-    </>
+    <Fragment>
+      <GlobalStyle />
+      <MainContainer>
+        <MainItem>Menu</MainItem>
+        <MainItem>header</MainItem>
+        <MainItem>hBlock</MainItem>
+        <MainItem>vBlock</MainItem>
+        <MainItem>Footer</MainItem>
+      </MainContainer>
+
+        <SB.Button>
+          That's button!
+        </SB.Button>
+      {/* </GlobalStyle> */}
+    </Fragment>
   )
 }
 
