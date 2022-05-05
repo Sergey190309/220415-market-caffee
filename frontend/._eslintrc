@@ -1,0 +1,39 @@
+{
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  }
+}
+// {
+//   "env": {
+//     "browser": true,
+//     "es2021": true,
+//     "node": true,
+//     "jest": true
+//     // "jest/globals": true
+//   },
+//   "extends": [
+//     "eslint:recommended",  // new 211203
+//     "plugin:react/recommended",
+//     "plugin:jest/recommended",  // new 211203
+//     // "plugin:jest/style",  // new 211203
+//     "standard"
+//   ],
+//   "parserOptions": {
+//       "ecmaFeatures": {
+//           "jsx": true
+//       },
+//       "ecmaVersion": 12,
+//       "sourceType": "module"
+//   },
+//   "plugins": [
+//     // "babel", // new 211203
+//     "react"
+//     // "jest"
+//   ],
+//   "rules": {
+
+//   }
+// }
