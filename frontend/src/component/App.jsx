@@ -3,11 +3,12 @@ import * as SB from './styles/buttons.styled'
 import { GlobalStyle, MainContainer, MainItem } from './styles/global.styled'
 
 const App = () => {
+  // console.log('App ->')
   return (
     <Fragment>
       <GlobalStyle />
       <MainContainer>
-        <MainItem>Menu</MainItem>
+        <MainItem>2022-May-05 10:37</MainItem>
         <MainItem>header</MainItem>
         <MainItem>hBlock</MainItem>
         <MainItem>vBlock</MainItem>

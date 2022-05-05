@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import App from './component/App'
 // import 'semantic-ui-css/semantic.min.css'
 
+import './inits/init'
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
