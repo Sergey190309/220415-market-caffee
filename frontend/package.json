@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
+    "axios": "^0.27.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.1",
@@ -50,7 +51,9 @@
     "babel-jest": "^28.0.2",
     "jest": "^28.0.2",
     "jest-environment-jsdom": "^28.0.2",
+    "jest-localstorage-mock": "^2.4.21",
     "jest-styled-components": "^7.0.8",
-    "react-test-renderer": "^18.1.0"
+    "react-test-renderer": "^18.1.0",
+    "regenerator-runtime": "^0.13.9"
   }
 }

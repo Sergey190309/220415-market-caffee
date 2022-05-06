@@ -6,7 +6,18 @@ export const rootReducer = combineReducers({
 })
 
 export {
-  startInitLoading
+  startInitLoading,
+  initLoadingSuccess,
+  startTechIn,
+  techInSuccess,
+  techInFail,
+  startLngs,
+  lngsSuccess,
+  lngsFail,
+  startI18n,
+  i18nInitiated,
+  i18nSuccess,
+  i18nFail
 } from './tech'
 
 

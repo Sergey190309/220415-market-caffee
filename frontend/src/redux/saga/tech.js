@@ -1,6 +1,6 @@
 import {
   call,
-  put,
+  // put,
   takeEvery
 } from 'redux-saga/effects'
 import { startInitLoading } from '../slices/tech'

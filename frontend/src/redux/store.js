@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 import reducer from './slices'
 import rootSaga from './saga'
 
-console.log('store.js')
+// console.log('store.js')
 
 const initialState = {}
 const sagaMiddleware = createSagaMiddleware()
