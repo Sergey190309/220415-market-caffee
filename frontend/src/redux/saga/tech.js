@@ -1,9 +1,17 @@
+import { v4 } from 'uuid'
 import {
   call,
-  // put,
+  put,
   takeEvery
 } from 'redux-saga/effects'
-import { startInitLoading } from '../slices/tech'
+
+import {
+  initI18next,
+  // setI18next
+} from '../../l10n/i18n'
+import {
+  startInitLoading, startTechIn
+} from '../slices/tech'
 
 export function* startInitSaga() {
    /**
@@ -13,14 +21,14 @@ export function* startInitSaga() {
   yield takeEvery(startInitLoading.type, startInitWorker)
 }
 
-const someInit = () => (
-  console.log('startInitWorker')
-)
-
 export function* startInitWorker() {
   /**
+   * That starting of initiation process:
+   */
+   yield put(startTechIn(v4()))
+  /**
    * It should start i18n initiation using direct call to i18n API.
-   * When i18n has finished it should set I18N_INITIATED it true
+   * When i18n has finished it should set I18N_INITIATED true
   */
-  yield call(someInit)
+  yield call(initI18next)
 }
