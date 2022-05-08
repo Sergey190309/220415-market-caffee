@@ -106,7 +106,7 @@ services:
 
     volumes:
       - ~/code/docker-logs/mysql/:/var/lib/mysql/log/
-      - mysqldata:/var/lib/mysql
+      - 220415-market-caffee_mysqldata:/var/lib/mysql
 
     networks:
       - backend
@@ -125,7 +125,7 @@ networks:
     driver: bridge
 
 volumes:
-  mysqldata:
+  220415-market-caffee_mysqldata:
     external: true
     # driver: local
   # backenddata:
