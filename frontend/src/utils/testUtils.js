@@ -17,7 +17,7 @@ import { render } from '@testing-library/react'
 // import logIn from '../redux/reducers/auth'
 // import lng from '../redux/reducers/lng'
 
-import rootReducer from './redux/slices'
+import rootReducer from '../redux/slices'
 // import reducer from './redux/slices';
 // ===================================================
 // The block about rendering connected components.
