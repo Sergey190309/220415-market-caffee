@@ -1,12 +1,12 @@
-// import 'react-native-get-random-values'
 import { v4 } from 'uuid'
 
-import { techTextAxiosClient as mockAxios } from '../../api/apiClient'
+// import { techTextAxiosClient as mockAxios } from '../../api/apiClient'
 import {
   // techInSuccess, startLngs
 } from '../slices'
 
 import { recordSaga } from '../../utils/testUtils'
+
 import { startInitWorker } from './tech'
 
 describe('Tech saga testing', () => {
@@ -32,7 +32,8 @@ describe('Tech saga testing', () => {
     test('startInitWorker', async () => {
       const dispatched = await recordSaga(startInitWorker)
       console.log('saga>tech.test',
-        '\n  dispatched ->', dispatched
+        '\n  dispatched ->',
+        dispatched
       )
     })
 
