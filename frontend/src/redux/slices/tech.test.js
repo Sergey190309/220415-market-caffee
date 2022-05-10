@@ -11,6 +11,7 @@ import {
 } from './tech'
 
 jest.mock('../../api/apiClient')
+// jest.mock('./tech')
 
 describe('Tech slice testing', () => {
   let state
@@ -25,6 +26,7 @@ describe('Tech slice testing', () => {
     store.dispatch(startInitLoading())
     state = store.getState().tech
     expect(state).toEqual(expState)
+
     // console.log('slice, tech.test',
     //   '\n  state -> ', state,
     //   '\n  expState ->', expState)

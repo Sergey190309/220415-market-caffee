@@ -4,10 +4,10 @@ import { TECH_TOKEN } from '../constants/localStorageVariables'
 import { setAxiosTechToken } from '../../api/apiClient'
 
 /**
- * loading: bool
- * loaded: bool
- * techLoaded: bool
- * lngsLoaded: bool
+ * loading: bool - any loading in progress
+ * loaded: bool - any loading has been finifshed successfully
+ * techLoaded: bool - teck token has been recieved successfully
+ * lngsLoaded: bool -
  * i18nInitiated: bool
  * i18nLoaded: bool
  *
@@ -46,6 +46,7 @@ const techSlice = createSlice({
       state.loaded = true
     },
     startTechIn: state => { // tested
+      console.log('tech slicer, startTechIn')
       state.techLoaded = false
     },
     techInSuccess: (state, { payload }) => { // tested

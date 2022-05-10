@@ -1,0 +1,80 @@
+yarn run v1.22.18
+$ jest -t startInitWorker
+
+jest.config.js
+babel.config.js
+babel.config.js
+babel.config.js
+  console.error
+    TypeError: Cannot read properties of undefined (reading 'startInitLoading')
+        at startInitLoading (/home/sa/code/220415-market-caffee/frontend/src/redux/saga/tech.js:24:5)
+        at tryCatch (/home/sa/code/220415-market-caffee/frontend/node_modules/regenerator-runtime/runtime.js:63:40)
+        at Generator.invoke [as _invoke] (/home/sa/code/220415-market-caffee/frontend/node_modules/regenerator-runtime/runtime.js:294:22)
+        at Generator.next (/home/sa/code/220415-market-caffee/frontend/node_modules/regenerator-runtime/runtime.js:119:21)
+        at next (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1161:27)
+        at proc (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1112:3)
+        at runEffect (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1203:7)
+        at digestEffect (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1275:5)
+        at /home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:677:5
+        at Array.forEach (<anonymous>)
+        at runAllEffect (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:676:8)
+        at runEffect (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1208:7)
+        at digestEffect (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1275:5)
+        at next (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1165:9)
+        at proc (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1112:3)
+        at /home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1371:16
+        at immediately (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:60:12)
+        at runSaga (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1370:10)
+        at Function.sagaMiddleware.run (/home/sa/code/220415-market-caffee/frontend/node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1427:25)
+        at Object.run (/home/sa/code/220415-market-caffee/frontend/src/redux/store.js:21:16)
+        at Runtime._execModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1691:24)
+        at Runtime._loadModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1222:12)
+        at Runtime.requireModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1046:12)
+        at Runtime.requireModuleOrMock (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1247:21)
+        at Object.<anonymous> (/home/sa/code/220415-market-caffee/frontend/src/l10n/i18n.js:5:1)
+        at Runtime._execModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1691:24)
+        at Runtime._loadModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1222:12)
+        at Runtime.requireModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1046:12)
+        at Runtime.requireModuleOrMock (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1247:21)
+        at Object.<anonymous> (/home/sa/code/220415-market-caffee/frontend/src/redux/saga/tech.js:9:1)
+        at Runtime._execModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1691:24)
+        at Runtime._loadModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1222:12)
+        at Runtime.requireModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1046:12)
+        at Runtime.requireModuleOrMock (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1247:21)
+        at Object.<anonymous> (/home/sa/code/220415-market-caffee/frontend/src/redux/saga/tech.test.js:10:1)
+        at Runtime._execModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1691:24)
+        at Runtime._loadModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1222:12)
+        at Runtime.requireModule (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runtime/build/index.js:1046:12)
+        at jestAdapter (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:89:13)
+        at processTicksAndRejections (node:internal/process/task_queues:96:5)
+        at runTestInternal (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runner/build/runTest.js:411:16)
+        at runTest (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runner/build/runTest.js:499:34)
+        at Object.worker (/home/sa/code/220415-market-caffee/frontend/node_modules/jest-cli/node_modules/jest-runner/build/testWorker.js:133:12)
+
+      at Object.logError [as onError] (node_modules/@redux-saga/core/dist/io-1d6eccda.js:115:11)
+      at end (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1007:13)
+      at abort (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:817:5)
+      at Object.task.cont (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:832:9)
+      at next (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1182:16)
+      at currCb (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1255:7)
+      at chCbAtKey (node_modules/@redux-saga/core/dist/io-1d6eccda.js:181:9)
+
+  console.error
+    The above error occurred in task rootSaga
+        created by rootSaga
+
+      at Object.logError [as onError] (node_modules/@redux-saga/core/dist/io-1d6eccda.js:116:11)
+      at end (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1007:13)
+      at abort (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:817:5)
+      at Object.task.cont (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:832:9)
+      at next (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1182:16)
+      at currCb (node_modules/@redux-saga/core/dist/redux-saga-core.dev.cjs.js:1255:7)
+      at chCbAtKey (node_modules/@redux-saga/core/dist/io-1d6eccda.js:181:9)
+
+  console.log
+    saga>tech.test 
+      dispatched ->
+
+      at log (src/redux/saga/tech.test.js:34:15)
+
+Done in 2.75s.
