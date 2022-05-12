@@ -9,9 +9,14 @@ import { recordSaga } from '../../utils/testUtils'
 
 import { startInitWorker } from './tech'
 
+// const mock_v4 = v4()
+jest.mock('uuid', () => ({
+  v4: jest.fn(() => 'mocked identity')
+}))
+
 describe('Tech saga testing', () => {
   describe('startInitSaga', () => {
-    const mockTechInData = v4()
+
     // const mockResolveData = {
     //   message: 'ТехРег докладывает! Тех жетон в сообщении.',
     //   payload: 'mock_token'
@@ -31,10 +36,12 @@ describe('Tech saga testing', () => {
     })
     test('startInitWorker', async () => {
       const dispatched = await recordSaga(startInitWorker)
+
       console.log('saga>tech.test',
         '\n  dispatched ->',
         dispatched
       )
+      expect(dispatched).toHaveLength(1)
     })
 
     // test('tech in success', async () => {
@@ -51,5 +58,5 @@ describe('Tech saga testing', () => {
     //   }
     //   const dispatched = await recordSaga(techInFetch, initialAction)
     // });
-  });
-});
+  })
+})

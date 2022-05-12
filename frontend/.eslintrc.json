@@ -1,0 +1,26 @@
+{
+  "env": {
+    "commonjs": true,
+    "jest": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "babel",
+    "react",
+    "jest"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "react-app",
+    "react-app/jest",
+    "plugin:jest/recommended",
+    "plugin:jest/style"
+  ]
+}

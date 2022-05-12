@@ -8,7 +8,6 @@ const jestConfig = {
   verbose: true,
   testEnvironment: 'jsdom',
   transform: {
-    // "\\.jsx?$": "babel-jest"
     "^.+\\.[t|j]sx?$": "babel-jest"
   },
   // transformIgnorePatterns: ["/node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"],
