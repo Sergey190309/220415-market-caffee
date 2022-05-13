@@ -12,9 +12,9 @@ import {
 } from '../slices/tech'
 
 export function* startInitSaga() {
-   /**
-   * Starting whole initial process
-   */
+  /**
+  * Starting whole initial process
+  */
   // console.log('startInitSaga ->', startInitLoading.type)
   yield takeEvery(startInitLoading.type, startInitWorker)
 }
@@ -31,4 +31,13 @@ export function* startInitWorker() {
    * When i18n has finished it should set I18N_INITIATED true
   */
   yield call(initI18next)
+}
+//--------------------------------------------------------
+// watcher
+export function* techInSaga() {
+  yield takeEvery(startTechIn.type, techInFetch)
+}
+// worker
+export function* techInFetch(action) {
+
 }
