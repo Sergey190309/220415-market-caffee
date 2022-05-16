@@ -22,5 +22,8 @@
     "react-app/jest",
     "plugin:jest/recommended",
     "plugin:jest/style"
-  ]
+  ],
+  "rules":{
+    "no-label-var": "off"
+  }
 }

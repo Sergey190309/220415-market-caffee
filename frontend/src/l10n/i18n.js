@@ -16,7 +16,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
 
   const nameSpaces = ['navbar', 'auth', 'general', 'context']
   // const nameSpaces = ['navbar', 'auth', 'general', 'context', 'errors']
-  // console.log('initI18n,  supportedLngs->', supportedLngs);
+  // console.log('initI18n,  initI18next->', initI18next);
   const lng = supportedLngs[0]
   i18next
     .use(initReactI18next)
@@ -42,7 +42,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
       }
     })
     .then(() => {
-      // console.log('initI18next.then, i18next.language ->', i18next.options.supportedLngs)
+      console.log('initI18next.then, i18next.language ->', i18next.options.supportedLngs)
       store.dispatch(i18nInitiated())
     })
 }
