@@ -21,4 +21,6 @@ const jestConfig = {
   ]
 }
 
+// console.log(jestConfig)
+
 module.exports = jestConfig
