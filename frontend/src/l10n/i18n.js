@@ -16,7 +16,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
 
   const nameSpaces = ['navbar', 'auth', 'general', 'context']
   // const nameSpaces = ['navbar', 'auth', 'general', 'context', 'errors']
-  // console.log('initI18n,  initI18next->', initI18next);
+  console.log('initI18n,  initI18next->', initI18next);
   const lng = supportedLngs[0]
   i18next
     .use(initReactI18next)
