@@ -6,6 +6,7 @@ console.log('\njest.config.js')
 
 const jestConfig = {
   verbose: true,
+  // verbose: false,
   testEnvironment: 'jsdom',
   transform: {
     "^.+\\.[t|j]sx?$": "babel-jest"

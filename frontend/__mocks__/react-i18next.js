@@ -12,7 +12,7 @@ const reactI18next = require('react-i18next')
   }));
 */
 
-console.log('react-i18next.js, mock in __mocks__')
+// console.log('react-i18next.js, mock in __mocks__')
 const hasChildren = node => node && (node.children || (node.props && node.props.children))
 
 const getChildren = node =>

@@ -46,7 +46,7 @@ const techSlice = createSlice({
       state.loaded = true
     },
     startTechIn: state => { // tested
-      console.log('tech slicer, startTechIn')
+      // console.log('tech slicer, startTechIn')
       state.techLoaded = false
     },
     techInSuccess: (state, { payload }) => { // tested

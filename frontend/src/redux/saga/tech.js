@@ -39,5 +39,17 @@ export function* techInSaga() {
 }
 // worker
 export function* techInFetch(action) {
-
+  /**
+   * The saga fetch tech token. If success fire sagas to fetch structure and lngs.
+   */
+   try {
+    console.log('techInFetch, techInCall args ->', action.payload)
+    // const techInResp = yield call(techInCall, { tech_id: action.payload })
+    // console.log('techInFetch, techInResp ->', techInResp)
+    // yield put(techInSuccess(techInResp.data.payload))
+    // yield put(startLngs())
+  } catch (error) {
+    // yield sagaErrorHandler(error)
+    // yield put(techInFail(error))
+  }
 }

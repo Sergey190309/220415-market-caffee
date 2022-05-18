@@ -22,23 +22,8 @@ jest.mock('../../l10n/i18n', () => ({
 
 describe('Tech saga testing', () => {
   describe('startInitSaga', () => {
-
-    // const mockResolveData = {
-    //   message: 'ТехРег докладывает! Тех жетон в сообщении.',
-    //   payload: 'mock_token'
-    // }
-    // const mockRejectData = {
-    //   response: {
-    //     data: {
-    //       message: 'Error message'
-    //     },
-    //     status: 400,
-    //     headers: { header: 'Some header' }
-    //   },
-    //   config: { config: 'Some config' }
-    // }
     beforeEach(() => {
-      jest.resetAllMocks()
+      // jest.resetAllMocks()
     })
     test('startInitWorker', async () => {
       const dispatched = await recordSaga(startInitWorker)
