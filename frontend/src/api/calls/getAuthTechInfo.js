@@ -5,7 +5,9 @@ import {
 // import { apiCallsErrorHandler } from '../../utils/errorHandler';
 
 export const techInCall = techInData => {
-  // console.log('techInCall, techInData ->', techInData)
+  // console.log('techInCall, techInData ->', techInData,
+  //   '\n  techTextAxiosClient ->', techTextAxiosClient
+  // )
   const resp = techTextAxiosClient.get('/home/tech/auth', { params: techInData })
   return resp
 }

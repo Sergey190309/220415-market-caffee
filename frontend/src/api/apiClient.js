@@ -11,6 +11,8 @@ export const headers = {
   }
 }
 
+// console.log('apiClient, baseURL ->', baseURL)
+
 export const techTextAxiosClient = axios.create({
   /**
    * configurated on initial update using tech token
