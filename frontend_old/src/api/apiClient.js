@@ -18,19 +18,19 @@ const headers = {
   }
 }
 
-export const refreshTokenAxiosClient = axios.create({
+export const techTextAxiosClient = axios.create({
   /**
-   * Used to configurate instance to confirm password with
-   * refresh token
+   * configurated on initial update using tech token
+   * used for get requests for textual information.
    */
   baseURL: baseURL,
   headers: headers
 })
 
-export const techTextAxiosClient = axios.create({
+export const refreshTokenAxiosClient = axios.create({
   /**
-   * configurated on initial update using tech token
-   * used for get requests for textual information.
+   * Used to configurate instance to confirm password with
+   * refresh token
    */
   baseURL: baseURL,
   headers: headers
