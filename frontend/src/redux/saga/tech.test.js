@@ -4,10 +4,14 @@ import { configureStore } from '@reduxjs/toolkit'
 // import configureStore from 'redux-mock-store'
 import { takeEvery } from 'redux-saga/effects'
 
+import { rejectData, resolveTechInGet } from '../../constants/tests/testAxiosConstants'
+
 import reducer, {
   // techInSuccess, startLngs
   startInitLoading,
-  startTechIn
+  startTechIn,
+  techInSuccess,
+  techInFail
 } from '../slices'
 import { techInCall } from '../../api/calls/getAuthTechInfo'
 
@@ -22,6 +26,7 @@ import {
 } from './tech'
 
 import { initI18next } from '../../l10n/i18n'
+import { sagaErrorHandler } from '../../utils/errorHandler'
 
 
 jest.mock('uuid')
@@ -34,7 +39,10 @@ jest.mock('redux-saga/effects', () => ({
   takeEvery: jest.fn()
 }))
 jest.mock('../../api/calls/getAuthTechInfo', () => ({
-  techInCall: jest.fn()
+  techInCall: jest.fn(),
+}))
+jest.mock('../../utils/errorHandler', () => ({
+  sagaErrorHandler: jest.fn()
 }))
 
 describe('Tech saga testing', () => {
@@ -46,6 +54,7 @@ describe('Tech saga testing', () => {
     jest.unmock('../../l10n/i18n')
     jest.unmock('redux-saga/effects')
     jest.unmock('../../api/calls/getAuthTechInfo')
+    jest.unmock('../../utils/errorHandler')
   })
   describe('saga watchers', () => {
     let sagaMiddleware
@@ -81,6 +90,9 @@ describe('Tech saga testing', () => {
     })
   })
   describe('saga workers', () => {
+    const initialAction = {
+      payload: mockV4Value
+    }
     test('startInitWorker', async () => {
       const dispatched = await recordSaga(startInitWorker)
       expect(dispatched).toHaveLength(1)
@@ -88,16 +100,33 @@ describe('Tech saga testing', () => {
       expect(dispatched[0].payload).toBe(mockV4Value)
       expect(initI18next).toHaveBeenCalledTimes(1)
     })
-    test('techInFetch', async () => {
-      const initialAction = {
-        payload: mockV4Value
-      }
-      techInCall.mockImplementation(() => 'hi')
-      // techInCall.mockReturnValue('hi')
+    test('techInFetch, success', async () => {
+      // techInCall.mockResolvedValue(resolveTechInGet)
+      techInCall.mockImplementation(
+        () => Promise.resolve(resolveTechInGet))
       const dispatched = await recordSaga(techInFetch, initialAction)
-
-      console.log('techInCall ->', techInCall.mock.calls)
-      console.log('dispatched ->', dispatched)
+      expect(techInCall).toHaveBeenCalledTimes(1)
+      expect(techInCall).toHaveBeenCalledWith({
+        tech_id: initialAction.payload
+      })
+      expect(dispatched).toHaveLength(2)
+      expect(dispatched[0]).toEqual({
+        type: techInSuccess.type,
+        payload: resolveTechInGet.data.payload
+      })
+    })
+    test('techInFetch, fail', async () => {
+      techInCall.mockImplementation(
+        () => Promise.reject(rejectData))
+      const dispatched = await recordSaga(techInFetch, initialAction)
+      expect(sagaErrorHandler).toHaveBeenCalledTimes(1)
+      expect(sagaErrorHandler).toHaveBeenCalledWith(rejectData)
+      expect(dispatched).toHaveLength(1)
+      expect(dispatched[0]).toEqual({
+        type: techInFail.type,
+        payload: undefined
+      })
+      // console.log('dispatched ->', dispatched)
     })
   })
 })
