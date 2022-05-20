@@ -24,6 +24,7 @@
     "plugin:jest/style"
   ],
   "rules":{
-    "no-label-var": "off"
+    "no-label-var": "off",
+    "jest/expect-expect": "off"
   }
 }
