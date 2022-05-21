@@ -31,6 +31,6 @@ export function* sagaErrorHandler(error) {
     // )
     console.log('sagaErrorHandler, error.request ->', error.request)
   } else {
-    console.log('Error ->', error.message)
+    // console.log('Error ->', error.message)
   }
 }
