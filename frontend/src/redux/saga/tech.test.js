@@ -1,56 +1,132 @@
 import { mockV4Value } from 'uuid'
-import {
+import createSagaMiddleware from 'redux-saga'
+import { configureStore } from '@reduxjs/toolkit'
+// import configureStore from 'redux-mock-store'
+import { takeEvery } from 'redux-saga/effects'
+
+import { rejectData, resolveTechInGet } from '../../constants/tests/testAxiosConstants'
+
+import reducer, {
   // techInSuccess, startLngs
-  startTechIn
+  startInitLoading,
+  startTechIn,
+  techInSuccess,
+  techInFail
 } from '../slices'
+import { techInCall } from '../../api/calls/getAuthTechInfo'
 
 import { recordSaga } from '../../utils/testUtils'
 
-import { startInitWorker } from './tech'
+// import {techTextAxiosClient as mockTechTextAxiosClient} from '../../api/apiClient'
+
+// import { startInitSaga } from './tech'
+
+import {
+  startInitSaga, startInitWorker, techInFetch, techInSaga
+} from './tech'
 
 import { initI18next } from '../../l10n/i18n'
+import { sagaErrorHandler } from '../../utils/errorHandler'
+
 
 jest.mock('uuid')
 jest.mock('../../l10n/i18n', () => ({
   initI18next: jest.fn()
 }))
-// const mock_v4 = v4()
-// jest.mock('uuid', () => {
-//   v4: jest.fn()
-//   // v4: jest.fn(() => {'mocked identity'})
-// })
+jest.mock('redux-saga/effects', () => ({
+  __esModule: true,
+  ...jest.requireActual('redux-saga/effects'),
+  takeEvery: jest.fn()
+}))
+jest.mock('../../api/calls/getAuthTechInfo', () => ({
+  techInCall: jest.fn(),
+}))
+jest.mock('../../utils/errorHandler', () => ({
+  sagaErrorHandler: jest.fn()
+}))
 
 describe('Tech saga testing', () => {
-  describe('startInitSaga', () => {
-
-    // const mockResolveData = {
-    //   message: 'ТехРег докладывает! Тех жетон в сообщении.',
-    //   payload: 'mock_token'
-    // }
-    // const mockRejectData = {
-    //   response: {
-    //     data: {
-    //       message: 'Error message'
-    //     },
-    //     status: 400,
-    //     headers: { header: 'Some header' }
-    //   },
-    //   config: { config: 'Some config' }
-    // }
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+  afterAll(() => {
+    jest.unmock('uuid')
+    jest.unmock('../../l10n/i18n')
+    jest.unmock('redux-saga/effects')
+    jest.unmock('../../api/calls/getAuthTechInfo')
+    jest.unmock('../../utils/errorHandler')
+  })
+  describe('saga watchers', () => {
+    let sagaMiddleware
     beforeEach(() => {
-      jest.resetAllMocks()
+      const initialState = {}
+      sagaMiddleware = createSagaMiddleware()
+      const middleware = getDefaultMiddleware => [
+        ...getDefaultMiddleware({ thunk: false }),
+        sagaMiddleware
+      ]
+      configureStore({
+        reducer,
+        middleware,
+        initialState
+      })
+
     })
+    test('startInitSaga', async () => {
+      sagaMiddleware.run(startInitSaga)
+      // sagaMiddleware.run(rootSaga)
+      expect(takeEvery).toHaveBeenCalledTimes(1)
+      expect(takeEvery).toHaveBeenCalledWith(
+        startInitLoading.type, startInitWorker)
+    })
+    test('techInSaga', () => {
+      expect(true).toBe(true)
+      sagaMiddleware.run(techInSaga)
+      expect(takeEvery).toHaveBeenCalledTimes(1)
+      expect(takeEvery).toHaveBeenCalledWith(
+        startTechIn.type, techInFetch)
+      // console.log('techInSaga, takeEvery ->',
+      //   takeEvery.mock.calls)
+    })
+  })
+  describe('saga workers', () => {
+    const initialAction = {
+      payload: mockV4Value
+    }
     test('startInitWorker', async () => {
       const dispatched = await recordSaga(startInitWorker)
-
-      // console.log('saga>tech.test',
-      //   '\n  dispatched  ->',
-      //   dispatched[0]
-      // )
       expect(dispatched).toHaveLength(1)
       expect(dispatched[0].type).toBe(startTechIn.type)
       expect(dispatched[0].payload).toBe(mockV4Value)
       expect(initI18next).toHaveBeenCalledTimes(1)
+    })
+    test('techInFetch, success', async () => {
+      // techInCall.mockResolvedValue(resolveTechInGet)
+      techInCall.mockImplementation(
+        () => Promise.resolve(resolveTechInGet))
+      const dispatched = await recordSaga(techInFetch, initialAction)
+      expect(techInCall).toHaveBeenCalledTimes(1)
+      expect(techInCall).toHaveBeenCalledWith({
+        tech_id: initialAction.payload
+      })
+      expect(dispatched).toHaveLength(2)
+      expect(dispatched[0]).toEqual({
+        type: techInSuccess.type,
+        payload: resolveTechInGet.data.payload
+      })
+    })
+    test('techInFetch, fail', async () => {
+      techInCall.mockImplementation(
+        () => Promise.reject(rejectData))
+      const dispatched = await recordSaga(techInFetch, initialAction)
+      expect(sagaErrorHandler).toHaveBeenCalledTimes(1)
+      expect(sagaErrorHandler).toHaveBeenCalledWith(rejectData)
+      expect(dispatched).toHaveLength(1)
+      expect(dispatched[0]).toEqual({
+        type: techInFail.type,
+        payload: undefined
+      })
+      // console.log('dispatched ->', dispatched)
     })
   })
 })
