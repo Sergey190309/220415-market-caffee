@@ -72,6 +72,8 @@ services:
       APP_ENV: 'dev'
       APP_DEBUG: 'True'
 
+      JWT_SECRET_KEY: 'very_secret_key'
+
       DATABASE_USER: 'coffee'
       DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
       DATABASE_HOST: mysqldb

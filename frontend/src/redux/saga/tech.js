@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { v4 } from 'uuid'
 
-import { techInCall } from '../../api/calls/getAuthTechInfo'
+import { lngsCall, techInCall } from '../../api/calls/getAuthTechInfo'
 import { sagaErrorHandler } from '../../utils/errorHandler'
 import {
   initI18next,
@@ -12,7 +12,8 @@ import {
   startLngs,
   startTechIn,
   techInFail,
-  techInSuccess
+  techInSuccess,
+  startI18n
 } from '../slices'
 
 export function* startInitSaga() {
@@ -49,7 +50,7 @@ export function* techInFetch(action) {
   try {
     const techInResp = yield call(
       techInCall, { tech_id: action.payload })
-    // console.log('techInFetch, techInResp ->', techInResp.data.payload)
+    console.log('techInFetch, techInResp ->', techInResp.data.payload)
     yield put(techInSuccess(techInResp.data.payload))
     yield put(startLngs())
   } catch (error) {
@@ -57,5 +58,51 @@ export function* techInFetch(action) {
 
     yield sagaErrorHandler(error)
     yield put(techInFail())
+  }
+}
+//--------------------------------------------------------
+// Watcher
+export function* lngsSaga() {
+  yield takeEvery(startLngs.type, lngsWorker)
+}
+
+// Worker
+export function* lngsWorker(action) {
+  console.log('lngsWorker')
+  try {
+    const resp = yield call(lngsCall)
+    console.log('lngsWorker, resp ->', resp)
+    const lngs = resp.data.payload.map(item => item.id)
+    console.log('tech, saga, lngs worker, lngs ->', lngs)
+    // yield put(lngsSuccess())
+    // yield put(startI18n(lngs))
+  } catch (error) {
+    // sagaErrorHandler(error);
+    // yield put(lngsFail(error))
+  }
+}
+//--------------------------------------------------------
+
+export function * i18nSaga () {
+  yield takeEvery(startI18n.type, i18nWorker)
+}
+
+export function * i18nWorker (
+  action
+) {
+  try {
+    /**
+     * Set lng switcher and current language according locales
+     * awailable on back end.
+     */
+    // yield call(setI18next, action.payload)
+    // yield put(i18nSuccess())
+    /**
+     * initate structure loading here
+     */
+  //   yield put(structureStart())
+  //   yield put(initLoadingSuccess())
+  } catch (error) {
+  //   yield put(i18nFail(error))
   }
 }
