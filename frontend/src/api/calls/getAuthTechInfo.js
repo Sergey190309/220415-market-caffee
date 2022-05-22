@@ -12,16 +12,17 @@ export const techInCall = techInData => {
   return resp
 }
 
+export const lngsCall = () => {
+  const resp = techTextAxiosClient.get('/global/locales')
+  return resp
+}
+
 // export const confirmPasswordCall = passwordData => {
 //   // console.log('confirmPasswordCall, passwordData ->', passwordData)
 //   const resp = refreshTokenAxiosClient.put('/users/login', passwordData)
 //   return resp
 // }
 
-// export const lngsCall = () => {
-//   const resp = techTextAxiosClient.get('/global/locales')
-//   return resp
-// }
 
 
 // export const logInCall = logInData => {

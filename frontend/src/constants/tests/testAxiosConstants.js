@@ -8,7 +8,7 @@
   },
   status: 200
 }
-export const rejectData = {
+export const rejectData404 = {
   response: {
     data: {
       message: 'Error message'

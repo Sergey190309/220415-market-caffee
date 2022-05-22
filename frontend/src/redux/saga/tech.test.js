@@ -4,14 +4,16 @@ import { configureStore } from '@reduxjs/toolkit'
 // import configureStore from 'redux-mock-store'
 import { takeEvery } from 'redux-saga/effects'
 
-import { rejectData, resolveTechInGet } from '../../constants/tests/testAxiosConstants'
+import { rejectData404, resolveTechInGet } from '../../constants/tests/testAxiosConstants'
 
 import reducer, {
   // techInSuccess, startLngs
   startInitLoading,
   startTechIn,
   techInSuccess,
-  techInFail
+  techInFail,
+  startLngs,
+  startI18n
 } from '../slices'
 import { techInCall } from '../../api/calls/getAuthTechInfo'
 
@@ -22,6 +24,10 @@ import { recordSaga } from '../../utils/testUtils'
 // import { startInitSaga } from './tech'
 
 import {
+  i18nSaga,
+  i18nWorker,
+  lngsSaga,
+  lngsWorker,
   startInitSaga, startInitWorker, techInFetch, techInSaga
 } from './tech'
 
@@ -34,7 +40,7 @@ jest.mock('../../l10n/i18n', () => ({
   initI18next: jest.fn()
 }))
 jest.mock('redux-saga/effects', () => ({
-  __esModule: true,
+  // __esModule: true,
   ...jest.requireActual('redux-saga/effects'),
   takeEvery: jest.fn()
 }))
@@ -80,13 +86,21 @@ describe('Tech saga testing', () => {
         startInitLoading.type, startInitWorker)
     })
     test('techInSaga', () => {
-      expect(true).toBe(true)
       sagaMiddleware.run(techInSaga)
       expect(takeEvery).toHaveBeenCalledTimes(1)
       expect(takeEvery).toHaveBeenCalledWith(
         startTechIn.type, techInFetch)
-      // console.log('techInSaga, takeEvery ->',
-      //   takeEvery.mock.calls)
+    })
+    test('lngSaga', async () => {
+      sagaMiddleware.run(lngsSaga)
+      expect(takeEvery).toHaveBeenCalledTimes(1)
+      expect(takeEvery).toHaveBeenCalledWith(
+        startLngs.type, lngsWorker)
+    })
+    test('i18nSaga', () => {
+      sagaMiddleware.run(i18nSaga)
+      expect(takeEvery).toHaveBeenCalledTimes(1)
+      expect(takeEvery).toHaveBeenCalledWith(startI18n.type, i18nWorker)
     })
   })
   describe('saga workers', () => {
@@ -117,10 +131,10 @@ describe('Tech saga testing', () => {
     })
     test('techInFetch, fail', async () => {
       techInCall.mockImplementation(
-        () => Promise.reject(rejectData))
+        () => Promise.reject(rejectData404))
       const dispatched = await recordSaga(techInFetch, initialAction)
       expect(sagaErrorHandler).toHaveBeenCalledTimes(1)
-      expect(sagaErrorHandler).toHaveBeenCalledWith(rejectData)
+      expect(sagaErrorHandler).toHaveBeenCalledWith(rejectData404)
       expect(dispatched).toHaveLength(1)
       expect(dispatched[0]).toEqual({
         type: techInFail.type,
