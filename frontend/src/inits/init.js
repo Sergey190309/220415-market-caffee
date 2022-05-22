@@ -3,4 +3,4 @@ import store from '../redux/store'
 
 store.dispatch(startInitLoading())
 
-console.log('init.js')
+// console.log('init.js')
