@@ -137,6 +137,10 @@ describe('Tech saga testing', () => {
         type: techInSuccess.type,
         payload: resolveTechInFetch.data.payload
       })
+      expect(dispatched[1]).toEqual({
+        type: startLngs.type,
+        payload: undefined
+      })
     })
     test('techInFetch, fail', async () => {
       techInCall.mockImplementation(

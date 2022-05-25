@@ -107,7 +107,7 @@ export function* i18nWorker(action) {
      * initate structure loading here
      */
     yield put(initLoadingSuccess())
-    //   yield put(structureStart())
+      // yield put(structureStart())
   } catch (error) {
     sagaErrorHandler(error)
     yield put(i18nFail())
