@@ -18,7 +18,7 @@ const structureSlice = createSlice({
       //   '\n initialState ->', initialState,
       //   '\n payload ->', payload
       // )
-      Object.assign(state, { ...payload })
+      Object.assign(state, payload)
     },
     structureStart: state => {
       state.loading = true

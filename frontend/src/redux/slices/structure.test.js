@@ -24,10 +24,13 @@ describe('structure slices testing', () => {
       loaded: false
     }
     store.dispatch(setTestStructureState({
+      ...initialState,
       loading: false,
       loaded: true
     }))
+    store.dispatch(structureStart())
     const state = store.getState().structure
+    expect(state).toEqual(expState);
     console.log('expState ->', expState,
     '\nstate ->', state)
   });
