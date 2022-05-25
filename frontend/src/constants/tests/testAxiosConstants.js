@@ -1,12 +1,20 @@
 /**
  * tech in constants
  */
- export const resolveTechInGet = {
+export const resolveTechInFetch = {
   data: {
     message: 'TechAuth reporing! Tech token is in payload.',
     payload: 'mock tech token'
   },
   status: 200
+}
+export const resolveLngsCall = {
+  data: {
+    payload: [
+      { remarks: "General english.", id: "en" },
+      { remarks: "Общий русский.", id: "ru" }
+    ]
+  }
 }
 export const rejectData404 = {
   response: {
