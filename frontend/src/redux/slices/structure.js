@@ -10,7 +10,7 @@ const structureSlice = createSlice({
   name: 'structure',
   initialState,
   reducers: {
-    setTestState: (state, { payload }) => {
+    setTestStructureState: (state, { payload }) => {
       Object.keys(state).forEach(key => {
         delete state[key]
       })
@@ -45,7 +45,8 @@ const structureSlice = createSlice({
 })
 
 export const {
-  setState, structureStart, structureSuccess,
+  setTestStructureState,
+  structureStart, structureSuccess,
   structureFail, structureResetChanged
 } = structureSlice.actions
 export const structureSelector = state => state.structure

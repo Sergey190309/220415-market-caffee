@@ -8,7 +8,7 @@ export const rootReducer = combineReducers({
 })
 
 export {
-  setState,
+  // setState,
   structureStart, structureSuccess, structureFail,
   structureResetChanged
 } from './structure'

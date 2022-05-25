@@ -7,7 +7,7 @@ import reducer from './'
 import { TECH_TOKEN } from '../constants/localStorageVariables'
 import { setAxiosTechToken } from '../../api/apiClient'
 import {
-  initialState, setTestState,
+  initialState, setTestTechState,
   startInitLoading, initLoadingSuccess,
   startTechIn, techInSuccess, techInFail,
   startLngs, lngsSuccess, lngsFail,
@@ -27,7 +27,7 @@ describe('Tech slice testing', () => {
     jest.resetAllMocks()
     store = configureStore({ reducer, middleware, initialState })
 
-    // store.dispatch(setTestState(initialState))
+    // store.dispatch(setTestTechState(initialState))
     // state = store.getState().tech
     // expect(state).toEqual(initialState)
   })
@@ -35,7 +35,7 @@ describe('Tech slice testing', () => {
     const expState = {
       ...initialState, loading: true, loaded: false
     }
-    store.dispatch(setTestState({ loaded: true }))
+    store.dispatch(setTestTechState({ loaded: true }))
     store.dispatch(startInitLoading())
     const state = store.getState().tech
     expect(state).toEqual(expState)
@@ -48,7 +48,7 @@ describe('Tech slice testing', () => {
     const expState = {
       ...initialState, loading: false, loaded: true
     }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       loading: true
     }))
     store.dispatch(initLoadingSuccess())
@@ -62,7 +62,7 @@ describe('Tech slice testing', () => {
       loaded: false,
       techLoaded: false
     }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       loading: false,
       loaded: true,
       techLoaded: true
@@ -80,7 +80,7 @@ describe('Tech slice testing', () => {
       techLoaded: true,
       techToken: mockPayload
     }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       loading: true,
       loaded: false,
       techLoaded: false,
@@ -99,7 +99,7 @@ describe('Tech slice testing', () => {
     const mockPayload = 'mockPayload'
     const expState = { ...initialState }
     store.dispatch(
-      setTestState({
+      setTestTechState({
         loaded: true,
         techLoaded: true,
         techToken: mockPayload,
@@ -121,7 +121,7 @@ describe('Tech slice testing', () => {
       lngsLoaded: false
     }
     store.dispatch(
-      setTestState({
+      setTestTechState({
         loaded: true, loading: false,
         lngsLoaded: true
       })
@@ -138,7 +138,7 @@ describe('Tech slice testing', () => {
       loaded: true, loading: false,
       lngsLoaded: true
     }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
         loaded: false, loading: true,
         lngsLoaded: false,
     }))
@@ -148,7 +148,7 @@ describe('Tech slice testing', () => {
   })
   test('lngsFail', () => {
     const expState = { ...initialState }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       loading: true,
       loaded: true,
       lngsLoaded: true
@@ -164,7 +164,7 @@ describe('Tech slice testing', () => {
       loaded: false,
       i18nLoaded: false
     }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       loading: false,
       loaded: true,
       i18nLoaded: true
@@ -176,7 +176,7 @@ describe('Tech slice testing', () => {
   })
   test('i18nInitiated', () => {
     const expState = { ...initialState, i18nInitiated: true }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       i18nInitiated: false
     }))
     store.dispatch(i18nInitiated())
@@ -191,7 +191,7 @@ describe('Tech slice testing', () => {
       i18nLoaded: true
     }
     store.dispatch(
-      setTestState({
+      setTestTechState({
         loading: true,
         loaded: false,
         i18nLoaded: false,
@@ -208,7 +208,7 @@ describe('Tech slice testing', () => {
       loaded: false,
       i18nLoaded: false
     }
-    store.dispatch(setTestState({
+    store.dispatch(setTestTechState({
       loading: true,
       loaded: true,
       i18nLoaded: true

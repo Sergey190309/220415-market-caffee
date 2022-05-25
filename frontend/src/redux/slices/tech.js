@@ -31,7 +31,7 @@ const techSlice = createSlice({
   name: 'tech',
   initialState,
   reducers: {
-    setTestState: (state, { payload }) => {
+    setTestTechState: (state, { payload }) => {
       /**
        * That's for testing only.
        * It rewrites all state.
@@ -110,7 +110,7 @@ const techSlice = createSlice({
 })
 
 export const {
-  setTestState,
+  setTestTechState,
   startInitLoading,
   initLoadingSuccess,
   startTechIn,
