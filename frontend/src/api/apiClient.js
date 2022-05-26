@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { baseURL } from '../constants/api'
+// const baseURL = 'http://localhost:5000/'
 
 export const headers = {
   // Accept: 'application/json',
