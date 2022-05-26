@@ -19,7 +19,7 @@ import reducer, {
   initLoadingSuccess,
   i18nSuccess,
   i18nFail
-} from '../slices'
+} from '../slices/tech'
 import { lngsCall, techInCall } from '../../api/calls/getAuthTechInfo'
 
 import { recordSaga } from '../../utils/testUtils'
@@ -38,6 +38,7 @@ import {
 
 import { initI18next, setI18next } from '../../l10n/i18n'
 import { sagaErrorHandler } from '../../utils/errorHandler'
+import { structureStart } from '../slices'
 
 
 jest.mock('uuid')
@@ -189,12 +190,15 @@ describe('Tech saga testing', () => {
       expect(setI18next).toHaveBeenCalledTimes(1)
       expect(setI18next).toHaveBeenCalledWith(action.payload)
       // console.log('dispatched ->', dispatched)
-      expect(dispatched).toHaveLength(2)
+      expect(dispatched).toHaveLength(3)
       expect(dispatched[0]).toEqual({
         type: i18nSuccess.type, payload: undefined
       })
       expect(dispatched[1]).toEqual({
         type: initLoadingSuccess.type, payload: undefined
+      })
+      expect(dispatched[2]).toEqual({
+        type: structureStart.type, payload: undefined
       })
     })
     test('i18nWorker, fail', async () => {

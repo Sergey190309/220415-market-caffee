@@ -8,17 +8,13 @@ import {
   setI18next
 } from '../../l10n/i18n'
 import {
-  startInitLoading,
-  startLngs,
-  startTechIn,
-  techInFail,
-  techInSuccess,
-  startI18n,
-  lngsSuccess,
-  lngsFail,
-  i18nSuccess,
-  initLoadingSuccess,
-  i18nFail
+  // structure slice -------------------------------
+  structureStart,
+  // tech slice -------------------------------
+  startInitLoading, initLoadingSuccess,
+  startTechIn, techInSuccess, techInFail,
+  startLngs, lngsSuccess, lngsFail,
+  startI18n, i18nSuccess,i18nFail
 } from '../slices'
 
 export function* startInitSaga() {
@@ -33,8 +29,6 @@ export function* startInitWorker() {
   /**
    * That starting of initiation process:
    */
-  // console.log('startInitSagaWorker ->', typeof (startTechIn))
-  // startTechIn()
   yield put(startTechIn(v4()))
   /**
    * It should start i18n initiation using direct call to i18n API.
@@ -107,7 +101,7 @@ export function* i18nWorker(action) {
      * initate structure loading here
      */
     yield put(initLoadingSuccess())
-      // yield put(structureStart())
+    yield put(structureStart())
   } catch (error) {
     sagaErrorHandler(error)
     yield put(i18nFail())
