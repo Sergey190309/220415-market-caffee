@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { TECH_TOKEN } from '../constants/localStorageVariables'
 import { setAxiosTechToken } from '../../api/apiClient'
+// import { startInitWorker } from '../saga/tech'
 
 /**
  * loading: bool - any loading in progress
@@ -14,6 +15,7 @@ import { setAxiosTechToken } from '../../api/apiClient'
  * stored in localStorage:
  * techToken: str
  */
+// console.log('slices>tech')
 
 export const initialState = {
   loading: false,
@@ -29,7 +31,7 @@ const techSlice = createSlice({
   name: 'tech',
   initialState,
   reducers: {
-    setTestState: (state, { payload }) => {
+    setTestTechState: (state, { payload }) => {
       /**
        * That's for testing only.
        * It rewrites all state.
@@ -47,52 +49,68 @@ const techSlice = createSlice({
     },
     startTechIn: state => { // tested
       // console.log('tech slicer, startTechIn')
+      state.loading = true
+      state.loaded = false
       state.techLoaded = false
     },
     techInSuccess: (state, { payload }) => { // tested
       // console.log('tech slicer, techInSuccess, payload ->', payload)
       setAxiosTechToken(payload)
       localStorage.setItem(TECH_TOKEN, payload)
+      state.loading = false
+      state.loaded = true
       state.techLoaded = true
       state.techToken = payload
     },
     techInFail: state => { // tested
       localStorage.removeItem(TECH_TOKEN)
+      state.loaded = false
       state.techLoaded = false
       state.techToken = null
       state.loading = false
     },
     startLngs: state => { // tested
+      state.loaded = false
+      state.loading = true
       state.lngsLoaded = false
+      // console.log('techSlice, startLngs, state.loaded after ->', state.loaded)
     },
     lngsSuccess: state => { // tested
+      state.loaded = true
+      state.loading = false
       state.lngsLoaded = true
     },
     lngsFail: state => { // tested
-      state.lngsLoaded = false
       state.loading = false
+      state.loaded = false
+      state.lngsLoaded = false
     },
     startI18n: state => { // somthing went wrong
-      // console.log('techSlice, startI18n, state before ->', state)
-      state.i18nLoaded = false
       state.loading = true
+      state.loaded = false
+      state.i18nLoaded = false
+      // console.log('techSlice, startI18n, state.loading after ->', state.loading)
     },
     i18nInitiated: state => { // tested
       state.i18nInitiated = true
     },
     i18nSuccess: state => { // tested
+      // console.log('techSlice, i18nSuccess, state.loading ->', state.loading)
+      state.loading = false
+      state.loaded = true
       state.i18nLoaded = true
     },
     i18nFail: state => { // tested
-      state.i18nLoaded = false
       state.loading = false
+      state.loaded = false
+      state.i18nLoaded = false
     }
 
   }
 })
 
 export const {
-  setTestState,
+  setTestTechState,
   startInitLoading,
   initLoadingSuccess,
   startTechIn,

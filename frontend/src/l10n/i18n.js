@@ -61,5 +61,3 @@ export const setI18next = lngs => {
   // console.log('i18n, i18next.language ->', i18next.language)
   setAxiosCommonLng(store.getState().lng.lng) // Set axios header for backend calls.
 }
-
-// export default i18next

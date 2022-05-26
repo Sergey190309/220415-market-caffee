@@ -10,7 +10,8 @@ import rootSaga from './saga'
 const initialState = {}
 const sagaMiddleware = createSagaMiddleware()
 
-const middleware = (getDefaultMiddleware) => [...getDefaultMiddleware({ thunk: false }), sagaMiddleware]
+const middleware = (getDefaultMiddleware) => [
+  ...getDefaultMiddleware({ thunk: false }), sagaMiddleware]
 
 const store = configureStore({
   reducer,

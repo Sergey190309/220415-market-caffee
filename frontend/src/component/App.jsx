@@ -8,7 +8,7 @@ const App = () => {
     <Fragment>
       <GlobalStyle />
       <MainContainer>
-        <MainItem>it works!</MainItem>
+        <MainItem>2022-May-24 10:59</MainItem>
         <MainItem>header</MainItem>
         <MainItem>hBlock</MainItem>
         <MainItem>vBlock</MainItem>
