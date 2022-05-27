@@ -1,4 +1,4 @@
-FROM python:3.10.4-slim-buster as pre-backend
+FROM python:3.10.4-slim-buster as pre_backend
 
 EXPOSE 80/tcp
 EXPOSE 443/tcp
@@ -23,11 +23,10 @@ RUN apt update && \
 
 # RUN pip install wheel
 
-# Copy all project to working directory.
-COPY . /backend
-
 # update pip
 RUN pip install -U pip
+
+COPY requirements.txt /backend/
 
 # install packages from local machine
 RUN pip install --no-cache-dir -r requirements.txt
@@ -35,17 +34,17 @@ RUN pip install --no-cache-dir -r requirements.txt
 # instal packages for wsgi
 RUN pip install --no-cache-dir uwsgi
 
-
-# The file with python packages should be installed.
-# COPY requirements.txt .
-
+# d build --rm -f Dockerfile.dev --target pre_backend -t backend:pre .
+# --------------------------------------
+FROM backend:pre AS backend_final
+# Copy all project to working directory.
+COPY . /backend/
 
 EXPOSE 9090
 # EXPOSE 8003/tcp
 
 # ENTRYPOINT [ "python" ]
 # CMD [ "app.py" ]
-
 
 ENV FLASK_APP=run.py
 
@@ -54,6 +53,7 @@ ENV FLASK_APP=run.py
 CMD [ "uwsgi", "uwsgi.ini" ]
 
 # command to build image:
-# d build --rm -t backend .
+# d build --rm -f Dockerfile.dev --target  -t backend:dev .
+
 # command to run image:
 # d run --rm --name backend -it -p 3000:3000 -v $(pwd):/backend backend

@@ -79,8 +79,8 @@ services:
       DATABASE_HOST: mysqldb
       DATABASE_NAME: 'market_coffee'
 
-    # volumes:
-    #   - backend_data:/backend
+    volumes:
+      - ./backend:/backend
 
     depends_on:
       - mysqldb

@@ -31,6 +31,9 @@ class Sessions():
         '''
         return true if session id is in session_ids
         '''
+        print('\nhome>local_init_data_home>sessions>is_valid, str(_id)'
+              ' ->', str(_id),
+              '\ncls.sessions_ids ->', cls.sessions_ids)
         return str(_id) in cls.sessions_ids
 
     @classmethod
@@ -46,8 +49,9 @@ class Sessions():
         '''
         That's for testing purpose
         '''
-        _timestamp = next((item.get('time_stamp')
-                          for item in cls.sessions if item.get('id') == str(_id)), None)
+        _timestamp = next((
+            item.get('time_stamp') for item in cls.sessions if item.get(
+                'id') == str(_id)), None)
         return _timestamp
 
     @classmethod
@@ -67,7 +71,8 @@ class Sessions():
         # remove all instances if it's in session_ids
         while True:
             _session_to_remove = next(
-                (item for item in cls.sessions if item.get('id') == _id), None)
+                (item for item in cls.sessions if item.get('id') == _id),
+                None)
             if _session_to_remove is None:
                 break
             cls.sessions.remove(_session_to_remove)
@@ -85,14 +90,15 @@ class Sessions():
     @classmethod
     def clear(cls, period: float = 0) -> int:
         '''
-        The method clear all instances older then period and return qnt of removed ones.
-        Period is in seconds.
+        The method clear all instances older then period and return qnt
+        of removed ones. Period is in seconds.
         '''
         _time_border_to_remove = datetime.now().timestamp() - period
         _count = 0
         while True:
-            _session_to_remove = next((item for item in cls.sessions if item.get(
-                'time_stamp') < _time_border_to_remove), None)
+            _session_to_remove = next((
+                item for item in cls.sessions if item.get(
+                    'time_stamp') < _time_border_to_remove), None)
             if _session_to_remove is None:
                 break
             cls.sessions.remove(_session_to_remove)

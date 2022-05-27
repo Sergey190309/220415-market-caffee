@@ -16,7 +16,8 @@ from application.home.local_init_data_home import sessions
 def no_access() -> Dict:
     return {
         'message': str(_(
-            "Sorry, access to locales' information is allowed to admin only."
+            "Sorry, access to locales' information is allowed to admin"
+            " only."
         ))
     }, 401
 
@@ -26,20 +27,24 @@ class LocalesGlobal(Resource):
     @jwt_required()
     def get(cls) -> Dict:
         '''
-        The resource give list of available locales in the system based on back-end
-        info.
+        The resource give list of available locales in the system based
+        on back-end info.
         Request should contains tech_token with valid session id.
         '''
+        print('\napplication, resources, locale_global, lng ->',
+              request.headers.get('Accept-Language'),
+              '\nget_jwt_identity() ->', get_jwt_identity()
+              )
         fbp.set_lng(request.headers.get('Accept-Language'))
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
-                    "Something went wrong. Check tech_token and sessions set up."))
+                    "Something went wrong. Check tech_token and sessions"
+                    " set up."))
             }, 500
-        # print('\n application, resources, locale_global, lng ->',
-        #   request.headers.get('Accept-Language'))
         payload = [
-            locale_global_schema.dump(_view) for _view in LocaleGlobalModel.find()
+            locale_global_schema.dump(
+                _view) for _view in LocaleGlobalModel.find()
         ]
         count = len(payload)
         return {
