@@ -18,21 +18,26 @@ class StructureList(Resource):
     @jwt_required()
     def get(cls) -> Dict:
         '''
-        List of structure loaded once upon inititaion. tech_token is reauired.
+        List of structure loaded once upon inititaion.
+        tech_token is required.
         '''
         _lng = request.headers.get('Accept-Language')
+        # print('resuorces>structure.py>structure list, _lng ->', _lng)
         fbp.set_lng(_lng)
         if not sessions.is_valid(get_jwt_identity()):
             return {
                 'message': str(_(
-                    "Something went wrong. Check tech_token and sessions set up."))
+                    "Something went wrong. Check tech_token and sessions"
+                    " set up."))
             }, 500
         payload = [structure_schema.dump(_structure)
-                   for _structure in StructureModel.find({'locale_id': _lng})]
+                   for _structure in StructureModel.find({
+                       'locale_id': _lng})]
         count = len(payload)
         return {
             'message': str(_(
-                "There are %(count)s structures in our database as follows:",
+                "There are %(count)s structures in our database as"
+                " follows:",
                 count=count)),
             'payload': payload
         }, 200
@@ -40,7 +45,8 @@ class StructureList(Resource):
 
 class Structure(Resource):
     @classmethod
-    def already_exists(cls, view_id: str = '', locale_id: str = '') -> Dict:
+    def already_exists(
+            cls, view_id: str = '', locale_id: str = '') -> Dict:
         return {
             'message': str(_(
                 "A structure with identity '%(view_id)s' "
@@ -72,7 +78,8 @@ class Structure(Resource):
         """
         return {
             'message': str(_(
-                "Sorry, access to structure information is allowed to admin only."
+                "Sorry, access to structure information is allowed to"
+                " admin only."
             ))
         }, 401
 
@@ -93,7 +100,8 @@ class Structure(Resource):
             'locale_id': _lng
         }
         _structure = structure_schema.load(
-            {**_request_json, 'locale_id': _lng}, session=dbs_global.session)
+            {**_request_json, 'locale_id': _lng},
+            session=dbs_global.session)
         _structure_fm_db = StructureModel.find_by_ids(_search_json)
         if _structure_fm_db is not None:
             return cls.already_exists(**_search_json)
@@ -102,8 +110,8 @@ class Structure(Resource):
             return cls.error_message(error_info)
         return {
             'message': str(_(
-                "The structure has been saved successfully. "
-                "Details are in payload.")),
+                "The structure has been saved successfully."
+                " Details are in payload.")),
             'payload': structure_schema.dump(_structure)
         }, 201
         # return {'message': 'Hi there!'}
@@ -134,8 +142,8 @@ class Structure(Resource):
             return cls.not_found(**_search_json)
         return {
             'message': str(_(
-                "The structure has been found. "
-                "Details are in payload.")),
+                "The structure has been found."
+                " Details are in payload.")),
             'payload': structure_schema.dump(_structure)
         }, 200
 
@@ -151,20 +159,22 @@ class Structure(Resource):
         if not UserModel.find_by_id(_user_id).is_admin:
             return cls.no_access()
         _update_json = structure_get_schema.load(
-            {**request.get_json(), 'locale_id': _lng, 'user_id': _user_id})
+            {**request.get_json(),
+             'locale_id': _lng, 'user_id': _user_id})
         _search_json = {
             'view_id': _update_json.pop('view_id'),
             'locale_id': _update_json.pop('locale_id')
         }
         _structure = StructureModel.find_by_ids(_search_json)
-        # print('\nstructure, resources, put, _update_json ->', _update_json)
+        # print('\nstructure, resources, put, _update_json ->',
+        # _update_json)
         if _structure is None:
             return cls.not_found(**_search_json)
         _structure.update(_update_json)
         return {
             'message': str(_(
-                "The structure has been found and successfully updated. "
-                "Details are in payload.")),
+                "The structure has been found and successfully updated."
+                " Details are in payload.")),
             'payload': structure_schema.dump(_structure)
         }, 200
 
