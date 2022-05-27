@@ -12,8 +12,8 @@ class JWTManagerUsers(JWTManager):
 
     def loaders(self):
         # print('JWTManagerUsers ->')
-        # This method will check if a token is blacklisted, and will be called
-        # automatically when blacklist is enabled
+        # This method will check if a token is blacklisted, and will be
+        # called automatically when blacklist is enabled
 
         @self.token_in_blocklist_loader
         def check_if_token_in_block_list(jwt_header, jwt_payload):
@@ -21,11 +21,13 @@ class JWTManagerUsers(JWTManager):
             return jti in BLACKLIST
             # return decripted_token['jti'] in BLACKLIST
             # Here we blacklist particular
-            # JWTs that have been created in the past. jti - unique identity.
+            # JWTs that have been created in the past. jti - unique
+            # identity.
 
         # The following callbacks are used for customizing jwt response/
         # error messages.
-        # The original ones may not be in a very pretty format (opinionated)
+        # The original ones may not be in a very pretty format
+        # (opinionated)
 
         @self.additional_claims_loader
         # decorator link the function with jwt

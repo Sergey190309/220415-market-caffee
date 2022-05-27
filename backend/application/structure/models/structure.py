@@ -48,6 +48,8 @@ class StructureModel(dbs_global.Model):
     @classmethod
     def find(cls,
              searching_criterions: Dict = {}) -> List['StructureModel']:
+        # print('models>structure.py>51, searching_criterions ->',
+        #       searching_criterions)
         return cls.query.filter_by(**searching_criterions).all()
 
     def get_element(self, upper_index: int = 0) -> Union[Dict, None]:
