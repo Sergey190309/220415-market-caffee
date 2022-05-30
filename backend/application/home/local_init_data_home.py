@@ -18,12 +18,12 @@ class Sessions():
     @classmethod
     def __init__(cls, sessions: list = []):
         # Sessions.sessions = sessions
+
         cls.sessions = [{
             'id': str(_id),
             'time_stamp': datetime.now().timestamp()
         } for _id in sessions]
         cls.update()
-        # print('home, local_init_data, sessions ->', cls.session)
         # any(print(session) for session in cls.sessions)
 
     @classmethod
@@ -31,9 +31,10 @@ class Sessions():
         '''
         return true if session id is in session_ids
         '''
-        print('\nhome>local_init_data_home>sessions>is_valid, str(_id)'
-              ' ->', str(_id),
-              '\ncls.sessions_ids ->', cls.sessions_ids)
+        # print('\nhome>local_init_data_home>sessions>is_valid, str(_id)'
+        #       ' ->', str(_id),
+        #       '\ncls.sessions_ids ->', cls.sessions_ids,
+        #       )
         return str(_id) in cls.sessions_ids
 
     @classmethod
@@ -41,8 +42,8 @@ class Sessions():
         '''
         update session_id according to session
         '''
-        # print(cls.sessions[0].get('id'))
         cls.sessions_ids = [item.get('id') for item in list(cls.sessions)]
+        # print(('home>local_init_data_home>sessions>update ')
 
     @classmethod
     def timestamp_by_id(cls, _id: str = ''):
@@ -67,6 +68,7 @@ class Sessions():
         '''
         Get string as session id, return timestamp
         '''
+        # print('application>home>local_init_data_home.py>setter')
         _id = str(_id)
         # remove all instances if it's in session_ids
         while True:

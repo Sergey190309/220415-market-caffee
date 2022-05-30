@@ -22,7 +22,6 @@ class StructureList(Resource):
         tech_token is required.
         '''
         _lng = request.headers.get('Accept-Language')
-        # print('resuorces>structure.py>structure list, _lng ->', _lng)
         fbp.set_lng(_lng)
         if not sessions.is_valid(get_jwt_identity()):
             return {
