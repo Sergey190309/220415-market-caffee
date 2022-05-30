@@ -16,17 +16,17 @@ export function* structureSaga() {
 
 // Worker
 export function* structureWorker() {
-// export function* structureWorker(action) {
-  console.log('structureWorker, techTextAxiosClient.defaults.headers.common.Authorization ->', techTextAxiosClient.defaults.headers.common.Authorization)
+  // console.log('structureWorker, techTextAxiosClient.defaults.headers.common.Authorization ->', techTextAxiosClient.defaults.headers.common.Authorization)
   try {
     /**
      * Do nothing if no authorisation token available.
      */
     if (techTextAxiosClient.defaults.headers.common.Authorization === undefined) {
+      // console.log('no authorisation')
       return
     }
     const result = yield call(getViewStructure)
-    // console.log('structureWorker:', '\n result ->', result)
+    console.log('structureWorker:', '\n result ->', result.data.payload)
     const viewStructures = result.data.payload.map(sturcture => ({
       [sturcture.view_id]: sturcture.attributes
     }))

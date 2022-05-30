@@ -1,3 +1,14 @@
+import { structuresArr } from './testConstants'
+/**
+ * Structure contants.
+ */
+export const resolveGetViewStructure = {
+  data: {
+    message: 'message in view structure',
+    payload: structuresArr
+  }
+}
+// ===========================================================
 /**
  * tech in constants
  */
