@@ -31,10 +31,6 @@ class LocalesGlobal(Resource):
         on back-end info.
         Request should contains tech_token with valid session id.
         '''
-        print('\napplication, resources, locale_global, lng ->',
-              request.headers.get('Accept-Language'),
-              '\nget_jwt_identity() ->', get_jwt_identity()
-              )
         fbp.set_lng(request.headers.get('Accept-Language'))
         if not sessions.is_valid(get_jwt_identity()):
             return {
