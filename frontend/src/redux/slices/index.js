@@ -1,13 +1,21 @@
 import { combineReducers } from '@reduxjs/toolkit'
+import alerts from './alerts'
 import lng from './lng'
 import structure from './structure'
 import tech from './tech'
 
 export const rootReducer = combineReducers({
+  alerts,
   lng,
   structure,
   tech,
 })
+
+export {
+  clearAlerts,
+  startAlert,
+  removeAlert
+} from './alerts'
 
 export { lngSwitch } from './lng'
 

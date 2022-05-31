@@ -77,7 +77,7 @@ export function* lngsWorker() {
     yield put(lngsSuccess())
     yield put(startI18n(lngs))
   } catch (error) {
-    console.log('lngsWorker, error ->', error)
+    // console.log('lngsWorker, error ->', error)
     sagaErrorHandler(error)
     yield put(lngsFail())
   }
