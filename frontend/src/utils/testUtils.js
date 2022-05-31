@@ -84,7 +84,32 @@ export const recordSaga = async (saga, initialAction) => {
 /**
  * Return store based on live reducers from slicers
  */
-export const createTestStore = () => {
-  const store = configureStore(combineReducers({ ...rootReducer }))
-  return store
+// export const createTestStore = () => {
+//   const store = configureStore(combineReducers({ ...rootReducer }))
+//   return store
+// }
+// ===================================================
+/**
+ * It's from https://www.codeblocq.com/2021/01/Jest-Mock-Local-Storage/
+ */
+export const fakeLocalStorage =  () => {
+  let store = {}
+
+  return {
+    getItem: key => {
+      return store[key] || null
+    },
+    // getItem: function (key) {
+    //   return store[key] || null;
+    // },
+    setItem: (key, value) => {
+      store[key] = value.toString()
+    },
+    removeItem: key => {
+      delete store[key]
+    },
+    clear: () => {
+      store = {}
+    }
+  }
 }
