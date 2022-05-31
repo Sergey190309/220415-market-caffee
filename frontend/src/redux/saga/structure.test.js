@@ -14,8 +14,10 @@ import '../../api/apiClient'
 import { structureSaga, structureWorker } from './structure'
 
 import { recordSaga } from '../../utils/testUtils'
+import { sagaErrorHandler } from '../../utils/errorHandler'
 
-import { resolveGetViewStructure } from '../../constants/tests/testAxiosConstants'
+import { rejectData404, resolveGetViewStructure } from '../../constants/tests/testAxiosConstants'
+import { techTextAxiosClient } from '../../api/apiClient'
 
 jest.mock('redux-saga/effects', () => ({
   ...jest.requireActual('redux-saga/effects'),
@@ -24,12 +26,16 @@ jest.mock('redux-saga/effects', () => ({
 jest.mock('../../api/apiClient', () => ({
   techTextAxiosClient: {
     defaults: {
-      headers: { common: { Authorization: 'mockBearer' } }
+      headers:
+        { common: { Authorization: 'mockBearer' } }
     }
   }
 }))
 jest.mock('../../api/calls/getViewsStructure', () => ({
   getViewStructure: jest.fn()
+}))
+jest.mock('../../utils/errorHandler', () => ({
+  sagaErrorHandler: jest.fn()
 }))
 
 describe('Structure saga testing', () => {
@@ -39,6 +45,7 @@ describe('Structure saga testing', () => {
   afterAll(() => {
     jest.unmock('redux-saga/effects')
     jest.unmock('../../api/apiClient')
+    jest.unmock('../../utils/errorHandler')
   })
   describe('Saga watcher', () => {
     let sagaMiddleware
@@ -64,13 +71,38 @@ describe('Structure saga testing', () => {
   })
   describe('Saga workers', () => {
     test('structureWorker, success', async () => {
-      getViewStructure.mockImplementation(() => resolveGetViewStructure)
-      const expViewStructures = resolveGetViewStructure.data.payload.map(structure => ({[structure.view_id]: structure.attributes}))
+      getViewStructure.mockImplementation(() => Promise.resolve(resolveGetViewStructure))
+      const expViewStructures = resolveGetViewStructure.data.payload.map(structure => ({
+        [structure.view_id]: structure.attributes
+      }))
       const dispatched = await recordSaga(structureWorker)
       expect(getViewStructure).toHaveBeenCalledTimes(1)
+      expect(dispatched).toHaveLength(1)
+      expect(dispatched[0]).toEqual({
+        type: structureSuccess.type,
+        payload: expViewStructures
+      })
+      // console.log('dispatched ->', dispatched)
+      // console.log('resolveGetViewStructure ->', resolveGetViewStructure.data.payload)
+      // console.log('expViewStructure ->', expViewStructures)
+    })
+    test('structureWorker, no authorization', async () => {
+      techTextAxiosClient.defaults.headers.common.Authorization = undefined
+      const dispatched = await recordSaga(structureWorker)
+      expect(dispatched).toHaveLength(0)
+      expect(getViewStructure.mock.calls).toHaveLength(0)
+      techTextAxiosClient.defaults.headers.common.Authorization = 'mockBearer'
+      // console.log('getViewStructure.mock.calls ->', getViewStructure.mock.calls)
+      // console.log('dispatched ->', dispatched)
+    })
+    test('structureWorker, fail', async () => {
+      getViewStructure.mockImplementation(() => Promise.reject(rejectData404))
+      const dispatched = await recordSaga(structureWorker)
+      expect(sagaErrorHandler).toHaveBeenCalledTimes(1);
+      expect(sagaErrorHandler).toHaveBeenCalledWith(rejectData404);
       expect(dispatched).toHaveLength(1);
-
-      console.log('dispatched ->', dispatched)
+      expect(dispatched[0]).toEqual({type: structureFail.type, payload: undefined});
+      // console.log('dispatched ->', dispatched)
 
     })
   })

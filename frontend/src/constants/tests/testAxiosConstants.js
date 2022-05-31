@@ -1,11 +1,24 @@
-import { structuresArr } from './testConstants'
+import {
+  landing,
+  pictures,
+} from './testConstants'
 /**
  * Structure contants.
  */
 export const resolveGetViewStructure = {
   data: {
     message: 'message in view structure',
-    payload: structuresArr
+    // payload: structuresObj
+    payload: [
+      {
+        view_id: 'pictures',
+        attributes: pictures
+      },
+      {
+        view_id: 'landing',
+        attributes: landing
+      }
+    ]
   }
 }
 // ===========================================================
