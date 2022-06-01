@@ -1,5 +1,5 @@
 // import { reject } from 'lodash'
-// import { v4 } from 'uuid'
+import { v4 } from 'uuid'
 // import store from '../redux/store'
 // import {
 //   startAlert, openModal,
@@ -84,7 +84,7 @@ export const delaySomthing = ms => new Promise((resolve, reject) => {
  * Add uuid into Alert data
  */
 
-// export const setAlertData = incomeData => {
-//   const id = v4()
-//   return { ...incomeData, id: id }
-// }
+export const setAlertData = incomeData => {
+  const id = v4()
+  return { ...incomeData, id: id }
+}

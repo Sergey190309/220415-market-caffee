@@ -1,7 +1,6 @@
 
 export const actRespErrorMessage = error => {
-  // console.log('utils errorHandler, actRespErrorMessage, error ->', error)
-  // console.log('utils errorHandler, actRespErrorMessage, error->', error.message)
+  // console.log('utils>errorHandler>actRespErrorMessage, error ->', error)
   if (error.response) {
     return `${error.name}. ${error.message}`
   } else {

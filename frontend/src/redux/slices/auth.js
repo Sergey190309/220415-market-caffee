@@ -144,19 +144,11 @@ const authSlice = createSlice({
 
 export const {
   setState,
-  signUpStart,
-  signUpSuccess,
-  signUpFail,
-  signUpModalClosed,
-  logInStart,
-  logInSuccess,
-  logInFail,
-  logInModalClosed,
+  signUpStart, signUpSuccess, signUpFail, signUpModalClosed,
+  logInStart, logInSuccess, logInFail, logInModalClosed,
   logOut,
-  confirmPasswordStart,
-  confirmPasswordSuccess,
-  confirmPasswordFail,
-  confirmPasswordModalClosed
+  confirmPasswordStart, confirmPasswordSuccess,
+  confirmPasswordFail, confirmPasswordModalClosed
 } = authSlice.actions
 
 export const authSelector = state => state.auth

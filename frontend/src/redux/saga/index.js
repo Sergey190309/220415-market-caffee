@@ -1,7 +1,12 @@
 import { all } from 'redux-saga/effects'
 
-import { alertSaga }
- from './alerts'
+import { alertSaga } from './alerts'
+
+import {
+  logInSaga,
+  signUpSaga,
+  // confirmPasswordSaga
+} from './auth'
 
 import {
   structureSaga,
@@ -16,7 +21,11 @@ export default function* rootSaga() {
   yield all([
     // alert saga ----------------
     alertSaga(),
-    // stracture saga ----------------
+    // auth saga ----------------
+    logInSaga(),
+    signUpSaga(),
+    // confirmPasswordSaga(),
+      // stracture saga ----------------
     structureSaga(),
     // tech saga ----------------
     startInitSaga(),
