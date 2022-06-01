@@ -41,7 +41,8 @@ export const initialState = () => ({
 
 const authSlice = createSlice({
   /**
-   * I tested all reducers but signUpModalClosed and logInModalClosed.
+   * I do not recall what are signUpModalClosed and
+   * logInModalClosed for.
    */
   name: 'auth',
   initialState: initialState(),
@@ -128,8 +129,12 @@ const authSlice = createSlice({
       state.isConfirmedPassword = true
     },
     confirmPasswordFail: state => {
-      state.loading = false
-      state.isConfirmedPassword = false
+      localStorage.removeItem(LOG_IN_INFO)
+      Object.assign(state, notLoggedInfo, {
+        loading: false,
+        isSignedUp: false,
+        isLoggedIn: false
+      })
     },
     confirmPasswordModalClosed: state => {
       state.isConfirmedPassword = false
