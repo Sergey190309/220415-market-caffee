@@ -74,7 +74,8 @@ export function* signUpFetch(action) {
       )
     )
   } catch (error) {
-    yield put(signUpFail(error))
+  // console.log('saga>auth>signUpFetch, error ->', error)
+  yield put(signUpFail(error))
     const errorMessage = actRespErrorMessage(error)
     yield put(
       startAlert(

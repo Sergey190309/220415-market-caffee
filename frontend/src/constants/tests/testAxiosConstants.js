@@ -69,6 +69,32 @@ export const mockUserData = {
     refresh_token: 'mock-refresh-token'
   }
 }
+export const mockSignUpData = {
+  user_name: 'mockUserName',
+  email: 'mock@email.test',
+  password: 'mockPassword'
+}
+export const mockSignUpResolveData = {
+  message: 'Test message.',
+  payload: {
+    id: 11,
+    user_name: 'sa',
+    first_name: null,
+    last_name: null,
+    email: 'sa6702@gmail.com',
+    role: null,
+    remarks: null,
+    locale: {
+      id: 'en',
+      remarks: 'General english.'
+    },
+    time_zone: 3,
+    created: '2021-05-20T08:23:59',
+    updated: null,
+    accessed: null
+  }
+}
+
 
 // export const rejectPutTextContentExpired = {
 //   response: {
