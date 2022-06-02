@@ -95,7 +95,7 @@ export function* confirmPasswordSaga() {
 }
 
 export function* confirmPasswordFetch(action) {
-  //   const { kind } = yield select(backendUpdateSelector)
+    // const { kind } = yield select(backendUpdateSelector)
   //   // console.log('saga, auth:\n confirmPasswordFetch',
   //   //   '\n  kind ->', kind)
   //   try {
