@@ -4,11 +4,7 @@ import { useDispatch } from 'react-redux'
 import { setDeviceSize } from '../redux/slices'
 // import * as SB from './styles/buttons.styled'
 import { GlobalStyle, MainContainer, MainItem } from './styles/global.styled'
-
-// const setDinamicWidth = setWidth => {
-//   setWidth(window.innerWidth)
-
-// }
+import NavBar from './navigation/NavBar'
 
 const App = ({setDeviceSize}) => {
   const [width, setWidth] = useState(window.innerWidth)
@@ -30,11 +26,7 @@ const App = ({setDeviceSize}) => {
     <Fragment>
       <GlobalStyle />
       <MainContainer>
-        <MainItem>
-          <div>
-
-          </div>
-        </MainItem>
+        <NavBar />
         <MainItem>2022-Jun-03 12:11</MainItem>
       </MainContainer>
     </Fragment>

@@ -1,8 +1,15 @@
 import React from 'react'
 
+import NavItem from './NavItem'
+import { NavBarDiv } from './styles/navigations.styled'
+
+
 const NavBar = () => {
   return (
-    <div>NavBar</div>
+    <NavBarDiv>
+      <NavItem />
+      <NavItem />
+    </NavBarDiv>
   )
 }
 
