@@ -35,7 +35,7 @@ const App = ({setDeviceSize}) => {
 
           </div>
         </MainItem>
-        <MainItem>2022-Jun-03 11:52</MainItem>
+        <MainItem>2022-Jun-03 12:11</MainItem>
       </MainContainer>
     </Fragment>
   )
