@@ -9,5 +9,6 @@ export const NavBarDiv = styled.div`
 
 export const NavItemDiv = styled.a`
   cursor: pointer;
-  display: inline;
+  display: block;
+  /* display: inline; */
 `

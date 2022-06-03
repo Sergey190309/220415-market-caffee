@@ -11,7 +11,9 @@ export const disabled = 'rgba(179, 179, 179, 1)'
 export const bodyBackground = 'rgba(255, 255, 204, 1)'
 export const mainContainerColor = 'rgba(255, 228, 196, 1)'
 export const mainItemBackgound = 'rgba(255, 255, 255, .8)'
-export const mainItemBorder = 'rgba(0, 0, 0, 0.8)'
+export const mainItemBorder = 'rgba(0, 0, 0, .8)'
 
-// NavBar colors -------------------------------------
+// Navigation colors -------------------------------------
+// export const navBarBackground = '#214946'
 export const navBarBackground = 'rgba(190, 188, 184, 1)'
+// export const navItemColor =
