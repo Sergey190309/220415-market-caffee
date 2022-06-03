@@ -1,14 +1,11 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import {
-  combineReducers,
-  // createStore
-} from 'redux'
+// import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
 
 import { Provider } from 'react-redux'
-import { runSaga } from 'redux-saga'
+import createSagaMiddleware, { runSaga } from 'redux-saga'
 
 import { render } from '@testing-library/react'
 
@@ -17,14 +14,22 @@ import { render } from '@testing-library/react'
 // import logIn from '../redux/reducers/auth'
 // import lng from '../redux/reducers/lng'
 
-import rootReducer from '../redux/slices'
+import reducer from '../redux/slices'
 // import reducer from './redux/slices';
 // ===================================================
 // The block about rendering connected components.
 // ---------------------------------------------------
 const connectedRender = (
   ui,
-  { initialState, store = configureStore(rootReducer, initialState), ...renderOptions } = {}
+  { initialState,
+    store = configureStore(
+    reducer,
+    (getDefaultMiddleware) => [
+      ...getDefaultMiddleware({ thunk: false }),
+      createSagaMiddleware()
+    ],
+    initialState
+  ), ...renderOptions } = {}
 ) => {
   const Wrapper = ({ children }) => {
     return <Provider store={store}>{children}</Provider>
@@ -41,7 +46,7 @@ const linkedRender = (ui, { ...renderOptions } = {}) => {
 
 const connectedLinkedRender = (
   ui,
-  { initialState, store = configureStore(rootReducer, initialState), ...renderOptions } = {}
+  { initialState, store = configureStore(reducer, initialState), ...renderOptions } = {}
 ) => {
   // const state = store.getState().auth
   // console.log('connectedLinkedRender, state ->', state)
@@ -84,7 +89,32 @@ export const recordSaga = async (saga, initialAction) => {
 /**
  * Return store based on live reducers from slicers
  */
-export const createTestStore = () => {
-  const store = configureStore(combineReducers({ ...rootReducer }))
-  return store
+// export const createTestStore = () => {
+//   const store = configureStore(combineReducers({ ...reducer }))
+//   return store
+// }
+// ===================================================
+/**
+ * It's from https://www.codeblocq.com/2021/01/Jest-Mock-Local-Storage/
+ */
+export const fakeLocalStorage = () => {
+  let store = {}
+
+  return {
+    getItem: key => {
+      return store[key] || null
+    },
+    // getItem: function (key) {
+    //   return store[key] || null;
+    // },
+    setItem: (key, value) => {
+      store[key] = value.toString()
+    },
+    removeItem: key => {
+      delete store[key]
+    },
+    clear: () => {
+      store = {}
+    }
+  }
 }

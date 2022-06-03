@@ -7,18 +7,10 @@ import { takeEvery } from 'redux-saga/effects'
 import { rejectData404, resolveTechInFetch, resolveLngsCall } from '../../constants/tests/testAxiosConstants'
 
 import reducer, {
-  // techInSuccess, startLngs
-  startInitLoading,
-  startTechIn,
-  techInSuccess,
-  techInFail,
-  startLngs,
-  startI18n,
-  lngsSuccess,
-  lngsFail,
-  initLoadingSuccess,
-  i18nSuccess,
-  i18nFail
+  startInitLoading, initLoadingSuccess,
+  startTechIn, techInSuccess, techInFail,
+  startLngs, lngsSuccess, lngsFail,
+  startI18n, i18nSuccess, i18nFail
 } from '../slices/tech'
 import { lngsCall, techInCall } from '../../api/calls/getAuthTechInfo'
 
@@ -29,11 +21,10 @@ import { recordSaga } from '../../utils/testUtils'
 // import { startInitSaga } from './tech'
 
 import {
-  i18nSaga,
-  i18nWorker,
-  lngsSaga,
-  lngsWorker,
-  startInitSaga, startInitWorker, techInFetch, techInSaga
+  startInitSaga, startInitWorker,
+  techInSaga, techInFetch,
+  i18nSaga, i18nWorker,
+  lngsSaga, lngsWorker,
 } from './tech'
 
 import { initI18next, setI18next } from '../../l10n/i18n'

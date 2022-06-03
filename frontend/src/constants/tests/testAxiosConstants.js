@@ -1,3 +1,27 @@
+import {
+  landing,
+  pictures,
+} from './testConstants'
+/**
+ * Structure contants.
+ */
+export const resolveGetViewStructure = {
+  data: {
+    message: 'message in view structure',
+    // payload: structuresObj
+    payload: [
+      {
+        view_id: 'pictures',
+        attributes: pictures
+      },
+      {
+        view_id: 'landing',
+        attributes: landing
+      }
+    ]
+  }
+}
+// ===========================================================
 /**
  * tech in constants
  */
@@ -28,6 +52,49 @@ export const rejectData404 = {
   config: { config: 'Some config' }
 }
 // ===========================================================
+/**
+ * Auth constants
+ */
+export const mockLogInData = {
+  email: 'mock@email.test',
+  password: 'mockPassword'
+}
+export const mockUserData = {
+  message: 'Hi! You are welcome.',
+  payload: {
+    user_name: 'admin',
+    email: 'a@agatha-ng.com',
+    isAdmin: true,
+    access_token: 'mock-access-token',
+    refresh_token: 'mock-refresh-token'
+  }
+}
+export const mockSignUpData = {
+  user_name: 'mockUserName',
+  email: 'mock@email.test',
+  password: 'mockPassword'
+}
+export const mockSignUpResolveData = {
+  message: 'Test message.',
+  payload: {
+    id: 11,
+    user_name: 'sa',
+    first_name: null,
+    last_name: null,
+    email: 'sa6702@gmail.com',
+    role: null,
+    remarks: null,
+    locale: {
+      id: 'en',
+      remarks: 'General english.'
+    },
+    time_zone: 3,
+    created: '2021-05-20T08:23:59',
+    updated: null,
+    accessed: null
+  }
+}
+
 
 // export const rejectPutTextContentExpired = {
 //   response: {
@@ -78,24 +145,6 @@ export const rejectData404 = {
 //     data: {
 //       message: 'mock error message'
 //     }
-//   }
-// }
-
-// export const logInData = {
-//   email: 'mock@email.test',
-//   password: 'mockPassword'
-// }
-
-// export const resolveData = {
-//   message: 'Hi! You are welcome.',
-//   payload: {
-//     user_name: 'admin',
-//     email: 'a@agatha-ng.com',
-//     isAdmin: true,
-//     access_token: 'mock-access-token',
-//     refresh_token: 'mock-refresh-token'
-//   }
-// }
 
 // export const rejectData = {
 //   response: {

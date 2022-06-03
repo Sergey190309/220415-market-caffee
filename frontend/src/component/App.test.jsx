@@ -1,29 +1,25 @@
 import React from 'react'
 
-import TestRenderer from 'react-test-renderer'
-import { render, screen } from '@testing-library/react'
+import { Provider } from 'react-redux'
+
+import { render } from '@testing-library/react'
+// import { connectedRender } from '../utils/testUtils'
+
+import store from '../redux/store'
 
 import App from './App'
 
-describe('App', () => {
-  test('Snapshot', () => {
-    // const something = TestRenderer
-    const element = TestRenderer.create(<App />)
 
-    expect(element).toMatchSnapshot()
-    // await waitFor(() => {
-
-    // })
-    // console.log('App ->', container)
-    // screen.debug()
-    // const tree = component.toJSON()
-    // expect(tree).toMatchSnapshot()
-  })
-  test('Structure', () => {
-    render(<App />)
-    const button = screen.getByRole('button')
-    expect(button).toBeInTheDocument()
-    expect(button).toHaveTextContent("That's button!")
-    // screen.debug()
+describe('App, no mocks', () => {
+  describe('snapshot', () => {
+    test('Snapshot', () => {
+      // const { useDispatch } = jest.requireActual('react-redux')
+      const { container } = render(
+        <Provider store={store}>
+          <App />
+        </Provider>
+      )
+      expect(container).toMatchSnapshot()
+    })
   })
 })

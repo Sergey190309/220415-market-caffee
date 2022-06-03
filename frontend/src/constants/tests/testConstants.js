@@ -8,7 +8,7 @@ export const landingPageStructure = {
 }
 
 // ==================================================================================
-const landing = {
+export const landing = {
   '00': {
     type: 'header'
   },
@@ -32,7 +32,7 @@ const landing = {
   }
 }
 
-const pictures = {
+export const pictures = {
   '00': {
     type: 'header'
   },
