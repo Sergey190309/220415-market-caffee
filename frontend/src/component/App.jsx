@@ -5,9 +5,15 @@ import { setDeviceSize } from '../redux/slices'
 // import * as SB from './styles/buttons.styled'
 import { GlobalStyle, MainContainer, MainItem } from './styles/global.styled'
 
+// const setDinamicWidth = setWidth => {
+//   setWidth(window.innerWidth)
+
+// }
+
 const App = ({setDeviceSize}) => {
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
+  // console.log('component>App setDeviceSize ->', setDeviceSize)
 
   const setDinamicWidth = () => {
     setWidth(window.innerWidth)
@@ -30,7 +36,6 @@ const App = ({setDeviceSize}) => {
         <MainItem>vBlock</MainItem>
         <MainItem>Footer</MainItem>
       </MainContainer>
-
     </Fragment>
   )
 }

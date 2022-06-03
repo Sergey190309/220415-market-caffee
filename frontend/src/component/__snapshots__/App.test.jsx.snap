@@ -1,34 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App Snapshot 1`] = `
-<div
-  className="sc-bczRLJ dDhCsx"
->
+exports[`App, no mocks snapshot Snapshot 1`] = `
+<div>
   <div
-    className="sc-gsnTZi gBUWfP"
+    class="sc-bczRLJ dDhCsx"
   >
-    Screen width - 
-    1024
-  </div>
-  <div
-    className="sc-gsnTZi gBUWfP"
-  >
-    header
-  </div>
-  <div
-    className="sc-gsnTZi gBUWfP"
-  >
-    hBlock
-  </div>
-  <div
-    className="sc-gsnTZi gBUWfP"
-  >
-    vBlock
-  </div>
-  <div
-    className="sc-gsnTZi gBUWfP"
-  >
-    Footer
+    <div
+      class="sc-gsnTZi gBUWfP"
+    >
+      Screen width - 
+      1024
+    </div>
+    <div
+      class="sc-gsnTZi gBUWfP"
+    >
+      header
+    </div>
+    <div
+      class="sc-gsnTZi gBUWfP"
+    >
+      hBlock
+    </div>
+    <div
+      class="sc-gsnTZi gBUWfP"
+    >
+      vBlock
+    </div>
+    <div
+      class="sc-gsnTZi gBUWfP"
+    >
+      Footer
+    </div>
   </div>
 </div>
 `;
