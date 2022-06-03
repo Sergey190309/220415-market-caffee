@@ -30,11 +30,12 @@ const App = ({setDeviceSize}) => {
     <Fragment>
       <GlobalStyle />
       <MainContainer>
-        <MainItem>Screen width - {width}</MainItem>
-        <MainItem>header</MainItem>
-        <MainItem>hBlock</MainItem>
-        <MainItem>vBlock</MainItem>
-        <MainItem>Footer</MainItem>
+        <MainItem>
+          <div>
+
+          </div>
+        </MainItem>
+        <MainItem>2022-Jun-03 11:52</MainItem>
       </MainContainer>
     </Fragment>
   )
