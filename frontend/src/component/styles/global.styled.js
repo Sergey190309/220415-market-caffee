@@ -15,7 +15,7 @@ export const MainContainer = styled.div`
   display: grid;
   grid-template-columns: auto;
   gap: 3px;
-  background-color: ${CL.mainContainerColor};
+  background-color: ${CL.mainContainer};
   padding: 5px;
   margin: 5px;
  `

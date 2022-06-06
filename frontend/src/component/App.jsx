@@ -27,7 +27,7 @@ const App = ({setDeviceSize}) => {
       <GlobalStyle />
       <MainContainer>
         <NavBar />
-        <MainItem>2022-Jun-03 12:11</MainItem>
+        <MainItem>2022-Jun-06 14:26</MainItem>
       </MainContainer>
     </Fragment>
   )
