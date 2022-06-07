@@ -4,7 +4,8 @@
 export const neutral = '#003b00'
 export const positive = '#00cc00'
 export const negative = '#990000'
-export const error = '#ff3333'
+export const error = '#ff0000'
+export const attention = '#ff5500'
 export const disabled = '#b3b3b3'
 
 // main body colors ---------------------------------------

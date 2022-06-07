@@ -1,7 +1,7 @@
 import React from 'react'
-import {NavBarOpenIcon} from './styles/navigations.styled'
+import { NavBarOpenIcon } from './styles/navigations.styled'
 
-const Toggle = ({switchNav}) => {
+const Toggle = ({ switchNav }) => {
   return (
     <NavBarOpenIcon onClick={switchNav} />
   )

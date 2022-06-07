@@ -4,7 +4,9 @@ import { PageViewDiv, PageViewH1} from '../styles/PageView.styles'
 const LandingView = () => {
   return (
     <PageViewDiv>
-      <PageViewH1>
+      <PageViewH1
+        className="animate__animated animate__fadeInDown"
+      >
         LandingView
       </PageViewH1>
     </PageViewDiv>

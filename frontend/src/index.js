@@ -8,6 +8,7 @@ import './l10n/i18n'
 import store from './redux/store'
 
 import App from './component/App'
+import 'animate.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

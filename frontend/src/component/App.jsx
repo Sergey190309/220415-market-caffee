@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import React, { useState, useEffect, Fragment } from 'react'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setDeviceSize } from '../redux/slices'
 
 import NavBar from './navigation/NavBar'
 import Toggle from './navigation/Toggle'
+import Logo from './navigation/Logo'
 
 import AdminView from './page_views/admin/AdminView'
 import LandingView from './page_views/landing/LandingView'
 import PicturesView from './page_views/pictures/PicturesView'
 import PriceListView from './page_views/priceList/PriceListView'
 import UsersOnlyView from './page_views/usersOnly/UsersOnlyView'
+import { GlobalStyle } from './styles/global.styled'
 
-import './App.css'
 // import * as SB from './styles/buttons.styled'
 // import { GlobalStyle, MainContainer, MainItem, GlobalDiv } from './styles/global.styled'
 // import NavBar from './navigation/NavBar'
@@ -42,8 +43,10 @@ const App = ({ setDeviceSize }) => {
   }
 
   return (
-    <div className='App'>
+    <Fragment>
+      <GlobalStyle />
       <Toggle switchNav={switchNav} />
+      <Logo />
       <BrowserRouter>
         {navOpened ? <NavBar switchNav={switchNav} /> : null}
         <Routes>
@@ -54,7 +57,7 @@ const App = ({ setDeviceSize }) => {
           <Route path='/admin' exact element={<AdminView />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </Fragment>
   )
 }
 

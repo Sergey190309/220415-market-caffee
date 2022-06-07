@@ -2,8 +2,8 @@ import styled from 'styled-components'
 import * as CL from '../../../constants/colors'
 
 export const PageViewDiv = styled.div`
-  min-height: 100vh;
-  width: 100vh;
+  /* min-height: 100vh;
+  width: 100vh; */
   background-color: ${CL.pageViewBackground};
 
   display: flex;
