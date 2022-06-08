@@ -26,6 +26,10 @@ const App = ({ setDeviceSize }) => {
   const dispatch = useDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
 
+  const navigate = useNavigate()
+
+  const toLanding = () => { navigate('/') }
+
   const setDinamicWidth = () => {
     setWidth(window.innerWidth)
   }
@@ -46,17 +50,15 @@ const App = ({ setDeviceSize }) => {
     <Fragment>
       <GlobalStyle />
       <Toggle switchNav={switchNav} />
-      <Logo />
-      <BrowserRouter>
+      <Logo toLanding={toLanding} />
         {navOpened ? <NavBar switchNav={switchNav} /> : null}
-        <Routes>
-          <Route path='/' element={<LandingView />} />
-          <Route path='/pricelist' exact element={<PriceListView />} />
-          <Route path='/pictures' exact element={<PicturesView />} />
-          <Route path='/private' exact element={<UsersOnlyView />} />
-          <Route path='/admin' exact element={<AdminView />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path='/' element={<LandingView />} />
+        <Route path='/pricelist' exact element={<PriceListView />} />
+        <Route path='/pictures' exact element={<PicturesView />} />
+        <Route path='/private' exact element={<UsersOnlyView />} />
+        <Route path='/admin' exact element={<AdminView />} />
+      </Routes>
     </Fragment>
   )
 }

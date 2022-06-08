@@ -2,15 +2,15 @@ import React from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { LogoIcon } from './styles/navigations.styled'
 
-const Logo = ({ navToLanding }) => {
+const Logo = ({ toLanding }) => {
   // const navigate = useNavigate()
 
-  // const navToLanding = () => {
+  // const toLanding = () => {
   //   navigate('/')
   // }
 
   return (
-    <LogoIcon onClick={navToLanding} />
+    <LogoIcon onClick={toLanding} />
   )
 }
 
