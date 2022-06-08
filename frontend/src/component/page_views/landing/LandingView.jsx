@@ -1,4 +1,6 @@
 import React from 'react'
+
+import LanguageSwitcher from '../../general_items/language/LanguageSwitcher'
 import { PageViewDiv, PageViewH1} from '../styles/PageView.styles'
 
 const LandingView = () => {
@@ -9,6 +11,7 @@ const LandingView = () => {
       >
         LandingView
       </PageViewH1>
+      <LanguageSwitcher />
     </PageViewDiv>
   )
 }

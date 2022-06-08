@@ -27,7 +27,7 @@ export const NavBarLink = styled(Link)`
   padding-left: 1em;
   color: ${CL.navBarLink};
   text-decoration: none;
-  font-size: clamp(3rem, 4vw, 6vw);
+  font-size: clamp(2rem, 4vw, 6vw);
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   transition: .3s all ease-in-out;
   user-select: none; /* supported by Chrome and Opera */

@@ -1,6 +1,7 @@
 import React from 'react'
 import {FaTimes} from 'react-icons/fa'
 
+import LanguageSwitcher from '../general_items/language/LanguageSwitcher'
 import { NavBarDiv, NavBarLink, NavBarCloseIcon } from './styles/navigations.styled'
 
 
@@ -43,6 +44,7 @@ const NavBar = ({ switchNav }) => {
       >
         <FaTimes />
       </NavBarCloseIcon>
+      <LanguageSwitcher />
     </NavBarDiv>
 
   )
