@@ -2,8 +2,9 @@
 import React from 'react'
 
 import { Provider, useDispatch } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 
 import store from '../redux/store'
 
@@ -39,7 +40,9 @@ describe('App, mocked modules', () => {
       window.innerWidth = mockDeviceWidth
       render(
         <Provider store={store}>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </Provider>
       )
       expect(mockSetDeviceSize).toHaveBeenCalledTimes(1)

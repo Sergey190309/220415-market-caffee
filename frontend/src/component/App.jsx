@@ -1,15 +1,34 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setDeviceSize } from '../redux/slices'
-// import * as SB from './styles/buttons.styled'
-import { GlobalStyle, MainContainer, MainItem } from './styles/global.styled'
-import NavBar from './navigation/NavBar'
 
-const App = ({setDeviceSize}) => {
+import NavBar from './navigation/NavBar'
+import Toggle from './navigation/Toggle'
+import Logo from './navigation/Logo'
+
+import AdminView from './page_views/admin/AdminView'
+import LandingView from './page_views/landing/LandingView'
+import PicturesView from './page_views/pictures/PicturesView'
+import PriceListView from './page_views/priceList/PriceListView'
+import UsersOnlyView from './page_views/usersOnly/UsersOnlyView'
+import { GlobalStyle } from './styles/global.styled'
+
+// import * as SB from './styles/buttons.styled'
+// import { GlobalStyle, MainContainer, MainItem, GlobalDiv } from './styles/global.styled'
+// import NavBar from './navigation/NavBar'
+// import NavItem from './navigation/NavItem'
+
+const App = ({ setDeviceSize }) => {
+  const [navOpened, setNavOpened] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
+
+  const navigate = useNavigate()
+
+  const toLanding = () => { navigate('/') }
 
   const setDinamicWidth = () => {
     setWidth(window.innerWidth)
@@ -19,16 +38,27 @@ const App = ({setDeviceSize}) => {
     window.addEventListener('resize', setDinamicWidth)
     dispatch(setDeviceSize(width))
     return () => window.removeEventListener('resize', setDinamicWidth)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
+
+  const switchNav = () => {
+    setNavOpened(
+      !navOpened)
+  }
 
   return (
     <Fragment>
       <GlobalStyle />
-      <MainContainer>
-        <NavBar />
-        <MainItem>2022-Jun-03 12:11</MainItem>
-      </MainContainer>
+      <Toggle switchNav={switchNav} />
+      <Logo toLanding={toLanding} />
+        {navOpened ? <NavBar switchNav={switchNav} /> : null}
+      <Routes>
+        <Route path='/' element={<LandingView />} />
+        <Route path='/pricelist' exact element={<PriceListView />} />
+        <Route path='/pictures' exact element={<PicturesView />} />
+        <Route path='/private' exact element={<UsersOnlyView />} />
+        <Route path='/admin' exact element={<AdminView />} />
+      </Routes>
     </Fragment>
   )
 }

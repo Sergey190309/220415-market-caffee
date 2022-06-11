@@ -48,16 +48,16 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
 
 export const setI18next = lngs => {
   const lngsToAdd = []
-  // console.log('setI18next, i18next.languages ->', i18next.lngs);
   lngs.forEach(value => {
     if (!i18next.languages.includes(value)) {
       // if (!i18next.options.supportedLngs.includes(value)) {
-      lngsToAdd.push(value)
-    }
-  })
+        lngsToAdd.push(value)
+      }
+    })
+  // console.log('setI18next, i18next.languages ->', lngsToAdd);
   lngsToAdd.forEach(value => {
     i18next.languages.push(value)
   })
-  // console.log('i18n, i18next.language ->', i18next.language)
+  // console.log('i18n, i18next.language ->', i18next.languages)
   setAxiosCommonLng(store.getState().lng.lng) // Set axios header for backend calls.
 }
