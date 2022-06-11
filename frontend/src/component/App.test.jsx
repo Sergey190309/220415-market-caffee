@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
 
 import { render } from '@testing-library/react'
 // import { connectedRender } from '../utils/testUtils'
@@ -16,7 +17,9 @@ describe('App, no mocks', () => {
       // const { useDispatch } = jest.requireActual('react-redux')
       const { container } = render(
         <Provider store={store}>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </Provider>
       )
       expect(container).toMatchSnapshot()

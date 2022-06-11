@@ -1,19 +1,39 @@
 // CL stands for color
 
-// genelal colors ------------------------------------
-export const neutral = 'rgba(0, 59, 0, 1)'
-export const positive = 'rgba(0, 204, 0, 1)'
-export const negative = 'rgba(153, 0, 0, 1)'
-export const error = 'rgba(255, 51, 51, 1)'
-export const disabled = 'rgba(179, 179, 179, 1)'
+// genelal colors -----------------------------------------
+export const neutral = '#003b00'
+export const positive = '#00cc00'
+export const negative = '#990000'
+export const error = '#ff0000'
+export const attention = '#ff5500'
+export const disabled = '#b3b3b3'
 
-// main body confirm ---------------------------------
-export const bodyBackground = 'rgba(255, 255, 204, 1)'
-export const mainContainerColor = 'rgba(255, 228, 196, 1)'
-export const mainItemBackgound = 'rgba(255, 255, 255, .8)'
-export const mainItemBorder = 'rgba(0, 0, 0, .8)'
+// main body colors ---------------------------------------
+export const bodyBackground = '#ffffcc'
+export const globalBackgrownd = bodyBackground
+export const mainContainer = '#ffe4c4'
+export const mainItemBackgound = '#ffffffcc'
+export const mainItemBorder = '#000000cc'
 
-// Navigation colors -------------------------------------
-// export const navBarBackground = '#214946'
-export const navBarBackground = 'rgba(190, 188, 184, 1)'
+// Navigation bar colors ----------------------------------
+export const navBar = '#292929'
+export const navBarBackground = '#3a4251e6'
+export const navBarLink= '#eee'
+export const navBarBorders = mainItemBorder
+export const navBarCloseIcon = '#fff'
+export const navBarCloseIconBackground = '#222'
+export const navBarOpenIcon = navBarCloseIconBackground
+export const navBarOpenIconBackground = navBarLink
+
+export const navItem = navBar
+export const navItemActive = navItem
+export const navItemBackground = navBarBackground
+export const navItemBackgroundHover = '#f2f2f2'
+export const navItemBackgroundActive = '#f2f2f2'
+
+export const navItemBorders = mainItemBorder
 // export const navItemColor =
+
+// views colors -------------------------------------------
+export const pageViewBackground = '#282c34'
+export const pageViewH1 = '#eee'
