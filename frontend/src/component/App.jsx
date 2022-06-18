@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { setDeviceSize } from '../redux/slices'
