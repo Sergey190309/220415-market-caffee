@@ -1,10 +1,29 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+
+import {
+  Button,
+  // IconButton
+} from '@mui/material'
+
 import { FaTimes, FaBars } from 'react-icons/fa'
 import { MdOutlineFoodBank } from 'react-icons/md'
 import * as CL from '../../../constants/colors'
 import { smallDeviceLimit } from '../../../redux/constants/deviceWidthLimits'
 
+export const NavBarToggleIcon = styled(Button)`
+  position: fixed;
+  top: ${props=>props.top || '5%'};
+  /* top: 5%; */
+  left: ${props=>props.left || '5%'};
+  /* left: 90%; */
+  color: ${CL.navBarOpenIcon};
+  background: ${CL.navBarOpenIconBackground};
+  &:hover {
+    transition: .3s all ease-in-out;
+    background: ${CL.navBarBackgroundHovered}
+  }
+`
 export const NavBarDiv = styled.div`
     position: fixed;
     top: 0;
@@ -64,6 +83,7 @@ export const NavBarOpenIcon = styled(FaBars)`
   font-size: 2rem;
   cursor: pointer;
 `
+
 export const LogoIcon = styled(MdOutlineFoodBank)`
 position: fixed;
 top: 5%;

@@ -1,4 +1,4 @@
-describe('Logo testing', () => {
+describe('NavBar', () => {
   test('dummy', () => {
 
   })
