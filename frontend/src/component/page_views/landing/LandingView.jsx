@@ -1,6 +1,9 @@
 import React from 'react'
 
 import LanguageSwitcher from '../../general_items/language/LanguageSwitcher'
+import UseRef from '../../study/UseRef'
+import ClickOutside from '../../study/ClickOutside'
+
 import { PageViewDiv, PageViewH1} from '../styles/PageView.styles'
 
 const LandingView = () => {
@@ -12,6 +15,8 @@ const LandingView = () => {
         LandingView
       </PageViewH1>
       <LanguageSwitcher />
+      {/* <UseRef />
+      <ClickOutside /> */}
     </PageViewDiv>
   )
 }
