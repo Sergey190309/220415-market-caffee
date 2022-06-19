@@ -2,6 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
+
 import { setDeviceSize } from '../redux/slices'
 
 import NavBar from './navigation/NavBar'
@@ -19,6 +20,10 @@ import { GlobalStyle } from './styles/global.styled'
 // import { GlobalStyle, MainContainer, MainItem, GlobalDiv } from './styles/global.styled'
 // import NavBar from './navigation/NavBar'
 // import NavItem from './navigation/NavItem'
+
+export const switchNav = (setNavOpened, navOpened) => {
+  setNavOpened(!navOpened)
+}
 
 const App = ({ setDeviceSize }) => {
   const [navOpened, setNavOpened] = useState(false)
@@ -41,17 +46,19 @@ const App = ({ setDeviceSize }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
 
-  const switchNav = () => {
-    setNavOpened(
-      !navOpened)
+  const onClickToggleHandler = () => {
+    // console.log('App>onClickToggleHandler')
+    setNavOpened(true)
   }
+
+  // console.log('App, rendering, navOpened ->', navOpened)
 
   return (
     <Fragment>
       <GlobalStyle />
-      <Toggle switchNav={switchNav} />
+      <Toggle switchNav={onClickToggleHandler} />
       <Logo toLanding={toLanding} />
-        {navOpened ? <NavBar switchNav={switchNav} /> : null}
+      <NavBar visibility={navOpened} setVisibility={setNavOpened} />
       <Routes>
         <Route path='/' element={<LandingView />} />
         <Route path='/pricelist' exact element={<PriceListView />} />

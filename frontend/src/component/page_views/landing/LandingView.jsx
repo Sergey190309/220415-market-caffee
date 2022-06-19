@@ -15,8 +15,8 @@ const LandingView = () => {
         LandingView
       </PageViewH1>
       <LanguageSwitcher />
-      <UseRef />
-      <ClickOutside />
+      {/* <UseRef />
+      <ClickOutside /> */}
     </PageViewDiv>
   )
 }
