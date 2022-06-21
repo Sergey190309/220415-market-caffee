@@ -5,8 +5,9 @@ import { useDispatch } from 'react-redux'
 
 import { setDeviceSize } from '../redux/slices'
 
-import NavBar from './navigation/NavBar'
-import Toggle from './navigation/Toggle'
+// import NavBar from './navigation/NavBar'
+// import Toggle from './navigation/Toggle'
+import NavBarToggle from './navigation/NavBarToggle'
 import Logo from './navigation/Logo'
 
 import AdminView from './page_views/admin/AdminView'
@@ -18,7 +19,7 @@ import { GlobalStyle } from './styles/global.styled'
 
 // import * as SB from './styles/buttons.styled'
 // import { GlobalStyle, MainContainer, MainItem, GlobalDiv } from './styles/global.styled'
-// import NavBar from './navigation/NavBar'
+import NavBar from './navigation/NavBar'
 // import NavItem from './navigation/NavItem'
 
 export const switchNav = (setNavOpened, navOpened) => {
@@ -47,16 +48,16 @@ const App = ({ setDeviceSize }) => {
   }, [width])
 
   const onClickToggleHandler = () => {
-    // console.log('App>onClickToggleHandler')
+    console.log('App>onClickToggleHandler')
     setNavOpened(true)
   }
 
-  // console.log('App, rendering, navOpened ->', navOpened)
+  console.log('App, rendering, navOpened ->', navOpened)
 
   return (
     <Fragment>
       <GlobalStyle />
-      <Toggle switchNav={onClickToggleHandler} />
+      <NavBarToggle switchNavBar={onClickToggleHandler} />
       <Logo toLanding={toLanding} />
       <NavBar visibility={navOpened} setVisibility={setNavOpened} />
       <Routes>

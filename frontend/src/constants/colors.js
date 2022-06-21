@@ -17,13 +17,15 @@ export const mainItemBorder = '#000000cc'
 
 // Navigation bar colors ----------------------------------
 export const navBar = '#292929'
-export const navBarBackground = '#3a4251e6'
-export const navBarLink= '#eee'
+export const navBarBackground = '#cbcbcb'
+export const navBarBackgroundHovered = '#eee'
+export const navBarLink= '#f8f8f8'
 export const navBarBorders = mainItemBorder
 export const navBarCloseIcon = '#fff'
 export const navBarCloseIconBackground = '#222'
 export const navBarOpenIcon = navBarCloseIconBackground
-export const navBarOpenIconBackground = navBarLink
+export const navBarOpenIconBackground = navBarBackground
+export const navBarOpenIconBackgroundHovered = navBarBackgroundHovered
 
 export const navItem = navBar
 export const navItemActive = navItem
