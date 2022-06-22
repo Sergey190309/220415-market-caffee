@@ -27,19 +27,17 @@ export const switchNav = (setNavOpened, navOpened) => {
 }
 
 const App = ({ setDeviceSize }) => {
-  const [navOpened, setNavOpened] = useState(false)
+  const [navOpened, setNavOpened] = useState(true)
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
 
   const navigate = useNavigate()
-
   const toLanding = () => { navigate('/') }
 
   const setDinamicWidth = () => {
     setWidth(window.innerWidth)
   }
-
   useEffect(() => {
     window.addEventListener('resize', setDinamicWidth)
     dispatch(setDeviceSize(width))
@@ -47,8 +45,9 @@ const App = ({ setDeviceSize }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
 
-  const onClickToggleHandler = () => {
-    console.log('App>onClickToggleHandler')
+
+  const onClickToggleHandler = event => {
+    // console.log('App>onClickToggleHandler, event ->', event.target)
     setNavOpened(true)
   }
 
@@ -59,7 +58,10 @@ const App = ({ setDeviceSize }) => {
       <GlobalStyle />
       <NavBarToggle switchNavBar={onClickToggleHandler} />
       <Logo toLanding={toLanding} />
-      <NavBar visibility={navOpened} setVisibility={setNavOpened} />
+      <NavBar
+        visibility={navOpened}
+        setVisibility={setNavOpened}
+      />
       <Routes>
         <Route path='/' element={<LandingView />} />
         <Route path='/pricelist' exact element={<PriceListView />} />

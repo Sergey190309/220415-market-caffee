@@ -1,10 +1,9 @@
 import styled from 'styled-components'
-import * as CL from '../../../constants/colors'
+// import * as CL from '../../../constants/colors'
 
 export const PageViewDiv = styled.div`
   /* min-height: 100vh;
   width: 100vh; */
-  background-color: ${CL.pageViewBackground};
 
   display: flex;
   flex-direction: column;
@@ -14,7 +13,6 @@ export const PageViewDiv = styled.div`
 
 export const PageViewH1 = styled.h1`
     font-size: clamp(3rem, 5vw, 7vw);
-    color: ${CL.pageViewH1};
     font-weight: 700;
     margin: 0;
     padding: 0;
