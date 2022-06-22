@@ -12,7 +12,7 @@ const NavBar = ({ visibility, setVisibility }) => {
   useOutsideClick(componentRef, closeNav)
   return (
     isVisable || visibility ?
-      <div ref={componentRef}>NavBar!</div> : null
+      <div ref={componentRef}>NavBar!!!</div> : null
   )
 }
 
