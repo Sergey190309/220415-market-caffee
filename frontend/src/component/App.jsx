@@ -56,8 +56,8 @@ const App = ({ setDeviceSize }) => {
   return (
     <Fragment>
       <GlobalStyle />
-      <NavBarToggle switchNavBar={onClickToggleHandler} />
       <Logo toLanding={toLanding} />
+      <NavBarToggle switchNavBar={onClickToggleHandler} />
       <NavBar
         visibility={navOpened}
         setVisibility={setNavOpened}

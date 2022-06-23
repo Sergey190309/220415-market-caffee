@@ -4,18 +4,19 @@ import React from 'react'
 import { MenuOutlined } from '@mui/icons-material'
 
 import * as CL from '../../constants/colors'
-import { NavBarToggleIcon } from './styles/navigations.styled'
+import { FixedButton } from './styles/navigations.styled'
 
 
 const NavBarToggle = ({ switchNavBar }) => {
   return (
-    <NavBarToggleIcon
-      id='NavBarToggleIcon'
+    <FixedButton
+      id='NavBarToggle'
       onClick={switchNavBar}
-      top='5%' left='86%'
-      size='large'
-      children={<MenuOutlined sx={{color: 'text.primary'}} />}
-      sx={{bgcolor: `${CL.navBarBackground}`}}
+      vertical={{ side: 'top', value: '5%' }}
+      horizontal={{ side: 'right', value: '3%' }}
+      // top='5%'
+      // left='86%'
+      children={<MenuOutlined sx={{ color: 'text.primary' }} />}
     />
   )
 }

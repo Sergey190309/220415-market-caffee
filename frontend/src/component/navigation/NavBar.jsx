@@ -45,7 +45,9 @@ const NavBar = ({ visibility, setVisibility }) => {
           onClick={closeNav}
           sx={{
             border: 2, color: 'primary.main',
-            borderColor: `${CL.negative}`
+            borderColor: 'text.disabled',
+            p: 1,
+            m: 1
           }}
         >
           <NavBarItem

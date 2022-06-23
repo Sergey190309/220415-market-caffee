@@ -3,19 +3,18 @@ import React from 'react'
 import { FoodBankOutlined } from '@mui/icons-material'
 
 import * as CL from '../../constants/colors'
-import { LogoIcon } from './styles/navigations.styled'
+import { FixedButton } from './styles/navigations.styled'
 
-const Logo = ({ toLanding }) => {
+const LogoButton = ({ toLanding }) => {
   return (
-    <LogoIcon
-      id='LogoIcon'
+    <FixedButton
+      id='LogoButton'
       onClick={toLanding}
-      top='5%' left='4%'
-      size='large'
+      vertical={{ side: 'top', value: '5%' }}
+      horizontal={{ side: 'left', value: '3%' }}
       children={<FoodBankOutlined sx={{ color: 'text.primary' }} />}
-      sx={{ bgcolor: `${CL.navBarBackground}` }}
     />
   )
 }
 
-export default Logo
+export default LogoButton
