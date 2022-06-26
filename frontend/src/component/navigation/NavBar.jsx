@@ -44,10 +44,11 @@ const NavBar = ({ visibility, setVisibility }) => {
         <MenuList
           onClick={closeNav}
           sx={{
-            border: 2, color: 'primary.main',
-            borderColor: 'text.disabled',
-            p: 1,
-            m: 1
+            border: 10,  borderColor: 'text.disabled',
+            color: 'primary.main',
+            bgcolor: `${CL.bodyBackground}`,
+            p: .5,
+            m: 0
           }}
         >
           <NavBarItem

@@ -19,8 +19,10 @@ export const error = '#ff0000'
 export const attention = '#ff5500'
 
 // main body colors ---------------------------------------
-export const bodyBackground = '#ffffcc'
-export const globalBackgrownd = bodyBackground
+export const bodyBackground = '#fff0c7'
+// export const bodyBackground = '#ffffcc'
+export const globalBackgrownd = 'blue'
+// export const globalBackgrownd = bodyBackground
 export const mainContainer = '#ffe4c4'
 export const mainItemBackgound = '#ffffffcc'
 export const mainItemBorder = '#000000cc'
