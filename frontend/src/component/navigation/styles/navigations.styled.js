@@ -64,7 +64,7 @@ export const NavBarLink = styled(Link)`
 color: ${CL.MUI_text_primary};
 padding-left: .2em;
 text-decoration: none;
-font-size: clamp(2rem, 4vw, 6vw);
+font-size: clamp(1rem, 3vw, 6vw);
 font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 transition: .3s all ease-in-out;
 user-select: none; /* supported by Chrome and Opera */

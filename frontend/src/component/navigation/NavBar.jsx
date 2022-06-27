@@ -8,6 +8,7 @@ import { FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutl
 // import { useOutsideClick } from '../hooks/useOutsideClick'
 
 import NavBarItem from './NavBarItem'
+import { blue } from '@mui/material/colors'
 
 const NavBar = ({ visibility, setVisibility }) => {
   const [isVisable, setIsVisable] = useState(visibility)
@@ -39,6 +40,10 @@ const NavBar = ({ visibility, setVisibility }) => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        sx={{
+          // border: 10, borderColor: 'red',
+          // bgcolor: 'blue'
+        }}
       >
 
         <MenuList
@@ -56,6 +61,10 @@ const NavBar = ({ visibility, setVisibility }) => {
             title='LandingView'
             linkto='/'
             Icon={FoodBankOutlined}
+            sx={{
+              // bgcolor: 'red',
+              // p: 3
+            }}
           />
           <NavBarItem
             // onClick={closeNav}

@@ -12,7 +12,7 @@ const NavBarItem = ({ title, linkto, Icon }) => {
       border: 1, borderColor: 'text.disabled',
       borderRadius: '5%',
       backgroundColor: `${CL.navBarBackground}`,
-      p: 0,
+      px: 1,
       m: 1
     }}>
       <ListItemIcon sx={{ color: 'text.primary' }} children={<Icon sx={{ fontSize: '2rem' }} />} />
