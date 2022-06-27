@@ -24,7 +24,8 @@ export const bodyBackground = '#fff0c7'
 export const globalBackgrownd = 'blue'
 // export const globalBackgrownd = bodyBackground
 export const mainContainer = '#ffe4c4'
-export const mainItemBackgound = '#ffffffcc'
+export const mainContainerBackground = '#f4ffc2'
+export const mainItemBackgound = '#ffffff'
 export const mainItemBorder = '#000000cc'
 
 // Navigation bar colors ----------------------------------

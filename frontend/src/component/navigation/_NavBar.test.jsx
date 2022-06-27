@@ -1,5 +1,0 @@
-describe('NavBar', () => {
-  test('dummy', () => {
-
-  })
-})

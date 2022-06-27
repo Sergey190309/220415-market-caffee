@@ -8,7 +8,6 @@ import { FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutl
 // import { useOutsideClick } from '../hooks/useOutsideClick'
 
 import NavBarItem from './NavBarItem'
-import { blue } from '@mui/material/colors'
 
 const NavBar = ({ visibility, setVisibility }) => {
   const [isVisable, setIsVisable] = useState(visibility)
@@ -22,13 +21,14 @@ const NavBar = ({ visibility, setVisibility }) => {
     setIsVisable(false)
   }
   // useOutsideClick(componentRef, closeNav)
+  // console.log('NavBar, render anchorEl ->', document.getElementById('NavBarToggle'))
 
   return (
     // isVisable || visibility ?
     <div ref={componentRef}>
       <Menu
         id='nav-bar'
-        anchorEl={document.getElementById('NavBarToggleIcon')}
+        anchorEl={document.getElementById('NavBarToggle')}
         // open={true}
         open={isVisable || visibility}
         onClose={closeNav}
@@ -45,15 +45,14 @@ const NavBar = ({ visibility, setVisibility }) => {
           // bgcolor: 'blue'
         }}
       >
-
         <MenuList
           onClick={closeNav}
           sx={{
-            border: 10,  borderColor: 'text.disabled',
             color: 'primary.main',
-            bgcolor: `${CL.bodyBackground}`,
-            p: .5,
-            m: 0
+            bgcolor: `${CL.mainContainerBackground}`,
+            p: 1,
+            border: 3,  borderColor: 'text.disabled',
+            my: -1,
           }}
         >
           <NavBarItem

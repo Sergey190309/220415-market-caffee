@@ -62,9 +62,9 @@ align-items: left;
 `
 export const NavBarLink = styled(Link)`
 color: ${CL.MUI_text_primary};
-padding-left: .2em;
+padding-left: .2rem;
 text-decoration: none;
-font-size: clamp(1rem, 3vw, 6vw);
+font-size: 1rem;
 font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 transition: .3s all ease-in-out;
 user-select: none; /* supported by Chrome and Opera */
@@ -72,9 +72,10 @@ user-select: none; /* supported by Chrome and Opera */
 -khtml-user-select: none; /* Konqueror HTML */
 -moz-user-select: none; /* Firefox */
 -ms-user-select: none; /* Internet Explorer/Edge */
-  &:hover {
-  transition: .3s all ease-in-out
-}
+  /* &:hover {
+  transition: .3s all ease-in-out;
+  background-color: ${CL.navBarBackgroundHovered}
+} */
 `
 export const NavBarCloseIcon = styled(FaTimes)`
 position: fixed;

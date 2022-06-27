@@ -11,9 +11,14 @@ const NavBarItem = ({ title, linkto, Icon }) => {
     <MenuItem sx={{
       border: 1, borderColor: 'text.disabled',
       borderRadius: '5%',
+      // backgroundColor: 'red',
       backgroundColor: `${CL.navBarBackground}`,
       px: 1,
-      m: 1
+      m: 1,
+      "&:hover": {
+        transition: '.3s all ease-in-out',
+        backgroundColor: `${CL.navBarBackgroundHovered}`
+      }
     }}>
       <ListItemIcon sx={{ color: 'text.primary' }} children={<Icon sx={{ fontSize: '2rem' }} />} />
       <NavBarLink to={linkto} children={title} />

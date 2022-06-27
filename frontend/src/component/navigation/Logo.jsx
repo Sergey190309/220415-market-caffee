@@ -1,8 +1,10 @@
 import React from 'react'
 // import { useNavigate } from 'react-router-dom'
+import PropTypes from 'prop-types'
+
 import { FoodBankOutlined } from '@mui/icons-material'
 
-import * as CL from '../../constants/colors'
+// import * as CL from '../../constants/colors'
 import { FixedButton } from './styles/navigations.styled'
 
 const LogoButton = ({ toLanding }) => {
@@ -15,6 +17,13 @@ const LogoButton = ({ toLanding }) => {
       children={<FoodBankOutlined sx={{ color: 'text.primary' }} />}
     />
   )
+}
+LogoButton.defaultProps = {
+  switchNavBar: ''
+}
+
+LogoButton.propTypes = {
+  switchNavBar: PropTypes.string.isRequired
 }
 
 export default LogoButton

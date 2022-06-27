@@ -27,7 +27,7 @@ export const switchNav = (setNavOpened, navOpened) => {
 }
 
 const App = ({ setDeviceSize }) => {
-  const [navOpened, setNavOpened] = useState(true)
+  const [navOpened, setNavOpened] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
@@ -51,13 +51,14 @@ const App = ({ setDeviceSize }) => {
     setNavOpened(true)
   }
 
-  console.log('App, rendering, navOpened ->', navOpened)
+  // console.log('App, rendering, navOpened ->', navOpened)
 
   return (
     <Fragment>
       <GlobalStyle />
       <Logo toLanding={toLanding} />
       <NavBarToggle switchNavBar={onClickToggleHandler} />
+
       <NavBar
         visibility={navOpened}
         setVisibility={setNavOpened}
