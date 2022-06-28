@@ -27,7 +27,7 @@ export const FixedButton = styled(Button)`
       horizontal.value) : undefined)))};
   /* left: ${props => props.left || '80%'}; */
   background-color: ${CL.navBarBackground};
-  size: 'large';
+  /* size: 'large'; */
   &:hover {
     transition: .3s all ease-in-out;
     background-color: ${CL.navBarBackgroundHovered}

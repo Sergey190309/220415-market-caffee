@@ -9,6 +9,7 @@ import { setDeviceSize } from '../redux/slices'
 // import Toggle from './navigation/Toggle'
 import NavBarToggle from './navigation/NavBarToggle'
 import Logo from './navigation/Logo'
+import LanguageSwitcher from './general_items/language/LanguageSwitcher'
 
 import AdminView from './page_views/admin/AdminView'
 import LandingView from './page_views/landing/LandingView'
@@ -58,7 +59,7 @@ const App = ({ setDeviceSize }) => {
       <GlobalStyle />
       <Logo toLanding={toLanding} />
       <NavBarToggle switchNavBar={onClickToggleHandler} />
-
+      <LanguageSwitcher />
       <NavBar
         visibility={navOpened}
         setVisibility={setNavOpened}

@@ -14,7 +14,7 @@ const LogoButton = ({ toLanding }) => {
       onClick={toLanding}
       vertical={{ side: 'top', value: '5%' }}
       horizontal={{ side: 'left', value: '3%' }}
-      children={<FoodBankOutlined sx={{ color: 'text.primary' }} />}
+      children={<FoodBankOutlined sx={{ color: 'text.primary', fontSize:'1.5rem' }} />}
     />
   )
 }

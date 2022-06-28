@@ -16,7 +16,7 @@ const NavBarToggle = ({ switchNavBar }) => {
       onClick={switchNavBar}
       vertical={{ side: 'top', value: '5%' }}
       horizontal={{ side: 'right', value: '3%' }}
-      children={<MenuOutlined sx={{ color: 'text.primary' }} />}
+      children={<MenuOutlined sx={{ color: 'text.primary', fontSize: '1.5rem' }} />}
     />
   )
 }
