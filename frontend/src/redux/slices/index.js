@@ -36,7 +36,7 @@ export {
   setMessage, setEditable
 }  from './device'
 
-export { lngSwitch } from './lng'
+export { lngSelector, lngSwitch } from './lng'
 
 export {
   // setState,
@@ -45,6 +45,7 @@ export {
 } from './structure'
 
 export {
+  techSelector,
   startInitLoading, initLoadingSuccess,
   startTechIn, techInSuccess, techInFail,
   startLngs, lngsSuccess, lngsFail,

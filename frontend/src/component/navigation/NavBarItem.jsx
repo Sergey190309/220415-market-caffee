@@ -13,8 +13,8 @@ const NavBarItem = ({ title, linkto, Icon }) => {
       borderRadius: '5%',
       // backgroundColor: 'red',
       backgroundColor: `${CL.navBarBackground}`,
-      px: 1,
-      m: 1,
+      px: '.5rem',
+      m: '.25rem',
       "&:hover": {
         transition: '.3s all ease-in-out',
         backgroundColor: `${CL.navBarBackgroundHovered}`

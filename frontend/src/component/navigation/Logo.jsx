@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { FoodBankOutlined } from '@mui/icons-material'
 
 // import * as CL from '../../constants/colors'
+import * as SZ from '../../constants/sizes'
 import { FixedButton } from './styles/navigations.styled'
 
 const LogoButton = ({ toLanding }) => {
@@ -14,7 +15,7 @@ const LogoButton = ({ toLanding }) => {
       onClick={toLanding}
       vertical={{ side: 'top', value: '5%' }}
       horizontal={{ side: 'left', value: '3%' }}
-      children={<FoodBankOutlined sx={{ color: 'text.primary', fontSize:'1.5rem' }} />}
+      children={<FoodBankOutlined sx={{ color: 'text.primary', fontSize:SZ.fixedButton }} />}
     />
   )
 }

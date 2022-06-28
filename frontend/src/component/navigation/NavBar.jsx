@@ -50,9 +50,9 @@ const NavBar = ({ visibility, setVisibility }) => {
           sx={{
             color: 'primary.main',
             bgcolor: `${CL.mainContainerBackground}`,
-            p: 1,
-            border: 3,  borderColor: 'text.disabled',
-            my: -1,
+            p: '.5rem',
+            // border: '3rem',  borderColor: 'text.disabled',
+            my: '-.5rem',
           }}
         >
           <NavBarItem

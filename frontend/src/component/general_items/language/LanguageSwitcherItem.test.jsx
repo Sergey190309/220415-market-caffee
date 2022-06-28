@@ -1,0 +1,5 @@
+describe('LanguageSwitcherItem', () => {
+  test('dummy', () => {
+
+  })
+})
