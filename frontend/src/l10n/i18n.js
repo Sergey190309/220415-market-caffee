@@ -29,7 +29,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
       fallbackNS: 'general',
       // to support en-US and en-UK
       // nonExplicitSupportedLngs: true,
-      fallbackLng: 'en',
+      fallbackLng: 'ru',
       interpolation: {
         escapeValue: false
       },
@@ -58,6 +58,6 @@ export const setI18next = lngs => {
   lngsToAdd.forEach(value => {
     i18next.languages.push(value)
   })
-  // console.log('i18n, i18next.language ->', i18next.languages)
+  console.log('i18n, i18next.languages ->', i18next.languages)
   setAxiosCommonLng(store.getState().lng.lng) // Set axios header for backend calls.
 }

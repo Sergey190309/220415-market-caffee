@@ -1,17 +1,35 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import PropTypes from 'prop-types'
+import i18next from 'i18next'
+import { useTranslation } from 'react-i18next'
+
 import { Menu, MenuList } from '@mui/material'
 // import { InboxIcon, MailIcon } from '@mui/icons-material'
-
-import * as CL from '../../constants/colors'
 import { FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutlined, AdminPanelSettingsOutlined } from '@mui/icons-material'
 // import FoodBankOutlinedIcon from '@mui/icons-material/FoodBankOutlined'
 // import { useOutsideClick } from '../hooks/useOutsideClick'
+import { lngSelector } from '../../redux/slices'
+
+import * as CL from '../../constants/colors'
 
 import NavBarItem from './NavBarItem'
 
 const NavBar = ({ visibility, setVisibility }) => {
   const [isVisable, setIsVisable] = useState(visibility)
 
+  // const { i18nSuccess } = useSelector(techSelector)
+  const {lng}=useSelector(lngSelector)
+
+  console.log('NavBar, i18next.languages ->', i18next.languages)
+
+  const { t, i18n } = useTranslation('navbar')
+
+  useEffect(() => {
+    if (i18n.language !== lng) {
+      i18n.changeLanguage(lng)
+    }
+  }, [lng, i18n])
 
   const componentRef = useRef(null)
 
@@ -22,6 +40,7 @@ const NavBar = ({ visibility, setVisibility }) => {
   }
   // useOutsideClick(componentRef, closeNav)
   // console.log('NavBar, render anchorEl ->', document.getElementById('NavBarToggle'))
+  const admin = false
 
   return (
     // isVisable || visibility ?
@@ -40,10 +59,6 @@ const NavBar = ({ visibility, setVisibility }) => {
           vertical: 'top',
           horizontal: 'right',
         }}
-        sx={{
-          // border: 10, borderColor: 'red',
-          // bgcolor: 'blue'
-        }}
       >
         <MenuList
           onClick={closeNav}
@@ -51,49 +66,58 @@ const NavBar = ({ visibility, setVisibility }) => {
             color: 'primary.main',
             bgcolor: `${CL.mainContainerBackground}`,
             p: '.5rem',
-            // border: '3rem',  borderColor: 'text.disabled',
             my: '-.5rem',
           }}
         >
           <NavBarItem
-            // onClick={closeNav}
-            title='LandingView'
+            // title={'landingView'}
+            title={t('LandingView')}
             linkto='/'
             Icon={FoodBankOutlined}
-            sx={{
-              // bgcolor: 'red',
-              // p: 3
-            }}
           />
           <NavBarItem
-            // onClick={closeNav}
-            title='PriceListView'
+            // title={'priceListView'}
+            title={t('PriceListView')}
             linkto='/pricelist'
             Icon={PaidOutlined}
           />
           <NavBarItem
-            // onClick={closeNav}
-            title='PicturesView'
+            // title={'priceListView'}
+            title={t('PicturesView')}
             linkto='/pictures'
             Icon={InsertPhotoOutlined}
           />
           <NavBarItem
-            // onClick={closeNav}
-            title='UsersOnlyView'
+            disabled={true}
+            // title={'usersOnlyView'}
+            title={t('UsersOnlyView')}
             linkto='/private'
             Icon={InsertEmoticonOutlined}
           />
-          <NavBarItem
-            // onClick={closeNav}
-            title='AdminView'
-            linkto='/admin'
-            Icon={AdminPanelSettingsOutlined}
-          />
+          {admin ?
+            <NavBarItem
+              // title={'adminView'}
+              title={t('AdminView')}
+              linkto='/admin'
+              Icon={AdminPanelSettingsOutlined}
+            /> :
+            null
+          }
         </MenuList>
       </Menu>
     </div>
     // </div> : null
   )
+}
+
+NavBar.defaultProps = {
+  visibility: false,
+  setVisibility: () => { }
+}
+
+NavBar.propTypes = {
+  visibility: PropTypes.bool.isRequired,
+  setVisibility: PropTypes.func.isRequired
 }
 
 export default NavBar

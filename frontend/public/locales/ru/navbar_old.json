@@ -1,0 +1,12 @@
+{
+  "admin_view": "admin_view",
+  "adminView": "Админ",
+  "landing_view": "landing_view",
+  "landingView": "Добро пожаловать",
+  "pictures_view": "pictures_view",
+  "picturesView": "Интерьер",
+  "priceList_view": "priceList_view",
+  "priceListView": "Меню",
+  "usersOnly_view": "usersOnly_view",
+  "usersOnlyView": "Для друзей"
+}

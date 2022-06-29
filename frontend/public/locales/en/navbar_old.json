@@ -1,0 +1,12 @@
+{
+  "admin_view": "admin_view",
+  "adminView": "Admin",
+  "landing_view": "landing_view",
+  "landingView": "Welcome",
+  "pictures_view": "pictures_view",
+  "picturesView": "Gallery",
+  "priceList_view": "priceList_view",
+  "priceListView": "Menu",
+  "usersOnly_view": "usersOnly_view",
+  "usersOnlyView": "For friends"
+}

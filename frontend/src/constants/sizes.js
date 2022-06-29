@@ -3,4 +3,5 @@
  * SZ stands for sizes.
  */
 export const fixedButton = '2rem'
+export const menuIcon = '2rem'
 export const languageSwitcher = 16

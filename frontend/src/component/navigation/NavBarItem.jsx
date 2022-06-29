@@ -4,11 +4,14 @@ import PropTypes from 'prop-types'
 import { ListItemIcon, MenuItem } from '@mui/material'
 
 import * as CL from '../../constants/colors'
+import * as SZ from '../../constants/sizes'
 import { NavBarLink } from './styles/navigations.styled'
 
-const NavBarItem = ({ title, linkto, Icon }) => {
+const NavBarItem = ({ title, linkto, Icon, disabled }) => {
   return (
-    <MenuItem sx={{
+    <MenuItem
+      disabled={disabled}
+      sx={{
       border: 1, borderColor: 'text.disabled',
       borderRadius: '5%',
       // backgroundColor: 'red',
@@ -20,7 +23,7 @@ const NavBarItem = ({ title, linkto, Icon }) => {
         backgroundColor: `${CL.navBarBackgroundHovered}`
       }
     }}>
-      <ListItemIcon sx={{ color: 'text.primary' }} children={<Icon sx={{ fontSize: '2rem' }} />} />
+      <ListItemIcon sx={{ color: 'text.primary' }} children={<Icon sx={{ fontSize: `${SZ.menuIcon}` }} />} />
       <NavBarLink to={linkto} children={title} />
     </MenuItem>
   )
@@ -28,11 +31,15 @@ const NavBarItem = ({ title, linkto, Icon }) => {
 
 NavBarLink.defaultProps = {
   title: '',
-  linkto: ''
+  linkto: '',
+  // Icon: null
+  disabled: false
 }
 NavBarLink.propTypes = {
   title: PropTypes.string.isRequired,
-  linkto: PropTypes.string.isRequired
+  linkto: PropTypes.string.isRequired,
+  Icon: PropTypes.element,
+  disabled: PropTypes.bool.isRequired
 }
 
 export default NavBarItem

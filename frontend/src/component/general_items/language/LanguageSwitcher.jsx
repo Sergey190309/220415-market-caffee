@@ -31,15 +31,15 @@ const LanguageSwitcher = ({onChangeLng}) => {
 
   const opened = Boolean(anchorEl)
 
-  const { loaded } = useSelector(techSelector)
+  const { i18nLoaded } = useSelector(techSelector)
   const { lng } = useSelector(lngSelector)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (loaded) {
-      // console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
-      //   '\n  i18next.languages ->', i18next.languages)
+    if (i18nLoaded) {
+      console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
+        '\n  i18next.languages ->', i18next.languages)
       setAvailableLngs(i18next.languages.map((lng => ({
         key: lng,
         value: lng,
@@ -47,7 +47,7 @@ const LanguageSwitcher = ({onChangeLng}) => {
       }))))
       setActiveLng(i18next.language)
     }
-  }, [loaded])
+  }, [i18nLoaded])
 
 
   useEffect(() => {

@@ -15,6 +15,7 @@ export const techInCall = techInData => {
 
 export const lngsCall = () => {
   const resp = techTextAxiosClient.get('/global/locales')
+  // console.log('getAuthTechInfo>lngsCall, resp ->', await resp)
   return resp
 }
 
