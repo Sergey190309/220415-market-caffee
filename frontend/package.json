@@ -15,7 +15,7 @@
     "axios": "^0.27.2",
     "formik": "^2.2.9",
     "formik-mui": "^5.0.0-alpha.0",
-    "i18next": "^21.8.10",
+    "i18next": "^21.8.11",
     "i18next-http-backend": "^1.4.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
