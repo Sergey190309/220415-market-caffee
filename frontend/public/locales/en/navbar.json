@@ -1,7 +1,9 @@
 {
-    "AdminView": "Admin",
-    "LandingView": "Welcome",
-    "PicturesView": "Gallery",
-    "PriceListView": "Menu",
-    "UsersOnlyView": "For friends"
+  "AdminView": "Admin",
+  "LandingView": "Welcome",
+  "LogIn": "Log In",
+  "LogOut": "Log Out",
+  "PicturesView": "Gallery",
+  "PriceListView": "Menu",
+  "UsersOnlyView": "For friends"
 }

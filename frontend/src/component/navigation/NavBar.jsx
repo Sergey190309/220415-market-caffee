@@ -1,29 +1,39 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
-import i18next from 'i18next'
+// import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 import { Menu, MenuList } from '@mui/material'
 // import { InboxIcon, MailIcon } from '@mui/icons-material'
-import { FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutlined, AdminPanelSettingsOutlined } from '@mui/icons-material'
+import {
+  FoodBankOutlined, PaidOutlined, InsertPhotoOutlined,
+  InsertEmoticonOutlined, AdminPanelSettingsOutlined,
+  LoginOutlined, LogoutOutlined
+} from '@mui/icons-material'
 // import FoodBankOutlinedIcon from '@mui/icons-material/FoodBankOutlined'
 // import { useOutsideClick } from '../hooks/useOutsideClick'
-import { lngSelector } from '../../redux/slices'
+import { lngSelector, authSelector, openModal } from '../../redux/slices'
 
 import * as CL from '../../constants/colors'
 
+import LogIn from '../general_items/auth/LogIn'
 import NavBarItem from './NavBarItem'
+import LogInOutButton from '../general_items/auth/LogInOutButton'
 
 const NavBar = ({ visibility, setVisibility }) => {
   const [isVisable, setIsVisable] = useState(visibility)
 
   // const { i18nSuccess } = useSelector(techSelector)
-  const {lng}=useSelector(lngSelector)
+  const { lng } = useSelector(lngSelector)
+  const { isLoggedIn, isAdmin } = useSelector(authSelector)
 
-  console.log('NavBar, i18next.languages ->', i18next.languages)
+  // console.log('NavBar, i18next.languages ->', i18next.languages)
 
+  const componentRef = useRef(null)
   const { t, i18n } = useTranslation('navbar')
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (i18n.language !== lng) {
@@ -31,20 +41,29 @@ const NavBar = ({ visibility, setVisibility }) => {
     }
   }, [lng, i18n])
 
-  const componentRef = useRef(null)
 
   const closeNav = () => {
-    console.log('NavBar>closeNav')
+    // console.log('NavBar>closeNav')
     setVisibility(false)
     setIsVisable(false)
   }
+
+  const logInOutClickHandler = () => {
+    console.log('NavBar>logInOutClickHandler')
+    closeNav()
+    dispatch(openModal('LogIn'))
+    // return (
+    //   <LogIn />
+    // )
+  }
   // useOutsideClick(componentRef, closeNav)
   // console.log('NavBar, render anchorEl ->', document.getElementById('NavBarToggle'))
-  const admin = false
+  // const admin = false
 
   return (
     // isVisable || visibility ?
     <div ref={componentRef}>
+      <LogIn />
       <Menu
         id='nav-bar'
         anchorEl={document.getElementById('NavBarToggle')}
@@ -60,8 +79,9 @@ const NavBar = ({ visibility, setVisibility }) => {
           horizontal: 'right',
         }}
       >
+
         <MenuList
-          onClick={closeNav}
+          // onClick={closeNav}
           sx={{
             color: 'primary.main',
             bgcolor: `${CL.mainContainerBackground}`,
@@ -71,38 +91,46 @@ const NavBar = ({ visibility, setVisibility }) => {
         >
           <NavBarItem
             // title={'landingView'}
+            onClick={closeNav}
             title={t('LandingView')}
             linkto='/'
             Icon={FoodBankOutlined}
           />
           <NavBarItem
-            // title={'priceListView'}
+            onClick={closeNav}
             title={t('PriceListView')}
             linkto='/pricelist'
             Icon={PaidOutlined}
           />
           <NavBarItem
-            // title={'priceListView'}
+            onClick={closeNav}
             title={t('PicturesView')}
             linkto='/pictures'
             Icon={InsertPhotoOutlined}
           />
           <NavBarItem
-            disabled={true}
+            disabled={isLoggedIn ? false : true}
             // title={'usersOnlyView'}
+            onClick={closeNav}
             title={t('UsersOnlyView')}
             linkto='/private'
             Icon={InsertEmoticonOutlined}
           />
-          {admin ?
+          {isAdmin ?
             <NavBarItem
               // title={'adminView'}
+              onClick={closeNav}
               title={t('AdminView')}
               linkto='/admin'
               Icon={AdminPanelSettingsOutlined}
             /> :
             null
           }
+          <LogInOutButton
+            onClick={logInOutClickHandler}
+            title={isLoggedIn ? t('LogOut') : t('LogIn')}
+            Icon={isLoggedIn ? LogoutOutlined : LoginOutlined}
+          />
         </MenuList>
       </Menu>
     </div>

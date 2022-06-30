@@ -9,10 +9,11 @@ export const initialState = {
   deviceSize: 'small',
   /**
    * Modal opened state which form opened on modal. It could be
-   * 'LogIn', 'SignUp', 'confirmPassword' or 'Loader'.
+   * 'LogIn', 'SignUp', 'ConfirmPassword' or 'Loader'.
    * Empty string means no modal
    */
-  kindOfModal: '',
+  // kindOfModal: '',
+  kindOfModal: 'LogIn',
   /**
    * This is a message that in some cases shown on modal.
    */

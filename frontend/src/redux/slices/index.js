@@ -20,6 +20,7 @@ export {
 } from './alerts'
 
 export {
+  authSelector,
   signUpStart, signUpSuccess,
   signUpFail, signUpModalClosed,
   logInStart, logInSuccess,
@@ -31,6 +32,7 @@ export {
 } from './auth'
 
 export {
+  deviceSelector,
   setDeviceSize,
   openModal, closeModal,
   setMessage, setEditable

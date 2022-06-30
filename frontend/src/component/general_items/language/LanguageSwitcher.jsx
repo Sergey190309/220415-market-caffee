@@ -38,8 +38,8 @@ const LanguageSwitcher = ({onChangeLng}) => {
 
   useEffect(() => {
     if (i18nLoaded) {
-      console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
-        '\n  i18next.languages ->', i18next.languages)
+      // console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
+      //   '\n  i18next.languages ->', i18next.languages)
       setAvailableLngs(i18next.languages.map((lng => ({
         key: lng,
         value: lng,

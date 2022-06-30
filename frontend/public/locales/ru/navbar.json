@@ -1,7 +1,9 @@
 {
-    "AdminView": "Админ",
-    "LandingView": "Добро пожаловать",
-    "PicturesView": "Интерьер",
-    "PriceListView": "Меню",
-    "UsersOnlyView": "Для друзей"
+  "AdminView": "Админ",
+  "LandingView": "Добро пожаловать",
+  "LogIn": "Авторизироваться",
+  "LogOut": "Выйти",
+  "PicturesView": "Интерьер",
+  "PriceListView": "Меню",
+  "UsersOnlyView": "Для друзей"
 }

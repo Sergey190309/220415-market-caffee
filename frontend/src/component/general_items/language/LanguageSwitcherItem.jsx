@@ -27,7 +27,8 @@ const LanguageSwitcherItem = ({ value, flag, onItemClickHandler }) => {
         <ListItemText
           children={value}
           sx={{
-            ml: '.5rem'
+            ml: '.5rem',
+            color: 'text.primary'
           }}
         />
       </MenuItem>

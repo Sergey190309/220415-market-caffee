@@ -4,4 +4,5 @@
  */
 export const fixedButton = '2rem'
 export const menuIcon = '2rem'
+export const logInOut = '1rem'
 export const languageSwitcher = 16
