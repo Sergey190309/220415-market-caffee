@@ -31,6 +31,10 @@ export const mainItemBorder = '#000000cc'
 // Navigation bar colors ----------------------------------
 export const navBarBackground = '#cbcbcb'
 export const navBarBackgroundHovered = '#eee'
+
+// Dialogs ------------------------------------------------
+export const dialogBorders = '#b7b7b7'
+
 // export const navBar = '#292929'
 // export const navBarItem= navBar
 // export const navBarItemBackground = navBarBackground

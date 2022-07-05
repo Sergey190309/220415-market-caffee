@@ -1,20 +1,22 @@
 import styled from 'styled-components'
 
+import { Button } from '@mui/material'
+
+import * as CL from '../../constants/colors'
 // SB stands for styled button
 
-export const Button = styled.button`
-  cursor: pointer;
+export const DialogButton = styled(Button)`
   background: transparent;
-  font-size: 16px;
-  border-radius: 3px;
-  color: palevioletred;
-  border: 2px solid palevioletred;
-  margin: 0 1em;
-  padding: 0.25em 1em;
-  transition: 0.5s all ease-out;
 
+  color: ${CL.MUI_text_primary};
+  border: 3px solid ${({hovered})=>(hovered? hovered.bgcolor: CL.positive)};
+  /* margin: .25rem; */
+  /* disabled: true; */
+  /* sx: {
+    bgcolor: red
+  } */
   &:hover {
-    background-color: palevioletred;
-    color: white;
+    background-color: ${({ hovered }) => (hovered ? hovered.bgcolor : CL.positive)};
+    color:${({ hovered }) => (hovered ? hovered.color : 'white')}
   }
 `
