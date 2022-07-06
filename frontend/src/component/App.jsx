@@ -21,6 +21,7 @@ import { GlobalStyle } from './styles/global.styled'
 // import * as SB from './styles/buttons.styled'
 // import { GlobalStyle, MainContainer, MainItem, GlobalDiv } from './styles/global.styled'
 import NavBar from './navigation/NavBar'
+import SignUp from './general_items/auth/SignUp'
 // import NavItem from './navigation/NavItem'
 
 export const switchNav = (setNavOpened, navOpened) => {
@@ -29,6 +30,7 @@ export const switchNav = (setNavOpened, navOpened) => {
 
 const App = ({ setDeviceSize }) => {
   const [navOpened, setNavOpened] = useState(false)
+  const [sighUpOpened, setSighUpOpened] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
@@ -57,13 +59,19 @@ const App = ({ setDeviceSize }) => {
   return (
     <Fragment>
       <GlobalStyle />
-      <Logo toLanding={toLanding} />
-      <NavBarToggle switchNavBar={onClickToggleHandler} />
-      <LanguageSwitcher />
       <NavBar
+        // visibility={true}
         visibility={navOpened}
         setVisibility={setNavOpened}
       />
+      <SignUp
+        // visibility={true}
+        visibility={sighUpOpened}
+        setVisibility={setSighUpOpened}
+      />
+      <Logo toLanding={toLanding} />
+      <NavBarToggle switchNavBar={onClickToggleHandler} />
+      <LanguageSwitcher />
       <Routes>
         <Route path='/' element={<LandingView />} />
         <Route path='/pricelist' exact element={<PriceListView />} />

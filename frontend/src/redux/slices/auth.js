@@ -36,7 +36,9 @@ export const initialState = () => ({
   ...logInInfo(),
   loading: false,
   isSignedUp: false,
-  isConfirmedPassword: false
+  isConfirmedPassword: false,
+  isLogInOpened: false,
+  isSignUpOpened: false
 })
 
 const authSlice = createSlice({

@@ -34,7 +34,7 @@ export {
 export {
   deviceSelector,
   setDeviceSize,
-  openModal, closeModal,
+  // openModal, closeModal,
   setMessage, setEditable
 }  from './device'
 

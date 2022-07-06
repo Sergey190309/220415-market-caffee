@@ -13,7 +13,6 @@ export const initialState = {
    * Empty string means no modal
    */
   // kindOfModal: '',
-  kindOfModal: '',
   /**
    * This is a message that in some cases shown on modal.
    */
@@ -43,12 +42,12 @@ const deviceSlice = createSlice({
        */
       state.deviceSize = payload < smallDeviceLimit ? 'small' : payload < mediumDeviceLimit ? 'medium' : 'big'
     },
-    openModal: (state, { payload }) => { // tested
-      state.kindOfModal = payload
-    },
-    closeModal: state => { // tested
-      state.kindOfModal = ''
-    },
+    // openModal: (state, { payload }) => { // tested
+    //   state.kindOfModal = payload
+    // },
+    // closeModal: state => { // tested
+    //   state.kindOfModal = ''
+    // },
     setMessage: (state, { payload }) => {
       state.message = payload
     },
@@ -61,7 +60,7 @@ const deviceSlice = createSlice({
 
 export const {
   setTestState, setDeviceSize,
-  openModal, closeModal,
+  // openModal, closeModal,
   setMessage, setEditable
 } = deviceSlice.actions
 export const deviceSelector = state => state.device

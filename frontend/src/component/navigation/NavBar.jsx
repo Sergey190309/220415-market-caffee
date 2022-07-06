@@ -22,7 +22,7 @@ import NavBarItem from './NavBarItem'
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
 const NavBar = ({ visibility, setVisibility }) => {
-  const [isVisable, setIsVisable] = useState(visibility)
+  const [isVisable, setIsVisable] = useState(false)
   const [logInOpened, setLogInOpened] = useState(false)
 
   const { lng } = useSelector(lngSelector)
@@ -64,6 +64,7 @@ const NavBar = ({ visibility, setVisibility }) => {
     // isVisable || visibility ?
     <div ref={componentRef}>
       <LogIn
+        // visibility={true}
         visibility={logInOpened}
         setVisibility={setLogInOpened}
       />

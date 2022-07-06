@@ -95,7 +95,9 @@ describe('Auth slice testing', () => {
         isConfirmedPassword: false,
         loading: true,
         isSignedUp: false,
-        isLoggedIn: false
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false
       }
       store.dispatch(setState({
         loading: false,
@@ -113,8 +115,9 @@ describe('Auth slice testing', () => {
         isConfirmedPassword: false,
         loading: false,
         isSignedUp: true,
-        isLoggedIn: false
-      }
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false      }
       store.dispatch(setState({
         loading: true,
         isSignedUp: true,
@@ -129,7 +132,9 @@ describe('Auth slice testing', () => {
         ...initialState(),
         loading: false,
         isSignedUp: false,
-        isLoggedIn: false
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false
       }
       store.dispatch(setState({
         loading: true,
@@ -157,8 +162,9 @@ describe('Auth slice testing', () => {
         ...initialState(),
         loading: true,
         isSignedUp: false,
-        isLoggedIn: false
-      }
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false      }
       store.dispatch(setState({
         loading: false,
         isSignedUp: true,
@@ -174,8 +180,9 @@ describe('Auth slice testing', () => {
         loading: false,
         isLoggedIn: true,
         isSignedUp: false,
-        isConfirmedPassword: false
-      }
+        isConfirmedPassword: false,
+        isLogInOpened: false,
+        isSignUpOpened: false      }
       store.dispatch(setState({
         loading: true,
         isLoggedIn: false
@@ -192,8 +199,9 @@ describe('Auth slice testing', () => {
         isConfirmedPassword: false,
         loading: false,
         isSignedUp: false,
-        isLoggedIn: false
-      }
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false      }
       store.dispatch(setState({
         ...loggedInfo,
         loading: true,
@@ -229,7 +237,9 @@ describe('Auth slice testing', () => {
         isConfirmedPassword: false,
         loading: false,
         isSignedUp: false,
-        isLoggedIn: false
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false
       }
       store.dispatch(setState({
         ...loggedInfo,
@@ -248,11 +258,13 @@ describe('Auth slice testing', () => {
       const expState = {
         ...initialState(),
         loading: true,
-        isConfirmedPassword: false
+        isConfirmedPassword: false,
+        isLogInOpened: false,
+        isSignUpOpened: false
       }
       store.dispatch(setState({
         loading: false,
-        isConfirmedPassword: true
+        isConfirmedPassword: true,
       }))
       store.dispatch(confirmPasswordStart())
       const state = store.getState().auth
@@ -266,12 +278,14 @@ describe('Auth slice testing', () => {
         loading: false,
         isLoggedIn: true,
         isSignedUp: false,
-        isConfirmedPassword: true
-      }
+        isConfirmedPassword: true,
+        isLogInOpened: false,
+        isSignUpOpened: false
+       }
       store.dispatch(setState({
         ...loggedInfo,
         loading: true,
-        isConfirmedPassword: false
+        isConfirmedPassword: false,
       }))
       store.dispatch(confirmPasswordSuccess(
         expState.access_token))
@@ -290,13 +304,15 @@ describe('Auth slice testing', () => {
         isConfirmedPassword: false,
         loading: false,
         isSignedUp: false,
-        isLoggedIn: false
+        isLoggedIn: false,
+        isLogInOpened: false,
+        isSignUpOpened: false
       }
       store.dispatch(setState({
         ...loggedInfo,
         loading: true,
         isSignedUp: true,
-        isLoggedIn: true
+        isLoggedIn: true,
       }))
       // const payload = loggedInfo
       store.dispatch(confirmPasswordFail())

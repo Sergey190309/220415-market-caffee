@@ -1,13 +1,12 @@
 import React, {
-  // useState,
   useEffect, useCallback
 } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { LinearProgress, Box, Dialog } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
+import { LinearProgress, Box, Dialog } from '@mui/material'
 
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
