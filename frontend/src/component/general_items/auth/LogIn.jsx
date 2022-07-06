@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, {
+  // useState,
+  useEffect, useCallback
+} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
-import { LinearProgress, Box, Dialog, TextField } from '@mui/material'
+import { LinearProgress, Box, Dialog } from '@mui/material'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
@@ -10,12 +13,11 @@ import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
 
-import { deviceSelector, closeModal } from '../../../redux/slices'
-
+import { authSelector, logInStart } from '../../../redux/slices'
 
 export const initValues = {
-  email: '',
-  password: ''
+  email: 'a@agatha-ng.com',
+  password: 'qwerty'
 }
 
 export const logInSchema = t =>
@@ -30,48 +32,53 @@ export const logInSchema = t =>
 
   })
 
-const LogIn = ({ initValues, logInSchema }) => {
-  const [opened, setOpened] = useState(false)
-  // const [opened, setOpened] = useState(true)
+const LogIn = ({ initValues, logInSchema, visibility, setVisibility }) => {
+  // const [opened, setOpened] = useState(visibility)
   const { t } = useTranslation('auth')
-  const { kindOfModal } = useSelector(deviceSelector)
+  // const { kindOfModal } = useSelector(deviceSelector)
+  const { loading } = useSelector(authSelector)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (kindOfModal === 'LogIn') {
-      setOpened(true)
+    if (!loading) {
+      setVisibility(false)
+      formik.setSubmitting(false)
     }
-  }, [kindOfModal])
-
-  const onCloseHandle = (cancel) => {
-    setOpened(false)
-    dispatch(closeModal())
-    if (cancel) {
-      formik.values = { ...initValues }
-      console.log('LogIn>onCloseHandle, formik.values ->', formik.values)
-    }
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, setVisibility])
 
   const formik = useFormik({
     initialValues: { ...initValues },
     validationSchema: logInSchema(t),
-    // onChange: ()=>{console.log('LogIn>onChange')},
     onSubmit: (formData, { setSubmitting }) => {
-      console.log('LogIn>onSubmitHandle, formData ->', formData)
-      setTimeout(() => {
-        setSubmitting(false)
-        onCloseHandle()
-      }, 1000)
+      // console.log('LogIn>onSubmitHandle, formData ->', formData,
+      //   '\n  setSubmitting ->', setSubmitting
+      // )
+      dispatch(logInStart(formData))
     }
   })
 
-  console.log('LogIn, render, values ->', formik.values)
+  const onCloseHandle = useCallback(
+    (cancel) => {
+      // console.log('LogIn>onCloseHandle, formik.values ->', formik.values)
+      setVisibility(false)
+      if (cancel) {
+        formik.values = { ...initValues }
+      }
+    },
+    [formik, initValues, setVisibility],
+  )
+
+  // console.log('LogIn, render, values ->', formik.values,
+  //   '\n  visibility ->', visibility,
+  //   '\n  formik.isSubmiting ->', formik.isSubmitting
+  // )
 
   return (
     <Dialog
       // open={true}
-      open={opened}
+      open={visibility}
       onClose={onCloseHandle}
       sx={{
         // bgcolor: 'red'
@@ -115,7 +122,6 @@ const LogIn = ({ initValues, logInSchema }) => {
                     }}
                     children={
                       <AuthTextField
-                        disabled
                         variant='outlined'
                         fullWidth
 
@@ -140,7 +146,7 @@ const LogIn = ({ initValues, logInSchema }) => {
                       p: '.25rem'
                     }}
                     children={
-                      <TextField
+                      <AuthTextField
                         fullWidth
                         id='password'
                         name='password'
@@ -154,7 +160,7 @@ const LogIn = ({ initValues, logInSchema }) => {
                       />
                     }
                   />
-                  {formik.isSubmitting && <LinearProgress />}
+                  {formik.isSubmitting && loading && <LinearProgress />}
                   <Box sx={{
                     display: 'flex',
                     justifyContent: 'space-around',
@@ -229,11 +235,15 @@ const LogIn = ({ initValues, logInSchema }) => {
 
 LogIn.defaultProps = {
   initValues,
-  logInSchema
+  logInSchema,
+  visibility: false,
+  setVisibility: () => { }
 }
 LogIn.propTypes = {
   initValues: PropTypes.object.isRequired,
-  logInSchema: PropTypes.func.isRequired
+  logInSchema: PropTypes.func.isRequired,
+  visibility: PropTypes.bool.isRequired,
+  setVisibility: PropTypes.func.isRequired
 }
 
 export default LogIn

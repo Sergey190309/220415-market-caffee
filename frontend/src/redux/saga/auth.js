@@ -1,6 +1,6 @@
 import {
   call, put, takeEvery,
-  select
+  // select
 } from 'redux-saga/effects'
 import {
   CONTENT_UPDATE,
@@ -29,6 +29,7 @@ export function* logInSaga() {
 
 export function* logInFetch(action) {
   try {
+    // console.log('saga>auth>logInFetch, action ->', action)
     const userData = yield call(logInCall, action.payload)
     yield put(logInSuccess(userData.data.payload))
     yield put(

@@ -4,14 +4,25 @@ import { TextField } from '@mui/material'
 
 import * as CL from '../../constants/colors'
 
-export const AuthTextField = styled(TextField)`
-  /* &:hover {
-    border: 1px solid red
-  }
-  &:active {
-    background-color: blue
-  }
-  &:focus {
-    background-color: yellow
-  } */
-`
+export const AuthTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    // backgroundColor: 'blue',
+    color: `${CL.positive}`,
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'green',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: `${CL.dialogBorders}`,
+    },
+    '&:hover fieldset': {
+      // backgroundColor: 'red',
+      borderColor: `${CL.positive}`,
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: `${CL.positive}`,
+    },
+  },
+
+})

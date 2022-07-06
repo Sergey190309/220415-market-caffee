@@ -13,7 +13,7 @@ export const initialState = {
    * Empty string means no modal
    */
   // kindOfModal: '',
-  kindOfModal: 'LogIn',
+  kindOfModal: '',
   /**
    * This is a message that in some cases shown on modal.
    */

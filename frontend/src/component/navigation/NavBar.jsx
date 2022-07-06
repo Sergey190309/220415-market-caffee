@@ -13,7 +13,7 @@ import {
 } from '@mui/icons-material'
 // import FoodBankOutlinedIcon from '@mui/icons-material/FoodBankOutlined'
 // import { useOutsideClick } from '../hooks/useOutsideClick'
-import { lngSelector, authSelector, openModal } from '../../redux/slices'
+import { lngSelector, authSelector, logOut } from '../../redux/slices'
 
 import * as CL from '../../constants/colors'
 
@@ -23,12 +23,10 @@ import LogInOutButton from '../general_items/auth/LogInOutButton'
 
 const NavBar = ({ visibility, setVisibility }) => {
   const [isVisable, setIsVisable] = useState(visibility)
+  const [logInOpened, setLogInOpened] = useState(false)
 
-  // const { i18nSuccess } = useSelector(techSelector)
   const { lng } = useSelector(lngSelector)
   const { isLoggedIn, isAdmin } = useSelector(authSelector)
-
-  // console.log('NavBar, i18next.languages ->', i18next.languages)
 
   const componentRef = useRef(null)
   const { t, i18n } = useTranslation('navbar')
@@ -49,21 +47,26 @@ const NavBar = ({ visibility, setVisibility }) => {
   }
 
   const logInOutClickHandler = () => {
-    console.log('NavBar>logInOutClickHandler')
-    closeNav()
-    dispatch(openModal('LogIn'))
-    // return (
-    //   <LogIn />
-    // )
+    if (isLoggedIn) {
+      dispatch(logOut())
+      closeNav()
+    } else {
+      // console.log('NavBar>logInOutClickHandler, not isLoggedIn')
+      // dispatch(openModal('LogIn'))
+      setLogInOpened(true)
+    }
   }
   // useOutsideClick(componentRef, closeNav)
-  // console.log('NavBar, render anchorEl ->', document.getElementById('NavBarToggle'))
+  // console.log('NavBar, render')
   // const admin = false
 
   return (
     // isVisable || visibility ?
     <div ref={componentRef}>
-      <LogIn />
+      <LogIn
+        visibility={logInOpened}
+        setVisibility={setLogInOpened}
+      />
       <Menu
         id='nav-bar'
         anchorEl={document.getElementById('NavBarToggle')}
