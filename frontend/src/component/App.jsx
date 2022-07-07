@@ -21,6 +21,7 @@ import { GlobalStyle } from './styles/global.styled'
 // import * as SB from './styles/buttons.styled'
 // import { GlobalStyle, MainContainer, MainItem, GlobalDiv } from './styles/global.styled'
 import NavBar from './navigation/NavBar'
+import LogIn from './general_items/auth/LogIn'
 import SignUp from './general_items/auth/SignUp'
 // import NavItem from './navigation/NavItem'
 
@@ -29,7 +30,6 @@ export const switchNav = (setNavOpened, navOpened) => {
 }
 
 const App = ({ setDeviceSize }) => {
-  const [navOpened, setNavOpened] = useState(false)
   const [sighUpOpened, setSighUpOpened] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
@@ -49,28 +49,20 @@ const App = ({ setDeviceSize }) => {
   }, [width])
 
 
-  const onClickToggleHandler = event => {
-    // console.log('App>onClickToggleHandler, event ->', event.target)
-    setNavOpened(true)
-  }
+  // const onClickToggleHandler = event => {
+  //   setNavOpened(true)
+  // }
 
   // console.log('App, rendering, navOpened ->', navOpened)
 
   return (
     <Fragment>
       <GlobalStyle />
-      <NavBar
-        // visibility={true}
-        visibility={navOpened}
-        setVisibility={setNavOpened}
-      />
-      <SignUp
-        // visibility={true}
-        visibility={sighUpOpened}
-        setVisibility={setSighUpOpened}
-      />
+      <LogIn />
+      <NavBar />
+      <SignUp />
       <Logo toLanding={toLanding} />
-      <NavBarToggle switchNavBar={onClickToggleHandler} />
+      <NavBarToggle  />
       <LanguageSwitcher />
       <Routes>
         <Route path='/' element={<LandingView />} />

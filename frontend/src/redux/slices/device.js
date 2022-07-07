@@ -18,6 +18,10 @@ export const initialState = {
    */
   message: '',
   /**
+   * That is NavBar visibility
+   */
+  isNavBarOpened: false,
+  /**
    * That's indicate possibiblity to edit views content by user.
    */
   editable: true
@@ -51,6 +55,9 @@ const deviceSlice = createSlice({
     setMessage: (state, { payload }) => {
       state.message = payload
     },
+    setNavBarVisibility: (state, { payload }) => {
+      state.isNavBarOpened = payload
+    },
     setEditable: (state, { payload }) => { // tested
       // console.log('deviceSlice:\n setEditable\n  payload ->', payload)
       state.editable = payload
@@ -61,6 +68,7 @@ const deviceSlice = createSlice({
 export const {
   setTestState, setDeviceSize,
   // openModal, closeModal,
+  setNavBarVisibility,
   setMessage, setEditable
 } = deviceSlice.actions
 export const deviceSelector = state => state.device

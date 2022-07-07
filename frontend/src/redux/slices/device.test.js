@@ -2,8 +2,8 @@ import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 import reducer, {
   setDeviceSize,
-  openModal, closeModal,
-  setMessage, setEditable
+  // openModal, closeModal,
+  setMessage, setNavBarVisibility, setEditable
 } from './'
 
 import { initialState, setTestState } from './device'
@@ -60,16 +60,29 @@ describe('Device slises', () => {
     state = store.getState().device
     expect(state).toEqual(expState)
   })
-  test('setEditable', () => {
+  test('setNavBarVisibility', () => {
     let expState = {
-      ...initialState, editable: false
+      ...initialState, isNavBarOpened: true
     }
-    store.dispatch(setEditable(false))
+    store.dispatch(setNavBarVisibility(true))
     let state = store.getState().device
     expect(state).toEqual(expState)
 
-    expState = { ...initialState }
+    expState = { ...initialState, isNavBarOpened: false }
+    store.dispatch(setNavBarVisibility(false))
+    state = store.getState().device
+    expect(state).toEqual(expState)
+  })
+  test('setEditable', () => {
+    let expState = {
+      ...initialState, editable: true
+    }
     store.dispatch(setEditable(true))
+    let state = store.getState().device
+    expect(state).toEqual(expState)
+
+    expState = { ...initialState, editable: false }
+    store.dispatch(setEditable(false))
     state = store.getState().device
     expect(state).toEqual(expState)
   })

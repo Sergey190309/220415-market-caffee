@@ -8,11 +8,11 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { LinearProgress, Box, Dialog } from '@mui/material'
 
+import { authSelector, logInModalClose, logInStart, signUpModalOpen } from '../../../redux/slices'
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
 
-import { authSelector, logInStart } from '../../../redux/slices'
 
 export const initValues = {
   email: 'a@agatha-ng.com',
@@ -31,21 +31,24 @@ export const logInSchema = t =>
 
   })
 
-const LogIn = ({ initValues, logInSchema, visibility, setVisibility }) => {
+const LogIn = ({ initValues, logInSchema,
+  // visibility, setVisibility
+}) => {
   // const [opened, setOpened] = useState(visibility)
   const { t } = useTranslation('auth')
   // const { kindOfModal } = useSelector(deviceSelector)
-  const { loading } = useSelector(authSelector)
+  const { loading, isLogInOpened } = useSelector(authSelector)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (!loading) {
-      setVisibility(false)
+      // setVisibility(false)
       formik.setSubmitting(false)
+      dispatch(logInModalClose())
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, setVisibility])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading])
 
   const formik = useFormik({
     initialValues: { ...initValues },
@@ -58,15 +61,22 @@ const LogIn = ({ initValues, logInSchema, visibility, setVisibility }) => {
     }
   })
 
+  const signUpClickHandler = () => {
+    dispatch(signUpModalOpen())
+  }
+
   const onCloseHandle = useCallback(
     (cancel) => {
       // console.log('LogIn>onCloseHandle, formik.values ->', formik.values)
-      setVisibility(false)
+      // setVisibility(false)
+      dispatch(logInModalClose())
       if (cancel) {
         formik.values = { ...initValues }
       }
     },
-    [formik, initValues, setVisibility],
+    [formik, initValues,
+      // setVisibility,
+      dispatch],
   )
 
   // console.log('LogIn, render, values ->', formik.values,
@@ -77,7 +87,8 @@ const LogIn = ({ initValues, logInSchema, visibility, setVisibility }) => {
   return (
     <Dialog
       // open={true}
-      open={visibility}
+      open={isLogInOpened}
+      // open={visibility}
       onClose={onCloseHandle}
       sx={{
         // bgcolor: 'red'
@@ -219,7 +230,10 @@ const LogIn = ({ initValues, logInSchema, visibility, setVisibility }) => {
               <DialogButton
                 disabled={formik.isSubmitting}
                 children={t('login.buttons.signUp')}
-                onClick={() => { console.log('SignUpButton clicked.') }}
+                onClick={() => {
+                  signUpClickHandler()
+                  onCloseHandle()
+                }}
                 hovered={{
                   bgcolor: CL.positive, color: CL.navBarBackground
                 }}

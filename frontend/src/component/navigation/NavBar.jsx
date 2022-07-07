@@ -1,32 +1,37 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, {
+  // useState,
+  useRef, useEffect
+} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 // import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 
 import { Menu, MenuList } from '@mui/material'
-// import { InboxIcon, MailIcon } from '@mui/icons-material'
 import {
   FoodBankOutlined, PaidOutlined, InsertPhotoOutlined,
   InsertEmoticonOutlined, AdminPanelSettingsOutlined,
   LoginOutlined, LogoutOutlined
 } from '@mui/icons-material'
-// import FoodBankOutlinedIcon from '@mui/icons-material/FoodBankOutlined'
-// import { useOutsideClick } from '../hooks/useOutsideClick'
-import { lngSelector, authSelector, logOut } from '../../redux/slices'
+
+import {
+  lngSelector, authSelector, deviceSelector,
+  setNavBarVisibility, logOut, logInModalOpen
+} from '../../redux/slices'
 
 import * as CL from '../../constants/colors'
 
-import LogIn from '../general_items/auth/LogIn'
+// import LogIn from '../general_items/auth/LogIn'
 import NavBarItem from './NavBarItem'
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
-const NavBar = ({ visibility, setVisibility }) => {
-  const [isVisable, setIsVisable] = useState(false)
-  const [logInOpened, setLogInOpened] = useState(false)
+const NavBar = ({}) => {
+  // const [isVisable, setIsVisable] = useState(false)
+  // const [logInOpened, setLogInOpened] = useState(false)
 
   const { lng } = useSelector(lngSelector)
   const { isLoggedIn, isAdmin } = useSelector(authSelector)
+  const {isNavBarOpened}=useSelector(deviceSelector)
 
   const componentRef = useRef(null)
   const { t, i18n } = useTranslation('navbar')
@@ -42,8 +47,9 @@ const NavBar = ({ visibility, setVisibility }) => {
 
   const closeNav = () => {
     // console.log('NavBar>closeNav')
-    setVisibility(false)
-    setIsVisable(false)
+    dispatch(setNavBarVisibility(false))
+    // setVisibility(false)
+    // setIsVisable(false)
   }
 
   const logInOutClickHandler = () => {
@@ -53,7 +59,8 @@ const NavBar = ({ visibility, setVisibility }) => {
     } else {
       // console.log('NavBar>logInOutClickHandler, not isLoggedIn')
       // dispatch(openModal('LogIn'))
-      setLogInOpened(true)
+      // setLogInOpened(true)
+      dispatch(logInModalOpen())
     }
   }
   // useOutsideClick(componentRef, closeNav)
@@ -63,16 +70,16 @@ const NavBar = ({ visibility, setVisibility }) => {
   return (
     // isVisable || visibility ?
     <div ref={componentRef}>
-      <LogIn
-        // visibility={true}
+      {/* <LogIn
         visibility={logInOpened}
         setVisibility={setLogInOpened}
-      />
+      /> */}
       <Menu
         id='nav-bar'
         anchorEl={document.getElementById('NavBarToggle')}
         // open={true}
-        open={isVisable || visibility}
+        open={isNavBarOpened}
+        // open={isVisable || visibility}
         onClose={closeNav}
         anchorOrigin={{
           vertical: 'top',
@@ -143,13 +150,9 @@ const NavBar = ({ visibility, setVisibility }) => {
 }
 
 NavBar.defaultProps = {
-  visibility: false,
-  setVisibility: () => { }
 }
 
 NavBar.propTypes = {
-  visibility: PropTypes.bool.isRequired,
-  setVisibility: PropTypes.func.isRequired
 }
 
 export default NavBar

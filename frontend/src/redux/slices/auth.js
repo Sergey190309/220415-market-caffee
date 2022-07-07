@@ -76,9 +76,15 @@ const authSlice = createSlice({
         loading: false
       })
     },
-    signUpModalClosed: state => {
-      state.isSignedUp = false
+    signUpModalOpen: state => {
+      state.isSignUpOpened = true
     },
+    signUpModalClose: state => {
+      state.isSignUpOpened = false
+    },
+    // signUpModalClosed: state => {
+    //   state.isSignedUp = false
+    // },
     logInStart: state => {
       state.loading = true
       state.isSignedUp = false
@@ -100,8 +106,11 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
-    logInModalClosed: state => {
-      state.isLoggedIn = false
+    logIenModalOpen: state => {
+      state.isLogInOpened = true
+    },
+    logInModalClose: state => {
+      state.isLogInOpened = false
     },
     logOut: state => {
       // console.log('authSlice, logOut')
@@ -146,8 +155,10 @@ const authSlice = createSlice({
 
 export const {
   setState,
-  signUpStart, signUpSuccess, signUpFail, signUpModalClosed,
-  logInStart, logInSuccess, logInFail, logInModalClosed,
+  signUpStart, signUpSuccess, signUpFail,
+  signUpModalOpen, signUpModalClose,
+  logInStart, logInSuccess, logInFail,
+  logInModalOpen, logInModalClose,
   logOut,
   confirmPasswordStart, confirmPasswordSuccess,
   confirmPasswordFail, confirmPasswordModalClosed

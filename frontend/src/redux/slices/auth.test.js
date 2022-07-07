@@ -9,9 +9,9 @@ import {
 } from '../constants/localStorageVariables'
 import reducer, {
   signUpStart, signUpSuccess,
-  signUpFail, signUpModalClosed,
+  signUpFail,signUpModalOpen, signUpModalClose,
   logInStart, logInSuccess,
-  logInFail, logInModalClosed,
+  logInFail,logInModalOpen, logInModalClose,
   logOut,
   confirmPasswordStart, confirmPasswordSuccess,
   confirmPasswordFail, confirmPasswordModalClosed
@@ -145,15 +145,27 @@ describe('Auth slice testing', () => {
       const state = store.getState().auth
       expect(state).toEqual(expState)
     })
-    test('signUpModalClosed', () => {
+    test('signUpModalOpen', () => {
       const expState = {
         ...initialState(),
-        isSignedUp: false,
+        isSignUpOpened: true,
       }
       store.dispatch(setState({
-        isSignedUp: true,
+        isSignUpOpened: false,
       }))
-      store.dispatch(signUpModalClosed())
+      store.dispatch(signUpModalOpen())
+      const state = store.getState().auth
+      expect(state).toEqual(expState)
+    })
+    test('signUpModalClose', () => {
+      const expState = {
+        ...initialState(),
+        isSignUpOpened: false,
+      }
+      store.dispatch(setState({
+        isSignUpOpened: true,
+      }))
+      store.dispatch(signUpModalClose())
       const state = store.getState().auth
       expect(state).toEqual(expState)
     })
@@ -217,15 +229,27 @@ describe('Auth slice testing', () => {
       // console.log('localStorage ->',
       //   window.localStorage.getItem(LOG_IN_INFO))
     })
-    test('logInModalClosed', () => {
+    test('logInModalOpen', () => {
       const expState = {
         ...initialState(),
-        isLoggedIn: false,
+        isLogInOpened: true,
       }
       store.dispatch(setState({
-        isLoggedIn: true,
+        isLogInOpened: false,
       }))
-      store.dispatch(logInModalClosed())
+      store.dispatch(logInModalOpen())
+      const state = store.getState().auth
+      expect(state).toEqual(expState)
+    })
+    test('logInModalClose', () => {
+      const expState = {
+        ...initialState(),
+        isLogInOpened: false,
+      }
+      store.dispatch(setState({
+        isLogInOpened: true,
+      }))
+      store.dispatch(logInModalClose())
       const state = store.getState().auth
       expect(state).toEqual(expState)
     })

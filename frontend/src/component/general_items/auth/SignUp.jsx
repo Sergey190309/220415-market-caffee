@@ -1,10 +1,12 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { LinearProgress, Box, Dialog } from '@mui/material'
 
+import { authSelector, signUpModalClose } from '../../../redux/slices'
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
@@ -38,13 +40,20 @@ export const signUpSchema = t =>
   })
 
 
-const SignUp = ({ initValues, signUpSchema, visibility, setVisibility }) => {
+const SignUp = ({ initValues, signUpSchema }) => {
+
+  const dispatch = useDispatch()
+
+  const { isSignUpOpened } = useSelector(authSelector)
+
   const onCloseHandle = () => {
     console.log('SignUp>onCloseHandle')
+    dispatch(signUpModalClose())
   }
+
   return (
     <Dialog
-      open={visibility}
+      open={isSignUpOpened}
       onClose={onCloseHandle}
     >
       <Box
@@ -71,7 +80,7 @@ SignUp.propTypes = {
   initValues: PropTypes.object.isRequired,
   signUpSchema: PropTypes.func.isRequired,
   visibility: PropTypes.bool.isRequired,
-  setVisibility:PropTypes.func.isRequired
+  setVisibility: PropTypes.func.isRequired
 }
 
 export default SignUp

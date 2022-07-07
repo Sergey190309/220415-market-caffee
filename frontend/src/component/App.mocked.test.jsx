@@ -45,7 +45,7 @@ describe('App, mocked modules', () => {
           </BrowserRouter>
         </Provider>
       )
-      expect(mockSetDeviceSize).toHaveBeenCalledTimes(1)
+      expect(mockSetDeviceSize).toHaveBeenCalledTimes(2)
       expect(mockSetDeviceSize).toHaveBeenCalledWith({
         type: setDeviceSize.type, payload: mockDeviceWidth
       })

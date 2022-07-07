@@ -22,9 +22,9 @@ export {
 export {
   authSelector,
   signUpStart, signUpSuccess,
-  signUpFail, signUpModalClosed,
+  signUpFail, signUpModalOpen, signUpModalClose,
   logInStart, logInSuccess,
-  logInFail, logInModalClosed,
+  logInFail,logInModalOpen, logInModalClose,
   logOut,
   confirmPasswordStart, confirmPasswordSuccess,
   confirmPasswordFail,
@@ -35,7 +35,7 @@ export {
   deviceSelector,
   setDeviceSize,
   // openModal, closeModal,
-  setMessage, setEditable
+  setMessage, setNavBarVisibility, setEditable
 }  from './device'
 
 export { lngSelector, lngSwitch } from './lng'
