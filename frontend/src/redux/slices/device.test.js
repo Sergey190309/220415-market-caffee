@@ -34,19 +34,19 @@ describe('Device slises', () => {
     state = store.getState().device
     expect(state).toEqual(expState)
   })
-  test('openModal, closeModal', () => {
-    let expState = {
-      ...initialState, kindOfModal: 'mockKindOfModal'
-    }
-    store.dispatch(openModal('mockKindOfModal'))
-    let state = store.getState().device
-    expect(state).toEqual(expState)
+  // test('openModal, closeModal', () => {
+  //   let expState = {
+  //     ...initialState, kindOfModal: 'mockKindOfModal'
+  //   }
+  //   store.dispatch(openModal('mockKindOfModal'))
+  //   let state = store.getState().device
+  //   expect(state).toEqual(expState)
 
-    expState = { ...initialState }
-    store.dispatch(closeModal())
-    state = store.getState().device
-    expect(state).toEqual(expState)
-  })
+  //   expState = { ...initialState }
+  //   store.dispatch(closeModal())
+  //   state = store.getState().device
+  //   expect(state).toEqual(expState)
+  // })
   test('setMessage', () => {
     let expState = {
       ...initialState, message: 'mockMessage'
