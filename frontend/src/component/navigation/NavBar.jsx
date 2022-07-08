@@ -16,7 +16,7 @@ import {
 
 import {
   lngSelector, authSelector, deviceSelector,
-  setNavBarVisibility, logOut, logInModalOpen
+  setNavBarVisibility, logOut, setLogInVisibility
 } from '../../redux/slices'
 
 import * as CL from '../../constants/colors'
@@ -25,7 +25,7 @@ import * as CL from '../../constants/colors'
 import NavBarItem from './NavBarItem'
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
-const NavBar = ({}) => {
+const NavBar = () => {
   // const [isVisable, setIsVisable] = useState(false)
   // const [logInOpened, setLogInOpened] = useState(false)
 
@@ -60,7 +60,7 @@ const NavBar = ({}) => {
       // console.log('NavBar>logInOutClickHandler, not isLoggedIn')
       // dispatch(openModal('LogIn'))
       // setLogInOpened(true)
-      dispatch(logInModalOpen())
+      dispatch(setLogInVisibility(true))
     }
   }
   // useOutsideClick(componentRef, closeNav)

@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { LinearProgress, Box, Dialog } from '@mui/material'
 
-import { authSelector, signUpModalClose } from '../../../redux/slices'
+import { authSelector, setSignUpVisibility, signUpModalClose } from '../../../redux/slices'
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
@@ -35,28 +35,41 @@ export const signUpSchema = t =>
     [Object.keys(initValues)[3]]: Yup.string().oneOf(
       [Yup.ref(Object.keys(initValues)[2]), null],
       t('signup.warnings.pwdMustMatch!')
-      // t('signup.Passwords must match!')
     )
   })
 
 
 const SignUp = ({ initValues, signUpSchema }) => {
 
+  const { t } = useTranslation('auth')
   const dispatch = useDispatch()
 
-  const { isSignUpOpened } = useSelector(authSelector)
+  const { isSignUpOpened, loading } = useSelector(authSelector)
+
+  const formik = useFormik({
+    initialValues: { ...initValues },
+    validationSchema: signUpSchema(t),
+    onSubmit: (formData, { setSubmitting }) => {
+      console.log('signUp>onSubmitHandle, formData ->', formData,
+        '\n  setSubmitting ->', setSubmitting
+      )
+      // dispatch(signUpStart(formData))
+    }
+  })
 
   const onCloseHandle = () => {
     console.log('SignUp>onCloseHandle')
-    dispatch(signUpModalClose())
+    dispatch(setSignUpVisibility(false))
   }
 
   return (
     <Dialog
+      // open={true}
       open={isSignUpOpened}
       onClose={onCloseHandle}
     >
       <Box
+        id='signup-main-box'
         justifyContent='center'
         sx={{
           p: '.5rem', border: 1, borderColor: `${CL.dialogBorders}`,
@@ -64,7 +77,160 @@ const SignUp = ({ initValues, signUpSchema }) => {
           fontFamily: 'sans-serif'
         }}
       >
-        <div>SignUp</div>
+        <Box
+          id='signup-header-box'
+          sx={{
+            display: 'flex', justifyContent: 'center',
+            // border: 1, borderColor: 'red',
+            m: '.5rem', p: '1rem', fontWeight: 'bold',
+            fontSize: 'h6.fontSize'
+          }}
+          children={t('signup.header')}
+        />
+        <Box
+          id='signup-form-box'
+          sx={{
+            // border: 1, borderColor: 'blue',
+            p: '.5rem'
+          }}
+          children={
+            <form
+              onSubmit={formik.handleSubmit}
+              children={
+                <Box
+                  id='signup-input-box'
+                  sx={{ p: '.25rem' }}
+                >
+                  <Box
+                    id='signup-usename-box'
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      p: '.25rem'
+                    }}
+                    children={
+                      <AuthTextField
+                        variant='outlined'
+                        fullWidth
+
+                        id='userName'
+                        name='userName'
+                        type='text'
+
+                        label={t('signup.labels.userName')}
+                        autoComplete='username'
+                        value={formik.values.userName}
+                        onChange={formik.handleChange}
+                        error={formik.touched.userName && Boolean(formik.errors.userName)}
+                        helperText={formik.touched.userName && formik.errors.userName}
+                      />
+                    }
+
+                  />
+                  <Box
+                    id='signup-email-box'
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      p: '.25rem'
+                    }}
+                    children={
+                      <AuthTextField
+                        variant='outlined'
+                        fullWidth
+
+                        id='email'
+                        name='email'
+                        type='email'
+
+                        label={t('signup.labels.email')}
+                        autoComplete='username'
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                      // error={formik.errors}
+                      />
+                    }
+                  />
+                  <Box
+                    id='signup-password-box'
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      p: '.25rem'
+                    }}
+                    children={
+                      <AuthTextField
+                        fullWidth
+                        id='password'
+                        name='password'
+                        type='password'
+                        label={t('signup.labels.password')}
+                        autoComplete='current-password'
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                      />
+                    }
+                  />
+                  <Box
+                    id='signup-password2-box'
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      p: '.25rem'
+                    }}
+                    children={
+                      <AuthTextField
+                        fullWidth
+                        id='password2'
+                        name='password2'
+                        type='password'
+                        label={t('signup.labels.password2')}
+                        autoComplete='current-password'
+                        value={formik.values.password2}
+                        onChange={formik.handleChange}
+                        error={formik.touched.password && Boolean(formik.errors.password)}
+                        helperText={formik.touched.password && formik.errors.password}
+                      />
+                    }
+                  />
+                  {formik.isSubmitting && loading && <LinearProgress />}
+                  <Box
+                    id='login-form-buttons-box'
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      p: '.5rem'
+                    }}
+                  >
+                    <DialogButton
+                      disabled={formik.isSubmitting}
+                      onClick={formik.submitForm}
+                      children={t('signup.buttons.signup')}
+                      hovered={{
+                        bgcolor: CL.positive, color: CL.navBarBackground
+                      }}
+                    />
+                    <DialogButton
+                      disabled={formik.isSubmitting}
+                      onClick={() => {
+                        formik.resetForm()
+                        onCloseHandle(true)
+                      }}
+                      children={t('signup.buttons.cancel')}
+                      hovered={{
+                        bgcolor: CL.attention, color: CL.navBarBackground
+                      }}
+                    />
+                  </Box>
+                </Box>
+              }
+            />
+          }
+        />
       </Box>
     </Dialog>
   )

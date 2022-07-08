@@ -76,15 +76,9 @@ const authSlice = createSlice({
         loading: false
       })
     },
-    signUpModalOpen: state => {
-      state.isSignUpOpened = true
+    setSignUpVisibility: (state, { payload }) => {
+      state.isSignUpOpened=payload
     },
-    signUpModalClose: state => {
-      state.isSignUpOpened = false
-    },
-    // signUpModalClosed: state => {
-    //   state.isSignedUp = false
-    // },
     logInStart: state => {
       state.loading = true
       state.isSignedUp = false
@@ -106,11 +100,8 @@ const authSlice = createSlice({
         isLoggedIn: false
       })
     },
-    logIenModalOpen: state => {
-      state.isLogInOpened = true
-    },
-    logInModalClose: state => {
-      state.isLogInOpened = false
+    setLogInVisibility: (state, { payload }) => {
+      state.isLogInOpened=payload
     },
     logOut: state => {
       // console.log('authSlice, logOut')
@@ -155,10 +146,10 @@ const authSlice = createSlice({
 
 export const {
   setState,
-  signUpStart, signUpSuccess, signUpFail,
-  signUpModalOpen, signUpModalClose,
-  logInStart, logInSuccess, logInFail,
-  logInModalOpen, logInModalClose,
+  signUpStart, signUpSuccess, signUpFail, setSignUpVisibility,
+  // signUpModalOpen, signUpModalClose,
+  logInStart, logInSuccess, logInFail, setLogInVisibility,
+  // logInModalOpen, logInModalClose,
   logOut,
   confirmPasswordStart, confirmPasswordSuccess,
   confirmPasswordFail, confirmPasswordModalClosed

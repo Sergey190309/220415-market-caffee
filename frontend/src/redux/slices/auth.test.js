@@ -9,9 +9,9 @@ import {
 } from '../constants/localStorageVariables'
 import reducer, {
   signUpStart, signUpSuccess,
-  signUpFail,signUpModalOpen, signUpModalClose,
+  signUpFail, setSignUpVisibility,
   logInStart, logInSuccess,
-  logInFail,logInModalOpen, logInModalClose,
+  logInFail, setLogInVisibility,
   logOut,
   confirmPasswordStart, confirmPasswordSuccess,
   confirmPasswordFail, confirmPasswordModalClosed
@@ -117,7 +117,8 @@ describe('Auth slice testing', () => {
         isSignedUp: true,
         isLoggedIn: false,
         isLogInOpened: false,
-        isSignUpOpened: false      }
+        isSignUpOpened: false
+      }
       store.dispatch(setState({
         loading: true,
         isSignedUp: true,
@@ -145,7 +146,7 @@ describe('Auth slice testing', () => {
       const state = store.getState().auth
       expect(state).toEqual(expState)
     })
-    test('signUpModalOpen', () => {
+    test('setSignUpVisibility', () => {
       const expState = {
         ...initialState(),
         isSignUpOpened: true,
@@ -153,20 +154,13 @@ describe('Auth slice testing', () => {
       store.dispatch(setState({
         isSignUpOpened: false,
       }))
-      store.dispatch(signUpModalOpen())
-      const state = store.getState().auth
+      store.dispatch(setSignUpVisibility(true))
+      let state = store.getState().auth
       expect(state).toEqual(expState)
-    })
-    test('signUpModalClose', () => {
-      const expState = {
-        ...initialState(),
-        isSignUpOpened: false,
-      }
-      store.dispatch(setState({
-        isSignUpOpened: true,
-      }))
-      store.dispatch(signUpModalClose())
-      const state = store.getState().auth
+
+      expState.isSignUpOpened = false
+      store.dispatch(setSignUpVisibility(false))
+      state = store.getState().auth
       expect(state).toEqual(expState)
     })
     test('logInStart', () => {
@@ -176,7 +170,8 @@ describe('Auth slice testing', () => {
         isSignedUp: false,
         isLoggedIn: false,
         isLogInOpened: false,
-        isSignUpOpened: false      }
+        isSignUpOpened: false
+      }
       store.dispatch(setState({
         loading: false,
         isSignedUp: true,
@@ -194,7 +189,8 @@ describe('Auth slice testing', () => {
         isSignedUp: false,
         isConfirmedPassword: false,
         isLogInOpened: false,
-        isSignUpOpened: false      }
+        isSignUpOpened: false
+      }
       store.dispatch(setState({
         loading: true,
         isLoggedIn: false
@@ -213,7 +209,8 @@ describe('Auth slice testing', () => {
         isSignedUp: false,
         isLoggedIn: false,
         isLogInOpened: false,
-        isSignUpOpened: false      }
+        isSignUpOpened: false
+      }
       store.dispatch(setState({
         ...loggedInfo,
         loading: true,
@@ -229,7 +226,7 @@ describe('Auth slice testing', () => {
       // console.log('localStorage ->',
       //   window.localStorage.getItem(LOG_IN_INFO))
     })
-    test('logInModalOpen', () => {
+    test('setLogInVisibility', () => {
       const expState = {
         ...initialState(),
         isLogInOpened: true,
@@ -237,20 +234,13 @@ describe('Auth slice testing', () => {
       store.dispatch(setState({
         isLogInOpened: false,
       }))
-      store.dispatch(logInModalOpen())
-      const state = store.getState().auth
+      store.dispatch(setLogInVisibility(true))
+      let state = store.getState().auth
       expect(state).toEqual(expState)
-    })
-    test('logInModalClose', () => {
-      const expState = {
-        ...initialState(),
-        isLogInOpened: false,
-      }
-      store.dispatch(setState({
-        isLogInOpened: true,
-      }))
-      store.dispatch(logInModalClose())
-      const state = store.getState().auth
+
+      expState.isLogInOpened = false
+      store.dispatch(setLogInVisibility(false))
+      state = store.getState().auth
       expect(state).toEqual(expState)
     })
     test('logOut', () => {
@@ -305,7 +295,7 @@ describe('Auth slice testing', () => {
         isConfirmedPassword: true,
         isLogInOpened: false,
         isSignUpOpened: false
-       }
+      }
       store.dispatch(setState({
         ...loggedInfo,
         loading: true,
@@ -357,5 +347,5 @@ describe('Auth slice testing', () => {
       const state = store.getState().auth
       expect(state).toEqual(expState)
     })
-})
+  })
 })

@@ -8,7 +8,10 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { LinearProgress, Box, Dialog } from '@mui/material'
 
-import { authSelector, logInModalClose, logInStart, signUpModalOpen } from '../../../redux/slices'
+import {
+  authSelector, logInStart,
+  setLogInVisibility, setSignUpVisibility
+} from '../../../redux/slices'
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
@@ -31,21 +34,17 @@ export const logInSchema = t =>
 
   })
 
-const LogIn = ({ initValues, logInSchema,
-  // visibility, setVisibility
-}) => {
-  // const [opened, setOpened] = useState(visibility)
-  const { t } = useTranslation('auth')
-  // const { kindOfModal } = useSelector(deviceSelector)
-  const { loading, isLogInOpened } = useSelector(authSelector)
+const LogIn = ({ initValues, logInSchema }) => {
 
+  const { loading, isLogInOpened } = useSelector(authSelector)
+  const { t } = useTranslation('auth')
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (!loading) {
       // setVisibility(false)
       formik.setSubmitting(false)
-      dispatch(logInModalClose())
+      dispatch(setLogInVisibility(false))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
@@ -62,14 +61,14 @@ const LogIn = ({ initValues, logInSchema,
   })
 
   const signUpClickHandler = () => {
-    dispatch(signUpModalOpen())
+    dispatch(setSignUpVisibility(true))
   }
 
   const onCloseHandle = useCallback(
     (cancel) => {
       // console.log('LogIn>onCloseHandle, formik.values ->', formik.values)
       // setVisibility(false)
-      dispatch(logInModalClose())
+      dispatch(setLogInVisibility(false))
       if (cancel) {
         formik.values = { ...initValues }
       }
@@ -95,6 +94,7 @@ const LogIn = ({ initValues, logInSchema,
       }}
     >
       <Box
+        id='login-main-box'
         // display='flex'
         justifyContent='center'
         sx={{
@@ -104,6 +104,7 @@ const LogIn = ({ initValues, logInSchema,
         }}
       >
         <Box
+          id='login-header-box'
           sx={{
             display: 'flex', justifyContent: 'center',
             // border: 1, borderColor: 'red',
@@ -113,6 +114,7 @@ const LogIn = ({ initValues, logInSchema,
           children={t('login.header')}
         />
         <Box
+          id='login-form-box'
           sx={{
             // border: 1, borderColor: 'blue',
             p: '.5rem'
@@ -122,9 +124,11 @@ const LogIn = ({ initValues, logInSchema,
               onSubmit={formik.handleSubmit}
               children={
                 <Box
+                  id='login-input-box'
                   sx={{ p: '.25rem' }}
                 >
                   <Box
+                    id='login-email-input-box'
                     sx={{
                       display: 'flex',
                       justifyContent: 'center',
@@ -150,6 +154,7 @@ const LogIn = ({ initValues, logInSchema,
                     }
                   />
                   <Box
+                    id='login-password-input-box'
                     sx={{
                       display: 'flex',
                       justifyContent: 'center',
@@ -171,11 +176,14 @@ const LogIn = ({ initValues, logInSchema,
                     }
                   />
                   {formik.isSubmitting && loading && <LinearProgress />}
-                  <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                    p: '.5rem'
-                  }}>
+                  <Box
+                    id='login-form-buttons-box'
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-around',
+                      p: '.5rem'
+                    }}
+                  >
                     <DialogButton
                       disabled={formik.isSubmitting}
                       onClick={formik.submitForm}
@@ -201,6 +209,7 @@ const LogIn = ({ initValues, logInSchema,
             />
           } />
         <Box
+          id='login-signup-box'
           sx={{
             mx: '1.5rem',
             display: 'flex', justifyContent: 'center',
@@ -212,6 +221,7 @@ const LogIn = ({ initValues, logInSchema,
           }}
         >
           <Box
+            id='login-signup-message-box'
             sx={{
               mx: '1rem',
               // border: 1, borderColor: 'red'
@@ -221,7 +231,9 @@ const LogIn = ({ initValues, logInSchema,
                 {t('login.message')}
               </p>
             } />
-          <Box sx={{
+          <Box
+            id='login-signup-button-box'
+            sx={{
             // my: '.1rem'
             display: 'flex',
             // border: 1, borderColor: 'red'
