@@ -1,4 +1,4 @@
-FROM python:3.10.4-slim-buster as pre_backend
+FROM python:3.10.5-slim-buster as pre_backend
 
 EXPOSE 80/tcp
 EXPOSE 443/tcp

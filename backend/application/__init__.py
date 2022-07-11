@@ -24,6 +24,7 @@ def create_app(config='default_config.py'):
     app = Flask(__name__)
     load_dotenv('.env', verbose=True)
     app.config.from_pyfile(config)
+    # print('\napplication>init>create_app, app.config ->', app.config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
     # Flask_SQLAlchemy init

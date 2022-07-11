@@ -11,7 +11,7 @@ PyMySQL
 cryptography
 Flask-Bcrypt
 Flask-JWT-Extended
-Flask-Mail
+Flask-Mailing
 requests
 Flask-Cors
 Flask-Reuploaded

@@ -5,7 +5,8 @@ from ..resources.roles import Role
 from ..resources.userhandle import UserHandle
 from ..resources.userlogin import UserLogin
 from ..resources.userlist import UserList
-from ..resources.userconfirm import UserConfirm, Confirmation, ConfirmationByUser
+from ..resources.userconfirm import (
+    UserConfirm, Confirmation, ConfirmationByUser)
 
 
 class ApiUsers(Api):
@@ -18,8 +19,10 @@ class ApiUsers(Api):
         self.add_resource(UserLogin, '/login')
         self.add_resource(UserList, '/list')
         self.add_resource(UserConfirm, '/confirm/<int:user_id>')
-        self.add_resource(Confirmation, '/confirmation/<string:confirmation_id>')
-        self.add_resource(ConfirmationByUser, '/confirmationbyuser/<int:user_id>')
+        self.add_resource(
+            Confirmation, '/confirmation/<string:confirmation_id>')
+        self.add_resource(
+            ConfirmationByUser, '/confirmationbyuser/<int:user_id>')
 
 
 api_users = ApiUsers()

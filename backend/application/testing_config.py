@@ -1,14 +1,15 @@
 # import os
 
 DEBUG = True
-# Enable the TESTING flag to disable the error catching during request handling
-# so that you get better error reports when performing test requests against the
-# application.
+# Enable the TESTING flag to disable the error catching during request
+# handling so that you get better error reports when performing test
+# requests against the application.
 TESTING = True
 # SECRET_KEY = os.getenv('APP_SECRET_KEY')
 # print('\nSECRET_KEY -', SECRET_KEY)
 
-# SQLALCHEMY_DATABASE_URI = 'sqlite:////home/sa/code/201201-market-caffee/backend/
+# SQLALCHEMY_DATABASE_URI =
+#       'sqlite:////home/sa/code/201201-market-caffee/backend/
 # testdb.sqlite3'
 
 DATABASE_USER = 'coffee'

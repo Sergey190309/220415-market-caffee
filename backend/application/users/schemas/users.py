@@ -6,7 +6,8 @@ from ..modules.fbc_users import fbc_users
 
 from ..models.users import UserModel
 
-# Below schemas used for correctness nested parts. Error not used is normal.
+# Below schemas used for correctness nested parts.
+# Error not used is normal.
 # This error is on Kind of marshmallow error.
 from ..schemas.roles import RoleSchema  # noqa: 401
 from application.schemas.locales_global import LocaleGlobalSchema  # noqa: 401
@@ -68,7 +69,8 @@ class AdminCreateSchema(fma_users.SQLAlchemyAutoSchema):  # noqa
 
     @pre_load
     def hash_password(self, in_data, **kwargs):
-        in_data['password'] = fbc_users.generate_password_hash(in_data['password'])
+        in_data['password'] = fbc_users.generate_password_hash(
+            in_data['password'])
         return in_data
 
 
@@ -94,7 +96,8 @@ class UserSchema(fma_users.SQLAlchemyAutoSchema):  # noqa
 
     @pre_load
     def hash_password(self, in_data, **kwargs):
-        in_data['password'] = fbc_users.generate_password_hash(in_data.get('password'))
+        in_data['password'] = fbc_users.generate_password_hash(
+            in_data.get('password'))
         return in_data
 
 

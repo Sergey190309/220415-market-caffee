@@ -28,11 +28,13 @@ class ConfirmationEmailData():
         To update data based on locale set.
         '''
         _email_data = self.email_data.copy()
-        _email_data['subject'] = str(_("That's registration confirmatin."))
+        _email_data['subject'] = str(_(
+            "That's registration confirmatin."))
         # _email_data['body_text'] = str(_('Please follow the link.'))
         _email_data['body_html'] = str(_(
             "<p>Hello Friend,</p>"
-            "<p>You or someone else use %(email)s to register on our site.</p>"
+            "<p>You or someone else use %(email)s to register on our "
+            "site.</p>"
             "<p>To finish registration, please follow "
             "<a href=%(link)s><strong>link</strong></a>.</p>"
             "<p>If you did not register, you can simply ignore "

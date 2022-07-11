@@ -1,3 +1,4 @@
+import asyncio
 from typing import Dict, Union, List
 from datetime import datetime
 from requests import Response
@@ -22,7 +23,8 @@ class UserModel(dbs_global.Model):
     '''
     __tablename__ = 'users'
 
-    # All fields but password and role can be uudated either by user or admin
+    # All fields but password and role can be uudated either by user or
+    # admin
     id = dbs_global.Column(dbs_global.Integer, primary_key=True)
     created = dbs_global.Column(
         dbs_global.DateTime, nullable=False, default=datetime.now())
@@ -43,12 +45,14 @@ class UserModel(dbs_global.Model):
         dbs_global.ForeignKey('locales_global.id'),
         nullable=False,
         default='en')
-    time_zone = dbs_global.Column(dbs_global.SmallInteger, nullable=False, default=3)
+    time_zone = dbs_global.Column(
+        dbs_global.SmallInteger, nullable=False, default=3)
     remarks = dbs_global.Column(dbs_global.UnicodeText)
 
     # avatar = fields.ImageField(null=True)
 
-    locale = dbs_global.relationship('LocaleGlobalModel', backref='usermodel')
+    locale = dbs_global.relationship(
+        'LocaleGlobalModel', backref='usermodel')
     role = dbs_global.relationship('RoleModel', back_populates='user')
     confirmation = dbs_global.relationship(
         'ConfirmationModel',
@@ -57,7 +61,8 @@ class UserModel(dbs_global.Model):
         lazy='dynamic')
 
     def set_accessed(self) -> Union[None, str]:  # tested
-        # print("users.models.UserModel.set_accessed datetime -", datetime.now())
+        # print("users.models.UserModel.set_accessed datetime -",
+        # datetime.now())
         self.accessed = datetime.now()
         return self.save_to_db()
 
@@ -67,12 +72,17 @@ class UserModel(dbs_global.Model):
             dbs_global.desc(ConfirmationModel.expire_at)).first()
 
     def send_confirmation_request(self) -> Response:
+        # print('\nUserModel>send_confirmation_request')
         confirmation = self.most_recent_confirmation
         _link = request.url_root[:-1] +\
-            url_for('users_bp.confirmation', confirmation_id=confirmation.id)
-        fml.send(
-            emails=[self.email],
-            link=_link)
+            url_for(
+                'users_bp.confirmation', confirmation_id=confirmation.id)
+        asyncio.run(
+            fml.send(
+                emails=[self.email],
+                link=_link
+            )
+        )
 
     # @property
     def is_own_id(self, id: int) -> bool:  # tested
@@ -112,7 +122,7 @@ class UserModel(dbs_global.Model):
         }
 
     @classmethod
-    def find(cls, searching_criteation: Dict = {}) -> List['UserModel']:  # tested
+    def find(cls, searching_criteation: Dict = {}) -> List['UserModel']:
         if searching_criteation is None:
             searching_criteation = {}
         return cls.query.filter_by(**searching_criteation).all()
@@ -132,19 +142,21 @@ class UserModel(dbs_global.Model):
         return cls.query.filter_by(email=email).first()
 
     def check_password(self, plain_password: str) -> bool:  # tested
-        result = fbc_users.check_password_hash(self.password_hash, plain_password)
+        result = fbc_users.check_password_hash(
+            self.password_hash, plain_password)
         if result:
             self.accessed = datetime.now()
         return result
 
-    def update_password(self, plain_password: str) -> Union[None, str]:  # tested
+    def update_password(self, plain_password: str) -> Union[None, str]:
         '''
         The update included secure update.
         '''
-        self.password_hash = fbc_users.generate_password_hash(plain_password)
+        self.password_hash = fbc_users.generate_password_hash(
+            plain_password)
         return self.save_to_db()
 
-    def update(self, update_values: Dict = None) -> Union[None, str]:  # tested
+    def update(self, update_values: Dict = None) -> Union[None, str]:
         if update_values is None:
             return update_values
         self.updated = datetime.now()
@@ -173,7 +185,8 @@ class UserModel(dbs_global.Model):
                 dbs_global.session.delete(self)
                 dbs_global.session.commit()
             except Exception as error:
-                print('users.models.UserModel.delete_fm_db error\n', error)
+                print(
+                    'users.models.UserModel.delete_fm_db error\n', error)
 
         if not kill_first:
             if self.id != 1:

@@ -24,7 +24,7 @@ class User(Resource):
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
         # _json = request.get_json()
-        # print('users.resources.users.User.post _json -', _json)
+        # print('\nusers>resources>users>User>post _json -', _json)
         _user = user_schema.load(request.get_json())
         if UserModel.find_by_email(_user.email):
             return {
@@ -35,12 +35,12 @@ class User(Resource):
         else:
             try:
                 _user.save_to_db()
+                # print('\nresources.User.post _user.id ->', _user.id)
                 _confirmation = ConfirmationModel(_user.id)
+                # print('resources.User.post')
                 _confirmation.save_to_db()
                 _user.send_confirmation_request()
                 _created_user = UserModel.find_by_email(_user.email)
-                # print('users.resources.User.post, user_schema.dump(_created_user) ->',
-                # user_schema.dump(_created_user))
                 return {
                     'message': str(_(
                         "User with email '%(email)s' created. "
@@ -50,10 +50,13 @@ class User(Resource):
                     'payload': user_schema.dump(_created_user)
                 }, 201
             except Exception as err:
+                _user.delete_fm_db()
+                _confirmation.delete_fm_db()
                 print('users.resources.User.post error:\n', err)
                 return {
                     'message': str(_(
-                        "While creating user somthing went wrong. Error - %(err)s.",
+                        "While creating user somthing went wrong. "
+                        "Error - %(err)s.",
                         err=err))}, 500
 
     @classmethod
@@ -69,16 +72,19 @@ class User(Resource):
         user_update_schema.load({'email': _email})
 
         _user_logged = UserModel.find_by_id(get_jwt_identity())
-        if not (_user_logged.is_admin or _user_logged.is_own_email(_email)):
+        if not (_user_logged.is_admin or _user_logged.is_own_email(
+                _email)):
             return {
                 'message': str(_(
                     "Admins or account owner are allowed to see details "
-                    "by email. You neither are admin no own this account."))
+                    "by email. You neither are admin no own this "
+                    "account."))
             }, 401
 
         _user = UserModel.find_by_email(_email)
         if _user:
-            # print('users.resources.users.User.get _user -', user_schema.dump(_user))
+            # print('users.resources.users.User.get _user -',
+            # user_schema.dump(_user))
             return {
                 'message': str(_(
                     "User with email '%(email)s' found, details are "
@@ -88,6 +94,7 @@ class User(Resource):
         else:
             return {
                 'message': str(_(
-                    "Sorry but user with email '%(email)s' has not been found.",
+                    "Sorry but user with email '%(email)s' has not "
+                    "been found.",
                     email=_email)),
             }, 404

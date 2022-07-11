@@ -79,6 +79,16 @@ services:
       DATABASE_HOST: mysqldb
       DATABASE_NAME: 'market_coffee'
 
+      MAIL_SERVER: 'smtp-relay.sendinblue.com'
+      MAIL_PORT: 587
+      MAIL_USERNAME: 'sa6702@gmail.com'
+      MAIL_PASSWORD: 'xsmtpsib-6c8e1daad205cffaa2feba0c413cf4eba1e7fe5d9f661177d0a7249fc70b578b-XLPJgY0zh8aStfVj'
+      MAIL_USE_TLS: True
+      MAIL_USE_SSL: false
+      # MAIL_DEFAULT_SENDER: ('TestSender', MAIL_USERNAME)
+      # MAIL_SUPPRESS_SEND: True
+
+
     volumes:
       - ./backend:/backend
 

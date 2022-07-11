@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
@@ -6,7 +6,7 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { LinearProgress, Box, Dialog } from '@mui/material'
 
-import { authSelector, setSignUpVisibility, signUpModalClose } from '../../../redux/slices'
+import { authSelector, setSignUpVisibility, signUpStart } from '../../../redux/slices'
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
@@ -46,6 +46,14 @@ const SignUp = ({ initValues, signUpSchema }) => {
 
   const { isSignUpOpened, loading } = useSelector(authSelector)
 
+  useEffect(() => {
+    if (!loading) {
+      formik.setSubmitting(false)
+      dispatch(setSignUpVisibility(false))
+    }
+  }, [loading])
+
+
   const formik = useFormik({
     initialValues: { ...initValues },
     validationSchema: signUpSchema(t),
@@ -53,7 +61,9 @@ const SignUp = ({ initValues, signUpSchema }) => {
       console.log('signUp>onSubmitHandle, formData ->', formData,
         '\n  setSubmitting ->', setSubmitting
       )
-      // dispatch(signUpStart(formData))
+      const { userName, password2, ...otherProps } = formData
+      const signUpData = { user_name: userName, ...otherProps }
+      dispatch(signUpStart(signUpData))
     }
   })
 

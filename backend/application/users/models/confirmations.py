@@ -17,8 +17,10 @@ class ConfirmationModel(dbs_global.Model):
     id = dbs_global.Column(dbs_global.String(50), primary_key=True)
     expire_at = dbs_global.Column(dbs_global.Integer, nullable=False)
     user_id = dbs_global.Column(
-        dbs_global.Integer, dbs_global.ForeignKey('users.id'), nullable=False)
-    confirmed = dbs_global.Column(dbs_global.Boolean, nullable=False, default=False)
+        dbs_global.Integer, dbs_global.ForeignKey(
+            'users.id'), nullable=False)
+    confirmed = dbs_global.Column(
+        dbs_global.Boolean, nullable=False, default=False)
 
     user = dbs_global.relationship(
         'UserModel',
@@ -45,7 +47,7 @@ class ConfirmationModel(dbs_global.Model):
         return cls.query.get(id)
 
     @classmethod
-    def find_by_user_id(cls, user_id: int) -> 'ConfirmationModel':  # tested
+    def find_by_user_id(cls, user_id: int) -> 'ConfirmationModel':
         return cls.query.filter_by(user_id=user_id).first()
 
     @classmethod

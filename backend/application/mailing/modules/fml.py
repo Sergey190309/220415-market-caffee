@@ -2,7 +2,9 @@
 Flask-Mail application
 '''
 from typing import List
-from flask_mail import Mail, Message
+# from flask import jsonify
+from flask_mailing import Mail, Message
+import tracemalloc
 
 from ..local_init_data_mailing import confirmation_email_data
 
@@ -11,22 +13,32 @@ class MailMailing(Mail):
     def __init__(self):
         super().__init__()
 
-    def send(self, emails: List = [], link: str = None) -> [Message]:
+    async def send(
+            self, emails: List = [], link: str = None) -> [Message]:
 
         # Here I do not use list to send bulk mails.
         confirmation_email_data.refresh(email=emails[0], link=link)
         ed = confirmation_email_data.email_data
-        # print(ed)
+        tracemalloc.start()
+        # print('\n fml>MailMailing, emails ->', emails,
+        #       '\n  body_html', ed.get('body_html')
+        #       )
         msg = Message(
-            subject=ed['subject'],
-            html=ed['body_html'],
+            # recipients=['sa6702@gmail.com'],
+            # subject='Test message subject',
+            # body='Test message '
             recipients=emails,
+            subject=ed['subject'],
+            body=ed['body_html'],
         )
-        # print('Link -', link)
-        with super().record_messages() as outbox:
-            super().send(msg)
-        # print(outbox)
-        return outbox
+        await super().send_message(msg)
+        # with super().record_messages() as outbox:
+        #     super().send(msg)
+        # return outbox
+        # return jsonify(
+        #     status_code=200,
+        #     content={"message": "email has been sent"}
+        # )
 
 
 fml = MailMailing()
