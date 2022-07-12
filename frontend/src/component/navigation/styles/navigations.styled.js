@@ -12,6 +12,7 @@ import * as CL from '../../../constants/colors'
 // import { smallDeviceLimit } from '../../../redux/constants/deviceWidthLimits'
 
 export const FixedButton = styled(Button)`
+  /* color: red; */
   position: fixed;
   top: ${({ vertical }) => (vertical && (vertical.side && (
     vertical.side === 'top' ? vertical.value && (
