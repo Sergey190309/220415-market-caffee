@@ -3,23 +3,27 @@ import {
   // select
 } from 'redux-saga/effects'
 import {
-  CONTENT_UPDATE,
-  STRUCTURE_ADD,
-  STRUCTURE_REMOVE
+  // CONTENT_UPDATE,
+  // STRUCTURE_ADD,
+  // STRUCTURE_REMOVE
+
 } from '../../redux/constants/types'
 import {
   startAlert,
   signUpStart, signUpSuccess, signUpFail,
   logInStart, logInSuccess, logInFail,
-  confirmPasswordStart, confirmPasswordSuccess,
-  confirmPasswordFail,
-  backendTxtUpdateStart, backendAddElementStart,
-  backendRemoveElementStart,
+  confirmPasswordStart,
+  // confirmPasswordSuccess, confirmPasswordFail,
+  // backendTxtUpdateStart, backendAddElementStart,
+  // backendRemoveElementStart,
   // backendUpdateSelector
 } from '../slices'
 
-import { setAxiosAuthAccessToken } from '../../api/apiClient'
-import { logInCall, signUpCall, confirmPasswordCall } from '../../api/calls/getAuthTechInfo'
+// import { setAxiosAuthAccessToken } from '../../api/apiClient'
+import {
+  logInCall, signUpCall,
+  // confirmPasswordCall
+} from '../../api/calls/getAuthTechInfo'
 import { actRespErrorMessage } from '../../utils/errorHandler'
 import { setAlertData } from '../../utils/utils'
 

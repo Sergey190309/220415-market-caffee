@@ -4,8 +4,9 @@
 # __pycache__/
 # venv
 # venv/
+
 # Environments
-# .env
+.env*
 
 .directory
 ~$*

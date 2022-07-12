@@ -1,9 +1,0 @@
-# It's for image that fix CORS problem.
-
-FROM nginx:alpine
-
-WORKDIR /etc/nginx
-COPY ./nginx.conf ./conf.d/default.conf
-EXPOSE 9090
-ENTRYPOINT [ "nginx" ]
-CMD [ "-g", "daemon off;" ]

@@ -67,27 +67,8 @@ services:
       - '9090:9090'
 
     # tty: true
-
-    environment:
-      APP_ENV: 'dev'
-      APP_DEBUG: 'True'
-
-      JWT_SECRET_KEY: 'very_secret_key'
-
-      DATABASE_USER: 'coffee'
-      DATABASE_PASSWORD: 'iij0*(*(*())^%^G'
-      DATABASE_HOST: mysqldb
-      DATABASE_NAME: 'market_coffee'
-
-      MAIL_SERVER: 'smtp-relay.sendinblue.com'
-      MAIL_PORT: 587
-      MAIL_USERNAME: 'sa6702@gmail.com'
-      MAIL_PASSWORD: 'xsmtpsib-6c8e1daad205cffaa2feba0c413cf4eba1e7fe5d9f661177d0a7249fc70b578b-XLPJgY0zh8aStfVj'
-      MAIL_USE_TLS: True
-      MAIL_USE_SSL: false
-      # MAIL_DEFAULT_SENDER: ('TestSender', MAIL_USERNAME)
-      # MAIL_SUPPRESS_SEND: True
-
+    env_file:
+      - ./backend/.env.dev
 
     volumes:
       - ./backend:/backend
@@ -110,11 +91,13 @@ services:
     # command: '--authentication_policy=mysql_native_password'
     command: ["mysqld", "--general-log=1", "--general-log-file=/var/lib/mysql/log/general-log.log"]
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: 'ljoii98*_)(98767HG'
-      MYSQL_DATABASE: market_coffee
-      MYSQL_USER: coffee
-      MYSQL_PASSWORD: 'iij0*(*(*())^%^G'
+    env_file:
+      - ./.env.sql.dev
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: 'ljoii98*_)(98767HG'
+    #   MYSQL_DATABASE: market_coffee
+    #   MYSQL_USER: coffee
+    #   MYSQL_PASSWORD: 'iij0*(*(*())^%^G'
 
     volumes:
       - ~/code/docker-logs/mysql/:/var/lib/mysql/log/
