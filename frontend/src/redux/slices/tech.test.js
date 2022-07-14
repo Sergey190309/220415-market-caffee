@@ -19,6 +19,7 @@ jest.mock('../../api/apiClient')
 
 const sagaMiddleware = createSagaMiddleware()
 const middleware = (getDefaultMiddleware) => [...getDefaultMiddleware({ thunk: false }), sagaMiddleware]
+// const store = configureStore({ reducer, middleware, initialState })
 
 describe('Tech slice testing', () => {
   let store

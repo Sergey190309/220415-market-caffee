@@ -1,7 +1,7 @@
-import React, {
-  useEffect, useCallback
-} from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+import { useAppEffect, useAppCallback } from '../../../hooks/react'
+import { useAppDispatch, useAppSelector } from '../../../hooks/reactRedux'
+// import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -36,13 +36,13 @@ export const logInSchema = t =>
 
 const LogIn = ({ initValues, logInSchema }) => {
 
-  const { loading, isLogInOpened } = useSelector(authSelector)
+  const { loading, isLogInOpened } = useAppSelector(authSelector)
   const { t } = useTranslation('auth')
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  useAppEffect(() => {
     if (!loading) {
-      // setVisibility(false)
+      // console.log('LogIn>useEffect[loading]')
       formik.setSubmitting(false)
       dispatch(setLogInVisibility(false))
     }
@@ -62,9 +62,10 @@ const LogIn = ({ initValues, logInSchema }) => {
 
   const signUpClickHandler = () => {
     dispatch(setSignUpVisibility(true))
+    onCloseHandle()
   }
 
-  const onCloseHandle = useCallback(
+  const onCloseHandle = useAppCallback(
     (cancel) => {
       // console.log('LogIn>onCloseHandle, formik.values ->', formik.values)
       // setVisibility(false)
@@ -78,13 +79,12 @@ const LogIn = ({ initValues, logInSchema }) => {
       dispatch],
   )
 
-  // console.log('LogIn, render, values ->', formik.values,
-  //   '\n  visibility ->', visibility,
-  //   '\n  formik.isSubmiting ->', formik.isSubmitting
-  // )
+  // console.log('LogIn isLogInOpened->', isLogInOpened)
 
   return (
     <Dialog
+      id='login-dialog'
+      data-testid='login-dialog'
       // open={true}
       open={isLogInOpened}
       // open={visibility}
@@ -105,6 +105,7 @@ const LogIn = ({ initValues, logInSchema }) => {
       >
         <Box
           id='login-header-box'
+
           sx={{
             display: 'flex', justifyContent: 'center',
             // border: 1, borderColor: 'red',
@@ -140,6 +141,7 @@ const LogIn = ({ initValues, logInSchema }) => {
                         fullWidth
 
                         id='email'
+                        data-testid='input-email'
                         name='email'
                         type='email'
 
@@ -162,8 +164,11 @@ const LogIn = ({ initValues, logInSchema }) => {
                     }}
                     children={
                       <AuthTextField
+                        variant='outlined'
                         fullWidth
+
                         id='password'
+                        data-testid='input-password'
                         name='password'
                         type='password'
                         label={t('login.labels.password')}
@@ -175,7 +180,8 @@ const LogIn = ({ initValues, logInSchema }) => {
                       />
                     }
                   />
-                  {formik.isSubmitting && loading && <LinearProgress />}
+                  {formik.isSubmitting && loading &&
+                    <LinearProgress data-testid='login-form-linear-progress' />}
                   <Box
                     id='login-form-buttons-box'
                     sx={{
@@ -185,6 +191,8 @@ const LogIn = ({ initValues, logInSchema }) => {
                     }}
                   >
                     <DialogButton
+                      data-testid='button-login'
+
                       disabled={formik.isSubmitting}
                       onClick={formik.submitForm}
                       children={t('login.buttons.logIn')}
@@ -193,6 +201,7 @@ const LogIn = ({ initValues, logInSchema }) => {
                       }}
                     />
                     <DialogButton
+                      data-testid='button-cancel'
                       disabled={formik.isSubmitting}
                       onClick={() => {
                         formik.resetForm()
@@ -234,18 +243,16 @@ const LogIn = ({ initValues, logInSchema }) => {
           <Box
             id='login-signup-button-box'
             sx={{
-            // my: '.1rem'
-            display: 'flex',
-            // border: 1, borderColor: 'red'
-          }}
+              // my: '.1rem'
+              display: 'flex',
+              // border: 1, borderColor: 'red'
+            }}
             children={
               <DialogButton
+                data-testid='button-signup'
                 disabled={formik.isSubmitting}
                 children={t('login.buttons.signUp')}
-                onClick={() => {
-                  signUpClickHandler()
-                  onCloseHandle()
-                }}
+                onClick={signUpClickHandler}
                 hovered={{
                   bgcolor: CL.positive, color: CL.navBarBackground
                 }}
