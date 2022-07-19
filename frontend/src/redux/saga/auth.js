@@ -33,8 +33,8 @@ export function* logInSaga() {
 
 export function* logInFetch(action) {
   try {
-    // console.log('saga>auth>logInFetch, action ->', action)
     const userData = yield call(logInCall, action.payload)
+    // console.log('saga>auth>logInFetch, userData.data.payload ->', userData.data.payload)
     yield put(logInSuccess(userData.data.payload))
     yield put(
       startAlert(

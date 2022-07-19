@@ -18,7 +18,8 @@ const babelConfig = {
     '@babel/plugin-transform-runtime',
     '@babel/plugin-transform-async-to-generator',
     '@babel/plugin-proposal-export-default-from',
-    '@babel/plugin-proposal-export-namespace-from'
+    '@babel/plugin-proposal-export-namespace-from',
+    // 'babel-plugin-dynamic-import-node'
   ],
 }
 
