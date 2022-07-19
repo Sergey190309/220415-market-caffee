@@ -49,7 +49,7 @@ const SignUp = ({ initValues, signUpSchema }) => {
 
 
   useAppEffect(() => {
-    console.log('signUp>useEffect[loading], loading ->', loading)
+    // console.log('signUp>useEffect[loading], loading ->', loading)
     if (!loading) {
       formik.setSubmitting(false)
       dispatch(setSignUpVisibility(false))
