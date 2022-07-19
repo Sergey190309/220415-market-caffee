@@ -54,6 +54,7 @@ const authSlice = createSlice({
       //   delete state[key]
       // })
       Object.assign(state, payload)
+      // console.log('authSlice>setState, payload ->', payload)
     },
     signUpStart: state => {
       state.loading = true
@@ -80,6 +81,7 @@ const authSlice = createSlice({
       state.isSignUpOpened=payload
     },
     logInStart: state => {
+      // console.log('AuthSlice>LogInStart')
       state.loading = true
       state.isSignedUp = false
       state.isLoggedIn = false
@@ -101,6 +103,7 @@ const authSlice = createSlice({
       })
     },
     setLogInVisibility: (state, { payload }) => {
+      // console.log('authSlice>setLogInVisibility, payload ->', payload)
       state.isLogInOpened=payload
     },
     logOut: state => {
