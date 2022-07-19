@@ -8,7 +8,7 @@
     "@fontsource/roboto": "^4.5.7",
     "@mui/base": "^5.0.0-alpha.89",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.9.0",
+    "@mui/material": "^5.9.1",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styled-engine-sc": "^5.8.0",
     "@reduxjs/toolkit": "^1.8.3",
