@@ -1,30 +1,46 @@
 import React from 'react'
-// import { rest } from 'msw'
-// import { setupServer } from 'msw/node'
 import { useTranslation } from 'react-i18next'
-
-import { screen } from '@testing-library/react'
+// import * as mockedFormik from 'formik'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import configureStore from 'redux-mock-store'
 
-import { renderWithProviders } from '../../../utils/testUtils'
-import LogIn, { logInSchema } from './LogIn'
-// import reducer from '../../../redux/slices'
-import { setLogInVisibility } from '../../../redux/slices'
-import { initialState } from '../../../redux/slices/auth'
-import { init } from 'i18next'
+import { renderWithProviders, setupStore } from '../../../utils/testUtils'
+import LogIn, { logInSchema, initValues } from './LogIn'
+// import { setLogInVisibility, logInSuccess } from '../../../redux/slices'
+import { initialState, setState } from '../../../redux/slices/auth'
+import { logInSaga } from '../../../redux/saga/auth'
+import { logInCall } from '../../../api/calls/getAuthTechInfo'
+import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../../api/apiClient'
+import { act } from 'react-dom/test-utils'
 
+// jest.mock('formik')
+// jest.mock('formik', () => ({
+//   __esModule: true,
+//   ...jest.requireActual('formik'),
+//   useFormik: jest.fn()
+// }))
+jest.mock('../../../api/apiClient', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../api/apiClient'),
+  setAxiosAuthAccessToken: jest.fn(),
+  setAxiosAuthRefreshToken: jest.fn(),
+}))
+jest.mock('../../../api/calls/getAuthTechInfo', () => ({
+  __esModule: true,
+  ...jest.requireActual('../../../api/calls/getAuthTechInfo'),
+  logInCall: jest.fn()
+}))
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: jest.fn((key) => key)
-    // t: key => key
     // i18n: { changeLanguage: jest.fn() },
   })
 }))
 
 describe('LogIn testing', () => {
   afterAll(() => {
-    // jest.unmock('react-redux')
+    jest.unmock('../../../api/apiClient')
+    jest.unmock('../../../api/calls/getAuthTechInfo')
     jest.unmock('react-i18next')
   })
   describe('non react components', () => {
@@ -43,6 +59,39 @@ describe('LogIn testing', () => {
     })
   })
   describe('React Component', () => {
+    const logInData = {
+      user_name: 'admin',
+      email: 'a@agatha-ng.com',
+      isAdmin: true,
+      access_token: 'mock access token',
+      refresh_token: 'mock refresh token'
+    }
+    // const mockedHandleSubmit = jest.fn()
+    // const mockedSetSubmitting = jest.fn()
+    // const mockedValues = {
+    //   email: 'a@agatha-ng.com',
+    //   password: 'qwerty'
+    // }
+    beforeEach(() => {
+      jest.resetAllMocks()
+      // useFormik.mockImplementation(() => ({
+      //   values: mockedValues,
+      //   touched: {
+      //     email: false,
+      //     password: false
+      //   },
+      //   errors: {
+      //     email: false,
+      //     password: false
+      //   },
+      //   handleSubmit: mockedHandleSubmit,
+      //   setSubmitting: mockedSetSubmitting
+      //   // values: mockedValues
+      // }))
+    })
+    afterEach(() => {
+      jest.restoreAllMocks()
+    })
     describe('appearance', () => {
       test('screen shot', () => {
         const testState = { ...initialState(), loading: true, isLogInOpened: true }
@@ -64,34 +113,53 @@ describe('LogIn testing', () => {
         // screen.debug()
       })
     })
-    describe('integration test', () => {
-      const middlewares = []
-      const mockStore = configureStore(middlewares)
+    describe('functional tests (mocked dispatch)', () => {
       test('pressing login button', async () => {
-        const user = userEvent.setup()
-        const testState = { ...initialState(), loading: true, isLogInOpened: true }
-        const initState = { auth: testState }
-        const store = mockStore(initState)
+        logInCall.mockImplementation(
+          () => ({ data: { payload: logInData, message: 'mock message' } })
 
-        const { rerender } = renderWithProviders(<LogIn />, {
-          preloadedState: { initState }, store
+          // setTimeout(() => (() => ({ data: { payload: logInData, message: 'mock message' } })), 500)
+        )
+        // const spyOnSubmitForm = jest.spyOn(mockedFormik.submitForm, 'submitForm')
+        /**
+         * It tests appearence and disappearence GUI elements
+         */
+        const user = userEvent.setup()
+        const testState = {
+          ...initialState(),
+          loading: true, isLogInOpened: true
+        }
+        const store = setupStore({ auth: testState }, logInSaga)
+        // const initState = { auth: testState }
+
+        renderWithProviders(<LogIn />, {
+          preloadedState: { auth: testState }, store
         })
+
+        const loginDialogBefore = screen.getByTestId('login-dialog')
+        expect(loginDialogBefore).not.toBeNull()
 
         expect(screen.queryByTestId('login-form-linear-progress')).toBeNull()
 
         const logInButton = screen.getByTestId('button-login')
         await user.click(logInButton)
 
-        expect(screen.getByTestId('login-form-linear-progress')).not.toBeNull()
-
-        // await store.dispatch()
-
-        const actions = store.getActions()
-        console.log('action ->', actions)
-        console.log('state.auth ->', store.getState().auth)
-        // console.log('linearProgress ->', linearProgress)
-
-        // screen.debug(linearProgress)
+        act(() => {
+          store.dispatch(setState({ loading: false }))
+        })
+        // rerender(<LogIn />, {store})
+        await waitFor(() => {
+          const loginDialogAfter = screen.queryByTestId('login-dialog')
+          expect(loginDialogAfter).toBeNull()
+        })
+        // console.log('state.auth ->', store.getState().auth)
+        expect(logInCall).toHaveBeenCalledTimes(1)
+        expect(logInCall).toHaveBeenCalledWith(initValues)
+        expect(setAxiosAuthAccessToken).toHaveBeenCalledTimes(1)
+        expect(setAxiosAuthAccessToken).toHaveBeenCalledWith(logInData.access_token)
+        expect(setAxiosAuthRefreshToken).toHaveBeenCalledTimes(1)
+        expect(setAxiosAuthRefreshToken).toHaveBeenCalledWith(logInData.refresh_token)
+        // screen.debug()
       })
     })
   })

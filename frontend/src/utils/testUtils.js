@@ -2,26 +2,45 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
-import { runSaga } from 'redux-saga'
+import createSagaMiddleware, { runSaga } from 'redux-saga'
+import { all } from 'redux-saga/effects'
 
 import reducer from '../redux/slices'
+// import rootSaga from '../redux/saga'
 
 // ===================================================
 // Custom custom configure store
 // ---------------------------------------------------
 // const rootReducer = combineReducers(reducer)
 
-export const setupStore = preloadedState => {
-  return configureStore({
+export const setupStore = (preloadedState, saga = null) => {
+  const sagaMiddleware = createSagaMiddleware()
+  const middleware = getDefaultMiddleware => [
+    ...getDefaultMiddleware({ thunk: false }), sagaMiddleware
+  ]
+  const store = configureStore({
     reducer,
+    middleware,
     preloadedState
   })
+
+  function* rootSaga() {
+    yield all([
+      saga()
+    ])
+  }
+
+  if (saga) {
+    sagaMiddleware.run(rootSaga)
+  }
+
+  return store
 }
 // ===================================================
 // Custom render function
 // ---------------------------------------------------
 export const renderWithProviders = (
-// export function renderWithProviders(
+  // export function renderWithProviders(
   ui,
   {
     preloadedState = {},
@@ -30,7 +49,6 @@ export const renderWithProviders = (
     ...renderOptions
   } = {}
 ) => {
-  // console.log('preloadedState ->', preloadedState)
   const Wrapper = ({ children }) => {
     return <Provider store={store}>{children}</Provider>
   }

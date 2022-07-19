@@ -1455,15 +1455,15 @@
     "@types/node" "*"
     jest-mock "^27.5.1"
 
-"@jest/environment@^28.1.2":
-  version "28.1.2"
-  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-28.1.2.tgz#94a052c0c5f9f8c8e6d13ea6da78dbc5d7d9b85b"
-  integrity sha512-I0CR1RUMmOzd0tRpz10oUfaChBWs+/Hrvn5xYhMEF/ZqrDaaeHwS8yDBqEWCrEnkH2g+WE/6g90oBv3nKpcm8Q==
+"@jest/environment@^28.1.2", "@jest/environment@^28.1.3":
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/@jest/environment/-/environment-28.1.3.tgz#abed43a6b040a4c24fdcb69eab1f97589b2d663e"
+  integrity sha512-1bf40cMFTEkKyEf585R9Iz1WayDjHoHqvts0XFYEqyKM3cFWDpeMoqKKTAF9LSYQModPUlh8FKptoM2YcMWAXA==
   dependencies:
-    "@jest/fake-timers" "^28.1.2"
-    "@jest/types" "^28.1.1"
+    "@jest/fake-timers" "^28.1.3"
+    "@jest/types" "^28.1.3"
     "@types/node" "*"
-    jest-mock "^28.1.1"
+    jest-mock "^28.1.3"
 
 "@jest/environment@^28.1.3":
   version "28.1.3"
@@ -1502,17 +1502,17 @@
     jest-mock "^27.5.1"
     jest-util "^27.5.1"
 
-"@jest/fake-timers@^28.1.2":
-  version "28.1.2"
-  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-28.1.2.tgz#d49e8ee4e02ba85a6e844a52a5e7c59c23e3b76f"
-  integrity sha512-xSYEI7Y0D5FbZN2LsCUj/EKRR1zfQYmGuAUVh6xTqhx7V5JhjgMcK5Pa0iR6WIk0GXiHDe0Ke4A+yERKE9saqg==
+"@jest/fake-timers@^28.1.2", "@jest/fake-timers@^28.1.3":
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/@jest/fake-timers/-/fake-timers-28.1.3.tgz#230255b3ad0a3d4978f1d06f70685baea91c640e"
+  integrity sha512-D/wOkL2POHv52h+ok5Oj/1gOG9HSywdoPtFsRCUmlCILXNn5eIWmcnd3DIiWlJnpGvQtmajqBP95Ei0EimxfLw==
   dependencies:
-    "@jest/types" "^28.1.1"
+    "@jest/types" "^28.1.3"
     "@sinonjs/fake-timers" "^9.1.2"
     "@types/node" "*"
-    jest-message-util "^28.1.1"
-    jest-mock "^28.1.1"
-    jest-util "^28.1.1"
+    jest-message-util "^28.1.3"
+    jest-mock "^28.1.3"
+    jest-util "^28.1.3"
 
 "@jest/fake-timers@^28.1.3":
   version "28.1.3"
@@ -2231,10 +2231,10 @@
     "@testing-library/dom" "^8.5.0"
     "@types/react-dom" "^18.0.0"
 
-"@testing-library/user-event@^14.2.1":
-  version "14.2.1"
-  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.2.1.tgz#8c5ff2d004544bb2220e1d864f7267fe7eb6c556"
-  integrity sha512-HOr1QiODrq+0j9lKU5i10y9TbhxMBMRMGimNx10asdmau9cb8Xb1Vyg0GvTwyIL2ziQyh2kAloOtAQFBQVuecA==
+"@testing-library/user-event@^14.2.3":
+  version "14.2.3"
+  resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.2.3.tgz#7731a9c2d4148f2f9bb53d718c56dc9e6afe5b3e"
+  integrity sha512-07Ly+NsFDTvjNdvl5bLBA5oHeGIIHCKc7CniGuKnHrjvqcTPVqPEo4z6a8iYydZ0WvDA6ZA0fnhYrqCLbsm0+A==
 
 "@tootallnate/once@1":
   version "1.1.2"
@@ -5585,10 +5585,10 @@ i18next-http-backend@^1.4.1:
   dependencies:
     cross-fetch "3.1.5"
 
-i18next@^21.8.13:
-  version "21.8.13"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.8.13.tgz#e5583bfe333bc41716b5a14693615d94a3dfd2cf"
-  integrity sha512-DpzwrJq7Y8tjUHxx6ByOkUIjrGYdQI5Mfv4XEI7q2RWdknQ7TaO9bKi8hS/LqYD6pBV5YGxJLReyLkOCxIpouA==
+i18next@^21.8.14:
+  version "21.8.14"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.8.14.tgz#03a3a669ef4520aadd9d152c80596f600e287c6a"
+  integrity sha512-4Yi+DtexvMm/Yw3Q9fllzY12SgLk+Mcmar+rCAccsOPul/2UmnBzoHbTGn/L48IPkFcmrNaH7xTLboBWIbH6pw==
   dependencies:
     "@babel/runtime" "^7.17.2"
 
@@ -6176,18 +6176,18 @@ jest-environment-jsdom@^27.5.1:
     jest-util "^27.5.1"
     jsdom "^16.6.0"
 
-jest-environment-jsdom@^28.1.2:
-  version "28.1.2"
-  resolved "https://registry.yarnpkg.com/jest-environment-jsdom/-/jest-environment-jsdom-28.1.2.tgz#d3fe82ef8f900c34ab582df7d3002c5079e3d8ab"
-  integrity sha512-Ujhx/xFZGVPuxAVpseQ7KqdBErenuWH3Io2HujkGOKMS2VWmpnTGYHzv+73p21QJ9yYQlJkeg06rTe1svV+u0g==
+jest-environment-jsdom@^28.1.3:
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/jest-environment-jsdom/-/jest-environment-jsdom-28.1.3.tgz#2d4e5d61b7f1d94c3bddfbb21f0308ee506c09fb"
+  integrity sha512-HnlGUmZRdxfCByd3GM2F100DgQOajUBzEitjGqIREcb45kGjZvRrKUdlaF6escXBdcXNl0OBh+1ZrfeZT3GnAg==
   dependencies:
-    "@jest/environment" "^28.1.2"
-    "@jest/fake-timers" "^28.1.2"
-    "@jest/types" "^28.1.1"
+    "@jest/environment" "^28.1.3"
+    "@jest/fake-timers" "^28.1.3"
+    "@jest/types" "^28.1.3"
     "@types/jsdom" "^16.2.4"
     "@types/node" "*"
-    jest-mock "^28.1.1"
-    jest-util "^28.1.1"
+    jest-mock "^28.1.3"
+    jest-util "^28.1.3"
     jsdom "^19.0.0"
 
 jest-environment-node@^27.5.1:
@@ -6409,12 +6409,12 @@ jest-mock@^27.5.1:
     "@jest/types" "^27.5.1"
     "@types/node" "*"
 
-jest-mock@^28.1.1:
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-28.1.1.tgz#37903d269427fa1ef5b2447be874e1c62a39a371"
-  integrity sha512-bDCb0FjfsmKweAvE09dZT59IMkzgN0fYBH6t5S45NoJfd2DHkS3ySG2K+hucortryhO3fVuXdlxWcbtIuV/Skw==
+jest-mock@^28.1.1, jest-mock@^28.1.3:
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-28.1.3.tgz#d4e9b1fc838bea595c77ab73672ebf513ab249da"
+  integrity sha512-o3J2jr6dMMWYVH4Lh/NKmDXdosrsJgi4AviS8oXLujcjpCMBb1FMsblDnOXKZKfSiHLxYub1eS0IHuRXsio9eA==
   dependencies:
-    "@jest/types" "^28.1.1"
+    "@jest/types" "^28.1.3"
     "@types/node" "*"
 
 jest-mock@^28.1.3:
@@ -6682,12 +6682,12 @@ jest-util@^27.5.1:
     graceful-fs "^4.2.9"
     picomatch "^2.2.3"
 
-jest-util@^28.1.1:
-  version "28.1.1"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-28.1.1.tgz#ff39e436a1aca397c0ab998db5a51ae2b7080d05"
-  integrity sha512-FktOu7ca1DZSyhPAxgxB6hfh2+9zMoJ7aEQA759Z6p45NuO8mWcqujH+UdHlCm/V6JTWwDztM2ITCzU1ijJAfw==
+jest-util@^28.1.1, jest-util@^28.1.3:
+  version "28.1.3"
+  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-28.1.3.tgz#f4f932aa0074f0679943220ff9cbba7e497028b0"
+  integrity sha512-XdqfpHwpcSRko/C35uLYFM2emRAltIIKZiJ9eAmhjsj0CqZMa0p1ib0R5fWIqGhn1a103DebTbpqIaP1qCQ6tQ==
   dependencies:
-    "@jest/types" "^28.1.1"
+    "@jest/types" "^28.1.3"
     "@types/node" "*"
     chalk "^4.0.0"
     ci-info "^3.2.0"
@@ -8520,10 +8520,10 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-i18next@^11.18.0:
-  version "11.18.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.0.tgz#38ec26e07f030f7f0109b3665759954dad2cc7f9"
-  integrity sha512-coJujU20xJ5Wa5rHjTyB5LFKZb1yfXo2A+40RRSyAF0FlZRHyy+3C1Mr92x1JPfS7W7v2TWNn8mRhpDFGJwXVg==
+react-i18next@^11.18.1:
+  version "11.18.1"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.1.tgz#ba86ed09069e129b8623a28f2b9a03d7f105ea6f"
+  integrity sha512-S8cl4mvIOSA7OQCE5jNy2yhv705Vwi+7PinpqKIYcBmX/trJtHKqrf6CL67WJSA8crr2JU+oxE9jn9DQIrQezg==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"

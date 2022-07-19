@@ -110,7 +110,7 @@ export const setAxiosAuthToken = (tokens) => {
 }
 
 export const setAxiosAuthAccessToken = token => {
-  // console.log('api,  setAxiosAuthAccessToken, access_token ->', tokens.access_token)
+  // console.log('api>apiClient>setAxiosAuthAccessToken, access_token ->', token.access_token)
   authTextAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
   authPixAxiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
 }
