@@ -72,7 +72,7 @@ describe('SignUp testing', () => {
       })
     })
     describe('functional tests', () => {
-      test('change fields and signup pressing', async () => {
+      test.only('change fields and signup pressing', async () => {
         const mockSignUpData = {
           user_name: 'mock user_name', email: 'mock@gmail.com', password: 'ytrewq'
         }

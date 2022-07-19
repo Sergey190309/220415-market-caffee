@@ -86,7 +86,7 @@ describe('LogIn testing', () => {
       })
     })
     describe('functional tests', () => {
-      test('pressing login button', async () => {
+      test.only('pressing login button', async () => {
         const mockLogInData = {
           email: 'sa6702@gmail.com', password: 'ytrewq'
         }
@@ -107,9 +107,9 @@ describe('LogIn testing', () => {
           preloadedState: { auth: testState }, store
         })
 
-        const loginDialogBefore = screen.getByTestId('login-dialog')
+        const loginDialogBefore = screen.getByTestId(/login-dialog/i)
         expect(loginDialogBefore).not.toBeNull()
-        expect(screen.queryByTestId('login-form-linear-progress')).toBeNull()
+        expect(screen.queryByTestId(/login-form-linear-progress/i)).toBeNull()
 
         const emailInput = screen.getByLabelText(/login.labels.email/i)
         const passwordInput = screen.getByLabelText(/login.labels.password/i)
@@ -125,7 +125,7 @@ describe('LogIn testing', () => {
           store.dispatch(setState({ loading: false }))
         })
         await waitFor(() => {
-          const loginDialogAfter = screen.queryByTestId('login-dialog')
+          const loginDialogAfter = screen.queryByTestId(/login-dialog/i)
           expect(loginDialogAfter).toBeNull()
         })
         // expect(logInCall).toHaveBeenCalledTimes(1)
