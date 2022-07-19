@@ -41,8 +41,8 @@ const LogIn = ({ initValues, logInSchema }) => {
   const dispatch = useAppDispatch()
 
   useAppEffect(() => {
+    // console.log('LogIn>useEffect[loading], loading ->', loading)
     if (!loading) {
-      // console.log('LogIn>useEffect[loading]')
       formik.setSubmitting(false)
       dispatch(setLogInVisibility(false))
     }
@@ -54,7 +54,7 @@ const LogIn = ({ initValues, logInSchema }) => {
     validationSchema: logInSchema(t),
     onSubmit: (formData, { setSubmitting }) => {
       // console.log('LogIn>onSubmitHandle, formData ->', formData,
-      //   '\n  setSubmitting ->', setSubmitting
+      //   '\n  setSubmitting ->', formik.isSubmitting
       // )
       dispatch(logInStart(formData))
     }
@@ -79,7 +79,7 @@ const LogIn = ({ initValues, logInSchema }) => {
       dispatch],
   )
 
-  // console.log('LogIn isLogInOpened->', isLogInOpened)
+  // console.log('LogIn formik->', formik)
 
   return (
     <Dialog

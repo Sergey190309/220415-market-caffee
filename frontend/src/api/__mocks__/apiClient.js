@@ -7,8 +7,12 @@ import {
 // export const refreshTokenAxiosClient = {
 //   put: ()=> Promise.resolve()
 // }
-
 export const authTextAxiosClient = {
+  defaults: {
+    headers: {
+      common: 'some'
+    }
+  },
   put: jest.fn(() => Promise.resolve({ data: {} }))
 }
 
