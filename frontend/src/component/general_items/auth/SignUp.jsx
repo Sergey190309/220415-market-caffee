@@ -216,7 +216,8 @@ const SignUp = ({ initValues, signUpSchema }) => {
                       />
                     }
                   />
-                  {formik.isSubmitting && loading && <LinearProgress />}
+                  {formik.isSubmitting && loading &&
+                    <LinearProgress data-testid='signup-form-linear-progress' />}
                   <Box
                     id='login-form-buttons-box'
                     sx={{

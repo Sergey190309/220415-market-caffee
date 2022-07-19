@@ -109,7 +109,6 @@ describe('LogIn testing', () => {
 
         const loginDialogBefore = screen.getByTestId('login-dialog')
         expect(loginDialogBefore).not.toBeNull()
-
         expect(screen.queryByTestId('login-form-linear-progress')).toBeNull()
 
         const emailInput = screen.getByLabelText(/login.labels.email/i)

@@ -82,7 +82,11 @@ describe('SignUp testing', () => {
         const user = userEvent.setup()
         const testState = { ...initialState(), loading: true, isSignUpOpened: true }
         const store = setupStore({ auth: testState }, signUpSaga)
+
         renderWithProviders(< SignUp />, { preloadedState: { auth: testState }, store })
+        const signUpDialogBefore = screen.getByTestId(/signup-dialog/i)
+        expect(signUpDialogBefore).not.toBeNull()
+        expect(screen.queryByTestId('signup-form-linear-progress')).toBeNull()
 
         const userNameInput = screen.getByLabelText(/signup.labels.userName/i)
         const emailInput = screen.getByLabelText(/signup.labels.email/i)
