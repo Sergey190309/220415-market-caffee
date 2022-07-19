@@ -35,7 +35,7 @@ export const logInCall = logInData => {
 }
 
 export const signUpCall = signUpData => {
+  console.log('teckAuthTechInfo>signUpCall signUpData ->', signUpData);
   const resp = authTextAxiosClient.post('/users', signUpData)
-  // console.log('teckAuthTechInfo>signUpCall resp ->', resp);
   return resp
 }

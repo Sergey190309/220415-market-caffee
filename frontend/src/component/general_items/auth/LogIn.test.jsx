@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { screen, waitFor, fireEvent } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { renderWithProviders, setupStore } from '../../../utils/testUtils'
@@ -11,11 +11,6 @@ import { logInCall, } from '../../../api/calls/getAuthTechInfo'
 import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../../api/apiClient'
 import { act } from 'react-dom/test-utils'
 
-// jest.mock('../../../redux/slices/auth', () => ({
-//   __esModule: true,
-//   ...jest.requireActual('../../../redux/slices/auth'),
-//   // setSignUpVisibility: () => jest.fn()
-// }))
 jest.mock('../../../api/apiClient', () => ({
   __esModule: true,
   ...jest.requireActual('../../../api/apiClient'),
@@ -30,7 +25,6 @@ jest.mock('../../../api/calls/getAuthTechInfo', () => ({
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: jest.fn((key) => key)
-    // i18n: { changeLanguage: jest.fn() },
   })
 }))
 
@@ -67,9 +61,9 @@ describe('LogIn testing', () => {
     beforeEach(() => {
       jest.resetAllMocks()
     })
-    afterEach(() => {
-      jest.restoreAllMocks()
-    })
+    // afterEach(() => {
+    //   jest.restoreAllMocks()
+    // })
     describe('appearance', () => {
       test('screen shot', () => {
         const testState = { ...initialState(), loading: true, isLogInOpened: true }
@@ -124,8 +118,9 @@ describe('LogIn testing', () => {
         await user.type(emailInput, mockLogInData.email)
         await user.clear(passwordInput)
         await user.type(passwordInput, mockLogInData.password)
+
         const logInButton = screen.getByText(/login.buttons.logIn/i)
-        await user.click(logInButton)
+        // await user.click(logInButton)p
 
         act(() => {
           store.dispatch(setState({ loading: false }))

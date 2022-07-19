@@ -67,8 +67,8 @@ export function* signUpSaga() {
 
 export function* signUpFetch(action) {
   try {
+    // console.log('saga>auth>signUpFetch, action.payload ->', action.payload)
     const userData = yield call(signUpCall, action.payload)
-    console.log('saga>auth>signUpFetch, userData ->', userData)
     yield put(signUpSuccess(userData.data.payload))
     yield put(
       startAlert(

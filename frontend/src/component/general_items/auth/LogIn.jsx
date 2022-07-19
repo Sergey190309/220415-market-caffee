@@ -60,7 +60,6 @@ const LogIn = ({ initValues, logInSchema }) => {
       // console.log('LogIn>onSubmitHandle, formData ->', formData,
       //   '\n  setSubmitting ->', formik.isSubmitting
       // )
-      // dispatch(logInStart(formData))
       onSubmitHandler(formData)
     }
   })

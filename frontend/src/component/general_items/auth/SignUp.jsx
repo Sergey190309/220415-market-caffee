@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useAppEffect } from '../../../hooks/react'
+import { useAppDispatch, useAppSelector } from '../../../hooks/reactRedux'
+// import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -41,30 +43,34 @@ export const signUpSchema = t =>
 
 const SignUp = ({ initValues, signUpSchema }) => {
 
+  const { loading, isSignUpOpened } = useAppSelector(authSelector)
   const { t } = useTranslation('auth')
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const { isSignUpOpened, loading } = useSelector(authSelector)
 
-  useEffect(() => {
+  useAppEffect(() => {
+    console.log('signUp>useEffect[loading], loading ->', loading)
     if (!loading) {
       formik.setSubmitting(false)
       dispatch(setSignUpVisibility(false))
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
+  const onSubmitHandler = formData => {
+    const { userName, password2, ...otherProps } = formData
+    const signUpData = { user_name: userName, ...otherProps }
+    dispatch(signUpStart(signUpData))
+  }
 
   const formik = useFormik({
     initialValues: { ...initValues },
     validationSchema: signUpSchema(t),
     onSubmit: (formData, { setSubmitting }) => {
-      console.log('signUp>onSubmitHandle, formData ->', formData,
-        '\n  setSubmitting ->', setSubmitting
-      )
-      const { userName, password2, ...otherProps } = formData
-      const signUpData = { user_name: userName, ...otherProps }
-      dispatch(signUpStart(signUpData))
+      onSubmitHandler(formData)
+      // console.log('signUp>onSubmitHandle, formData ->', formData,
+      //   '\n  setSubmitting ->', setSubmitting
+      // )
     }
   })
 
@@ -75,6 +81,8 @@ const SignUp = ({ initValues, signUpSchema }) => {
 
   return (
     <Dialog
+      id='signup-dialog'
+      data-testid='signup-dialog'
       // open={true}
       open={isSignUpOpened}
       onClose={onCloseHandle}
