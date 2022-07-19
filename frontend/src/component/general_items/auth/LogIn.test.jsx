@@ -7,10 +7,15 @@ import { renderWithProviders, setupStore } from '../../../utils/testUtils'
 import LogIn, { logInSchema, initValues } from './LogIn'
 import { initialState, setState } from '../../../redux/slices/auth'
 import { logInSaga } from '../../../redux/saga/auth'
-import { logInCall } from '../../../api/calls/getAuthTechInfo'
+import { logInCall, } from '../../../api/calls/getAuthTechInfo'
 import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../../api/apiClient'
 import { act } from 'react-dom/test-utils'
 
+// jest.mock('../../../redux/slices/auth', () => ({
+//   __esModule: true,
+//   ...jest.requireActual('../../../redux/slices/auth'),
+//   // setSignUpVisibility: () => jest.fn()
+// }))
 jest.mock('../../../api/apiClient', () => ({
   __esModule: true,
   ...jest.requireActual('../../../api/apiClient'),
@@ -31,6 +36,7 @@ jest.mock('react-i18next', () => ({
 
 describe('LogIn testing', () => {
   afterAll(() => {
+    // jest.unmock('../../../redux/slices/auth')
     jest.unmock('../../../api/apiClient')
     jest.unmock('../../../api/calls/getAuthTechInfo')
     jest.unmock('react-i18next')
@@ -85,7 +91,7 @@ describe('LogIn testing', () => {
         // screen.debug()
       })
     })
-    describe('functional tests (mocked dispatch)', () => {
+    describe('functional tests', () => {
       test('pressing login button', async () => {
         const mockLogInData = {
           email: 'sa6702@gmail.com', password: 'ytrewq'
@@ -118,7 +124,7 @@ describe('LogIn testing', () => {
         await user.type(emailInput, mockLogInData.email)
         await user.clear(passwordInput)
         await user.type(passwordInput, mockLogInData.password)
-        const logInButton = screen.getByTestId('button-login')
+        const logInButton = screen.getByText(/login.buttons.logIn/i)
         await user.click(logInButton)
 
         act(() => {
@@ -140,9 +146,9 @@ describe('LogIn testing', () => {
         const mockLogInData = {
           email: 'sa6702@gmail.com', password: 'ytrewq'
         }
-        logInCall.mockImplementation(
-          () => ({ data: { payload: logInData, message: 'mock message' } })
-        )
+        // logInCall.mockImplementation(
+        //   () => ({ data: { payload: logInData, message: 'mock message' } })
+        // )
         const user = userEvent.setup()
         const testState = {
           ...initialState(),
@@ -172,9 +178,29 @@ describe('LogIn testing', () => {
         })
         // screen.debug()
       })
-      test('pressing singup button', () => {
+      test('pressing singup button', async () => {
+        const user = userEvent.setup()
+        const testState = {
+          ...initialState(),
+          loading: true, isLogInOpened: true
+        }
+        const store = setupStore({ auth: testState }, logInSaga)
+        renderWithProviders(<LogIn />, {
+          preloadedState: { auth: testState }, store
+        })
+        let state = store.getState().auth
+        expect(state).toEqual(expect.objectContaining({
+          isLogInOpened: true, isSignUpOpened: false
+        }))
+        const signUpButton = screen.getByText(/login.buttons.signUp/i)
 
-      });
+        await user.click(signUpButton)
+        state = store.getState().auth
+        expect(state).toEqual(expect.objectContaining({
+          isLogInOpened: false, isSignUpOpened: true
+        }))
+        // screen.debug(signUpButton)
+      })
     })
   })
 })
