@@ -49,6 +49,10 @@ const LogIn = ({ initValues, logInSchema }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading])
 
+  const onSubmitHandler = formData => {
+    dispatch(logInStart(formData))
+  }
+
   const formik = useFormik({
     initialValues: { ...initValues },
     validationSchema: logInSchema(t),
@@ -56,7 +60,8 @@ const LogIn = ({ initValues, logInSchema }) => {
       // console.log('LogIn>onSubmitHandle, formData ->', formData,
       //   '\n  setSubmitting ->', formik.isSubmitting
       // )
-      dispatch(logInStart(formData))
+      // dispatch(logInStart(formData))
+      onSubmitHandler(formData)
     }
   })
 

@@ -1,24 +1,16 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-// import * as mockedFormik from 'formik'
-import { screen, waitFor } from '@testing-library/react'
+import { screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { renderWithProviders, setupStore } from '../../../utils/testUtils'
 import LogIn, { logInSchema, initValues } from './LogIn'
-// import { setLogInVisibility, logInSuccess } from '../../../redux/slices'
 import { initialState, setState } from '../../../redux/slices/auth'
 import { logInSaga } from '../../../redux/saga/auth'
 import { logInCall } from '../../../api/calls/getAuthTechInfo'
 import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../../api/apiClient'
 import { act } from 'react-dom/test-utils'
 
-// jest.mock('formik')
-// jest.mock('formik', () => ({
-//   __esModule: true,
-//   ...jest.requireActual('formik'),
-//   useFormik: jest.fn()
-// }))
 jest.mock('../../../api/apiClient', () => ({
   __esModule: true,
   ...jest.requireActual('../../../api/apiClient'),
@@ -66,28 +58,8 @@ describe('LogIn testing', () => {
       access_token: 'mock access token',
       refresh_token: 'mock refresh token'
     }
-    // const mockedHandleSubmit = jest.fn()
-    // const mockedSetSubmitting = jest.fn()
-    // const mockedValues = {
-    //   email: 'a@agatha-ng.com',
-    //   password: 'qwerty'
-    // }
     beforeEach(() => {
       jest.resetAllMocks()
-      // useFormik.mockImplementation(() => ({
-      //   values: mockedValues,
-      //   touched: {
-      //     email: false,
-      //     password: false
-      //   },
-      //   errors: {
-      //     email: false,
-      //     password: false
-      //   },
-      //   handleSubmit: mockedHandleSubmit,
-      //   setSubmitting: mockedSetSubmitting
-      //   // values: mockedValues
-      // }))
     })
     afterEach(() => {
       jest.restoreAllMocks()
@@ -115,14 +87,14 @@ describe('LogIn testing', () => {
     })
     describe('functional tests (mocked dispatch)', () => {
       test('pressing login button', async () => {
+        const mockLogInData = {
+          email: 'sa6702@gmail.com', password: 'ytrewq'
+        }
         logInCall.mockImplementation(
           () => ({ data: { payload: logInData, message: 'mock message' } })
-
-          // setTimeout(() => (() => ({ data: { payload: logInData, message: 'mock message' } })), 500)
         )
-        // const spyOnSubmitForm = jest.spyOn(mockedFormik.submitForm, 'submitForm')
         /**
-         * It tests appearence and disappearence GUI elements
+         * It tests function calls on pressing login button.
          */
         const user = userEvent.setup()
         const testState = {
@@ -130,7 +102,6 @@ describe('LogIn testing', () => {
           loading: true, isLogInOpened: true
         }
         const store = setupStore({ auth: testState }, logInSaga)
-        // const initState = { auth: testState }
 
         renderWithProviders(<LogIn />, {
           preloadedState: { auth: testState }, store
@@ -141,26 +112,69 @@ describe('LogIn testing', () => {
 
         expect(screen.queryByTestId('login-form-linear-progress')).toBeNull()
 
+        const emailInput = screen.getByLabelText(/login.labels.email/i)
+        const passwordInput = screen.getByLabelText(/login.labels.password/i)
+        await user.clear(emailInput)
+        await user.type(emailInput, mockLogInData.email)
+        await user.clear(passwordInput)
+        await user.type(passwordInput, mockLogInData.password)
         const logInButton = screen.getByTestId('button-login')
         await user.click(logInButton)
 
         act(() => {
           store.dispatch(setState({ loading: false }))
         })
-        // rerender(<LogIn />, {store})
         await waitFor(() => {
           const loginDialogAfter = screen.queryByTestId('login-dialog')
           expect(loginDialogAfter).toBeNull()
         })
-        // console.log('state.auth ->', store.getState().auth)
         expect(logInCall).toHaveBeenCalledTimes(1)
-        expect(logInCall).toHaveBeenCalledWith(initValues)
+        expect(logInCall).toHaveBeenCalledWith(mockLogInData)
         expect(setAxiosAuthAccessToken).toHaveBeenCalledTimes(1)
         expect(setAxiosAuthAccessToken).toHaveBeenCalledWith(logInData.access_token)
         expect(setAxiosAuthRefreshToken).toHaveBeenCalledTimes(1)
         expect(setAxiosAuthRefreshToken).toHaveBeenCalledWith(logInData.refresh_token)
         // screen.debug()
       })
+      test('pressing cancel button', async () => {
+        const mockLogInData = {
+          email: 'sa6702@gmail.com', password: 'ytrewq'
+        }
+        logInCall.mockImplementation(
+          () => ({ data: { payload: logInData, message: 'mock message' } })
+        )
+        const user = userEvent.setup()
+        const testState = {
+          ...initialState(),
+          loading: true, isLogInOpened: true
+        }
+        const store = setupStore({ auth: testState }, logInSaga)
+        renderWithProviders(<LogIn />, {
+          preloadedState: { auth: testState }, store
+        })
+        const loginDialogBefore = screen.getByTestId('login-dialog')
+        expect(loginDialogBefore).not.toBeNull()
+        const emailInput = screen.getByLabelText(/login.labels.email/i)
+        const passwordInput = screen.getByLabelText(/login.labels.password/i)
+        await user.clear(emailInput)
+        await user.type(emailInput, mockLogInData.email)
+        await user.clear(passwordInput)
+        await user.type(passwordInput, mockLogInData.password)
+        expect(emailInput).toHaveValue(mockLogInData.email)
+        expect(passwordInput).toHaveValue(mockLogInData.password)
+        const cancelButton = screen.getByTestId('button-cancel')
+        await user.click(cancelButton)
+        expect(emailInput).toHaveValue(initValues.email)
+        expect(passwordInput).toHaveValue(initValues.password)
+        await waitFor(() => {
+          const loginDialogAfter = screen.queryByTestId('login-dialog')
+          expect(loginDialogAfter).toBeNull()
+        })
+        // screen.debug()
+      })
+      test('pressing singup button', () => {
+
+      });
     })
   })
 })
