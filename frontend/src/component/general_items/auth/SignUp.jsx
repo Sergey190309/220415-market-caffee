@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppEffect } from '../../../hooks/react'
+import { useAppEffect, useAppCallback } from '../../../hooks/react'
 import { useAppDispatch, useAppSelector } from '../../../hooks/reactRedux'
 // import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -49,7 +49,7 @@ const SignUp = ({ initValues, signUpSchema }) => {
 
 
   useAppEffect(() => {
-    console.log('signUp>useEffect[loading], loading ->', loading)
+    // console.log('signUp>useEffect[loading], loading ->', loading)
     if (!loading) {
       formik.setSubmitting(false)
       dispatch(setSignUpVisibility(false))
@@ -74,10 +74,15 @@ const SignUp = ({ initValues, signUpSchema }) => {
     }
   })
 
-  const onCloseHandle = () => {
-    console.log('SignUp>onCloseHandle')
-    dispatch(setSignUpVisibility(false))
-  }
+  const onCloseHandle = useAppCallback(
+    (cancel) => {
+      dispatch(setSignUpVisibility(false))
+      if (cancel) {
+        formik.values = { ...initValues }
+      }
+    },
+    [],
+  )
 
   return (
     <Dialog

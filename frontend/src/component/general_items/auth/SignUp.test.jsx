@@ -72,7 +72,7 @@ describe('SignUp testing', () => {
       })
     })
     describe('functional tests', () => {
-      test.only('change fields and signup pressing', async () => {
+      test('change fields and signup pressing', async () => {
         const mockSignUpData = {
           user_name: 'mock user_name', email: 'mock@gmail.com', password: 'ytrewq'
         }
@@ -103,24 +103,70 @@ describe('SignUp testing', () => {
         await user.type(password2Input, mockSignUpData.password)
 
         const signUpButton = screen.getByText(/signup.buttons.signup/i)
+        // console.log('state before ->', store.getState().auth)
         await user.click(signUpButton)
-
-        act(() => {
-          store.dispatch(setState({ loading: false }))
-        })
+        // console.log('state after ->', store.getState().auth)
 
         await waitFor(() => {
           const signUpDialogAfter = screen.queryByTestId(/signup-dialog/i)
+          expect(signUpDialogAfter).toBeNull()
           // screen.debug(signUpDialogAfter)
           // console.log('signUpDialogAfter ->', signUpDialogAfter)
         })
 
-        // expect(signUpCall).toHaveBeenCalledTimes(1)
-        // expect(signUpCall).toHaveBeenCalledWith(mockSignUpData)
-        // expect(passwordInput).toHaveLength(2);
+        expect(signUpCall).toHaveBeenCalledTimes(1)
+        expect(signUpCall).toHaveBeenCalledWith(mockSignUpData)
         // screen.debug(passwordInput)
         // console.log('signUpCall ->', signUpCall.mock.calls)
       })
+      test('pressing cancel button', async () => {
+        const mockSignUpData = {
+          user_name: 'mock user_name', email: 'mock@gmail.com', password: 'ytrewq'
+        }
+        signUpCall.mockImplementation(() => ({
+          data: { payload: 'mock payload', message: 'mock message' }
+        }))
+        const user = userEvent.setup()
+        const testState = { ...initialState(), loading: true, isSignUpOpened: true }
+        const store = setupStore({ auth: testState }, signUpSaga)
+
+        renderWithProviders(< SignUp />, { preloadedState: { auth: testState }, store })
+        const signUpDialogBefore = screen.getByTestId(/signup-dialog/i)
+        expect(signUpDialogBefore).not.toBeNull()
+        expect(screen.queryByTestId('signup-form-linear-progress')).toBeNull()
+
+        const userNameInput = screen.getByLabelText(/signup.labels.userName/i)
+        const emailInput = screen.getByLabelText(/signup.labels.email/i)
+        const passwordInput = screen.getByLabelText(/signup.labels.password$/i)
+        const password2Input = screen.getByLabelText(/signup.labels.password2/i)
+
+        await user.clear(userNameInput)
+        await user.type(userNameInput, mockSignUpData.user_name)
+        await user.clear(emailInput)
+        await user.type(emailInput, mockSignUpData.email)
+        await user.clear(passwordInput)
+        await user.type(passwordInput, mockSignUpData.password)
+        await user.clear(password2Input)
+        await user.type(password2Input, mockSignUpData.password)
+
+        expect(userNameInput).toHaveValue(mockSignUpData.user_name)
+        expect(emailInput).toHaveValue(mockSignUpData.email)
+        expect(passwordInput).toHaveValue(mockSignUpData.password)
+        expect(password2Input).toHaveValue(mockSignUpData.password)
+
+        const cancelButton = screen.getByText(/signup.buttons.cancel/i)
+        await user.click(cancelButton)
+
+        expect(userNameInput).toHaveValue(initValues.userName)
+        expect(emailInput).toHaveValue(initValues.email)
+        expect(passwordInput).toHaveValue(initValues.password)
+        expect(password2Input).toHaveValue(initValues.password)
+        await waitFor(() => {
+          const signUpDialogAfter = screen.queryByTestId(/signup-dialog/i)
+          expect(signUpDialogAfter).toBeNull()
+        })
+        // screen.debug(cancelButton)
+      });
     })
   })
 })

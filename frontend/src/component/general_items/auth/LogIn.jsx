@@ -41,7 +41,7 @@ const LogIn = ({ initValues, logInSchema }) => {
   const dispatch = useAppDispatch()
 
   useAppEffect(() => {
-    console.log('LogIn>useEffect[loading], loading ->', loading)
+    // console.log('LogIn>useEffect[loading], loading ->', loading)
     if (!loading) {
       formik.setSubmitting(false)
       dispatch(setLogInVisibility(false))
@@ -78,9 +78,9 @@ const LogIn = ({ initValues, logInSchema }) => {
         formik.values = { ...initValues }
       }
     },
-    [formik, initValues,
-      // setVisibility,
-      dispatch],
+    [
+      // formik, initValues, dispatch
+    ],
   )
 
   // console.log('LogIn formik->', formik)

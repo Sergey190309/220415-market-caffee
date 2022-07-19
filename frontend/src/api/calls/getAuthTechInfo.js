@@ -28,14 +28,14 @@ export const confirmPasswordCall = passwordData => {
 
 
 export const logInCall = logInData => {
-  console.log('teckAuthTechInfo>logInCall, logInData ->', logInData)
+  // console.log('teckAuthTechInfo>logInCall, logInData ->', logInData)
   const resp = authTextAxiosClient.post('/users/login', logInData)
-  console.log('teckAuthTechInfo>logInCall, resp ->', resp)
+  // console.log('teckAuthTechInfo>logInCall, resp ->', resp)
   return resp
 }
 
 export const signUpCall = signUpData => {
-  console.log('teckAuthTechInfo>signUpCall signUpData ->', signUpData);
+  // console.log('teckAuthTechInfo>signUpCall signUpData ->', signUpData);
   const resp = authTextAxiosClient.post('/users', signUpData)
   return resp
 }

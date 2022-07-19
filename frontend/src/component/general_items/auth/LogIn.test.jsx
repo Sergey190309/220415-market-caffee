@@ -5,11 +5,11 @@ import userEvent from '@testing-library/user-event'
 
 import { renderWithProviders, setupStore } from '../../../utils/testUtils'
 import LogIn, { logInSchema, initValues } from './LogIn'
-import { initialState, setState } from '../../../redux/slices/auth'
+import { initialState } from '../../../redux/slices/auth'
 import { logInSaga } from '../../../redux/saga/auth'
 import { logInCall, } from '../../../api/calls/getAuthTechInfo'
 import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../../api/apiClient'
-import { act } from 'react-dom/test-utils'
+// import { act } from 'react-dom/test-utils'
 
 jest.mock('../../../api/apiClient', () => ({
   __esModule: true,
@@ -86,7 +86,7 @@ describe('LogIn testing', () => {
       })
     })
     describe('functional tests', () => {
-      test.only('pressing login button', async () => {
+      test('pressing login button', async () => {
         const mockLogInData = {
           email: 'sa6702@gmail.com', password: 'ytrewq'
         }
@@ -119,17 +119,19 @@ describe('LogIn testing', () => {
         await user.type(passwordInput, mockLogInData.password)
 
         const logInButton = screen.getByText(/login.buttons.logIn/i)
+        // console.log('state before ->', store.getState().auth)
         await user.click(logInButton)
+        // console.log('state after ->', store.getState().auth)
 
-        act(() => {
-          store.dispatch(setState({ loading: false }))
-        })
+        // act(() => {
+        //   store.dispatch(setState({ loading: false }))
+        // })
         await waitFor(() => {
           const loginDialogAfter = screen.queryByTestId(/login-dialog/i)
           expect(loginDialogAfter).toBeNull()
         })
-        // expect(logInCall).toHaveBeenCalledTimes(1)
-        // expect(logInCall).toHaveBeenCalledWith(mockLogInData)
+        expect(logInCall).toHaveBeenCalledTimes(1)
+        expect(logInCall).toHaveBeenCalledWith(mockLogInData)
         expect(setAxiosAuthAccessToken).toHaveBeenCalledTimes(1)
         expect(setAxiosAuthAccessToken).toHaveBeenCalledWith(logInData.access_token)
         expect(setAxiosAuthRefreshToken).toHaveBeenCalledTimes(1)
@@ -167,7 +169,7 @@ describe('LogIn testing', () => {
         expect(emailInput).toHaveValue(initValues.email)
         expect(passwordInput).toHaveValue(initValues.password)
         await waitFor(() => {
-          const loginDialogAfter = screen.queryByTestId('login-dialog')
+          const loginDialogAfter = screen.queryByTestId(/login-dialog/i)
           expect(loginDialogAfter).toBeNull()
         })
         // screen.debug()
