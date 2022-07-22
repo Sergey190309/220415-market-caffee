@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React from 'react'
+// import { useAppSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
+import { useAppState, useAppEffect} from '../../../hooks/react'
+import { useAppSelector, useAppDispatch} from '../../../hooks/reactRedux'
 
 import { Menu, MenuList } from '@mui/material'
 // import {Icon_Flag_RU, Icon_Flag_US} from 'material-ui-country-flags'
@@ -24,22 +26,23 @@ export const onChangeLng = (
   dispatch(structureStart())
 }
 
-const LanguageSwitcher = ({onChangeLng}) => {
-  const [anchorEl, setAnchorEl] = useState(null)
-  const [activeLng, setActiveLng] = useState(i18next.language)
-  const [availableLngs, setAvailableLngs] = useState([])
+const LanguageSwitcher = ({ onChangeLng }) => {
+  const [anchorEl, setAnchorEl] = useAppState(null)
+  const [activeLng, setActiveLng] = useAppState(i18next.language)
+  const [availableLngs, setAvailableLngs] = useAppState([])
 
   const opened = Boolean(anchorEl)
 
-  const { i18nLoaded } = useSelector(techSelector)
-  const { lng } = useSelector(lngSelector)
+  const { i18nLoaded } = useAppSelector(techSelector)
+  const { lng } = useAppSelector(lngSelector)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  useAppEffect(() => {
+    console.log('LanguageSwitcher>useEffect[loaded], i18nLoaded ->', i18nLoaded)
     if (i18nLoaded) {
-      // console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
-      //   '\n  i18next.languages ->', i18next.languages)
+      console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
+        '\n  i18next.languages ->', i18next.languages)
       setAvailableLngs(i18next.languages.map((lng => ({
         key: lng,
         value: lng,
@@ -50,7 +53,7 @@ const LanguageSwitcher = ({onChangeLng}) => {
   }, [i18nLoaded])
 
 
-  useEffect(() => {
+  useAppEffect(() => {
     if (lng !== activeLng) {
       setActiveLng(lng) // caried out once when initiated with lng 'ru'
     }
@@ -58,6 +61,7 @@ const LanguageSwitcher = ({onChangeLng}) => {
 
 
   const onClickHandler = event => {
+    // console.log('LanguageSwittcher>onClickHandler')
     setAnchorEl(event.currentTarget)
   }
 
@@ -73,7 +77,7 @@ const LanguageSwitcher = ({onChangeLng}) => {
     onCloseHandler()
   }
 
-  // console.log('LanguageSwitcher, rendering')
+  // console.log('LanguageSwitcher, rendering, i18nLoaded ->', i18nLoaded)
 
   return (
     <>
@@ -109,17 +113,17 @@ const LanguageSwitcher = ({onChangeLng}) => {
           sx={{
             color: 'primary.main',
             bgcolor: `${CL.mainContainerBackground}`,
-            p:'.5rem',
+            p: '.5rem',
             my: '-.5rem',
           }}
         >
           {availableLngs.map(lng => (
             <LanguageSwitcherItem
-            {...lng}
-            key={lng.key}
-            onItemClickHandler={onItemClickHandler}
+              {...lng}
+              key={lng.key}
+              onItemClickHandler={onItemClickHandler}
             />
-            ))}
+          ))}
         </MenuList>
       </Menu>
     </>
@@ -132,7 +136,7 @@ LanguageSwitcher.defaultProps = {
 }
 
 LanguageSwitcher.propTypes = {
-  onChangeLng:PropTypes.func.isRequired
+  onChangeLng: PropTypes.func.isRequired
 }
 
 export default LanguageSwitcher

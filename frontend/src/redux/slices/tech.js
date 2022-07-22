@@ -34,8 +34,9 @@ const techSlice = createSlice({
     setTestTechState: (state, { payload }) => {
       /**
        * That's for testing only.
-       * It rewrites all state.
+       * It rewrites any state.
        */
+      console.log('techSlice, state before ->', state)
       Object.assign(state, payload)
     },
     startInitLoading: state => { // tested

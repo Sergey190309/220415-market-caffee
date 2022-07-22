@@ -29,11 +29,9 @@ export const setupStore = (preloadedState, saga = null) => {
       saga()
     ])
   }
-
   if (saga) {
     sagaMiddleware.run(rootSaga)
   }
-
   return store
 }
 // ===================================================
@@ -49,6 +47,8 @@ export const renderWithProviders = (
     ...renderOptions
   } = {}
 ) => {
+  // console.log('renderWithProviders, preloadedState ->', preloadedState,
+  //   '\n  store.dispatch ->', store.dispatch)
   const Wrapper = ({ children }) => {
     return <Provider store={store}>{children}</Provider>
   }

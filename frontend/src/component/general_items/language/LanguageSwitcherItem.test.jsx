@@ -4,6 +4,9 @@ import userEvent from '@testing-library/user-event'
 
 import LanguageSwitcherItem from './LanguageSwitcherItem'
 describe('LanguageSwitcherItem', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
   test('snap shot', () => {
     const testProps = {
       value: 'ru', flag: 'ru',

@@ -6,10 +6,10 @@ import userEvent from '@testing-library/user-event'
 import { renderWithProviders, setupStore } from '../../../utils/testUtils'
 
 import SignUp, { signUpSchema, initValues } from './SignUp'
-import { initialState, setState } from '../../../redux/slices/auth'
+import { initialState } from '../../../redux/slices/auth'
 import { signUpSaga } from '../../../redux/saga/auth'
 import { signUpCall } from '../../../api/calls/getAuthTechInfo'
-import { act } from 'react-dom/test-utils'
+// import { act } from 'react-dom/test-utils'
 
 jest.mock('../../../api/calls/getAuthTechInfo', () => ({
   __esModule: true,
@@ -166,7 +166,7 @@ describe('SignUp testing', () => {
           expect(signUpDialogAfter).toBeNull()
         })
         // screen.debug(cancelButton)
-      });
+      })
     })
   })
 })
