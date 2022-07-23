@@ -39,25 +39,29 @@ const LanguageSwitcher = ({ onChangeLng }) => {
   const dispatch = useAppDispatch()
 
   useAppEffect(() => {
-    console.log('LanguageSwitcher>useEffect[loaded], i18nLoaded ->', i18nLoaded)
+    // console.log('LanguageSwitcher>useEffect[loaded], i18nLoaded ->', i18nLoaded)
     if (i18nLoaded) {
       console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
         '\n  i18next.languages ->', i18next.languages)
-      setAvailableLngs(i18next.languages.map((lng => ({
-        key: lng,
-        value: lng,
-        flag: lng === 'en' ? 'gb' : lng
-      }))))
+      setAvailableLngs(i18next.languages.map((language => {
+        // console.log('while setting languages, language ->', language)
+        return({
+        key: language,
+        value: language,
+        flag: language === 'en' ? 'gb' : language
+      })})))
       setActiveLng(i18next.language)
     }
   }, [i18nLoaded])
 
 
   useAppEffect(() => {
+    console.log('LanguageSwitcher>useEffect[lng] lng ->', lng,
+      '\n  activeLng berofe ->', activeLng)
     if (lng !== activeLng) {
       setActiveLng(lng) // caried out once when initiated with lng 'ru'
     }
-  }, [activeLng, lng])
+  }, [lng])
 
 
   const onClickHandler = event => {
@@ -77,7 +81,8 @@ const LanguageSwitcher = ({ onChangeLng }) => {
     onCloseHandler()
   }
 
-  // console.log('LanguageSwitcher, rendering, i18nLoaded ->', i18nLoaded)
+  // console.log('LanguageSwitcher, rendering, availableLngs ->', availableLngs,
+  //   '\n  lng ->', lng)
 
   return (
     <>

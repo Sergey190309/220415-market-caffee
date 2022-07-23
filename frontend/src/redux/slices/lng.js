@@ -7,10 +7,11 @@ export const lngInfo = () => {
    * Structure
    * { lng: 'en' }
    */
-  const _LngInfo = localStorage.getItem(LNG_INFO)
-    // ? localStorage.getItem(LNG_INFO)
-    ? { ...JSON.parse(localStorage.getItem(LNG_INFO)) }
-    : { lng: 'en' }
+
+  const _LngInfo = {lng: 'en'}
+  // const _LngInfo = localStorage.getItem(LNG_INFO)
+  //   ? { ...JSON.parse(localStorage.getItem(LNG_INFO)) }
+  //   : { lng: 'en' }
   // console.log('lngSlice, lngInfo ->', _LngInfo)
   return _LngInfo
 }
@@ -24,6 +25,7 @@ const lngSlice = createSlice({
   initialState,
   reducers: {
     lngSwitch: (state, { payload }) => {
+      // console.log('lngSlice>lngSwitch, payload->', payload)
       localStorage.setItem(LNG_INFO, JSON.stringify({ lng: payload }))
       state.lng = payload
     }

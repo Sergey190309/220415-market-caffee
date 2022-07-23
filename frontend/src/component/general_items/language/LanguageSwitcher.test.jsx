@@ -1,5 +1,5 @@
 import React from 'react'
-import { screen, waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { setAxiosCommonLng } from '../../../api/apiClient'
@@ -64,18 +64,20 @@ describe('LanguageSwitcher testing', () => {
           ...initialState,
           // i18nLoaded: true
         }
-        const testStore = setupStore({ tech: testState })
+        const testStore = setupStore({ tech: testState, lng: { lng: 'fuck!' } })
         const testProps = {
           onChangeLng: jest.fn()
         }
         renderWithProviders(
-          <LanguageSwitcher {...testProps} />, { preloadedState: { auth: testState }, testStore })
+          <LanguageSwitcher {...testProps} />, {
+            preloadedState: { tech: testState, lng: { lng: 'fuck!' } }, testStore
+          }
+        )
 
-        await waitFor(() => {
-          testStore.dispatch(setTestTechState({ i18nLoaded: true }))
-        })
+        testStore.dispatch(setTestTechState({ i18nLoaded: true }))
+        console.log('tech state ->', testStore.getState().tech)
+        console.log('lng state ->', testStore.getState().lng)
         // const toggleButton = screen.getByRole('button')
-        console.log('state ->', testStore.getState().tech)
         // await user.click(toggleButton)
         // screen.debug()
       })

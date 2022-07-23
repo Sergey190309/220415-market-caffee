@@ -73,7 +73,7 @@ export function* lngsWorker() {
     const resp = yield call(lngsCall)
     // console.log('lngsWorker, resp ->', resp)
     const lngs = resp.data.payload.map(item => item.id)
-    // console.log('tech, saga, lngs worker, lngs ->', lngs)
+    // console.log('saga>tech>lngsWorker, lngs ->', lngs)
     yield put(lngsSuccess())
     yield put(startI18n(lngs))
   } catch (error) {
@@ -95,6 +95,7 @@ export function* i18nWorker(action) {
      * Set lng switcher and current language according locales
      * awailable on back end.
      */
+    // console.log('saga>tech>i18nWorker, action.payload ->', action.payload)
     yield call(setI18next, action.payload)
     yield put(i18nSuccess())
     /**

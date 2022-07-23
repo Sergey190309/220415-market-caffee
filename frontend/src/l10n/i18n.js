@@ -13,16 +13,19 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
    * This instance should take all values upon loading appropriate values
    * from back - end.
    */
-  const nameSpaces = ['navbar', 'auth', 'general', 'context']
+  const nameSpaces = ['navbar', 'auth',
+    // 'general', 'context'
+  ]
   // const nameSpaces = ['navbar', 'auth', 'general', 'context', 'errors']
-  // console.log('initI18n,  initI18next->', initI18next);
+  // console.log('initI18next, supportedLngs ->', supportedLngs);
   const lng = supportedLngs[0]
   i18next
     .use(initReactI18next)
     .use(HttpApi)
     .init({
+      // lng: 'ru',
       lng: lng,
-      supportedLngs: supportedLngs,
+      supportedLngs,
       ns: nameSpaces,
       defaultNS: 'general',
       saveMissing: true,
@@ -41,7 +44,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
       }
     })
     .then(() => {
-      // console.log('initI18next.then, i18next.language ->', i18next.options.supportedLngs)
+      console.log('initI18next.then, i18next.language ->', i18next.options.supportedLngs)
       store.dispatch(i18nInitiated())
     })
 }
@@ -54,10 +57,10 @@ export const setI18next = lngs => {
         lngsToAdd.push(value)
       }
     })
-  // console.log('setI18next, i18next.languages ->', lngsToAdd);
+  // console.log('setI18next, i18next.languages ->', i18next.languages);
   lngsToAdd.forEach(value => {
     i18next.languages.push(value)
   })
-  // console.log('i18n, i18next.languages ->', i18next.languages)
+  console.log('i18n, i18next.languages ->', i18next.languages, '\n  store.getState().lng.lng ->', store.getState().lng.lng)
   setAxiosCommonLng(store.getState().lng.lng) // Set axios header for backend calls.
 }
