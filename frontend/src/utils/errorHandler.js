@@ -8,8 +8,8 @@ export const actRespErrorMessage = error => {
   }
 }
 
-// export function sagaErrorHandler(error) {
-export function* sagaErrorHandler(error) {
+export function sagaErrorHandler(error) {
+// export function* sagaErrorHandler(error) {
   if (error.response) {
     // yield put(
     //   startAlert({

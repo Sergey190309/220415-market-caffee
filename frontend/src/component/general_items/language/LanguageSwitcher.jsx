@@ -57,7 +57,7 @@ const LanguageSwitcher = ({ onChangeLng }) => {
 
   useAppEffect(() => {
     console.log('LanguageSwitcher>useEffect[lng] lng ->', lng,
-      '\n  activeLng berofe ->', activeLng)
+      '\n  activeLng ->', activeLng)
     if (lng !== activeLng) {
       setActiveLng(lng) // caried out once when initiated with lng 'ru'
     }

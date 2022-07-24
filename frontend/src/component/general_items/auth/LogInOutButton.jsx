@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Icon, ListItemIcon, ListItemText, MenuItem } from '@mui/material'
+import {
+  // Icon,
+  ListItemIcon, ListItemText, MenuItem
+} from '@mui/material'
 
 import * as CL from '../../../constants/colors'
 import * as SZ from '../../../constants/sizes'

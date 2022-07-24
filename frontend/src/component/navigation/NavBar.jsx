@@ -3,7 +3,7 @@ import React, {
   useRef, useEffect
 } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 // import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 

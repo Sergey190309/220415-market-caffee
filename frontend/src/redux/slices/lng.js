@@ -8,10 +8,10 @@ export const lngInfo = () => {
    * { lng: 'en' }
    */
 
-  const _LngInfo = {lng: 'en'}
-  // const _LngInfo = localStorage.getItem(LNG_INFO)
-  //   ? { ...JSON.parse(localStorage.getItem(LNG_INFO)) }
-  //   : { lng: 'en' }
+  // const _LngInfo = {lng: 'en'}
+  const _LngInfo = localStorage.getItem(LNG_INFO)
+    ? { ...JSON.parse(localStorage.getItem(LNG_INFO)) }
+    : { lng: 'en' }
   // console.log('lngSlice, lngInfo ->', _LngInfo)
   return _LngInfo
 }

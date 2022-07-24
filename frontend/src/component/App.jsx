@@ -30,7 +30,7 @@ export const switchNav = (setNavOpened, navOpened) => {
 }
 
 const App = ({ setDeviceSize }) => {
-  const [sighUpOpened, setSighUpOpened] = useState(false)
+  // const [sighUpOpened, setSighUpOpened] = useState(false)
   const [width, setWidth] = useState(window.innerWidth)
   const dispatch = useDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
