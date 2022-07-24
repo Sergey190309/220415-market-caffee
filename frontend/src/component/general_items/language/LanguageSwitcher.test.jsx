@@ -1,5 +1,6 @@
 import React from 'react'
-import { screen } from '@testing-library/react'
+import i18next from 'i18next'
+import { getAllByRole, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { setAxiosCommonLng } from '../../../api/apiClient'
@@ -9,6 +10,12 @@ import { setupStore, renderWithProviders } from '../../../utils/testUtils'
 
 import LanguageSwitcher, { onChangeLng } from './LanguageSwitcher'
 
+jest.mock('i18next', () => ({
+  // __esModule: true,
+  ...jest.requireActual('i18next'),
+  languages: [],
+  language: ''
+}))
 jest.mock('../../../api/apiClient', () => ({
   __esModule: true,
   ...jest.requireActual('../../../api/apiClient'),
@@ -19,6 +26,7 @@ describe('LanguageSwitcher testing', () => {
     jest.resetAllMocks()
   })
   afterAll(() => {
+    jest.unmock('i18next')
     jest.unmock('../../../api/apiClient')
   })
   describe('non react elements', () => {
@@ -59,27 +67,35 @@ describe('LanguageSwitcher testing', () => {
     })
     describe('hooks and functions', () => {
       test('lng and lngs setting after i18nLoaded', async () => {
-        // const user = userEvent.setup()
-        const testState = {
+        const activeLng = 'ru'
+        const availableLngs = ['en', 'ru', 'cn']
+        i18next.language = activeLng
+        i18next.languages = availableLngs
+        const user = userEvent.setup()
+        const testTeckState = {
           ...initialState,
-          // i18nLoaded: true
+          i18nLoaded: true
         }
-        const testStore = setupStore({ tech: testState, lng: { lng: 'fuck!' } })
+        const testStore = setupStore({ tech: testTeckState, lng: { lng: 'fuck!' } })
         const testProps = {
           onChangeLng: jest.fn()
         }
         renderWithProviders(
           <LanguageSwitcher {...testProps} />, {
-            preloadedState: { tech: testState, lng: { lng: 'fuck!' } }, testStore
-          }
+          preloadedState: { tech: testTeckState, lng: { lng: 'fuck!' } }, testStore
+        }
         )
 
         testStore.dispatch(setTestTechState({ i18nLoaded: true }))
-        console.log('tech state ->', testStore.getState().tech)
+        const toggleButton = screen.getByRole('button')
+        await user.click(toggleButton)
+        const menuItem = screen.getByRole('menuitem', { name: activeLng })
+        await user.click(menuItem)
+        // const menuItems = screen.getAllByRole('menuitem')
+        // console.log('menuItems.length ->', menuItems.length)
+        // console.log('menuItems ->', menuItems)
         console.log('lng state ->', testStore.getState().lng)
-        // const toggleButton = screen.getByRole('button')
-        // await user.click(toggleButton)
-        // screen.debug()
+        screen.debug(menuItem)
       })
     })
   })

@@ -41,8 +41,8 @@ const LanguageSwitcher = ({ onChangeLng }) => {
   useAppEffect(() => {
     // console.log('LanguageSwitcher>useEffect[loaded], i18nLoaded ->', i18nLoaded)
     if (i18nLoaded) {
-      console.log('LanguageSwitcher>useEffect[loaded], i18next.language ->', i18next.language,
-        '\n  i18next.languages ->', i18next.languages)
+      // console.log('LanguageSwitcher>useEffect[loaded], i18next.languages ->', i18next.languages,
+      //   '\n  i18next.language ->', i18next.language)
       setAvailableLngs(i18next.languages.map((language => {
         // console.log('while setting languages, language ->', language)
         return({
@@ -56,8 +56,8 @@ const LanguageSwitcher = ({ onChangeLng }) => {
 
 
   useAppEffect(() => {
-    console.log('LanguageSwitcher>useEffect[lng] lng ->', lng,
-      '\n  activeLng ->', activeLng)
+    // console.log('LanguageSwitcher>useEffect[lng] lng ->', lng,
+    //   '\n  activeLng ->', activeLng)
     if (lng !== activeLng) {
       setActiveLng(lng) // caried out once when initiated with lng 'ru'
     }
@@ -70,12 +70,14 @@ const LanguageSwitcher = ({ onChangeLng }) => {
   }
 
   const onCloseHandler = () => {
+    console.log('LanguageSwitcher>onCloseHandler')
     setAnchorEl(null)
   }
 
   const onItemClickHandler = key => {
     // console.log('LanguageSwitcher>onItemClickHandler, key ->', key)
     if (key !== activeLng) {
+      console.log('LanguageSwitcher>onItemClickHandler, key ->', key)
       onChangeLng(key, setActiveLng, dispatch)
     }
     onCloseHandler()
