@@ -1,7 +1,5 @@
 import React from 'react'
-import { Routes, Router } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { screen, render, waitFor } from '@testing-library/react'
+import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 // import { Button } from '@mui/material'
 

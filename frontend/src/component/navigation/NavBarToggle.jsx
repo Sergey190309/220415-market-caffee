@@ -1,5 +1,6 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../../hooks/reactRedux'
 // import { Button } from '@mui/material'
 // import {} from '@fortawesome/react-fontawesome'
 import { MenuOutlined } from '@mui/icons-material'
@@ -7,14 +8,14 @@ import { MenuOutlined } from '@mui/icons-material'
 import PropTypes from 'prop-types'
 
 // import * as CL from '../../constants/colors'
-import {setNavBarVisibility} from '../../redux/slices'
+import { setNavBarVisibility } from '../../redux/slices'
 import * as SZ from '../../constants/sizes'
 import { FixedButton } from './styles/navigations.styled'
 
 
-const NavBarToggle = ({ switchNavBar }) => {
+const NavBarToggle = () => {
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const onClickHandler = () => {
     dispatch(setNavBarVisibility(true))

@@ -8,6 +8,7 @@ import * as SZ from '../../constants/sizes'
 import { NavBarLink } from './styles/navigations.styled'
 
 const NavBarItem = ({ title, linkto, Icon, disabled, onClick }) => {
+  // console.log('Icon ->', Icon)
   return (
     <MenuItem
       onClick={onClick}

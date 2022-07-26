@@ -53,15 +53,38 @@ export const renderWithProviders = (
   //   '\n  store.dispatch ->', store.dispatch)
   const Wrapper = ({ children }) => {
     return (
-      <Router>
-        <Provider store={store}>
-          {children}
-        </Provider>
-      </Router>
+      <Provider store={store}>
+        {children}
+      </Provider>
     )
   }
   // Return an object with the store and all of RTL's query functions
   return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
+}
+
+// ===================================================
+// Custom render function Router
+// ---------------------------------------------------
+export const renderWithRouter = (
+  ui,
+  {
+  //   preloadedState = {},
+  //   // Automatically create a store instance if no store was passed in
+  //   store = setupStore(preloadedState),
+    ...renderOptions
+  } = {}
+) => {
+  // console.log('renderWithProviders, preloadedState ->', preloadedState,
+  //   '\n  store.dispatch ->', store.dispatch)
+  const Wrapper = ({ children }) => {
+    return (
+      <Router>
+          {children}
+      </Router>
+    )
+  }
+  // Return an object with the store and all of RTL's query functions
+  return { ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
 }
 
 // ===================================================

@@ -11,7 +11,7 @@ import { FixedButton } from './styles/navigations.styled'
 const LogoButton = ({ toLanding }) => {
   return (
     <FixedButton
-      id='LogoButton'
+      id='logo-button'
       onClick={toLanding}
       vertical={{ side: 'top', value: '5%' }}
       horizontal={{ side: 'left', value: '3%' }}
