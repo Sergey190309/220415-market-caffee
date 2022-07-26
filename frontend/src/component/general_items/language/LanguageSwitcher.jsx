@@ -70,14 +70,14 @@ const LanguageSwitcher = ({ onChangeLng }) => {
   }
 
   const onCloseHandler = () => {
-    console.log('LanguageSwitcher>onCloseHandler')
+    // console.log('LanguageSwitcher>onCloseHandler')
     setAnchorEl(null)
   }
 
   const onItemClickHandler = key => {
     // console.log('LanguageSwitcher>onItemClickHandler, key ->', key)
     if (key !== activeLng) {
-      console.log('LanguageSwitcher>onItemClickHandler, key ->', key)
+      // console.log('LanguageSwitcher>onItemClickHandler, key ->', key)
       onChangeLng(key, setActiveLng, dispatch)
     }
     onCloseHandler()

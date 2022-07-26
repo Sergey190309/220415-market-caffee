@@ -1,9 +1,11 @@
 import React, {
   // useState,
-  useRef, useEffect
+  // useRef, useEffect
 } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-// import PropTypes from 'prop-types'
+import { useAppRef, useAppEffect } from '../../hooks/react'
+// import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/reactRedux'
+import PropTypes from 'prop-types'
 // import i18next from 'i18next'
 import { useTranslation } from 'react-i18next'
 
@@ -25,20 +27,22 @@ import * as CL from '../../constants/colors'
 import NavBarItem from './NavBarItem'
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
-const NavBar = () => {
+// const anchorEl = document.getElementById('NavBarToggle')
+
+const NavBar = ({ anchorEl }) => {
   // const [isVisable, setIsVisable] = useState(false)
   // const [logInOpened, setLogInOpened] = useState(false)
 
-  const { lng } = useSelector(lngSelector)
-  const { isLoggedIn, isAdmin } = useSelector(authSelector)
-  const {isNavBarOpened}=useSelector(deviceSelector)
+  const { lng } = useAppSelector(lngSelector)
+  const { isLoggedIn, isAdmin } = useAppSelector(authSelector)
+  const { isNavBarOpened } = useAppSelector(deviceSelector)
 
-  const componentRef = useRef(null)
+  const componentRef = useAppRef(null)
   const { t, i18n } = useTranslation('navbar')
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  useAppEffect(() => {
     if (i18n.language !== lng) {
       i18n.changeLanguage(lng)
     }
@@ -48,8 +52,6 @@ const NavBar = () => {
   const closeNav = () => {
     // console.log('NavBar>closeNav')
     dispatch(setNavBarVisibility(false))
-    // setVisibility(false)
-    // setIsVisable(false)
   }
 
   const logInOutClickHandler = () => {
@@ -57,15 +59,11 @@ const NavBar = () => {
       dispatch(logOut())
       closeNav()
     } else {
-      // console.log('NavBar>logInOutClickHandler, not isLoggedIn')
-      // dispatch(openModal('LogIn'))
-      // setLogInOpened(true)
       dispatch(setLogInVisibility(true))
     }
   }
   // useOutsideClick(componentRef, closeNav)
-  // console.log('NavBar, render')
-  // const admin = false
+  // console.log('NavBar, render, anchorEl ->', document.getElementById('NavBarToggle'))
 
   return (
     // isVisable || visibility ?
@@ -76,7 +74,7 @@ const NavBar = () => {
       /> */}
       <Menu
         id='nav-bar'
-        anchorEl={document.getElementById('NavBarToggle')}
+        anchorEl={anchorEl || document.getElementById('NavBarToggle')}
         // open={true}
         open={isNavBarOpened}
         // open={isVisable || visibility}
@@ -93,6 +91,7 @@ const NavBar = () => {
 
         <MenuList
           // onClick={closeNav}
+          data-testid='menu-list'
           sx={{
             color: 'primary.main',
             bgcolor: `${CL.mainContainerBackground}`,
@@ -150,9 +149,11 @@ const NavBar = () => {
 }
 
 NavBar.defaultProps = {
+  anchorEl: null
 }
 
 NavBar.propTypes = {
+  anchorEl: PropTypes.object
 }
 
 export default NavBar

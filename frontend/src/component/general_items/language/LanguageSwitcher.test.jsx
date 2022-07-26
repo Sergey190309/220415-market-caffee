@@ -1,6 +1,6 @@
 import React from 'react'
 import i18next from 'i18next'
-import { getAllByRole, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { setAxiosCommonLng } from '../../../api/apiClient'
@@ -85,17 +85,21 @@ describe('LanguageSwitcher testing', () => {
           preloadedState: { tech: testTeckState, lng: { lng: 'fuck!' } }, testStore
         }
         )
-
         testStore.dispatch(setTestTechState({ i18nLoaded: true }))
         const toggleButton = screen.getByRole('button')
         await user.click(toggleButton)
+        const menuItems = screen.getAllByRole('menuitem')
+        expect(menuItems).toHaveLength(3)
+        availableLngs.forEach((lng, index) => {
+          // console.log('cycle, lng ->', lng, 'index ->', index)
+          expect(menuItems[index]).toHaveTextContent(lng)
+        })
+        // screen.debug(menuItems[0])
         const menuItem = screen.getByRole('menuitem', { name: activeLng })
         await user.click(menuItem)
-        // const menuItems = screen.getAllByRole('menuitem')
-        // console.log('menuItems.length ->', menuItems.length)
-        // console.log('menuItems ->', menuItems)
-        console.log('lng state ->', testStore.getState().lng)
-        screen.debug(menuItem)
+        expect(testProps.onChangeLng).toHaveBeenCalledTimes(1)
+        expect(testProps.onChangeLng.mock.calls[0][0]).toBe(activeLng);
+        // expect(testProps.onChangeLng).toHaveBeenCalledWith(activeLng);
       })
     })
   })

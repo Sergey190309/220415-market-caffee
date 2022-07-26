@@ -1,7 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import React, {
+  // useState, useEffect
+} from 'react'
+import { useAppState, useAppEffect } from '../hooks/react'
+// import { useDispatch } from 'react-redux'
+import { useAppDispatch } from '../hooks/reactRedux'
+import {
+  Routes, Route,
+  // useNavigate
+} from 'react-router-dom'
+import { useAppNavigate } from '../hooks/reactRouterDom'
 import PropTypes from 'prop-types'
-import { useDispatch } from 'react-redux'
 
 import { setDeviceSize } from '../redux/slices'
 
@@ -31,17 +39,17 @@ export const switchNav = (setNavOpened, navOpened) => {
 
 const App = ({ setDeviceSize }) => {
   // const [sighUpOpened, setSighUpOpened] = useState(false)
-  const [width, setWidth] = useState(window.innerWidth)
-  const dispatch = useDispatch()
+  const [width, setWidth] = useAppState(window.innerWidth)
+  const dispatch = useAppDispatch()
   // console.log('component>App setDeviceSize ->', setDeviceSize)
 
-  const navigate = useNavigate()
+  const navigate = useAppNavigate()
   const toLanding = () => { navigate('/') }
 
   const setDinamicWidth = () => {
     setWidth(window.innerWidth)
   }
-  useEffect(() => {
+  useAppEffect(() => {
     window.addEventListener('resize', setDinamicWidth)
     dispatch(setDeviceSize(width))
     return () => window.removeEventListener('resize', setDinamicWidth)
@@ -56,13 +64,13 @@ const App = ({ setDeviceSize }) => {
   // console.log('App, rendering, navOpened ->', navOpened)
 
   return (
-    <Fragment>
+    <>
       <GlobalStyle />
       <LogIn />
       <NavBar />
       <SignUp />
       <Logo toLanding={toLanding} />
-      <NavBarToggle  />
+      <NavBarToggle />
       <LanguageSwitcher />
       <Routes>
         <Route path='/' element={<LandingView />} />
@@ -71,7 +79,7 @@ const App = ({ setDeviceSize }) => {
         <Route path='/private' exact element={<UsersOnlyView />} />
         <Route path='/admin' exact element={<AdminView />} />
       </Routes>
-    </Fragment>
+    </>
   )
 }
 
