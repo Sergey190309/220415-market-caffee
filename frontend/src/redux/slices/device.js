@@ -56,7 +56,9 @@ const deviceSlice = createSlice({
       state.message = payload
     },
     setNavBarVisibility: (state, { payload }) => {
+      // console.log('deviceSlice>setNavBarVisibility, payload ->', payload)
       state.isNavBarOpened = payload
+      // console.log('deviceSlice>setNavBarVisibility, state.isNavBarOpened ->', state.isNavBarOpened)
     },
     setEditable: (state, { payload }) => { // tested
       // console.log('deviceSlice:\n setEditable\n  payload ->', payload)

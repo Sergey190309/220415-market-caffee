@@ -136,7 +136,6 @@ describe('LogIn testing', () => {
         expect(setAxiosAuthAccessToken).toHaveBeenCalledWith(logInData.access_token)
         expect(setAxiosAuthRefreshToken).toHaveBeenCalledTimes(1)
         expect(setAxiosAuthRefreshToken).toHaveBeenCalledWith(logInData.refresh_token)
-        // screen.debug()
       })
       test('pressing cancel button', async () => {
         const mockLogInData = {

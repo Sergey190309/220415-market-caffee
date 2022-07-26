@@ -18,6 +18,7 @@ const NavBarToggle = () => {
   const dispatch = useAppDispatch()
 
   const onClickHandler = () => {
+    console.log('NavBarTroggle>onClickHandler')
     dispatch(setNavBarVisibility(true))
   }
   // console.log('NavBarToggle, rendering, SZ.fixedButton ->', SZ.fixedButton)
