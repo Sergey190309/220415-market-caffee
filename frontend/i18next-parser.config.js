@@ -25,3 +25,5 @@ module.exports = {
   // --fail-on-warnings
   customValueTemplate: null
 }
+
+//i18next-gettext-converter

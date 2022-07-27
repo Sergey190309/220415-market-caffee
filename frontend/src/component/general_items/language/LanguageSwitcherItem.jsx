@@ -4,13 +4,14 @@ import { ListItemIcon, ListItemText, MenuItem } from '@mui/material'
 import Flag from 'react-world-flags'
 
 import * as CL from '../../../constants/colors'
+import * as SZ from '../../../constants/sizes'
 
 const LanguageSwitcherItem = ({ value, flag, onItemClickHandler }) => {
   return (
     <>
       <MenuItem
          sx={{
-          border: 1, borderColor: 'text.disabled',
+          border: SZ.buttonsBorder, borderColor: 'text.disabled',
           borderRadius: '5%',
           // backgroundColor: 'red',
           backgroundColor: `${CL.navBarBackground}`,

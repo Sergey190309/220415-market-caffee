@@ -4,13 +4,12 @@ import PropTypes from 'prop-types'
 import { useAppState, useAppEffect} from '../../../hooks/react'
 import { useAppSelector, useAppDispatch} from '../../../hooks/reactRedux'
 
-import { Menu, MenuList } from '@mui/material'
+import { Button, Menu, MenuList } from '@mui/material'
 // import {Icon_Flag_RU, Icon_Flag_US} from 'material-ui-country-flags'
 import i18next from 'i18next'
 import Flag from 'react-world-flags'
 
 import { techSelector, lngSelector, lngSwitch, structureStart } from '../../../redux/slices'
-import { FixedButton } from '../../navigation/styles/navigations.styled'
 
 import * as SZ from '../../../constants/sizes'
 import * as CL from '../../../constants/colors'
@@ -88,20 +87,32 @@ const LanguageSwitcher = ({ onChangeLng }) => {
 
   return (
     <>
-      <FixedButton
-        id='LanguageSwitcher'
+      <Button
+        id='language-switcher'
         onClick={onClickHandler}
-        vertical={{ side: 'top', value: '18%' }}
-        horizontal={{ side: 'right', value: '3%' }}
+        // vertical={{ side: 'top', value: '18%' }}
+        // horizontal={{ side: 'left', value: '3%' }}
       // size='small'
       // children={<ReactCountryFlag countryCode='RU'  />}
-      // sx={{fontSize: '10px'}}
+        sx={{
+          mx: '4rem',
+          my: '1rem',
+          border: SZ.buttonsBorder,
+          // border: 2,
+          borderColor: CL.MUI_text_primary,
+          bgcolor: CL.navBarBackground,
+          '&:hover': {
+            transition: '.3s all ease-in-out',
+            backgroundColor: CL.navBarBackgroundHovered
+            // backgroundColor: `${CL.navBarBackgroundHovered}`
+          }
+        }}
       >
         <Flag
           code={activeLng === 'en' ? 'gb' : activeLng}
           height={SZ.languageSwitcher}
         />
-      </FixedButton>
+      </Button>
       <Menu
         id='LanguageSwitcherMenu'
         anchorEl={anchorEl}
@@ -109,18 +120,19 @@ const LanguageSwitcher = ({ onChangeLng }) => {
         onClose={onCloseHandler}
         anchorOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'center',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'center',
         }}
       >
         <MenuList
           sx={{
             color: 'primary.main',
-            bgcolor: `${CL.mainContainerBackground}`,
-            p: '.5rem',
+            bgcolor: CL.bodyBackground,
+            border: SZ.buttonsBorder, borderColor: 'text.disabled',
+            p: '1rem',
             my: '-.5rem',
           }}
         >

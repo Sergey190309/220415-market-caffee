@@ -3,13 +3,9 @@ import { Link } from 'react-router-dom'
 
 import {
   Button,
-  // IconButton
 } from '@mui/material'
 
-// import { FaTimes, FaBars } from 'react-icons/fa'
-// import { MdOutlineFoodBank } from 'react-icons/md'
 import * as CL from '../../../constants/colors'
-// import { smallDeviceLimit } from '../../../redux/constants/deviceWidthLimits'
 
 export const FixedButton = styled(Button)`
   /* color: red; */
@@ -34,34 +30,6 @@ export const FixedButton = styled(Button)`
     background-color: ${CL.navBarBackgroundHovered}
 }
 `
-// export const LogoIcon = styled(Button)`
-// position: fixed;
-// top: ${props => props.top || '5%'};
-// left: ${props => props.left || '4%'};
-// &:hover {
-//   transition: .3s all ease-in-out;
-//   background-color: ${CL.navBarBackgroundHovered}
-// }
-// `
-
-// export const NavBarDiv = styled.div`
-// position: fixed;
-// top: 0;
-// right: 0;
-// /* height: 100vh; */
-// width: 100%;
-// @media screen and(min-width: ${`${smallDeviceLimit}px`}) {
-//   width: 60%;
-// }
-// z-index: 99;
-// display: flex;
-// flex-direction: column;
-// justify-content: left;
-// /* margin: 2em 0 0 2em; */
-// padding: 2em 0;
-// align-items: left;
-// `
-
 export const NavBarLink = styled(Link)`
 color: ${CL.MUI_text_primary};
 padding-left: .2rem;
@@ -79,24 +47,3 @@ user-select: none; /* supported by Chrome and Opera */
   background-color: ${CL.navBarBackgroundHovered}
 } */
 `
-// export const NavBarCloseIcon = styled(FaTimes)`
-// position: fixed;
-// top: 5%;
-// right: 4%;
-// padding: .75rem;
-// display: flex;
-// place-items: center;
-// font-size: 2rem;
-// cursor: pointer;
-// `
-// export const NavBarOpenIcon = styled(FaBars)`
-// position: fixed;
-// top: 5%;
-// right: 4%;
-// padding: .75rem;
-// display: flex;
-// place-items: center;
-// font-size: 2rem;
-// cursor: pointer;
-// `
-
