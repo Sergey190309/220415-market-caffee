@@ -39,13 +39,13 @@ const OutPut = () => {
 
   const drawerRef = useAppRef(null)
 
-  const actionFunc = () => {
+  const outsideClickHandle = () => {
     if (openedDrawer) {
+      // console.log('clicing outside')
       setDrawerClosed()
-      console.log('clicing outside')
     }
   }
-  useOutsideClick(drawerRef, actionFunc)
+  useOutsideClick(drawerRef, outsideClickHandle)
 
   const navigate = useAppNavigate()
   const toLanding = () => { navigate('/') }
@@ -68,9 +68,10 @@ const OutPut = () => {
       >
         <Toolbar>
           <IconButton
+            id='to-landing-icon'
+            data-testid='to-landing-icon'
             color='inherit'
             onClick={toLanding}
-            aria-label='to-landing-icon'
             sx={{
               color: 'text.primary',
               "&:hover": {
@@ -84,10 +85,15 @@ const OutPut = () => {
             {t('output.welcome')}
           </Typography>
           <IconButton
+            id='open-drawer-icon'
+            data-testid='open-drawer-icon'
             color='inherit'
-            aria-label='open drawer'
             edge='end'
             onClick={setDrawerOpened}
+            // onClick={ () => {
+            //   console.log('open icon')
+            //   setDrawerOpened()}
+            // }
             sx={{
               ...(openedDrawer && { display: 'none' }),
               color: 'text.primary',
@@ -105,8 +111,11 @@ const OutPut = () => {
         <Message />
         <PageContainer />
       </Main>
-      <div ref={drawerRef}>
+      <div
+        data-testid='outside-drawer'
+        ref={drawerRef}>
         <Drawer
+          data-testid='drawer'
           PaperProps={{
             sx: {
               bgcolor: CL.bodyBackground
@@ -126,7 +135,13 @@ const OutPut = () => {
           open={openedDrawer}
         >
           <DrawerHeader sx={{ bgcolor: CL.navBarBackground }}>
-            <IconButton onClick={setDrawerClosed}
+            <IconButton
+              data-testid='drawer-close-button'
+              onClick={setDrawerClosed}
+              // onClick={() => {
+              //   console.log('close icon')
+              //   setDrawerClosed()
+              // }}
               sx={{
                 color: 'text.primary',
                 "&:hover": {

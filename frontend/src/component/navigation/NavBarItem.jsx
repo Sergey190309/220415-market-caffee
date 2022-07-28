@@ -1,16 +1,18 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 // import { FoodBankOutlined } from '@mui/icons-material'
-import { ListItemIcon, MenuItem } from '@mui/material'
+import { ListItemIcon, ListItemText, MenuItem, Typography } from '@mui/material'
 
 import * as CL from '../../constants/colors'
 import * as SZ from '../../constants/sizes'
-import { NavBarLink } from './styles/navigations.styled'
 
 const NavBarItem = ({ title, linkto, Icon, disabled, onClick }) => {
   // console.log('linkto ->', linkto)
   return (
     <MenuItem
+      component={Link}
+      to={linkto}
       onClick={onClick}
       disabled={disabled}
       sx={{
@@ -25,24 +27,33 @@ const NavBarItem = ({ title, linkto, Icon, disabled, onClick }) => {
           transition: '.3s all ease-in-out',
           backgroundColor: CL.navBarBackgroundHovered
         }
-      }}>
+      }}
+    >
       <ListItemIcon
         sx={{ color: 'text.primary' }}
         children={<Icon sx={{ fontSize: SZ.menuIcon }} />}
       />
-      <NavBarLink to={linkto} children={title} />
+      <ListItemText
+        // component={Typography}
+        // variant='h1'
+        sx={{
+          color: 'text.primary',
+        }}
+        children={<Typography variant='h6' children={title} />}
+      // primary={title}
+      />
     </MenuItem>
   )
 }
 
-NavBarLink.defaultProps = {
+NavBarItem.defaultProps = {
   title: '',
   linkto: '',
   // Icon: null
   disabled: false,
   onClick: () => { }
 }
-NavBarLink.propTypes = {
+NavBarItem.propTypes = {
   title: PropTypes.string.isRequired,
   linkto: PropTypes.string.isRequired,
   Icon: PropTypes.elementType,

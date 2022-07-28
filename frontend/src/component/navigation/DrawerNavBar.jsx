@@ -4,7 +4,10 @@ import PropTypes from 'prop-types'
 import { Divider, MenuList } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { lngSelector, authSelector, setLogInVisibility, logOut } from '../../redux/slices'
+import {
+  // lngSelector,
+  authSelector, setLogInVisibility, logOut
+} from '../../redux/slices'
 import NavBarItem from './NavBarItem'
 import {
   FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutlined,
@@ -15,7 +18,7 @@ import LogInOutButton from '../general_items/auth/LogInOutButton'
 const DrawerNavBar = ({ closeDrawer }) => {
   const { t, i18n } = useTranslation('navbar')
 
-  const { lng } = useAppSelector(lngSelector)
+  // const { lng } = useAppSelector(lngSelector)
   const { isLoggedIn, isAdmin } = useAppSelector(authSelector)
 
   const dispatch = useAppDispatch()
@@ -35,7 +38,7 @@ const DrawerNavBar = ({ closeDrawer }) => {
 
   return (
     <MenuList
-      data-testid='menu-list'
+      data-testid='drawer-menu'
     >
       <NavBarItem
         onClick={closeDrawer}
@@ -82,7 +85,11 @@ const DrawerNavBar = ({ closeDrawer }) => {
     </MenuList>
   )
 }
-DrawerNavBar.defaultProps = {}
-DrawerNavBar.propTypes = {}
+DrawerNavBar.defaultProps = {
+  closeDrawer: () => { }
+}
+DrawerNavBar.propTypes = {
+  closeDrawer: PropTypes.func.isRequired
+}
 
 export default DrawerNavBar

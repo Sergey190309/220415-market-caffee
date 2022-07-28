@@ -27,7 +27,7 @@ import {
   mockSignUpResolveData, mockSignUpData
 } from '../../constants/tests/testAxiosConstants'
 import { startAlert } from '../slices'
-import { actRespErrorMessage } from '../../utils/errorHandler'
+import { sagaErrorHandler } from '../../utils/errorHandler'
 jest.mock('redux-saga/effects', () => ({
   ...jest.requireActual('redux-saga/effects'),
   takeEvery: jest.fn()
@@ -37,7 +37,8 @@ jest.mock('../../api/calls/getAuthTechInfo', () => ({
   signUpCall: jest.fn()
 }))
 jest.mock('../../utils/errorHandler', () => ({
-  actRespErrorMessage: jest.fn()
+  ...jest.requireActual('../../utils/errorHandler'),
+  sagaErrorHandler: jest.fn()
 }))
 describe('Auth sagas testing', () => {
   beforeEach(() => {
@@ -93,11 +94,12 @@ describe('Auth sagas testing', () => {
       expect(dispatched[0]).toEqual({
         type: logInSuccess.type, payload: mockUserData.payload
       })
+      // console.log('dispatched ->', dispatched)
       expect(dispatched[1]).toEqual({
         type: startAlert.type,
         payload: {
           message: mockUserData.message,
-          alertType: 'info',
+          alertType: 'success',
           timeout: 3000,
           id: 'mock v4 value'
         }
@@ -109,30 +111,22 @@ describe('Auth sagas testing', () => {
         name: 'mockErrorName',
         message: 'mockErrorMessage'
       }
-      const mockErrorMessage = 'mockErrorMessage'
+      // const mockErrorMessage = 'mockErrorMessage'
       logInCall.mockImplementation(() => Promise.reject(mockRejectMessage))
-      actRespErrorMessage.mockImplementation(() => mockErrorMessage)
+      // actRespErrorMessage.mockImplementation(() => mockErrorMessage)
       const initialAction = {
         payload: mockLogInData
       }
       const dispatched = await recordSaga(
         logInFetch, initialAction)
-      expect(actRespErrorMessage).toHaveBeenCalledTimes(1)
-      expect(actRespErrorMessage)
+      expect(sagaErrorHandler).toHaveBeenCalledTimes(1)
+      expect(sagaErrorHandler)
         .toHaveBeenCalledWith(mockRejectMessage)
-      expect(dispatched).toHaveLength(2)
+      expect(dispatched).toHaveLength(1)
       expect(dispatched[0]).toEqual({
-        type: logInFail.type, payload: mockRejectMessage
+        type: logInFail.type, payload: undefined
       })
-      expect(dispatched[1]).toEqual({
-        type: startAlert.type,
-        payload: {
-          message: mockErrorMessage,
-          alertType: 'error',
-          timeout: 5000,
-          id: 'mock v4 value'
-        }
-      })
+      // console.log('dispatched ->', dispatched)
     })
     test('signUpFetch, success', async () => {
       signUpCall.mockImplementation(() => Promise.resolve({ data: mockSignUpResolveData }))
@@ -153,7 +147,7 @@ describe('Auth sagas testing', () => {
         type: startAlert.type,
         payload: {
           message: mockSignUpResolveData.message,
-          alertType: 'info',
+          alertType: 'success',
           timeout: 3000,
           id: 'mock v4 value'
         }
@@ -165,30 +159,21 @@ describe('Auth sagas testing', () => {
         name: 'mockErrorName',
         message: 'mockErrorMessage'
       }
-      const mockErrorMessage = 'mockErrorMessage'
+      // const mockErrorMessage = 'mockErrorMessage'
       signUpCall.mockImplementation(() => Promise.reject(mockRejectMessage))
-      actRespErrorMessage.mockImplementation(() => mockErrorMessage)
+      // actRespErrorMessage.mockImplementation(() => mockErrorMessage)
       const initialAction = {
         payload: mockLogInData
       }
       const dispatched = await recordSaga(
         signUpFetch, initialAction)
       // console.log('dispatched ->', dispatched)
-      expect(actRespErrorMessage).toHaveBeenCalledTimes(1)
-      expect(actRespErrorMessage)
+      expect(sagaErrorHandler).toHaveBeenCalledTimes(1)
+      expect(sagaErrorHandler)
         .toHaveBeenCalledWith(mockRejectMessage)
-      expect(dispatched).toHaveLength(2)
+      expect(dispatched).toHaveLength(1)
       expect(dispatched[0]).toEqual({
-        type: signUpFail.type, payload: mockRejectMessage
-      })
-      expect(dispatched[1]).toEqual({
-        type: startAlert.type,
-        payload: {
-          message: mockErrorMessage,
-          alertType: 'error',
-          timeout: 5000,
-          id: 'mock v4 value'
-        }
+        type: signUpFail.type, payload: undefined
       })
     })
   })

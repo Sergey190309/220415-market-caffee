@@ -1,7 +1,7 @@
 import React from 'react'
 import { useAppSelector } from '../../../hooks/reactRedux'
-import PropTypes from 'prop-types'
-import { Alert, AlertTitle, Typography } from '@mui/material'
+// import PropTypes from 'prop-types'
+import { Alert, AlertTitle } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 import { alertsSelector } from '../../../redux/slices'

@@ -20,7 +20,7 @@ import Message from '../notifications/Message'
 
 export const initValues = {
   email: 'a@agatha-ng.com',
-  password: 'qwertyy'
+  password: 'qwerty'
 }
 
 export const logInSchema = t =>
@@ -145,12 +145,10 @@ const LogIn = ({ initValues, logInSchema }) => {
                       <AuthTextField
                         variant='outlined'
                         fullWidth
-
                         id='email'
                         data-testid='input-email'
                         name='email'
                         type='email'
-
                         label={t('login.labels.email')}
                         autoComplete='username'
                         value={formik.values.email}

@@ -75,7 +75,7 @@ export function* signUpFetch(action) {
       startAlert(
         setAlertData({
           message: userData.data.message,
-          alertType: 'info',
+          alertType: 'success',
           timeout: 3000
         })
       )

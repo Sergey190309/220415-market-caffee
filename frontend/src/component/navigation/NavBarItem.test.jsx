@@ -37,7 +37,7 @@ describe('NavBarItem testing', () => {
       renderWithRouter(<NavBarItem {...testProps} disabled={false} />)
       const component = screen.getByRole('menuitem')
       expect(component).not.toHaveClass('Mui-disabled')
-      expect(screen.getByText(testProps.title).href).toMatch(testProps.linkto)
+      expect(component.href).toMatch(testProps.linkto)
       await user.click(component)
       expect(testProps.onClick).toHaveBeenCalledTimes(1)
       // screen.debug(component)

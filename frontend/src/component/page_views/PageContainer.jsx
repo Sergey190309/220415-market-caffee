@@ -12,7 +12,7 @@ import UsersOnlyView from './usersOnly/UsersOnlyView'
 
 const PageContainer = () => {
   return (
-    <Box>
+    <Box data-testid='page-container'>
       <Routes>
         <Route path='/' element={<LandingView />} />
         <Route path='/pricelist' exact element={<PriceListView />} />
