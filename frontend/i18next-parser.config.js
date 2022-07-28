@@ -26,4 +26,4 @@ module.exports = {
   customValueTemplate: null
 }
 
-//i18next-gettext-converter
+// i18next-conv -l [locale] -s [sourcePath] -t [targetPath]

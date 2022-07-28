@@ -13,7 +13,7 @@ export const initI18next = (supportedLngs = ['en', 'ru']) => {
    * This instance should take all values upon loading appropriate values
    * from back - end.
    */
-  const nameSpaces = ['navbar', 'auth', 'general',
+  const nameSpaces = ['navbar', 'auth', 'general', 'messages'
   //  'context'
   ]
   // const nameSpaces = ['navbar', 'auth', 'general', 'context', 'errors']

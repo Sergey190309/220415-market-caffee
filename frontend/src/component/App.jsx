@@ -33,6 +33,7 @@ const App = ({ setDeviceSize }) => {
     <>
       <LogIn />
       <SignUp />
+
       <OutPut />
     </>
   )

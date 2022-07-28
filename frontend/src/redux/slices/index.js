@@ -16,6 +16,7 @@ export const rootReducer = combineReducers({
 })
 
 export {
+  alertsSelector,
   clearAlerts, startAlert, removeAlert
 } from './alerts'
 

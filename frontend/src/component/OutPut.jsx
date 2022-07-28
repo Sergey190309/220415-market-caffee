@@ -22,6 +22,7 @@ import * as CL from '../constants/colors'
 import LanguageSwitcher from './general_items/language/LanguageSwitcher'
 import PageContainer from './page_views/PageContainer'
 import DrawerNavBar from './navigation/DrawerNavBar'
+import Message from './general_items/notifications/Message'
 
 const OutPut = () => {
   const [openedDrawer, setOpenedDrawer] = useAppState(false)
@@ -89,6 +90,7 @@ const OutPut = () => {
       </AppBar>
       <Main open={openedDrawer}>
         <DrawerHeader />
+        <Message />
         <PageContainer />
       </Main>
       <Drawer
@@ -131,6 +133,7 @@ const OutPut = () => {
   )
 }
 
+OutPut.defaultProps = {}
 OutPut.propTypes = {}
 
 export default OutPut

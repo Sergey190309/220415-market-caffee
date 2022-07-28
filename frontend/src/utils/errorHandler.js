@@ -1,6 +1,9 @@
+// import {useAppDispatch} from '../hooks/reactRedux'
+import store from '../redux/store'
+import { startAlert } from '../redux/slices'
 
 export const actRespErrorMessage = error => {
-  // console.log('utils>errorHandler>actRespErrorMessage, error ->', error)
+  console.log('utils>errorHandler>actRespErrorMessage, error.response ->', error.response.data.message)
   if (error.response) {
     return `${error.name}. ${error.message}`
   } else {
@@ -8,18 +11,21 @@ export const actRespErrorMessage = error => {
   }
 }
 
-export function sagaErrorHandler(error) {
-// export function* sagaErrorHandler(error) {
+// export function sagaErrorHandler(error) {
+export const sagaErrorHandler = (error) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // const dispatch = useAppDispatch()
   if (error.response) {
-    // yield put(
-    //   startAlert({
-    //     message: actRespErrorMessage(error),
-    //     alertType: 'error',
-    //     timeout: 5000
-    //   })
-    // )
-    console.log('sagaErrorHandler, error.response ->',
-    actRespErrorMessage(error))
+    store.dispatch(
+      startAlert({
+        message: error.response.data.message,
+        // message: actRespErrorMessage(error),
+        alertType: 'error',
+        timeout: 5000
+      })
+    )
+    // console.log('sagaErrorHandler, error.response ->',
+    // actRespErrorMessage(error))
   } else if (error.request) {
     // yield put(
     //   startAlert({
@@ -30,6 +36,6 @@ export function sagaErrorHandler(error) {
     // )
     console.log('sagaErrorHandler, error.request ->', error.request)
   } else {
-    // console.log('Error ->', error.message)
+    console.log('Error ->', error.message)
   }
 }

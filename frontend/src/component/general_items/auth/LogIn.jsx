@@ -15,11 +15,12 @@ import {
 import * as CL from '../../../constants/colors'
 import { DialogButton } from '../../styles/buttons.styled'
 import { AuthTextField } from '../../styles/text.styled'
+import Message from '../notifications/Message'
 
 
 export const initValues = {
   email: 'a@agatha-ng.com',
-  password: 'qwerty'
+  password: 'qwertyy'
 }
 
 export const logInSchema = t =>
@@ -118,6 +119,7 @@ const LogIn = ({ initValues, logInSchema }) => {
           }}
           children={t('login.header')}
         />
+        <Message />
         <Box
           id='login-form-box'
           sx={{
