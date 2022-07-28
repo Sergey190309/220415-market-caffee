@@ -24,7 +24,7 @@ import {
   logInCall, signUpCall,
   // confirmPasswordCall
 } from '../../api/calls/getAuthTechInfo'
-import { actRespErrorMessage, sagaErrorHandler } from '../../utils/errorHandler'
+import { sagaErrorHandler } from '../../utils/errorHandler'
 import { setAlertData } from '../../utils/utils'
 
 export function* logInSaga() {
@@ -47,7 +47,7 @@ export function* logInFetch(action) {
     )
   } catch (error) {
     // console.log('saga>auth>logInFetch, catch, error ->', error)
-    yield put(logInFail(error))
+    yield put(logInFail())
     sagaErrorHandler(error)
     // const errorMessage = actRespErrorMessage(error)
     // yield put(
@@ -81,7 +81,7 @@ export function* signUpFetch(action) {
       )
     )
   } catch (error) {
-    yield put(signUpFail(error))
+    yield put(signUpFail())
     sagaErrorHandler(error)
     // const errorMessage = actRespErrorMessage(error)
     // yield put(

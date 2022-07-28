@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useAppState } from '../hooks/react'
+import { useAppState, useAppRef } from '../hooks/react'
 import { useAppNavigate } from '../hooks/reactRouterDom'
 
 import PropTypes from 'prop-types'
@@ -23,17 +23,29 @@ import LanguageSwitcher from './general_items/language/LanguageSwitcher'
 import PageContainer from './page_views/PageContainer'
 import DrawerNavBar from './navigation/DrawerNavBar'
 import Message from './general_items/notifications/Message'
+import { useOutsideClick } from '../hooks/useOutsideClick'
 
 const OutPut = () => {
   const [openedDrawer, setOpenedDrawer] = useAppState(false)
   const theme = useTheme()
   const { t } = useTranslation('general')
+
   const setDrawerOpened = () => {
     setOpenedDrawer(true)
   }
   const setDrawerClosed = () => {
     setOpenedDrawer(false)
   }
+
+  const drawerRef = useAppRef(null)
+
+  const actionFunc = () => {
+    if (openedDrawer) {
+      setDrawerClosed()
+      console.log('clicing outside')
+    }
+  }
+  useOutsideClick(drawerRef, actionFunc)
 
   const navigate = useAppNavigate()
   const toLanding = () => { navigate('/') }
@@ -93,42 +105,44 @@ const OutPut = () => {
         <Message />
         <PageContainer />
       </Main>
-      <Drawer
-        PaperProps={{
-          sx: {
-            bgcolor: CL.bodyBackground
-          }
-        }}
-        sx={{
-          // bgcolor: 'CL.bodyBackground',
-          // color: 'red',
-          width: SZ.drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
+      <div ref={drawerRef}>
+        <Drawer
+          PaperProps={{
+            sx: {
+              bgcolor: CL.bodyBackground
+            }
+          }}
+          sx={{
+            // bgcolor: 'CL.bodyBackground',
+            // color: 'red',
             width: SZ.drawerWidth,
-          },
-        }}
-        variant='persistent'
-        anchor='right'
-        open={openedDrawer}
-      >
-        <DrawerHeader sx={{ bgcolor: CL.navBarBackground }}>
-          <IconButton onClick={setDrawerClosed}
-            sx={{
-              color: 'text.primary',
-              "&:hover": {
-                transition: '.3s all ease-in-out',
-                backgroundColor: CL.navBarBackgroundHovered
-              }
-            }}
-          >
-            {theme.direction === 'rtl' ? <ChevronLeft /> : <ChevronRight />}
-          </IconButton>
-        </DrawerHeader>
-        <DrawerNavBar closeDrawer={setDrawerClosed} />
-        <Divider />
-        <LanguageSwitcher />
-      </Drawer>
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: SZ.drawerWidth,
+            },
+          }}
+          variant='persistent'
+          anchor='right'
+          open={openedDrawer}
+        >
+          <DrawerHeader sx={{ bgcolor: CL.navBarBackground }}>
+            <IconButton onClick={setDrawerClosed}
+              sx={{
+                color: 'text.primary',
+                "&:hover": {
+                  transition: '.3s all ease-in-out',
+                  backgroundColor: CL.navBarBackgroundHovered
+                }
+              }}
+            >
+              {theme.direction === 'rtl' ? <ChevronLeft /> : <ChevronRight />}
+            </IconButton>
+          </DrawerHeader>
+          <DrawerNavBar closeDrawer={setDrawerClosed} />
+          <Divider />
+          <LanguageSwitcher />
+        </Drawer>
+      </div>
     </Box >
   )
 }
