@@ -1753,21 +1753,7 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@mui/base@5.0.0-alpha.91", "@mui/base@^5.0.0-alpha.89":
-  version "5.0.0-alpha.91"
-  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.91.tgz#124d88829c9d5ee7a61ab2b0b2aee2ca35ee64f2"
-  integrity sha512-/W5amPDz+Lout4FtX5HOyx2Q+YL/EtZciFrx2DDRuUm4M/pWnjfDZAtM+0aqimEvuk3FU+/PuFc7IAyhCSX4Cg==
-  dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@emotion/is-prop-valid" "^1.1.3"
-    "@mui/types" "^7.1.5"
-    "@mui/utils" "^5.9.1"
-    "@popperjs/core" "^2.11.5"
-    clsx "^1.2.1"
-    prop-types "^15.8.1"
-    react-is "^18.2.0"
-
-"@mui/base@^5.0.0-alpha.91":
+"@mui/base@5.0.0-alpha.91", "@mui/base@^5.0.0-alpha.91":
   version "5.0.0-alpha.91"
   resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.91.tgz#124d88829c9d5ee7a61ab2b0b2aee2ca35ee64f2"
   integrity sha512-/W5amPDz+Lout4FtX5HOyx2Q+YL/EtZciFrx2DDRuUm4M/pWnjfDZAtM+0aqimEvuk3FU+/PuFc7IAyhCSX4Cg==
@@ -1835,32 +1821,6 @@
     clsx "^1.2.1"
     csstype "^3.1.0"
     prop-types "^15.8.1"
-
-<<<<<<< HEAD
-"@mui/types@^7.1.5":
-  version "7.1.5"
-  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.5.tgz#5e5cc49d719bc86522983359bc1f90eddcff0624"
-  integrity sha512-HnRXrxgHJYJcT8ZDdDCQIlqk0s0skOKD7eWs9mJgBUu70hyW4iA6Kiv3yspJR474RFH8hysKR65VVSzUSzkuwA==
-=======
-"@mui/system@^5.9.2":
-  version "5.9.2"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.9.2.tgz#391b07db7f8fc924db55e7a23b7713b3a90b6a52"
-  integrity sha512-iOvt9tVeFapHL7f7M6BSIiKGMx6RTRvAmc8ipMnQ/MR5Qsxwnyv7qKtNC/K11Rk13Xx0VPaPAhyvBcsr3KdpHA==
-  dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@mui/private-theming" "^5.9.1"
-    "@mui/styled-engine" "^5.8.7"
-    "@mui/types" "^7.1.5"
-    "@mui/utils" "^5.9.1"
-    clsx "^1.2.1"
-    csstype "^3.1.0"
-    prop-types "^15.8.1"
-
-"@mui/types@^7.1.4":
-  version "7.1.4"
-  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.4.tgz#4185c05d6df63ec673cda15feab80440abadc764"
-  integrity sha512-uveM3byMbthO+6tXZ1n2zm0W3uJCQYtwt/v5zV5I77v2v18u0ITkb8xwhsDD2i3V2Kye7SaNR6FFJ6lMuY/WqQ==
->>>>>>> dev220727
 
 "@mui/types@^7.1.5":
   version "7.1.5"
@@ -8345,10 +8305,10 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-i18next@^11.18.2:
-  version "11.18.2"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.2.tgz#b61b3e43cbd94ee8b83681206ba1bfe1168fe4d1"
-  integrity sha512-nDtspGjqytBA9IxRfw0fjylkfbsKqjJCWKVifvID9rDMjUhAaXvAE4HPU6oABVP9FXxYzfXxMHtvnNkTDWTUTw==
+react-i18next@^11.18.3:
+  version "11.18.3"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.18.3.tgz#50211810bcc9fdea2d70c8aefdfff5f1eb39a923"
+  integrity sha512-EttTX31HbqzZymUM3SIrMPuvamfSXFZVsDHm/ZAqoDfTLjhzlwyxqfbDNxcKNAGOi2mjZaXfR7hSNMlvLNpB/g==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-parse-stringify "^3.0.1"
