@@ -13,29 +13,33 @@ const LogInOutButton = ({ title, Icon, onClick }) => {
     <MenuItem
       onClick={ onClick }
       sx={{
-        border: 1, borderColor: 'text.disabled',
-        borderRadius: '50%',
+        border: SZ.buttonsBorder, borderColor: 'text.disabled',
+        borderRadius: '30%',
         // fontSize: 100,
-        backgroundColor: `${CL.navBarBackground}`,
+        backgroundColor: CL.navBarBackground,
         px: '.5rem',
         m: '.25rem',
+        // alignContent: 'center',
+        // alignItems: 'center',
         "&:hover": {
           transition: '.3s all ease-in-out',
-          backgroundColor: `${CL.navBarBackgroundHovered}`
+          backgroundColor: CL.navBarBackgroundHovered
         }
       }}
     >
       <ListItemIcon
         sx={{ color: 'text.primary' }}
         children={<Icon
-          sx={{ fontSize: `${SZ.logInOut}` }}
+          sx={{ fontSize: SZ.logInOut }}
         />}
       />
       <ListItemText
         // children={title}
         sx={{
           color: 'text.primary',
-          fontSize: 100
+          fontSize: 100,
+          // alignContent: 'center',
+          // alignItems:'center'
         }}
       >
         {title}

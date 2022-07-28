@@ -24,7 +24,7 @@ import {
   logInCall, signUpCall,
   // confirmPasswordCall
 } from '../../api/calls/getAuthTechInfo'
-import { actRespErrorMessage } from '../../utils/errorHandler'
+import { actRespErrorMessage, sagaErrorHandler } from '../../utils/errorHandler'
 import { setAlertData } from '../../utils/utils'
 
 export function* logInSaga() {
@@ -40,7 +40,7 @@ export function* logInFetch(action) {
       startAlert(
         setAlertData({
           message: userData.data.message,
-          alertType: 'info',
+          alertType: 'success',
           timeout: 3000
         })
       )
@@ -48,16 +48,17 @@ export function* logInFetch(action) {
   } catch (error) {
     // console.log('saga>auth>logInFetch, catch, error ->', error)
     yield put(logInFail(error))
-    const errorMessage = actRespErrorMessage(error)
-    yield put(
-      startAlert(
-        setAlertData({
-          message: errorMessage,
-          alertType: 'error',
-          timeout: 5000
-        })
-      )
-    )
+    sagaErrorHandler(error)
+    // const errorMessage = actRespErrorMessage(error)
+    // yield put(
+    //   startAlert(
+    //     setAlertData({
+    //       message: errorMessage,
+    //       alertType: 'error',
+    //       timeout: 5000
+    //     })
+    //   )
+    // )
   }
 }
 
@@ -80,17 +81,18 @@ export function* signUpFetch(action) {
       )
     )
   } catch (error) {
-  yield put(signUpFail(error))
-    const errorMessage = actRespErrorMessage(error)
-    yield put(
-      startAlert(
-        setAlertData({
-          message: errorMessage,
-          alertType: 'error',
-          timeout: 5000
-        })
-      )
-    )
+    yield put(signUpFail(error))
+    sagaErrorHandler(error)
+    // const errorMessage = actRespErrorMessage(error)
+    // yield put(
+    //   startAlert(
+    //     setAlertData({
+    //       message: errorMessage,
+    //       alertType: 'error',
+    //       timeout: 5000
+    //     })
+    //   )
+    // )
   }
 }
 

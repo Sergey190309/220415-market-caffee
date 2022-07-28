@@ -8,26 +8,27 @@ import * as SZ from '../../constants/sizes'
 import { NavBarLink } from './styles/navigations.styled'
 
 const NavBarItem = ({ title, linkto, Icon, disabled, onClick }) => {
-  // console.log('Icon ->', Icon)
+  // console.log('linkto ->', linkto)
   return (
     <MenuItem
       onClick={onClick}
       disabled={disabled}
       sx={{
-        border: 1, borderColor: 'text.disabled',
+        border: SZ.buttonsBorder, borderColor: 'text.disabled',
+        // color: 'red',
         borderRadius: '5%',
         // backgroundColor: 'red',
-        backgroundColor: `${CL.navBarBackground}`,
+        backgroundColor: CL.navBarBackground,
         px: '.5rem',
         m: '.25rem',
         "&:hover": {
           transition: '.3s all ease-in-out',
-          backgroundColor: `${CL.navBarBackgroundHovered}`
+          backgroundColor: CL.navBarBackgroundHovered
         }
       }}>
       <ListItemIcon
         sx={{ color: 'text.primary' }}
-        children={<Icon sx={{ fontSize: `${SZ.menuIcon}` }} />}
+        children={<Icon sx={{ fontSize: SZ.menuIcon }} />}
       />
       <NavBarLink to={linkto} children={title} />
     </MenuItem>

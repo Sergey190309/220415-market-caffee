@@ -11,11 +11,12 @@ export const initialState = {
    *     id: 'mockId'
    *   }
    * ]
+   * alerts.type are error | warning | info | success
    */
   alerts: []
   // alerts: [{
   //   message: 'mockMessage',
-  //   alertType: 'info',
+  //   alertType: 'error',
   //   timeout: 3000,
   //   id: 'mockId'
   // }]
