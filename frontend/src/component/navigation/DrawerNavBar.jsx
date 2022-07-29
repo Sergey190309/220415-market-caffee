@@ -16,7 +16,7 @@ import {
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
 const DrawerNavBar = ({ closeDrawer }) => {
-  const { t, i18n } = useTranslation('navbar')
+  const { t } = useTranslation('navbar')
 
   // const { lng } = useAppSelector(lngSelector)
   const { isLoggedIn, isAdmin } = useAppSelector(authSelector)

@@ -38,6 +38,7 @@ export const ElementSwitcher = ({
   }, [loadedStructures])
 
   const keys = Object.keys(structure)
+
   const output = keys.map((key, index) => {
     // console.log('ElementSwitcher: \n keys ->', keys)
     const componentType = structure[key].type

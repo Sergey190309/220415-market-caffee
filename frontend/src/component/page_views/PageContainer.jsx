@@ -24,7 +24,7 @@ const PageContainer = () => {
   )
 }
 
-PageContainer.defaultProps={}
+PageContainer.defaultProps = {}
 PageContainer.propTypes = {}
 
 export default PageContainer

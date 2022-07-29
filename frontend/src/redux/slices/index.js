@@ -43,6 +43,7 @@ export { lngSelector, lngSwitch } from './lng'
 
 export {
   // setState,
+  structureSelector,
   structureStart, structureSuccess, structureFail,
   structureResetChanged
 } from './structure'

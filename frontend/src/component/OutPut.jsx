@@ -24,6 +24,7 @@ import PageContainer from './page_views/PageContainer'
 import DrawerNavBar from './navigation/DrawerNavBar'
 import Message from './general_items/notifications/Message'
 import { useOutsideClick } from '../hooks/useOutsideClick'
+import Greeting from './navigation/Greeting'
 
 const OutPut = () => {
   const [openedDrawer, setOpenedDrawer] = useAppState(false)
@@ -84,6 +85,7 @@ const OutPut = () => {
           <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'text.primary' }} component="div">
             {t('output.welcome')}
           </Typography>
+          <Greeting />
           <IconButton
             id='open-drawer-icon'
             data-testid='open-drawer-icon'
