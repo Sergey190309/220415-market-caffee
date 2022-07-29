@@ -1,49 +1,44 @@
-import React, { createContext, useState, useEffect, memo } from 'react'
-import { useSelector } from 'react-redux'
-import { Divider } from 'semantic-ui-react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { useAppState, useAppEffect } from '../../../hooks/react'
+import { useAppSelector } from '../../../hooks/reactRedux'
+import { ElementSwitcherProvider } from '../../../context/ElementSwitcherContext'
 
+import PropTypes from 'prop-types'
 import { structureSelector } from '../../../redux/slices'
-import { ElementSwitcherProvider } from '../../../context'
 
 import ViewHeader from './ViewHeader'
 import ViewFooter from './ViewFooter'
 import ViewVBlock from './ViewVBlock'
 import ViewHBlock from './ViewHBlock'
 import ViewNothing from './ViewNothing'
-
-const MemoViewVBlock = memo(ViewVBlock)
+import { Box } from '@mui/material'
 
 export const getLoadedStructure = (viewName, structures) => {
   /**
    * Recieve all structures, return one that corresponds
-   * to the component name (ViewName)
+   * to the component name (viewName)
    */
   const { [viewName]: value } = structures
   return value || {}
 }
 
-// export const UpperLevel = createContext()
+const ElementSwitcher = ({ viewName }) => {
+  const [viewStructure, setViewStructure] = useAppState({})
 
-export const ElementSwitcher = ({
-  viewName, getStructure
-}) => {
-  const [structure, setStructure] = useState({})
-  const loadedStructures = useSelector(structureSelector)
-
-  useEffect(() => {
-    const newStructure = getStructure(
-      viewName, loadedStructures)
-    setStructure(newStructure)
+  const loadedStructures = useAppSelector(structureSelector)
+  useAppEffect(() => {
+    const newStructure = getLoadedStructure(viewName, loadedStructures)
+    setViewStructure(newStructure)
   }, [loadedStructures])
 
-  const keys = Object.keys(structure)
+  const keys = Object.keys(viewStructure)
+
+  // console.log('rendering, keys ->', keys)
 
   const output = keys.map((key, index) => {
-    // console.log('ElementSwitcher: \n keys ->', keys)
-    const componentType = structure[key].type
-    const componentSubType = structure[key].subtype ? structure[key].subtype : null
-    const subComponentQnt = structure[key].qnt ? structure[key].qnt : null
+    const componentType = viewStructure[key].type
+    const componentSubType = viewStructure[key].subtype ? viewStructure[key].subtype : null
+    const subComponentQnt = viewStructure[key].qnt ? viewStructure[key].qnt : null
     const upperLevelElementId =
       `${key}_${componentType}` +
       (componentSubType ? `_${componentSubType}` : '')
@@ -69,31 +64,29 @@ export const ElementSwitcher = ({
         component = <ViewHBlock {...props} />
         break
       case 'vblock':
-        component = <MemoViewVBlock {...props} />
+        component = <ViewVBlock {...props} />
         break
       default:
         component = <ViewNothing {...props} />
     }
-    return (
-      // <Fragment key={key}>
+    return(
       <ElementSwitcherProvider key={key} value={value}>
-        {component}
-        {index < keys.length - 1 ? <Divider /> : null}
-      </ElementSwitcherProvider>
-      // </Fragment>
-    )
-  })
+        <Box
+          display='flex'
+        >
+          {component}
+        </Box>
+      </ElementSwitcherProvider>)
+    })
+
   return output
 }
 
 ElementSwitcher.defaultProps = {
-  viewName: '',
-  getStructure: getLoadedStructure
+  viewName: ''
 }
-
 ElementSwitcher.propTypes = {
-  viewName: PropTypes.string.isRequired,
-  getStructure: PropTypes.func.isRequired
+  viewName: PropTypes.string.isRequired
 }
 
 export default ElementSwitcher

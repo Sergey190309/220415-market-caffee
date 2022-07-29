@@ -1,27 +1,29 @@
 // import { reject } from 'lodash'
 import { v4 } from 'uuid'
-// import store from '../redux/store'
-// import {
-//   startAlert, openModal,
-//   // setMessage
-// } from '../redux/slices'
+import store from '../redux/store'
 
-// export const startAlertHelper = payload => {
-//   /**
-//    * Used for fire redux action out of react scope.
-//    * From content saga.
-//    */
-//   // console.log('startAlertHelper, payload ->', payload)
-//   store.dispatch(
-//     startAlert(
-//       setAlertData({
-//         message: payload,
-//         alertType: 'info',
-//         timeout: 5000
-//       })
-//     )
-//   )
-// }
+import {
+  startAlert,
+  // openModal,
+  // setMessage
+} from '../redux/slices'
+
+export const startAlertHelper = payload => {
+  /**
+   * Used for fire redux action out of react scope.
+   * From content saga.
+   */
+  // console.log('startAlertHelper, payload ->', payload)
+  store.dispatch(
+    startAlert(
+      setAlertData({
+        message: payload,
+        alertType: 'info',
+        timeout: 5000
+      })
+    )
+  )
+}
 
 // export const confirmPasswordHelper = (message, payload) => {
 //   /**

@@ -3,21 +3,29 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
+import { useAppDispatch } from '../../hooks/reactRedux'
 import { renderWithRouterAndProviders, setupStore } from '../../utils/testUtils'
-import { initialState as initAuthState } from '../../redux/slices/auth'
+import { initialState as initAuthState} from '../../redux/slices/auth'
+import { setEditable, logOut } from '../../redux/slices'
 import DrawerNavBar from './DrawerNavBar'
-import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../api/apiClient'
+// import { setAxiosAuthAccessToken, setAxiosAuthRefreshToken } from '../../api/apiClient'
 
-jest.mock('../../api/apiClient', () => ({
+jest.mock('../../hooks/reactRedux', () => ({
   __esModule: true,
-  ...jest.requireActual('../../api/apiClient'),
-  setAxiosAuthAccessToken: jest.fn(),
-  setAxiosAuthRefreshToken: jest.fn(),
+  ...jest.requireActual('../../hooks/reactRedux'),
+  useAppDispatch: jest.fn()
 }))
+// jest.mock('../../api/apiClient', () => ({
+//   __esModule: true,
+//   ...jest.requireActual('../../api/apiClient'),
+//   setAxiosAuthAccessToken: jest.fn(),
+//   setAxiosAuthRefreshToken: jest.fn(),
+// }))
 
 describe('DrawerNavBar', () => {
   afterAll(() => {
-    jest.unmock('../../api/apiClient')
+    jest.unmock('../../hooks/reactRedux')
+    // jest.unmock('../../api/apiClient')
   })
   beforeEach(() => {
     jest.resetAllMocks()
@@ -204,8 +212,10 @@ describe('DrawerNavBar', () => {
       expect(mockedCloseDrawer).toHaveBeenCalledTimes(1)
     })
     test('buttom LogOut', async () => {
-      setAxiosAuthAccessToken.mockImplementation(jest.fn())
-      setAxiosAuthRefreshToken.mockImplementation(jest.fn())
+      // setAxiosAuthAccessToken.mockImplementation(jest.fn())
+      // setAxiosAuthRefreshToken.mockImplementation(jest.fn())
+      const mockedDispatch = jest.fn()
+      useAppDispatch.mockImplementation(() => mockedDispatch)
       const user = userEvent.setup()
       const mockedCloseDrawer = jest.fn()
       const mockedInitAuthState = { auth: { ...testInitAuthState, isLoggedIn: true, isAdmin: true } }
@@ -218,10 +228,10 @@ describe('DrawerNavBar', () => {
       // expect(screen.getByText('LogOut').href).toMatch(/\/admin$/)
       await user.click(menuItem)
       expect(mockedCloseDrawer).toHaveBeenCalledTimes(1)
-      expect(setAxiosAuthAccessToken).toHaveBeenCalledTimes(1)
-      expect(setAxiosAuthAccessToken).toHaveBeenCalledWith('');
-      expect(setAxiosAuthRefreshToken).toHaveBeenCalledTimes(1)
-      expect(setAxiosAuthRefreshToken).toHaveBeenCalledWith('');
+      // console.log('mockedDispatch calls =>', mockedDispatch.mock.calls.length)
+      expect(mockedDispatch).toHaveBeenCalledTimes(2);
+      expect(mockedDispatch.mock.calls[0][0]).toEqual({type: setEditable.type, payload: false});
+      expect(mockedDispatch.mock.calls[1][0]).toEqual({type: logOut.type, payload: undefined});
     })
   })
 })

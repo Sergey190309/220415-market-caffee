@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import {
   // lngSelector,
-  authSelector, setLogInVisibility, logOut
+  authSelector, setLogInVisibility, logOut, setEditable
 } from '../../redux/slices'
 import NavBarItem from './NavBarItem'
 import {
@@ -29,6 +29,8 @@ const DrawerNavBar = ({ closeDrawer }) => {
   // }
   const logInOutClickHandler = () => {
     if (isLoggedIn) {
+      // console.log('DrawerNavBar>logInOutClickHandler')
+      dispatch(setEditable(false))
       dispatch(logOut())
       closeDrawer()
     } else {

@@ -23,37 +23,41 @@ const Greeting = () => {
   }
 
   return (
-    <Box
-      sx={{
-        // bgcolor: 'blue',
-        display: (isLoggedIn ? 'flex' : 'none'),
-        alignItems: 'center',
-        mr: '1rem',
-        color: 'text.primary',
-      }}
-    >
+    isLoggedIn ?
       <Box
+        data-testid='greeitng-outer-box'
         sx={{
-          display: 'flex',
-          // bgcolor: 'red'
+          // bgcolor: 'blue',
+          display: (isLoggedIn ? 'flex' : 'none'),
+          alignItems: 'center',
+          mr: '1rem',
+          color: 'text.primary',
         }}
       >
-        {`${t('greeting')} ${user_name}`}
-      </Box>
-      {isAdmin ?
-        <FormControlLabel
+        <Box
           sx={{
-            borderRadius: '50%',
-            ml: '1rem',
-            pr: '.5rem',
-            "&:hover": {
-              transition: '.3s all ease-in-out',
-              bgcolor: CL.navBarBackgroundHovered
-            }
+            display: 'flex',
+            // bgcolor: 'red'
           }}
-          control={<Switch onClick={onClickHandler} checked={editable} />} label={t('editable')}
-        /> : null}
-    </Box>
+        >
+          {`${t('greeting')} ${user_name}`}
+        </Box>
+        {isAdmin ?
+          <FormControlLabel
+            sx={{
+              borderRadius: '50%',
+              ml: '1rem',
+              pr: '.5rem',
+              "&:hover": {
+                transition: '.3s all ease-in-out',
+                bgcolor: CL.navBarBackgroundHovered
+              }
+            }}
+            control={<Switch onClick={onClickHandler} checked={editable} />} label={t('editable')}
+          />
+          : null}
+      </Box>
+      : null
   )
 }
 

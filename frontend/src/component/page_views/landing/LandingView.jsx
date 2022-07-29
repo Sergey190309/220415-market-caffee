@@ -1,41 +1,40 @@
 import React from 'react'
+import { useAppState } from '../../../hooks/react'
 import { useAppSelector } from '../../../hooks/reactRedux'
 import { Box, Typography } from '@mui/material'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import { structureSelector } from '../../../redux/slices'
+import { LandingProvider } from '../../../context/LandingViewContext'
+import ElementSwitcher from '../page_elements/ElementSwitcher'
+
+import * as SZ from '../../../constants/sizes'
 
 const LandingView = () => {
+  const [componentName] = useAppState('landing')
 
   const { loaded } = useAppSelector(structureSelector)
-  console.log('loaded ->', loaded)
+  // console.log('loaded ->', loaded)
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        py: '1rem',
-        backgroundColor: 'lightGreen',
-        // alignContent: 'center',
-        // alignItems: 'center'
-      }}
-    >
-      <Box
-        // zIndex={-1}
-        className="animate__animated animate__fadeInDown"
-        sx={{
-          zIndex: 10,
-          width: '85%',
-          p: '1rem',
-          backgroundColor: 'lightBlue',
-        }}
-      >
-        <Typography variant='h4' align='center'>
-          LandingView
-        </Typography>
-      </Box>
-    </Box>
+    loaded ?
+      <LandingProvider value={componentName}
+        children={
+          <Box
+            className="animate__animated animate__fadeInDown"
+            sx={{
+              border: SZ.buttonsBorder, borderColor: 'text.disabled', borderRadius: 3,
+              display: 'flex',
+              justifyContent: 'center',
+              py: '.5rem',
+            }}
+          >
+            <div>
+              <ElementSwitcher viewName={componentName} />
+            </div>
+          </Box>
+        }
+      /> : null
   )
 }
 

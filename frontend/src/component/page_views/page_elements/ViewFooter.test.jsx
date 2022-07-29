@@ -1,0 +1,5 @@
+describe('ViewFooter', () => {
+  test('dummy', () => {
+
+  });
+ })
