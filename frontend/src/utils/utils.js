@@ -48,7 +48,7 @@ export const startAlertHelper = payload => {
 //   return ids
 // }
 
-// export const makeRecordIdList = recordId => {
+export const makeRecordIdList = recordId => {
   /**
    * The function return recordId in the form '01_vblock_txt_133' return array as below
    * [
@@ -57,22 +57,21 @@ export const startAlertHelper = payload => {
    *   ...
    *   '01_vblock_txt_132',
   // ]
-
    */
-//   const splitted = recordId.split('_')
-//   let qnt = parseInt(splitted.slice(-1))
-//   if (isNaN(qnt)) {
-//     return 0
-//   }
-//   qnt = qnt < 1001 ? qnt : 1000
-//   // console.log(qnt)
-//   const idBase = splitted.slice(0, -1).join('_')
-//   const result = []
-//   for (let i = 0; i < qnt; i++) {
-//     result.push(idBase.concat('_', i.toString().padStart(3, 0)))
-//   }
-//   return result
-// }
+  const splitted = recordId.split('_')
+  let qnt = parseInt(splitted.slice(-1))
+  if (isNaN(qnt)) {
+    return 0
+  }
+  qnt = qnt < 1001 ? qnt : 1000
+  // console.log(qnt)
+  const idBase = splitted.slice(0, -1).join('_')
+  const result = []
+  for (let i = 0; i < qnt; i++) {
+    result.push(idBase.concat('_', i.toString().padStart(3, 0)))
+  }
+  return result
+}
 
 /**
  * The function pouse something for given time. To be used in sagas.

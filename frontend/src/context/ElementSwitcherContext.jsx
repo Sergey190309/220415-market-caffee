@@ -4,5 +4,3 @@ export const ElementSwitcherContext = React.createContext()
 
 export const ElementSwitcherProvider = ElementSwitcherContext.Provider
 export const ElementSwitcherConsumer = ElementSwitcherContext.Consumer
-
-// export default ElementSwitcherContext

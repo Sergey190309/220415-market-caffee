@@ -1,10 +1,13 @@
 import React from 'react'
-import { useAppState, useAppEffect } from '../../../hooks/react'
+import { useAppState, useAppEffect, useAppContext } from '../../../hooks/react'
 import { useAppSelector } from '../../../hooks/reactRedux'
-import { ElementSwitcherProvider } from '../../../context/ElementSwitcherContext'
+import { ElementSwitcherProvider, LandingContext } from '../../../context'
 
 import PropTypes from 'prop-types'
-import { structureSelector } from '../../../redux/slices'
+import {
+  structureSelector,
+  // deviceSelector
+} from '../../../redux/slices'
 
 import ViewHeader from './ViewHeader'
 import ViewFooter from './ViewFooter'
@@ -22,12 +25,16 @@ export const getLoadedStructure = (viewName, structures) => {
   return value || {}
 }
 
-const ElementSwitcher = ({ viewName }) => {
+const ElementSwitcher = () => {
   const [viewStructure, setViewStructure] = useAppState({})
 
   const loadedStructures = useAppSelector(structureSelector)
+  // const { editable } = useAppSelector(deviceSelector)
+  const { componentName } = useAppContext(LandingContext)
+
+
   useAppEffect(() => {
-    const newStructure = getLoadedStructure(viewName, loadedStructures)
+    const newStructure = getLoadedStructure(componentName, loadedStructures)
     setViewStructure(newStructure)
   }, [loadedStructures])
 
@@ -35,7 +42,7 @@ const ElementSwitcher = ({ viewName }) => {
 
   // console.log('rendering, keys ->', keys)
 
-  const output = keys.map((key, index) => {
+  const Output = () => keys.map((key, index) => {
     const componentType = viewStructure[key].type
     const componentSubType = viewStructure[key].subtype ? viewStructure[key].subtype : null
     const subComponentQnt = viewStructure[key].qnt ? viewStructure[key].qnt : null
@@ -46,8 +53,8 @@ const ElementSwitcher = ({ viewName }) => {
       (subComponentQnt ? `_${subComponentQnt}` : '')
     let component
     const props = {
-      recordsId,
-      viewName
+      key,
+      recordsId
     }
     const value = {
       upperLevelElementId,
@@ -55,38 +62,52 @@ const ElementSwitcher = ({ viewName }) => {
     }
     switch (componentType) {
       case 'header':
-        component = <ViewHeader {...props} />
-        break
+        return <ViewHeader {...props} />
+      // component = <ViewHeader {...props} />
+      // break
       case 'footer':
-        component = <ViewFooter {...props} />
-        break
+        return <ViewFooter {...props} />
+      // component = <ViewFooter {...props} />
+      // break
       case 'hblock':
-        component = <ViewHBlock {...props} />
-        break
+        return <ViewHBlock {...props} />
+      // component = <ViewHBlock {...props} />
+      // break
       case 'vblock':
-        component = <ViewVBlock {...props} />
-        break
+        return <ViewVBlock {...props} />
+      // component = <ViewVBlock {...props} />
+      // break
       default:
-        component = <ViewNothing {...props} />
+        return <ViewNothing {...props} />
+      // component = <ViewNothing {...props} />
     }
-    return(
-      <ElementSwitcherProvider key={key} value={value}>
-        <Box
-          display='flex'
-        >
-          {component}
-        </Box>
-      </ElementSwitcherProvider>)
-    })
+  })
 
-  return output
+    // console.log('ElementSwitcher, key ->', key, '\n  value ->', value)
+  return (
+    // <ElementSwitcherProvider key={key} value={value}>
+      <Box
+        display='block'
+        // sx={editable && {
+        //   '&:hover': {
+        //     border: '1px solid red',
+        //     borderRadius: 2
+        //     // borderColor: 'red'
+        //   }
+        // }}
+      >
+        <Output />
+      </Box>
+    // </ElementSwitcherProvider>
+  )
 }
+
 
 ElementSwitcher.defaultProps = {
-  viewName: ''
+  // viewName: ''
 }
 ElementSwitcher.propTypes = {
-  viewName: PropTypes.string.isRequired
+  // viewName: PropTypes.string.isRequired
 }
 
 export default ElementSwitcher

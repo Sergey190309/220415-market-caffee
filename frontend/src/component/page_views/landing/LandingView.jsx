@@ -1,11 +1,11 @@
 import React from 'react'
 import { useAppState } from '../../../hooks/react'
 import { useAppSelector } from '../../../hooks/reactRedux'
-import { Box, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 // import PropTypes from 'prop-types'
 
 import { structureSelector } from '../../../redux/slices'
-import { LandingProvider } from '../../../context/LandingViewContext'
+import { LandingProvider } from '../../../context'
 import ElementSwitcher from '../page_elements/ElementSwitcher'
 
 import * as SZ from '../../../constants/sizes'
@@ -18,20 +18,19 @@ const LandingView = () => {
 
   return (
     loaded ?
-      <LandingProvider value={componentName}
+      <LandingProvider value={{componentName}}
         children={
           <Box
             className="animate__animated animate__fadeInDown"
             sx={{
               border: SZ.buttonsBorder, borderColor: 'text.disabled', borderRadius: 3,
-              display: 'flex',
+              display: 'block',
+              // display: 'flex',
               justifyContent: 'center',
               py: '.5rem',
             }}
           >
-            <div>
-              <ElementSwitcher viewName={componentName} />
-            </div>
+            <ElementSwitcher />
           </Box>
         }
       /> : null
