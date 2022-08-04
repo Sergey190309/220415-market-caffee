@@ -142,7 +142,7 @@ const OutPut = () => {
             }
           }}
           sx={{
-            // bgcolor: 'CL.bodyBackground',
+            // bgcolor: 'red',
             // color: 'red',
             width: SZ.drawerWidth,
             flexShrink: 0,

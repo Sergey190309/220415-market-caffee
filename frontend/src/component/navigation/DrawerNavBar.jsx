@@ -3,16 +3,16 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reactRedux'
 import PropTypes from 'prop-types'
 import { Divider, MenuList } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import {
+  FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutlined,
+  AdminPanelSettingsOutlined, LoginOutlined, LogoutOutlined
+} from '@mui/icons-material'
 
 import {
   // lngSelector,
   authSelector, setLogInVisibility, logOut, setEditable
 } from '../../redux/slices'
 import NavBarItem from './NavBarItem'
-import {
-  FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutlined,
-  AdminPanelSettingsOutlined, LoginOutlined, LogoutOutlined
-} from '@mui/icons-material'
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
 const DrawerNavBar = ({ closeDrawer }) => {
