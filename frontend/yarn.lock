@@ -8477,10 +8477,10 @@ react-transition-group@^4.4.2:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react-world-flags@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/react-world-flags/-/react-world-flags-1.5.0.tgz#008dbad5d41fa5583c84f92bae18012aba98e15c"
-  integrity sha512-WZ9WnPJbwAECu9uJkMIUHGNU9QbUZC45RIciFtV4tIKq4BVhlBmhEvTA9TTsjMEff2Vc7O3Rn1z+BYSKk4JQaQ==
+react-world-flags@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-world-flags/-/react-world-flags-1.5.1.tgz#9b4b3b6f18372114025e6a0922414d097bab60ea"
+  integrity sha512-42TjDVT/rgLvQ/DxmnxSeH5XCOkbBtrnlG/NDeUfwHAdNPUQ2wZxjK+lhPLiomtoGbK1zC3yuj7HDAtW0djZdA==
   dependencies:
     svg-country-flags "^1.2.10"
     svgo "^2.8.0"
