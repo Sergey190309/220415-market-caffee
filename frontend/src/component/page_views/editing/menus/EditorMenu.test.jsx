@@ -1,0 +1,5 @@
+describe('EditorMenu', () => {
+  test('dummy', () => {
+
+  });
+});

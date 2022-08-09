@@ -3,20 +3,20 @@ import { useAppDispatch, useAppSelector } from '../../hooks/reactRedux'
 import PropTypes from 'prop-types'
 import { Divider, MenuList } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-
-import {
-  // lngSelector,
-  authSelector, setLogInVisibility, logOut
-} from '../../redux/slices'
-import NavBarItem from './NavBarItem'
 import {
   FoodBankOutlined, PaidOutlined, InsertPhotoOutlined, InsertEmoticonOutlined,
   AdminPanelSettingsOutlined, LoginOutlined, LogoutOutlined
 } from '@mui/icons-material'
+
+import {
+  // lngSelector,
+  authSelector, setLogInVisibility, logOut, setEditable
+} from '../../redux/slices'
+import NavBarItem from './NavBarItem'
 import LogInOutButton from '../general_items/auth/LogInOutButton'
 
 const DrawerNavBar = ({ closeDrawer }) => {
-  const { t, i18n } = useTranslation('navbar')
+  const { t } = useTranslation('navbar')
 
   // const { lng } = useAppSelector(lngSelector)
   const { isLoggedIn, isAdmin } = useAppSelector(authSelector)
@@ -29,6 +29,8 @@ const DrawerNavBar = ({ closeDrawer }) => {
   // }
   const logInOutClickHandler = () => {
     if (isLoggedIn) {
+      // console.log('DrawerNavBar>logInOutClickHandler')
+      dispatch(setEditable(false))
       dispatch(logOut())
       closeDrawer()
     } else {

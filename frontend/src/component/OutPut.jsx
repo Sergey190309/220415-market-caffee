@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { useAppState, useAppRef } from '../hooks/react'
+import { useAppState, useAppEffect, useAppRef } from '../hooks/react'
+import { useAppSelector } from '../hooks/reactRedux'
 import { useAppNavigate } from '../hooks/reactRouterDom'
 
 import PropTypes from 'prop-types'
@@ -24,15 +25,33 @@ import PageContainer from './page_views/PageContainer'
 import DrawerNavBar from './navigation/DrawerNavBar'
 import Message from './general_items/notifications/Message'
 import { useOutsideClick } from '../hooks/useOutsideClick'
+import Greeting from './navigation/Greeting'
+import { lngSelector } from '../redux/slices'
+import i18next from 'i18next'
 
 const OutPut = () => {
   const [openedDrawer, setOpenedDrawer] = useAppState(false)
   const theme = useTheme()
-  const { t } = useTranslation('general')
+  const { t, i18n } = useTranslation('general')
+
+  const { lng } = useAppSelector(lngSelector)
+
+  const navigate = useAppNavigate()
+  const toLanding = () => { navigate('/') }
+
+  useAppEffect(() => {
+
+    if (lng !== i18n.language) {
+      i18next.changeLanguage(lng)
+    }
+
+  }, [])
+
 
   const setDrawerOpened = () => {
     setOpenedDrawer(true)
   }
+
   const setDrawerClosed = () => {
     setOpenedDrawer(false)
   }
@@ -45,10 +64,10 @@ const OutPut = () => {
       setDrawerClosed()
     }
   }
+
   useOutsideClick(drawerRef, outsideClickHandle)
 
-  const navigate = useAppNavigate()
-  const toLanding = () => { navigate('/') }
+  // console.log('OutPut, render, lng ->', lng, '\n  i18n.lng ->', i18n.language)
 
   return (
     <Box
@@ -84,6 +103,7 @@ const OutPut = () => {
           <Typography variant="h6" noWrap sx={{ flexGrow: 1, color: 'text.primary' }} component="div">
             {t('output.welcome')}
           </Typography>
+          <Greeting />
           <IconButton
             id='open-drawer-icon'
             data-testid='open-drawer-icon'
@@ -122,7 +142,7 @@ const OutPut = () => {
             }
           }}
           sx={{
-            // bgcolor: 'CL.bodyBackground',
+            // bgcolor: 'red',
             // color: 'red',
             width: SZ.drawerWidth,
             flexShrink: 0,
