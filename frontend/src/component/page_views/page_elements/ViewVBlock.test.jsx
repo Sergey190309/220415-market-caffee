@@ -1,0 +1,5 @@
+describe('ViewVBlock', () => {
+  test('dummy', () => {
+
+  })
+ })

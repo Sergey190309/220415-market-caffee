@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import { Routes, Route } from 'react-router-dom'
 import { Box } from '@mui/material'
 
@@ -24,7 +24,7 @@ const PageContainer = () => {
   )
 }
 
-PageContainer.defaultProps={}
+PageContainer.defaultProps = {}
 PageContainer.propTypes = {}
 
 export default PageContainer

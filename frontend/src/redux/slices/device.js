@@ -20,11 +20,11 @@ export const initialState = {
   /**
    * That is NavBar visibility
    */
-  isNavBarOpened: false,
+  isNavBarOpened: false, // not use now 2022-Jul-29 06:52
   /**
    * That's indicate possibiblity to edit views content by user.
    */
-  editable: true
+  editable: false
 }
 
 const deviceSlice = createSlice({

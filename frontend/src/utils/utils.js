@@ -1,27 +1,29 @@
 // import { reject } from 'lodash'
 import { v4 } from 'uuid'
-// import store from '../redux/store'
-// import {
-//   startAlert, openModal,
-//   // setMessage
-// } from '../redux/slices'
+import store from '../redux/store'
 
-// export const startAlertHelper = payload => {
-//   /**
-//    * Used for fire redux action out of react scope.
-//    * From content saga.
-//    */
-//   // console.log('startAlertHelper, payload ->', payload)
-//   store.dispatch(
-//     startAlert(
-//       setAlertData({
-//         message: payload,
-//         alertType: 'info',
-//         timeout: 5000
-//       })
-//     )
-//   )
-// }
+import {
+  startAlert,
+  // openModal,
+  // setMessage
+} from '../redux/slices'
+
+export const startAlertHelper = payload => {
+  /**
+   * Used for fire redux action out of react scope.
+   * From content saga.
+   */
+  // console.log('startAlertHelper, payload ->', payload)
+  store.dispatch(
+    startAlert(
+      setAlertData({
+        message: payload,
+        alertType: 'info',
+        timeout: 5000
+      })
+    )
+  )
+}
 
 // export const confirmPasswordHelper = (message, payload) => {
 //   /**
@@ -46,7 +48,7 @@ import { v4 } from 'uuid'
 //   return ids
 // }
 
-// export const makeRecordIdList = recordId => {
+export const makeRecordIdList = recordId => {
   /**
    * The function return recordId in the form '01_vblock_txt_133' return array as below
    * [
@@ -55,22 +57,21 @@ import { v4 } from 'uuid'
    *   ...
    *   '01_vblock_txt_132',
   // ]
-
    */
-//   const splitted = recordId.split('_')
-//   let qnt = parseInt(splitted.slice(-1))
-//   if (isNaN(qnt)) {
-//     return 0
-//   }
-//   qnt = qnt < 1001 ? qnt : 1000
-//   // console.log(qnt)
-//   const idBase = splitted.slice(0, -1).join('_')
-//   const result = []
-//   for (let i = 0; i < qnt; i++) {
-//     result.push(idBase.concat('_', i.toString().padStart(3, 0)))
-//   }
-//   return result
-// }
+  const splitted = recordId.split('_')
+  let qnt = parseInt(splitted.slice(-1))
+  if (isNaN(qnt)) {
+    return 0
+  }
+  qnt = qnt < 1001 ? qnt : 1000
+  // console.log(qnt)
+  const idBase = splitted.slice(0, -1).join('_')
+  const result = []
+  for (let i = 0; i < qnt; i++) {
+    result.push(idBase.concat('_', i.toString().padStart(3, 0)))
+  }
+  return result
+}
 
 /**
  * The function pouse something for given time. To be used in sagas.

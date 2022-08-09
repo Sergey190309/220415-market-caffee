@@ -1,4 +1,6 @@
 {
+  "editable": "Page's editable",
+  "greeting": "Hi,",
   "output": {
     "welcome": "You've welcome to our lovely coffee."
   }
