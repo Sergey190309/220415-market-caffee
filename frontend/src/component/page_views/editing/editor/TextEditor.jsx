@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Editor = props => {
+const TextEditor = props => {
   /**
    * Component render instead of edited element while editing.
    */
   return (
-    <div>Editor</div>
+    <div>TextEditor</div>
   )
 }
 
-Editor.defaultProps = {}
-Editor.propTypes = {}
+TextEditor.defaultProps = {}
+TextEditor.propTypes = {}
 
-export default Editor
+export default TextEditor

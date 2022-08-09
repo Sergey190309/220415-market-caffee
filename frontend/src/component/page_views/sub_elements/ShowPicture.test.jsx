@@ -1,4 +1,4 @@
-describe('Editor', () => {
+describe('ShowPicture', () => {
   test('dummy', () => {
 
   })

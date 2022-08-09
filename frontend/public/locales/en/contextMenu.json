@@ -1,6 +1,8 @@
 {
-    "addAbove": "Add higher element above",
-    "addBelow": "Add higher element below",
+    "addAbove": "Add element above",
+    "addBelow": "Add element below",
+    "addUpperAbove": "Add upper level element above",
+    "addUpperBelow": "Add upper level element below",
     "cancel": "Cancel",
     "editElement": "Edit element",
     "save": "Save"

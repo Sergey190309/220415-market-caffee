@@ -3,12 +3,15 @@ import { useAppEffect, useAppState } from '../../../../hooks/react'
 import PropTypes from 'prop-types'
 import { Menu } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { CancelOutlined, EditOutlined, NorthEastOutlined, SaveOutlined, SouthEastOutlined } from '@mui/icons-material'
+import {
+  CancelOutlined, EditOutlined, NorthEastOutlined, SaveOutlined,
+  SouthEastOutlined, KeyboardArrowUpOutlined, KeyboardArrowDownOutlined
+} from '@mui/icons-material'
 
 import ContextMenuItem from './ContextMenuItem'
 import * as CL from '../../../../constants/colors'
 
-const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler }) => {
+const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler, simpleElement }) => {
   /**
    * Offer
    * edit element -> switch to editor -> EditorMenu
@@ -20,12 +23,16 @@ const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler }) => {
   const [opened, setOpened] = useAppState(false)
 
   useAppEffect(() => {
-    setOpened(contextMenu!==null)
+    setOpened(contextMenu !== null)
   }, [contextMenu])
 
   const onEditElementHandler = () => {
     setOpened(false)
     console.log('onEditElementHandler')
+  }
+  const onAddElementHandler = (above) => {
+    setOpened(false)
+    console.log('onAddElementHandler')
   }
   const onAddUpperElementHandler = (above) => {
     setOpened(false)
@@ -40,6 +47,11 @@ const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler }) => {
     console.log('onCancelHandler')
   }
 
+  const onCloseHandler = () => {
+    setOpened(false)
+    contextMenuCloseHandler()
+  }
+
   const { t } = useTranslation('contextMenu')
 
   console.log('ContextMenu, contextMenu ->', contextMenu)
@@ -51,7 +63,7 @@ const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler }) => {
       anchorPosition={contextMenu !== null ? {
         top: contextMenu.mouseY, left: contextMenu.mouseX
       } : undefined}
-      onClose={contextMenuCloseHandler}
+      onClose={onCloseHandler}
       PaperProps={{
         sx: {
           bgcolor: CL.bodyBackground
@@ -64,12 +76,26 @@ const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler }) => {
         onClick={onEditElementHandler} />
       <ContextMenuItem
         title={t('addAbove')}
-        Icon={NorthEastOutlined}
-        onClick={() => { onAddUpperElementHandler(true) }} />
+        Icon={KeyboardArrowUpOutlined}
+        onClick={() => { onAddElementHandler(true) }} />
       <ContextMenuItem
         title={t('addBelow')}
-        Icon={SouthEastOutlined}
-        onClick={() => { onAddUpperElementHandler(false) }} />
+        Icon={KeyboardArrowDownOutlined}
+        onClick={() => { onAddElementHandler(false) }} />
+      {simpleElement ?
+        null
+        :
+        <div>
+          <ContextMenuItem
+            title={t('addUpperAbove')}
+            Icon={NorthEastOutlined}
+            onClick={() => { onAddUpperElementHandler(true) }} />
+          <ContextMenuItem
+            title={t('addUpperBelow')}
+            Icon={SouthEastOutlined}
+            onClick={() => { onAddUpperElementHandler(false) }} />
+        </div>
+      }
       <ContextMenuItem
         title={t('save')}
         Icon={SaveOutlined}
@@ -84,11 +110,13 @@ const ContextMenu = ({ contextMenu = {}, contextMenuCloseHandler }) => {
 
 ContextMenu.defaultProps = {
   contextMenu: {},
-  contextMenuCloseHandler: () => { }
+  contextMenuCloseHandler: () => { },
+  simpleElement: false
 }
 ContextMenu.propTypes = {
   contextMenu: PropTypes.object,
-  contextMenuCloseHandler: PropTypes.func.isRequired
+  contextMenuCloseHandler: PropTypes.func.isRequired,
+  simpleElement: PropTypes.bool.isRequired
 }
 
 export default ContextMenu
