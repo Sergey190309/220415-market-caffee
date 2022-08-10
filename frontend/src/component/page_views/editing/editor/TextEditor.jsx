@@ -1,19 +1,41 @@
 import React from 'react'
-import { useAppState } from '../../../../hooks/react'
+import { useAppState, useAppEffect } from '../../../../hooks/react'
 import PropTypes from 'prop-types'
-import { Box } from '@mui/material'
+import { Box, TextareaAutosize } from '@mui/material'
 
 import { deviceSelector } from '../../../../redux/slices'
 import { useAppSelector } from '../../../../hooks/reactRedux'
 import EditorMenu from '../menus/EditorMenu'
 
-const TextEditor = ({ setTextEdit }) => {
+const TextEditor = ({
+  contentToEdit, // content to show in editor
+  setParentContent, // set content on save
+  setTextEdit,  // set show/edit switcher
+  setParentEdited // set mark that text edited but not saved to backend
+}) => {
   /**
    * Component render instead of edited element while editing.
+   * Content is adapted for text area {str, str}
    */
+  const [content, setContent] = useAppState({ title: '' })
+  const [changed, setChanged] = useAppState(false)
   const [contextMenu, setContextMenu] = useAppState(null)
 
   const { editable } = useAppSelector(deviceSelector)
+
+  useAppEffect(() => {
+    const title = contentToEdit.title ? contentToEdit.title : ''
+    const content = contentToEdit.content.join('\n')
+    setContent({ title, content })
+  }, [contentToEdit])
+
+  const onChangeHandler = event => {
+    // console.log('TextEditor>onChangeHandler')
+    event.preventDefault()
+    // const _content = { ...content, [event.target.name]: event.target.value }
+    setChanged(true)
+    setContent({ ...content, [event.target.name]: event.target.value })
+  }
 
   const onContextMenuHandler = event => {
     // console.log('TextEditor>onContextMenuHandler')
@@ -26,6 +48,17 @@ const TextEditor = ({ setTextEdit }) => {
     }
   }
 
+  const onMenuSaveAction = () => {
+    // console.log('TextEditor>onMenuSaveAction')
+    setParentEdited(true)
+    setParentContent({
+      ...content,
+      content: content.content === ''
+        ? []
+        : content.content.split('\n')
+    })
+  }
+
   const contextMenuCloseHandler = () => {
     // console.log('ViewHeader, contextMenuCloseHandler')
     setContextMenu(null)
@@ -34,13 +67,26 @@ const TextEditor = ({ setTextEdit }) => {
 
   return (
     <Box
+      display='grid'
       onContextMenu={editable ? onContextMenuHandler : null}
     // sx={{}}
     >
-      TextEditor
+      <TextareaAutosize
+        name='title'
+        autoFocus
+        value={content.title}
+        onChange={onChangeHandler}
+      />
+      <TextareaAutosize
+        name='content'
+        value={content.content}
+        onChange={onChangeHandler}
+      />
       {contextMenu === null ? null :
         <EditorMenu
           contextMenu={editable ? contextMenu : null}
+          saveDisabled={!changed}
+          menuSaveAction={onMenuSaveAction}
           contextMenuCloseHandler={contextMenuCloseHandler}
           setTextEdit={setTextEdit}
         />}
@@ -49,10 +95,19 @@ const TextEditor = ({ setTextEdit }) => {
 }
 
 TextEditor.defaultProps = {
-  setTextEdit: () => { }
+  contentToEdit: {
+    title: '',
+    content: ['']
+  },
+  setParentContent: () => { },
+  setTextEdit: () => { },
+  setParentEdited: () => { },
 }
 TextEditor.propTypes = {
-  setTextEdit: PropTypes.func.isRequired
+  contentToEdit: PropTypes.object.isRequired,
+  setParentContent: PropTypes.func.isRequired,
+  setTextEdit: PropTypes.func.isRequired,
+  setParentEdited:PropTypes.func.isRequired
 }
 
 export default TextEditor

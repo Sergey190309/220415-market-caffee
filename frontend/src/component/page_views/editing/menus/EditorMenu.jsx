@@ -10,10 +10,10 @@ import { SaveOutlined, CancelOutlined, EditOutlined } from '@mui/icons-material'
 import ContextMenuItem from './ContextMenuItem'
 import * as CL from '../../../../constants/colors'
 
-const EditorMenu = ({ contextMenu = {}, contextMenuCloseHandler, setTextEdit }) => {
+const EditorMenu = ({ contextMenu = {}, saveDisabled, menuSaveAction, contextMenuCloseHandler, setTextEdit }) => {
   /**
    * Offer
-   * save
+   * save - could be disabled.
    * cancel
    * back to editing.
    */
@@ -29,16 +29,22 @@ const EditorMenu = ({ contextMenu = {}, contextMenuCloseHandler, setTextEdit }) 
 
 
   const onSaveHandler = () => {
-    console.log('EditorMenu>onSaveHandler recordParagraphId')
+    // console.log('EditorMenu>onSaveHandler recordParagraphId')
+    menuSaveAction()
+    contextMenuCloseHandler()
+    setTextEdit(false)
   }
+
   const onCancelHandler = () => {
     contextMenuCloseHandler()
     // console.log('EditorMenu>onCancelHandler')
     setTextEdit(false)
     // setEdited(false)
   }
+
   const onEditHandler = () => {
-    console.log('EditorMenu>onEditHandler')
+    contextMenuCloseHandler()
+    // console.log('EditorMenu>onEditHandler')
   }
 
   const onCloseHandler = () => {
@@ -61,6 +67,7 @@ const EditorMenu = ({ contextMenu = {}, contextMenuCloseHandler, setTextEdit }) 
       }}
     >
       <ContextMenuItem
+        disabled={saveDisabled}
         title={t('saveEdited')}
         Icon={SaveOutlined}
         onClick={onSaveHandler}
@@ -81,11 +88,15 @@ const EditorMenu = ({ contextMenu = {}, contextMenuCloseHandler, setTextEdit }) 
 
 EditorMenu.defaultProps = {
   contextMenu: {},
+  saveDisabled: false,
+  menuSaveAction: () => { },
   contextMenuCloseHandler: () => { },
   setTextEdit: () => { }
 }
 EditorMenu.propTypes = {
   contextMenu: PropTypes.object.isRequired,
+  saveDisabled: PropTypes.bool.isRequired,
+  menuSaveAction:PropTypes.func.isRequired,
   contextMenuCloseHandler: PropTypes.func.isRequired,
   setTextEdit: PropTypes.func.isRequired
 }

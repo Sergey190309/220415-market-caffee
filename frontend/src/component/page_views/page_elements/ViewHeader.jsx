@@ -20,6 +20,7 @@ const ViewHeader = ({ recordsId, initialState }) => {
   // const [tooltipVisible, setTooltipVisible] = useAppState(false)
   const [state, sagaDispatch] = useSaga(getContentSaga, initialState)
   const [content, setContent] = useAppState(initialState)
+  const [editing, setEditing] = useAppState(false)
   const [edited, setEdited] = useAppState(false)
 
   const { componentName } = useAppContext(LandingContext)
@@ -42,16 +43,20 @@ const ViewHeader = ({ recordsId, initialState }) => {
 
   return (
     <>
-      {edited ?
+      {editing ?
         <TextEditor
-          setTextEdit={setEdited}
+          contentToEdit={content}
+          setParentContent={setContent}
+          setTextEdit={setEditing}
+          setParentEdited={setEdited}
         />
         :
         <ShowText
           contentToShow={content}
           recordId={recordsId}
           textType={HEADER}
-          setTextEdit={setEdited}
+          setTextEdit={setEditing}
+          parentEdited={edited}
         />
       }
     </>

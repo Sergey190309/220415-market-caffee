@@ -13,19 +13,20 @@ import ContextMenu from '../editing/menus/ContextMenu'
 import * as SZ from '../../../constants/sizes'
 import * as CL from '../../../constants/colors'
 
-const ShowText = ({ contentToShow, recordId, textType, initContent, setTextEdit }) => {
+const ShowText = ({
+  contentToShow, // {title: '', content: ['']}
+  recordId, // shown on hover when application hs been editable.
+  textType, // HEADER | PARAGRAPH | FOOTER
+  setTextEdit,  // Show/edit text switcher.
+  parentEdited // bool weather parent edited but not saved to backend.
+}) => {
   /**
-   * Component shows text title and content according textKind.
-   * recordId - shown on hover when application hs been editable.
-   * textKind could be:
-   * HEADER
-   * PARAGRAPH
-   * FOOTER
-   * content - what to be shown {title: , content:}
+   * Component shows text title and content according textType.
+   * content - what to be shown {title: '', content: ['']}
    * textStyling - how to show content {}
    *
    */
-  const [content, setContent] = useAppState(initContent)
+  const [content, setContent] = useAppState({ title: '', content: [''] })
   const [textStyling, setTextStyling] = useAppState({})
   const [tooltipVisible, setTooltipVisible] = useAppState(false)
   const [contextMenu, setContextMenu] = useAppState(null)
@@ -101,7 +102,10 @@ const ShowText = ({ contentToShow, recordId, textType, initContent, setTextEdit 
     >
       <Box
         onContextMenu={editable ? onContextMenuHandler : null}
-        sx={textStyling.boxStyle}
+        sx={{
+          ...textStyling.boxStyle,
+          bgcolor: parentEdited? CL.attention: null
+        }}
       >
         <Grid item>
           <Typography variant={textStyling.titleVariant}>
@@ -136,18 +140,15 @@ ShowText.defaultProps = {
   },
   recordId: '',
   textType: PARAGRAPH,
-  initContent: {
-    title: '',
-    content: ['']
-  },
-  setTextEdit: () => { }
+  setTextEdit: () => { },
+  parentEdited: false
 }
 ShowText.propTypes = {
   contentToShow: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
   textType: PropTypes.string.isRequired,
-  initContent: PropTypes.object.isRequired,
-  setTextEdit: PropTypes.func.isRequired
+  setTextEdit: PropTypes.func.isRequired,
+  parentEdited:PropTypes.bool.isRequired
 }
 
 export default ShowText

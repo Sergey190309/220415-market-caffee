@@ -19,10 +19,12 @@ const ViewParagraph = ({ recordId, initialState }) => {
   *    using getContentSaga.
   * content: object - Content itself shown on the component.
   *    Updated with useEffect.
-  * edited: TextEditor
+  * editting: switch show / edit.
+  * edited: mark that parargaph edited but not save to backend.
   */
   const [state, getSagaDispatch] = useSaga(getContentSaga, initialState)
-  const [content, setContent] = useAppState(initialState)
+  const [content, setContent] = useAppState({ title: '', content: [''] })
+  const [editing, setEditing] = useAppState(false)
   const [edited, setEdited] = useAppState(false)
 
   const { componentName } = useAppContext(LandingContext)
@@ -41,19 +43,23 @@ const ViewParagraph = ({ recordId, initialState }) => {
     setContent(state)
   }, [state])
 
-
+  // console.log('ViewParagrapn, render, edited ->', edited)
   return (
     <>
-      {edited ?
+      {editing ?
         <TextEditor
-          setTextEdit={setEdited}
+          contentToEdit={content}
+          setParentContent={setContent}
+          setTextEdit={setEditing}
+          setParentEdited={setEdited}
         />
         :
         <ShowText
           contentToShow={content}
           recordId={recordId}
           textType={PARAGRAPH}
-          setTextEdit={setEdited}
+          setTextEdit={setEditing}
+          parentEdited={edited}
         />
       }
     </>
