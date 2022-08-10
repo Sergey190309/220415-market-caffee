@@ -11,6 +11,18 @@ export {
 } from './ElementSwitcherContext'
 
 // export {
+//   ViewParagraphContext,
+//   ViewParagraphProvider,
+//   ViewParagraphConsumer
+// } from './ViewParagraphContext'
+
+// export {
+//   ViewHeaderContext,
+//   ViewHeaderProvider,
+//   ViewHeaderConsumer
+// } from './ViewHeaderContext'
+
+// export {
 //   ViewVBlockContext,
 //   ViewVBlockProvider,
 //   ViewVBlockConsumer

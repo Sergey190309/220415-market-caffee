@@ -4,13 +4,16 @@ import { useAppSelector } from '../../../hooks/reactRedux'
 import PropTypes from 'prop-types'
 import { Box, Divider, Grid, Tooltip, Typography } from '@mui/material'
 
-import { HEADER, PARAGRAPH, FOOTER } from '../../../constants/textTypes'
+import {
+  HEADER, PARAGRAPH,
+  // FOOTER
+} from '../../../constants/textTypes'
 import { deviceSelector } from '../../../redux/slices'
 import ContextMenu from '../editing/menus/ContextMenu'
 import * as SZ from '../../../constants/sizes'
 import * as CL from '../../../constants/colors'
 
-const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
+const ShowText = ({ contentToShow, recordId, textType, initContent, setTextEdit }) => {
   /**
    * Component shows text title and content according textKind.
    * recordId - shown on hover when application hs been editable.
@@ -18,6 +21,9 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
    * HEADER
    * PARAGRAPH
    * FOOTER
+   * content - what to be shown {title: , content:}
+   * textStyling - how to show content {}
+   *
    */
   const [content, setContent] = useAppState(initContent)
   const [textStyling, setTextStyling] = useAppState({})
@@ -27,7 +33,7 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
   const { editable } = useAppSelector(deviceSelector)
 
   useAppEffect(() => {
-  setContent(contentToShow)
+    setContent(contentToShow)
   }, [contentToShow])
 
   useAppEffect(() => {
@@ -50,7 +56,7 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
             }
           }
         })
-        break;
+        break
       default: // PARAGRAPH
         setTextStyling({
           titleVariant: 'h6',
@@ -71,6 +77,7 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
 
 
   const onContextMenuHandler = event => {
+    // console.log('ShowText>onContextMenyHandler')
     event.preventDefault()
     if (editable) {
       setContextMenu({
@@ -111,13 +118,13 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
             </Typography>
           ))}
         </Grid>
-        {contextMenu !== null ?
+        {contextMenu === null ? null :
           <ContextMenu
             contextMenu={editable ? contextMenu : null}
             contextMenuCloseHandler={contextMenuCloseHandler}
             simpleElement={textStyling.simpleElement}
-          />
-          : null}
+            setTextEdit={setTextEdit}
+          />}
       </Box>
     </Tooltip>
   )
@@ -132,13 +139,15 @@ ShowText.defaultProps = {
   initContent: {
     title: '',
     content: ['']
-  }
+  },
+  setTextEdit: () => { }
 }
 ShowText.propTypes = {
   contentToShow: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
   textType: PropTypes.string.isRequired,
-  initContent: PropTypes.object.isRequired
+  initContent: PropTypes.object.isRequired,
+  setTextEdit: PropTypes.func.isRequired
 }
 
 export default ShowText
