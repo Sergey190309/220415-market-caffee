@@ -21,7 +21,7 @@ const LandingView = () => {
       <LandingProvider value={{componentName}}
         children={
           <Box
-            className="animate__animated animate__fadeInDown"
+            // className="animate__animated animate__fadeInDown"
             sx={{
               border: SZ.buttonsBorder, borderColor: 'text.disabled', borderRadius: 3,
               display: 'block',

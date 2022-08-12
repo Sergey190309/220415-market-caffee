@@ -1,19 +1,14 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { useAppState, useAppEffect, useAppContext } from '../../../hooks/react'
-import { useAppSelector } from '../../../hooks/reactRedux'
 import PropTypes from 'prop-types'
-import { Box, Grid, Tooltip, Typography } from '@mui/material'
 
-import { deviceSelector } from '../../../redux/slices'
 import { CONTENT_REQUESTED } from '../../../redux/constants/types'
-import { HEADER } from '../../../constants/textTypes'
-import { LandingContext } from '../../../context/LandingViewContext'
+import { HEADER } from '../../../constants/elementTypes'
 import { useSaga } from '../../../redux/contentSaga/createIO'
 import { getContentSaga } from '../../../redux/contentSaga/content'
-import ContextMenu from '../editing/menus/ContextMenu'
-import * as CL from '../../../constants/colors'
-import * as SZ from '../../../constants/sizes'
+import { LandingContext } from '../../../context'
 import ShowText from '../sub_elements/ShowText'
+const TextEditor = lazy(()=>import('../editing/editor/TextEditor'))
 
 const ViewHeader = ({ recordsId, initialState }) => {
   /**
@@ -25,12 +20,10 @@ const ViewHeader = ({ recordsId, initialState }) => {
   // const [tooltipVisible, setTooltipVisible] = useAppState(false)
   const [state, sagaDispatch] = useSaga(getContentSaga, initialState)
   const [content, setContent] = useAppState(initialState)
-  // const viewName = useAppContext(LandingContext)
+  const [editing, setEditing] = useAppState(false)
+  const [edited, setEdited] = useAppState(false)
 
-  // const { editable } = useAppSelector(deviceSelector)
   const { componentName } = useAppContext(LandingContext)
-
-  // console.log('ViewHeader, componentName ->', componentName)
 
   useAppEffect(() => {
     sagaDispatch({
@@ -43,62 +36,35 @@ const ViewHeader = ({ recordsId, initialState }) => {
   }, [])
 
   useAppEffect(() => {
-    console.log('ViewHeader>useEffect[state], state ->', state)
     const tempState = { title: state.title, content: [state.content] }
-    console.log('  tempState ->', tempState)
+    // console.log('  tempState ->', tempState)
     setContent(tempState)
   }, [state])
 
   return (
-    <ShowText
-      contentToShow={content}
-      recordId={recordsId}
-      textType={HEADER}
-    />
-    // <Tooltip
-    //   title={recordsId} placement='top' followCursor arrow
-    //   open={tooltipVisible}
-    //   onOpen={() => { setTooltipVisible(editable && true) }}
-    //   onClose={() => { setTooltipVisible(false) }}
-    // >
-    //   <Box
-    //     onContextMenu={editable ? onContextMenuHandler : null}
-    //     sx={{
-    //       display: 'grid',
-    //       p: '2rem',
-    //       m: '.5rem',
-    //       '&:hover': editable && {
-    //         border: SZ.blockBorder,
-    //         borderColor: CL.attention,
-    //         borderRadius: 3
-    //       }
-    //     }}
-    //   >
-    //     <Grid item>
-    //       <Typography align='center' variant='h4'>
-    //         {state.title}
-    //       </Typography>
-    //     </Grid>
-    //     <Grid item>
-    //       <Typography variant='body1'>
-    //         {state.content}
-    //       </Typography>
-    //     </Grid>
-    //     {contextMenu !== null ?
-    //       <ContextMenu
-    //         contextMenu={editable ? contextMenu : null}
-    //         contextMenuCloseHandler={contextMenuCloseHandler}
-    //         simpleElement={true}
-    //       />
-    //       : null}
-    //   </Box>
-    // </Tooltip>
+    <>
+      {editing ?
+        <TextEditor
+          contentToEdit={content}
+          setParentContent={setContent}
+          setTextEdit={setEditing}
+          setParentEdited={setEdited}
+        />
+        :
+        <ShowText
+          contentToShow={content}
+          recordId={recordsId}
+          textType={HEADER}
+          setTextEdit={setEditing}
+          parentEdited={edited}
+        />
+      }
+    </>
   )
 }
 
 ViewHeader.defaultProps = {
   recordsId: '',
-  viewName: '',
   initialState: {
     title: '',
     content: ['']
@@ -106,7 +72,6 @@ ViewHeader.defaultProps = {
 }
 ViewHeader.propTypes = {
   recordsId: PropTypes.string.isRequired,
-  viewName: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired
 }
 

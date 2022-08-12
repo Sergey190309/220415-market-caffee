@@ -7,18 +7,25 @@ import { useSaga } from '../../../redux/contentSaga/createIO'
 import { getContentSaga } from '../../../redux/contentSaga/content'
 import { LandingContext } from '../../../context'
 import ShowText from '../sub_elements/ShowText'
+import TextEditor from '../editing/editor/TextEditor'
+import { PARAGRAPH } from '../../../constants/elementTypes'
 // import ShowText from '../sub_elements/ShowText'
 
 const ViewParagraph = ({ recordId, initialState }) => {
   /**
+  * Component either ShowText or TextEditor
   * States:
   * state: object - Paragraph content loaded from back-end
   *    using getContentSaga.
   * content: object - Content itself shown on the component.
   *    Updated with useEffect.
+  * editting: switch show / edit.
+  * edited: mark that parargaph edited but not save to backend.
   */
   const [state, getSagaDispatch] = useSaga(getContentSaga, initialState)
-  const [content, setContent] = useAppState(initialState)
+  const [content, setContent] = useAppState({ title: '', content: [''] })
+  const [editing, setEditing] = useAppState(false)
+  const [edited, setEdited] = useAppState(false)
 
   const { componentName } = useAppContext(LandingContext)
 
@@ -36,12 +43,26 @@ const ViewParagraph = ({ recordId, initialState }) => {
     setContent(state)
   }, [state])
 
-
+  // console.log('ViewParagrapn, render, edited ->', edited)
   return (
-    <ShowText
-      contentToShow={content}
-      recordId={recordId}
-    />
+    <>
+      {editing ?
+        <TextEditor
+          contentToEdit={content}
+          setParentContent={setContent}
+          setTextEdit={setEditing}
+          setParentEdited={setEdited}
+        />
+        :
+        <ShowText
+          contentToShow={content}
+          recordId={recordId}
+          textType={PARAGRAPH}
+          setTextEdit={setEditing}
+          parentEdited={edited}
+        />
+      }
+    </>
   )
 }
 

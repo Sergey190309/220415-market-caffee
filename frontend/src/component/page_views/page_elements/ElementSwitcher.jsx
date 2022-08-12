@@ -1,20 +1,21 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { useAppState, useAppEffect, useAppContext } from '../../../hooks/react'
 import { useAppSelector } from '../../../hooks/reactRedux'
-import { ElementSwitcherProvider, LandingContext } from '../../../context'
+// import PropTypes from 'prop-types'
+import { Box } from '@mui/material'
 
-import PropTypes from 'prop-types'
+import { LandingContext } from '../../../context'
+
 import {
   structureSelector,
   // deviceSelector
 } from '../../../redux/slices'
 
-import ViewHeader from './ViewHeader'
-import ViewFooter from './ViewFooter'
-import ViewVBlock from './ViewVBlock'
-import ViewHBlock from './ViewHBlock'
-import ViewNothing from './ViewNothing'
-import { Box } from '@mui/material'
+const ViewHeader = lazy(() => import('./ViewHeader'))
+const ViewFooter = lazy(() => import('./ViewFooter'))
+const ViewVBlock = lazy(() => import('./ViewVBlock'))
+const ViewHBlock = lazy(() => import('./ViewHBlock'))
+const ViewNothing = lazy(() => import('./ViewNothing'))
 
 export const getLoadedStructure = (viewName, structures) => {
   /**
@@ -51,15 +52,15 @@ const ElementSwitcher = () => {
       (componentSubType ? `_${componentSubType}` : '')
     const recordsId = upperLevelElementId +
       (subComponentQnt ? `_${subComponentQnt}` : '')
-    let component
+    // let component
     const props = {
       key,
       recordsId
     }
-    const value = {
-      upperLevelElementId,
-      recordsId
-    }
+    // const value = {
+    //   upperLevelElementId,
+    //   recordsId
+    // }
     switch (componentType) {
       case 'header':
         return <ViewHeader {...props} />
@@ -102,12 +103,7 @@ const ElementSwitcher = () => {
   )
 }
 
-
-ElementSwitcher.defaultProps = {
-  // viewName: ''
-}
-ElementSwitcher.propTypes = {
-  // viewName: PropTypes.string.isRequired
-}
+ElementSwitcher.defaultProps = {}
+ElementSwitcher.propTypes = {}
 
 export default ElementSwitcher

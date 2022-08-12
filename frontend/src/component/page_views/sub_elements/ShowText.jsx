@@ -1,33 +1,43 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { useAppState, useAppEffect } from '../../../hooks/react'
 import { useAppSelector } from '../../../hooks/reactRedux'
 import PropTypes from 'prop-types'
 import { Box, Divider, Grid, Tooltip, Typography } from '@mui/material'
 
-import { HEADER, PARAGRAPH, FOOTER } from '../../../constants/textTypes'
+import {
+  HEADER, PARAGRAPH,
+  // FOOTER
+} from '../../../constants/elementTypes'
 import { deviceSelector } from '../../../redux/slices'
-import ContextMenu from '../editing/menus/ContextMenu'
 import * as SZ from '../../../constants/sizes'
 import * as CL from '../../../constants/colors'
+// import ContextMenu from '../editing/menus/ContextMenu'
+const ContextMenu = lazy(() => import('../editing/menus/ContextMenu'))
+const UpperLevelMenu = lazy(() => import('../editing/menus/UpperLevelMenu'))
 
-const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
+const ShowText = ({
+  contentToShow, // {title: '', content: ['']}
+  recordId, // shown on hover when application hs been editable.
+  textType, // HEADER | PARAGRAPH | FOOTER
+  setTextEdit,  // Show/edit text switcher.
+  parentEdited // bool weather parent edited but not saved to backend.
+}) => {
   /**
-   * Component shows text title and content according textKind.
-   * recordId - shown on hover when application hs been editable.
-   * textKind could be:
-   * HEADER
-   * PARAGRAPH
-   * FOOTER
+   * Component shows text title and content according textType.
+   * content - what to be shown {title: '', content: ['']}
+   * textStyling - how to show content {}
+   *
    */
-  const [content, setContent] = useAppState(initContent)
+  const [content, setContent] = useAppState({ title: '', content: [''] })
   const [textStyling, setTextStyling] = useAppState({})
   const [tooltipVisible, setTooltipVisible] = useAppState(false)
   const [contextMenu, setContextMenu] = useAppState(null)
+  // const [upperLevelMenu, setUpperLevelMenu] = useAppState(null)
 
   const { editable } = useAppSelector(deviceSelector)
 
   useAppEffect(() => {
-  setContent(contentToShow)
+    setContent(contentToShow)
   }, [contentToShow])
 
   useAppEffect(() => {
@@ -46,11 +56,11 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
             '&:hover': editable && {
               border: SZ.blockBorder,
               borderColor: CL.attention,
-              borderRadius: 3
+              borderRadius: SZ.blockBorderRadius
             }
           }
         })
-        break;
+        break
       default: // PARAGRAPH
         setTextStyling({
           titleVariant: 'h6',
@@ -58,7 +68,9 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
           divider: true,
           simpleElement: false,
           boxStyle: {
-            border: SZ.blockBorder, borderColor: 'text.disabled', borderRadius: 3,
+            border: SZ.blockBorder,
+            borderColor: 'text.disabled',
+            borderRadius: SZ.blockBorderRadius,
             m: '.25rem',
             p: '.5rem',
             '&:hover': editable && {
@@ -71,6 +83,7 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
 
 
   const onContextMenuHandler = event => {
+    // console.log('ShowText>onContextMenyHandler')
     event.preventDefault()
     if (editable) {
       setContextMenu({
@@ -81,10 +94,16 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
   }
 
   const contextMenuCloseHandler = () => {
-    console.log('ViewHeader, contextMenuCloseHandler')
+    // console.log('ShowText, contextMenuCloseHandler')
     setContextMenu(null)
   }
 
+  // const upperLevelMenuCloseHandler = () => {
+  //   console.log('ShowText, upperLevelMenuCloseHandler')
+  //   setUpperLevelMenu(null)
+  // }
+
+  // console.log('ShowText, render, upperLevelMenu ->', upperLevelMenu)
   return (
     <Tooltip
       title={recordId} placement='top' followCursor arrow
@@ -94,7 +113,10 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
     >
       <Box
         onContextMenu={editable ? onContextMenuHandler : null}
-        sx={textStyling.boxStyle}
+        sx={{
+          ...textStyling.boxStyle,
+          bgcolor: parentEdited ? CL.attention : null
+        }}
       >
         <Grid item>
           <Typography variant={textStyling.titleVariant}>
@@ -106,18 +128,23 @@ const ShowText = ({ contentToShow, recordId, textType, initContent }) => {
             ? <Divider />
             : null}
           {content.content.map((item, index) => (
-            <Typography key={index} variant={textStyling.contentVariant}>
+            <Typography key={index} variant={textStyling.contentVariant}
+              sx={{
+                my: '.5rem'
+              }}
+            >
               {item}
             </Typography>
           ))}
         </Grid>
-        {contextMenu !== null ?
+        {contextMenu === null ? null :
           <ContextMenu
             contextMenu={editable ? contextMenu : null}
             contextMenuCloseHandler={contextMenuCloseHandler}
             simpleElement={textStyling.simpleElement}
+            setTextEdit={setTextEdit}
           />
-          : null}
+        }
       </Box>
     </Tooltip>
   )
@@ -129,16 +156,15 @@ ShowText.defaultProps = {
   },
   recordId: '',
   textType: PARAGRAPH,
-  initContent: {
-    title: '',
-    content: ['']
-  }
+  setTextEdit: () => { },
+  parentEdited: false
 }
 ShowText.propTypes = {
   contentToShow: PropTypes.object.isRequired,
   recordId: PropTypes.string.isRequired,
   textType: PropTypes.string.isRequired,
-  initContent: PropTypes.object.isRequired
+  setTextEdit: PropTypes.func.isRequired,
+  parentEdited: PropTypes.bool.isRequired
 }
 
 export default ShowText
