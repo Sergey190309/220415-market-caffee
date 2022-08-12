@@ -8,7 +8,7 @@ import { getContentSaga } from '../../../redux/contentSaga/content'
 import { LandingContext } from '../../../context'
 import ShowText from '../sub_elements/ShowText'
 import TextEditor from '../editing/editor/TextEditor'
-import { PARAGRAPH } from '../../../constants/textTypes'
+import { PARAGRAPH } from '../../../constants/elementTypes'
 // import ShowText from '../sub_elements/ShowText'
 
 const ViewParagraph = ({ recordId, initialState }) => {

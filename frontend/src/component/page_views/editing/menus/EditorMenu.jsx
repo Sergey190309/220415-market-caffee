@@ -18,7 +18,7 @@ const EditorMenu = ({ contextMenu = {}, saveDisabled, menuSaveAction, contextMen
    * back to editing.
    */
   const [opened, setOpened] = useAppState(false)
-  const { t } = useTranslation('contextMenu')
+  const { t } = useTranslation('menus')
 
   // const { recordId: recordParagraphId, setEdited } = useAppContext(ViewParagraphContext)
   // const { recordId: recordHeaderId, setEdited } = useAppContext(ViewHeaderContext)
@@ -52,6 +52,8 @@ const EditorMenu = ({ contextMenu = {}, saveDisabled, menuSaveAction, contextMen
     contextMenuCloseHandler()
   }
 
+  // console.log('EditorMenu, render, contextMenu ->', contextMenu)
+
   return (
     <Menu
       open={opened}
@@ -66,19 +68,20 @@ const EditorMenu = ({ contextMenu = {}, saveDisabled, menuSaveAction, contextMen
         }
       }}
     >
+      {/* <h1>Something</h1> */}
       <ContextMenuItem
         disabled={saveDisabled}
-        title={t('saveEdited')}
+        title={t('editorMenu.saveEdited')}
         Icon={SaveOutlined}
         onClick={onSaveHandler}
       />
       <ContextMenuItem
-        title={t('cancelEdited')}
+        title={t('editorMenu.cancelEdited')}
         Icon={CancelOutlined}
         onClick={onCancelHandler}
       />
       <ContextMenuItem
-        title={t('backEditing')}
+        title={t('editorMenu.backEditing')}
         Icon={EditOutlined}
         onClick={onEditHandler}
       />

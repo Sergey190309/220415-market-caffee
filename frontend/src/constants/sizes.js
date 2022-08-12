@@ -13,3 +13,4 @@ export const languageSwitcher = 16
  */
 export const buttonsBorder = 2
 export const blockBorder = 1
+export const blockBorderRadius = 3

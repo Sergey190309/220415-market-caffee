@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { useAppState, useAppEffect } from '../../../../hooks/react'
 import PropTypes from 'prop-types'
-import { Box, TextareaAutosize } from '@mui/material'
+import { Box, TextareaAutosize, Typography } from '@mui/material'
 
 import { deviceSelector } from '../../../../redux/slices'
 import { useAppSelector } from '../../../../hooks/reactRedux'
-import EditorMenu from '../menus/EditorMenu'
+// import EditorMenu from '../menus/EditorMenu'
+import * as SZ from '../../../../constants/sizes'
+import * as CL from '../../../../constants/colors'
+const EditorMenu=lazy(()=>import('../menus/EditorMenu'))
 
 const TextEditor = ({
   contentToEdit, // content to show in editor
@@ -38,7 +41,7 @@ const TextEditor = ({
   }
 
   const onContextMenuHandler = event => {
-    // console.log('TextEditor>onContextMenuHandler')
+    // console.log('TextEditor>onContextMenuHandler, event ->', event)
     event.preventDefault()
     if (editable) {
       setContextMenu({
@@ -69,7 +72,14 @@ const TextEditor = ({
     <Box
       display='grid'
       onContextMenu={editable ? onContextMenuHandler : null}
-    // sx={{}}
+      sx={{
+        border: SZ.blockBorder,
+        borderColor: CL.attention,
+        borderRadius: SZ.blockBorderRadius,
+        m: '.25rem',
+        p: '.5rem'
+
+      }}
     >
       <TextareaAutosize
         name='title'
@@ -107,7 +117,7 @@ TextEditor.propTypes = {
   contentToEdit: PropTypes.object.isRequired,
   setParentContent: PropTypes.func.isRequired,
   setTextEdit: PropTypes.func.isRequired,
-  setParentEdited:PropTypes.func.isRequired
+  setParentEdited: PropTypes.func.isRequired
 }
 
 export default TextEditor

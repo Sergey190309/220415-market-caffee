@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { useAppState, useAppEffect, useAppContext } from '../../../hooks/react'
 import PropTypes from 'prop-types'
 
 import { CONTENT_REQUESTED } from '../../../redux/constants/types'
-import { HEADER } from '../../../constants/textTypes'
+import { HEADER } from '../../../constants/elementTypes'
 import { useSaga } from '../../../redux/contentSaga/createIO'
 import { getContentSaga } from '../../../redux/contentSaga/content'
 import { LandingContext } from '../../../context'
 import ShowText from '../sub_elements/ShowText'
-import TextEditor from '../editing/editor/TextEditor'
+const TextEditor = lazy(()=>import('../editing/editor/TextEditor'))
 
 const ViewHeader = ({ recordsId, initialState }) => {
   /**

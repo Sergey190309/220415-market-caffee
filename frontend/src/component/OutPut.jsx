@@ -22,12 +22,16 @@ import * as CL from '../constants/colors'
 
 import LanguageSwitcher from './general_items/language/LanguageSwitcher'
 import PageContainer from './page_views/PageContainer'
-import DrawerNavBar from './navigation/DrawerNavBar'
-import Message from './general_items/notifications/Message'
+// import DrawerNavBar from './navigation/DrawerNavBar'
+// import Message from './general_items/notifications/Message'
 import { useOutsideClick } from '../hooks/useOutsideClick'
 import Greeting from './navigation/Greeting'
 import { lngSelector } from '../redux/slices'
 import i18next from 'i18next'
+
+const DrawerNavBar = React.lazy(() => import('./navigation/DrawerNavBar'))
+const Message = React.lazy(() => import('./general_items/notifications/Message'))
+
 
 const OutPut = () => {
   const [openedDrawer, setOpenedDrawer] = useAppState(false)

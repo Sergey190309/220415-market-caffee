@@ -1,11 +1,11 @@
 import React from 'react'
 import { useAppState, useAppEffect } from '../../../hooks/react'
-import { useAppSelector } from '../../../hooks/reactRedux'
+// import { useAppSelector } from '../../../hooks/reactRedux'
 import { Box } from '@mui/system'
 import PropTypes from 'prop-types'
 
 import { makeRecordIdList } from '../../../utils/utils'
-import { deviceSelector } from '../../../redux/slices'
+// import { deviceSelector } from '../../../redux/slices'
 import ViewParagraph from './ViewParagraph'
 import ViewPicture from './ViewPicture'
 import ViewNothing from './ViewNothing'
@@ -25,7 +25,7 @@ const ViewVBlock = ({ recordsId }) => {
   * recordIdList - list of identities in content table.
   */
 
-  const { editable } = useAppSelector(deviceSelector)
+  // const { editable } = useAppSelector(deviceSelector)
 
   useAppEffect(() => {
     const newRecordIdList = makeRecordIdList(recordsId)
@@ -68,11 +68,13 @@ const ViewVBlock = ({ recordsId }) => {
     <Box
       data-testid='output'
       sx={{
-        border: SZ.blockBorder, borderColor: CL.MUI_text_disabled, borderRadius: 3,
+        border: SZ.blockBorder,
+        borderColor: CL.MUI_text_disabled,
+        borderRadius: SZ.blockBorderRadius,
         m: '.5rem',
-        '&:hover': editable && {
-          borderColor: CL.attention
-        }
+        // '&:hover': editable && {
+        //   borderColor: CL.attention
+        // }
       }}
     >
       <Output />

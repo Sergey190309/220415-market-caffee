@@ -1,0 +1,32 @@
+{
+    "contextMenu": {
+        "addAbove": "Add element above",
+        "addBelow": "Add element below",
+        "cancel": "Cancel",
+        "deleteElement": "Delete element",
+        "editElement": "Edit element",
+        "handleUpperLevelElement": "Handle upper level element",
+        "save": "Save everything to backend"
+    },
+    "editorMenu": {
+        "backEditing": "Continue editing",
+        "cancelEdited": "Cancel edited",
+        "saveEdited": "Save edited"
+    },
+    "upperLevelMenu": {
+        "addAbove": "Add upper level element above",
+        "addBelow": "Add upper level element below",
+        "cancel": "Cancel upper level element handling",
+        "delete": "Delete upper level element"
+    },
+    "upperLevelSubType": {
+        "pix": "Block would contain picture",
+        "txt": "Block would contain text"
+    },
+    "upperLevelType": {
+        "footer": "Add footer type element",
+        "hblock": "Add horizontal block type element",
+        "header": "Add header type element",
+        "vblock": "Add vertical block type element"
+    }
+}
