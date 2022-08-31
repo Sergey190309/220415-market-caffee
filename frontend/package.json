@@ -7,8 +7,8 @@
     "@emotion/styled": "^11.10.0",
     "@fontsource/roboto": "^4.5.8",
     "@mui/base": "^5.0.0-alpha.91",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.10.1",
+    "@mui/icons-material": "^5.10.3",
+    "@mui/material": "^5.10.3",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styled-engine-sc": "^5.10.1",
     "@mui/system": "^5.10.3",
@@ -35,7 +35,7 @@
     "tiny-warning": "^1.0.3",
     "typescript": "^4.7.4",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.0",
+    "web-vitals": "^3.0.0",
     "yup": "^0.32.11"
   },
   "resolutions": {
@@ -88,7 +88,7 @@
     "eslint": "^8.22.0",
     "eslint-plugin-babel": "^5.3.1",
     "jest": "^28.1.3",
-    "jest-environment-jsdom": "^28.1.3",
+    "jest-environment-jsdom": "^29.0.1",
     "jest-localstorage-mock": "^2.4.22",
     "jest-styled-components": "^7.1.0",
     "react-test-renderer": "^18.1.0",
