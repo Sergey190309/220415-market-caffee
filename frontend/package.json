@@ -22,7 +22,7 @@
     "i18next-http-backend": "^1.4.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-i18next": "^11.18.4",
+    "react-i18next": "^11.18.5",
     "react-icons": "^4.4.0",
     "react-is": "^18.2.0",
     "react-redux": "^8.0.1",
@@ -35,7 +35,7 @@
     "tiny-warning": "^1.0.3",
     "typescript": "^4.7.4",
     "uuid": "^8.3.2",
-    "web-vitals": "^2.1.0",
+    "web-vitals": "^3.0.0",
     "yup": "^0.32.11"
   },
   "resolutions": {
@@ -69,7 +69,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.18.10",
+    "@babel/core": "^7.18.13",
     "@babel/eslint-parser": "^7.18.2",
     "@babel/plugin-proposal-export-default-from": "^7.18.10",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.6",
@@ -84,11 +84,11 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
-    "babel-jest": "^28.1.3",
+    "babel-jest": "^29.0.1",
     "eslint": "^8.22.0",
     "eslint-plugin-babel": "^5.3.1",
     "jest": "^28.1.3",
-    "jest-environment-jsdom": "^28.1.3",
+    "jest-environment-jsdom": "^29.0.1",
     "jest-localstorage-mock": "^2.4.22",
     "jest-styled-components": "^7.1.0",
     "react-test-renderer": "^18.1.0",
