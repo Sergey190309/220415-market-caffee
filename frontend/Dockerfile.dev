@@ -13,7 +13,7 @@ RUN yarn
 EXPOSE 3000
 CMD [ "yarn", "start" ]
 # =======================================>
-# d build  --target coping -t front_coping .
+# d build  --rm -f Dockerfile.dev -t frontend:dev .
 # d run -it --name .... image /bin/bash
 # d run --rm -it -p 8080:80 front_production
 # It works.
