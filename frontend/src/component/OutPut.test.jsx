@@ -20,13 +20,18 @@ describe('OutPut', () => {
   })
   describe('appearance', () => {
     test('snapshot', async () => {
-      const user = userEvent.setup()
-      const { container } = renderWithRouterAndProviders(<OutPut />)
-      const openDrawerButton = screen.getByTestId('open-drawer-icon')
-      await user.click(openDrawerButton)
-      // expect(drawerMenu).toBeVisible()
-      expect(container).toMatchSnapshot()
-      // screen.debug(drawerMenu)
+      // const user = userEvent.setup()
+      renderWithRouterAndProviders(<OutPut />)
+      let rootBox
+      await waitFor(() => {
+        rootBox = screen.getByTestId('root-box')
+        // expect(drawerMenu).toBeVisible()
+      })
+      // user.click(openDrawerButton)
+      // screen.debug(rootBox)
+      expect(rootBox).toMatchSnapshot()
+
+      // await waitFor(() => screen.debug())
     })
   })
   describe('actions', () => {
@@ -34,27 +39,36 @@ describe('OutPut', () => {
       const user = userEvent.setup()
       renderWithRouterAndProviders(<OutPut />)
 
-      const drawerMenu = screen.getByTestId('drawer-menu')
-      expect(drawerMenu).not.toBeVisible()
-      expect(drawerMenu).toBeInTheDocument()
+      await waitFor(async () => {
 
-      const openDrawerButton = screen.getByTestId('open-drawer-icon')
-      await user.click(openDrawerButton)
-      expect(drawerMenu).toBeVisible()
+        const drawerMenu = screen.getByTestId('drawer-menu')
+        expect(drawerMenu).toBeInTheDocument()
+        await waitFor(() => {
+          expect(drawerMenu).not.toBeVisible()
+        })
 
-      const drawerCloseButton = screen.getByTestId('drawer-close-button')
-      await user.click(drawerCloseButton)
-      await waitFor(() => {
-        expect(drawerMenu).not.toBeVisible()
-      })
+        const openDrawerButton = screen.getByTestId('open-drawer-icon')
+        await user.click(openDrawerButton)
+        await waitFor(() => {
+          expect(drawerMenu).toBeVisible()
+        })
 
-      await user.click(openDrawerButton)
-      expect(drawerMenu).toBeVisible()
+        const drawerCloseButton = screen.getByTestId('drawer-close-button')
+        await user.click(drawerCloseButton)
+        await waitFor(() => {
+          expect(drawerMenu).not.toBeVisible()
+        })
 
-      const pageContainer = screen.getByTestId('page-container')
-      await user.click(pageContainer)
-      await waitFor(() => {
-        expect(drawerMenu).not.toBeVisible()
+        await user.click(openDrawerButton)
+        await waitFor(() => {
+          expect(drawerMenu).toBeVisible()
+        })
+
+        const pageContainer = screen.getByTestId('page-container')
+        await user.click(pageContainer)
+        await waitFor(() => {
+          expect(drawerMenu).not.toBeVisible()
+        })
       })
     })
     test('toLanding', async () => {
@@ -62,11 +76,16 @@ describe('OutPut', () => {
       useAppNavigate.mockImplementation(() => mockedNavigate)
       const user = userEvent.setup()
       renderWithRouterAndProviders(<OutPut />)
-
-      const toLandingIcon = screen.getByTestId('to-landing-icon')
-      await user.click(toLandingIcon)
-      expect(mockedNavigate).toHaveBeenCalledTimes(1)
-      // screen.debug(toLandingIcon)
+      await waitFor(async () => {
+        const toLandingIcon = screen.getByTestId('to-landing-icon')
+        await user.click(toLandingIcon)
+        // expect(mockedNavigate).toHaveBeenCalledTimes(2)
+        // screen.debug(toLandingIcon)
+      })
+      // console.log(mockedNavigate.mock.calls)
+      expect(mockedNavigate).toHaveBeenCalledTimes(1);
+      expect(mockedNavigate).toHaveBeenCalledWith('/');
+      // expect(mockedNavigate.mock.calls).toHaveLength(3)
     })
   })
 })

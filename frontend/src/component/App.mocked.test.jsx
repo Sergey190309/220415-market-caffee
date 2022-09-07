@@ -1,23 +1,38 @@
 // This test has mocked some modules
 import React from 'react'
 
-import { Provider, useDispatch } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
+import { useAppDispatch } from '../hooks/reactRedux'
 
-import { render } from '@testing-library/react'
-
-import store from '../redux/store'
+import { renderWithRouterAndProviders } from '../utils/testUtils'
 
 import App from './App'
 
-import { setDeviceSize } from '../redux/slices'
+// import OutPut from './OutPut'
+// import LogIn from './general_items/auth/LogIn'
+// import SignUp from './general_items/auth/SignUp'
 
-
-jest.mock('react-redux', () => ({
+jest.mock('../hooks/reactRedux', () => ({
   __esModule: true,
-  ...jest.requireActual('react-redux'),
-  useDispatch: jest.fn()
+  ...jest.requireActual('../hooks/reactRedux'),
+  useAppDispatch: jest.fn()
 }))
+
+jest.mock('./OutPut', () => ({
+  __esModule: true,
+  ...jest.requireActual('./OutPut'),
+  default: jest.fn(() => <div />)
+}))
+jest.mock('./general_items/auth/LogIn', () => ({
+  __esModule: true,
+  ...jest.requireActual('./general_items/auth/LogIn'),
+  default: jest.fn(() => <div />)
+}))
+jest.mock('./general_items/auth/SignUp', () => ({
+  __esModule: true,
+  ...jest.requireActual('./general_items/auth/SignUp'),
+  default: jest.fn(() => <div />)
+}))
+
 
 describe('App, mocked modules', () => {
   beforeEach(() => {
@@ -27,31 +42,25 @@ describe('App, mocked modules', () => {
     jest.resetAllMocks()
   })
   afterAll(() => {
-    jest.unmock('react-redux')
+    jest.unmock('../hooks/reactRedux')
+    jest.unmock('./OutPut')
+    jest.unmock('./general_items/auth/LogIn')
+    jest.unmock('./general_items/auth/SignUp')
   })
   describe('logic', () => {
-    test('window width', () => {
+    test('window width', async () => {
       // mockedRR.useDispatch = jest.fn()
-
+      const mockDispatch = jest.fn()
       const mockSetDeviceSize = jest.fn()
 
-      useDispatch.mockImplementation(() => mockSetDeviceSize)
+      useAppDispatch.mockImplementation(() => mockDispatch)
       const mockDeviceWidth = 2048
       window.innerWidth = mockDeviceWidth
-      render(
-        <Provider store={store}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </Provider>
-      )
-      expect(mockSetDeviceSize).toHaveBeenCalledTimes(3)
-      expect(mockSetDeviceSize).toHaveBeenCalledWith({
-        type: setDeviceSize.type, payload: mockDeviceWidth
-      })
+      renderWithRouterAndProviders(<App setDeviceSize={mockSetDeviceSize} />)
+      expect(mockSetDeviceSize).toHaveBeenCalledTimes(1)
+      expect(mockSetDeviceSize).toHaveBeenCalledWith(mockDeviceWidth)
       // console.log('inner width ->', window.innerWidth)
       // console.log('mockSetDeviceSize ->', mockSetDeviceSize.mock.calls)
-      // screen.debug()
     })
   })
 })

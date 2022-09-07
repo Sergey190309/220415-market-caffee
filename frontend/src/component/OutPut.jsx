@@ -4,7 +4,7 @@ import { useAppState, useAppEffect, useAppRef } from '../hooks/react'
 import { useAppSelector } from '../hooks/reactRedux'
 import { useAppNavigate } from '../hooks/reactRouterDom'
 
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
 import { useTheme } from '@mui/material/styles'
 import {
@@ -12,6 +12,7 @@ import {
 } from '@mui/material'
 import { FoodBankOutlined, MenuOutlined, ChevronLeft, ChevronRight } from '@mui/icons-material'
 import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 
 import { Main, AppBar, DrawerHeader } from './navigation/styles/navigations.mui.styled'
@@ -27,7 +28,7 @@ import PageContainer from './page_views/PageContainer'
 import { useOutsideClick } from '../hooks/useOutsideClick'
 import Greeting from './navigation/Greeting'
 import { lngSelector } from '../redux/slices'
-import i18next from 'i18next'
+
 
 const DrawerNavBar = React.lazy(() => import('./navigation/DrawerNavBar'))
 const Message = React.lazy(() => import('./general_items/notifications/Message'))
@@ -36,6 +37,7 @@ const Message = React.lazy(() => import('./general_items/notifications/Message')
 const OutPut = () => {
   const [openedDrawer, setOpenedDrawer] = useAppState(false)
   const theme = useTheme()
+  // console.log(useTranslation('general'))
   const { t, i18n } = useTranslation('general')
 
   const { lng } = useAppSelector(lngSelector)
@@ -44,11 +46,11 @@ const OutPut = () => {
   const toLanding = () => { navigate('/') }
 
   useAppEffect(() => {
-
     if (lng !== i18n.language) {
+      // console.log('lng ->', lng, '\ni18n.language ->', i18n.language,
+      //   '\ni18next.changeLanguage ->', i18next.changeLanguage)
       i18next.changeLanguage(lng)
     }
-
   }, [])
 
 
@@ -74,7 +76,9 @@ const OutPut = () => {
   // console.log('OutPut, render, lng ->', lng, '\n  i18n.lng ->', i18n.language)
 
   return (
+    // <React.Suspense fallback={null}>
     <Box
+      data-testid='root-box'
       sx={{
         display: 'flex'
       }}
@@ -183,6 +187,7 @@ const OutPut = () => {
         </Drawer>
       </div>
     </Box >
+    // </React.Suspense>
   )
 }
 

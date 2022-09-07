@@ -46,7 +46,8 @@ const useMock = [k => k, {}]
 useMock.t = k => k
 // useMock.i18n = () => { }
 useMock.i18n = {
-  changeLanguage: () => { }
+  changeLanguage: () => { },
+  language: 'en'
 }
 
 module.exports = {
@@ -55,7 +56,10 @@ module.exports = {
   Trans: ({ children }) =>
     Array.isArray(children) ? renderNodes(children) : renderNodes([children]),
   Translation: ({ children }) => children(k => k, { i18n: {} }),
-  useTranslation: () => useMock,
+  useTranslation: () => {
+    // console.log('useTranslation')
+    return useMock
+  },
 
   // mock if needed
   I18nextProvider: reactI18next.I18nextProvider,
