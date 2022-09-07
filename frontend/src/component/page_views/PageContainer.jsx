@@ -18,15 +18,17 @@ const UsersOnlyView = lazy(() => import('./usersOnly/UsersOnlyView'))
 
 const PageContainer = () => {
   return (
-    <Box data-testid='page-container'>
+    // <React.Suspense fallback={null}>
+    <Box data-testid='page-container-root-box'>
       <Routes>
-        <Route path='/' element={<LandingView />} />
+        <Route data-testid='landing-view' path='/' element={<LandingView />} />
         <Route path='/pricelist' exact element={<PriceListView />} />
         <Route path='/pictures' exact element={<PicturesView />} />
         <Route path='/private' exact element={<UsersOnlyView />} />
         <Route path='/admin' exact element={<AdminView />} />
       </Routes>
     </Box>
+    // </React.Suspense>
   )
 }
 

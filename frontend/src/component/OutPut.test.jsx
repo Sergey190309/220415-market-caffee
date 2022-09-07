@@ -24,7 +24,7 @@ describe('OutPut', () => {
       renderWithRouterAndProviders(<OutPut />)
       let rootBox
       await waitFor(() => {
-        rootBox = screen.getByTestId('root-box')
+        rootBox = screen.getByTestId('output-root-box')
         // expect(drawerMenu).toBeVisible()
       })
       // user.click(openDrawerButton)
@@ -64,7 +64,7 @@ describe('OutPut', () => {
           expect(drawerMenu).toBeVisible()
         })
 
-        const pageContainer = screen.getByTestId('page-container')
+        const pageContainer = screen.getByTestId('page-container-root-box')
         await user.click(pageContainer)
         await waitFor(() => {
           expect(drawerMenu).not.toBeVisible()
