@@ -21,7 +21,7 @@ const PageContainer = () => {
     // <React.Suspense fallback={null}>
     <Box data-testid='page-container-root-box'>
       <Routes>
-        <Route data-testid='landing-view' path='/' element={<LandingView />} />
+        <Route path='/' element={<LandingView />} />
         <Route path='/pricelist' exact element={<PriceListView />} />
         <Route path='/pictures' exact element={<PicturesView />} />
         <Route path='/private' exact element={<UsersOnlyView />} />

@@ -16,8 +16,6 @@ const ViewHeader = ({ recordsId, initialState }) => {
    * 00 - serial number
    * header - kind of element
    */
-  // const [contextMenu, setContextMenu] = useAppState(null)
-  // const [tooltipVisible, setTooltipVisible] = useAppState(false)
   const [state, sagaDispatch] = useSaga(getContentSaga, initialState)
   const [content, setContent] = useAppState(initialState)
   const [editing, setEditing] = useAppState(false)
@@ -33,13 +31,13 @@ const ViewHeader = ({ recordsId, initialState }) => {
         view_id: componentName
       }
     })
-  }, [])
-
+  }, [state])
+  // console.log(first)
   useAppEffect(() => {
     const tempState = { title: state.title, content: [state.content] }
-    // console.log('  tempState ->', tempState)
+    console.log('tempState ->', tempState)
     setContent(tempState)
-  }, [state])
+  }, [])
 
   return (
     <>
@@ -64,6 +62,7 @@ const ViewHeader = ({ recordsId, initialState }) => {
 }
 
 ViewHeader.defaultProps = {
+  // key: '',
   recordsId: '',
   initialState: {
     title: '',
@@ -71,6 +70,7 @@ ViewHeader.defaultProps = {
   }
 }
 ViewHeader.propTypes = {
+  // key: PropTypes.string.isRequired,
   recordsId: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired
 }
