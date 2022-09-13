@@ -53,6 +53,7 @@ const ElementSwitcher = () => {
       key, // for original identity while mapping
       recordsId
     }
+    // console.log('recordsId ->', recordsId)
     switch (componentType) {
       case 'header':
         return <ViewHeader {...props} />
@@ -71,7 +72,8 @@ const ElementSwitcher = () => {
     <Box
       display='block'
       data-testid='root-box'
-      children={<Output />}
+      children={Output()}
+      // children={<Output />}
     />
  )
 }

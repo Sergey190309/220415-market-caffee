@@ -31,13 +31,13 @@ const ViewHeader = ({ recordsId, initialState }) => {
         view_id: componentName
       }
     })
-  }, [state])
+  }, [])
   // console.log(first)
   useAppEffect(() => {
     const tempState = { title: state.title, content: [state.content] }
-    console.log('tempState ->', tempState)
+    // console.log('tempState ->', tempState)
     setContent(tempState)
-  }, [])
+  }, [state])
 
   return (
     <>

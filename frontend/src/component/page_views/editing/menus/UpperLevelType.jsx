@@ -1,5 +1,6 @@
 import React, { lazy } from 'react'
 import { useAppEffect, useAppState } from '../../../../hooks/react'
+import { useAppSelector } from '../../../../hooks/reactRedux'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Menu } from '@mui/material'
@@ -7,9 +8,11 @@ import {
   ListAltOutlined, VerticalAlignBottom, VerticalAlignTop, ViewColumnOutlined
 } from '@mui/icons-material'
 
+import { deviceSelector } from '../../../../redux/slices'
 import ContextMenuItem from './ContextMenuItem'
 import * as CL from '../../../../constants/colors'
-const UpperLevelSubType = lazy(()=>import('./UpperLevelSubType'))
+import UpperLevelSubType from './UpperLevelSubType'
+// const UpperLevelSubType = lazy(()=>import('./UpperLevelSubType'))
 
 const UpperLevelType = ({ upperLevelType, upperLevelTypeCloseHandler }) => {
   /**
@@ -19,6 +22,7 @@ const UpperLevelType = ({ upperLevelType, upperLevelTypeCloseHandler }) => {
    */
   const [opened, setOpened] = useAppState(false)
   const [upperLevelSubType, setUpperLevelSubType] = useAppState(null)
+  const { editable } = useAppSelector(deviceSelector)
   const { t } = useTranslation('menus')
 
   useAppEffect(() => {
@@ -26,6 +30,7 @@ const UpperLevelType = ({ upperLevelType, upperLevelTypeCloseHandler }) => {
   }, [upperLevelType])
 
   const setSubType = event => {
+    // console.log('UpperLevelType>onVBlockHandler')
     setUpperLevelSubType({
       mouseX: event.clientX + 2,
       mouseY: event.clientY - 6,
@@ -38,13 +43,16 @@ const UpperLevelType = ({ upperLevelType, upperLevelTypeCloseHandler }) => {
     setOpened(false)
   }
   const onVBlockHandler = event => {
-    // console.log('UpperLevelType>onVBlockHandler')
-    setSubType(event)
+    event.preventDefault()
+    if (editable) {
+      setSubType(event)
+    }
   }
   const onHBlockHandler = event => {
-    // console.log('UpperLevelType>onHBlockHandler')
-    setSubType(event)
-
+    event.preventDefault()
+    if (editable) {
+      setSubType(event)
+    }
   }
   const onFooterHandler = () => {
     // console.log('UpperLevelType>onFooterHandler')
@@ -101,10 +109,12 @@ const UpperLevelType = ({ upperLevelType, upperLevelTypeCloseHandler }) => {
           onClick={onFooterHandler}
         />
       </Menu>
-      <UpperLevelSubType
-        upperLevelSubType={upperLevelSubType}
-        upperLevelSubTypeCloseHandler={upperLevelSubTypeCloseHandler}
-      />
+      {upperLevelSubType===null?null:
+        <UpperLevelSubType
+          upperLevelSubType={upperLevelSubType}
+          upperLevelSubTypeCloseHandler={upperLevelSubTypeCloseHandler}
+        />
+      }
     </>
   )
 }

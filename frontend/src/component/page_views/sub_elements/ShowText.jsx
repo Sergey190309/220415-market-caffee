@@ -13,11 +13,10 @@ import * as SZ from '../../../constants/sizes'
 import * as CL from '../../../constants/colors'
 // import ContextMenu from '../editing/menus/ContextMenu'
 const ContextMenu = lazy(() => import('../editing/menus/ContextMenu'))
-const UpperLevelMenu = lazy(() => import('../editing/menus/UpperLevelMenu'))
 
 const ShowText = ({
   contentToShow, // {title: '', content: ['']}
-  recordId, // shown on hover when application hs been editable.
+  recordId, // shown on hover when application has been editable.
   textType, // HEADER | PARAGRAPH | FOOTER
   setTextEdit,  // Show/edit text switcher.
   parentEdited // bool weather parent edited but not saved to backend.
@@ -36,11 +35,11 @@ const ShowText = ({
 
   const { editable } = useAppSelector(deviceSelector)
 
-  useAppEffect(() => {
+  useAppEffect(() => { // Set content.
     setContent(contentToShow)
   }, [contentToShow])
 
-  useAppEffect(() => {
+  useAppEffect(() => { // Set approapriate styling.
     switch (textType) {
       case HEADER:
         setTextStyling({
@@ -55,7 +54,8 @@ const ShowText = ({
             m: '.5rem',
             '&:hover': editable && {
               border: SZ.blockBorder,
-              borderColor: CL.attention,
+              borderColor: 'blue',
+              // borderColor: CL.attention,
               borderRadius: SZ.blockBorderRadius
             }
           }
@@ -83,7 +83,6 @@ const ShowText = ({
 
 
   const onContextMenuHandler = event => {
-    // console.log('ShowText>onContextMenyHandler')
     event.preventDefault()
     if (editable) {
       setContextMenu({
@@ -94,22 +93,17 @@ const ShowText = ({
   }
 
   const contextMenuCloseHandler = () => {
-    // console.log('ShowText, contextMenuCloseHandler')
     setContextMenu(null)
   }
 
-  // const upperLevelMenuCloseHandler = () => {
-  //   console.log('ShowText, upperLevelMenuCloseHandler')
-  //   setUpperLevelMenu(null)
-  // }
-
-  // console.log('ShowText, render, upperLevelMenu ->', upperLevelMenu)
   return (
     <Tooltip
+      data-testid='tooltip'
       title={recordId} placement='top' followCursor arrow
       open={tooltipVisible}
       onOpen={() => { setTooltipVisible(editable && true) }}
       onClose={() => { setTooltipVisible(false) }}
+      // sx={{bgcolor: 'red'}}
     >
       <Box
         onContextMenu={editable ? onContextMenuHandler : null}
@@ -119,9 +113,9 @@ const ShowText = ({
         }}
       >
         <Grid item>
-          <Typography variant={textStyling.titleVariant}>
-            {content.title}
-          </Typography>
+          <Typography variant={textStyling.titleVariant}
+            children={content.title}
+          />
         </Grid>
         <Grid item>
           {content.title && textStyling.divider && content.content.length > 0
