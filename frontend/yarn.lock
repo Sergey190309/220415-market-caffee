@@ -1945,7 +1945,7 @@
     "@mui/utils" "^5.10.3"
     prop-types "^15.8.1"
 
-"@mui/styled-engine-sc@^5.10.3", "@mui/styled-engine@^5.10.4", "@mui/styled-engine@npm:@mui/styled-engine-sc@latest":
+"@mui/styled-engine-sc@^5.10.3", "@mui/styled-engine@^5.10.5", "@mui/styled-engine@npm:@mui/styled-engine-sc@latest":
   name "@mui/styled-engine"
   version "5.10.3"
   resolved "https://registry.yarnpkg.com/@mui/styled-engine-sc/-/styled-engine-sc-5.10.3.tgz#4ba9b6db83c40ebe4622586abf786cb8952f5ae2"
@@ -1954,14 +1954,14 @@
     "@babel/runtime" "^7.18.9"
     prop-types "^15.8.1"
 
-"@mui/system@^5.10.3", "@mui/system@^5.10.4":
-  version "5.10.4"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.10.4.tgz#4621cbae1bfc551c95e368d32850160b64034a67"
-  integrity sha512-fE7LtYStPHPfq7EJXEVLQGvz23pS5YwSI7A4mWEFyyW21hHUh0c1opZXb7caHJsUTiBoC22W7R8GGfbVdSOnZA==
+"@mui/system@^5.10.4", "@mui/system@^5.10.5":
+  version "5.10.5"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.10.5.tgz#b0c8494aa9230fb3b8e33c4aee05207925519569"
+  integrity sha512-GUPiDVZTKp9yH3FVeLSIw3Bqsyl7qLxtAK1ZiZmC8e+zdH7bcnZZXvWK3vPIbx35ZyhQpvAOWQFpiF9TjdA77w==
   dependencies:
     "@babel/runtime" "^7.18.9"
     "@mui/private-theming" "^5.10.3"
-    "@mui/styled-engine" "^5.10.4"
+    "@mui/styled-engine" "^5.10.5"
     "@mui/types" "^7.2.0"
     "@mui/utils" "^5.10.3"
     clsx "^1.2.1"
