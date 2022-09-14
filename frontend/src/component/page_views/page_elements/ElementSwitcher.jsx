@@ -11,6 +11,7 @@ import {
   // deviceSelector
 } from '../../../redux/slices'
 
+// import ViewHeader from './ViewHeader'
 const ViewHeader = lazy(() => import('./ViewHeader'))
 const ViewFooter = lazy(() => import('./ViewFooter'))
 const ViewVBlock = lazy(() => import('./ViewVBlock'))
@@ -30,9 +31,7 @@ const ElementSwitcher = () => {
   const [viewStructure, setViewStructure] = useAppState({})
 
   const loadedStructures = useAppSelector(structureSelector)
-  // const { editable } = useAppSelector(deviceSelector)
   const { componentName } = useAppContext(LandingContext)
-
 
   useAppEffect(() => {
     const newStructure = getLoadedStructure(componentName, loadedStructures)
@@ -40,8 +39,6 @@ const ElementSwitcher = () => {
   }, [loadedStructures])
 
   const keys = Object.keys(viewStructure)
-
-  // console.log('rendering, keys ->', keys)
 
   const Output = () => keys.map((key, index) => {
     const componentType = viewStructure[key].type
@@ -52,58 +49,36 @@ const ElementSwitcher = () => {
       (componentSubType ? `_${componentSubType}` : '')
     const recordsId = upperLevelElementId +
       (subComponentQnt ? `_${subComponentQnt}` : '')
-    // let component
     const props = {
-      key,
+      key, // for original identity while mapping
       recordsId
     }
-    // const value = {
-    //   upperLevelElementId,
-    //   recordsId
-    // }
+    // console.log('recordsId ->', recordsId)
     switch (componentType) {
       case 'header':
         return <ViewHeader {...props} />
-      // component = <ViewHeader {...props} />
-      // break
       case 'footer':
         return <ViewFooter {...props} />
-      // component = <ViewFooter {...props} />
-      // break
       case 'hblock':
         return <ViewHBlock {...props} />
-      // component = <ViewHBlock {...props} />
-      // break
       case 'vblock':
         return <ViewVBlock {...props} />
-      // component = <ViewVBlock {...props} />
-      // break
       default:
         return <ViewNothing {...props} />
-      // component = <ViewNothing {...props} />
     }
   })
 
-    // console.log('ElementSwitcher, key ->', key, '\n  value ->', value)
   return (
-    // <ElementSwitcherProvider key={key} value={value}>
-      <Box
-        display='block'
-        // sx={editable && {
-        //   '&:hover': {
-        //     border: '1px solid red',
-        //     borderRadius: 2
-        //     // borderColor: 'red'
-        //   }
-        // }}
-      >
-        <Output />
-      </Box>
-    // </ElementSwitcherProvider>
-  )
+    <Box
+      display='block'
+      data-testid='root-box'
+      children={Output()}
+      // children={<Output />}
+    />
+ )
 }
 
-ElementSwitcher.defaultProps = {}
-ElementSwitcher.propTypes = {}
+// ElementSwitcher.defaultProps = {}
+// ElementSwitcher.propTypes = {}
 
 export default ElementSwitcher

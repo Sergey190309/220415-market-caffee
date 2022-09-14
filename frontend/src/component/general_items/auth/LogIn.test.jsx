@@ -65,7 +65,7 @@ describe('LogIn testing', () => {
     //   jest.restoreAllMocks()
     // })
     describe('appearance', () => {
-      test('screen shot', () => {
+      test('snapshot', () => {
         const testState = { ...initialState(), loading: true, isLogInOpened: true }
         const { baseElement } = renderWithProviders(<LogIn />, { preloadedState: { auth: testState } })
         expect(baseElement).toMatchSnapshot()

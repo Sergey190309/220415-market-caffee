@@ -1,10 +1,12 @@
 import React from 'react'
 import { useAppEffect, useAppState } from '../../../../hooks/react'
+import { useAppSelector } from '../../../../hooks/reactRedux'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import { Menu } from '@mui/material'
 import { ArticleOutlined, Image } from '@mui/icons-material'
 
+import { deviceSelector } from '../../../../redux/slices'
 import ContextMenuItem from './ContextMenuItem'
 import * as CL from '../../../../constants/colors'
 
@@ -14,6 +16,7 @@ const UpperLevelSubType = ({ upperLevelSubType, upperLevelSubTypeCloseHandler })
    * That's upper level elemnet sub type - pix | txt
    */
   const [opened, setOpened] = useAppState(false)
+  const { editable } = useAppSelector(deviceSelector)
   const { t } = useTranslation('menus')
   useAppEffect(() => {
     setOpened(upperLevelSubType !== null)
@@ -29,7 +32,6 @@ const UpperLevelSubType = ({ upperLevelSubType, upperLevelSubTypeCloseHandler })
     upperLevelSubTypeCloseHandler(true)
     setOpened(false)
   }
-
   const onCloseHandler = () => {
     console.log('UpperLevelSubType>onCloseHandler')
     upperLevelSubTypeCloseHandler()

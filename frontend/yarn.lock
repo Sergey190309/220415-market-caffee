@@ -1508,7 +1508,11 @@
     "@jest/fake-timers" "^29.0.3"
     "@jest/types" "^29.0.3"
     "@types/node" "*"
+<<<<<<< HEAD
     jest-mock "^29.0.3"
+=======
+    jest-mock "^29.0.2"
+>>>>>>> dev220906
 
 "@jest/expect-utils@^29.0.2":
   version "29.0.2"
@@ -1552,9 +1556,15 @@
     "@jest/types" "^29.0.3"
     "@sinonjs/fake-timers" "^9.1.2"
     "@types/node" "*"
+<<<<<<< HEAD
     jest-message-util "^29.0.3"
     jest-mock "^29.0.3"
     jest-util "^29.0.3"
+=======
+    jest-message-util "^29.0.2"
+    jest-mock "^29.0.2"
+    jest-util "^29.0.2"
+>>>>>>> dev220906
 
 "@jest/globals@^27.5.1":
   version "27.5.1"
@@ -1755,7 +1765,11 @@
     graceful-fs "^4.2.9"
     jest-haste-map "^29.0.3"
     jest-regex-util "^29.0.0"
+<<<<<<< HEAD
     jest-util "^29.0.3"
+=======
+    jest-util "^29.0.2"
+>>>>>>> dev220906
     micromatch "^4.0.4"
     pirates "^4.0.4"
     slash "^3.0.0"
@@ -3186,7 +3200,11 @@ babel-jest@^29.0.3:
   resolved "https://registry.yarnpkg.com/babel-jest/-/babel-jest-29.0.3.tgz#64e156a47a77588db6a669a88dedff27ed6e260f"
   integrity sha512-ApPyHSOhS/sVzwUOQIWJmdvDhBsMG01HX9z7ogtkp1TToHGGUWFlnXJUIzCgKPSfiYLn3ibipCYzsKSURHEwLg==
   dependencies:
+<<<<<<< HEAD
     "@jest/transform" "^29.0.3"
+=======
+    "@jest/transform" "^29.0.2"
+>>>>>>> dev220906
     "@types/babel__core" "^7.1.14"
     babel-plugin-istanbul "^6.1.1"
     babel-preset-jest "^29.0.2"
@@ -4862,7 +4880,11 @@ expect@^27.5.1:
     jest-matcher-utils "^27.5.1"
     jest-message-util "^27.5.1"
 
+<<<<<<< HEAD
 expect@^29.0.0:
+=======
+expect@^29.0.0, expect@^29.0.2:
+>>>>>>> dev220906
   version "29.0.2"
   resolved "https://registry.yarnpkg.com/expect/-/expect-29.0.2.tgz#22c7132400f60444b427211f1d6bb604a9ab2420"
   integrity sha512-JeJlAiLKn4aApT4pzUXBVxl3NaZidWIOdg//smaIlP9ZMBDkHZGFd9ubphUZP9pUyDEo7bC6M0IIZR51o75qQw==
@@ -6386,7 +6408,11 @@ jest-mock@^29.0.3:
   resolved "https://registry.yarnpkg.com/jest-mock/-/jest-mock-29.0.3.tgz#4f0093f6a9cb2ffdb9c44a07a3912f0c098c8de9"
   integrity sha512-ort9pYowltbcrCVR43wdlqfAiFJXBx8l4uJDsD8U72LgBcetvEp+Qxj1W9ZYgMRoeAo+ov5cnAGF2B6+Oth+ww==
   dependencies:
+<<<<<<< HEAD
     "@jest/types" "^29.0.3"
+=======
+    "@jest/types" "^29.0.2"
+>>>>>>> dev220906
     "@types/node" "*"
 
 jest-pnp-resolver@^1.2.2:
@@ -6669,7 +6695,11 @@ jest-util@^29.0.2, jest-util@^29.0.3:
   resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-29.0.3.tgz#06d1d77f9a1bea380f121897d78695902959fbc0"
   integrity sha512-Q0xaG3YRG8QiTC4R6fHjHQPaPpz9pJBEi0AeOE4mQh/FuWOijFjGXMMOfQEaU9i3z76cNR7FobZZUQnL6IyfdQ==
   dependencies:
+<<<<<<< HEAD
     "@jest/types" "^29.0.3"
+=======
+    "@jest/types" "^29.0.2"
+>>>>>>> dev220906
     "@types/node" "*"
     chalk "^4.0.0"
     ci-info "^3.2.0"

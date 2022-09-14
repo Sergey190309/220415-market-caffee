@@ -27,8 +27,7 @@ const ContextMenu = ({
    * edit element -> switch to editor -> EditorMenu
    * delete element -> delete element
    * add element above -> add element
-   * add element before ->
-   * add element after ->
+   * add element below ->
    * handl upperLevelElement UpperLevelMenu
    * save to backend if changed
    * cancel
@@ -52,18 +51,14 @@ const ContextMenu = ({
   }
   const onDeleteElementHandler = () => {
     setOpened(false)
-    // console.log('onAddElementHandler')
   }
   const onAddElementHandler = (above) => {
     setOpened(false)
-    // console.log('onAddElementHandler')
   }
   const onUpperElementHandler = event => {
-    // setOpened(false)
-    // contextMenuCloseHandler()
     event.preventDefault()
     if (editable) {
-      // console.log('ContextMenu>onUpperElementHandler, event ->', event)
+      // console.log('onUpperElementHandler')
       setUpperLevelMenu({
         mouseX: event.clientX + 2,
         mouseY: event.clientY - 6,
@@ -72,19 +67,9 @@ const ContextMenu = ({
   }
   const onSaveHandler =() => {
     setOpened(false)
-    // console.log('onSaveHandler')
   }
   const onCancelHandler = () => {
-    // event.preventDefault()
-    // console.log('ContexMenu>onCancelHandler, event ->', event)
-    // if (editable) {
-    //   setUpperLevelMenu({
-    //     mouseX: event.clientX + 2,
-    //     mouseY: event.clientY - 6,
-    //   })
-    // }
     setOpened(false)
-    // console.log('onCancelHandler')
   }
 
   const onCloseHandler = () => {
@@ -97,7 +82,7 @@ const ContextMenu = ({
       contextMenuCloseHandler()
     }
   }
-  // console.log('ContextMenu, contextMenu ->', contextMenu)
+  // console.log('editable ->', editable)
   return (
     <>
       <Menu

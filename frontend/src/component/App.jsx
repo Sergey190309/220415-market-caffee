@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Fragment, Suspense } from 'react'
 import { useAppState, useAppEffect } from '../hooks/react'
 import PropTypes from 'prop-types'
 import { useAppDispatch } from '../hooks/reactRedux'
@@ -11,9 +11,6 @@ import SignUp from './general_items/auth/SignUp'
 // const LogIn = React.lazy(() => import('./general_items/auth/LogIn'))
 // const SignUp = React.lazy(() => import('./general_items/auth/SignUp'))
 
-// export const switchNav = (setNavOpened, navOpened) => {
-//   setNavOpened(!navOpened)
-// }
 
 const App = ({ setDeviceSize }) => {
   const [width, setWidth] = useAppState(window.innerWidth)
