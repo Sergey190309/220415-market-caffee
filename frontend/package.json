@@ -7,10 +7,10 @@
     "@emotion/styled": "^11.10.4",
     "@fontsource/roboto": "^4.5.8",
     "@mui/base": "^5.0.0-alpha.97",
-    "@mui/icons-material": "^5.10.3",
+    "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.6",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
-    "@mui/styled-engine-sc": "^5.10.3",
+    "@mui/styled-engine-sc": "^5.10.6",
     "@mui/system": "^5.10.5",
     "@reduxjs/toolkit": "^1.8.5",
     "animate.css": "^4.1.1",
@@ -69,7 +69,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.19.1",
+    "@babel/core": "^7.19.3",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/plugin-proposal-export-default-from": "^7.18.10",
     "@babel/plugin-proposal-export-namespace-from": "^7.18.6",
