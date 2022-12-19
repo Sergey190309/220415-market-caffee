@@ -1,4 +1,4 @@
-import React, { Fragment, Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { useAppState, useAppEffect } from '../hooks/react'
 import PropTypes from 'prop-types'
 import { useAppDispatch } from '../hooks/reactRedux'
@@ -26,7 +26,6 @@ const App = ({ setDeviceSize }) => {
     return () => window.removeEventListener('resize', setDinamicWidth)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width])
-
 
   return (
     <Suspense fallback={<div>Loading...</div>}>

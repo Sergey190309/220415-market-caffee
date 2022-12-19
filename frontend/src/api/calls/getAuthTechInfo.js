@@ -25,8 +25,6 @@ export const confirmPasswordCall = passwordData => {
   return resp
 }
 
-
-
 export const logInCall = logInData => {
   // console.log('teckAuthTechInfo>logInCall, logInData ->', logInData)
   const resp = authTextAxiosClient.post('/users/login', logInData)
