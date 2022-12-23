@@ -19,7 +19,7 @@
     "formik-mui": "^5.0.0-alpha.0",
     "glob-parent": "^6.0.2",
     "i18next-http-backend": "^2.1.1",
-    "i18next": "^21.10.0",
+    "i18next": "^22.4.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-i18next": "^11.18.6",
