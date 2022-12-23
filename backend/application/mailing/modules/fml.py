@@ -1,9 +1,10 @@
 '''
 Flask-Mail application
 '''
-from typing import List
+# from typing import List
 # from flask import jsonify
 from flask_mailing import Mail, Message
+print('\nmailing moduless\n')
 import tracemalloc
 
 from ..local_init_data_mailing import confirmation_email_data
@@ -14,7 +15,8 @@ class MailMailing(Mail):
         super().__init__()
 
     async def send(
-            self, emails: List = [], link: str = None) -> [Message]:
+            self, emails: list = [], link: str = None) -> [Message]:
+        # self, emails: List = [], link: str = None) -> [Message]:
 
         # Here I do not use list to send bulk mails.
         confirmation_email_data.refresh(email=emails[0], link=link)

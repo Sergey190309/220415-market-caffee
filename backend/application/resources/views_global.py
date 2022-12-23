@@ -7,11 +7,13 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from application.modules.dbs_global import dbs_global
 from application.modules.fbp import fbp
 from application.users.models import UserModel
+# print('\nviews_global\n')
 
 # from ..models.views import ViewGlobalModel
 from application.models.views_global import ViewGlobalModel
 # from ..schemas.views import view_schema, view_get_schema
-from application.schemas.views_global import view_global_get_schema, view_global_schema
+from application.schemas.views_global import (view_global_get_schema,
+                                              view_global_schema)
 
 
 def no_access() -> Dict:
@@ -34,7 +36,8 @@ class ViewsGlobal(Resource):
 
         if UserModel.find_by_id(get_jwt_identity()).is_admin:
             payload = [
-                view_global_get_schema.dump(_view) for _view in ViewGlobalModel.find()
+                view_global_get_schema.dump(_view) for _view in
+                ViewGlobalModel.find()
             ]
             count = len(payload)
             return {
@@ -76,7 +79,8 @@ class ViewGlobal(Resource):
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
         fbp.set_lng(request.headers.get('Accept-Language'))
-        _view = view_global_schema.load(request.get_json(), session=dbs_global.session)
+        _view = view_global_schema.load(
+            request.get_json(), session=dbs_global.session)
         _view_fm_db = ViewGlobalModel.find_by_id(view_id=_view.view_id)
         if _view_fm_db is not None:
             return cls.already_exists({'view_id': _view.view_id})
@@ -116,7 +120,8 @@ class ViewGlobal(Resource):
         '''
         if not UserModel.find_by_id(get_jwt_identity()).is_admin:
             return no_access()
-        # print('\ncontents, resources, view, update_json ->', request.get_json())
+        # print('\ncontents, resources, view, update_json ->',
+        # request.get_json())
         _update_json = view_global_get_schema.load(request.get_json())
         # print('\ncontents, resources, view, update_json ->', _update_json)
         _view = ViewGlobalModel.find_by_id(view_id=_update_json['view_id'])

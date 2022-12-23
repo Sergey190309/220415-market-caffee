@@ -7,6 +7,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from sqlalchemy.exc import IntegrityError
 
 from application.mailing.modules.fml import fml
+# print('\nusers models\n')
 # from application.globals import confirmation_email_data
 
 from application.modules.dbs_global import dbs_global

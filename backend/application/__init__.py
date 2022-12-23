@@ -5,6 +5,7 @@ from flask import Flask, current_app, url_for
 from application.modules.dbs_global import dbs_global
 from application.modules.flm_global import flm_global
 from application.modules.fbp import fbp
+# print('\napplication __init__\n')
 from application.modules.api_global import api_global
 from application.modules.crs_global import crs_global
 from application.errors.register import register_error_handler
@@ -25,7 +26,6 @@ def create_app(config='default_config.py'):
     load_dotenv('.env.dev', verbose=True)
     # load_dotenv('.env', verbose=True)
     app.config.from_pyfile(config)
-    # print('\napplication>init>create_app, app.config ->', app.config)
     # app.config.from_envvar('APPLICATION_SETTINGS')
 
     # Flask_SQLAlchemy init
