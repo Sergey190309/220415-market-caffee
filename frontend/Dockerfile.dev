@@ -1,5 +1,5 @@
 # FROM node:alpine
-FROM node:16.14.2-buster-slim
+FROM node:16.19-bullseye-slim
 # RUN mkdir /usr/src/app
 WORKDIR /app
 

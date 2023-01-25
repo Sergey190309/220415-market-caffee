@@ -40,4 +40,5 @@ class LocaleGlobalModel(dbs_global.Model):
             dbs_global.session.delete(self)
             dbs_global.session.commit()
         except Exception as err:
-            print('modules.models.Locale_global_model.delete_fm_db error\n', err)
+            print('modules.models.Locale_global_model.delete_fm_db error\n',
+                  err)

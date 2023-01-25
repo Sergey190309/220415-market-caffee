@@ -3,8 +3,8 @@ Flask-Mail application
 '''
 # from typing import List
 # from flask import jsonify
+# print('\nmailing moduless\n')
 from flask_mailing import Mail, Message
-print('\nmailing moduless\n')
 import tracemalloc
 
 from ..local_init_data_mailing import confirmation_email_data

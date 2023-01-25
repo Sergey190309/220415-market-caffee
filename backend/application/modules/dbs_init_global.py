@@ -1,4 +1,4 @@
-# from flask import current_app
+from flask import current_app
 
 from ..global_init_data import global_constants
 # from ..globals import global_constants
@@ -14,8 +14,8 @@ from ..models.views_global import ViewGlobalModel
 
 
 def dbs_init_global():
-    # print('\ndbs_init_global, SQLALCHEMY_DATABASE_URI ->',
-    # current_app.config['SQLALCHEMY_DATABASE_URI'])
+    print('\ndbs_init_global, SQLALCHEMY_DATABASE_URI ->',
+          current_app.config['SQLALCHEMY_DATABASE_URI'], '\n')
     create_dbs()  # Create tables
     fill_locales()  # Fill table locales with default stuff
     fill_views()  # Fill table views with default stuff

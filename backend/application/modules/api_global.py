@@ -1,7 +1,7 @@
 from flask_restful import Api
 
 from ..resources.views_global import ViewsGlobal, ViewGlobal
-# print('\nAPU global\n')
+# print('\nAPI global\n')
 from ..resources.locale_global import LocalesGlobal, LocaleGlobal
 # from ..resources.contents import Contents
 # from ..resources.views import Views, View
