@@ -13,7 +13,8 @@ TESTING = True
 # testdb.sqlite3'
 
 DATABASE_USER = 'coffee'
-DATABASE_PASSWORD = 'lkdl;llLLpoi0988**9890'
+# DATABASE_PASSWORD = 'lkdl;llLLpoi0988**9890'
+DATABASE_PASSWORD = 'iij0*(*(*())^%^G'
 DATABASE_HOST = 'localhost'
 DATABASE_NAME = 'market_coffee_test'
 
@@ -44,11 +45,10 @@ JWT_SECRET_KEY = 'very_SECRET_KEY!'
 # BASE_URL = 'http://localhost:5000'
 
 # Mailing
-MAIL_SERVER = 'smtp.gmail.com'
-MAIL_PORT = 465
-MAIL_USE_SSL = True
-MAIL_USERNAME = 'noreply201211@gmail.com'
-MAIL_PASSWORD = 'aopdL&po#ki()y7yJM'
-MAIL_DEFAULT_SENDER = ('TestSender', MAIL_USERNAME)
-MAIL_SUPPRESS_SEND = True
+MAIL_SERVER = 'smtp-relay.sendinblue.com'
+MAIL_PORT = 587
+MAIL_USERNAME = 'sa6702@gmail.com'
+MAIL_PASSWORD = 'xsmtpsib-6c8e1daad205cffaa2feba0c413cf4eba1e7fe5d9f661177d0a7'\
+    '249fc70b578b-qRfEaZIH3JVjNwpn'
+MAIL_USE_TLS = True
 MAIL_USE_SSL = True

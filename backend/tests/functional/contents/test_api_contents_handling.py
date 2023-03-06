@@ -16,7 +16,7 @@ from application.contents.models import ContentModel
 #     ContentElementsBlock)
 
 
-@pytest.mark.active
+# @pytest.mark.active
 @pytest.mark.parametrize(
     ('lng, test_word_00, test_word_01, '
      'test_word_02, test_word_03,'

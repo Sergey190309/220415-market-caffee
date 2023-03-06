@@ -12,10 +12,12 @@ def _engine():
     '''
     Generation of SQLite file path.
     '''
-    # print('\n_engine, SQLALCHEMY_DATABASE_URI ->', SQLALCHEMY_DATABASE_URI)
+    print('\n\n_engine, 9SQLALCHEMY_DATABASE_URI ->',
+          SQLALCHEMY_DATABASE_URI, '\n')
     app = create_app('testing_config.py')
-    dbs_global.create_all(app=app)
+    # dbs_global.create_all(app=app)
     with app.app_context():
+        dbs_global.create_all()
         dbs_init_global()
 
     return create_engine(SQLALCHEMY_DATABASE_URI)

@@ -68,7 +68,7 @@ class UserLogin(Resource):
         LogOut
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
-        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier for a JWT.
+        jti = get_jwt()['jti']  # jti is "JWT ID", a unique identifier
         # get_raw_jwt()['jti']
         BLACKLIST.add(jti)
         return {"message": str(_("Successfully logged out."))}, 200
@@ -88,7 +88,8 @@ class UserLogin(Resource):
         if _user is None:
             return {
                 'message': str(_(
-                    'Something wrong with token refreshing. Try to log in again.')),
+                    'Something wrong with token refreshing. '
+                    'Try to log in again.')),
             }, 500
         if not _user.check_password(_json.get('password')):
             return {
