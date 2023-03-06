@@ -23,7 +23,8 @@ from sqlalchemy import MetaData, Table, select
 def test_db_creation(_engine):
     '''
     Test checks all tables availability.
-    While _engine running create all tables and filling them with initial values.
+    While _engine running create all tables and filling them with initial
+    values.
     '''
     tables = _engine.table_names()
 

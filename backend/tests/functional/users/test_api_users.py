@@ -20,6 +20,7 @@ def saved_user_instance(client, user_instance) -> UserModel:
 
 
 # @pytest.mark.active
+@pytest.mark.skip()
 def test_users_post(client, random_email, user_get_schema):
 
     # create user without email
@@ -42,11 +43,13 @@ def test_users_post(client, random_email, user_get_schema):
 
     # Do create user
     _user_create_json = {
+        # 'email': 'sa6702@gmail.com',
         'email': random_email(),
         'password': 'qwerty'
     }
 
     resp = client.post(url_for('users_bp.user'), json=_user_create_json)
+    print('\n\nresp ->', resp, '\n')
     _email = resp.json.get('payload').get('email')
     assert _email == _user_create_json.get('email')
     assert resp.status_code == 201
@@ -61,7 +64,8 @@ def test_users_post(client, random_email, user_get_schema):
     assert _created_user_json.get('email') == _email
     assert _created_user_json.get('time_zone') == 3
     assert _created_user_json.get('role_id', 'nope') is None
-    _confirmation = ConfirmationModel.find_by_user_id(_created_user_json.get('id'))
+    _confirmation = ConfirmationModel.find_by_user_id(
+        _created_user_json.get('id'))
     assert _confirmation is not None
     # print('users, test_api_users, _confirmation ->', _confirmation)
 

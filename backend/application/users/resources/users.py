@@ -23,8 +23,7 @@ class User(Resource):
         Creates user based on json.
         '''
         fbp.set_lng(request.headers.get('Accept-Language'))
-        # _json = request.get_json()
-        # print('\nusers>resources>users>User>post _json -', _json)
+        _json = request.get_json()
         _user = user_schema.load(request.get_json())
         if UserModel.find_by_email(_user.email):
             return {
@@ -39,6 +38,7 @@ class User(Resource):
                 _confirmation = ConfirmationModel(_user.id)
                 # print('resources.User.post')
                 _confirmation.save_to_db()
+                print('\nusers>resources>users>User>post _json -', _json)
                 _user.send_confirmation_request()
                 _created_user = UserModel.find_by_email(_user.email)
                 return {

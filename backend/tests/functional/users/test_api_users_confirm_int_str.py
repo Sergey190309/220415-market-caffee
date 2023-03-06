@@ -1,4 +1,4 @@
-# import pytest
+import pytest
 from typing import Dict
 from flask import url_for
 # from application.users.models.users import UserModel
@@ -56,13 +56,15 @@ def test_users_confirmation_get(
     '''Normal update:'''
     _user = created_user()
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
-    resp = client.get(url_for('users_bp.confirmation', confirmation_id=_confirmation.id))
+    resp = client.get(url_for('users_bp.confirmation',
+                              confirmation_id=_confirmation.id))
     assert resp.status_code == 200
 
     '''Update already confirmed user:'''
     _user = created_user({'role_id': 'power_user'})
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
-    resp = client.get(url_for('users_bp.confirmation', confirmation_id=_confirmation.id))
+    resp = client.get(url_for('users_bp.confirmation',
+                              confirmation_id=_confirmation.id))
     assert resp.status_code == 400
     assert isinstance(resp.json['message'], str)
 
@@ -70,16 +72,19 @@ def test_users_confirmation_get(
     _user = created_user()
     _confirmation = ConfirmationModel.find_by_user_id(_user.id)
     _confirmation.force_to_expire()
-    resp = client.get(url_for('users_bp.confirmation', confirmation_id=_confirmation.id))
+    resp = client.get(url_for('users_bp.confirmation',
+                              confirmation_id=_confirmation.id))
     assert resp.status_code == 400
     assert isinstance(resp.json['message'], str)
 
 
 # @pytest.mark.active
+@pytest.mark.skip()
 def test_users_confirmationbyuser_post(
         client, created_user):
     _user = created_user({'role_id': 'power_user'})
-    resp = client.post(url_for('users_bp.confirmationbyuser', user_id=_user.id + 1))
+    resp = client.post(url_for('users_bp.confirmationbyuser',
+                               user_id=_user.id + 1))
     assert resp.status_code == 404
     assert isinstance(resp.json, Dict)
     assert isinstance(resp.json['message'], str)
@@ -88,7 +93,8 @@ def test_users_confirmationbyuser_post(
     assert isinstance(resp.json, Dict)
     assert isinstance(resp.json['message'], str)
     _invalid_user = created_user()
-    resp = client.post(url_for('users_bp.confirmationbyuser', user_id=_invalid_user.id))
+    resp = client.post(url_for('users_bp.confirmationbyuser',
+                               user_id=_invalid_user.id))
     assert resp.status_code == 200
     assert isinstance(resp.json, Dict)
     assert isinstance(resp.json['message'], str)

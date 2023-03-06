@@ -120,7 +120,7 @@ def elements(simple_element, block_element):
 @pytest.fixture
 def element():
     def _method(id: int = 0):
-        return{
+        return {
             'title': f'Title value No {str(id).zfill(3)}',
             'content': f'Content value No {str(id).zfill(3)}'
         }
@@ -276,7 +276,8 @@ def root_url():
 def app():
     app = create_app('testing_config.py')
     # to avoid delay when before_first_request started.
-    dbs_global.create_all(app=app)
+    with app.app_context():
+        dbs_global.create_all()
     # Testing only.
     # print('\ntest.conftest, app ->')
     # dbs_global.init_app(app)
